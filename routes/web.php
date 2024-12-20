@@ -35,6 +35,7 @@ use App\Http\Controllers\Auth\adminlogincontroller;
 
 Route::group(['prefix' => '/'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('/');
+    Route::get('login', [HomeController::class, 'login'])->name('login');
 });
 
 //======================================= ADMIN ===================================================

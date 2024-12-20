@@ -18,9 +18,9 @@ class HomeController extends Controller
      
         return view('front/index')->withTitle('home');
     }
-    // public function contact_us()
-    // {
-    //     return view('front/index');
-    // }
+    public function login()
+    {
+        return view('front/login');
+    }
     
 }

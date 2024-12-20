@@ -16,7 +16,7 @@
 
 
   <!-- /* //////////////form starts///////////// */ -->
-  <section class="frrm_sect">
+  <section class="frrm_sect" style="background:url({{ asset('frontend/images/custom/baccks.avif') }}) center center / cover no-repeat; padding:10px;">
   <div class="container namesec mt-5">
     <h2 class="text-center mb-4">Booking Form</h2>
     <form class="needs-validation" novalidate>
