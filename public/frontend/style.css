@@ -1227,3 +1227,118 @@ textarea.form-control {
   line-height: 1.5;
   padding-top: .5rem;
 }
+
+/* ////////////////////////Options page////////////////////// */
+.center-div {
+  display: flex;
+  justify-content: center; /* Centers the content horizontally */
+  align-items: center;     /* Centers the content vertically */
+  height: 100vh;           /* Makes the container take up the full viewport height */
+}
+
+/* Add the flex properties to ensure that the content inside .column_side is aligned */
+.column_side {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Image styling to ensure the image is displayed properly */
+.column_side img {
+  width: 200px;
+  display: block;
+  margin-bottom: 15px; /* Adds spacing between the image and text */
+}
+
+/* Box styling for the .colll and .saul divs */
+.colll, .saul {
+  border: 1px solid #00000029;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 6px 5px 12px 0px #e66f49;
+  text-align: center;
+  margin-bottom: 20px; /* Adds space between the two boxes */
+}
+
+/* Remove the default text-decoration and style the links */
+.column_side a {
+  text-decoration: none;
+  color: red;
+}
+
+
+/* ///////////////////////Booking confirmation */
+
+.confirss_sect {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  padding: 50px 0;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Container Styling */
+.confirss_sect .container {
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  color: #333;
+}
+
+/* Header Styling */
+.confirss_sect h2 {
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Input Fields */
+.confirss_sect .form-control {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  font-size: 0.95rem;
+}
+
+.confirss_sect .form-control:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+  outline: none;
+}
+
+/* Labels */
+.confirss_sect .form-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Button Styling */
+.confirss_sect .btn-success {
+  background-color: #2575fc;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.confirss_sect .btn-success:hover {
+  background-color: #1a5ed1;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .confirss_sect .container {
+      padding: 20px;
+  }
+
+  .confirss_sect h2 {
+      font-size: 1.5rem;
+  }
+}

@@ -58,46 +58,11 @@
       </button> 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
-          <li class="nav-item"><a class="nav-link" href="#">India</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">World</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Speciality Tours</a>
-            <ul class="dropdown-menu">
-              <div class="insider_drop">
-                <li><a class="dropdown-item" href="#">Adventure Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-              </div>
-              <div class="insider_drop d-flex">
-                <li><a class="dropdown-item" href="#">Adventure Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-                <li><a class="dropdown-item" href="#">Family Tours</a></li>
-              </div>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Customized Holidays</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Solo Trips</a></li>
-              <li><a class="dropdown-item" href="#">Couple Getaways</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#">Corporate Travel</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Forex</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Exchange Rates</a></li>
-              <li><a class="dropdown-item" href="#">Currency Cards</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#">Gift a Tour</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('/index') }}">Package Booking</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
+         
         </ul>
       </div>
     </div>

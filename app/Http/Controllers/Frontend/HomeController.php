@@ -22,5 +22,21 @@ class HomeController extends Controller
     {
         return view('front/login');
     }
+    public function options()
+    {
+        return view('front/options');
+    }
+    public function confirmation()
+    {
+        return view('front/confirmation');
+    }
+    public function user_profile()
+    {
+        return view('front/user_profile');
+    }
+    public function taxi_booking()
+    {
+        return view('front/taxi_booking');
+    }
     
 }

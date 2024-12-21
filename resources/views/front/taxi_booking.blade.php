@@ -16,203 +16,105 @@
 
 
   <!-- /* //////////////form starts///////////// */ -->
-  <section class="frrm_sect" style="background:url({{ asset('frontend/images/custom/baccks.avif') }}) center center / cover no-repeat; padding:10px;">
-  <div class="container namesec mt-5">
-    <h2 class="text-center mb-4">Booking Form</h2>
-    <form class="needs-validation" novalidate>
-        <!-- Location Selection -->
-        <div class="mb-3">
-            <label for="location" class="form-label">Select Location</label>
-            <select id="location" class="form-select" required>
-                <option value="" disabled selected>Select location</option>
-                <option value="location1">Location 1</option>
-                <option value="location2">Location 2</option>
-                <option value="location3">Location 3</option>
-            </select>
-        </div>
-        
-        <!-- Date Range -->
-        <div class="row g-3 mb-3">
-            <div class="col-md-6">
-                <label for="startDate" class="form-label">Start Date</label>
-                <input type="date" id="startDate" class="form-control" required>
-            </div>
-            <div class="col-md-6">
-                <label for="endDate" class="form-label">End Date</label>
-                <input type="date" id="endDate" class="form-control" required>
-            </div>
-        </div>
-        
-        <!-- Package Selection -->
-        <div class="mb-3">
-          <label for="package" class="form-label">Select Package</label>
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Taxi Booking</h1>
+
+    <!-- Tabs for booking types -->
+    <ul class="nav nav-tabs mb-4" id="bookingTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" style=" color: #000; " id="airport-tab" data-bs-toggle="tab" data-bs-target="#airport" type="button" role="tab" aria-controls="airport" aria-selected="true">Airport/Railway Station</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="local-tab" style=" color: #000; " data-bs-toggle="tab" data-bs-target="#local" type="button" role="tab" aria-controls="local" aria-selected="false">Local Tour</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="outstation-tab" style=" color: #000; " data-bs-toggle="tab" data-bs-target="#outstation" type="button" role="tab" aria-controls="outstation" aria-selected="false">Outstation</button>
+      </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content" id="bookingTabsContent">
+      <!-- Airport/Railway Station -->
+      <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
+        <form>
           <div class="mb-3">
-            <div id="selected-heading" style="font-weight: bold; margin-bottom: 10px;"></div>
-            <div class="custom-dropdown">
-              <div class="dropdown-header" id="selected-package">Select package</div>
-              <div class="dropdown-body">
-                <div class="dropdown-item" data-value="package1">
-                  <div class="plan_outer w-100">
-                    <div class="outer_plan_upper">
-                      <div class="outer_plan_img">
-                      <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
-                      </div>
-                      <div class="inner_outer_txt">
-                        <div class="upper_type_date">
-                          <p>Group Tour</p>
-                          <p style="background: #fb7d03; color: #fff; padding: 2px;">EUEP</p>
-                        </div>
-                        <div class="outer_type_price">
-                          <h6 class="type_xtxt">European Marvels</h6>
-                        </div>
-                        <div class="plan_type_date">
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <p style="margin: 0;">2 reviews</p>
-                        </div>
-                        <div class="inclusive">
-                          <i class="fa-solid fa-infinity"></i>
-                          <p class="m-0">All Inclusive</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="outer_car_txt">
-                      <div class="days skit">
-                        <p>Days</p>
-                        <span style="color: #595959;">17 days</span>
-                      </div>
-                      <div class="destination skit">
-                        <p>Destinations</p>
-                        <span>12 countries 27 cities</span>
-                      </div>
-                      <div class="departures skit">
-                        <p>Departures</p>
-                        <span>3 Dates</span>
-                      </div>
-                    </div>
-                    <div class="options_tav night">
-                      <div class="outer_car_txt ">
-                        <div class="night_ski skit">
-                          <p>EMI from</p>
-                          <span><a href="#">₹14,162/mo</a></span>
-                        </div>
-                        <div class="destination skit">
-                          <div class="manags">
-                            <p>Starts from
-                              <b style="color: #000;">₹4,20,000</b>
-                            </p>
-                            <span style="font-size: 10px;">per person on twin sharing</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="options_btns d-flex justify-content-center">
-                        <a class="_btn" href="#">View More Options</a>
-                      </div>
-                      <div class="expert text-center">
-                        <i class="fa-regular fa-comments"></i>
-                        <a class="expert_link" href="#">Talk to a Travel Expert</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="dropdown-item" data-value="package2">Package 2</div>
-                <div class="dropdown-item" data-value="package3">Package 3</div>
-              </div>
-            </div>
+            <label for="location" class="form-label">Select Location</label>
+            <input type="text" class="form-control" id="location" placeholder="Enter location">
           </div>
+          <div class="mb-3">
+            <label for="vehicle" class="form-label">Select Vehicle</label>
+            <select class="form-select" id="vehicle">
+              <option value="">Select vehicle</option>
+              <option value="sedan">Sedan</option>
+              <option value="suv">SUV</option>
+              <option value="hatchback">Hatchback</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="cost" class="form-label">Estimated Cost</label>
+            <input type="text" class="form-control" id="cost" placeholder="Calculated automatically" disabled>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Request to Admin</button>
+        </form>
       </div>
-        
-        <!-- Adults and Kids -->
-        <div class="row g-3 mb-3">
-            <div class="col-md-4">
-                <label for="adults" class="form-label">No. of Adults</label>
-                <input type="number" id="adults" class="form-control" min="1" required>
-            </div>
-            <div class="col-md-4">
-                <label for="kidsWithBed" class="form-label">Kids with Bed</label>
-                <input type="number" id="kidsWithBed" class="form-control" min="0" required>
-            </div>
-            <div class="col-md-4">
-                <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
-                <input type="number" id="kidsWithoutBed" class="form-control" min="0" required>
-            </div>
-        </div>
-        
-        <!-- Extra Bed -->
-        <div class="mb-3">
-          <label for="extraBed" class="form-label">Extra Bed</label>
-          <select id="extraBed" class="form-select" required>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-          </select>
-        </div>
-        
-        <!-- Hotel & Room Preferences -->
-        <div class="mb-3">
-            <label for="hotelPreference" class="form-label">Hotel Preference</label>
-            <select id="hotelPreference" class="form-select" required>
-                <option value="" disabled selected>Select preference</option>
-                <option value="hotel1">Hotel 1</option>
-                <option value="hotel2">Hotel 2</option>
+
+      <!-- Local Tour -->
+      <div class="tab-pane fade" id="local" role="tabpanel" aria-labelledby="local-tab">
+        <form>
+          <div class="mb-3">
+            <label for="local-location" class="form-label">Select Location</label>
+            <input type="text" class="form-control" id="local-location" placeholder="Enter location">
+          </div>
+          <div class="mb-3">
+            <label for="local-vehicle" class="form-label">Select Vehicle</label>
+            <select class="form-select" id="local-vehicle">
+              <option value="">Select vehicle</option>
+              <option value="sedan">Sedan</option>
+              <option value="suv">SUV</option>
+              <option value="hatchback">Hatchback</option>
             </select>
-        </div>
-        <div class="mb-3">
-            <label for="roomPreference" class="form-label">Room Preference</label>
-            <select id="roomPreference" class="form-select" required>
-                <option value="" disabled selected>Select room</option>
-                <option value="room1">Room 1</option>
-                <option value="room2">Room 2</option>
+          </div>
+          <div class="mb-3">
+            <label for="local-cost" class="form-label">Estimated Cost</label>
+            <input type="text" class="form-control" id="local-cost" placeholder="Calculated automatically" disabled>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Request to Admin</button>
+        </form>
+      </div>
+
+      <!-- Outstation Booking -->
+      <div class="tab-pane fade" id="outstation" role="tabpanel" aria-labelledby="outstation-tab">
+        <form>
+          <div class="mb-3">
+            <label for="type" class="form-label">Trip Type</label>
+            <select class="form-select" id="type">
+              <option value="">Select type</option>
+              <option value="one-way">One-Way</option>
+              <option value="round-trip">Round Trip</option>
             </select>
-        </div>
-        
-        <!-- Meal Plan -->
-        <div class="mb-3">
-            <label for="mealPlan" class="form-label">Meal Plan</label>
-            <select id="mealPlan" class="form-select" required>
-                <option value="" disabled selected>Select meal plan</option>
-                <option value="plan1">Plan 1</option>
-                <option value="plan2">Plan 2</option>
+          </div>
+          <div class="mb-3">
+            <label for="outstation-location" class="form-label">Enter Location</label>
+            <input type="text" class="form-control" id="outstation-location" placeholder="Enter location">
+          </div>
+          <div class="mb-3">
+            <label for="outstation-vehicle" class="form-label">Select Vehicle</label>
+            <select class="form-select" id="outstation-vehicle">
+              <option value="">Select vehicle</option>
+              <option value="sedan">Sedan</option>
+              <option value="suv">SUV</option>
+              <option value="hatchback">Hatchback</option>
             </select>
-        </div>
-        
-        <!-- Vehicle Options -->
-        <div class="mb-3">
-            <label for="vehicleOptions" class="form-label">Vehicle Options</label>
-            <select id="vehicleOptions" class="form-select" required>
-                <option value="" disabled selected>Select vehicle</option>
-                <option value="vehicle1">Vehicle 1</option>
-                <option value="vehicle2">Vehicle 2</option>
-            </select>
-        </div>
-        
-        <!-- Booking Source -->
-        <div class="mb-3">
-            <label for="bookingSource" class="form-label">Booking Source</label>
-            <select id="bookingSource" class="form-select" required>
-                <option value="" disabled selected>Select source</option>
-                <option value="direct">Direct Booking</option>
-                <option value="reference">Reference</option>
-                <option value="online">Online</option>
-            </select>
-        </div>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" id="travelInsurance">
-          <label class="form-check-label" for="travelInsurance">Add Travel Insurance</label>
-        </div>
-        <div class="mb-3">
-          <label for="specialRemarks" class="form-label">Special Remarks</label>
-          <textarea id="specialRemarks" class="form-control" rows="3"></textarea>
-        </div>
-        
-        <!-- Submit Button -->
-        <a style="text-decoration: none; color: #fff;" class="btn btn-primary w-80 d-flex justify-content-center" href="{{ route('confirmation') }}">Submit</a>
-        <!-- <a style="text-decoration: none; color: #fff; " href="{{ route('confirmation') }}"><button class="btn btn-primary w-100">Login</button></a> -->
-    </form>
+          </div>
+          <div class="mb-3">
+            <label for="outstation-cost" class="form-label">Estimated Cost</label>
+            <input type="text" class="form-control" id="outstation-cost" placeholder="Calculated automatically" disabled>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Request to Admin</button>
+        </form>
+      </div>
+    </div>
   </div>
-</section>
 
 <!-- /* //////////////form ends///////////// */ -->
 

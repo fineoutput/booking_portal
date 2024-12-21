@@ -34,8 +34,12 @@ use App\Http\Controllers\Auth\adminlogincontroller;
 //=========================================== FRONTEND =====================================================
 
 Route::group(['prefix' => '/'], function () {
-    Route::get('/', [HomeController::class, 'index'])->name('/');
+    Route::get('/', [HomeController::class, 'index'])->name('/index');
     Route::get('login', [HomeController::class, 'login'])->name('login');
+    Route::get('options', [HomeController::class, 'options'])->name('options');
+    Route::get('confirmation', [HomeController::class, 'confirmation'])->name('confirmation');
+    Route::get('user_profile', [HomeController::class, 'user_profile'])->name('user_profile');
+    Route::get('taxi_booking', [HomeController::class, 'taxi_booking'])->name('taxi_booking');
 });
 
 //======================================= ADMIN ===================================================
