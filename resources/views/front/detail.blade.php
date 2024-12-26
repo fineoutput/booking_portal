@@ -5,7 +5,7 @@
 <section class="dett_sect"  style="background: #f3f3f3;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-9">
+            <div class="col-lg-9 mt-5">
                 <div class="upper_type_date">
                     <p>Group Tour</p>
                     <p style="
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <div class="head_incldes mt-5 d-flex gap-5">
+                <div class="head_incldes mt-5 d-flex gap-5 flex-wrap">
                     <div class="sonnn">
                     <div class="head_incldes_left">
                         <h4>Tour Includes</h4>
@@ -242,7 +242,89 @@
                 </div>
                 
             </div>
-            <div class="col-lg-3"></div>
+            <div class="col-lg-3 mt-5">
+                <div class="price_tabs">
+                    <div class="pr_lft">
+                        <p>₹1,686</p>
+                        <span>/mo</span>
+                    </div>
+                </div>
+
+                <div class="galsant_set">
+    <div class="reviews-img-wrapper justify-content-xl-between d-flex flex-wrap ng-star-inserted">
+        <div class="image-col mob-d-none ng-star-inserted">
+            <img class="background-image" src="{{asset('frontend/images/dsd.avif')}}" alt="">
+            <img class="display-image" src="{{asset('frontend/images/dsd.avif')}}" alt="">
+        </div>
+        <div class="image-col mob-d-none ng-star-inserted">
+            <img class="background-image" src="{{asset('frontend/images/dsd.avif')}}" alt="">
+            <img class="display-image" src="{{asset('frontend/images/dsd.avif')}}" alt="">
+        </div>
+        <div class="image-col mob-d-none ng-star-inserted">
+            <img class="background-image" src="{{asset('frontend/images/dsd.avif')}}" alt="">
+            <img class="display-image" src="{{asset('frontend/images/dsd.avif')}}" alt="">
+        </div>
+        <!-- Trigger element -->
+        <div class="image-col mob-d-none ng-star-inserted mod-sd" data-bs-toggle="modal" data-bs-target="#imageModal">
+            <img class="background-image" src="{{asset('frontend/images/dsd.avif')}}" alt="">
+            <img class="display-image" src="{{asset('frontend/images/dsd.avif')}}" alt="">
+        </div>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Image Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center d-flex flex-wrap">
+                <div class="modds_garr">
+                 <div class="modds_garr_img">
+                     <img src="{{asset('frontend/images/dsd.avif')}}" alt="">
+                 </div>
+                </div>
+                <div class="modds_garr">
+                 <div class="modds_garr_img">
+                     <img src="{{asset('frontend/images/dsd.avif')}}" alt="">
+                 </div>
+                </div>
+                <div class="modds_garr">
+                 <div class="modds_garr_img">
+                     <img src="{{asset('frontend/images/dsd.avif')}}" alt="">
+                 </div>
+                </div>
+                <div class="modds_garr">
+                 <div class="modds_garr_img">
+                     <img src="{{asset('frontend/images/dsd.avif')}}" alt="">
+                 </div>
+                </div>
+                <div class="modds_garr">
+                 <div class="modds_garr_img">
+                     <img src="{{asset('frontend/images/dsd.avif')}}" alt="">
+                 </div>
+                </div>
+                <div class="modds_garr">
+                 <div class="modds_garr_img">
+                     <img src="{{asset('frontend/images/dsd.avif')}}" alt="">
+                 </div>
+                </div>
+                <div class="modds_garr">
+                 <div class="modds_garr_img">
+                     <img src="{{asset('frontend/images/dsd.avif')}}" alt="">
+                 </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div>
         </div>
     </div>
 </section>
