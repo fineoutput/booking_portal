@@ -17,10 +17,9 @@
 
   <!-- /* //////////////form starts///////////// */ -->
   <section class="frrm_sect" style="background:url({{ asset('frontend/images/custom/baccks.avif') }}) center center / cover no-repeat; padding:10px;">
-  <div class="container namesec mt-5">
+  <!-- <div class="container namesec mt-5">
     <h2 class="text-center mb-4">Booking Form</h2>
     <form class="needs-validation" novalidate>
-        <!-- Location Selection -->
         <div class="mb-3">
             <label for="location" class="form-label">Select Location</label>
             <select id="location" class="form-select" required>
@@ -31,7 +30,6 @@
             </select>
         </div>
         
-        <!-- Date Range -->
         <div class="row g-3 mb-3">
             <div class="col-md-6">
                 <label for="startDate" class="form-label">Start Date</label>
@@ -43,7 +41,6 @@
             </div>
         </div>
         
-        <!-- Package Selection -->
         <div class="mb-3">
           <label for="package" class="form-label">Select Package</label>
           <div class="mb-3">
@@ -125,7 +122,6 @@
           </div>
       </div>
         
-        <!-- Adults and Kids -->
         <div class="row g-3 mb-3">
             <div class="col-md-4">
                 <label for="adults" class="form-label">No. of Adults</label>
@@ -141,7 +137,6 @@
             </div>
         </div>
         
-        <!-- Extra Bed -->
         <div class="mb-3">
           <label for="extraBed" class="form-label">Extra Bed</label>
           <select id="extraBed" class="form-select" required>
@@ -150,7 +145,6 @@
           </select>
         </div>
         
-        <!-- Hotel & Room Preferences -->
         <div class="mb-3">
             <label for="hotelPreference" class="form-label">Hotel Preference</label>
             <select id="hotelPreference" class="form-select" required>
@@ -168,7 +162,6 @@
             </select>
         </div>
         
-        <!-- Meal Plan -->
         <div class="mb-3">
             <label for="mealPlan" class="form-label">Meal Plan</label>
             <select id="mealPlan" class="form-select" required>
@@ -178,7 +171,6 @@
             </select>
         </div>
         
-        <!-- Vehicle Options -->
         <div class="mb-3">
             <label for="vehicleOptions" class="form-label">Vehicle Options</label>
             <select id="vehicleOptions" class="form-select" required>
@@ -188,7 +180,6 @@
             </select>
         </div>
         
-        <!-- Booking Source -->
         <div class="mb-3">
             <label for="bookingSource" class="form-label">Booking Source</label>
             <select id="bookingSource" class="form-select" required>
@@ -207,11 +198,9 @@
           <textarea id="specialRemarks" class="form-control" rows="3"></textarea>
         </div>
         
-        <!-- Submit Button -->
         <a style="text-decoration: none; color: #fff;" class="btn btn-primary w-80 d-flex justify-content-center" href="{{ route('confirmation') }}">Submit</a>
-        <!-- <a style="text-decoration: none; color: #fff; " href="{{ route('confirmation') }}"><button class="btn btn-primary w-100">Login</button></a> -->
     </form>
-  </div>
+  </div> -->
 </section>
 
 <!-- /* //////////////form ends///////////// */ -->
