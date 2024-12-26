@@ -14,16 +14,29 @@
                 <div class="navi_full_list">
                     <div class="priice_range">
                         <div class="reange_btns d-flex justify-content-between" onclick="toggleAccordion()">
-                            <h6 class="accordion-header">Price Range</h6>
+                            <h6 class="accordion-header"><b>Price Range</b></h6>
                             <i id="accordion-icon" class="fa-solid fa-angle-down" ></i>
                         </div>
-                        <div class="filter_price d-flex flex-wrap accordion-content" style="gap: 10px; display: none;">
+                        <div class="filter_price d-flex flex-wrap accordion-content open" style="gap: 10px; display: none;">
                             <button>₹30,000 - ₹40,000</button>
                             <button>₹40,000 - ₹50,000</button>
                             <button>₹50,000 - ₹60,000</button>
                             <button>₹60,000 - ₹70,000</button>
                         </div>
                     </div>
+                    <hr>
+                    <div class="date_range">
+                        <div class="reange_btns d-flex justify-content-between">
+                            <h6 class="accordion-header"><b>Tour Duration</b></h6>
+                            <!-- <i id="accordion-icon" class="fa-solid fa-angle-down" ></i> -->
+                        </div>
+                        <div class="filter_price d-flex flex-wrap accordion-content open" style="gap: 10px; display: none;">
+                            <button>5 - 8 days</button>
+                            <button>8 - 11 days</button>
+                            <button>11 - 14 days</button>
+                            <button>14 - 15 days</button>
+                        </div>
+                    </div>  
 
                     
                     
