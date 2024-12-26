@@ -105,6 +105,14 @@
                     </div>
                 </div>
 
+                <div class="ttils">
+                    <div class="hotel_tags">
+                        <h4>
+                        Select departure city, dates & add guest to book your tour
+                        </h4>
+                        <p>As seats fill, prices increase! So book today!</p>
+                    </div>
+                </div>
                 <div class="hazars">
                 <form class="needs-validation" novalidate>
         <!-- Location Selection -->
