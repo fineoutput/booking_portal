@@ -82,27 +82,44 @@
                         <p>*Taxes Extra.</p>
                     </div>
                     </div>
-                    <div class="sonn_rght">
+                    <div class="sonn_rght d-flex align-items-baseline justify-content-between">
+                        <div class="aage">
                         <h4>Key Highlights</h4>
-                        <div class="ras_radio_btbs">
-                        Mehtab bagh
+    <div class="ras_radio_btbs">Mehtab Bagh</div>
+    <div class="ras_radio_btbs">Agra Fort</div>
+    <div class="ras_radio_btbs">Taj Mahal</div>
+    <div class="ras_radio_btbs">Fatehpur Sikhri</div>
+    <div class="ras_radio_btbs">Mathura and Vrindavan</div>
+    <div class="ras_radio_btbs">Ganga Aarti at Har Ki Pauri</div>
                         </div>
-                        <div class="ras_radio_btbs">
-                        Agra Fort
-                        </div>
-                        <div class="ras_radio_btbs">
-                        Taj Mahal
-                        </div>
-                        <div class="ras_radio_btbs">
-                        Fatehpur Sikhri
-                        </div>
-                        <div class="ras_radio_btbs">
-                        Mathura and Vrindavan
-                        </div>
-                        <div class="ras_radio_btbs">
-                        Ganga Aarti at Har Ki Pauri 
-                        </div>
-                    </div>
+    
+    <!-- Button to trigger modal -->
+    <a type="button" class=" mt-3" data-bs-toggle="modal" data-bs-target="#cityModal">
+        View More Cities
+    </a>
+</div>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="cityModal" tabindex="-1" aria-labelledby="cityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cityModalLabel">More Cities</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li class="list-group-item">Delhi</li>
+                    <li class="list-group-item">Jaipur</li>
+                    <li class="list-group-item">Varanasi</li>
+                    <li class="list-group-item">Rishikesh</li>
+                    <li class="list-group-item">Amritsar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
                 </div>
 
                 <div class="ttils">

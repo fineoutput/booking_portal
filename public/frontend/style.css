@@ -3,6 +3,9 @@
   font-family: "Mulish", serif;
   font-style: normal;
 }
+a{
+  text-decoration: none;
+}
 img{
   width: 100%;
   height: 100%;
