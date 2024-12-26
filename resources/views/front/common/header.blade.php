@@ -29,7 +29,7 @@
         <div class="col-12 col-md-3">
           <div class="logo">
             <span class="logo-icon">T</span>
-            <span class="logo-text">Tours Dekho</span>
+            <span class="logo-text"><a style="text-decoration: none;" href="{{ route('/index') }}">Tours Dekho</a></span>
           </div>
         </div>
         <div class="col-12 col-md-6">
@@ -49,24 +49,46 @@
       </div>
     </div>
   </header>
-
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark nave_color">
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark nave_color">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Tours Dekho</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button> 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item"><a class="nav-link" href="{{ route('/index') }}">Package Booking</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('list') }}">List</a></li>
-         
-        </ul>
-      </div>
+        <a class="navbar-brand" href="{{ route('/index') }}">Tours Dekho</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button> 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <!-- Package Booking Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Package Booking
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                       <div class="d-flex"> 
+                       <li><a class="dropdown-item" href="#"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Rajasthan</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Mumbai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Delhi</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('/index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
+                       </div>
+                        
+                    </ul>
+                    
+                </li>
+                <!-- Other Nav Items -->
+                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
+                <li class="nav-item"><a class="nav-link" href="">List</a></li>
+            </ul>
+        </div>
     </div>
-  </nav>
+</nav>

@@ -1342,3 +1342,38 @@ textarea.form-control {
       font-size: 1.5rem;
   }
 }
+.calends {
+  display: flex;
+  justify-content: space-between;
+  /* gap: 10px; */
+  align-items: center;
+}
+
+.city_box{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.city_box p {
+  margin: 0;
+}
+.ravet p{
+  font-weight: 700;
+    font-size: 10px;
+    color: #828282;
+    line-height: 14px;
+    margin-top: 6px;
+}
+.ravet h4{
+  font-size: 12px;
+  font-weight: 600;
+  color: #828282;
+  margin-top: 10px;
+  position: relative;
+}
+.param{
+    border: 1px solid #dad8d8;
+    border-radius: 5px;
+    padding: 10px;
+
+}
