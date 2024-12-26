@@ -40,6 +40,7 @@ Route::group(['prefix' => '/'], function () {
     Route::get('confirmation', [HomeController::class, 'confirmation'])->name('confirmation');
     Route::get('user_profile', [HomeController::class, 'user_profile'])->name('user_profile');
     Route::get('taxi_booking', [HomeController::class, 'taxi_booking'])->name('taxi_booking');
+    Route::get('list', [HomeController::class, 'list'])->name('list');
 });
 
 //======================================= ADMIN ===================================================
