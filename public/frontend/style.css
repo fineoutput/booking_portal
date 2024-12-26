@@ -1377,3 +1377,78 @@ textarea.form-control {
     padding: 10px;
 
 }
+
+/* ////////////////////////////////////Detail Page */
+.head_txxt h4{
+  font-size: 22px;
+  font-weight: 800;
+}
+.mage_vin img {
+  border-radius: 10px;
+}
+.head_incldes{
+  background: #fff;
+  border-radius: 5px;
+  padding: 15px 20px;
+}
+.head_incldes_left h4{
+  font-size: 14px;
+    font-weight: 700;
+    padding-bottom: 0;
+}
+.iccn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.iccn p{
+  font-size: 10px;
+  color: #212121;
+  display: block;
+  white-space: nowrap;
+  line-height: 13px;
+  font-weight: 600; 
+}
+.sany_txt p{
+  color: #a94c00;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 150%;
+  margin: 0;
+}
+.sonn_rght h4{
+  font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.ras_radio_btbs{
+  position: relative;
+  font-size: 14px;
+    line-height: 20px;
+    padding-left: 15px;
+    color: var(--brand-black-dark);
+    margin-bottom: 6px;
+}
+.ras_radio_btbs::before {
+  position: absolute;
+  left: 2px;
+  z-index: 2;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  content: "";
+  background: #0ea7a5;
+}
+.ras_radio_btbs::after {
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  top: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  content: "";
+    background: var(--brand-white);
+    border: 1px solid #0ea7a5;
+}

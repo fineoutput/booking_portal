@@ -60,7 +60,7 @@
           </div>
           <hr>
           <div class="departure_city">
-          <h6 class="accordion-header"><b>Departure city</b></h6>
+            <h6 class="accordion-header"><b>Departure city</b></h6>
             <div class="city_box">
               <input type="checkbox">
               <p>Kolkata</p>
@@ -78,7 +78,7 @@
               <p>Jaisalmer</p>
             </div>
             <div class="ravet">
-              
+
               <h4>Joining & Leaving</h4>
               <p>Can’t find tours from your city? Check our Joining & leaving option. Book your own flights and join directly at the first destination of the tour.</p>
             </div>
@@ -170,7 +170,7 @@
                   </div>
                 </div>
                 <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="#">View More Options</a>
+                  <a class="_btn" href="{{ route('detail') }}">View More Options</a>
                 </div>
                 <div class="expert text-center">
                   <i class="fa-regular fa-comments"></i>
