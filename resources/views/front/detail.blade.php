@@ -105,6 +105,116 @@
                     </div>
                 </div>
 
+                <div class="hazars">
+                <form class="needs-validation" novalidate>
+        <!-- Location Selection -->
+        
+        <!-- Date Range -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input type="date" id="startDate" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="endDate" class="form-label">End Date</label>
+                <input type="date" id="endDate" class="form-control" required>
+            </div>
+        </div>
+        
+        <!-- Package Selection -->
+        
+        <!-- Adults and Kids -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <label for="adults" class="form-label">No. of Adults</label>
+                <input type="number" id="adults" class="form-control" min="1" required>
+            </div>
+            <div class="col-md-4">
+                <label for="kidsWithBed" class="form-label">Kids with Bed</label>
+                <input type="number" id="kidsWithBed" class="form-control" min="0" required>
+            </div>
+            <div class="col-md-4">
+                <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
+                <input type="number" id="kidsWithoutBed" class="form-control" min="0" required>
+            </div>
+        </div>
+        
+        <!-- Extra Bed -->
+        <div class="mb-3">
+          <label for="extraBed" class="form-label">Extra Bed</label>
+          <select id="extraBed" class="form-select" required>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+          </select>
+        </div>
+        
+        <!-- Hotel & Room Preferences -->
+        <div class="mb-3 row">
+            <div class="col-md-6">
+            <label for="hotelPreference" class="form-label">Hotel Preference</label>
+            <select id="hotelPreference" class="form-select" required>
+                <option value="" disabled selected>Select preference</option>
+                <option value="hotel1">Hotel 1</option>
+                <option value="hotel2">Hotel 2</option>
+            </select>
+            </div>
+            <div class="col-md-6">
+            <label for="roomPreference" class="form-label">Room Preference</label>
+            <select id="roomPreference" class="form-select" required>
+                <option value="" disabled selected>Select room</option>
+                <option value="room1">Room 1</option>
+                <option value="room2">Room 2</option>
+            </select>
+            </div>
+        </div>
+        
+        <!-- Meal Plan -->
+        <div class="mb-3">
+            <label for="mealPlan" class="form-label">Meal Plan</label>
+            <select id="mealPlan" class="form-select" required>
+                <option value="" disabled selected>Select meal plan</option>
+                <option value="plan1">Plan 1</option>
+                <option value="plan2">Plan 2</option>
+            </select>
+        </div>
+        
+        <!-- Vehicle Options -->
+        <div class="mb-3 row">
+            <div class="col-md-6">
+            <label for="vehicleOptions" class="form-label">Vehicle Options</label>
+            <select id="vehicleOptions" class="form-select" required>
+                <option value="" disabled selected>Select vehicle</option>
+                <option value="vehicle1">Vehicle 1</option>
+                <option value="vehicle2">Vehicle 2</option>
+            </select>
+            </div>
+            <div class="col-md-6">
+            <label for="bookingSource" class="form-label">Booking Source</label>
+            <select id="bookingSource" class="form-select" required>
+                <option value="" disabled selected>Select source</option>
+                <option value="direct">Direct Booking</option>
+                <option value="reference">Reference</option>
+                <option value="online">Online</option>
+            </select>
+            </div>
+        </div>
+        
+        <!-- Booking Source -->
+       
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="travelInsurance">
+          <label class="form-check-label" for="travelInsurance">Add Travel Insurance</label>
+        </div>
+        <div class="mb-3">
+          <label for="specialRemarks" class="form-label">Special Remarks</label>
+          <textarea id="specialRemarks" class="form-control" rows="3"></textarea>
+        </div>
+        
+        <!-- Submit Button -->
+        <a style="text-decoration: none; color: #fff;" class="btn btn-primary w-80 d-flex justify-content-center" href="{{ route('confirmation') }}">Submit</a>
+        <!-- <a style="text-decoration: none; color: #fff; " href="{{ route('confirmation') }}"><button class="btn btn-primary w-100">Login</button></a> -->
+    </form>
+                </div>
                 
             </div>
             <div class="col-lg-3"></div>

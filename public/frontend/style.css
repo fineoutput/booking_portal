@@ -1452,3 +1452,15 @@ textarea.form-control {
     background: var(--brand-white);
     border: 1px solid #0ea7a5;
 }
+
+.hazars{
+    width: calc(100% - 24px);
+    border-radius: 10px;
+    background: #fff;
+    padding: 16px 30px;
+    border: 1px solid #E4E4E4;
+    min-height: 377px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
