@@ -58,7 +58,7 @@
       </button> 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
-          <li class="nav-item"><a class="nav-link" href="{{ route('/index') }}">Package Booking</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('index') }}">Package Booking</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>

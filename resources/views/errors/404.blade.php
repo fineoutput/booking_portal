@@ -29,7 +29,7 @@
                         <p class="sec__desc pt-3">We're sorry, but it appears the website address you entered was <br> incorrect, or is temporarily unavailable.</p>
                     </div>
                     <div class="btn-box mb-5">
-                        <a href="{{route('/')}}" class="theme-btn"><i class="la la-reply mr-1"></i> Back to Home</a>
+                        <a href="{{url('/')}}" class="theme-btn"><i class="la la-reply mr-1"></i> Back to Home</a>
                     </div>
                 </div><!-- end col-lg-7 -->
             </div><!-- end row -->
