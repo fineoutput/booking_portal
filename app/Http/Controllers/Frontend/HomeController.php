@@ -38,5 +38,13 @@ class HomeController extends Controller
     {
         return view('front/taxi_booking');
     }
+    public function list()
+    {
+        return view('front/list');
+    }
+    public function detail()
+    {
+        return view('front/detail');
+    }
     
 }

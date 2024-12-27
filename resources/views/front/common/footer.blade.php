@@ -19,7 +19,7 @@
       <div class="col">
         <h4>More</h4>
         <ul class="list-unstyled pt-2">
-          <li class="py-1">Landing Pages</li>
+          <li class="py-1">Privacy policy</li>
           <li class="py-1">FAQs</li>
         </ul>
       </div>
@@ -53,6 +53,7 @@
   </div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
