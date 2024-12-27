@@ -19,7 +19,7 @@
       <div class="col">
         <h4>More</h4>
         <ul class="list-unstyled pt-2">
-          <li class="py-1">Landing Pages</li>
+          <li class="py-1">Privacy policy</li>
           <li class="py-1">FAQs</li>
         </ul>
       </div>
