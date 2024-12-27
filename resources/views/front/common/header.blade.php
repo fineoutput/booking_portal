@@ -29,7 +29,7 @@
         <div class="col-12 col-md-3">
           <div class="logo">
             <span class="logo-icon">T</span>
-            <span class="logo-text"><a style="text-decoration: none;" href="{{ route('/index') }}">Tours Dekho</a></span>
+            <span class="logo-text"><a style="text-decoration: none;" href="{{ route('index') }}">Tours Dekho</a></span>
           </div>
         </div>
         <div class="col-12 col-md-6">
@@ -52,7 +52,7 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark nave_color">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('/index') }}">Tours Dekho</a>
+        <a class="navbar-brand" href="{{ route('index') }}">Tours Dekho</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -73,7 +73,7 @@
                         <li><a class="dropdown-item" href="{{ route('list') }}">Delhi</a></li>
                        </div>
                        <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('/index') }}"><b>Home</b></a></li>
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
                         <hr>
                         <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
                         <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
