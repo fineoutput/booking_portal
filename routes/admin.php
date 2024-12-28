@@ -15,21 +15,15 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\AgentCallsController;
 use App\Http\Controllers\Admin\HotelCallsController;
+use App\Http\Controllers\Admin\TaxiBookingController;
 use App\Http\Controllers\Admin\CustomerCallsController;
+use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\VehicleController;
+use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Auth\adminlogincontroller;
 
 
 
-Route::group(['prifix' => 'admin'], function () {
-    Route::group(['middleware'=>'admin.guest'],function(){
-
-        Route::get('/admin_index', [adminlogincontroller::class, 'admin_login'])->name('admin_login');
-        Route::post('/login_process', [adminlogincontroller::class, 'admin_login_process'])->name('admin_login_process');
-
-    });
-
-
-});
 
 
 Route::group(['middleware'=>'admin.auth'],function(){
@@ -94,6 +88,25 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('customer/{id}/edit', [CustomerCallsController::class, 'edit'])->name('customer.edit');
     Route::put('customer/{id}', [CustomerCallsController::class, 'update'])->name('customer.update');
     Route::delete('customer/{id}', [CustomerCallsController::class, 'destroy'])->name('customer.destroy');
+
+
+    Route::get('/vehicle', [VehicleController::class, 'index'])->name('vehicle');
+    Route::match(['get','post'],'/vehicle/create', [VehicleController::class, 'create'])->name('vehicle_crete');
+    Route::get('vehicle/{id}/edit', [VehicleController::class, 'edit'])->name('vehicle.edit');
+    Route::put('vehicle/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
+    Route::delete('vehicle/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
+    Route::patch('/vehicle/{id}/status', [VehicleController::class, 'updateStatus'])->name('vehicle.updateStatus');
+
+
+    Route::get('/booking', [BookingController::class, 'index'])->name('booking');
+    Route::post('/booking/create', [BookingController::class, 'create'])->name('booking_crete');
+
+    Route::get('/agent', [AgentController::class, 'index'])->name('agent');
+    Route::post('/agent/create', [AgentController::class, 'create'])->name('agent.create');
+
+    Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi_booking');
+    Route::post('/taxi-booking/create', [TaxiBookingController::class, 'create'])->name('taxi-booking.create');
+
 
    
 });
