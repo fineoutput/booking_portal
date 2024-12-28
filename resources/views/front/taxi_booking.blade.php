@@ -45,8 +45,17 @@
     <!-- Tab content -->
     <div class="tab-content" id="bookingTabsContent">
       <!-- Airport/Railway Station -->
-      <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
+      <!-- <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
       <form>
+      <div class="mb-3">
+            <label for="local-vehicle" class="form-label">Trip</label>
+            <select class="form-select" id="local-vehicle">
+              <option value="">Select vehicle</option>
+              <option value="sedan">Sedan</option>
+              <option value="suv">SUV</option>
+              <option value="hatchback">Hatchback</option>
+            </select>
+          </div>   
       <div class="mb-3">
         <label for="location" class="form-label">Select Location</label>
         <input type="text" class="form-control" id="location" placeholder="Enter location" readonly data-bs-toggle="modal" data-bs-target="#stateModal">
@@ -76,7 +85,6 @@
         </div>
         <div class="modal-body">
           <ul class="list-group" id="cityList">
-            <!-- Cities will be populated here dynamically -->
           </ul>
         </div>
       </div>
@@ -149,7 +157,123 @@
           </div>
           <button type="submit" class="btn btn-primary">Send Request to Admin</button>
         </form>
+      </div> -->
+
+      <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
+  <form>
+    <div class="mb-3">
+      <label for="trip-type" class="form-label">Trip</label>
+      <select class="form-select" id="trip-type" style="width: 50%;" onchange="updateInputs()">
+        <option value="pickup">Pickup from Airport/Railway station</option>
+        <option value="drop">Drop to Airport/Railway station</option>
+      </select>
+    </div>
+
+    <div id="pickup-inputs" style="display: none;">
+      <div class="mb-3">
+        <label for="pickup-airport" class="form-label">Pickup from</label>
+        <select class="form-select" id="pickup-airport">
+          <option value="">Select an Airport</option>
+          <option value="airport1">Airport 1</option>
+          <option value="airport2">Airport 2</option>
+          <option value="airport3">Airport 3</option>
+        </select>
       </div>
+    </div>
+
+    <div id="drop-inputs" style="display: none;">
+      <div class="mb-3">
+        <label for="drop-airport" class="form-label">Drop to</label>
+        <select class="form-select" id="drop-airport">
+          <option value="">Select an Airport</option>
+          <option value="airport1">Airport 1</option>
+          <option value="airport2">Airport 2</option>
+          <option value="airport3">Airport 3</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="drop-address" class="form-label">Drop Address</label>
+        <input type="text" class="form-control" id="drop-address" placeholder="Enter drop address">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label">Select Location</label>
+      <input type="text" class="form-control" id="location" placeholder="Enter location" readonly data-bs-toggle="modal" data-bs-target="#stateModal">
+    </div>
+
+    <div class="modal fade" id="stateModal" tabindex="-1" aria-labelledby="stateModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="stateModalLabel">Select a State</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group" id="stateList"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="vehicle" class="form-label">Select Vehicle</label>
+      <input type="text" class="form-control" id="car" placeholder="Select a vehicle" readonly data-bs-toggle="modal" data-bs-target="#carmodal">
+    </div>
+
+    <div class="modal fade" id="carmodal" tabindex="-1" aria-labelledby="carmodallabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="carmodallabel">Select car type</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="car_model">
+              <div class="frst_mes" id="suv" onclick="selectCar('SUV')" style="cursor: pointer;">
+                <h6>Suv</h6>
+                <img style="width:50%;" src="{{asset('frontend/images/car_icons/suv.png')}}" alt="">
+              </div>
+              <div class="frst_mes" id="hatch" onclick="selectCar('Hatchback')" style="cursor: pointer;">
+                <h6>Hatchback</h6>
+                <img style="width:50%;" src="{{asset('frontend/images/car_icons/hatchback.png')}}" alt="">
+              </div>
+              <div class="frst_mes" id="sed" onclick="selectCar('Sedan')" style="cursor: pointer;">
+                <h6>Sedan</h6>
+                <img style="width:50%;" src="{{asset('frontend/images/car_icons/sedan.png')}}" alt="">
+              </div>
+              <div class="frst_mes" id="trav" onclick="selectCar('Traveller')" style="cursor: pointer;">
+                <h6>Traveller</h6>
+                <img style="width:50%;" src="{{asset('frontend/images/car_icons/traveller.png')}}" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <div class="start_time">
+          <label for="datetime" class="form-label">Choose start Date and Time</label>
+          <input type="datetime-local" class="form-control" id="datetime" placeholder="Select date and time">
+        </div>
+      </div>
+      <div class="mb-3 col-md-6">
+        <div class="end_time">
+          <label for="datetime" class="form-label">Choose End Date and Time</label>
+          <input type="datetime-local" class="form-control" id="datetime" placeholder="Select date and time">
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="cost" class="form-label">Estimated Cost</label>
+      <input type="text" class="form-control" id="cost" placeholder="Calculated automatically" disabled>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Request to Admin</button>
+  </form>
+</div>
 
       <!-- Local Tour -->
       <div class="tab-pane fade" id="local" role="tabpanel" aria-labelledby="local-tab">
@@ -1131,10 +1255,27 @@
     </div>
   </section>
 
+  
   <script>
+function updateInputs() {
+  const tripType = document.getElementById("trip-type").value;
+  const pickupInputs = document.getElementById("pickup-inputs");
+  const dropInputs = document.getElementById("drop-inputs");
 
-  </script>
-  <script>
+  if (tripType === "pickup") {
+    pickupInputs.style.display = "block";
+    dropInputs.style.display = "none";
+  } else if (tripType === "drop") {
+    pickupInputs.style.display = "none";
+    dropInputs.style.display = "block";
+  } else {
+    pickupInputs.style.display = "none";
+    dropInputs.style.display = "none";
+  }
+}
+
+// Initialize the form with "Pickup" as the default option
+document.addEventListener("DOMContentLoaded", updateInputs);
 
   </script>
 @endsection
