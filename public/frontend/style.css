@@ -100,7 +100,8 @@ img{
 
 
 .mega-menu .mega-menu-content {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
   position: absolute;
   left: 0;
   top: 100%;
@@ -109,13 +110,15 @@ img{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 .list-unstyled{
   height: 200px;
   overflow-y: auto;
 }
 .mega-menu:hover .mega-menu-content {
-  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 .mega-menu .row {
@@ -148,7 +151,23 @@ img{
 .mega-menu ul li a:hover {
   color: #007bff;
 }
+.mega-menu-backdrop {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 999; /* Ensure it appears behind the dropdown */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
 
+.mega-menu:hover .mega-menu-backdrop {
+  opacity: 1;
+  visibility: visible;
+}
 /* //////////////Header Ends///////////// */
 
 /* //////////////Banner Starts///////////// */

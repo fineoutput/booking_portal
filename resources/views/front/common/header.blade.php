@@ -154,6 +154,7 @@
               </div>
             </div>
           </div>
+          <div class="mega-menu-backdrop"></div>
         </li>
         <!-- Other Nav Items -->
         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
@@ -169,13 +170,30 @@
   document.addEventListener("DOMContentLoaded", function () {
   const megaMenu = document.querySelector(".mega-menu");
   const megaMenuContent = megaMenu.querySelector(".mega-menu-content");
+  const backdrop = document.querySelector(".mega-menu-backdrop");
 
+
+  
   megaMenu.addEventListener("mouseenter", () => {
     megaMenuContent.style.display = "block";
+    // console.log(backdrop, "appeared");
+    
+    backdrop.style.display = "block";
   });
 
   megaMenu.addEventListener("mouseleave", () => {
+    console.log("mouseleave", "leved");
+    
     megaMenuContent.style.display = "none";
+    backdrop.style.display = "none";
+  });
+  
+  megaMenuContent.addEventListener("mouseleave", () =>{
+    backdrop.style.display = "none";
+  });
+
+  backdrop.addEventListener("click", () => {
+    backdrop.style.display = "none";
   });
 });
 
