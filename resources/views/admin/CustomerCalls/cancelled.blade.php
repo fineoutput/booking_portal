@@ -71,7 +71,7 @@
                                 <td>{{$value->city ?? ''}}</td>
                                 @if($value->mark_lead == 1)
                                 <td>Ongoing</td>
-                                @elseif($value->mark_lead == 1)
+                                @elseif($value->mark_lead == 2)
                                 <td>Cancelled</td>
                                 @else
                                 <td>Converted</td>
