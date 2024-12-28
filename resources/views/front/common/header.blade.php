@@ -64,13 +64,83 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Package Booking
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                       <div class="d-flex"> 
-                       <li><a class="dropdown-item" href="#"><b>Home</b></a></li>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 500px; overflow-y: auto;">
+                       <div class="d-flex nachel"> 
+                       <li><a class="dropdown-item" href="#"><b>Rajasthan</b></a></li>
                         <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Rajasthan</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Mumbai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Delhi</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Jaipur</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Udaipur</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chittod</a></li>
+                       </div>
+                       <div class="d-flex nachel">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Himachal</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Manali</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Rohtang</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Sisu</a></li>
+                       </div>
+                       <div class="d-flex nachel">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>J&K</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
+                       </div>
+                       <div class="d-flex">
+                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
+                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
                        </div>
                        <div class="d-flex">
                        <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
