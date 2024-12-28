@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Hotels</h4>
+          <h4 class="page-title">View Notification</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Hotels</a></li>
-            <li class="breadcrumb-item active">View Hotels</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Notification</a></li>
+            <li class="breadcrumb-item active">View Notification</li>
           </ol>
         </div>
       </div>
@@ -38,9 +38,9 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Hotels List</h4>
+                  <h4 class="mt-0 header-title">View Notification List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('add_hotels')}}" role="button" style="margin-left: 20px;"> Add Hotels</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('notificationcreate')}}" role="button" style="margin-left: 20px;"> Add Notification</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
