@@ -2,7 +2,17 @@
 @section('title','home')
 @section('content')
 
+<style>
+    .modal-header {
+      background-color: #007bff;
+      color: white;
+    }
 
+    .list-group-item:hover {
+      background-color: #f8f9fa;
+      cursor: pointer;
+    }
+  </style>
  <!-- /* //////////////Banner Starts///////////// */ -->
  <picture>
     <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/desktop_.png') }}">
@@ -36,20 +46,103 @@
     <div class="tab-content" id="bookingTabsContent">
       <!-- Airport/Railway Station -->
       <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
-        <form>
-          <div class="mb-3">
-            <label for="location" class="form-label">Select Location</label>
-            <input type="text" class="form-control" id="location" placeholder="Enter location">
-          </div>
+      <form>
+      <div class="mb-3">
+        <label for="location" class="form-label">Select Location</label>
+        <input type="text" class="form-control" id="location" placeholder="Enter location" readonly data-bs-toggle="modal" data-bs-target="#stateModal">
+      </div>
+      <div class="modal fade" id="stateModal" tabindex="-1" aria-labelledby="stateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="stateModalLabel">Select a State</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group" id="stateList">
+           
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="cityModal" tabindex="-1" aria-labelledby="cityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cityModalLabel">Select a City</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group" id="cityList">
+            <!-- Cities will be populated here dynamically -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
           <div class="mb-3">
             <label for="vehicle" class="form-label">Select Vehicle</label>
-            <select class="form-select" id="vehicle">
-              <option value="">Select vehicle</option>
-              <option value="sedan">Sedan</option>
-              <option value="suv">SUV</option>
-              <option value="hatchback">Hatchback</option>
-            </select>
+           
+            <input type="text" class="form-control" id="car" placeholder="Enter location" readonly data-bs-toggle="modal" data-bs-target="#carmodal">
           </div>
+          <div class="modal fade" id="carmodal" tabindex="-1" aria-labelledby="carmodallabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="carmodallabel">Select car type</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="car_model">
+            <div class="frst_mes" id="suv"  onclick="selectCar('SUV')" style="cursor: pointer;">
+              <h6>Suv</h6>
+              <img style="width:50%;"  src="{{asset('frontend/images/car_icons/suv.png')}}" alt="">
+            </div>
+            <div class="frst_mes" id="hatch" onclick="selectCar('Hatchback')" style="cursor: pointer;">
+              <h6>Hatchback</h6>
+              <img style="width:50%;"  src="{{asset('frontend/images/car_icons/hatchback.png')}}" alt="">
+            </div>
+            <div class="frst_mes" id="sed" onclick="selectCar('Sedan')" style="cursor: pointer;">
+              <h6>Sedan</h6>
+              <img style="width:50%;"  src="{{asset('frontend/images/car_icons/sedan.png')}}" alt="">
+            </div>
+            <div class="frst_mes" id="trav" onclick="selectCar('Traveller')" style="cursor: pointer;">
+              <h6>Traveller</h6>
+              <img style="width:50%;"  src="{{asset('frontend/images/car_icons/traveller.png')}}" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="mb-3 col-md-6">
+    <div class="start_time">
+    <label for="datetime" class="form-label">Choose start Date and Time</label>
+    <input
+    width="50%"
+      type="datetime-local" 
+      class="form-control" 
+      id="datetime" 
+      placeholder="Select date and time"
+    >
+  </div>
+    </div>
+    <div class="mb-3 col-md-6">
+    <div class="end_time">
+    <label for="datetime" class="form-label">Choose End Date and Time</label>
+    <input
+    width="50%" 
+      type="datetime-local" 
+      class="form-control" 
+      id="datetime" 
+      placeholder="Select date and time"
+    >
+  </div>
+    </div>
+  </div>
           <div class="mb-3">
             <label for="cost" class="form-label">Estimated Cost</label>
             <input type="text" class="form-control" id="cost" placeholder="Calculated automatically" disabled>
@@ -115,7 +208,7 @@
       </div>
     </div>
   </div>
-
+  
 <!-- /* //////////////form ends///////////// */ -->
 
 
@@ -1038,4 +1131,10 @@
     </div>
   </section>
 
+  <script>
+
+  </script>
+  <script>
+
+  </script>
 @endsection

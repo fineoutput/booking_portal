@@ -1625,3 +1625,10 @@ textarea.form-control {
   top: 40px;
   left: 20px;
 }
+
+/* /////////////////////////////Taxi booking */
+.car_model {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

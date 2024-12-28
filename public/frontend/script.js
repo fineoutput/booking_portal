@@ -222,41 +222,112 @@ function toggleAccordion() {
 
 
 
-// Toggle the dropdown body visibility
-document.querySelector('.custom-dropdown').addEventListener('click', function (e) {
-  const body = this.querySelector('.dropdown-body');
-  body.style.display = body.style.display === 'block' ? 'none' : 'block';
-});
 
-// Handle selecting a package and close the dropdown
-document.querySelectorAll('.dropdown-item').forEach(item => {
-  item.addEventListener('click', function (e) {
-    e.stopPropagation(); // Prevent the dropdown from toggling immediately
 
-    const selected = document.querySelector('#selected-package');
-    
-    // Extract package name using `.type_xtxt` if it exists, otherwise use the item's text
-    const packageName = this.querySelector('.type_xtxt') 
-      ? this.querySelector('.type_xtxt').innerText.trim()
-      : this.textContent.trim();
 
-    // Update the selected package text and data-value attribute
-    selected.textContent = packageName;
-    selected.dataset.value = this.dataset.value;
 
-    // Close the dropdown body
-    const dropdownBody = document.querySelector('.dropdown-body');
-    dropdownBody.style.display = 'none';
-  });
-});
 
-// Optional: Update selected package if dropdown is linked to a native select element
-function updateSelectedPackage() {
-  const select = document.getElementById('package');
-  const selectedOption = select.options[select.selectedIndex];
-  const textLimit = 25; // Limit for the text length
-  const truncatedText = selectedOption.text.length > textLimit 
-      ? selectedOption.text.slice(0, textLimit) + '...' 
-      : selectedOption.text;
-  document.getElementById('selected-package').innerText = truncatedText;
+
+
+/////////////////////select state and city
+const states = {
+  "Rajasthan": ["Jaipur", "Udaipur", "Jodhpur"],
+  "Tamil nadu": ["Chennai", "madras", "ille"],
+  "Punjab": ["Multan", "Chandigarh", "Amritsar"],
+  "Maharashtra": ["Goa", "Mumbai", "Pune"]
+};
+
+const stateList = document.getElementById('stateList');
+const cityList = document.getElementById('cityList');
+const locationInput = document.getElementById('location');
+
+// Populate states
+for (const state in states) {
+  const li = document.createElement('li');
+  li.textContent = state;
+  li.classList.add('list-group-item');
+  li.onclick = () => selectState(state);
+  stateList.appendChild(li);
 }
+
+function selectState(state) {
+  // Clear and populate cities
+  cityList.innerHTML = '';
+  states[state].forEach(city => {
+    const li = document.createElement('li');
+    li.textContent = city;
+    li.classList.add('list-group-item');
+    li.onclick = () => selectCity(state, city);
+    cityList.appendChild(li);
+  });
+
+  // Close state modal and open city modal
+  const stateModal = bootstrap.Modal.getInstance(document.getElementById('stateModal'));
+  stateModal.hide();
+  const cityModal = new bootstrap.Modal(document.getElementById('cityModal'));
+  cityModal.show();
+}
+
+function selectCity(state, city) {
+  // Set the selected location in the input field
+  locationInput.value = `${city}, ${state}`;
+  const cityModal = bootstrap.Modal.getInstance(document.getElementById('cityModal'));
+  cityModal.hide();
+}
+
+
+
+
+/////////////////////Select car type
+const selectCar = (carType) => {
+  document.getElementById('car').value= carType
+  var modal = document.getElementById('carmodal');
+  var bootstrapmodal = bootstrap.Modal.getInstance(modal);
+  bootstrapmodal.hide();
+  
+}
+
+console.log('..............................................');
+// // Toggle the dropdown body visibility
+// document.querySelector('.custom-dropdown').addEventListener('click', function (e) {
+//   const body = this.querySelector('.dropdown-body');
+//   body.style.display = body.style.display === 'block' ? 'none' : 'block';
+// });
+
+// // Handle selecting a package and close the dropdown
+// document.querySelectorAll('.dropdown-item').forEach(item => {
+//   item.addEventListener('click', function (e) {
+//     e.stopPropagation(); // Prevent the dropdown from toggling immediately
+
+//     const selected = document.querySelector('#selected-package');
+    
+//     // Extract package name using `.type_xtxt` if it exists, otherwise use the item's text
+//     const packageName = this.querySelector('.type_xtxt') 
+//       ? this.querySelector('.type_xtxt').innerText.trim()
+//       : this.textContent.trim();
+
+//     // Update the selected package text and data-value attribute
+//     selected.textContent = packageName;
+//     selected.dataset.value = this.dataset.value;
+
+//     // Close the dropdown body
+//     const dropdownBody = document.querySelector('.dropdown-body');
+//     dropdownBody.style.display = 'none';
+//   });
+// });
+
+// // Optional: Update selected package if dropdown is linked to a native select element
+// function updateSelectedPackage() {
+//   const select = document.getElementById('package');
+//   const selectedOption = select.options[select.selectedIndex];
+//   const textLimit = 25; // Limit for the text length
+//   const truncatedText = selectedOption.text.length > textLimit 
+//       ? selectedOption.text.slice(0, textLimit) + '...' 
+//       : selectedOption.text;
+//   document.getElementById('selected-package').innerText = truncatedText;
+// }
+
+
+
+////////////////////////select car type
+
