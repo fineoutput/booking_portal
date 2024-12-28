@@ -13,6 +13,21 @@ class CustomerCallsController extends Controller
         return view('admin/CustomerCalls/index',$data);
     }
 
+    function Ongoing() {
+        $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','1')->get();
+        return view('admin/CustomerCalls/ongoing',$data);
+    }
+
+    function Cancelled() {
+        $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','2')->get();
+        return view('admin/CustomerCalls/cancelled',$data);
+    }
+
+    function Converted() {
+        $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','3')->get();
+        return view('admin/CustomerCalls/converted',$data);
+    }
+
     function create(Request $request) {
         if($request->method()=='POST'){
             $validated = $request->validate([

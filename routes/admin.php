@@ -83,6 +83,9 @@ Route::group(['middleware'=>'admin.auth'],function(){
 
 
    Route::get('/customer-calls', [CustomerCallsController::class, 'index'])->name('customerCalls');
+   Route::get('/customer-calls/ongoing', [CustomerCallsController::class, 'Ongoing'])->name('OngoingcustomerCalls');
+   Route::get('/customer-calls/cancelled', [CustomerCallsController::class, 'Cancelled'])->name('CancelledcustomerCalls');
+   Route::get('/customer-calls/converted', [CustomerCallsController::class, 'Converted'])->name('ConvertedcustomerCalls');
    Route::match(['get','post'],'/customer/create', [CustomerCallsController::class, 'create'])->name('add_customer');
    Route::get('customer/{id}/edit', [CustomerCallsController::class, 'edit'])->name('customer.edit');
     Route::put('customer/{id}', [CustomerCallsController::class, 'update'])->name('customer.update');
