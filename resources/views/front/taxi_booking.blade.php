@@ -164,6 +164,7 @@
     <div class="mb-3">
       <label for="trip-type" class="form-label">Trip</label>
       <select class="form-select" id="trip-type" style="width: 50%;" onchange="updateInputs()">
+        <option value="pickup">Select</option>
         <option value="pickup">Pickup from Airport/Railway station</option>
         <option value="drop">Drop to Airport/Railway station</option>
       </select>
@@ -179,6 +180,10 @@
           <option value="airport3">Airport 3</option>
         </select>
       </div>
+      <div class="mb-3">
+        <label for="drop-address" class="form-label">Drop off Address</label>
+        <input type="text" class="form-control" id="drop-address" placeholder="Enter drop address">
+      </div>
     </div>
 
     <div id="drop-inputs" style="display: none;">
@@ -192,12 +197,12 @@
         </select>
       </div>
       <div class="mb-3">
-        <label for="drop-address" class="form-label">Drop Address</label>
+        <label for="drop-address" class="form-label">Pickup Address</label>
         <input type="text" class="form-control" id="drop-address" placeholder="Enter drop address">
       </div>
     </div>
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
       <label for="location" class="form-label">Select Location</label>
       <input type="text" class="form-control" id="location" placeholder="Enter location" readonly data-bs-toggle="modal" data-bs-target="#stateModal">
     </div>
@@ -214,7 +219,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="mb-3">
       <label for="vehicle" class="form-label">Select Vehicle</label>
@@ -259,12 +264,12 @@
           <input type="datetime-local" class="form-control" id="datetime" placeholder="Select date and time">
         </div>
       </div>
-      <div class="mb-3 col-md-6">
+      <!-- <div class="mb-3 col-md-6">
         <div class="end_time">
           <label for="datetime" class="form-label">Choose End Date and Time</label>
           <input type="datetime-local" class="form-control" id="datetime" placeholder="Select date and time">
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="mb-3">
@@ -291,44 +296,82 @@
               <option value="hatchback">Hatchback</option>
             </select>
           </div>
+          <div class="start_time">
+          <label for="datetime" class="form-label">Choose start Date and Time</label>
+          <input style="width: 50%;" type="datetime-local" class="form-control" id="datetime" placeholder="Select date and time">
+        </div>
           <div class="mb-3">
             <label for="local-cost" class="form-label">Estimated Cost</label>
             <input type="text" class="form-control" id="local-cost" placeholder="Calculated automatically" disabled>
           </div>
+          
           <button type="submit" class="btn btn-primary">Send Request to Admin</button>
         </form>
       </div>
 
       <!-- Outstation Booking -->
       <div class="tab-pane fade" id="outstation" role="tabpanel" aria-labelledby="outstation-tab">
-        <form>
-          <div class="mb-3">
-            <label for="type" class="form-label">Trip Type</label>
-            <select class="form-select" id="type">
-              <option value="">Select type</option>
-              <option value="one-way">One-Way</option>
-              <option value="round-trip">Round Trip</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="outstation-location" class="form-label">Enter Location</label>
-            <input type="text" class="form-control" id="outstation-location" placeholder="Enter location">
-          </div>
-          <div class="mb-3">
-            <label for="outstation-vehicle" class="form-label">Select Vehicle</label>
-            <select class="form-select" id="outstation-vehicle">
-              <option value="">Select vehicle</option>
-              <option value="sedan">Sedan</option>
-              <option value="suv">SUV</option>
-              <option value="hatchback">Hatchback</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="outstation-cost" class="form-label">Estimated Cost</label>
-            <input type="text" class="form-control" id="outstation-cost" placeholder="Calculated automatically" disabled>
-          </div>
-          <button type="submit" class="btn btn-primary">Send Request to Admin</button>
-        </form>
+      <form>
+  <div class="mb-3">
+    <label for="type" class="form-label">Trip Type</label>
+    <select class="form-select" id="type" onchange="updateTypes()">
+      <option value="">Select type</option>
+      <option value="one-way">One-Way</option>
+      <option value="round-trip">Round Trip</option>
+    </select>
+  </div>
+  
+  <!-- One-Way Specific Inputs -->
+  <div id="one-way-inputs" style="display: none;">
+    <div class="mb-3">
+      <label for="departure-location" class="form-label">Departure Location</label>
+      <input type="text" class="form-control" id="departure-location" placeholder="Enter departure location">
+    </div>
+    <div class="mb-3">
+      <label for="destination-location" class="form-label">Destination Location</label>
+      <input type="text" class="form-control" id="destination-location" placeholder="Enter destination location">
+    </div>
+    <div class="mb-3">
+      <label for="pickup-date" class="form-label">Pickup Date</label>
+      <input type="date" class="form-control" id="return-date">
+    </div>
+  </div>
+  
+  <!-- Round-Trip Specific Inputs -->
+  <div id="round-trip-inputs" style="display: none;">
+    <div class="mb-3">
+      <label for="departure-location-round" class="form-label">Departure Location</label>
+      <input type="text" class="form-control" id="departure-location-round" placeholder="Enter departure location">
+    </div>
+    <div class="mb-3">
+      <label for="destination-location-round" class="form-label">Destination Location</label>
+      <input type="text" class="form-control" id="destination-location-round" placeholder="Enter destination location">
+    </div>
+    <div class="mb-3">
+      <label for="pickup-date" class="form-label">Pickup Date</label>
+      <input type="date" class="form-control" id="return-date">
+    </div>
+    <div class="mb-3">
+      <label for="return-date" class="form-label">Return Date</label>
+      <input type="date" class="form-control" id="return-date">
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="outstation-vehicle" class="form-label">Select Vehicle</label>
+    <select class="form-select" id="outstation-vehicle">
+      <option value="">Select vehicle</option>
+      <option value="sedan">Sedan</option>
+      <option value="suv">SUV</option>
+      <option value="hatchback">Hatchback</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="outstation-cost" class="form-label">Estimated Cost</label>
+    <input type="text" class="form-control" id="outstation-cost" placeholder="Calculated automatically" disabled>
+  </div>
+  <button type="submit" class="btn btn-primary">Send Request to Admin</button>
+</form>
       </div>
     </div>
   </div>
@@ -1256,26 +1299,5 @@
   </section>
 
   
-  <script>
-function updateInputs() {
-  const tripType = document.getElementById("trip-type").value;
-  const pickupInputs = document.getElementById("pickup-inputs");
-  const dropInputs = document.getElementById("drop-inputs");
 
-  if (tripType === "pickup") {
-    pickupInputs.style.display = "block";
-    dropInputs.style.display = "none";
-  } else if (tripType === "drop") {
-    pickupInputs.style.display = "none";
-    dropInputs.style.display = "block";
-  } else {
-    pickupInputs.style.display = "none";
-    dropInputs.style.display = "none";
-  }
-}
-
-// Initialize the form with "Pickup" as the default option
-document.addEventListener("DOMContentLoaded", updateInputs);
-
-  </script>
 @endsection

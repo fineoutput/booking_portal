@@ -287,6 +287,44 @@ const selectCar = (carType) => {
   
 }
 
+function updateInputs() {
+  const tripType = document.getElementById("trip-type").value;
+  const pickupInputs = document.getElementById("pickup-inputs");
+  const dropInputs = document.getElementById("drop-inputs");
+
+  if (tripType === "pickup") {
+    pickupInputs.style.display = "block";
+    dropInputs.style.display = "none";
+  } else if (tripType === "drop") {
+    pickupInputs.style.display = "none";
+    dropInputs.style.display = "block";
+  } else {
+    pickupInputs.style.display = "none";
+    dropInputs.style.display = "none";
+  }
+}
+
+
+// Initialize the form with "Pickup" as the default option
+document.addEventListener("DOMContentLoaded", updateInputs);
+function updateTypes() {
+  const tripType = document.getElementById("type").value;
+  const oneWayInputs = document.getElementById("one-way-inputs");
+  const roundTripInputs = document.getElementById("round-trip-inputs");
+
+  if (tripType === "one-way") {
+    oneWayInputs.style.display = "block";
+    roundTripInputs.style.display = "none";
+  } else if (tripType === "round-trip") {
+    oneWayInputs.style.display = "none";
+    roundTripInputs.style.display = "block";
+  } else {
+    oneWayInputs.style.display = "none";
+    roundTripInputs.style.display = "none";
+  }
+}
+// Initialize the form with "Pickup" as the default option
+
 console.log('..............................................');
 // // Toggle the dropdown body visibility
 // document.querySelector('.custom-dropdown').addEventListener('click', function (e) {
