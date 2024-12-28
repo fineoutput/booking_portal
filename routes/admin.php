@@ -106,7 +106,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
     Route::get('/agent', [AgentController::class, 'index'])->name('agent');
     Route::post('/agent/create', [AgentController::class, 'create'])->name('agent.create');
 
-    Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi_booking');
+    Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi-booking');
     Route::post('/taxi-booking/create', [TaxiBookingController::class, 'create'])->name('taxi-booking.create');
 
 
