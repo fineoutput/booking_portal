@@ -10,8 +10,18 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CrmController;
-use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Auth\adminlogincontroller;
+use App\Http\Controllers\Admin\HotelsController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Admin\AgentCallsController;
+use App\Http\Controllers\Admin\HotelCallsController;
+use App\Http\Controllers\Admin\TaxiBookingController;
+use App\Http\Controllers\Admin\CustomerCallsController;
+use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\VehicleController;
+use App\Http\Controllers\Admin\AgentController;
+use App\Http\Controllers\Admin\PushNotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +57,7 @@ Route::group(['prefix' => '/'], function () {
 //======================================= ADMIN ===================================================
 
 
+
 Route::group(['prifix' => 'admin'], function () {
     Route::group(['middleware'=>'admin.guest'],function(){
 
@@ -55,7 +66,4 @@ Route::group(['prifix' => 'admin'], function () {
 
     });
 
-
 });
-
-
