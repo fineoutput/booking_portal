@@ -58,3 +58,12 @@ Route::group(['prefix' => '/'], function () {
 
 
 
+Route::group(['prifix' => 'admin'], function () {
+    Route::group(['middleware'=>'admin.guest'],function(){
+
+        Route::get('/admin_index', [adminlogincontroller::class, 'admin_login'])->name('admin_login');
+        Route::post('/login_process', [adminlogincontroller::class, 'admin_login_process'])->name('admin_login_process');
+
+    });
+
+});

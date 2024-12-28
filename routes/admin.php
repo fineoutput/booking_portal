@@ -24,19 +24,7 @@ use App\Http\Controllers\Admin\PushNotificationController;
 use App\Http\Controllers\Auth\adminlogincontroller;
 
 
-
-
 Route::group(['prifix' => 'admin'], function () {
-    Route::group(['middleware'=>'admin.guest'],function(){
-
-        Route::get('/admin_index', [adminlogincontroller::class, 'admin_login'])->name('admin_login');
-        Route::post('/login_process', [adminlogincontroller::class, 'admin_login_process'])->name('admin_login_process');
-
-    });
-
-
-
-
 
 Route::group(['middleware'=>'admin.auth'],function(){
     Route::get('/index', [TeamController::class, 'admin_index'])->name('admin_index');
