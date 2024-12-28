@@ -51,114 +51,132 @@
   </header>
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark nave_color">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('index') }}">Tours Dekho</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <!-- Package Booking Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Package Booking
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 500px; overflow-y: auto;">
-                       <div class="d-flex nachel"> 
-                       <li><a class="dropdown-item" href="#"><b>Rajasthan</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Jaipur</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Udaipur</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chittod</a></li>
-                       </div>
-                       <div class="d-flex nachel">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Himachal</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Manali</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Rohtang</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Sisu</a></li>
-                       </div>
-                       <div class="d-flex nachel">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>J&K</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                       <div class="d-flex">
-                       <li><a class="dropdown-item" href="{{ route('index') }}"><b>Home</b></a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Himachal Pradesh</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Chennai</a></li>
-                        <li><a class="dropdown-item" href="{{ route('list') }}">Kolkata</a></li>
-                       </div>
-                        
-                    </ul>
-                    
-                </li>
-                <!-- Other Nav Items -->
-                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
-                <li class="nav-item"><a class="nav-link" href="">List</a></li>
-            </ul>
-        </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ route('index') }}">Tours Dekho</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <!-- Mega Menu -->
+        <li class="nav-item dropdown mega-menu">
+          <a class="nav-link dropdown-toggle" href="#" id="megaMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Package Booking
+          </a>
+          <div class="dropdown-menu mega-menu-content" aria-labelledby="megaMenu" style="width: 500px;">
+            <div class="row">
+              <!-- Column 1 -->
+              <div class="col-md-4">
+                <h6>Rajasthan</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Jaipur</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Udaipur</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Chittod</a></li>
+                </ul>
+              </div>
+              <!-- Column 2 -->
+              <div class="col-md-4">
+                <h6>Himachal</h6>
+                <ul class="list-unstyled" style="overflow-y: auto; height: 200px;">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Manali</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Rohtang</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Sisu</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Manali</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Rohtang</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Sisu</a></li>
+                </ul>
+              </div>
+              <!-- Column 3 -->
+              <div class="col-md-4">
+                <h6>J&K</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h6>J&K</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h6>J&K</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h6>J&K</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h6>J&K</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h6>J&K</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h6>J&K</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h6>J&K</h6>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
+                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+        <!-- Other Nav Items -->
+        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
+        <li class="nav-item"><a class="nav-link" href="">List</a></li>
+      </ul>
     </div>
+  </div>
 </nav>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const megaMenu = document.querySelector(".mega-menu");
+  const megaMenuContent = megaMenu.querySelector(".mega-menu-content");
+
+  megaMenu.addEventListener("mouseenter", () => {
+    megaMenuContent.style.display = "block";
+  });
+
+  megaMenu.addEventListener("mouseleave", () => {
+    megaMenuContent.style.display = "none";
+  });
+});
+
+</script>
