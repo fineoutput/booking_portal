@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use App\Services\FirebaseService;
 
 use App\Notifications\PushNotification;
+use App\Models\PushNotificationModel;
 
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon; // For date manipulation
 use Illuminate\Support\Facades\Log;
 
 class PushNotificationController extends Controller
@@ -18,21 +20,20 @@ class PushNotificationController extends Controller
     // protected $googleAccessTokenService;
     protected $firebaseService;
 
-    public function __construct(FirebaseService $firebaseService)
-    {
-        $this->firebaseService = $firebaseService;
-    }
+    // public function __construct(FirebaseService $firebaseService)
+    // {
+    //     $this->firebaseService = $firebaseService;
+    // }
 
     public function index()
     {
 
-        $notifactions = PushNotificationModel::orderby('id', 'desc')->get();
+        $notifications = PushNotificationModel::orderby('id', 'desc')->get();
 
-        return view('admin.Notifaction.view-notifaction', compact('notifactions'));
+        return view('admin.Notifaction.view-notifaction', compact('notifications'));
     }
 
     public function create(Request $request, $id = null)
-
     {
         $notifaction = null;
 
@@ -54,75 +55,47 @@ class PushNotificationController extends Controller
     }
 
     public function store(Request $request)
-
     {
-        // dd($request->all());
+         // Validate the incoming request
+    $validated = $request->validate([
+        'title' => 'required|string',
+        'description' => 'required|string',
+        'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        $rules = [
-            'title'         => 'required|string',
-            'description'   => 'required|string',
-            'img'         => 'nullable|file|mimes:xlsx,csv,xls,pdf,doc,docx,txt,jpg,jpeg,png|max:25000',
-        ];
-        
-        $request->validate($rules);
+    // Create a new notification entry
+    $notification = new PushNotificationModel();
+    $notification->title = $request->title;
+    $notification->description = $request->description;
 
-        if (!isset($request->notifaction_id)) {
+    // Capture the client's IP address and store it
+    $notification->ip = $request->ip();  // This will store the client's IP address
 
-            $notification = new PushNotificationModel;
+    // Capture the current date and store it
+    $notification->date = Carbon::now();  // This stores the current date and time
+    $notification->is_active =  '1';  // This stores the current date and time
+    $notification->added_by =  '1';  // This stores the current date and time
 
-        } else {
+    // Check if the image has been uploaded
+    if ($request->hasFile('img')) {
+        // Get the uploaded file
+        $file = $request->file('img');
 
-            $notification = PushNotificationModel::find($request->notifaction_id);
-            
-            if (!$notification) {
-                
-                return redirect()->route('notification.index')->with('error', 'notifaction not found.');
-                
-            }
+        // Generate a unique file name
+        $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-        }
-        
-        // $notification->fill($request->all());
+        // Store the image in the 'public/notification' directory and get the relative file path
+        $filePath = $file->storeAs('public/notification', $fileName);  // This stores the file in storage/app/public/notification
 
-        if($request->hasFile('img')){
+        // Store the file path in the database (relative to the 'public' disk)
+        $notification->image = 'storage/notification/' . $fileName;
+    }
 
-            $notification->image = uploadImage($request->file('img'), 'notifaction');
-
-        }
-
-        $notification->title = $request->title;
-
-        $notification->description = $request->description;
-
-        $notification->ip = $request->ip();
-
-        $notification->date = now();
-
-        $notification->added_by = Auth::user()->id;
-
-        $notification->is_active = 1;
-
-        if ($notification->save()) {
-
-            $message = isset($request->notification_id) ? 'Notification updated successfully.' : 'Notification inserted successfully.';
-            
-            // $notification->notify(new PushNotification($notification->title, $notification->description, $notification->image, $this->googleAccessTokenService->getAccessToken()));
-
-            $response = $this->firebaseService->sendNotificationToTopic('OswalSoap', $notification->title, $notification->description, asset($notification->image));
-            
-            if (!$response['success']) {
-
-                Log::error('FCM send error: ' . $response['error']);
-                
-            }
-            
-            return redirect()->route('notification.index')->with('success', $message);
-
-        } else {
-
-            return redirect()->route('notification.index')->with('error', 'Something went wrong. Please try again later.');
-
-        }
+    // Save the notification record
+    $notification->save();
+        // Return a success response or redirect
+        return redirect()->route('notification')->with('success', 'Notification created successfully!');
+    }
 
     }
-}
+

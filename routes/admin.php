@@ -20,14 +20,25 @@ use App\Http\Controllers\Admin\CustomerCallsController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\VehicleController;
 use App\Http\Controllers\Admin\AgentController;
+use App\Http\Controllers\Admin\PushNotificationController;
 use App\Http\Controllers\Auth\adminlogincontroller;
+
+
+
+
+Route::group(['prifix' => 'admin'], function () {
+    Route::group(['middleware'=>'admin.guest'],function(){
+
+        Route::get('/admin_index', [adminlogincontroller::class, 'admin_login'])->name('admin_login');
+        Route::post('/login_process', [adminlogincontroller::class, 'admin_login_process'])->name('admin_login_process');
+
+    });
 
 
 
 
 
 Route::group(['middleware'=>'admin.auth'],function(){
-
     Route::get('/index', [TeamController::class, 'admin_index'])->name('admin_index');
     Route::get('/logout', [adminlogincontroller::class, 'admin_logout'])->name('admin_logout');
     Route::get('/profile', [adminlogincontroller::class, 'admin_profile'])->name('admin_profile');
@@ -108,5 +119,14 @@ Route::group(['middleware'=>'admin.auth'],function(){
     Route::post('/taxi-booking/create', [TaxiBookingController::class, 'create'])->name('taxi-booking.create');
 
 
+    Route::get('notification', [PushNotificationController::class, 'index'])->name('notification');
+
+    Route::get('notification/create/{id?}', [PushNotificationController::class, 'create'])->name('notificationcreate');
+
+    Route::post('notification/store', [PushNotificationController::class, 'store'])->name('notificationstore');
+  
+});
    
 });
+
+
