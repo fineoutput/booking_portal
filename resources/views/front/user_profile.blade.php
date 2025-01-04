@@ -55,6 +55,7 @@
             <h5 class="fw-bold suther">Bookings</h5>
             <p class="suther">View your booking history and manage reservations.</p>
             <!-- Bookings Details Section -->
+            <div class="table-responsive">
             <table class="table table-striped suther">
                 <thead class="suther">
                     <tr class="suther">
@@ -89,6 +90,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Wallet Tab -->
