@@ -30,7 +30,7 @@
     <h1 class="text-center mb-4">Taxi Booking</h1>
 
     <!-- Tabs for booking types -->
-    <ul class="nav nav-tabs mb-4" id="bookingTabs" role="tablist">
+    <ul class="nav nav-tabs mb-4 flex-nowrap " id="bookingTabs" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" style=" color: #000; " id="airport-tab" data-bs-toggle="tab" data-bs-target="#airport" type="button" role="tab" aria-controls="airport" aria-selected="true">Airport/Railway Station</button>
       </li>
