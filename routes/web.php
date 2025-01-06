@@ -65,5 +65,5 @@ Route::group(['prifix' => 'admin'], function () {
         Route::post('/login_process', [adminlogincontroller::class, 'admin_login_process'])->name('admin_login_process');
 
     });
-
+    
 });

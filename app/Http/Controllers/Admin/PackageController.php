@@ -31,36 +31,32 @@ class PackageController extends Controller
         if ($request->hasFile('image')) {
             $imagePaths = [];
             foreach ($request->file('image') as $image) {
-                $imagePaths[] = $image->store('packages/images', 'public');  // Store images in storage/app/public/packages/images
+                $imagePaths[] = $image->store('packages/images', 'public');
             }
         } else {
             $imagePaths = null;
         }
 
-        // Handle video uploads (if any)
         if ($request->hasFile('video')) {
             $videoPaths = [];
             foreach ($request->file('video') as $video) {
-                $videoPaths[] = $video->store('packages/videos', 'public');  // Store videos in storage/app/public/packages/videos
+                $videoPaths[] = $video->store('packages/videos', 'public'); 
             }
         } else {
             $videoPaths = null;
         }
 
-        // Insert the new package record into the database
         $package = new Package();
         $package->package_name = $request->package_name;
         $package->state_id = $request->state_id;
         $package->city_id = $request->city_id;
-        $package->image = $imagePaths ? json_encode($imagePaths) : null;  // Store image paths as JSON
-        $package->video = $videoPaths ? json_encode($videoPaths) : null;  // Store video paths as JSON
+        $package->image = $imagePaths ? json_encode($imagePaths) : null; 
+        $package->video = $videoPaths ? json_encode($videoPaths) : null; 
         $package->text_description = $request->text_description;
         $package->text_description_2 = $request->text_description_2;
 
-        // Save the package to the database
         $package->save();
 
-        // Redirect or return a response
         return redirect()->route('package')->with('success', 'Package added successfully.');
     
         }
@@ -70,17 +66,12 @@ class PackageController extends Controller
 
     public function destroy($id)
     {
-        // Find the package by its ID
         $package = Package::findOrFail($id);
 
-        // Delete the associated images and videos from storage
-        $this->deleteFiles($package->image);  // Delete images
-        $this->deleteFiles($package->video);  // Delete videos
+        $this->deleteFiles($package->image); 
+        $this->deleteFiles($package->video); 
 
-        // Delete the package record
         $package->delete();
-
-        // Redirect back to the packages index with a success message
         return redirect()->route('package')->with('success', 'Package deleted successfully.');
     }
 
@@ -89,8 +80,7 @@ class PackageController extends Controller
     {
         if ($filePaths) {
             $filePaths = is_array($filePaths) ? $filePaths : json_decode($filePaths);
-    
-            // Loop through each file and delete it from storage
+
             foreach ($filePaths as $filePath) {
                 if (Storage::exists('public/' . $filePath)) {
                     Storage::delete('public/' . $filePath);
