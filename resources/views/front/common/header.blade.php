@@ -33,8 +33,8 @@
       <div class="row align-items-center">
         <div class="col-12 col-md-3">
           <div class="logo">
-            <span class="logo-icon">T</span>
-            <span class="logo-text"><a style="text-decoration: none;" href="{{ route('index') }}">Tours Dekho</a></span>
+          <a style="text-decoration: none;" href="{{ route('index') }}"><img style="width: 220px;" src="{{asset('frontend/images/white_logo.png')}}" alt=""></a>
+            
           </div>
         </div>
         <div class="col-12 col-md-6">
