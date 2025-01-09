@@ -41,198 +41,14 @@
 
 
   <!-- /* //////////////form starts///////////// */ -->
-  <section class="frrm_sect">
-  <!-- <div class="container namesec mt-5">
-    <h2 class="text-center mb-4">Booking Form</h2>
-    <form class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label for="location" class="form-label">Select Location</label>
-            <select id="location" class="form-select" required>
-                <option value="" disabled selected>Select location</option>
-                <option value="location1">Location 1</option>
-                <option value="location2">Location 2</option>
-                <option value="location3">Location 3</option>
-            </select>
-        </div>
-        
-        <div class="row g-3 mb-3">
-            <div class="col-md-6">
-                <label for="startDate" class="form-label">Start Date</label>
-                <input type="date" id="startDate" class="form-control" required>
-            </div>
-            <div class="col-md-6">
-                <label for="endDate" class="form-label">End Date</label>
-                <input type="date" id="endDate" class="form-control" required>
-            </div>
-        </div>
-        
-        <div class="mb-3">
-          <label for="package" class="form-label">Select Package</label>
-          <div class="mb-3">
-            <div id="selected-heading" style="font-weight: bold; margin-bottom: 10px;"></div>
-            <div class="custom-dropdown">
-              <div class="dropdown-header" id="selected-package">Select package</div>
-              <div class="dropdown-body">
-                <div class="dropdown-item" data-value="package1">
-                  <div class="plan_outer w-100">
-                    <div class="outer_plan_upper">
-                      <div class="outer_plan_img">
-                      <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
-                      </div>
-                      <div class="inner_outer_txt">
-                        <div class="upper_type_date">
-                          <p>Group Tour</p>
-                          <p style="background: #fb7d03; color: #fff; padding: 2px;">EUEP</p>
-                        </div>
-                        <div class="outer_type_price">
-                          <h6 class="type_xtxt">European Marvels</h6>
-                        </div>
-                        <div class="plan_type_date">
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <p style="margin: 0;">2 reviews</p>
-                        </div>
-                        <div class="inclusive">
-                          <i class="fa-solid fa-infinity"></i>
-                          <p class="m-0">All Inclusive</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="outer_car_txt">
-                      <div class="days skit">
-                        <p>Days</p>
-                        <span style="color: #595959;">17 days</span>
-                      </div>
-                      <div class="destination skit">
-                        <p>Destinations</p>
-                        <span>12 countries 27 cities</span>
-                      </div>
-                      <div class="departures skit">
-                        <p>Departures</p>
-                        <span>3 Dates</span>
-                      </div>
-                    </div>
-                    <div class="options_tav night">
-                      <div class="outer_car_txt ">
-                        <div class="night_ski skit">
-                          <p>EMI from</p>
-                          <span><a href="#">₹14,162/mo</a></span>
-                        </div>
-                        <div class="destination skit">
-                          <div class="manags">
-                            <p>Starts from
-                              <b style="color: #000;">₹4,20,000</b>
-                            </p>
-                            <span style="font-size: 10px;">per person on twin sharing</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="options_btns d-flex justify-content-center">
-                        <a class="_btn" href="#">View More Options</a>
-                      </div>
-                      <div class="expert text-center">
-                        <i class="fa-regular fa-comments"></i>
-                        <a class="expert_link" href="#">Talk to a Travel Expert</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="dropdown-item" data-value="package2">Package 2</div>
-                <div class="dropdown-item" data-value="package3">Package 3</div>
-              </div>
-            </div>
-          </div>
-      </div>
-        
-        <div class="row g-3 mb-3">
-            <div class="col-md-4">
-                <label for="adults" class="form-label">No. of Adults</label>
-                <input type="number" id="adults" class="form-control" min="1" required>
-            </div>
-            <div class="col-md-4">
-                <label for="kidsWithBed" class="form-label">Kids with Bed</label>
-                <input type="number" id="kidsWithBed" class="form-control" min="0" required>
-            </div>
-            <div class="col-md-4">
-                <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
-                <input type="number" id="kidsWithoutBed" class="form-control" min="0" required>
-            </div>
-        </div>
-        
-        <div class="mb-3">
-          <label for="extraBed" class="form-label">Extra Bed</label>
-          <select id="extraBed" class="form-select" required>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-          </select>
-        </div>
-        
-        <div class="mb-3">
-            <label for="hotelPreference" class="form-label">Hotel Preference</label>
-            <select id="hotelPreference" class="form-select" required>
-                <option value="" disabled selected>Select preference</option>
-                <option value="hotel1">Hotel 1</option>
-                <option value="hotel2">Hotel 2</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="roomPreference" class="form-label">Room Preference</label>
-            <select id="roomPreference" class="form-select" required>
-                <option value="" disabled selected>Select room</option>
-                <option value="room1">Room 1</option>
-                <option value="room2">Room 2</option>
-            </select>
-        </div>
-        
-        <div class="mb-3">
-            <label for="mealPlan" class="form-label">Meal Plan</label>
-            <select id="mealPlan" class="form-select" required>
-                <option value="" disabled selected>Select meal plan</option>
-                <option value="plan1">Plan 1</option>
-                <option value="plan2">Plan 2</option>
-            </select>
-        </div>
-        
-        <div class="mb-3">
-            <label for="vehicleOptions" class="form-label">Vehicle Options</label>
-            <select id="vehicleOptions" class="form-select" required>
-                <option value="" disabled selected>Select vehicle</option>
-                <option value="vehicle1">Vehicle 1</option>
-                <option value="vehicle2">Vehicle 2</option>
-            </select>
-        </div>
-        
-        <div class="mb-3">
-            <label for="bookingSource" class="form-label">Booking Source</label>
-            <select id="bookingSource" class="form-select" required>
-                <option value="" disabled selected>Select source</option>
-                <option value="direct">Direct Booking</option>
-                <option value="reference">Reference</option>
-                <option value="online">Online</option>
-            </select>
-        </div>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" id="travelInsurance">
-          <label class="form-check-label" for="travelInsurance">Add Travel Insurance</label>
-        </div>
-        <div class="mb-3">
-          <label for="specialRemarks" class="form-label">Special Remarks</label>
-          <textarea id="specialRemarks" class="form-control" rows="3"></textarea>
-        </div>
-        
-        <a style="text-decoration: none; color: #fff;" class="btn btn-primary w-80 d-flex justify-content-center" href="{{ route('confirmation') }}">Submit</a>
-    </form>
-  </div> -->
-</section>
+ 
+  
 
 <!-- /* //////////////form ends///////////// */ -->
 
 
   <!-- /* //////////////Cards Starts///////////// */ -->
-  <section class="cards_Section mt-5">
+  <!-- <section class="cards_Section mt-5">
   <div class="container">
     <div class="scrollable-slider">
       <div class="row flex-nowrap">
@@ -248,24 +64,7 @@
               <p>6 days | 17 Dept.</p>
             </div>
           </div>
-          <div class="outer_car_txt">
-            <h2>Highlights of Kerala</h2>
-          </div>
-        </div>
-        <!-- Repeat more cards -->
-        <div class="outer_loc">
-          <div class="inner_car_ig">
-            <img src="{{ asset('frontend/images/cards/klhl-thb.webp') }}" alt="">
-          </div>
-          <div class="inner_car_txt">
-            <div class="type_price">
-              <h6 class="type_xtxt">₹ 30000</h6>
-            </div>
-            <div class="type_date">
-              <p>6 days | 17 Dept.</p>
-            </div>
-          </div>
-          <div class="outer_car_txt">
+          <div class="outer_car_txt justify-content-center">
             <h2>Highlights of Kerala</h2>
           </div>
         </div>
@@ -281,7 +80,7 @@
               <p>6 days | 17 Dept.</p>
             </div>
           </div>
-          <div class="outer_car_txt">
+          <div class="outer_car_txt justify-content-center">
             <h2>Highlights of Kerala</h2>
           </div>
         </div>
@@ -297,7 +96,7 @@
               <p>6 days | 17 Dept.</p>
             </div>
           </div>
-          <div class="outer_car_txt">
+          <div class="outer_car_txt justify-content-center">
             <h2>Highlights of Kerala</h2>
           </div>
         </div>
@@ -313,7 +112,7 @@
               <p>6 days | 17 Dept.</p>
             </div>
           </div>
-          <div class="outer_car_txt">
+          <div class="outer_car_txt justify-content-center">
             <h2>Highlights of Kerala</h2>
           </div>
         </div>
@@ -329,7 +128,23 @@
               <p>6 days | 17 Dept.</p>
             </div>
           </div>
-          <div class="outer_car_txt">
+          <div class="outer_car_txt justify-content-center">
+            <h2>Highlights of Kerala</h2>
+          </div>
+        </div>
+        <div class="outer_loc">
+          <div class="inner_car_ig">
+            <img src="{{ asset('frontend/images/cards/klhl-thb.webp') }}" alt="">
+          </div>
+          <div class="inner_car_txt">
+            <div class="type_price">
+              <h6 class="type_xtxt">₹ 30000</h6>
+            </div>
+            <div class="type_date">
+              <p>6 days | 17 Dept.</p>
+            </div>
+          </div>
+          <div class="outer_car_txt justify-content-center">
             <h2>Highlights of Kerala</h2>
           </div>
         </div>
@@ -341,7 +156,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
   <!-- /* //////////////Cards Ends///////////// */ -->
 
@@ -559,7 +374,7 @@
                     <div class="inner_car_ig">
                         <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
                     </div>
-                    <div class="outer_car_txt">
+                    <div class="outer_car_txt justify-content-center">
                         <p>33 tours | 72 Departures
                             61,838 guest Travelled</p>
                         <h2>Jammu</h2>
@@ -570,7 +385,7 @@
                     <div class="inner_car_ig">
                         <img src="{{ asset('frontend/images/gallery/rjwm-rjwp-1522023.avif') }}" alt="">
                     </div>
-                    <div class="outer_car_txt">
+                    <div class="outer_car_txt justify-content-center">
                         <p>33 tours | 72 Departures
                             61,838 guest Travelled</p>
                         <h2>Rajasthan</h2>
@@ -580,7 +395,7 @@
                     <div class="inner_car_ig">
                         <img src="{{ asset('frontend/images/gallery/tbh-GTSD-382021.avif') }}" alt="">
                     </div>
-                    <div class="outer_car_txt">
+                    <div class="outer_car_txt justify-content-center">
                         <p>33 tours | 72 Departures
                             61,838 guest Travelled</p>
                         <h2>Gujrat</h2>
@@ -597,7 +412,7 @@
                     <div class="inner_car_ig">
                         <img src="{{ asset('frontend/images/gallery/amep-thb.avif') }}" alt="">
                     </div>
-                    <div class="outer_car_txt">
+                    <div class="outer_car_txt justify-content-center">
                         <p>33 tours | 72 Departures
                             61,838 guest Travelled</p>
                         <h2>America</h2>
@@ -608,7 +423,7 @@
                     <div class="inner_car_ig">
                         <img src="{{ asset('frontend/images/gallery/rjwm-rjwp-1522023.avif') }}" alt="">
                     </div>
-                    <div class="outer_car_txt">
+                    <div class="outer_car_txt justify-content-center">
                         <p>33 tours | 72 Departures
                             61,838 guest Travelled</p>
                         <h2>Rajasthan</h2>
@@ -618,7 +433,7 @@
                     <div class="inner_car_ig">
                         <img src="{{ asset('frontend/images/gallery/tbh-GTSD-382021.avif') }}" alt="">
                     </div>
-                    <div class="outer_car_txt">
+                    <div class="outer_car_txt justify-content-center">
                         <p>33 tours | 72 Departures
                             61,838 guest Travelled</p>
                         <h2>Gujrat</h2>
@@ -740,7 +555,7 @@
                                             <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
                                         </div>
                                         <div class="world_upper_txt_btns travel_btn">
-                                            <a class="_btn" href="#">Book Now</a>
+                                            <a class="_btn" href="{{route('detail')}}">Book Now</a>
                                         </div>
                                     </div>
                                 </div>
@@ -770,7 +585,7 @@
                                             <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
                                         </div>
                                         <div class="world_upper_txt_btns travel_btn">
-                                            <a class="_btn" href="#">Book Now</a>
+                                            <a class="_btn" href="{{route('detail')}}">Book Now</a>
                                         </div>
                                     </div>
                                 </div>
@@ -798,17 +613,9 @@
               <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
-                <div class="upper_type_date">
-                  <p>Group Tour</p>
-                  <p style="
-                        background: #fb7d03;
-                        color: #fff;
-                        padding: 2px;">
-                    EUEP
-                  </p>
-                </div>
+                
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> European Marvels </h6>
+                  <h6 class="type_xtxt"> Jaipur </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -824,26 +631,16 @@
                 </div>
               </div>
             </div>
-            <div class="outer_car_txt">
-              <div class="days skit">
-                <p>Days</p>
-                <span style="color: #595959;">17 days</span>
+            <div class="">
+              
+              <div class="destination">
+                <p style="margin: 0;">Home Stay.Trip Dekho</p>
+                <span>Vrindavan launge and hotels</span>
               </div>
-              <div class="destination skit">
-                <p>Destinations</p>
-                <span>12 countries 27 cities</span>
-              </div>
-              <div class="departures skit">
-                <p>Departures</p>
-                <span>3 Dates</span>
-              </div>
+              
             </div>
             <div class="options_tav night">
-              <div class="outer_car_txt ">
-                <div class="night_ski skit">
-                  <p>EMI from</p>
-                  <span><a href="#">₹14,162/mo</a></span>
-                </div>
+              <div class="outer_car_txt justify-content-center justify-content-center">
                 <div class="destination skit">
                   <div class="manags">
                     <p>Starts from
@@ -854,12 +651,9 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="#">View More Options</a>
+                <a class="_btn" href="{{route('detail')}}">Book Now</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
           <div class="plan_outer">
@@ -868,17 +662,9 @@
               <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
-                <div class="upper_type_date">
-                  <p>Group Tour</p>
-                  <p style="
-                        background: #fb7d03;
-                        color: #fff;
-                        padding: 2px;">
-                    EUEP
-                  </p>
-                </div>
+                
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> European Marvels </h6>
+                  <h6 class="type_xtxt"> Jodhpur </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -894,25 +680,19 @@
                 </div>
               </div>
             </div>
-            <div class="outer_car_txt">
-              <div class="days skit">
-                <p>Days</p>
-                <span style="color: #595959;">17 days</span>
+            <div class="">
+              
+              <div class="destination">
+                <p style="margin: 0;">Home Stay.Trip Dekho</p>
+                <span>Vrindavan launge and hotels</span>
               </div>
-              <div class="destination skit">
-                <p>Destinations</p>
-                <span>12 countries 27 cities</span>
-              </div>
-              <div class="departures skit">
-                <p>Departures</p>
-                <span>3 Dates</span>
-              </div>
+              
             </div>
             <div class="options_tav night">
-              <div class="outer_car_txt ">
+              <div class="outer_car_txt justify-content-center justify-content-center">
                 <div class="night_ski skit">
-                  <p>EMI from</p>
-                  <span><a href="#">₹14,162/mo</a></span>
+                  
+                  <span><a href="#"></a></span>
                 </div>
                 <div class="destination skit">
                   <div class="manags">
@@ -924,12 +704,9 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="#">View More Options</a>
+                <a class="_btn" href="{{route('detail')}}">Book Now</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
           <div class="plan_outer">
@@ -938,17 +715,9 @@
               <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
-                <div class="upper_type_date">
-                  <p>Group Tour</p>
-                  <p style="
-                        background: #fb7d03;
-                        color: #fff;
-                        padding: 2px;">
-                    EUEP
-                  </p>
-                </div>
+                
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> European Marvels </h6>
+                  <h6 class="type_xtxt"> Jaisalmer </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -964,25 +733,19 @@
                 </div>
               </div>
             </div>
-            <div class="outer_car_txt">
-              <div class="days skit">
-                <p>Days</p>
-                <span style="color: #595959;">17 days</span>
+            <div class="">
+              
+              <div class="destination">
+                <p style="margin: 0;">Home Stay.Trip Dekho</p>
+                <span>Vrindavan launge and hotels</span>
               </div>
-              <div class="destination skit">
-                <p>Destinations</p>
-                <span>12 countries 27 cities</span>
-              </div>
-              <div class="departures skit">
-                <p>Departures</p>
-                <span>3 Dates</span>
-              </div>
+              
             </div>
             <div class="options_tav night">
-              <div class="outer_car_txt ">
+              <div class="outer_car_txt justify-content-center ">
                 <div class="night_ski skit">
-                  <p>EMI from</p>
-                  <span><a href="#">₹14,162/mo</a></span>
+                  
+                  <span><a href="#"></a></span>
                 </div>
                 <div class="destination skit">
                   <div class="manags">
@@ -994,12 +757,9 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="#">View More Options</a>
+                <a class="_btn" href="{{route('detail')}}">Book Now</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
           <div class="plan_outer">
@@ -1008,17 +768,9 @@
               <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
-                <div class="upper_type_date">
-                  <p>Group Tour</p>
-                  <p style="
-                        background: #fb7d03;
-                        color: #fff;
-                        padding: 2px;">
-                    EUEP
-                  </p>
-                </div>
+                
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> European Marvels </h6>
+                  <h6 class="type_xtxt"> Udaipur </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -1034,25 +786,19 @@
                 </div>
               </div>
             </div>
-            <div class="outer_car_txt">
-              <div class="days skit">
-                <p>Days</p>
-                <span style="color: #595959;">17 days</span>
+            <div class="">
+              
+              <div class="destination">
+                <p style="margin: 0;">Home Stay.Trip Dekho</p>
+                <span>Vrindavan launge and hotels</span>
               </div>
-              <div class="destination skit">
-                <p>Destinations</p>
-                <span>12 countries 27 cities</span>
-              </div>
-              <div class="departures skit">
-                <p>Departures</p>
-                <span>3 Dates</span>
-              </div>
+              
             </div>
             <div class="options_tav night">
-              <div class="outer_car_txt ">
+              <div class="outer_car_txt justify-content-center ">
                 <div class="night_ski skit">
-                  <p>EMI from</p>
-                  <span><a href="#">₹14,162/mo</a></span>
+                  
+                  <span><a href="#"></a></span>
                 </div>
                 <div class="destination skit">
                   <div class="manags">
@@ -1064,12 +810,9 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="#">View More Options</a>
+                <a class="_btn" href="{{route('detail')}}">Book Now</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
           <div class="plan_outer">
@@ -1078,17 +821,9 @@
               <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
-                <div class="upper_type_date">
-                  <p>Group Tour</p>
-                  <p style="
-                        background: #fb7d03;
-                        color: #fff;
-                        padding: 2px;">
-                    EUEP
-                  </p>
-                </div>
+                
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> European Marvels </h6>
+                  <h6 class="type_xtxt"> Bikaner </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -1104,25 +839,19 @@
                 </div>
               </div>
             </div>
-            <div class="outer_car_txt">
-              <div class="days skit">
-                <p>Days</p>
-                <span style="color: #595959;">17 days</span>
+            <div class="">
+              
+              <div class="destination">
+                <p style="margin: 0;">Home Stay.Trip Dekho</p>
+                <span>Vrindavan launge and hotels</span>
               </div>
-              <div class="destination skit">
-                <p>Destinations</p>
-                <span>12 countries 27 cities</span>
-              </div>
-              <div class="departures skit">
-                <p>Departures</p>
-                <span>3 Dates</span>
-              </div>
+              
             </div>
             <div class="options_tav night">
-              <div class="outer_car_txt ">
+              <div class="outer_car_txt justify-content-center ">
                 <div class="night_ski skit">
-                  <p>EMI from</p>
-                  <span><a href="#">₹14,162/mo</a></span>
+                  
+                  <span><a href="#"></a></span>
                 </div>
                 <div class="destination skit">
                   <div class="manags">
@@ -1134,12 +863,9 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="#">View More Options</a>
+                <a class="_btn" href="{{route('detail')}}">Book Now</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
 
