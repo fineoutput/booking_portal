@@ -341,11 +341,16 @@
         <div id="one-way-inputs" style="display: block;">
           <div class="row">
             <div class="col-lg-4">
-            <div class="mb-3">
-  <label for="departure-location" class="form-label">Departure Location</label>
+            <div class="mb-3 loc_stl">
+            <div class="select_sect">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
+    width: 20px;
+">
+                  <label for="pickup-airport" class="form-label">Destination City</label>
+                </div>
   <input
     type="text"
-    class="form-control"
+    class="form-control no-form"
     id="departure-location"
     placeholder="Enter departure location"
     data-bs-toggle="modal"
@@ -373,12 +378,6 @@
 </div>
             </div>
           
-            <div class="col-lg-4">
-          <div class="mb-3">
-            <label for="pickup-date" class="form-label">Pickup Date</label>
-            <input type="date" class="form-control" id="return-date">
-          </div>
-          </div>
 
           <div class="col-lg-4">
           <div class="mb-3 loc_stl">
@@ -419,6 +418,18 @@
     </div>
   </div>
 </div>
+          </div>
+
+          <div class="col-lg-4">
+          <div class="mb-3">
+          <div class="select_sect">
+                  <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="
+    width: 20px;
+">
+                  <label for="pickup-time" class="form-label">Pickup Date</label>
+                </div>
+            <input style="width: 50%;" type="date" class="form-control no-form" id="return-date">
+          </div>
           </div>
         </div>
         </div>
