@@ -57,7 +57,7 @@
       
       </div>
       <select class="form-select" id="trip-type" style="width: 50%; text-align: center;" onchange="updateInputs()">
-        <option value="pickup">Select</option>
+        <option disabled>Select</option>
         <option value="pickup">Pickup from Airport/Railway station</option>
         <option value="drop">Drop to Airport/Railway station</option>
       </select>
@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <div id="pickup-inputs" style="display: none;">
+    <div id="pickup-inputs" style="display: block;">
       <div class="mb-3">
         <label for="pickup-airport" class="form-label">Pickup from</label>
         <select class="form-select" id="pickup-airport">
@@ -370,7 +370,7 @@ function updateInputs() {
     pickupInputs.style.display = "none";
     dropInputs.style.display = "block";
   } else {
-    pickupInputs.style.display = "none";
+    pickupInputs.style.display = "block";
     dropInputs.style.display = "none";
   }
 }
