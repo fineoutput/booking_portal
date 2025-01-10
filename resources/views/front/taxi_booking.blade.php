@@ -320,16 +320,25 @@
     <div class="tab-pane fade" id="outstation" role="tabpanel" aria-labelledby="outstation-tab">
       <form>
         <div class="mb-3">
+        <div class="omh_air_rail">
+            <div class="lo_ka">
+              <div class="act_trans">
+                <img style="width: 20px;" src="{{asset('frontend/images/destination.png')}}" alt="">
+                <label for="trip-type" class="form-label whtts">Select Trip</label>
+
+              </div>
           <label for="type" class="form-label">Trip Type</label>
-          <select class="form-select" id="type" onchange="updateTypes()">
-            <option value="">Select type</option>
+          <select class="form-select mormal" id="type" onchange="updateTypes()">
+            <option disabled>Select type</option>
             <option value="one-way">One-Way</option>
             <option value="round-trip">Round Trip</option>
           </select>
+          </div>
+          </div>
         </div>
 
         <!-- One-Way Specific Inputs -->
-        <div id="one-way-inputs" style="display: none;">
+        <div id="one-way-inputs" style="display: block;">
           <div class="mb-3">
             <label for="departure-location" class="form-label">Departure Location</label>
             <input type="text" class="form-control" id="departure-location" placeholder="Enter departure location">

@@ -296,7 +296,7 @@ function updateTypes() {
     oneWayInputs.style.display = "none";
     roundTripInputs.style.display = "block";
   } else {
-    oneWayInputs.style.display = "none";
+    oneWayInputs.style.display = "block";
     roundTripInputs.style.display = "none";
   }
 }

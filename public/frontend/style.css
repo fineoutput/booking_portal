@@ -1432,6 +1432,9 @@ textarea.form-control {
   .confirss_sect .container {
       padding: 20px;
   }
+.mormal, .lo_ka{
+  width: 100% !important;
+}
 
   .confirss_sect h2 {
       font-size: 1.5rem;
@@ -1650,6 +1653,9 @@ textarea.form-control {
   border: none;
   background: none;
 }
+.no-form-select{
+  border: none;
+}
 .subbs{
   display: flex;
       flex-direction: column;
@@ -1665,4 +1671,36 @@ textarea.form-control {
   border: 1px solid #0000001f;
   border-radius: 20px;
   padding: 5px;
+}
+.omh_air_rail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.lo_ka {
+  width: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 9px 11px 8px 2px #00000012;
+  padding: 5px;
+}
+.act_trans .whtts{
+  font-size: 20px;
+}
+.mormal{
+  width: 50%;
+}
+:root{
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgba(59, 130, 246, .5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur: ;
+  --tw-brightness: ;
 }
