@@ -56,7 +56,7 @@
                     <span>To Seamless Travel Adventures</span>
                 </div>
                 <div class="gate_para">
-                    <p class="kWdvAD">Welcome to <b>Tour Dekho</b>, your all-in-one platform designed to simplify travel planning. With user-friendly features, unbeatable deals, and personalized services, we make booking your next adventure effortless and enjoyable.</p>
+                    <p class="kWdvAD">Welcome to <b>Trip Dekho</b>, your all-in-one platform designed to simplify travel planning. With user-friendly features, unbeatable deals, and personalized services, we make booking your next adventure effortless and enjoyable.</p>
                 </div>
             </div>
             <div class="col-lg-6">

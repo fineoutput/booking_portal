@@ -279,30 +279,7 @@ function selectCity(state, city) {
 
 
 /////////////////////Select car type
-const selectCar = (carType) => {
-  document.getElementById('car').value= carType
-  var modal = document.getElementById('carmodal');
-  var bootstrapmodal = bootstrap.Modal.getInstance(modal);
-  bootstrapmodal.hide();
-  
-}
 
-function updateInputs() {
-  const tripType = document.getElementById("trip-type").value;
-  const pickupInputs = document.getElementById("pickup-inputs");
-  const dropInputs = document.getElementById("drop-inputs");
-
-  if (tripType === "pickup") {
-    pickupInputs.style.display = "block";
-    dropInputs.style.display = "none";
-  } else if (tripType === "drop") {
-    pickupInputs.style.display = "none";
-    dropInputs.style.display = "block";
-  } else {
-    pickupInputs.style.display = "none";
-    dropInputs.style.display = "none";
-  }
-}
 
 
 // Initialize the form with "Pickup" as the default option

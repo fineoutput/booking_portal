@@ -1642,3 +1642,10 @@ textarea.form-control {
   justify-content: space-between;
   align-items: baseline;
 }
+
+.loc_stl {
+  border-right: 2px solid;
+}
+.no-form{
+  border: none;
+}
