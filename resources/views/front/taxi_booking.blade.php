@@ -49,12 +49,20 @@
       <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
   <form>
     <div class="mb-3">
-      <label for="trip-type" class="form-label">Trip</label>
-      <select class="form-select" id="trip-type" style="width: 50%;" onchange="updateInputs()">
+      <div class="omh_air_rail" >
+        <div class="lo_ka">
+          <div class="act_trans">
+            <img style="width: 20px;" src="{{asset('frontend/images/destination.png')}}" alt="">
+      <label for="trip-type" class="form-label whtts">Select Trip</label>
+      
+      </div>
+      <select class="form-select" id="trip-type" style="width: 50%; text-align: center;" onchange="updateInputs()">
         <option value="pickup">Select</option>
         <option value="pickup">Pickup from Airport/Railway station</option>
         <option value="drop">Drop to Airport/Railway station</option>
       </select>
+      </div>
+      </div>
     </div>
 
     <div id="pickup-inputs" style="display: none;">
