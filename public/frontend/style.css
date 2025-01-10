@@ -1648,4 +1648,21 @@ textarea.form-control {
 }
 .no-form{
   border: none;
+  background: none;
+}
+.subbs{
+  display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+}
+.final_amy_see {
+  display: flex;
+  align-items: center;
+}
+.insidee {
+  text-align: center;
+  border: 1px solid #0000001f;
+  border-radius: 20px;
+  padding: 5px;
 }
