@@ -179,36 +179,54 @@
             <div class="modal-body suther">
                 <form class="suther">
                     <h6 class="fw-bold suther">Tourists Information</h6>
-                    <div class="mb-3 suther">
-                        <label for="touristName" class="form-label suther">Name</label>
-                        <input type="text" class="form-control suther" id="touristName" placeholder="Enter Name">
+                    <div class="row mb-3 suther">
+                        <div class="col-md-6 suther">
+                            <label for="touristName" class="form-label suther">Name</label>
+                            <input type="text" class="form-control suther" id="touristName" placeholder="Enter Name">
+                        </div>
+                        <div class="col-md-6 suther">
+                            <label for="touristAge" class="form-label suther">Age</label>
+                            <input type="number" class="form-control suther" id="touristAge" placeholder="Enter Age">
+                        </div>
                     </div>
-                    <div class="mb-3 suther">
-                        <label for="touristAge" class="form-label suther">Age</label>
-                        <input type="number" class="form-control suther" id="touristAge" placeholder="Enter Age">
+                    <div class="row mb-3 suther">
+                        <div class="col-md-6 suther">
+                            <label for="touristPhone" class="form-label suther">Phone No.</label>
+                            <input type="text" class="form-control suther" id="touristPhone" placeholder="Enter Phone No.">
+                        </div>
+                        <div class="col-md-6 suther">
+                            <label for="aadharUploadFront" class="form-label suther">Aadhaar Card (Front)</label>
+                            <input type="file" class="form-control suther" id="aadharUploadFront">
+                        </div>
                     </div>
-                    <div class="mb-3 suther">
-                        <label for="touristPhone" class="form-label suther">Phone No.</label>
-                        <input type="text" class="form-control suther" id="touristPhone" placeholder="Enter Phone No.">
+                    <div class="row mb-3 suther">
+                        <div class="col-md-6 suther">
+                            <label for="aadharUploadBack" class="form-label suther">Aadhaar Card (Back)</label>
+                            <input type="file" class="form-control suther" id="aadharUploadBack">
+                        </div>
                     </div>
-                    <div class="mb-3 suther">
-                        <label for="aadharUpload" class="form-label suther">Aadhar Upload</label>
-                        <input type="file" class="form-control suther" id="aadharUpload">
-                    </div>
-                    <h6 class="fw-bold suther">Driver Details</h6>
+                    <div class="row mb-3 suther">
+                    <div class="col-md-6 suther">
+                        <h6 class="fw-bold suther">Driver Details</h6>
                     <div class="mb-3 suther">
                         <label for="driverDetails" class="form-label suther">Details</label>
-                        <textarea class="form-control suther" id="driverDetails" rows="3" placeholder="Enter Details"></textarea>
+                        <textarea class="form-control suther" id="driverDetails" rows="2" placeholder="Enter Details"></textarea>
                     </div>
-                    <h6 class="fw-bold suther">Hotel Information</h6>
+                        </div>
+                    <div class="col-md-6 suther">
+<h6 class="fw-bold suther">Hotel Information</h6>
                     <div class="mb-3 suther">
                         <label for="hotelDetails" class="form-label suther">Details</label>
-                        <textarea class="form-control suther" id="hotelDetails" rows="3" placeholder="Enter Details"></textarea>
+                        <textarea class="form-control suther" id="hotelDetails" rows="2" placeholder="Enter Details"></textarea>
                     </div>
+                        </div>
+                    </div>
+                    
+                    
                     <h6 class="fw-bold suther">Additional Information</h6>
                     <div class="mb-3 suther">
                         <label for="additionalInfo" class="form-label suther">Details</label>
-                        <textarea class="form-control suther" id="additionalInfo" rows="3" placeholder="Enter Additional Information"></textarea>
+                        <textarea class="form-control suther" id="additionalInfo" rows="2" placeholder="Enter Additional Information"></textarea>
                     </div>
                 </form>
             </div>
@@ -219,4 +237,5 @@
         </div>
     </div>
 </div>
+
 @endsection
