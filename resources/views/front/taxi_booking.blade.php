@@ -45,120 +45,7 @@
     <!-- Tab content -->
     <div class="tab-content" id="bookingTabsContent">
       <!-- Airport/Railway Station -->
-      <!-- <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
-      <form>
-      <div class="mb-3">
-            <label for="local-vehicle" class="form-label">Trip</label>
-            <select class="form-select" id="local-vehicle">
-              <option value="">Select vehicle</option>
-              <option value="sedan">Sedan</option>
-              <option value="suv">SUV</option>
-              <option value="hatchback">Hatchback</option>
-            </select>
-          </div>   
-      <div class="mb-3">
-        <label for="location" class="form-label">Select Location</label>
-        <input type="text" class="form-control" id="location" placeholder="Enter location" readonly data-bs-toggle="modal" data-bs-target="#stateModal">
-      </div>
-      <div class="modal fade" id="stateModal" tabindex="-1" aria-labelledby="stateModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="stateModalLabel">Select a State</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="list-group" id="stateList">
-           
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="cityModal" tabindex="-1" aria-labelledby="cityModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cityModalLabel">Select a City</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="list-group" id="cityList">
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-          <div class="mb-3">
-            <label for="vehicle" class="form-label">Select Vehicle</label>
-           
-            <input type="text" class="form-control" id="car" placeholder="Enter location" readonly data-bs-toggle="modal" data-bs-target="#carmodal">
-          </div>
-          <div class="modal fade" id="carmodal" tabindex="-1" aria-labelledby="carmodallabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="carmodallabel">Select car type</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="car_model">
-            <div class="frst_mes" id="suv"  onclick="selectCar('SUV')" style="cursor: pointer;">
-              <h6>Suv</h6>
-              <img style="width:50%;"  src="{{asset('frontend/images/car_icons/suv.png')}}" alt="">
-            </div>
-            <div class="frst_mes" id="hatch" onclick="selectCar('Hatchback')" style="cursor: pointer;">
-              <h6>Hatchback</h6>
-              <img style="width:50%;"  src="{{asset('frontend/images/car_icons/hatchback.png')}}" alt="">
-            </div>
-            <div class="frst_mes" id="sed" onclick="selectCar('Sedan')" style="cursor: pointer;">
-              <h6>Sedan</h6>
-              <img style="width:50%;"  src="{{asset('frontend/images/car_icons/sedan.png')}}" alt="">
-            </div>
-            <div class="frst_mes" id="trav" onclick="selectCar('Traveller')" style="cursor: pointer;">
-              <h6>Traveller</h6>
-              <img style="width:50%;"  src="{{asset('frontend/images/car_icons/traveller.png')}}" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="mb-3 col-md-6">
-    <div class="start_time">
-    <label for="datetime" class="form-label">Choose start Date and Time</label>
-    <input
-    width="50%"
-      type="datetime-local" 
-      class="form-control" 
-      id="datetime" 
-      placeholder="Select date and time"
-    >
-  </div>
-    </div>
-    <div class="mb-3 col-md-6">
-    <div class="end_time">
-    <label for="datetime" class="form-label">Choose End Date and Time</label>
-    <input
-    width="50%" 
-      type="datetime-local" 
-      class="form-control" 
-      id="datetime" 
-      placeholder="Select date and time"
-    >
-  </div>
-    </div>
-  </div>
-          <div class="mb-3">
-            <label for="cost" class="form-label">Estimated Cost</label>
-            <input type="text" class="form-control" id="cost" placeholder="Calculated automatically" disabled>
-          </div>
-          <button type="submit" class="btn btn-primary">Send Request to Admin</button>
-        </form>
-      </div> -->
-
+ 
       <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
   <form>
     <div class="mb-3">
@@ -283,23 +170,51 @@
       <!-- Local Tour -->
       <div class="tab-pane fade" id="local" role="tabpanel" aria-labelledby="local-tab">
         <form>
+          <div class="row">
+            <div class="col-lg-3">
           <div class="mb-3">
+          <div class="loc_stl">
+              <div class="select_sect">
+                <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
+    width: 20px;
+">
             <label for="local-location" class="form-label">Select Location</label>
-            <input type="text" class="form-control" id="local-location" placeholder="Enter location">
+            </div>
+            <input type="text" class="form-control no-form" id="local-location" placeholder="Enter location">
+            </div>
           </div>
+          </div>
+          <div class="col-lg-3">
           <div class="mb-3">
+            <div class="loc_stl">
             <label for="local-vehicle" class="form-label">Select Vehicle</label>
+            <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
+    width: 20px;
+">
             <select class="form-select" id="local-vehicle">
               <option value="">Select vehicle</option>
               <option value="sedan">Sedan</option>
               <option value="suv">SUV</option>
               <option value="hatchback">Hatchback</option>
             </select>
+            </div>
           </div>
+          </div>
+          <div class="col-lg-3">
           <div class="start_time">
           <label for="datetime" class="form-label">Choose start Date and Time</label>
           <input style="width: 50%;" type="datetime-local" class="form-control" id="datetime" placeholder="Select date and time">
         </div>
+          </div>
+          <div class="col-lg-3">
+          <div class="start_time">
+          <label for="datetime" class="form-label">Choose start Date and Time</label>
+          <input style="width: 50%;" type="datetime-local" class="form-control" id="datetime" placeholder="Select date and time">
+        </div>
+          </div>
+          </div>
+          
+          
           <div class="mb-3">
             <label for="local-cost" class="form-label">Estimated Cost</label>
             <input type="text" class="form-control" id="local-cost" placeholder="Calculated automatically" disabled>
@@ -1004,10 +919,7 @@
               <div class="options_btns d-flex justify-content-center">
                 <a class="_btn" href="#">View More Options</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
           <div class="plan_outer">
@@ -1074,10 +986,7 @@
               <div class="options_btns d-flex justify-content-center">
                 <a class="_btn" href="#">View More Options</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
           <div class="plan_outer">
@@ -1144,10 +1053,7 @@
               <div class="options_btns d-flex justify-content-center">
                 <a class="_btn" href="#">View More Options</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
           <div class="plan_outer">
@@ -1214,10 +1120,7 @@
               <div class="options_btns d-flex justify-content-center">
                 <a class="_btn" href="#">View More Options</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
           <div class="plan_outer">
@@ -1284,10 +1187,7 @@
               <div class="options_btns d-flex justify-content-center">
                 <a class="_btn" href="#">View More Options</a>
               </div>
-              <div class="expert text-center">
-                <i class="fa-regular fa-comments"></i>
-                <a class="expert_link" href="#">Talk to a Travel Expert</a>
-              </div>
+              
             </div>
           </div>
 
@@ -1297,7 +1197,32 @@
       </div>
     </div>
   </section>
+<script>
+  const selectCar = (carType) => {
+  document.getElementById('car').value= carType
+  var modal = document.getElementById('carmodal');
+  var bootstrapmodal = bootstrap.Modal.getInstance(modal);
+  bootstrapmodal.hide();
+  
+}
 
+function updateInputs() {
+  const tripType = document.getElementById("trip-type").value;
+  const pickupInputs = document.getElementById("pickup-inputs");
+  const dropInputs = document.getElementById("drop-inputs");
+
+  if (tripType === "pickup") {
+    pickupInputs.style.display = "block";
+    dropInputs.style.display = "none";
+  } else if (tripType === "drop") {
+    pickupInputs.style.display = "none";
+    dropInputs.style.display = "block";
+  } else {
+    pickupInputs.style.display = "none";
+    dropInputs.style.display = "none";
+  }
+}
+</script>
   
 
 @endsection
