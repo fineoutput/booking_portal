@@ -350,7 +350,7 @@
                 </div>
                 <input
       type="text"
-      class="form-control modal-trigger"
+      class="form-control modal-trigger no-form"
       id="departure-location-1"
       placeholder="Enter departure location"
       data-bs-target="#cityModal"
@@ -461,40 +461,139 @@
           </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-lg-12">
+          <div class="mb-3">
+          <div class="subbs">
+            <div class="insidee">
+              <label for="local-cost" class="form-label">Estimated Cost</label>
+              <div class="final_amy_see">
+
+                <input type="text" class="form-control no-form" id="local-cost" placeholder="Calculated automatically" readonly>
+                <div class="site_price">
+                  <span>
+                    2 days
+                  </span>
+                  <span>
+                    ₹300/km
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
         </div>
         <!-- Round-Trip Specific Inputs -->
         <div id="round-trip-inputs" style="display: none;">
-          <div class="mb-3">
-            <label for="departure-location-round" class="form-label">Departure Location</label>
-            <input type="text" class="form-control" id="departure-location-round" placeholder="Enter departure location">
-          </div>
-          <div class="mb-3">
-            <label for="destination-location-round" class="form-label">Destination Location</label>
-            <input type="text" class="form-control" id="destination-location-round" placeholder="Enter destination location">
-          </div>
-          <div class="mb-3">
-            <label for="pickup-date" class="form-label">Pickup Date</label>
-            <input type="date" class="form-control" id="return-date">
-          </div>
-          <div class="mb-3">
-            <label for="return-date" class="form-label">Return Date</label>
-            <input type="date" class="form-control" id="return-date">
-          </div>
+  <div class="row">
+    <!-- Departure Location -->
+    <div class="col-lg-4">
+      <div class="mb-3 loc_stl">
+        <div class="select_sect">
+          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+          <label for="departure-location-round" class="form-label">Departure Location</label>
         </div>
+        <input
+          type="text"
+          class="form-control modal-trigger no-form"
+          id="departure-location-round"
+          placeholder="Enter departure location"
+          data-bs-target="#cityModalRound"
+          data-bs-toggle="modal"
+          data-target-input="departure-location-round"
+        >
+      </div>
+    </div>
 
-        <div class="mb-3">
-          <label for="outstation-vehicle" class="form-label">Select Vehicle</label>
-          <select class="form-select" id="outstation-vehicle">
-            <option value="">Select vehicle</option>
-            <option value="sedan">Sedan</option>
-            <option value="suv">SUV</option>
-            <option value="hatchback">Hatchback</option>
-          </select>
+    <!-- Destination Location -->
+    <div class="col-lg-4">
+      <div class="mb-3 loc_stl">
+        <div class="select_sect">
+          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+          <label for="destination-location-round" class="form-label">Destination Location</label>
         </div>
-        <div class="mb-3">
-          <label for="outstation-cost" class="form-label">Estimated Cost</label>
-          <input type="text" class="form-control" id="outstation-cost" placeholder="Calculated automatically" disabled>
+        <input
+          type="text"
+          class="form-control modal-trigger no-form"
+          id="destination-location-round"
+          placeholder="Enter destination location"
+          data-bs-target="#cityModalRound"
+          data-bs-toggle="modal"
+          data-target-input="destination-location-round"
+        >
+      </div>
+    </div>
+
+    <!-- Pickup Date -->
+    <div class="col-lg-4">
+      <div class="mb-3">
+        <div class="select_sect">
+          <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="width: 20px;">
+          <label for="pickup-date" class="form-label">Pickup Date</label>
         </div>
+        <input
+          type="date"
+          class="form-control no-form"
+          id="pickup-date"
+          style="width: 50%;"
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Return Date -->
+    <div class="col-lg-4">
+      <div class="mb-3 loc_stl">
+        <div class="select_sect">
+          <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="width: 20px;">
+          <label for="return-date" class="form-label">Return Date</label>
+        </div>
+        <input
+          type="date"
+          class="form-control no-form"
+          id="return-date"
+          style="width: 50%;"
+        >
+      </div>
+    </div>
+
+    <!-- Select Vehicle -->
+    <div class="col-lg-4">
+      <div class="mb-3 loc_stl">
+        <div class="select_sect">
+          <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
+          <label for="vehicle-round" class="form-label">Select Vehicle</label>
+        </div>
+        <input
+          type="text"
+          id="car-input-round"
+          class="form-control car-input no-form"
+          placeholder="Select a vehicle"
+          readonly
+          data-bs-toggle="modal"
+          data-bs-target="#carModalRound"
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- City Modal for Round Trip -->
+<div class="modal fade" id="cityModalRound" tabindex="-1" aria-labelledby="cityModalRoundLabel" aria-hidden="true">
+  <!-- Modal content similar to City Modal in One Way Module -->
+</div>
+
+<!-- Car Modal for Round Trip -->
+<div class="modal fade" id="carModalRound" tabindex="-1" aria-labelledby="carModalRoundLabel" aria-hidden="true">
+  <!-- Modal content similar to Car Modal in One Way Module -->
+</div>
+
+
+        
+        
         <button type="submit" class="btn btn-primary">Send Request to Admin</button>
       </form>
     </div>
