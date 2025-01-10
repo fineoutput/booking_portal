@@ -339,20 +339,89 @@
 
         <!-- One-Way Specific Inputs -->
         <div id="one-way-inputs" style="display: block;">
-          <div class="mb-3">
-            <label for="departure-location" class="form-label">Departure Location</label>
-            <input type="text" class="form-control" id="departure-location" placeholder="Enter departure location">
-          </div>
-          <div class="mb-3">
-            <label for="destination-location" class="form-label">Destination Location</label>
-            <input type="text" class="form-control" id="destination-location" placeholder="Enter destination location">
-          </div>
+          <div class="row">
+            <div class="col-lg-4">
+            <div class="mb-3">
+  <label for="departure-location" class="form-label">Departure Location</label>
+  <input
+    type="text"
+    class="form-control"
+    id="departure-location"
+    placeholder="Enter departure location"
+    data-bs-toggle="modal"
+    data-bs-target="#cityModal"
+  >
+</div>
+<div class="modal fade" id="cityModal" tabindex="-1" aria-labelledby="cityModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cityModalLabel">Select a City</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item">New York</li>
+          <li class="list-group-item">Los Angeles</li>
+          <li class="list-group-item">Chicago</li>
+          <li class="list-group-item">Houston</li>
+          <li class="list-group-item">Phoenix</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+            </div>
+          
+            <div class="col-lg-4">
           <div class="mb-3">
             <label for="pickup-date" class="form-label">Pickup Date</label>
             <input type="date" class="form-control" id="return-date">
           </div>
-        </div>
+          </div>
 
+          <div class="col-lg-4">
+          <div class="mb-3 loc_stl">
+    <div class="select_sect">
+      <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
+      <label for="vehicle3" class="form-label">Select Vehicle</label>
+    </div>
+    <input type="text" id="car-input4" class="form-control car-input no-form" placeholder="Select a vehicle" readonly data-bs-toggle="modal" data-bs-target="#carmodal4">
+  </div>
+  <div class="modal fade" id="carmodal4" tabindex="-1" aria-labelledby="carmodallabel4" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="carmodallabel4">Select car type</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="car_model">
+          <div class="frst_mes" onclick="selectCar('SUV', 'car-input4', 'carmodal4')" style="cursor: pointer;">
+            <h6>SUV</h6>
+            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="SUV">
+          </div>
+          <div class="frst_mes" onclick="selectCar('Hatchback', 'car-input4', 'carmodal4')" style="cursor: pointer;">
+            <h6>Hatchback</h6>
+            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/hatchback.png') }}" alt="Hatchback">
+          </div>
+          <div class="frst_mes" onclick="selectCar('Sedan', 'car-input4', 'carmodal4')" style="cursor: pointer;">
+            <h6>Sedan</h6>
+            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/sedan.png') }}" alt="Sedan">
+          </div>
+          <div class="frst_mes" onclick="selectCar('Traveller', 'car-input4', 'carmodal4')" style="cursor: pointer;">
+            <h6>Traveller</h6>
+            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/traveller.png') }}" alt="Traveller">
+          </div>
+          <!-- Add more car options as needed -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+        </div>
         <!-- Round-Trip Specific Inputs -->
         <div id="round-trip-inputs" style="display: none;">
           <div class="mb-3">
@@ -433,6 +502,16 @@
       dropInputs.style.display = "none";
     }
   }
+
+  document.querySelectorAll('.list-group-item').forEach(item => {
+  item.addEventListener('click', function () {
+    const inputField = document.getElementById('departure-location');
+    inputField.value = this.textContent;
+    const modal = bootstrap.Modal.getInstance(document.getElementById('cityModal'));
+    modal.hide(); // Close the modal
+  });
+});
+
 </script>
 
 
