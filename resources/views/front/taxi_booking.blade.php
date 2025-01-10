@@ -497,13 +497,8 @@
         </div>
         <input
           type="text"
-          class="form-control modal-trigger no-form"
-          id="departure-location-round"
-          placeholder="Enter departure location"
-          data-bs-target="#cityModalRound"
-          data-bs-toggle="modal"
-          data-target-input="departure-location-round"
-        >
+          class="form-control no-form"
+          placeholder="Enter departure location">
       </div>
     </div>
 
@@ -517,11 +512,7 @@
         <input
           type="text"
           class="form-control modal-trigger no-form"
-          id="destination-location-round"
           placeholder="Enter destination location"
-          data-bs-target="#cityModalRound"
-          data-bs-toggle="modal"
-          data-target-input="destination-location-round"
         >
       </div>
     </div>
@@ -588,8 +579,37 @@
 
 <!-- Car Modal for Round Trip -->
 <div class="modal fade" id="carModalRound" tabindex="-1" aria-labelledby="carModalRoundLabel" aria-hidden="true">
-  <!-- Modal content similar to Car Modal in One Way Module -->
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="carModalRoundLabel">Select Vehicle Type</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="car_model">
+          <div class="frst_mes" onclick="selectCar('SUV', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
+            <h6>SUV</h6>
+            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="SUV">
+          </div>
+          <div class="frst_mes" onclick="selectCar('Hatchback', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
+            <h6>Hatchback</h6>
+            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/hatchback.png') }}" alt="Hatchback">
+          </div>
+          <div class="frst_mes" onclick="selectCar('Sedan', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
+            <h6>Sedan</h6>
+            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/sedan.png') }}" alt="Sedan">
+          </div>
+          <div class="frst_mes" onclick="selectCar('Traveller', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
+            <h6>Traveller</h6>
+            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/traveller.png') }}" alt="Traveller">
+          </div>
+          <!-- Add more car options here -->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 
         
