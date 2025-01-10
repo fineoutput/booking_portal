@@ -348,34 +348,63 @@
 ">
                   <label for="pickup-airport" class="form-label">Destination City</label>
                 </div>
-  <input
-    type="text"
-    class="form-control no-form"
-    id="departure-location"
-    placeholder="Enter departure location"
-    data-bs-toggle="modal"
-    data-bs-target="#cityModal"
-  >
+                <input
+      type="text"
+      class="form-control modal-trigger"
+      id="departure-location-1"
+      placeholder="Enter departure location"
+      data-bs-target="#cityModal"
+      data-bs-toggle="modal"
+      data-target-input="departure-location-1"
+    >
 </div>
 <div class="modal fade" id="cityModal" tabindex="-1" aria-labelledby="cityModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="cityModalLabel">Select a City</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <ul class="list-group">
-          <li class="list-group-item">New York</li>
-          <li class="list-group-item">Los Angeles</li>
-          <li class="list-group-item">Chicago</li>
-          <li class="list-group-item">Houston</li>
-          <li class="list-group-item">Phoenix</li>
-        </ul>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cityModalLabel">Select a City</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row g-4">
+              <!-- City items -->
+              <div class="col-3 city-item" data-city="New York">
+                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FUdaipur_1.png&w=128&q=75" alt="New York">
+                <p>Jaipur</p>
+              </div>
+              <div class="col-3 city-item" data-city="Los Angeles">
+                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJodhpur_1.png&w=128&q=75" alt="Los Angeles">
+                <p>Jodhpur</p>
+              </div>
+              <div class="col-3 city-item" data-city="Chicago">
+                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="Chicago">
+                <p>Udaipur</p>
+              </div>
+              <div class="col-3 city-item" data-city="Houston">
+                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2Fpali_edit.jpg&w=128&q=75" alt="Houston">
+                <p>Pali</p>
+              </div>
+
+              <div class="col-3 city-item" data-city="Phoenix">
+                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FLucknow.png&w=128&q=75" alt="Phoenix">
+                <p>Lukhnow</p>
+              </div>
+              <div class="col-3 city-item" data-city="San Francisco">
+                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FBengaluru.png&w=128&q=75" alt="San Francisco">
+                <p>Banglore</p>
+              </div>
+              <div class="col-3 city-item" data-city="Miami">
+                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FDelhi.png&w=128&q=75" alt="Miami">
+                <p>Delhi NCR</p>
+              </div>
+              
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
             </div>
           
 
@@ -514,14 +543,22 @@
     }
   }
 
-  document.querySelectorAll('.list-group-item').forEach(item => {
+  document.querySelectorAll('.city-item').forEach(item => {
   item.addEventListener('click', function () {
-    const inputField = document.getElementById('departure-location');
-    inputField.value = this.textContent;
+    // Get the corresponding input field ID from the modal trigger
+    const targetInputId = document.querySelector('.modal-trigger[data-bs-target="#cityModal"]').getAttribute('data-target-input');
+    const inputField = document.getElementById(targetInputId);
+
+    // Set the selected city name to the input field
+    const selectedCity = this.querySelector('p').textContent.trim();
+    inputField.value = selectedCity;
+
+    // Close the modal
     const modal = bootstrap.Modal.getInstance(document.getElementById('cityModal'));
-    modal.hide(); // Close the modal
+    modal.hide();
   });
 });
+
 
 </script>
 
