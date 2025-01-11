@@ -59,7 +59,7 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="image">Images</label>
+                                    <label for="image">Select Multipal Images</label>
                                     <input type="file" name="image[]" class="form-control" multiple>
                                     <small class="form-text text-muted">Leave blank to keep existing images.</small>
                                     @if($package->image)
@@ -75,7 +75,7 @@
                                 </div>
                             
                                 <div class="form-group">
-                                    <label for="video">Videos</label>
+                                    <label for="video">Select Multipal Videos</label>
                                     <input type="file" name="video[]" class="form-control" multiple>
                                     <small class="form-text text-muted">Leave blank to keep existing videos.</small>
                                     @if($package->video)
@@ -140,4 +140,36 @@
         });
     });
 </script>
+
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+<script>
+    CKEDITOR.replace('text_description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 200
+    });
+
+    // Initialize CKEditor for long description
+    CKEDITOR.replace('text_description_2', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
+</script>
+
 @endsection

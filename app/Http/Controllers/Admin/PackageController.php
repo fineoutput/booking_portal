@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
+use App\Models\City;
+use App\Models\State;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class PackageController extends Controller
 {
@@ -13,6 +16,23 @@ class PackageController extends Controller
         $data['package'] = Package::orderBy('id','DESC')->get();
         return view('admin/package/index',$data);
     }
+
+    public function getCitiesByState($stateId)
+    {
+        try {
+            $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
+            
+            // Log the cities to check if they are being fetched correctly
+            Log::info('Cities: ', $cities->toArray());
+        
+            return response()->json(['cities' => $cities]);
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Error fetching cities: ' . $e->getMessage());
+            return response()->json(['error' => 'Error fetching cities'], 500);
+        }
+    }
+
 
     function create(Request $request) {
         if($request->method()=='POST'){
@@ -61,7 +81,9 @@ class PackageController extends Controller
     
         }
 
-        return view('admin/package/create');
+        $data['states'] = State::all();
+
+        return view('admin/package/create',$data);
     }
 
     public function destroy($id)

@@ -42,7 +42,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/deleteTeam/{id}', [TeamController::class, 'deleteTeam'])->name('deleteTeam');
    
    
-   
+
    // Admin CRM settings ------------------------
    Route::get('/add_settings', [CrmController::class, 'add_settings'])->name('add_settings');
    Route::get('/view_settings', [CrmController::class, 'view_settings'])->name('view_settings');
@@ -64,7 +64,8 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::match(['get','post'],'/package/create', [PackageController::class, 'create'])->name('add_package');
    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('packages.destroy');
    Route::get('packages/{id}/edit', [PackageController::class, 'edit'])->name('packages.edit');
-   Route::put('packages/{id}', [PackageController::class, 'update'])->name('update_hotels');
+   Route::put('packages/{id}', [PackageController::class, 'update'])->name('packages.update');
+   Route::get('/cities/{stateId}', [PackageController::class, 'getCitiesByState']);
 
 
 

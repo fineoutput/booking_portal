@@ -12,7 +12,10 @@ class Vehicle extends Model
     protected $fillable = [
         'name',
         'phone',
+        'vehicle_type',
+        'description',
         'state',
+        'status',
         'city',
         'remarks',
     ];
