@@ -55,8 +55,8 @@
             <h5 class="fw-bold suther">Bookings</h5>
             <p class="suther">View your booking history and manage reservations.</p>
             <!-- Bookings Details Section -->
-            <div class="table-responsive">
-            <table class="table table-striped suther">
+            <div class="table-responsive ">
+            <table class="table table-bordered suther">
                 <thead class="suther">
                     <tr class="suther">
                         <th class="suther">#</th>
@@ -65,6 +65,7 @@
                         <th class="suther">Date</th>
                         <th class="suther">Status</th>
                         <th class="suther">Action</th>
+                        <th class="suther">Tourist List</th>
                     </tr>
                 </thead>
                 <tbody class="suther">
@@ -75,8 +76,11 @@
                         <td class="suther">2024-12-20</td>
                         <td class="suther">Confirmed</td>
                         <td class="suther">
-                            <button class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#packageDetailsModal">Enter Details</button>
+                            <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#packageDetailsModal">Enter Details</button>
                         </td>
+                        <td class="suther">
+                        <button style="width: 100%;" class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#touristListModal" onclick="showTouristList(1)">View List</button>
+                    </td>
                     </tr>
                     <tr class="suther">
                         <td class="suther">2</td>
@@ -164,6 +168,22 @@
             <h5 class="fw-bold suther">Terms & Conditions</h5>
             <p class="suther">Read the terms and conditions associated with your account.</p>
             <p class="suther">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vehicula justo at urna facilisis, vel tempus libero fermentum.</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade suther" id="touristListModal" tabindex="-1" aria-labelledby="touristListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg suther">
+        <div class="modal-content suther">
+            <div class="modal-header suther">
+                <h5 class="modal-title suther" id="touristListModalLabel">Tourist List</h5>
+                <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body suther">
+                <div id="touristListContainer" class="suther">
+                    <!-- Dynamic tourist list will be displayed here -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -286,5 +306,38 @@
     });
 });
 
+
+const touristData = {
+        1: [
+            { name: 'Alice Smith', age: 30, phone: '+1 123 456 7890' },
+            { name: 'Bob Johnson', age: 35, phone: '+1 987 654 3210' }
+        ],
+        2: [
+            { name: 'Charlie Brown', age: 28, phone: '+1 123 987 6543' }
+        ]
+    };
+
+    // Function to display the tourist list in the modal
+    function showTouristList(bookingId) {
+        const touristList = touristData[bookingId] || [];
+        const container = document.getElementById('touristListContainer');
+        container.innerHTML = '';
+        
+        if (touristList.length > 0) {
+            touristList.forEach((tourist, index) => {
+                container.innerHTML += `
+                    <div class="mb-3 suther">
+                        <p><strong>Tourist ${index + 1}:</strong></p>
+                        <p>Name: ${tourist.name}</p>
+                        <p>Age: ${tourist.age}</p>
+                        <p>Phone: ${tourist.phone}</p>
+                    </div>
+                    <hr>
+                `;
+            });
+        } else {
+            container.innerHTML = '<p>No tourist details available for this booking.</p>';
+        }
+    }
 </script>
 @endsection
