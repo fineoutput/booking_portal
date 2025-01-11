@@ -6,15 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9 mt-5">
-                <div class="upper_type_date">
-                    <p>Group Tour</p>
-                    <p style="
-                                        background: #fb7d03;
-                                        color: #fff;
-                                        padding: 2px;">
-                        EUEP
-                    </p>
-                </div>
+               
                 <div class="head_txxt">
                     <h4>Delhi Agra Haridwar Rishikesh</h4>
                     <div class="hum_str">
@@ -165,14 +157,23 @@
                         </div>
 
                         <!-- Extra Bed -->
-                        <div class="mb-3">
+                        <div class="mb-3 row">
+                        <div class="col-md-6">
                             <label for="extraBed" class="form-label">Extra Bed</label>
                             <select id="extraBed" class="form-select" required>
                                 <option value="yes">Yes</option>
                                 <option value="no">No</option>
                             </select>
                         </div>
-
+                        <div class="col-md-6">
+                            <label for="mealPlan" class="form-label">Meal Plan</label>
+                            <select id="mealPlan" class="form-select" required>
+                                <option value="" disabled selected>Select meal plan</option>
+                                <option value="plan1">Plan 1</option>
+                                <option value="plan2">Plan 2</option>
+                            </select>
+                        </div>
+                        </div>
                         <!-- Hotel & Room Preferences -->
                         <div class="mb-3 row">
                             <div class="col-md-6">
@@ -194,14 +195,7 @@
                         </div>
 
                         <!-- Meal Plan -->
-                        <div class="mb-3">
-                            <label for="mealPlan" class="form-label">Meal Plan</label>
-                            <select id="mealPlan" class="form-select" required>
-                                <option value="" disabled selected>Select meal plan</option>
-                                <option value="plan1">Plan 1</option>
-                                <option value="plan2">Plan 2</option>
-                            </select>
-                        </div>
+                        
 
                         <!-- Vehicle Options -->
                         <div class="mb-3 row">
