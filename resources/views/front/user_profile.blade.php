@@ -66,6 +66,7 @@
                         <th class="suther">Status</th>
                         <th class="suther">Action</th>
                         <th class="suther">Tourist List</th>
+                        <th class="suther">Request Upgrade</th>
                     </tr>
                 </thead>
                 <tbody class="suther">
@@ -81,6 +82,9 @@
                         <td class="suther">
                         <button  class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#touristListModal" onclick="showTouristList(1)">View List</button>
                     </td>
+                    <td class="suther">
+                        <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#upgradeRequestModal">Request Upgrade</button>
+                    </td>
                     </tr>
                     <tr class="suther">
                         <td class="suther">2</td>
@@ -93,6 +97,9 @@
                         </td>
                         <td class="suther">
                         <button  class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#touristListModal" onclick="showTouristList(2)">View List</button>
+                    </td>
+                    <td class="suther">
+                        <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#upgradeRequestModal">Request Upgrade</button>
                     </td>
                     </tr>
                 </tbody>
@@ -247,6 +254,35 @@
             <div class="modal-footer suther">
                 <button type="button" class="btn btn-secondary suther" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary suther">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade suther" id="upgradeRequestModal" tabindex="-1" aria-labelledby="upgradeRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg suther">
+        <div class="modal-content suther">
+            <div class="modal-header suther">
+                <h5 class="modal-title suther" id="upgradeRequestModalLabel">Request Upgrade</h5>
+                <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body suther">
+                <form class="suther">
+                    <h6 class="fw-bold suther">Upgrade Request Details</h6>
+                    <div class="mb-3 suther">
+                        <label for="bookingId" class="form-label suther">Booking ID</label>
+                        <input type="text" class="form-control suther" id="bookingId" placeholder="Enter Booking ID">
+                    </div>
+                    <div class="mb-3 suther">
+                        <label for="upgradeDetails" class="form-label suther">Upgrade Details</label>
+                        <textarea class="form-control suther" id="upgradeDetails" rows="3" placeholder="Enter Upgrade Details"></textarea>
+                    </div>
+                    <div class="mb-3 suther">
+                        <label for="upgradeNotes" class="form-label suther">Notes</label>
+                        <textarea class="form-control suther" id="upgradeNotes" rows="3" placeholder="Enter Notes (Optional)"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success suther">Submit Request</button>
+                </form>
             </div>
         </div>
     </div>
