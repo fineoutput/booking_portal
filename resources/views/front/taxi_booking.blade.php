@@ -590,18 +590,22 @@
           <div class="frst_mes" onclick="selectCar('SUV', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
             <h6>SUV</h6>
             <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="SUV">
+            <p>₹10/km</p>
           </div>
           <div class="frst_mes" onclick="selectCar('Hatchback', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
             <h6>Hatchback</h6>
             <img style="width:50%;" src="{{ asset('frontend/images/car_icons/hatchback.png') }}" alt="Hatchback">
+            <p>₹50/km</p>
           </div>
           <div class="frst_mes" onclick="selectCar('Sedan', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
             <h6>Sedan</h6>
             <img style="width:50%;" src="{{ asset('frontend/images/car_icons/sedan.png') }}" alt="Sedan">
+            <p>₹80/km</p>
           </div>
           <div class="frst_mes" onclick="selectCar('Traveller', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
             <h6>Traveller</h6>
             <img style="width:50%;" src="{{ asset('frontend/images/car_icons/traveller.png') }}" alt="Traveller">
+            <p>₹100/km</p>
           </div>
           <!-- Add more car options here -->
         </div>
