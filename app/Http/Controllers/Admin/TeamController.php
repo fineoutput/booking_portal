@@ -47,7 +47,7 @@ class TeamController extends Controller
 			$admin_id = $req->session()->get('admin_id');
 			$admin_position = $req->session()->get('position');
 			if ($id == $admin_id) {
-				return Redirect('/view_team')->with('error', "Sorry You can't change status of yourself.");
+				return redirect()->route('view_team')->with('error', "Sorry You can't change status of yourself.");
 			}
 			if ($admin_position == "Super Admin") {
 				if ($status == "active") {
@@ -63,9 +63,9 @@ class TeamController extends Controller
 					$TeamData = Team::wherenull('deleted_at')->where('id', $id)->first();
 					$TeamData->update($teamStatusInfo);
 				}
-				return Redirect('/view_team')->with('success', 'Status Updated Successfully.');
+				return redirect()->route('view_team')->with('success', 'Status Updated Successfully.');
 			} else {
-				return Redirect('/view_team')->with('error', "Sorry you dont have Permission to change admin, Only Super admin can change status.");
+				return redirect()->route('view_team')->with('error', "Sorry you dont have Permission to change admin, Only Super admin can change status.");
 			}
 	}
 	public function deleteTeam($idd, Request $req)
@@ -74,7 +74,7 @@ class TeamController extends Controller
 			$admin_id = $req->session()->get('admin_id');
 			$admin_position = $req->session()->get('position');
 			if ($id == $admin_id) {
-				return Redirect('/view_team')->with('error', "Sorry You can't delete yourself.");
+				return redirect()->route('view_team')->with('error', "Sorry You can't delete yourself.");
 			}
 			if ($admin_position == "Super Admin") {
 				$TeamData = Team::wherenull('deleted_at')->where('id', $id)->first();
@@ -84,12 +84,12 @@ class TeamController extends Controller
 					// if (!empty($img)) {
 					// 	unlink($img);
 					// }
-					return Redirect('/view_team')->with('success', 'Data Deleted Successfully.');
+					return redirect()->route('view_team')->with('success', 'Data Deleted Successfully.');
 				} else {
-					return Redirect('/view_team')->with('error', 'Some Error Occurred.');
+					return redirect()->route('view_team')->with('error', 'Some Error Occurred.');
 				}
 			} else {
-				return Redirect('/view_team')->with('error', "Sorry You Don't Have Permission To Delete Anything.");
+				return redirect()->route('view_team')->with('error', "Sorry You Don't Have Permission To Delete Anything.");
 			}
 	}
 	public function add_team_process(Request $req)
@@ -110,18 +110,21 @@ class TeamController extends Controller
 				$ser = json_encode($services);
 			}
 			$fullimagepath = '';
+
 			if (!empty($req->img)) {
-				$allowedFormats = ['jpeg', 'jpg', 'webp'];
+
 				$extension = strtolower($req->img->getClientOriginalExtension());
-				if (in_array($extension, $allowedFormats)) {
-					$file = time() . '.' . $req->img->extension();
-					$req->img->move(public_path('uploads/image/Teams/'), $file);
-					$fullimagepath = 'uploads/image/Teams/' . $file;
-				} else {
-					// Handle invalid file format (not allowed)
-					return redirect()->back()->with('error', 'Invalid file format. Only jpeg, jpg, and webp files are allowed.');
-				}
+
+				$file = time() . '.' . $extension;
+
+				$req->img->move(public_path('uploads/image/Teams/'), $file);
+
+				$fullimagepath = 'uploads/image/Teams/' . $file;
+				
+			} else {
+				return redirect()->back()->with('error', 'No image was uploaded. Please provide a valid image.');
 			}
+
 			$teamInfo = [
 				'name' => ucwords($req->input('name')),
 				'email' => $req->input('email'),
@@ -134,9 +137,10 @@ class TeamController extends Controller
 				'ip' => $req->ip(),
 				'added_by' => $req->input('admin_id'),
 				'is_active' => 1,
+				'added_by' => 1,
 			];
 			$last_id = Team::create($teamInfo);
-			return Redirect('/view_team')->with('success', 'Data Added Successfully.');
+			return redirect()->route('view_team')->with('success', 'Data Added Successfully.');
 		//return response()->json(['response' => 'OK']);
 	}
 	//

@@ -63,7 +63,7 @@ class VehicleController extends Controller
         // Update the agent call with the new data
         $agentCall->vehicle_type = $request->vehicle_type;
         $agentCall->description = $request->description;
-        $agentCall->status = '1';
+        // $agentCall->status = '1';
 
         $agentCall->save();
 
