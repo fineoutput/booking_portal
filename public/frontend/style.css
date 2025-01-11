@@ -1299,7 +1299,23 @@ textarea.form-control {
 
 
 /* ////////////////////////////Login Page */
-
+.ashrsy {
+  position: absolute;
+  right: 10px;
+  border: 1px solid #00000036;
+  background: #43234633;
+  color: #010101;
+  border-radius: 20px;
+  font-weight: 700;
+}
+.khadk{
+    width: 50%;
+    font-size: 1.rem;
+    color: rgb(0, 140, 255);
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
 .fgRbqL {
   width: 100%;
   display: flex;

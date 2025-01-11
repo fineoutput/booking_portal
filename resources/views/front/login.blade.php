@@ -60,8 +60,11 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="form-container">
+                <div class="form-container" style="position: relative;">
+                    <div class="heasdds d-flex justify-content-center">
                     <h2 class="text-center mb-4" id="loginFormTitle">Login</h2>
+                    <button type="button" class="ashrsy" data-bs-toggle="modal" data-bs-target="#registerModal">Signup</button>
+                    </div>
                     <form id="loginWithEmail" class="showEmailForm">
                         <div class="mb-3">
                             <label for="emailLogin" class="form-label">Email</label>
@@ -71,13 +74,15 @@
                             <label for="passwordLogin" class="form-label">Password</label>
                             <input type="password" class="form-control" id="passwordLogin" name="passwordLogin" placeholder="Enter your password" required>
                         </div>
+                        <div class="small-buttons-container">
+                            
+                            <button style="width: 50%;" type="button" class="khadk" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</button>
+                            <button style="width: 50%;" type="button" class="khadk" id="toggleLoginTypeBtn" onclick="toggleLoginForm()">Login with Phone</button>
+                        </div>
+                        
                         <button type="submit" class="btn btn-primary">Login</button>
 
-                        <div class="small-buttons-container">
-                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register Instead</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" id="toggleLoginTypeBtn" onclick="toggleLoginForm()">Login with Phone</button>
-                        </div>
+                       
                     </form>
 
                     <!-- Phone Login Form -->
@@ -112,14 +117,22 @@
                             </div>
                             <div class="modal-body">
                                 <form>
+                                    <div class="row">
+                                        <div class="col-lg-5">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name</label>
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
                                     </div>
-                                    <div class="mb-3">
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="mb-3">
                                         <label for="businessName" class="form-label">Business Name</label>
                                         <input type="text" class="form-control" id="businessName" name="businessName" placeholder="Enter your business name" required>
                                     </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="state" class="form-label">State</label>
@@ -130,34 +143,67 @@
                                             <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="aadhar" class="form-label">Aadhar Upload</label>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                        <div class="mb-3">
+                                        <label for="aadhar" class="form-label">Aadhar Upload Front</label>
                                         <input type="file" class="form-control" id="aadhar" name="aadhar" required>
                                     </div>
-                                    <div class="mb-3">
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="mb-3">
+                                        <label for="aadhar" class="form-label">Aadhar Upload back</label>
+                                        <input type="file" class="form-control" id="aadhar" name="aadhar" required>
+                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                           <div class="mb-3">
                                         <label for="pan" class="form-label">Pan Upload</label>
                                         <input type="file" class="form-control" id="pan" name="pan" required>
-                                    </div>
-                                    <div class="mb-3">
+                                    </div> 
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
                                         <label for="gst" class="form-label">GST Number</label>
                                         <input type="text" class="form-control" id="gst" name="gst" placeholder="Enter your GST Number">
                                     </div>
-                                    <div class="mb-3">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                        <div class="mb-3">
                                         <label for="email" class="form-label">E-mail ID</label>
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                                     </div>
-                                    <div class="mb-3">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
                                         <label for="password" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                                     </div>
-                                    <div class="mb-3">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                        <div class="mb-3">
                                         <label for="logo" class="form-label">Logo Upload</label>
                                         <input type="file" class="form-control" id="logo" name="logo">
                                     </div>
-                                    <div class="mb-3">
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="mb-3">
                                         <label for="charge" class="form-label">Registration Charge</label>
                                         <input type="number" class="form-control" id="charge" name="charge" placeholder="Enter registration charge">
                                     </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                   
                                     <button type="submit" class="btn btn-primary w-100">Submit</button>
                                 </form>
                             </div>
