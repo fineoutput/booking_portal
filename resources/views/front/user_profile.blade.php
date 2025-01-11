@@ -79,7 +79,7 @@
                             <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#packageDetailsModal">Enter Details</button>
                         </td>
                         <td class="suther">
-                        <button style="width: 100%;" class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#touristListModal" onclick="showTouristList(1)">View List</button>
+                        <button  class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#touristListModal" onclick="showTouristList(1)">View List</button>
                     </td>
                     </tr>
                     <tr class="suther">
@@ -89,8 +89,11 @@
                         <td class="suther">2024-12-18</td>
                         <td class="suther">Completed</td>
                         <td class="suther">
-                            <button class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#packageDetailsModal">Enter Details</button>
+                            <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#packageDetailsModal">Enter Details</button>
                         </td>
+                        <td class="suther">
+                        <button  class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#touristListModal" onclick="showTouristList(2)">View List</button>
+                    </td>
                     </tr>
                 </tbody>
             </table>
