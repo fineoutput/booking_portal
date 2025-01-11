@@ -371,32 +371,32 @@
               <!-- City items -->
               <div class="col-3 city-item" data-city="New York">
                 <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FUdaipur_1.png&w=128&q=75" alt="New York">
-                <p>Jaipur</p>
+                <p>Jaipur-Delhi</p>
               </div>
               <div class="col-3 city-item" data-city="Los Angeles">
                 <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJodhpur_1.png&w=128&q=75" alt="Los Angeles">
-                <p>Jodhpur</p>
+                <p>Jodhpur-Haryana</p>
               </div>
               <div class="col-3 city-item" data-city="Chicago">
                 <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="Chicago">
-                <p>Udaipur</p>
+                <p>Delhi-Udaipur</p>
               </div>
               <div class="col-3 city-item" data-city="Houston">
                 <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2Fpali_edit.jpg&w=128&q=75" alt="Houston">
-                <p>Pali</p>
+                <p>Pali-surat</p>
               </div>
 
               <div class="col-3 city-item" data-city="Phoenix">
                 <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FLucknow.png&w=128&q=75" alt="Phoenix">
-                <p>Lukhnow</p>
+                <p>Lukhnow-kolkata</p>
               </div>
               <div class="col-3 city-item" data-city="San Francisco">
                 <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FBengaluru.png&w=128&q=75" alt="San Francisco">
-                <p>Banglore</p>
+                <p>Banglore-ooty</p>
               </div>
               <div class="col-3 city-item" data-city="Miami">
                 <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FDelhi.png&w=128&q=75" alt="Miami">
-                <p>Delhi NCR</p>
+                <p>Delhi NCR-Noida</p>
               </div>
               
             </div>
