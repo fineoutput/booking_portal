@@ -20,7 +20,7 @@ class PackageController extends Controller
     public function getCitiesByState($stateId)
     {
         try {
-            $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
+            $cities = City::where('state_id', $stateId)->get();
             
             // Log the cities to check if they are being fetched correctly
             Log::info('Cities: ', $cities->toArray());
