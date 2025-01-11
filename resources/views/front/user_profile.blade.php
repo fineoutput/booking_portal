@@ -205,7 +205,7 @@
                             <input type="file" class="form-control suther" id="aadharUploadBack">
                         </div>
                     </div>
-                    <div class="row mb-3 suther">
+                    <!-- <div class="row mb-3 suther">
                     <div class="col-md-6 suther">
                         <h6 class="fw-bold suther">Driver Details</h6>
                     <div class="mb-3 suther">
@@ -220,7 +220,7 @@
                         <textarea class="form-control suther" id="hotelDetails" rows="2" placeholder="Enter Details"></textarea>
                     </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                     
                     <h6 class="fw-bold suther">Additional Information</h6>
