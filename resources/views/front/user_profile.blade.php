@@ -177,58 +177,49 @@
                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body suther">
-                <form class="suther">
-                    <h6 class="fw-bold suther">Tourists Information</h6>
-                    <div class="row mb-3 suther">
-                        <div class="col-md-6 suther">
-                            <label for="touristName" class="form-label suther">Name</label>
-                            <input type="text" class="form-control suther" id="touristName" placeholder="Enter Name">
-                        </div>
-                        <div class="col-md-6 suther">
-                            <label for="touristAge" class="form-label suther">Age</label>
-                            <input type="number" class="form-control suther" id="touristAge" placeholder="Enter Age">
-                        </div>
-                    </div>
-                    <div class="row mb-3 suther">
-                        <div class="col-md-6 suther">
-                            <label for="touristPhone" class="form-label suther">Phone No.</label>
-                            <input type="text" class="form-control suther" id="touristPhone" placeholder="Enter Phone No.">
-                        </div>
-                        <div class="col-md-6 suther">
-                            <label for="aadharUploadFront" class="form-label suther">Aadhaar Card (Front)</label>
-                            <input type="file" class="form-control suther" id="aadharUploadFront">
-                        </div>
-                    </div>
-                    <div class="row mb-3 suther">
-                        <div class="col-md-6 suther">
-                            <label for="aadharUploadBack" class="form-label suther">Aadhaar Card (Back)</label>
-                            <input type="file" class="form-control suther" id="aadharUploadBack">
-                        </div>
-                    </div>
-                    <!-- <div class="row mb-3 suther">
-                    <div class="col-md-6 suther">
-                        <h6 class="fw-bold suther">Driver Details</h6>
-                    <div class="mb-3 suther">
-                        <label for="driverDetails" class="form-label suther">Details</label>
-                        <textarea class="form-control suther" id="driverDetails" rows="2" placeholder="Enter Details"></textarea>
-                    </div>
-                        </div>
-                    <div class="col-md-6 suther">
-<h6 class="fw-bold suther">Hotel Information</h6>
-                    <div class="mb-3 suther">
-                        <label for="hotelDetails" class="form-label suther">Details</label>
-                        <textarea class="form-control suther" id="hotelDetails" rows="2" placeholder="Enter Details"></textarea>
-                    </div>
-                        </div>
-                    </div> -->
-                    
-                    
-                    <h6 class="fw-bold suther">Additional Information</h6>
-                    <div class="mb-3 suther">
-                        <label for="additionalInfo" class="form-label suther">Details</label>
-                        <textarea class="form-control suther" id="additionalInfo" rows="2" placeholder="Enter Additional Information"></textarea>
-                    </div>
-                </form>
+            <form class="suther" id="touristForm">
+    <h6 class="fw-bold suther">Tourists Information</h6>
+    <div id="touristContainer" class="mb-3 suther">
+        <!-- Template for Tourist Details -->
+        <div class="tourist-section suther mb-4">
+            <h6 class="fw-bold suther">Tourist 1</h6>
+            <div class="row mb-3 suther">
+                <div class="col-md-6 suther">
+                    <label for="touristName" class="form-label suther">Name</label>
+                    <input type="text" class="form-control suther touristName" placeholder="Enter Name">
+                </div>
+                <div class="col-md-6 suther">
+                    <label for="touristAge" class="form-label suther">Age</label>
+                    <input type="number" class="form-control suther touristAge" placeholder="Enter Age">
+                </div>
+            </div>
+            <div class="row mb-3 suther">
+                <div class="col-md-6 suther">
+                    <label for="touristPhone" class="form-label suther">Phone No.</label>
+                    <input type="text" class="form-control suther touristPhone" placeholder="Enter Phone No.">
+                </div>
+                <div class="col-md-6 suther">
+                    <label for="aadharUploadFront" class="form-label suther">Aadhaar Card (Front)</label>
+                    <input type="file" class="form-control suther touristAadharFront">
+                </div>
+            </div>
+            <div class="row mb-3 suther">
+                <div class="col-md-6 suther">
+                    <label for="aadharUploadBack" class="form-label suther">Aadhaar Card (Back)</label>
+                    <input type="file" class="form-control suther touristAadharBack">
+                </div>
+            </div>
+            <button type="button" class="btn btn-danger suther remove-tourist-btn">Remove Tourist</button>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary suther" id="addTouristBtn">Add Another Tourist</button>
+    <h6 class="fw-bold suther mt-4">Additional Information</h6>
+    <div class="mb-3 suther">
+        <label for="additionalInfo" class="form-label suther">Details</label>
+        <textarea class="form-control suther" id="additionalInfo" rows="2" placeholder="Enter Additional Information"></textarea>
+    </div>
+</form>
+
             </div>
             <div class="modal-footer suther">
                 <button type="button" class="btn btn-secondary suther" data-bs-dismiss="modal">Close</button>
@@ -237,5 +228,63 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    let touristCount = 1; // Initial tourist count
 
+    // Add Tourist Button
+    document.getElementById('addTouristBtn').addEventListener('click', () => {
+        touristCount++;
+        const touristContainer = document.getElementById('touristContainer');
+
+        // Create a new section for the tourist
+        const newTouristSection = document.createElement('div');
+        newTouristSection.className = 'tourist-section suther mb-4';
+        newTouristSection.innerHTML = `
+            <h6 class="fw-bold suther">Tourist ${touristCount}</h6>
+            <div class="row mb-3 suther">
+                <div class="col-md-6 suther">
+                    <label for="touristName" class="form-label suther">Name</label>
+                    <input type="text" class="form-control suther touristName" placeholder="Enter Name">
+                </div>
+                <div class="col-md-6 suther">
+                    <label for="touristAge" class="form-label suther">Age</label>
+                    <input type="number" class="form-control suther touristAge" placeholder="Enter Age">
+                </div>
+            </div>
+            <div class="row mb-3 suther">
+                <div class="col-md-6 suther">
+                    <label for="touristPhone" class="form-label suther">Phone No.</label>
+                    <input type="text" class="form-control suther touristPhone" placeholder="Enter Phone No.">
+                </div>
+                <div class="col-md-6 suther">
+                    <label for="aadharUploadFront" class="form-label suther">Aadhaar Card (Front)</label>
+                    <input type="file" class="form-control suther touristAadharFront">
+                </div>
+            </div>
+            <div class="row mb-3 suther">
+                <div class="col-md-6 suther">
+                    <label for="aadharUploadBack" class="form-label suther">Aadhaar Card (Back)</label>
+                    <input type="file" class="form-control suther touristAadharBack">
+                </div>
+            </div>
+            <button type="button" class="btn btn-danger suther remove-tourist-btn">Remove Tourist</button>
+        `;
+
+        // Append the new section
+        touristContainer.appendChild(newTouristSection);
+
+        // Add event listener for the remove button
+        newTouristSection.querySelector('.remove-tourist-btn').addEventListener('click', () => {
+            newTouristSection.remove();
+        });
+    });
+
+    // Initial Remove Tourist Button
+    document.querySelector('.remove-tourist-btn').addEventListener('click', function () {
+        this.parentElement.remove();
+    });
+});
+
+</script>
 @endsection
