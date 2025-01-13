@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CrmController;
 use App\Http\Controllers\Admin\HotelsController;
+use App\Http\Controllers\Admin\VehiclePriceController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\AgentCallsController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\VehicleController;
 use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Admin\PushNotificationController;
+use App\Http\Controllers\Admin\OutstationController;
+use App\Http\Controllers\Admin\RoundTripController;
 use App\Http\Controllers\Auth\adminlogincontroller;
 
 
@@ -99,6 +102,29 @@ Route::group(['middleware'=>'admin.auth'],function(){
     Route::put('vehicle/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
     Route::delete('vehicle/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
     Route::patch('/vehicle/{id}/status', [VehicleController::class, 'updateStatus'])->name('vehicle.updateStatus');
+
+
+    Route::get('/outstation', [OutstationController::class, 'index'])->name('outstation');
+    Route::match(['get','post'],'/outstation/create', [OutstationController::class, 'create'])->name('outstation_create');
+    Route::get('outstation/{id}/edit', [OutstationController::class, 'edit'])->name('outstation.edit');
+    Route::put('outstation/{id}', [OutstationController::class, 'update'])->name('outstation_update');
+    Route::delete('outstation/{id}', [OutstationController::class, 'destroy'])->name('outstation.destroy');
+    Route::patch('/outstation/{id}/status', [OutstationController::class, 'updateStatus'])->name('outstation.updateStatus');
+
+
+    Route::get('/roundtrip', [RoundTripController::class, 'index'])->name('roundtrip');
+    Route::match(['get','post'],'/roundtrip/create', [RoundTripController::class, 'create'])->name('roundtrip_crete');
+    Route::get('roundtrip/{id}/edit', [RoundTripController::class, 'edit'])->name('roundtrip.edit');
+    Route::put('roundtrip/{id}', [RoundTripController::class, 'update'])->name('roundtrip_update');
+    Route::delete('roundtrip/{id}', [RoundTripController::class, 'destroy'])->name('roundtrip.destroy');
+    Route::patch('/roundtrip/{id}/status', [RoundTripController::class, 'updateStatus'])->name('roundtrip.updateStatus');
+
+
+    Route::get('/vehicle-price/{id}', [VehiclePriceController::class, 'vehicleprice'])->name('vehicleprice');
+    Route::match(['get','post'],'/vehicle-price/create/{id}', [VehiclePriceController::class, 'vehiclepricecreate'])->name('vehiclepricecreate');
+    Route::get('/vehicle-price-edit/{id}', [VehiclePriceController::class, 'vehiclepriceedit'])->name('vehiclepriceedit');
+    Route::put('/vehicle-price-update/{id}', [VehiclePriceController::class, 'vehiclepriceupdate'])->name('vehiclepriceupdate');
+    Route::delete('/vehicle-price-delete/{id}', [VehiclePriceController::class, 'vehiclepricedelete'])->name('vehiclepricedelete');
 
 
     Route::get('/booking', [BookingController::class, 'index'])->name('booking');

@@ -43,12 +43,15 @@
                                 @csrf
                                 @method('PUT') <!-- Use PUT method to indicate it's an update request -->
                                 
-                                <div class="form-group">
-                                    <label for="package_name">Package Name</label>
-                                    <input type="text" name="package_name" value="{{ old('package_name', $package->package_name) }}" class="form-control">
+                               <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="package_name">Package Name</label>
+                                        <input type="text" name="package_name" value="{{ old('package_name', $package->package_name) }}" class="form-control">
+                                    </div>
                                 </div>
                                 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="package_name">State Name</label>
                                     <input type="text" name="state_id" value="{{ old('state_id', $package->state_id) }}" class="form-control">
                                 </div>
@@ -56,8 +59,33 @@
                                 <div class="form-group">
                                     <label for="package_name">City Name</label>
                                     <input type="text" name="city_id" value="{{ old('city_id', $package->city_id) }}" class="form-control">
+                                </div> --}}
+
+                                <div class="col-sm-4">
+                                    <label for="state">State</label>
+                                    <select class="form-control" id="state" name="state_id">
+                                        @foreach ($states as $state)
+                                            <option value="{{ $state->id }}" {{ old('state', isset($package) ? $package->state_id : null) == $state->id ? 'selected' : '' }}>
+                                                {{ $state->state_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    
+                                    @error('state')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label for="city">City</label>
+                                    <select class="form-control" id="city" name="city_id">
+                                    </select>
+                                    @error('city')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 
+                               <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="image">Select Multipal Images</label>
                                     <input type="file" name="image[]" class="form-control" multiple>
@@ -73,7 +101,9 @@
                                         </div>
                                     @endif
                                 </div>
+                               </div>
                             
+                               <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="video">Select Multipal Videos</label>
                                     <input type="file" name="video[]" class="form-control" multiple>
@@ -89,16 +119,35 @@
                                         </div>
                                     @endif
                                 </div>
+                               </div>
+
+                               <div class="col-sm-6"><br>
+                                <label class="form-label" style="margin-left: 10px" for="pdf">Upload PDF</label>
+                                @if($package->pdf)
+                                    <div>
+                                        <a href="{{ asset('storage/' . $package->pdf) }}" target="_blank">View Current PDF</a>
+                                    </div>
+                                @endif
+                                <input type="file" name="pdf" id="pdf" class="form-control">
+                                @error('pdf')
+                                    <div style="color:red">{{ $message }}</div>
+                                @enderror
+                            </div>
                                 
-                                <div class="form-group">
-                                    <label for="text_description">Text Description</label>
-                                    <textarea name="text_description" class="form-control">{{ old('text_description', $package->text_description) }}</textarea>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="text_description">Text Description</label>
+                                        <textarea name="text_description" class="form-control">{{ old('text_description', $package->text_description) }}</textarea>
+                                    </div>
                                 </div>
                                 
+                               <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="text_description_2">Additional Text Description</label>
                                     <textarea name="text_description_2" class="form-control">{{ old('text_description_2', $package->text_description_2) }}</textarea>
                                 </div>
+                               </div>
+                               </div>
                                 
                                 <button type="submit" class="btn btn-primary">Update Package</button>
                             </form>
@@ -114,6 +163,52 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+
+<script>
+    $(document).ready(function() {
+        // Load cities for the selected state when the page loads
+        let selectedState = $('#state').val();  // Get the selected state
+        if (selectedState) {
+            loadCities(selectedState, "{{ old('city', isset($package) ? $package->city : '') }}");  // Preselect the city if it's available
+        }
+
+        // Fetch cities when state is changed
+        $('#state').change(function() {
+            let stateId = $(this).val();
+            loadCities(stateId);  // Load cities based on selected state
+        });
+
+        function loadCities(stateId, selectedCity = null) {
+            if (stateId) {
+                $.ajax({
+                    url: '/admin/cities/' + stateId,
+                    method: 'GET',
+                    success: function(response) {
+                        let cities = response.cities;
+                        $('#city').empty().append('<option value="">Select a City</option>');
+                        cities.forEach(function(city) {
+                            // Append the city options
+                            $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
+                        });
+                        $('#city').prop('disabled', false);
+                    },
+                    error: function() {
+                        alert('Error fetching cities');
+                    }
+                });
+            } else {
+                $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+            }
+        }
+
+        // Initialize select2 for interests
+        $('#interest').select2({
+            placeholder: 'Select interests',
+            allowClear: true
+        });
+    });
+</script>
 
 <script>
     // JavaScript to handle the image removal

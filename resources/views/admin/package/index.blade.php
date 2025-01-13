@@ -52,6 +52,7 @@
                         <th data-priority="1">Package Name</th>
                         <th data-priority="3">State</th>
                         <th data-priority="1">City</th>
+                        <th data-priority="1">PDF File</th>
                         <th data-priority="3">Images</th>
                         <th data-priority="3">Videos</th>
                         <th data-priority="6">Text Description</th>
@@ -64,8 +65,22 @@
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{ $pkg->package_name ?? '' }}</td>
-                                <td>{{ $pkg->state_id ?? '' }}</td>
-                                <td>{{ $pkg->city_id ?? '' }}</td>
+                                <td>{{ $pkg->state->state_name ?? '' }}</td>
+                                <td>{{ $pkg->cities->city_name ?? '' }}</td>
+                                <td>
+                                  @if ($pkg->pdf)
+                                      <!-- Display PDF Inline -->
+                                      <embed src="{{ asset('storage/' . $pkg->pdf) }}" type="application/pdf" width="100%" height="100px" />
+                              
+                                      <!-- Download Button -->
+                                      <br />
+                                      <a href="{{ asset('storage/' . $pkg->pdf) }}" class="btn btn-primary" download target="_blank">
+                                          Download PDF
+                                      </a>
+                                  @else
+                                      No PDF available
+                                  @endif
+                              </td>
 
                                 <!-- Display Images -->
                                 <td>

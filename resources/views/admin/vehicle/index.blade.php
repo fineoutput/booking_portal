@@ -50,7 +50,7 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Vehicle</th>
-                        <th data-priority="3">Description</th>
+                        {{-- <th data-priority="3">Description</th> --}}
                         <th data-priority="3">Status</th>
                         <th data-priority="6">Action</th>
                       </tr>
@@ -60,7 +60,6 @@
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$value->vehicle_type ?? ''}}</td>
-                                <td>{!! $value->description !!}</td>
                                 <td>
                                     <span class="{{ $value->status == 1 ? 'text-success' : 'text-danger' }}">
                                         {{ $value->status == 1 ? 'Active' : 'Inactive' }}
@@ -89,6 +88,9 @@
                                         </button>
                                     </form>
 
+                                    <a href="{{ route('vehicleprice', $value->id) }}" class="btn btn-primary">
+                                      Add Price
+                                  </a>
 
                                 </td>
                             </tr>

@@ -12,4 +12,14 @@ class State extends Model
     protected $fillable = [
         'state_name',
     ];
+
+    public function cities()
+    {
+        return $this->hasMany(City::class);
+    }
+
+    public function Package()
+    {
+        return $this->hasMany(Package::class, 'state_id', 'id');
+    }
 }

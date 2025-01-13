@@ -55,14 +55,14 @@
                                         @enderror
                                     </div>
                             
-                                    <div class="col-sm-12 mt-3">
+                                    {{-- <div class="col-sm-12 mt-3">
                                         <label class="form-label" for="description">Description &nbsp;<span style="color:red;">*</span></label>
                                         <!-- Pre-fill the 'description' field with the existing data -->
                                         <textarea class="form-control" name="description" id="description" required>{{ old('description', $agent->description) }}</textarea>
                                         @error('description')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                 </div>
                             
                                 <div class="form-group row">

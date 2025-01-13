@@ -1,6 +1,17 @@
 @extends('admin.base_template')
 @section('main')
 <!-- Start content -->
+<style>
+  
+    form {
+      margin-top: 20px;
+    }
+    
+    select {
+      width: 400px;
+    }
+    </style>
+
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -60,32 +71,47 @@
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-floating">
-                                            <input class="form-control" type="text" value="" id="hotel_category" name="hotel_category">
-                                            <label for="hotel_category">Hotel Category </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <div class="col-sm-4 mt-2">
-                                        <select class="form-control" name="package_id" id="package_id" required>
-                                            <option value="1">Please select Package</option>
-                                            @foreach($package as $value)
-                                            <option value="{{ $value->id ?? ''}}">
-                                                {{$value->package_name ?? ''}}</option>
-                                            @endforeach
+                                        <select class="form-control" name="hotel_category" id="hotel_category" required>
+                                            <option value="">Select Hotel Category</option>
+                                            <option value="Standard">Standard (2 star)</option>
+                                            <option value="Deluxe">Deluxe (3 star)</option>
+                                            <option value="Super deluxe">Super deluxe (premium 3 star)</option>
+                                            <option value="Premium">Premium (4 star)</option>
+                                            <option value="Luxury">Luxury  (5 star)</option>
+                                            
                                         </select>
                                         <div class="form-floating">
-                                            @error('power')
+                                            @error('hotel_category')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="form-group row">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-12"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Package Multipal</label>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
+                                                @foreach($package as $value)
+                                                <option value="{{ $value->id ?? ''}}">
+                                                    {{$value->package_name ?? ''}}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('property_id')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+
                                     <div class="form-group row">
                                         <div class="col-sm-4"><br>
-                                            <label class="form-label" style="margin-left: 10px" for="power">Image</label>
-                                            <input class="form-control" style="margin-left: 10px" type="file" value="" id="images" name="images">
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Multipal Image</label>
+                                            <input class="form-control" style="margin-left: 10px" type="file" id="images" name="images[]" multiple>
                                         </div>
                                        
                                     </div>
@@ -103,4 +129,17 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        $('select').select2();  // Initializes Select2 on your select element
+    });
+</script>
+<script>
+    document.getElementById('output').innerHTML = location.search;
+    $(".chosen-select").chosen();
+</script>
+
 @endsection

@@ -52,13 +52,13 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-sm-12 mt-3">
+                                    {{-- <div class="col-sm-12 mt-3">
                                         <label class="form-label" for="power">Description &nbsp;<span style="color:red;">*</span></label>
                                         <textarea class="form-control" name="description" id="description" required>{{ old('description') }}</textarea>
                                         @error('description')
                                         <div style="color:red">{{$message}}</div>
                                     @enderror
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="form-group row">
                                     <div class="form-group">

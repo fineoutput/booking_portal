@@ -18,4 +18,10 @@ class City extends Model
     {
         return $this->belongsTo(State::class);
     }
+
+    public function Package()
+    {
+        return $this->hasMany(Package::class, 'city_id', 'id');
+    }
 }
+

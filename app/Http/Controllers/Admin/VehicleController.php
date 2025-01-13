@@ -18,12 +18,12 @@ class VehicleController extends Controller
         if($request->method()=='POST'){
             $validated = $request->validate([
                 'vehicle_type' => 'required',
-                'description' => 'required',
+                // 'description' => 'required',
             ]);
 
             $agentCall = new Vehicle();
             $agentCall->vehicle_type = $request->vehicle_type;
-            $agentCall->description = $request->description;
+            // $agentCall->description = $request->description;
             $agentCall->status = '1';
     
             $agentCall->save(); 
@@ -55,14 +55,14 @@ class VehicleController extends Controller
     {
         $request->validate([
             'vehicle_type' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
         ]);
 
         $agentCall = Vehicle::findOrFail($id);  // Find the agent call by ID
 
         // Update the agent call with the new data
         $agentCall->vehicle_type = $request->vehicle_type;
-        $agentCall->description = $request->description;
+        // $agentCall->description = $request->description;
         // $agentCall->status = '1';
 
         $agentCall->save();

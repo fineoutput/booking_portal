@@ -64,13 +64,35 @@
                         <td>{{ $hotel->name }}</td>
                         <td>{{ $hotel->location }}</td>
                         <td>{{ $hotel->hotel_category }}</td>
-                        <td>{{ $hotel->package->package_name }}</td>
                         <td>
-                          @if($hotel->images)
-                              <img src="{{ asset('storage/' . $hotel->images) }}" alt="Hotel Image" width="100">
-                          @else
-                              No Image
+                          @php
+                          $propertyIds = explode(',', $hotel->package_id);  
+                          $isFirst = true;  // Variable to track the first iteration
+                      @endphp
+                     @foreach ($propertyIds as $propertyId)
+                        @php
+                           $property = \App\Models\Package::find($propertyId);  
+                        @endphp
+                  
+                        @if ($property)
+                          @if (!$isFirst) 
+                              ,
                           @endif
+                          {{ $property->package_name }}
+                  
+                          @php
+                              $isFirst = false;
+                          @endphp
+                          @else
+                            Package not found
+                          @endif
+                      @endforeach
+
+                        </td>
+                        <td>
+                          @foreach (json_decode($hotel->images) as $image)
+                              <img src="{{ Storage::url($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
+                          @endforeach
                       </td>
                         <td>
                             <a href="{{ route('hotels.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>

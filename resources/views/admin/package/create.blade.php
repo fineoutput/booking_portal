@@ -1,6 +1,16 @@
 @extends('admin.base_template')
 @section('main')
 <!-- Start content -->
+<style>
+  
+    form {
+      margin-top: 20px;
+    }
+    
+    select {
+      width: 400px;
+    }
+    </style>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -74,9 +84,9 @@
 
                                     <div class="col-sm-4">
                                         <label for="state">State</label>
-                                        <select class="form-control" id="state" name="state">
+                                        <select class="form-control" id="state" name="state_id">
                                             @foreach ($states as $state)
-                                                <option value="{{ $state->id }}">
+                                                <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
                                                     {{ $state->state_name }}
                                                 </option>
                                             @endforeach
@@ -89,19 +99,32 @@
 
                                     <div class="col-sm-4">
                                         <label for="city">City</label>
-                                        <select class="form-control" id="city" name="city">
+                                        <div id="output"></div>
+                                        <select data-placeholder="" class="form-control" id="city" class="chosen-select" name="city_id">
                                         </select>
                                         @error('city')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
+{{-- 
+                                    <div class="form-group row">
+                                        <div class="col-sm-12"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Package Multipal</label>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" id="city" name="city_id[]" multiple class="chosen-select">
+                                            </select>
+                                            @error('city_id')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div> --}}
 
                                 </div>
                                 <div class="form-group row">
                                     
                                     <div class="form-group row">
                                         <div class="col-sm-6"><br>
-                                            <label class="form-label" style="margin-left: 10px" for="power">Image</label>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Multipal Image</label>
                                             <input class="form-control" style="margin-left: 10px" type="file" name="image[]" multiple>
                                         </div>
                                         @error('image')
@@ -111,10 +134,18 @@
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Video</label>
                                             <input class="form-control" style="margin-left: 10px" type="file" name="video[]" multiple>
-                                        </div>
-                                        @error('video')
-                                        <div style="color:red">{{$message}}</div>
-                                        @enderror
+                                            @error('video')
+                                            <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div> 
+
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Upload PDF</label>
+                                             <input type="file" name="pdf" id="pdf" class="form-control" required>
+                                            @error('video')
+                                            <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div> 
 
                                         <div class="col-sm-12 mt-3">
                                             <label class="form-label" for="power">Text Description &nbsp;<span style="color:red;">*</span></label>
@@ -157,63 +188,61 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
-{{-- <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+
+
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script> --}}
-
-
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
 
 <script>
-   $(document).ready(function() {
-    // Load cities for the selected state when the page loads
-    let selectedState = $('#state').val();  // Get the selected state
-    if (selectedState) {
-        loadCities(selectedState, "{{ old('city', isset($user) ? $user->city : '') }}");  // Preselect the city if it's available
-    }
+    document.getElementById('output').innerHTML = location.search;
+    $(".chosen-select").chosen();
+</script>
 
-    // Fetch cities when state is changed
-    $('#state').change(function() {
-        let stateId = $(this).val();
-        console.log('Selected stateId:', stateId); // Log the selected state ID
-        loadCities(stateId);  // Load cities based on selected state
-    });
+<script>
+    $(document).ready(function() {
+        // Load cities for the selected state when the page loads
+        let selectedState = $('#state').val();  // Get the selected state
+        if (selectedState) {
+            loadCities(selectedState, "{{ old('city', isset($user) ? $user->city : '') }}");  // Preselect the city if it's available
+        }
 
-    function loadCities(stateId, selectedCity = null) {
-        if (stateId) {
-            $.ajax({
-                url: '/cities/' + stateId,
-                method: 'GET',
-                success: function(response) {
-                    console.log('AJAX Response:', response);  // Log the response to check what is being returned
-                    if (response.cities && response.cities.length > 0) {
+        // Fetch cities when state is changed
+        $('#state').change(function() {
+            let stateId = $(this).val();
+            loadCities(stateId);  // Load cities based on selected state
+        });
+
+        function loadCities(stateId, selectedCity = null) {
+            if (stateId) {
+                $.ajax({
+                    url: '/admin/cities/' + stateId,
+                    method: 'GET',
+                    success: function(response) {
                         let cities = response.cities;
                         $('#city').empty().append('<option value="">Select a City</option>');
                         cities.forEach(function(city) {
+                            // Append the city options
                             $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
                         });
                         $('#city').prop('disabled', false);
-                    } else {
-                        alert('No cities found for this state.');
-                        $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+                    },
+                    error: function() {
+                        alert('Error fetching cities');
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', xhr.responseText);  // Log the error message for debugging
-                    alert('Error fetching cities');
-                }
-            });
-        } else {
-            $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+                });
+            } else {
+                $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+            }
         }
-    }
 
-    // Initialize select2 for interests
-    $('#interest').select2({
-        placeholder: 'Select interests',
-        allowClear: true
+        // Initialize select2 for interests
+        $('#interest').select2({
+            placeholder: 'Select interests',
+            allowClear: true
+        });
     });
-});
 </script>
 
 

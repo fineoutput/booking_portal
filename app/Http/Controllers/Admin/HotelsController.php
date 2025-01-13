@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Hotels;
 use App\Models\Package;
+use Illuminate\Support\Facades\Storage;
 
 class HotelsController extends Controller
 {
@@ -28,17 +29,20 @@ class HotelsController extends Controller
           
     
             if ($request->hasFile('images')) {
-                $imagePath = $request->file('images')->store('hotels/images', 'public'); // Store the image and get the file path
+                $imagePaths = [];
+                foreach ($request->file('images') as $image) {
+                    $imagePaths[] = $image->store('hotels/images', 'public');
+                }
             } else {
-                $imagePath = null; // If no image is uploaded
+                $imagePaths = null;
             }
     
             $hotel = new Hotels();
             $hotel->name = $request->name;
-            $hotel->images = $imagePath; 
+            $hotel->images = $imagePaths ? json_encode($imagePaths) : null; 
             $hotel->location = $request->location;
             $hotel->hotel_category = $request->hotel_category;
-            $hotel->package_id = $request->package_id;
+            $hotel->package_id = implode(',', $request->package_id);
     
             $hotel->save();
 
@@ -62,8 +66,6 @@ class HotelsController extends Controller
             unlink($imagePath); // Delete the image file from storage
         }
     }
-
-    // Delete the hotel record from the database
     $hotel->delete();
 
     // Redirect with a success message
@@ -85,35 +87,49 @@ public function edit($id)
 public function update(Request $request, $id)
 {
     // Validate the incoming request data
-    // $validated = $request->validate([
-    //     'name' => 'required|string|max:255',
-    //     'location' => 'required|string|max:255',
-    // ]);
+    $validated = $request->validate([
+        'package_id' => 'required',
+    ]);
 
     // Find the hotel by ID
     $hotel = Hotels::findOrFail($id);
 
-        // Update hotel details
-        $hotel->name = $request->name;
-        $hotel->location = $request->location;
-        $hotel->hotel_category = $request->hotel_category;
-        $hotel->package_id = $request->package_id;
+    // Update hotel details
+    $hotel->name = $request->name;
+    $hotel->location = $request->location;
+    $hotel->hotel_category = $request->hotel_category;
+    $hotel->package_id = implode(',', $request->package_id);  // Save selected packages as a comma-separated string
 
-        // Handle the image upload if new image is provided
-        if ($request->hasFile('images')) {
-            // Delete the old image if it exists
-            if ($hotel->images && file_exists(storage_path('app/public/' . $hotel->images))) {
-                unlink(storage_path('app/public/' . $hotel->images)); // Remove the old image file
-            }
-
-            // Store the new image
-            $imagePath = $request->file('images')->store('hotels/images', 'public');
-            $hotel->images = $imagePath; // Update the image field
+    // Check if new images were uploaded
+    if ($request->hasFile('images')) {
+        $imagePaths = [];
+        // Store new uploaded images
+        foreach ($request->file('images') as $image) {
+            // Store image in 'hotels/images' directory and get the stored file path
+            $imagePaths[] = $image->store('hotels/images', 'public');
         }
 
-        // Save the updated hotel record
-        $hotel->save();
+        // If the hotel already has images, delete the old ones from storage
+        $hotelImages = json_decode($hotel->images, true);  // Decode the old image paths into an array
+        if ($hotelImages) {
+            // Delete old images from the 'public' disk
+            foreach ($hotelImages as $oldImage) {
+                if (Storage::disk('public')->exists($oldImage)) {
+                    Storage::disk('public')->delete($oldImage);
+                }
+            }
+        }
 
+        // Update the 'images' column with the new image paths
+        $hotel->images = json_encode($imagePaths);  // Encode the new image paths into a JSON string
+    } else {
+        // If no new images were uploaded, keep the old images
+        $imagePaths = json_decode($hotel->images, true);  // Get current images
+        $hotel->images = json_encode($imagePaths);  // Save the existing images (if any) as a JSON string
+    }
+
+    // Save the hotel model with the updated data
+    $hotel->save();
         // Redirect to a page with a success message
         return redirect()->route('hotels')->with('success', 'Hotel updated successfully');
     }

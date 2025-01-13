@@ -19,18 +19,8 @@ class PackageController extends Controller
 
     public function getCitiesByState($stateId)
     {
-        try {
-            $cities = City::where('state_id', $stateId)->get();
-            
-            // Log the cities to check if they are being fetched correctly
-            Log::info('Cities: ', $cities->toArray());
-        
-            return response()->json(['cities' => $cities]);
-        } catch (\Exception $e) {
-            // Log the error for debugging
-            Log::error('Error fetching cities: ' . $e->getMessage());
-            return response()->json(['error' => 'Error fetching cities'], 500);
-        }
+    $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
+    return response()->json(['cities' => $cities]);
     }
 
 
@@ -66,6 +56,10 @@ class PackageController extends Controller
             $videoPaths = null;
         }
 
+        if ($request->hasFile('pdf')) {
+            $pdfPath = $request->file('pdf')->store('pdf', 'public');
+        }
+
         $package = new Package();
         $package->package_name = $request->package_name;
         $package->state_id = $request->state_id;
@@ -73,6 +67,7 @@ class PackageController extends Controller
         $package->image = $imagePaths ? json_encode($imagePaths) : null; 
         $package->video = $videoPaths ? json_encode($videoPaths) : null; 
         $package->text_description = $request->text_description;
+        $package->pdf = $pdfPath;
         $package->text_description_2 = $request->text_description_2;
 
         $package->save();
@@ -113,10 +108,11 @@ class PackageController extends Controller
         public function edit($id)
         {
             // Retrieve the package by its ID
-            $package = Package::findOrFail($id);
+            $data['package'] = Package::findOrFail($id);
+            $data['states'] = State::all();
 
             // Pass the package data to the edit view
-            return view('admin/package/edit', compact('package'));
+            return view('admin/package/edit',$data);
         }
 
 
@@ -126,7 +122,7 @@ class PackageController extends Controller
             $validated = $request->validate([
                 'package_name' => 'required',
                 'state_id' => 'required',
-                'city_id' => 'required',
+                // 'city_id' => 'required',
                 'image' => 'nullable|array', // Images can be null or an array
                 'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate individual images
                 'video' => 'nullable|array', // Videos can be null or an array
@@ -171,10 +167,19 @@ class PackageController extends Controller
                 $package->video = json_encode($videoPaths);  // Store the new video paths
             }
         
+            if ($request->hasFile('pdf')) {
+                if ($package->pdf) {
+                    Storage::disk('public')->delete($package->pdf);
+                }
+                $pdfPath = $request->file('pdf')->store('pdf', 'public');
+                $package->pdf = $pdfPath;
+            }
+        
+
             // Update the package fields
             $package->package_name = $request->package_name;
             $package->state_id = $request->state_id;
-            $package->city_id = $request->city_id;
+            $package->city_id = $request->city_id ?? $package->city_id ;
             $package->text_description = $request->text_description;
             $package->text_description_2 = $request->text_description_2;
         
