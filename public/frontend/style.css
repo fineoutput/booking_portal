@@ -1734,7 +1734,7 @@ textarea.form-control {
   height: 3rem;
 }
 .chin_up {
-  border-top: 1px dashed black;
+  border-top: 1px dashed rgba(0, 0, 0, 0.652);
   padding-top: 10px;
 }
 .bawe{
