@@ -128,46 +128,67 @@
 
                         <!-- Date Range -->
                         <div class="row g-3 mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-6 loc_stl">
+                                <div class="rj_vk">
+                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="">
                                 <label for="startDate" class="form-label">Start Date</label>
-                                <input type="date" id="startDate" class="form-control" required>
+                                </div>
+                                <input type="date" id="startDate" class="form-control no-form" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="endDate" class="form-label">End Date</label>
-                                <input type="date" id="endDate" class="form-control" required>
+                                <div class="rj_vk">
+                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="">
+                                <label for="startDate" class="form-label">End Date</label>
+                                </div>
+                                <input type="date" id="endDate" class="form-control no-form" required>
                             </div>
                         </div>
 
                         <!-- Package Selection -->
 
                         <!-- Adults and Kids -->
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-4">
+                        <div class="row g-3 mb-3 chin_up">
+                            <div class="col-md-4 loc_stl">
+                            <div class="rj_vk">
+                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/couple.png" alt="">
                                 <label for="adults" class="form-label">No. of Adults</label>
-                                <input type="number" id="adults" class="form-control" min="1" required>
                             </div>
-                            <div class="col-md-4">
+                                <input type="number" id="adults" class="form-control no-form" min="1" required placeholder="Adults">
+                            </div>
+                            <div class="col-md-4 loc_stl">
+                            <div class="rj_vk">
+                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/cot.png" alt="">
                                 <label for="kidsWithBed" class="form-label">Kids with Bed</label>
-                                <input type="number" id="kidsWithBed" class="form-control" min="0" required>
+                            </div>
+                                <input type="number" id="kidsWithBed" class="form-control no-form" min="0" required placeholder="Kids with bed">
                             </div>
                             <div class="col-md-4">
+                            <div class="rj_vk">
+                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/children.png" alt="">
                                 <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
-                                <input type="number" id="kidsWithoutBed" class="form-control" min="0" required>
+                            </div>
+                                <input type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required placeholder="kids without bed">
                             </div>
                         </div>
 
                         <!-- Extra Bed -->
-                        <div class="mb-3 row">
-                        <div class="col-md-6">
+                        <div class="mb-3 row chin_up">
+                        <div class="col-md-6 loc_stl">
+                        <div class="rj_vk">
+                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/extra-bed.png" alt="">
                             <label for="extraBed" class="form-label">Extra Bed</label>
-                            <select id="extraBed" class="form-select" required>
+                        </div>
+                            <select id="extraBed" class="form-select no-form-select" required>
                                 <option value="yes">Yes</option>
                                 <option value="no">No</option>
                             </select>
                         </div>
                         <div class="col-md-6">
+                        <div class="rj_vk">
+                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/breakfast.png" alt="">
                             <label for="mealPlan" class="form-label">Meal Plan</label>
-                            <select id="mealPlan" class="form-select" required>
+                        </div>
+                            <select id="mealPlan" class="form-select no-form-select" required>
                                 <option value="" disabled selected>Select meal plan</option>
                                 <option value="plan1">Plan 1</option>
                                 <option value="plan2">Plan 2</option>
@@ -177,6 +198,7 @@
                         <!-- Hotel & Room Preferences -->
                         <div class="mb-3 row">
                             <div class="col-md-6">
+                                
                                 <label for="hotelPreference" class="form-label">Hotel Preference</label>
                                 <select id="hotelPreference" class="form-select" required>
                                     <option value="" disabled selected>Select preference</option>
@@ -239,8 +261,8 @@
             <div class="col-lg-3 mt-5">
                 <div class="price_tabs">
                     <div class="pr_lft">
-                        <p>₹1,686</p>
-                        <span>/mo</span>
+                        <p>Starts from <span class="dus_ghd"><b>₹32,000</b></span></p>
+                        <span>per person on twin sharing</span>
                     </div>
                 </div>
 
