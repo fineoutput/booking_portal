@@ -173,7 +173,7 @@
 
                         <!-- Extra Bed -->
                         <div class="mb-3 row chin_up">
-                        <div class="col-md-6 loc_stl">
+                        <div class="col-md-4 loc_stl">
                         <div class="rj_vk">
                         <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/extra-bed.png" alt="">
                             <label for="extraBed" class="form-label">Extra Bed</label>
@@ -183,7 +183,7 @@
                                 <option value="no">No</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4 loc_stl">
                         <div class="rj_vk">
                         <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/breakfast.png" alt="">
                             <label for="mealPlan" class="form-label">Meal Plan</label>
@@ -194,44 +194,49 @@
                                 <option value="plan2">Plan 2</option>
                             </select>
                         </div>
-                        </div>
-                        <!-- Hotel & Room Preferences -->
-                        <div class="mb-3 row">
-                            <div class="col-md-6">
-                                
+                        <div class="col-md-4">
+                        <div class="rj_vk">
+                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/hotel.png" alt="">
                                 <label for="hotelPreference" class="form-label">Hotel Preference</label>
-                                <select id="hotelPreference" class="form-select" required>
+                        </div>
+                                <select id="hotelPreference" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select preference</option>
                                     <option value="hotel1">Hotel 1</option>
                                     <option value="hotel2">Hotel 2</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <!-- Hotel & Room Preferences -->
+                        <div class="mb-3 row chin_up">
+                            
+                            <div class="col-md-4 loc_stl">
+                            <div class="rj_vk">
+                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/interior-design.png" alt="">
                                 <label for="roomPreference" class="form-label">Room Preference</label>
-                                <select id="roomPreference" class="form-select" required>
+                            </div>
+                                <select id="roomPreference" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select room</option>
                                     <option value="room1">Room 1</option>
                                     <option value="room2">Room 2</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <!-- Meal Plan -->
-                        
-
-                        <!-- Vehicle Options -->
-                        <div class="mb-3 row">
-                            <div class="col-md-6">
+                            <div class="col-md-4 loc_stl">
+                            <div class="rj_vk">
+                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="">
                                 <label for="vehicleOptions" class="form-label">Vehicle Options</label>
-                                <select id="vehicleOptions" class="form-select" required>
+                            </div>
+                                <select id="vehicleOptions" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select vehicle</option>
                                     <option value="vehicle1">Vehicle 1</option>
                                     <option value="vehicle2">Vehicle 2</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                            <div class="rj_vk">
+                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/booking.png" alt="">
                                 <label for="bookingSource" class="form-label">Booking Source</label>
-                                <select id="bookingSource" class="form-select" required>
+                            </div>
+                                <select id="bookingSource" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select source</option>
                                     <option value="direct">Direct Booking</option>
                                     <option value="reference">Reference</option>
@@ -240,6 +245,10 @@
                             </div>
                         </div>
 
+                        <!-- Meal Plan -->
+                        
+
+                       
                         <!-- Booking Source -->
 
                         <div class="form-check mb-3">

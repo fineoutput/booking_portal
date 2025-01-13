@@ -2,8 +2,10 @@
   <div class="container px-5">
     <div class="row">
       <div class="col-6 col-lg-4">
-        <h3 class="fw-bold">Tour Dekho</h3>
-        <p class="pt-2">321, Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <div class="logo">
+          <a style="text-decoration: none;" href="{{ route('index') }}"><img style="width: 350px;" src="{{asset('frontend/images/white_logo.png')}}" alt=""></a>
+            
+          </div>
         <p class="mb-2">0987654321</p>
         <p>1234567890</p>
       </div>
@@ -44,7 +46,7 @@
     </div>
     <hr>
     <div class="d-sm-flex justify-content-between py-1">
-      <p>2023 © Tour Dekho. All Rights Reserved. </p>
+      <p>2023 © Trip Dekho. All Rights Reserved. </p>
       <p>
         <a href="#" class="text-light text-decoration-none pe-4">Terms of use</a>
         <a href="#" class="text-light text-decoration-none"> Privacy policy</a>

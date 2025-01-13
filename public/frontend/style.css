@@ -1733,6 +1733,7 @@ textarea.form-control {
   width: 3rem;
   height: 3rem;
 }
-.chin_up{
+.chin_up {
   border-top: 1px dashed black;
+  padding-top: 10px;
 }
