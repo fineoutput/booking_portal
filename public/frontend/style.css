@@ -1737,3 +1737,6 @@ textarea.form-control {
   border-top: 1px dashed black;
   padding-top: 10px;
 }
+.bawe{
+  width: 100% !important;
+}

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-6 col-lg-4">
       <div class="logo">
-          <a style="text-decoration: none;" href="{{ route('index') }}"><img style="width: 350px;" src="{{asset('frontend/images/white_logo.png')}}" alt=""></a>
+          <a style="text-decoration: none;" href="{{ route('index') }}"><img class="bawe" style="width: 350px;" src="{{asset('frontend/images/white_logo.png')}}" alt=""></a>
             
           </div>
         <p class="mb-2">0987654321</p>
