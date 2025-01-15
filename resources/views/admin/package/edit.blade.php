@@ -171,7 +171,7 @@
         // Load cities for the selected state when the page loads
         let selectedState = $('#state').val();  // Get the selected state
         if (selectedState) {
-            loadCities(selectedState, "{{ old('city', isset($package) ? $package->city : '') }}");  // Preselect the city if it's available
+            loadCities(selectedState, "{{ old('city_id', isset($package) ? $package->city_id : '') }}");  // Preselect the city if it's available
         }
 
         // Fetch cities when state is changed
