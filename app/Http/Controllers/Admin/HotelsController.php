@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Hotels;
 use App\Models\Package;
+use App\Models\State;
+use App\Models\City;
 use Illuminate\Support\Facades\Storage;
 
 class HotelsController extends Controller
@@ -14,6 +16,13 @@ class HotelsController extends Controller
         $data['hotels'] = Hotels::orderBy('id','DESC')->get();
         return view('admin/hotels/index',$data);
     }
+
+    public function getCitiesByStatehotels($stateId)
+    {
+    $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
+    return response()->json(['cities' => $cities]);
+    }
+
 
 
     function create(Request $request) {
@@ -41,6 +50,8 @@ class HotelsController extends Controller
             $hotel->name = $request->name;
             $hotel->images = $imagePaths ? json_encode($imagePaths) : null; 
             $hotel->location = $request->location;
+            $hotel->state_id = $request->state_id;
+            $hotel->city_id = $request->city_id;
             $hotel->hotel_category = $request->hotel_category;
             $hotel->package_id = implode(',', $request->package_id);
     
@@ -51,6 +62,7 @@ class HotelsController extends Controller
         }
 
         $data['package'] = Package::all();
+        $data['states'] = State::all();
         return view('admin/hotels/create',$data);
     }
 
@@ -78,12 +90,22 @@ public function edit($id)
     // Find the hotel by ID
     $data['hotel'] = Hotels::findOrFail($id);
     $data['packages']  = Package::all();
+    $data['states'] = State::all();
 
     // Pass the hotel data to the edit view
     return view('admin/hotels/edit',$data);
 }
 
-// Method to handle the update logic
+
+protected function deleteFiles(array $imagePaths)
+{
+    foreach ($imagePaths as $imagePath) {
+        if (Storage::disk('public')->exists($imagePath)) {
+            Storage::disk('public')->delete($imagePath);
+        }
+    }
+}
+
 public function update(Request $request, $id)
 {
     // Validate the incoming request data
@@ -94,45 +116,67 @@ public function update(Request $request, $id)
     // Find the hotel by ID
     $hotel = Hotels::findOrFail($id);
 
-    // Update hotel details
-    $hotel->name = $request->name;
-    $hotel->location = $request->location;
-    $hotel->hotel_category = $request->hotel_category;
-    $hotel->package_id = implode(',', $request->package_id);  // Save selected packages as a comma-separated string
+    // Decode existing images into an array
+    $imagePaths = json_decode($hotel->images, true) ?? [];
 
-    // Check if new images were uploaded
+    // Handle new image uploads if any
     if ($request->hasFile('images')) {
-        $imagePaths = [];
-        // Store new uploaded images
+        // Only delete old images from storage if new images are being uploaded
+        $this->deleteFiles($imagePaths);  
+
+        // Handle new image uploads and add to the array
         foreach ($request->file('images') as $image) {
-            // Store image in 'hotels/images' directory and get the stored file path
             $imagePaths[] = $image->store('hotels/images', 'public');
         }
-
-        // If the hotel already has images, delete the old ones from storage
-        $hotelImages = json_decode($hotel->images, true);  // Decode the old image paths into an array
-        if ($hotelImages) {
-            // Delete old images from the 'public' disk
-            foreach ($hotelImages as $oldImage) {
-                if (Storage::disk('public')->exists($oldImage)) {
-                    Storage::disk('public')->delete($oldImage);
-                }
-            }
-        }
-
-        // Update the 'images' column with the new image paths
-        $hotel->images = json_encode($imagePaths);  // Encode the new image paths into a JSON string
-    } else {
-        // If no new images were uploaded, keep the old images
-        $imagePaths = json_decode($hotel->images, true);  // Get current images
-        $hotel->images = json_encode($imagePaths);  // Save the existing images (if any) as a JSON string
     }
 
-    // Save the hotel model with the updated data
+    // Handle image deletions if any
+    if ($request->has('deleted_images')) {
+        $deletedImages = explode(',', $request->deleted_images);  
+        // dd($request->deleted_images);
+        $this->deleteFiles($deletedImages);  
+
+        $imagePaths = array_diff($imagePaths, $deletedImages);  
+    }
+    $hotel->name = $request->name;
+    $hotel->location = $request->location;
+    $hotel->state_id = $request->state_id;
+    $hotel->city_id = $request->city_id;
+    $hotel->hotel_category = $request->hotel_category;
+    $hotel->package_id = implode(',', $request->package_id);
+
+    // Save the updated image paths (only the non-deleted ones)
+    $hotel->images = json_encode(array_values($imagePaths));  // Save as a JSON string
+
+    // Save the updated hotel
     $hotel->save();
-        // Redirect to a page with a success message
-        return redirect()->route('hotels')->with('success', 'Hotel updated successfully');
-    }
+
+    // Redirect with a success message
+    return redirect()->route('hotels')->with('success', 'Hotel updated successfully');
+}
 
 
 }
+
+  // if ($request->hasFile('images')) {
+    //     $imagePaths = [];
+        
+    //     foreach ($request->file('images') as $image) {
+    //         $imagePaths[] = $image->store('hotels/images', 'public');
+    //     }
+
+    //     $hotelImages = json_decode($hotel->images, true);
+    //     if ($hotelImages) {
+
+    //         foreach ($hotelImages as $oldImage) {
+    //             if (Storage::disk('public')->exists($oldImage)) {
+    //                 Storage::disk('public')->delete($oldImage);
+    //             }
+    //         }
+    //     }
+    //     $hotel->images = json_encode($imagePaths);  // Encode the new image paths into a JSON string
+    // } else {
+    //     // If no new images were uploaded, keep the old images
+    //     $imagePaths = json_decode($hotel->images, true);  // Get current images
+    //     $hotel->images = json_encode($imagePaths);  // Save the existing images (if any) as a JSON string
+    // }

@@ -148,12 +148,13 @@
                                 </div>
                                </div>
                                </div>
+                               <input type="hidden" name="deleted_images" id="deleted_images" value="">
                                 
                                 <button type="submit" class="btn btn-primary">Update Package</button>
                             </form>
                             
                             <!-- Hidden input to store deleted images -->
-                            <input type="hidden" name="deleted_images" id="deleted_images" value="">
+                           
                             
                         </div>
                     </div>

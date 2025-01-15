@@ -79,12 +79,11 @@
                                     <!-- Hotel Category -->
                                     <div class="col-sm-4 mt-2">
                                         <select class="form-control" name="hotel_category" id="hotel_category" required>
-                                            <option value="">Select Hotel Category</option>
-                                            <option value="Standard">Standard (2 star)</option>
-                                            <option value="Deluxe">Deluxe (3 star)</option>
-                                            <option value="Super deluxe">Super deluxe (premium 3 star)</option>
-                                            <option value="Premium">Premium (4 star)</option>
-                                            <option value="Luxury">Luxury  (5 star)</option>
+                                            <option value="Standard" {{ old('hotel_category', $hotel->category) == 'Standard' ? 'selected' : '' }}>Standard (2 star)</option>
+                                            <option value="Deluxe" {{ old('hotel_category', $hotel->category) == 'Deluxe' ? 'selected' : '' }}>Deluxe (3 star)</option>
+                                            <option value="Super deluxe" {{ old('hotel_category', $hotel->category) == 'Super deluxe' ? 'selected' : '' }}>Super deluxe (premium 3 star)</option>
+                                            <option value="Premium" {{ old('hotel_category', $hotel->category) == 'Premium' ? 'selected' : '' }}>Premium (4 star)</option>
+                                            <option value="Luxury" {{ old('hotel_category', $hotel->category) == 'Luxury' ? 'selected' : '' }}>Luxury (5 star)</option>
                                             
                                         </select>
                                         <div class="form-floating">
@@ -113,6 +112,33 @@
                                 </div> --}}
 
                                 <div class="form-group row">
+
+
+                                    <div class="col-sm-4">
+                                        <label for="state">State</label>
+                                        <select class="form-control" id="state" name="state_id">
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->id }}" {{ old('state', isset($hotel) ? $hotel->state_id : null) == $state->id ? 'selected' : '' }}>
+                                                    {{ $state->state_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        
+                                        @error('state')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+    
+                                    <div class="col-sm-4">
+                                        <label for="city">City</label>
+                                        <select class="form-control" id="city" name="city_id">
+                                        </select>
+                                        @error('city')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+
                                     <div class="col-sm-12"><br>
                                         <label class="form-label" style="margin-left: 10px" for="power">Please Select Package</label>
                                         <div id="output"></div>
@@ -132,21 +158,43 @@
                             
                                 <!-- Image Selection (for Editing) -->
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <label class="form-label" style="margin-left: 10px" for="images">Image</label>
                                         <input class="form-control" style="margin-left: 10px" type="file" id="images" name="images[]" multiple>
                                         <small class="form-text text-muted">Leave blank to keep existing image.</small>
                             
                                         <!-- Display current image if available -->
                                         @if($hotel->images)
-                                        @foreach (json_decode($hotel->images) as $image)
+                                        @foreach (json_decode($hotel->images) as $key => $image)
                                         <div>
                                             <img src="{{ Storage::url($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-image" data-image="{{ $image }}" data-key="{{ $key }}">Remove</a>
                                         </div>
                                         @endforeach
                                         @endif
-                                        
+                                    </div> --}}
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="images">Select Multiple Images</label>
+                                            <input type="file" name="images[]" class="form-control" multiple>
+                                            <small class="form-text text-muted">Leave blank to keep existing images.</small>
+                                            
+                                            @if($hotel->images)
+                                                <div>
+                                                    @foreach(json_decode($hotel->images) as $key => $image)
+                                                        <div class="image-item">
+                                                            <img src="{{ Storage::url($image) }}" alt="Hotel Image" width="100" height="100">
+                                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-image" data-image="{{ $image }}" data-key="{{ $key }}">Remove</a>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
+                                    
+
+                                    <input type="hidden" name="deleted_images" id="deleted_images" value="">
                                 </div>
                             
                                 <!-- Submit Button -->
@@ -156,6 +204,8 @@
                                     </div>
                                 </div>
                             </form>
+                            
+                            
                             
                         </div>
                     </div>
@@ -168,14 +218,86 @@
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
-<script>
+{{-- <script>
     $(document).ready(function() {
         $('select').select2();  // Initializes Select2 on your select element
     });
-</script>
+</script> --}}
 <script>
     document.getElementById('output').innerHTML = location.search;
     $(".chosen-select").chosen();
+</script>
+
+
+
+<script>
+    $(document).ready(function() {
+        // Load cities for the selected state when the page loads
+        let selectedState = $('#state').val();  // Get the selected state
+        if (selectedState) {
+            loadCities(selectedState, "{{ old('city_id', isset($hotel) ? $hotel->city_id : '') }}");  // Preselect the city if it's available
+        }
+
+        // Fetch cities when state is changed
+        $('#state').change(function() {
+            let stateId = $(this).val();
+            loadCities(stateId);  // Load cities based on selected state
+        });
+
+        function loadCities(stateId, selectedCity = null) {
+            if (stateId) {
+                $.ajax({
+                    url: '/admin/cities/' + stateId,
+                    method: 'GET',
+                    success: function(response) {
+                        let cities = response.cities;
+                        $('#city').empty().append('<option value="">Select a City</option>');
+                        cities.forEach(function(city) {
+                            // Append the city options
+                            $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
+                        });
+                        $('#city').prop('disabled', false);
+                    },
+                    error: function() {
+                        alert('Error fetching cities');
+                    }
+                });
+            } else {
+                $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+            }
+        }
+
+        // Initialize select2 for interests
+        $('#interest').select2({
+            placeholder: 'Select interests',
+            allowClear: true
+        });
+    });
+</script>
+
+<script>
+    document.querySelectorAll('.remove-image').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var image = this.getAttribute('data-image'); // Get the image path
+            var key = this.getAttribute('data-key'); // Get the key of the image in the array
+
+            // Get the current deleted images (from the hidden input field)
+            var deletedImages = document.getElementById('deleted_images').value;
+
+            // Add the image to the deleted images list (separated by commas)
+            if (deletedImages) {
+                deletedImages += ',' + image;
+            } else {
+                deletedImages = image;
+            }
+
+            // Update the hidden input field with the new deleted images list
+            document.getElementById('deleted_images').value = deletedImages;
+
+            // Remove the image from the form display (UI)
+            this.closest('.image-item').remove();
+        });
+    });
 </script>
 
 

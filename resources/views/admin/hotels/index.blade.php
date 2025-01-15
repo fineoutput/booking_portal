@@ -50,6 +50,8 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Name</th>
+                        <th data-priority="1">State</th>
+                        <th data-priority="1">City</th>
                         <th data-priority="3">Location</th>
                         <th data-priority="1">Hotel Category</th>
                         <th data-priority="3">Package</th>
@@ -62,6 +64,8 @@
                     <tr>
                         <td>{{ $key+1 }}</td> <!-- Loop index -->
                         <td>{{ $hotel->name }}</td>
+                        <td>{{ $hotel->state->state_name ?? '' }}</td>
+                        <td>{{ $hotel->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->location }}</td>
                         <td>{{ $hotel->hotel_category }}</td>
                         <td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
+use App\Models\Route;
 use App\Models\VehiclePrice;
 use App\Models\Outstation;
 
@@ -43,6 +44,7 @@ class OutstationController extends Controller
         }
         // $data['vehicle'] = Vehicle::orderBy('id','DESC')->where('id',$id)->first();
         $data['vehicleselect'] = Vehicle::orderBy('id','DESC')->get();
+        $data['Route'] = Route::orderBy('id','DESC')->get();
         return view('admin/outstation/create',$data);
     }
 
@@ -59,6 +61,7 @@ class OutstationController extends Controller
     public function edit($id)
     {
         $data['vehicleselect'] = Vehicle::orderBy('id','DESC')->get();
+        $data['Route'] = Route::orderBy('id','DESC')->get();
         $data['Outstation'] = Outstation::orderBy('id','DESC')->where('id',$id)->first();
 
         return view('admin/outstation/edit',$data);

@@ -13,6 +13,8 @@ class Hotels extends Model
     protected $fillable = [
         'name',
         'images',
+        'state_id',
+        'city_id',
         'location',
         'hotel_category',
         'package_id',
@@ -23,5 +25,14 @@ class Hotels extends Model
         return $this->hasOne(Package::class, 'id', 'package_id');
     }
 
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id'); 
+    }
+
+    public function cities()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
 
 }

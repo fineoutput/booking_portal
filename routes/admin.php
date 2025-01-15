@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\AgentCallsController;
 use App\Http\Controllers\Admin\HotelCallsController;
 use App\Http\Controllers\Admin\TaxiBookingController;
+use App\Http\Controllers\Admin\RouteController;
 use App\Http\Controllers\Admin\CustomerCallsController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\VehicleController;
@@ -61,6 +62,15 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('hotels/{hotel}/edit', [HotelsController::class, 'edit'])->name('hotels.edit');
     Route::put('hotels/{hotel}', [HotelsController::class, 'update'])->name('hotels.update');
     Route::delete('hotels/{hotel}', [HotelsController::class, 'destroy'])->name('hotels.destroy');
+    Route::get('/cities/{stateId}', [HotelsController::class, 'getCitiesByStatehotels']);
+
+
+   Route::get('/route', [RouteController::class, 'index'])->name('route');
+   Route::match(['get','post'],'/route/create', [RouteController::class, 'create'])->name('add_route');
+   Route::get('route/{id}/edit', [RouteController::class, 'edit'])->name('route.edit');
+    Route::put('route/{id}', [RouteController::class, 'update'])->name('route.update');
+    Route::delete('route/{id}', [RouteController::class, 'destroy'])->name('route.destroy');
+    // Route::get('/cities/{stateId}', [RouteController::class, 'getCitiesByStatehotels']);
    
    // Package --------------------------
    Route::get('/package', [PackageController::class, 'index'])->name('package');

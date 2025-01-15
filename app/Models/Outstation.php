@@ -25,4 +25,9 @@ class Outstation extends Model
         return $this->hasOne(Vehicle::class, 'id', 'vehicle_type');
     }
 
+    public function Route()
+    {
+        return $this->hasOne(Route::class, 'id', 'trip_type');
+    }
+
 }

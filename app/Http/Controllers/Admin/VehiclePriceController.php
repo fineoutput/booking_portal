@@ -80,7 +80,7 @@ class VehiclePriceController extends Controller
 
         $vehiclePrice->save();
 
-        return redirect()->route('vehicleprice',$vehiclePrice->id)->with('success', 'Vehicle price updated successfully!');
+        return redirect()->route('vehicleprice',$vehiclePrice->vehicle_id)->with('success', 'Vehicle price updated successfully!');
     }
 
     public function updateStatus($id)

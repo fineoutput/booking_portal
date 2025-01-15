@@ -54,10 +54,12 @@
                                 <div class="form-group row">
 
                                     <div class="col-sm-4">
-                                        <label for="trip_type">Route Type</label>
+                                        <label for="trip_type">Route</label>
                                         <select class="form-control" id="trip_type" name="trip_type">
                                             <option value="">Select</option>
-                                           <option value="One Way">One Way</option>
+                                            @foreach($Route as $value)
+                                           <option value="{{$value->id ?? ''}}">{{$value->from_destination ?? ''}} - {{$value->to_destination ?? ''}}</option>
+                                           @endforeach
                                         </select>
                                         @error('trip_type')
                                             <div style="color:red">{{ $message }}</div>

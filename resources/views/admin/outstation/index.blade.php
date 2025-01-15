@@ -64,7 +64,7 @@
                         @foreach($Outstation as $key=> $value)
                             <tr>
                                 <td>{{$key+1}}</td>
-                                <td>{{$value->trip_type ?? ''}}</td>
+                                <td>{{$value->Route->from_destination ?? ''}} - {{$value->Route->to_destination ?? ''}}</td>
                                 <td>{{$value->Vehicle->vehicle_type ?? ''}}</td>
                                 <td>{{$value->drop_point ?? ''}}</td>
                                 <td>{{$value->available_km ?? ''}}</td>
