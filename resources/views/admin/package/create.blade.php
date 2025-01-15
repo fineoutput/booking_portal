@@ -217,7 +217,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/admin/cities/' + stateId,
+                    url: '/public/admin/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;
