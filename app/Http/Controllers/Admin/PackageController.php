@@ -93,17 +93,7 @@ class PackageController extends Controller
     }
 
 
-    protected function deleteFiles($filePaths)
-    {
-        if ($filePaths) {
-            $filePaths = is_array($filePaths) ? $filePaths : json_decode($filePaths);
-
-            foreach ($filePaths as $filePath) {
-                if (Storage::exists('public/' . $filePath)) {
-                    Storage::delete('public/' . $filePath);
-                }
-            }
-        }}
+    
 
         public function edit($id)
         {
@@ -116,80 +106,165 @@ class PackageController extends Controller
         }
 
 
+        // public function update(Request $request, $id)
+        // {
+        //     $validated = $request->validate([
+        //         'package_name' => 'required',
+        //         'state_id' => 'required',
+        //         // 'city_id' => 'required',
+        //         'image' => 'nullable|array', // Images can be null or an array
+        //         'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //         'video' => 'nullable|array', // Videos can be null or an array
+        //         'video.*' => 'nullable|mimes:mp4,mkv,avi,webm|max:50000',
+        //         'text_description' => 'required',
+        //         'text_description_2' => 'required',
+        //     ]);
+        //     $package = Package::findOrFail($id);
+        //     if ($request->hasFile('image')) {
+        //         $this->deleteFiles($package->image);
+        //         $imagePaths = [];
+        //         foreach ($request->file('image') as $image) {
+        //             $imagePaths[] = $image->store('packages/images', 'public');
+        //         }
+        //         $package->image = json_encode($imagePaths);
+        //     }
+        //     if ($request->has('deleted_images')) {
+        //         $deletedImages = explode(',', $request->deleted_images); 
+        //         $this->deleteFiles($deletedImages);
+        //         $existingImages = json_decode($package->image, true);
+        //         $updatedImages = array_diff($existingImages, $deletedImages); 
+        //         $package->image = json_encode($updatedImages);  
+        //     }
+
+        //     if ($request->hasFile('video')) {
+        //         $videoPaths = [];
+        //         foreach ($request->file('video') as $video) {
+        //             $videoPaths[] = $video->store('packages/videos', 'public');
+        //         }
+        //         $package->video = json_encode($videoPaths); 
+        //     }
+        
+        //     if ($request->hasFile('pdf')) {
+        //         if ($package->pdf) {
+        //             Storage::disk('public')->delete($package->pdf);
+        //         }
+        //         $pdfPath = $request->file('pdf')->store('pdf', 'public');
+        //         $package->pdf = $pdfPath;
+        //     }
+
+        //     $package->package_name = $request->package_name;
+        //     $package->state_id = $request->state_id;
+        //     $package->city_id = $request->city_id ?? $package->city_id ;
+        //     $package->text_description = $request->text_description;
+        //     $package->text_description_2 = $request->text_description_2;
+        //     $package->save();
+        
+        //     return redirect()->route('package')->with('success', 'Package updated successfully.');
+        // }
+
+
         public function update(Request $request, $id)
-        {
-            // Validate the incoming request
-            $validated = $request->validate([
-                'package_name' => 'required',
-                'state_id' => 'required',
-                // 'city_id' => 'required',
-                'image' => 'nullable|array', // Images can be null or an array
-                'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'video' => 'nullable|array', // Videos can be null or an array
-                'video.*' => 'nullable|mimes:mp4,mkv,avi,webm|max:50000',
-                'text_description' => 'required',
-                'text_description_2' => 'required',
-            ]);
-        
-            // Find the existing package by ID
-            $package = Package::findOrFail($id);
-        
-            // Handle image upload and update
-            if ($request->hasFile('image')) {
-                // Delete the old images from storage (if any)
-                $this->deleteFiles($package->image);
-        
-                // Handle new image uploads
-                $imagePaths = [];
-                foreach ($request->file('image') as $image) {
-                    $imagePaths[] = $image->store('packages/images', 'public');
-                }
-                $package->image = json_encode($imagePaths);  // Store the new image paths
-            }
-        
-            // Remove the images that the user deleted
-            if ($request->has('deleted_images')) {
-                $deletedImages = explode(',', $request->deleted_images);  // Get the deleted image paths from the form
-                $this->deleteFiles($deletedImages);  // Delete these images from storage
-        
-                // Update the package images after deletion
-                $existingImages = json_decode($package->image, true);
-                $updatedImages = array_diff($existingImages, $deletedImages);  // Remove the deleted images from the array
-                $package->image = json_encode($updatedImages);  // Store the updated image paths
-            }
-        
-            // Handle video upload and update
-            if ($request->hasFile('video')) {
-                $videoPaths = [];
-                foreach ($request->file('video') as $video) {
-                    $videoPaths[] = $video->store('packages/videos', 'public');
-                }
-                $package->video = json_encode($videoPaths);  // Store the new video paths
-            }
-        
-            if ($request->hasFile('pdf')) {
-                if ($package->pdf) {
-                    Storage::disk('public')->delete($package->pdf);
-                }
-                $pdfPath = $request->file('pdf')->store('pdf', 'public');
-                $package->pdf = $pdfPath;
-            }
-        
+{
+    // Validate the incoming request
+    $request->validate([
+        'package_name' => 'required|string|max:255',
+        'state_id' => 'required',
+        'city_id' => 'nullable',
+        'image' => 'nullable|array', // Images can be null or an array
+        'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'video' => 'nullable|array', // Videos can be null or an array
+        'video.*' => 'nullable|mimes:mp4,mkv,avi,webm|max:50000',
+        'text_description' => 'required|string',
+        'text_description_2' => 'required|string',
+        'pdf' => 'nullable|mimes:pdf|max:5000',
+    ]);
 
-            // Update the package fields
-            $package->package_name = $request->package_name;
-            $package->state_id = $request->state_id;
-            $package->city_id = $request->city_id ?? $package->city_id ;
-            $package->text_description = $request->text_description;
-            $package->text_description_2 = $request->text_description_2;
-        
-            // Save the updated package record to the database
-            $package->save();
-        
-            return redirect()->route('package')->with('success', 'Package updated successfully.');
+    // Find the existing package by ID
+    $package = Package::findOrFail($id);
+
+    // Update the basic fields
+    $package->package_name = $request->package_name;
+    $package->state_id = $request->state_id;
+    $package->city_id = $request->city_id ?? $package->city_id;  // Use current city_id if not provided
+    $package->text_description = $request->text_description;
+    $package->text_description_2 = $request->text_description_2;
+
+    // Handle image uploads and removal of old images
+    if ($request->hasFile('image')) {
+        $existingImages = json_decode($package->image, true) ?? [];
+        $newImages = [];
+        foreach ($request->file('image') as $image) {
+            $newImages[] = $image->store('packages/images', 'public');
         }
+        $package->image = json_encode(array_merge($existingImages, $newImages));  // Merge new images with the existing ones
+    }
 
-// Helper function to delete files from storage
+    // Handle the deletion of images
+    if ($request->has('deleted_images')) {
+        $deletedImages = explode(',', $request->deleted_images);  // Get deleted image paths from the form
+        $this->deleteFiles($deletedImages);  // Delete the specified images
+
+        // Update the package images after removal
+        $existingImages = json_decode($package->image, true);
+        $updatedImages = array_diff($existingImages, $deletedImages);  // Remove the deleted images
+        $package->image = json_encode($updatedImages);  // Update image paths
+    }
+
+    // Handle video upload and update
+    if ($request->hasFile('video')) {
+        if ($package->video) {
+            Storage::delete('public/' . $package->video);  // Delete the old video if any
+        }
+        $videoPaths = [];
+        foreach ($request->file('video') as $video) {
+            $videoPaths[] = $video->store('packages/videos', 'public');
+        }
+        $package->video = json_encode($videoPaths);  // Store the new video paths
+    }
+
+    // Handle PDF upload and update
+    if ($request->hasFile('pdf')) {
+        if ($package->pdf) {
+            Storage::disk('public')->delete($package->pdf);  // Delete the old PDF if any
+        }
+        $pdfPath = $request->file('pdf')->store('packages/pdf', 'public');
+        $package->pdf = $pdfPath;  // Store the new PDF path
+    }
+
+    // Save the updated package record to the database
+    $package->save();
+
+    // Redirect back with a success message
+    return redirect()->route('package')->with('success', 'Package updated successfully.');
+}
+
+// Helper function to delete files from the public storage
+protected function deleteFiles($files)
+{
+    if (is_array($files)) {
+        foreach ($files as $file) {
+            if (Storage::disk('public')->exists($file)) {
+                Storage::disk('public')->delete($file);  // Delete each file
+            }
+        }
+    } elseif ($files) {
+        if (Storage::disk('public')->exists($files)) {
+            Storage::disk('public')->delete($files);  // Delete a single file
+        }
+    }
+}
+        
+        
+        // private function deleteFiles(array $files)
+        // {
+        //     foreach ($files as $file) {
+        //         // Check if the file exists before deleting it
+        //         if (Storage::disk('public')->exists($file)) {
+        //             Storage::disk('public')->delete($file);
+        //         }
+        //     }
+        // }
+
 
 
 

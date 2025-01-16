@@ -148,7 +148,7 @@
                                 </div>
                                </div>
                                </div>
-                               <input type="hidden" name="deleted_images" id="deleted_images" value="">
+                               <input type="hidden" name="deleted_images" id="deleted_images" value="path/to/old_image1.jpg,path/to/old_image2.jpg">
                                 
                                 <button type="submit" class="btn btn-primary">Update Package</button>
                             </form>
