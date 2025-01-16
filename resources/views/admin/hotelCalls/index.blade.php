@@ -69,11 +69,10 @@
                                 <td>{{$value->room_details ?? ''}}</td>
                                 <td>{{$value->cost_of_rooms ?? ''}}</td>
                                 <td>{{$value->phone ?? ''}}</td>
-                                <td>{{$value->state ?? ''}}</td>
-                                <td>{{$value->city ?? ''}}</td>
+                                <td>{{$value->state->state_name ?? ''}}</td>
+                                <td>{{$value->cities->city_name ?? ''}}</td>
                                 <td>{{$value->location ?? ''}}</td>
                                 <td>
-
                                     <a href="{{ route('hotelsCalls.edit', $value->id) }}" class="btn btn-primary">
                                         Edit
                                     </a>

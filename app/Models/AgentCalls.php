@@ -16,5 +16,20 @@ class AgentCalls extends Model
         'city',
         'remarks',
     ];
+
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state'); 
+    }
+    // public function state()
+    // {
+    //     return $this->hasOne(State::class, 'id', 'state');
+    // }
+
+    public function cities()
+    {
+        return $this->belongsTo(City::class, 'city');
+    }
+
 }
 

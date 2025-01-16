@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AgentCalls;
+use App\Models\State;
+use App\Models\City;
 
 class AgentCallsController extends Controller
 {
@@ -12,6 +14,14 @@ class AgentCallsController extends Controller
         $data['agent'] = AgentCalls::orderBy('id','DESC')->get();
         return view('admin/agentcalls/index',$data);
     }
+
+
+    public function getCitiesByStateagent($stateId)
+    {
+    $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
+    return response()->json(['cities' => $cities]);
+    }
+
 
     function create(Request $request) {
         if($request->method()=='POST'){
@@ -36,7 +46,8 @@ class AgentCallsController extends Controller
             // Optionally, return a response or redirect
             return redirect()->route('AgentCalls')->with('success', 'Agent Call added successfully!');
         }
-        return view('admin/agentcalls/create');
+        $data['states'] = State::all();
+        return view('admin/agentcalls/create',$data);
     }
 
 
@@ -52,8 +63,8 @@ class AgentCallsController extends Controller
     public function edit($id)
     {
         $agent = AgentCalls::findOrFail($id);  // Find the agent call by ID
-
-        return view('admin/agentcalls/edit', compact('agent'));  // Pass the data to the edit view
+        $states = State::all();
+        return view('admin/agentcalls/edit', compact('agent','states'));  // Pass the data to the edit view
     }
 
     // Update the specified resource in storage

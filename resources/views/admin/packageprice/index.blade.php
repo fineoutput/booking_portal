@@ -110,9 +110,6 @@
                                         @method('DELETE') <!-- This generates a DELETE request -->
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete</button>
                                     </form>
-
-                                    <a href="{{ route('package_price_create', $pkg->id) }}" class="btn btn-warning">Add Price</a>
-
                                 </td>
                             </tr>
                         @endforeach

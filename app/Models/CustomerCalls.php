@@ -18,4 +18,19 @@ class CustomerCalls extends Model
         'interest_details',
         'mark_lead',
     ];
+
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state'); 
+    }
+    // public function state()
+    // {
+    //     return $this->hasOne(State::class, 'id', 'state');
+    // }
+
+    public function cities()
+    {
+        return $this->belongsTo(City::class, 'city');
+    }
+    
 }

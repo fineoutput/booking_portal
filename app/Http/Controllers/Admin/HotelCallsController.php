@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\HotelCalls;
+use App\Models\City;
+use App\Models\State;
 
 
 class HotelCallsController extends Controller
@@ -13,6 +15,14 @@ class HotelCallsController extends Controller
         $data['agent'] = HotelCalls::orderBy('id','DESC')->get();
         return view('admin/hotelCalls/index',$data);
     }
+
+    
+    public function getCitiesByStatehotelcalls($stateId)
+    {
+    $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
+    return response()->json(['cities' => $cities]);
+    }
+
 
     function create(Request $request) {
         if($request->method()=='POST'){
@@ -41,9 +51,11 @@ class HotelCallsController extends Controller
             $agentCall->save();  // Save the record in the database
     
             // Optionally, return a response or redirect
+            
             return redirect()->route('hotelsCalls')->with('success', 'Hotels Call added successfully!');
         }
-        return view('admin/hotelCalls/create');
+        $data['states'] = State::all();
+        return view('admin/hotelCalls/create',$data);
     }
 
 
@@ -59,8 +71,9 @@ class HotelCallsController extends Controller
     public function edit($id)
     {
         $agent = HotelCalls::findOrFail($id);  // Find the agent call by ID
+        $states = State::all();
 
-        return view('admin/hotelCalls/edit', compact('agent'));  // Pass the data to the edit view
+        return view('admin/hotelCalls/edit', compact('agent','states'));  // Pass the data to the edit view
     }
 
     // Update the specified resource in storage

@@ -5,12 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CustomerCalls;
+use App\Models\State;
+use App\Models\City;
 
 class CustomerCallsController extends Controller
 {
     function index() {
-        $data['agent'] = CustomerCalls::orderBy('id','DESC')->get();
-        return view('admin/CustomerCalls/index',$data);
+        $agent = CustomerCalls::with('state')->orderBy('id','DESC')->get();
+        $states = [];
+
+        foreach ($agent as $value) {
+            $state = State::where('id', $value->state)->select('state_name')->first();
+            $states[$value->id] = $state ? $state->state_name : null;
+        }
+    
+    
+        return view('admin/CustomerCalls/index',compact('agent','states'));
     }
 
     function Ongoing() {
@@ -26,6 +36,12 @@ class CustomerCallsController extends Controller
     function Converted() {
         $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','3')->get();
         return view('admin/CustomerCalls/converted',$data);
+    }
+
+    public function getCitiesByStatecustomer($stateId)
+    {
+    $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
+    return response()->json(['cities' => $cities]);
     }
 
     function create(Request $request) {
@@ -55,7 +71,8 @@ class CustomerCallsController extends Controller
             // Optionally, return a response or redirect
             return redirect()->route('customerCalls')->with('success', 'Customer Calls Call added successfully!');
         }
-        return view('admin/CustomerCalls/create');
+        $data['states'] = State::all();
+        return view('admin/CustomerCalls/create',$data);
     }
 
 
@@ -71,8 +88,8 @@ class CustomerCallsController extends Controller
     public function edit($id)
     {
         $agent = CustomerCalls::findOrFail($id);  // Find the agent call by ID
-
-        return view('admin/CustomerCalls/edit', compact('agent'));  // Pass the data to the edit view
+        $states = State::all();
+        return view('admin/CustomerCalls/edit', compact('agent','states'));  // Pass the data to the edit view
     }
 
     // Update the specified resource in storage

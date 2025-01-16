@@ -63,8 +63,8 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$value->name ?? ''}}</td>
                                 <td>{{$value->phone ?? ''}}</td>
-                                <td>{{$value->state ?? ''}}</td>
-                                <td>{{$value->city ?? ''}}</td>
+                                <td>{{$value->state->state_name	 ?? ''}}</td>
+                                <td>{{$value->cities->city_name ?? ''}}</td>
                                 <td>{{$value->remarks ?? ''}}</td>
                                 <td>
 

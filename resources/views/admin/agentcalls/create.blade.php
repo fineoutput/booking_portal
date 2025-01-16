@@ -61,7 +61,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="" id="state" name="state" placeholder="Enter state" required>
                                             <label for="state">State &nbsp;<span style="color:red;">*</span></label>
@@ -79,7 +79,34 @@
                                         @error('city')
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
+                                    </div> --}}
+
+                                    <div class="col-sm-4">
+                                        <label for="state">State</label>
+                                        <select class="form-control" id="state" name="state">
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
+                                                    {{ $state->state_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        
+                                        @error('state')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
+                                    <div class="col-sm-4">
+                                        <label for="city">City</label>
+                                        <div id="output"></div>
+                                        <select data-placeholder="" class="form-control" id="city" class="chosen-select" name="city">
+                                        </select>
+                                        @error('city')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+
 
                                     <div class="col-sm-4">
                                         <div class="form-floating">
@@ -107,4 +134,51 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+
+<script>
+    $(document).ready(function() {
+        // Load cities for the selected state when the page loads
+        let selectedState = $('#state').val();  // Get the selected state
+        if (selectedState) {
+            loadCities(selectedState, "{{ old('city', isset($user) ? $user->city : '') }}");  // Preselect the city if it's available
+        }
+
+        // Fetch cities when state is changed
+        $('#state').change(function() {
+            let stateId = $(this).val();
+            loadCities(stateId);  // Load cities based on selected state
+        });
+
+        function loadCities(stateId, selectedCity = null) {
+            if (stateId) {
+                $.ajax({
+                    url: '/admin/cities/' + stateId,
+                    method: 'GET',
+                    success: function(response) {
+                        let cities = response.cities;
+                        $('#city').empty().append('<option value="">Select a City</option>');
+                        cities.forEach(function(city) {
+                            // Append the city options
+                            $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
+                        });
+                        $('#city').prop('disabled', false);
+                    },
+                    error: function() {
+                        alert('Error fetching cities');
+                    }
+                });
+            } else {
+                $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+            }
+        }
+
+        // Initialize select2 for interests
+        $('#interest').select2({
+            placeholder: 'Select interests',
+            allowClear: true
+        });
+    });
+</script>
+
 @endsection

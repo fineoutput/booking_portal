@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\HotelsController;
 use App\Http\Controllers\Admin\VehiclePriceController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Admin\PackagePriceController;
 use App\Http\Controllers\Admin\AgentCallsController;
 use App\Http\Controllers\Admin\HotelCallsController;
 use App\Http\Controllers\Admin\TaxiBookingController;
@@ -81,12 +82,21 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/cities/{stateId}', [PackageController::class, 'getCitiesByState']);
 
 
+   Route::get('/package-price/{id}', [PackagePriceController::class, 'index'])->name('package_price');
+   Route::match(['get','post'],'/package/price/create/{id}', [PackagePriceController::class, 'create'])->name('package_price_create');
+//    Route::delete('/packages/{id}', [PackagePriceController::class, 'destroy'])->name('packages.destroy');
+//    Route::get('packages/{id}/edit', [PackagePriceController::class, 'edit'])->name('packages.edit');
+//    Route::put('packages/{id}', [PackagePriceController::class, 'update'])->name('packages.update');
+//    Route::get('/cities/{stateId}', [PackagePriceController::class, 'getCitiesByState']);
+
+
 
    Route::get('/AgentCalls', [AgentCallsController::class, 'index'])->name('AgentCalls');
    Route::match(['get','post'],'/AgentCalls/create', [AgentCallsController::class, 'create'])->name('add_AgentCalls');
    Route::get('AgentCalls/{id}/edit', [AgentCallsController::class, 'edit'])->name('AgentCalls.edit');
     Route::put('AgentCalls/{id}', [AgentCallsController::class, 'update'])->name('AgentCalls.update');
     Route::delete('AgentCalls/{id}', [AgentCallsController::class, 'destroy'])->name('AgentCalls.destroy');
+    Route::get('/cities/{stateId}', [AgentCallsController::class, 'getCitiesByStateagent']);
 
 
    Route::get('/hotelsCalls', [HotelCallsController::class, 'index'])->name('hotelsCalls');
@@ -94,6 +104,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('hotelsCalls/{id}/edit', [HotelCallsController::class, 'edit'])->name('hotelsCalls.edit');
     Route::put('hotelsCalls/{id}', [HotelCallsController::class, 'update'])->name('hotelsCalls.update');
     Route::delete('hotelsCalls/{id}', [HotelCallsController::class, 'destroy'])->name('hotelsCalls.destroy');
+    Route::get('/cities/{stateId}', [HotelCallsController::class, 'getCitiesByStatehotelcalls']);
 
 
    Route::get('/customer-calls', [CustomerCallsController::class, 'index'])->name('customerCalls');
@@ -104,6 +115,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('customer/{id}/edit', [CustomerCallsController::class, 'edit'])->name('customer.edit');
     Route::put('customer/{id}', [CustomerCallsController::class, 'update'])->name('customer.update');
     Route::delete('customer/{id}', [CustomerCallsController::class, 'destroy'])->name('customer.destroy');
+    Route::get('/cities/{stateId}', [CustomerCallsController::class, 'getCitiesByStatecustomer']);
 
 
     Route::get('/vehicle', [VehicleController::class, 'index'])->name('vehicle');
