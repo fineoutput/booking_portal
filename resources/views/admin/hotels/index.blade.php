@@ -95,7 +95,7 @@
                         </td>
                         <td>
                           @foreach (json_decode($hotel->images) as $image)
-                              <img src="{{ Storage::url($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
+                              <img src="{{ asset('storage/' . $image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
                           @endforeach
                       </td>
                         <td>
