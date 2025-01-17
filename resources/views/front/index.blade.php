@@ -537,10 +537,10 @@
                     <li class="splide__slide">
                         <div class="responsive-image-wrapper">
                             <picture>
-                                <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/world/mema-bnn-mema-2172022.avif') }}">
-                                <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/world/mema-bnn-mema-2172022.avif') }}">
-                                <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/world/shdz1-thb-mewa-2782022.avif') }}">
-                                <img src="{{ asset('frontend/images/world/mema-bnn-mema-2172022.avif') }}" alt="Europe Banner" class="responsive-image">
+                                <source media="(min-width: 1200px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
+                                <source media="(min-width: 768px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
+                                <source media="(max-width: 767px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
+                                <img src="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg" alt="Europe Banner" class="responsive-image">
                             </picture>
                         </div>
                         <div class="container">
@@ -566,12 +566,12 @@
                     <!-- Slide 2 -->
                     <li class="splide__slide">
                         <div class="responsive-image-wrapper">
-                            <picture>
-                                <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/world/mema-bnn-mema-2172022.avif') }}">
-                                <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/world/mema-bnn-mema-2172022.avif') }}">
-                                <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/world/shdz1-thb-mewa-2782022.avif') }}">
-                                <img src="{{ asset('frontend/images/world/mema-bnn-mema-2172022.avif') }}" alt="Europe Banner" class="responsive-image">
-                            </picture>
+                          <picture>
+                            <source media="(min-width: 1200px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
+                            <source media="(min-width: 768px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
+                            <source media="(max-width: 767px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
+                            <img src="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg" alt="Europe Banner" class="responsive-image">
+                        </picture>
                         </div>
                         <div class="container">
                             <div class="row">

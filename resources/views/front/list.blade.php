@@ -111,12 +111,12 @@
           <div class="plan_outer w-100">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+                <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jodhpur </h6>
+                  <h6 class="type_xtxt"> Jaipur </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -166,7 +166,7 @@
             <div class="plan_outer w-100">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+                <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJodhpur_1.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
@@ -225,12 +225,12 @@
             <div class="plan_outer w-100">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+                <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FDelhi.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jodhpur </h6>
+                  <h6 class="type_xtxt"> Delhi </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -280,12 +280,12 @@
             <div class="plan_outer w-100">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FUdaipur_1.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jodhpur </h6>
+                  <h6 class="type_xtxt"> udaipur </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>

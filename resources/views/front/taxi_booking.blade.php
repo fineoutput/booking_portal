@@ -15,10 +15,10 @@
 </style>
 <!-- /* //////////////Banner Starts///////////// */ -->
 <picture>
-  <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/desktop_.png') }}">
-  <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/tablet_.png') }}">
-  <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
-  <img src="{{ asset('frontend/images/banner/fallback_.png') }}" alt="Responsive Banner">
+  <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/car.png') }}">
+  <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/car.png') }}">
+  <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/car.png') }}">
+  <img src="{{ asset('frontend/images/banner/car.png') }}" alt="Responsive Banner">
 </picture>
 
 <!-- /* //////////////Banner Ends///////////// */ -->
