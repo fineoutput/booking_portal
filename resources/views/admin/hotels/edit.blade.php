@@ -184,7 +184,7 @@
                                                 <div>
                                                     @foreach(json_decode($hotel->images) as $key => $image)
                                                         <div class="image-item">
-                                                            <img src="{{ Storage::url($image) }}" alt="Hotel Image" width="100" height="100">
+                                                            <img src="{{ asset($image) }}" alt="Hotel Image" width="100" height="100">
                                                             <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-image" data-image="{{ $image }}" data-key="{{ $key }}">Remove</a>
                                                         </div>
                                                     @endforeach
