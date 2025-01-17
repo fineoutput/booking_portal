@@ -169,11 +169,11 @@
   <section class="euro_sect mt-5">
   <!-- Picture outside container for smaller screens -->
   <div class="responsive-image-wrapper">
-    <picture>
-      <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/world/europe-info.webp') }}">
-      <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/world/europe-info-tab.webp') }}">
-      <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/world/europe-info-mobile.avif') }}">
-      <img src="{{ asset('frontend/images/world/europe-info.webp') }}" alt="Responsive Banner" class="responsive-image">
+    <picture >
+      <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/sd.webp') }}">
+      <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/sd.webp') }}">
+      <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/sd.webp') }}">
+      <img style="border-radius: 20px" src="{{ asset('frontend/images/sd.webp') }}" alt="Responsive Banner" class="responsive-image">
     </picture>
   </div>
 
