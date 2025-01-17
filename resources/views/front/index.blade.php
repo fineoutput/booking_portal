@@ -211,13 +211,10 @@
                     <ul class="splide__list">
                     <li class="splide__slide long_slide">
                         <img src=
-                        {{ asset('frontend/images/gallery/first.jpg') }} alt="Image 1">
+                        {{ asset('frontend/images/gallery/flat.avif') }} alt="Image 1">
                     </li>
                     <li class="splide__slide long_slide">
-                        <img src="{{ asset('frontend/images/gallery/secound.jpg') }}" alt="Image 2">
-                    </li>
-                    <li class="splide__slide long_slide">
-                        <img src="{{ asset('frontend/images/gallery/tjird.jpg') }}" alt="Image 3">
+                        <img src="{{ asset('frontend/images/gallery/traveler-infographics-with-basic-travel-elements_23-2147647525.avif') }}" alt="Image 2">
                     </li>
                     </ul>
                 </div>
@@ -614,7 +611,7 @@
           <div class="plan_outer">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
@@ -663,7 +660,7 @@
           <div class="plan_outer">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FUdaipur_1.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
@@ -716,12 +713,12 @@
           <div class="plan_outer">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJodhpur_1.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jaisalmer </h6>
+                  <h6 class="type_xtxt"> Jodhpur </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -769,12 +766,12 @@
           <div class="plan_outer">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FDelhi.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Udaipur </h6>
+                  <h6 class="type_xtxt"> Delhi NCR </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>
@@ -822,12 +819,12 @@
           <div class="plan_outer">
             <div class="outer_plan_upper">
               <div class="outer_plan_img">
-              <img src="{{ asset('frontend/images/cards/eumv-thb.avif') }}" alt="European Marvels">
+              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FBengaluru.png&w=128&q=75" alt="European Marvels">
               </div>
               <div class="inner_outer_txt">
                 
                 <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Bikaner </h6>
+                  <h6 class="type_xtxt"> Banglore </h6>
                 </div>
                 <div class="plan_type_date">
                   <i class="fa-solid fa-star"></i>

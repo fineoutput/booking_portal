@@ -36,7 +36,7 @@
                 </div>
                 <div class="head_mage">
                     <div class="mage_vin">
-                        <img src="{{asset('frontend/images/banner/nihd-i-bnn-1-NIDR-352022.avif')}}" alt="">
+                        <img src="https://img.veenaworld.com/group-tours/india/north-east/nems/nehl-i-bnn-1-nems-4102021.jpg" alt="">
                     </div>
                 </div>
 
