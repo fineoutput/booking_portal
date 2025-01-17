@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\AgentCallsController;
 use App\Http\Controllers\Admin\HotelCallsController;
 use App\Http\Controllers\Admin\TaxiBookingController;
 use App\Http\Controllers\Admin\RouteController;
+use App\Http\Controllers\Admin\ConstantsController;
 use App\Http\Controllers\Admin\CustomerCallsController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\VehicleController;
@@ -98,6 +99,8 @@ Route::group(['middleware'=>'admin.auth'],function(){
     Route::delete('AgentCalls/{id}', [AgentCallsController::class, 'destroy'])->name('AgentCalls.destroy');
     Route::get('/cities/{stateId}', [AgentCallsController::class, 'getCitiesByStateagent']);
 
+
+    Route::match(['get','post'],'/set-constants', [ConstantsController::class, 'create'])->name('set_constants');
 
    Route::get('/hotelsCalls', [HotelCallsController::class, 'index'])->name('hotelsCalls');
    Route::match(['get','post'],'/hotelsCalls/create', [HotelCallsController::class, 'create'])->name('add_hotelsCalls');

@@ -67,8 +67,8 @@
                                 <td>{{$value->package_enquiry_details ?? ''}}</td>
                                 <td>{{$value->interest_details ?? ''}}</td>
                                 <td>{{$value->phone ?? ''}}</td>
-                                <td>{{$value->state ?? ''}}</td>
-                                <td>{{$value->city ?? ''}}</td>
+                                <td>{{$value->state->state_name ?? ''}}</td>
+                                <td>{{$value->cities->city_name ?? ''}}</td>
                                 @if($value->mark_lead == 1)
                                 <td>Ongoing</td>
                                 @elseif($value->mark_lead == 2)

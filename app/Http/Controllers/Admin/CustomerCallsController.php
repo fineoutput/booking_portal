@@ -6,22 +6,50 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CustomerCalls;
 use App\Models\State;
+use Carbon\Carbon;
 use App\Models\City;
 
 class CustomerCallsController extends Controller
 {
-    function index() {
-        $agent = CustomerCalls::with('state')->orderBy('id','DESC')->get();
-        $states = [];
 
-        foreach ($agent as $value) {
-            $state = State::where('id', $value->state)->select('state_name')->first();
-            $states[$value->id] = $state ? $state->state_name : null;
+    public function index(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+    
+        // Start the query
+        $query = CustomerCalls::orderBy('id', 'DESC');
+    
+        // Check if both start_date and end_date are provided
+        if ($startDate && $endDate) {
+            // Convert to Carbon instances and ensure that we account for the time
+            $startDate = Carbon::parse($startDate)->startOfDay(); // Start of the start date
+            $endDate = Carbon::parse($endDate)->endOfDay(); // End of the end date
+    
+            // Apply the date filter
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        // If only start_date is provided
+        elseif ($startDate) {
+            $query->where('created_at', '>=', Carbon::parse($startDate)->startOfDay());
+        }
+        // If only end_date is provided
+        elseif ($endDate) {
+            $query->where('created_at', '<=', Carbon::parse($endDate)->endOfDay());
         }
     
+        // Execute the query and get the data
+        $agent = $query->get();
     
-        return view('admin/CustomerCalls/index',compact('agent','states'));
+        // Return the view with the filtered data
+        return view('admin.CustomerCalls.index', compact('agent'));
     }
+
+
+    // function index() {
+    //     $agent = CustomerCalls::orderBy('id','DESC')->get();
+    //     return view('admin/CustomerCalls/index',compact('agent'));
+    // }
 
     function Ongoing() {
         $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','1')->get();
