@@ -74,7 +74,7 @@
                               
                                       <!-- Download Button -->
                                       <br />
-                                      <a href="{{ asset('storage/' . $pkg->pdf) }}" class="btn btn-primary" download target="_blank">
+                                      <a href="{{ asset($pkg->pdf) }}" class="btn btn-primary" download target="_blank">
                                           Download PDF
                                       </a>
                                   @else
@@ -85,7 +85,7 @@
                                 <!-- Display Images -->
                                 <td>
                                     @foreach (json_decode($pkg->image) as $image)
-                                        <img src="{{ asset('storage/' . $image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
+                                        <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
                                     @endforeach
                                 </td>
 
@@ -93,7 +93,7 @@
                                 <td>
                                     @foreach (json_decode($pkg->video) as $video)
                                         <video width="150" controls>
-                                            <source src="{{ asset('storage/' . $video) }}" type="video/mp4">
+                                            <source src="{{ asset($video) }}" type="video/mp4">
                                             Your browser does not support the video tag.
                                         </video>
                                     @endforeach

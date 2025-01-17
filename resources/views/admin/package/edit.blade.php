@@ -94,7 +94,7 @@
                                         <div>
                                             @foreach(json_decode($package->image) as $key => $image)
                                                 <div class="image-item">
-                                                    <img src="{{ asset('storage/' . $image) }}" alt="Package Image" width="100" height="100">
+                                                    <img src="{{ asset($image) }}" alt="Package Image" width="100" height="100">
                                                     <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-image" data-image="{{ $image }}" data-key="{{ $key }}">Remove</a>
                                                 </div>
                                             @endforeach
@@ -112,7 +112,7 @@
                                         <div>
                                             @foreach(json_decode($package->video) as $video)
                                                 <video width="150" controls>
-                                                    <source src="{{ asset('storage/' . $video) }}" type="video/mp4">
+                                                    <source src="{{ asset($video) }}" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
                                             @endforeach
@@ -125,7 +125,7 @@
                                 <label class="form-label" style="margin-left: 10px" for="pdf">Upload PDF</label>
                                 @if($package->pdf)
                                     <div>
-                                        <a href="{{ asset('storage/' . $package->pdf) }}" target="_blank">View Current PDF</a>
+                                        <a href="{{ asset($package->pdf) }}" target="_blank">View Current PDF</a>
                                     </div>
                                 @endif
                                 <input type="file" name="pdf" id="pdf" class="form-control">

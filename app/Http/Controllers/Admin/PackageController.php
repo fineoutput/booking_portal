@@ -36,28 +36,94 @@ class PackageController extends Controller
         //     'text_description' => 'required',
         //     'text_description_2' => 'required',
         // ]);
-        // return 'hello';
+
+        // if ($request->hasFile('image')) {
+        //     $imagePaths = [];
+        //     foreach ($request->file('image') as $image) {
+        //         $imagePaths[] = $image->store('packages/images', 'public');
+        //     }
+        // } else {
+        //     $imagePaths = null;
+        // }
+
+        // if ($request->hasFile('video')) {
+        //     $videoPaths = [];
+        //     foreach ($request->file('video') as $video) {
+        //         $videoPaths[] = $video->store('packages/videos', 'public'); 
+        //     }
+        // } else {
+        //     $videoPaths = null;
+        // }
+
+        // if ($request->hasFile('pdf')) {
+        //     $pdfPath = $request->file('pdf')->store('pdf', 'public');
+        // }
+
 
         if ($request->hasFile('image')) {
             $imagePaths = [];
+            $destinationPath = public_path('packages/images');  // Define the destination directory for images
+        
+            // Ensure the destination directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+            }
+        
             foreach ($request->file('image') as $image) {
-                $imagePaths[] = $image->store('packages/images', 'public');
+                // Generate a unique filename (you can modify this as needed)
+                $filename = time() . '_' . $image->getClientOriginalName();
+                
+                // Move the image to the public directory
+                $image->move($destinationPath, $filename);
+                
+                // Add the relative path of the image to the array
+                $imagePaths[] = 'packages/images/' . $filename;
             }
         } else {
             $imagePaths = null;
         }
-
+        
         if ($request->hasFile('video')) {
             $videoPaths = [];
+            $destinationPath = public_path('packages/videos');  // Define the destination directory for videos
+        
+            // Ensure the destination directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+            }
+        
             foreach ($request->file('video') as $video) {
-                $videoPaths[] = $video->store('packages/videos', 'public'); 
+                // Generate a unique filename (you can modify this as needed)
+                $filename = time() . '_' . $video->getClientOriginalName();
+                
+                // Move the video to the public directory
+                $video->move($destinationPath, $filename);
+                
+                // Add the relative path of the video to the array
+                $videoPaths[] = 'packages/videos/' . $filename;
             }
         } else {
             $videoPaths = null;
         }
-
+        
         if ($request->hasFile('pdf')) {
-            $pdfPath = $request->file('pdf')->store('pdf', 'public');
+            $destinationPath = public_path('packages/pdf');  // Define the destination directory for PDFs
+        
+            // Ensure the destination directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+            }
+        
+            // Generate a unique filename (you can modify this as needed)
+            $filename = time() . '_' . $request->file('pdf')->getClientOriginalName();
+            
+            // Move the PDF to the public directory
+            $request->file('pdf')->move($destinationPath, $filename);
+            
+            // Add the relative path of the PDF
+            $pdfPath = 'packages/pdf/' . $filename;
+        } else {
+            $pdfPath = null;
         }
 
         $package = new Package();
@@ -190,46 +256,142 @@ class PackageController extends Controller
     $package->text_description_2 = $request->text_description_2;
 
     // Handle image uploads and removal of old images
+    // if ($request->hasFile('image')) {
+    //     $existingImages = json_decode($package->image, true) ?? [];
+    //     $newImages = [];
+    //     foreach ($request->file('image') as $image) {
+    //         $newImages[] = $image->store('packages/images', 'public');
+    //     }
+    //     $package->image = json_encode(array_merge($existingImages, $newImages));  // Merge new images with the existing ones
+    // }
+
+    // // Handle the deletion of images
+    // if ($request->has('deleted_images')) {
+    //     $deletedImages = explode(',', $request->deleted_images);  // Get deleted image paths from the form
+    //     $this->deleteFiles($deletedImages);  // Delete the specified images
+
+    //     // Update the package images after removal
+    //     $existingImages = json_decode($package->image, true);
+    //     $updatedImages = array_diff($existingImages, $deletedImages);  // Remove the deleted images
+    //     $package->image = json_encode($updatedImages);  // Update image paths
+    // }
+
+    // // Handle video upload and update
+    // if ($request->hasFile('video')) {
+    //     if ($package->video) {
+    //         Storage::delete('public/' . $package->video);  // Delete the old video if any
+    //     }
+    //     $videoPaths = [];
+    //     foreach ($request->file('video') as $video) {
+    //         $videoPaths[] = $video->store('packages/videos', 'public');
+    //     }
+    //     $package->video = json_encode($videoPaths);  // Store the new video paths
+    // }
+
+    // // Handle PDF upload and update
+    // if ($request->hasFile('pdf')) {
+    //     if ($package->pdf) {
+    //         Storage::disk('public')->delete($package->pdf);  // Delete the old PDF if any
+    //     }
+    //     $pdfPath = $request->file('pdf')->store('packages/pdf', 'public');
+    //     $package->pdf = $pdfPath;  // Store the new PDF path
+    // }
+
     if ($request->hasFile('image')) {
         $existingImages = json_decode($package->image, true) ?? [];
         $newImages = [];
-        foreach ($request->file('image') as $image) {
-            $newImages[] = $image->store('packages/images', 'public');
+        $destinationPath = public_path('packages/images');  // Define the destination directory for images
+    
+        // Ensure the destination directory exists
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
         }
+    
+        foreach ($request->file('image') as $image) {
+            // Generate a unique filename (you can modify this as needed)
+            $filename = time() . '_' . $image->getClientOriginalName();
+            
+            // Move the image to the public directory
+            $image->move($destinationPath, $filename);
+            
+            // Add the relative path of the image to the array
+            $newImages[] = 'packages/images/' . $filename;
+        }
+    
+        // Merge new images with existing ones
         $package->image = json_encode(array_merge($existingImages, $newImages));  // Merge new images with the existing ones
     }
-
+    
     // Handle the deletion of images
     if ($request->has('deleted_images')) {
         $deletedImages = explode(',', $request->deleted_images);  // Get deleted image paths from the form
         $this->deleteFiles($deletedImages);  // Delete the specified images
-
+    
         // Update the package images after removal
         $existingImages = json_decode($package->image, true);
         $updatedImages = array_diff($existingImages, $deletedImages);  // Remove the deleted images
         $package->image = json_encode($updatedImages);  // Update image paths
     }
-
+    
     // Handle video upload and update
     if ($request->hasFile('video')) {
         if ($package->video) {
-            Storage::delete('public/' . $package->video);  // Delete the old video if any
+            $oldVideoPath = public_path('packages/videos/' . $package->video);  // Get the old video path
+            if (file_exists($oldVideoPath)) {
+                unlink($oldVideoPath);  // Delete the old video if it exists
+            }
         }
+    
         $videoPaths = [];
-        foreach ($request->file('video') as $video) {
-            $videoPaths[] = $video->store('packages/videos', 'public');
+        $destinationPath = public_path('packages/videos');  // Define the destination directory for videos
+    
+        // Ensure the destination directory exists
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
         }
+    
+        foreach ($request->file('video') as $video) {
+            // Generate a unique filename (you can modify this as needed)
+            $filename = time() . '_' . $video->getClientOriginalName();
+            
+            // Move the video to the public directory
+            $video->move($destinationPath, $filename);
+            
+            // Add the relative path of the video to the array
+            $videoPaths[] = 'packages/videos/' . $filename;
+        }
+    
         $package->video = json_encode($videoPaths);  // Store the new video paths
     }
-
+    
     // Handle PDF upload and update
     if ($request->hasFile('pdf')) {
         if ($package->pdf) {
-            Storage::disk('public')->delete($package->pdf);  // Delete the old PDF if any
+            $oldPdfPath = public_path('packages/pdf/' . $package->pdf);  // Get the old PDF path
+            if (file_exists($oldPdfPath)) {
+                unlink($oldPdfPath);  // Delete the old PDF if it exists
+            }
         }
-        $pdfPath = $request->file('pdf')->store('packages/pdf', 'public');
+    
+        $destinationPath = public_path('packages/pdf');  // Define the destination directory for PDFs
+    
+        // Ensure the destination directory exists
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+        }
+    
+        // Generate a unique filename (you can modify this as needed)
+        $filename = time() . '_' . $request->file('pdf')->getClientOriginalName();
+        
+        // Move the PDF to the public directory
+        $request->file('pdf')->move($destinationPath, $filename);
+        
+        // Add the relative path of the PDF
+        $pdfPath = 'packages/pdf/' . $filename;
+    
         $package->pdf = $pdfPath;  // Store the new PDF path
     }
+    
 
     // Save the updated package record to the database
     $package->save();
@@ -238,21 +400,49 @@ class PackageController extends Controller
     return redirect()->route('package')->with('success', 'Package updated successfully.');
 }
 
-// Helper function to delete files from the public storage
+
+
 protected function deleteFiles($files)
 {
+    // Define the base directory where files are stored (e.g., public/packages/images)
+    $basePath = public_path();  // You can adjust this if files are stored in a specific folder within public
+
     if (is_array($files)) {
+        // Iterate through the array of files to delete
         foreach ($files as $file) {
-            if (Storage::disk('public')->exists($file)) {
-                Storage::disk('public')->delete($file);  // Delete each file
+            $filePath = $basePath . '/' . $file;  // Construct the full path of the file
+
+            // Check if the file exists and is not a directory
+            if (file_exists($filePath) && !is_dir($filePath)) {
+                unlink($filePath);  // Delete the file
             }
         }
     } elseif ($files) {
-        if (Storage::disk('public')->exists($files)) {
-            Storage::disk('public')->delete($files);  // Delete a single file
+        // Handle the case where only a single file is passed
+        $filePath = $basePath . '/' . $files;  // Construct the full path of the file
+
+        // Check if the file exists and is not a directory
+        if (file_exists($filePath) && !is_dir($filePath)) {
+            unlink($filePath);  // Delete the file
         }
     }
 }
+
+
+// protected function deleteFiles($files)
+// {
+//     if (is_array($files)) {
+//         foreach ($files as $file) {
+//             if (Storage::disk('public')->exists($file)) {
+//                 Storage::disk('public')->delete($file);  // Delete each file
+//             }
+//         }
+//     } elseif ($files) {
+//         if (Storage::disk('public')->exists($files)) {
+//             Storage::disk('public')->delete($files);  // Delete a single file
+//         }
+//     }
+// }
         
         
         // private function deleteFiles(array $files)
