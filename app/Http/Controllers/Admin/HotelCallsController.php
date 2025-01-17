@@ -29,7 +29,7 @@ class HotelCallsController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'phone' => 'required|string|max:20',
-                'state' => 'required|string|max:255',
+                'state_id' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'contact_person_name' => 'required',
                 'room_details' => 'required',
@@ -41,7 +41,7 @@ class HotelCallsController extends Controller
             $agentCall = new HotelCalls();
             $agentCall->name = $request->name;
             $agentCall->phone = $request->phone;
-            $agentCall->state = $request->state;
+            $agentCall->state_id = $request->state_id;
             $agentCall->location = $request->location;
             $agentCall->city = $request->city;
             $agentCall->contact_person_name = $request->contact_person_name;
@@ -82,7 +82,7 @@ class HotelCallsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
                 'phone' => 'required|string|max:20',
-                'state' => 'required|string|max:255',
+                'state_id' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'contact_person_name' => 'required',
                 'room_details' => 'required',
@@ -95,7 +95,7 @@ class HotelCallsController extends Controller
         // Update the agent call with the new data
         $agentCall->name = $request->name;
         $agentCall->phone = $request->phone;
-        $agentCall->state = $request->state;
+        $agentCall->state_id = $request->state_id;
         $agentCall->location = $request->location;
         $agentCall->city = $request->city;
         $agentCall->contact_person_name = $request->contact_person_name;

@@ -83,15 +83,15 @@
 
                                     <div class="col-sm-4">
                                         <label for="state">State</label>
-                                        <select class="form-control" id="state" name="state">
+                                        <select class="form-control" id="state" name="state_id">
                                             @foreach ($states as $state)
-                                                <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
+                                                <option value="{{ $state->id }}" {{ old('state_id', isset($user) ? $user->state_id : null) == $state->id ? 'selected' : '' }}>
                                                     {{ $state->state_name }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         
-                                        @error('state')
+                                        @error('state_id')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>

@@ -49,7 +49,7 @@ class CustomerCallsController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'phone' => 'required|string|max:20',
-                'state' => 'required|string|max:255',
+                'state_id' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'package_enquiry_details' => 'required',
                 'interest_details' => 'required',
@@ -60,7 +60,7 @@ class CustomerCallsController extends Controller
             $agentCall = new CustomerCalls();
             $agentCall->name = $request->name;
             $agentCall->phone = $request->phone;
-            $agentCall->state = $request->state;
+            $agentCall->state_id = $request->state_id;
             $agentCall->package_enquiry_details = $request->package_enquiry_details;
             $agentCall->city = $request->city;
             $agentCall->interest_details = $request->interest_details;
@@ -98,7 +98,7 @@ class CustomerCallsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
                 'phone' => 'required|string|max:20',
-                'state' => 'required|string|max:255',
+                'state_id' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'package_enquiry_details' => 'required',
                 'interest_details' => 'required',
@@ -110,7 +110,7 @@ class CustomerCallsController extends Controller
         // Update the agent call with the new data
         $agentCall->name = $request->name;
         $agentCall->phone = $request->phone;
-        $agentCall->state = $request->state;
+        $agentCall->state_id = $request->state_id;
         $agentCall->package_enquiry_details = $request->package_enquiry_details;
         $agentCall->city = $request->city;
         $agentCall->interest_details = $request->interest_details;

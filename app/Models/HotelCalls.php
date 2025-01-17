@@ -15,14 +15,14 @@ class HotelCalls extends Model
         'room_details',
         'cost_of_rooms',
         'phone',
-        'state',
+        'state_id',
         'city',
         'location',
     ];
 
     public function state()
     {
-        return $this->belongsTo(State::class, 'state'); 
+        return $this->belongsTo(State::class, 'state_id'); 
     }
     // public function state()
     // {

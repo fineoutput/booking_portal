@@ -11,7 +11,7 @@ class CustomerCalls extends Model
     protected $table = 'customer_calls';
     protected $fillable = [
         'name',
-        'state',
+        'state_id',
         'city',
         'phone',
         'package_enquiry_details',
@@ -21,7 +21,7 @@ class CustomerCalls extends Model
 
     public function state()
     {
-        return $this->belongsTo(State::class, 'state'); 
+        return $this->belongsTo(State::class, 'state_id'); 
     }
     // public function state()
     // {

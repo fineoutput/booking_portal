@@ -28,7 +28,7 @@ class AgentCallsController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'phone' => 'required|string|max:20',
-                'state' => 'required|string|max:255',
+                'state_id' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'remarks' => 'nullable|string|max:500',
             ]);
@@ -37,7 +37,7 @@ class AgentCallsController extends Controller
             $agentCall = new AgentCalls();
             $agentCall->name = $request->name;
             $agentCall->phone = $request->phone;
-            $agentCall->state = $request->state;
+            $agentCall->state_id = $request->state_id;
             $agentCall->city = $request->city;
             $agentCall->remarks = $request->remarks ?? null; // If no remarks, set it to null
     
@@ -73,7 +73,7 @@ class AgentCallsController extends Controller
         $request->validate([
             'name' => 'required',
             'phone' => 'required',
-            'state' => 'required',
+            'state_id' => 'required',
             'city' => 'required',
             'remarks' => 'nullable',
         ]);
@@ -83,7 +83,7 @@ class AgentCallsController extends Controller
         // Update the agent call with the new data
         $agentCall->name = $request->name;
         $agentCall->phone = $request->phone;
-        $agentCall->state = $request->state;
+        $agentCall->state_id = $request->state_id;
         $agentCall->city = $request->city;
         $agentCall->remarks = $request->remarks;
 
