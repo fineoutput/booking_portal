@@ -334,36 +334,85 @@ class PackageController extends Controller
     }
     
     // Handle video upload and update
-    if ($request->hasFile('video')) {
-        if ($package->video) {
-            $oldVideoPath = public_path('packages/videos/' . $package->video);  // Get the old video path
-            if (file_exists($oldVideoPath)) {
-                unlink($oldVideoPath);  // Delete the old video if it exists
+    // if ($request->hasFile('video')) {
+    //     if ($package->video) {
+    //         $oldVideoPath = public_path('packages/videos/' . $package->video);  // Get the old video path
+    //         if (file_exists($oldVideoPath)) {
+    //             unlink($oldVideoPath);  // Delete the old video if it exists
+    //         }
+    //     }
+    
+    //     $videoPaths = [];
+    //     $destinationPath = public_path('packages/videos');  // Define the destination directory for videos
+    
+    //     // Ensure the destination directory exists
+    //     if (!file_exists($destinationPath)) {
+    //         mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+    //     }
+    
+    //     foreach ($request->file('video') as $video) {
+    //         // Generate a unique filename (you can modify this as needed)
+    //         $filename = time() . '_' . $video->getClientOriginalName();
+            
+    //         // Move the video to the public directory
+    //         $video->move($destinationPath, $filename);
+            
+    //         // Add the relative path of the video to the array
+    //         $videoPaths[] = 'packages/videos/' . $filename;
+    //     }
+    
+    //     $package->video = json_encode($videoPaths);  // Store the new video paths
+    // }
+    
+    if ($request->has('deleted_videos')) {
+        $deletedVideos = explode(',', $request->deleted_videos);  // Get deleted video paths
+    
+        // Decode the existing video paths from the database
+        $existingVideos = json_decode($package->video, true);
+    
+        // Filter out the deleted videos from the existing ones
+        $updatedVideos = array_filter($existingVideos, function ($video) use ($deletedVideos) {
+            return !in_array($video, $deletedVideos);  // Compare the full path, not just the basename
+        });
+    
+        // Delete the video files from the server
+        foreach ($deletedVideos as $video) {
+            $videoPath = public_path($video);  // Use the full path from the database
+            if (file_exists($videoPath) && is_file($videoPath)) {
+                unlink($videoPath);  // Delete the video file from the server
             }
         }
     
+        // Update the package's video paths in the database
+        $package->video = json_encode(array_values($updatedVideos));
+    }
+    
+    // Handle new video uploads (if any)
+    if ($request->hasFile('video')) {
         $videoPaths = [];
-        $destinationPath = public_path('packages/videos');  // Define the destination directory for videos
+        $destinationPath = public_path('packages/videos');  // Define the destination directory
     
         // Ensure the destination directory exists
         if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+            mkdir($destinationPath, 0777, true);  // Create the directory if it doesn't exist
         }
     
         foreach ($request->file('video') as $video) {
-            // Generate a unique filename (you can modify this as needed)
+            // Generate a unique filename
             $filename = time() . '_' . $video->getClientOriginalName();
-            
-            // Move the video to the public directory
+    
+            // Move the video to the destination directory
             $video->move($destinationPath, $filename);
-            
-            // Add the relative path of the video to the array
+    
+            // Add the video path to the array
             $videoPaths[] = 'packages/videos/' . $filename;
         }
     
-        $package->video = json_encode($videoPaths);  // Store the new video paths
+        // Merge the new videos with the existing ones
+        $existingVideos = json_decode($package->video, true) ?? [];
+        $package->video = json_encode(array_merge($existingVideos, $videoPaths));
     }
-    
+
     // Handle PDF upload and update
     if ($request->hasFile('pdf')) {
         if ($package->pdf) {

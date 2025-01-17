@@ -103,7 +103,7 @@
                                 </div>
                                </div>
                             
-                               <div class="col-md-6">
+                               {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="video">Select Multipal Videos</label>
                                     <input type="file" name="video[]" class="form-control" multiple>
@@ -119,7 +119,31 @@
                                         </div>
                                     @endif
                                 </div>
-                               </div>
+                               </div> --}}
+
+                               <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="video">Select Multiple Videos</label>
+                                    <input type="file" name="video[]" class="form-control" multiple>
+                                    <small class="form-text text-muted">Leave blank to keep existing videos.</small>
+                            
+                                    @if($package->video)
+                                        <div id="video-list">
+                                            @foreach(json_decode($package->video) as $key => $video)
+                                                <div class="video-item" data-key="{{ $key }}">
+                                                    <video width="150" controls>
+                                                        <source src="{{ asset($video) }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-video" data-video="{{ $video }}" data-key="{{ $key }}">Remove</a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            
+
 
                                <div class="col-sm-6"><br>
                                 <label class="form-label" style="margin-left: 10px" for="pdf">Upload PDF</label>
@@ -149,6 +173,7 @@
                                </div>
                                </div>
                                <input type="hidden" name="deleted_images" id="deleted_images" value="path/to/old_image1.jpg,path/to/old_image2.jpg">
+                               <input type="hidden" id="deleted_videos" name="deleted_videos" value="">
                                 
                                 <button type="submit" class="btn btn-primary">Update Package</button>
                             </form>
@@ -164,6 +189,33 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+
+<script>
+    // JavaScript to handle video removal
+    document.querySelectorAll('.remove-video').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var video = this.getAttribute('data-video'); // Get the video path
+            var key = this.getAttribute('data-key'); // Get the key of the video in the array
+
+            // Get the current deleted videos (from the hidden input field)
+            var deletedVideos = document.getElementById('deleted_videos').value;
+
+            // Add the video to the deleted videos list (separated by commas)
+            if (deletedVideos) {
+                deletedVideos += ',' + video;
+            } else {
+                deletedVideos = video;
+            }
+
+            // Update the hidden input field with the new deleted videos list
+            document.getElementById('deleted_videos').value = deletedVideos;
+
+            // Remove the video from the displayed form
+            this.closest('.video-item').remove(); // Removes the video item from the form
+        });
+    });
+</script>
 
 
 <script>
