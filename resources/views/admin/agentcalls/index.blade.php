@@ -75,7 +75,7 @@
                       </tr>
                     </thead>
                    <tbody>
-                        @foreach($agent as $key=> $value)
+                        @foreach($agentCalls as $key=> $value)
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$value->name ?? ''}}</td>
