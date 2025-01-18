@@ -7,41 +7,43 @@ use Illuminate\Http\Request;
 use App\Models\AgentCalls;
 use App\Models\State;
 use App\Models\City;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class AgentCallsController extends Controller
 {
     public function index(Request $request)
 {
-    // Get the start_date and end_date from the query parameters (optional)
     $startDate = $request->input('start_date');
     $endDate = $request->input('end_date');
 
-    // Start the query
+    // Log the received parameters to check if they're coming through
+    Log::debug('Start Date:', ['start_date' => $startDate]);
+    Log::debug('End Date:', ['end_date' => $endDate]);
+
+    // Start building the query
     $query = AgentCalls::orderBy('id', 'DESC');
 
     // If both start_date and end_date are provided
     if ($startDate && $endDate) {
-        $startDate = Carbon::parse($startDate)->startOfDay(); // Start of the start date
-        $endDate = Carbon::parse($endDate)->endOfDay(); // End of the end date
-
-        // Filter by created_at field using whereBetween
+        Log::debug('Filtering with both start_date and end_date');
         $query->whereBetween('created_at', [$startDate, $endDate]);
     }
     // If only start_date is provided
     elseif ($startDate) {
-        $query->where('created_at', '>=', Carbon::parse($startDate)->startOfDay());
+        Log::debug('Filtering with start_date only');
+        $query->where('created_at', '>=', $startDate);
     }
     // If only end_date is provided
     elseif ($endDate) {
-        $query->where('created_at', '<=', Carbon::parse($endDate)->endOfDay());
+        Log::debug('Filtering with end_date only');
+        $query->where('created_at', '<=', $endDate);
     }
 
-    // Execute the query and get the filtered data
-    $data['agent'] = $query->get();
+    // Get the filtered data
+    $agentCalls = $query->get();
 
-    // Return the view with the filtered data
-    return view('admin.agentcalls.index', $data);
+    return view('admin.AgentCalls.index', compact('agentCalls'));
 }
 
 

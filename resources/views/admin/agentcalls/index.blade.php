@@ -46,8 +46,8 @@
               <div class="table-rep-plugin">
                 <div class="table-responsive b-0" data-pattern="priority-columns">
                   <table id="userTable" class="table  table-striped">
+
                     <form method="GET" action="{{ route('AgentCalls') }}">
-                      @csrf
                       <div class="form-group">
                           <label for="start_date">Start Date</label>
                           <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
@@ -60,6 +60,9 @@
                   
                       <button type="submit" class="btn btn-primary mb-5">Filter</button>
                   </form>
+                  <!-- Example of link with date filters -->
+                 
+                  {{-- <a href="{{ route('AgentCalls') }}?start_date={{ request('start_date') }}&end_date={{ request('end_date') }}" class="btn btn-primary mb-5">Filter</a> --}}
                     <thead>
                       <tr>
                         <th>#</th>
