@@ -43,7 +43,7 @@ class AgentCallsController extends Controller
     // Get the filtered data
     $agentCalls = $query->get();
 
-    return view('admin.AgentCalls.index', compact('agentCalls'));
+    return view('admin.agentcalls.index', compact('agentCalls'));
 }
 
 
