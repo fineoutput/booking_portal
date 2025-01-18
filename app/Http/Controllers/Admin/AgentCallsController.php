@@ -7,13 +7,42 @@ use Illuminate\Http\Request;
 use App\Models\AgentCalls;
 use App\Models\State;
 use App\Models\City;
+use Carbon\Carbon;
 
 class AgentCallsController extends Controller
 {
-    function index() {
-        $data['agent'] = AgentCalls::orderBy('id','DESC')->get();
-        return view('admin/agentcalls/index',$data);
+    public function index(Request $request)
+{
+    // Get the start_date and end_date from the query parameters (optional)
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+
+    // Start the query
+    $query = AgentCalls::orderBy('id', 'DESC');
+
+    // If both start_date and end_date are provided
+    if ($startDate && $endDate) {
+        $startDate = Carbon::parse($startDate)->startOfDay(); // Start of the start date
+        $endDate = Carbon::parse($endDate)->endOfDay(); // End of the end date
+
+        // Filter by created_at field using whereBetween
+        $query->whereBetween('created_at', [$startDate, $endDate]);
     }
+    // If only start_date is provided
+    elseif ($startDate) {
+        $query->where('created_at', '>=', Carbon::parse($startDate)->startOfDay());
+    }
+    // If only end_date is provided
+    elseif ($endDate) {
+        $query->where('created_at', '<=', Carbon::parse($endDate)->endOfDay());
+    }
+
+    // Execute the query and get the filtered data
+    $data['agent'] = $query->get();
+
+    // Return the view with the filtered data
+    return view('admin.agentcalls.index', $data);
+}
 
 
     public function getCitiesByStateagent($stateId)
@@ -40,6 +69,7 @@ class AgentCallsController extends Controller
             $agentCall->state_id = $request->state_id;
             $agentCall->city = $request->city;
             $agentCall->remarks = $request->remarks ?? null; // If no remarks, set it to null
+            $agentCall->date = Carbon::now()->toDateString();
     
             $agentCall->save();  // Save the record in the database
     

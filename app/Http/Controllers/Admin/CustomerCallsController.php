@@ -17,35 +17,26 @@ class CustomerCallsController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
     
-        // Start the query
         $query = CustomerCalls::orderBy('id', 'DESC');
     
-        // Check if both start_date and end_date are provided
         if ($startDate && $endDate) {
-            // Convert to Carbon instances and ensure that we account for the time
-            $startDate = Carbon::parse($startDate)->startOfDay(); // Start of the start date
-            $endDate = Carbon::parse($endDate)->endOfDay(); // End of the end date
-    
-            // Apply the date filter
-            $query->whereBetween('created_at', [$startDate, $endDate]);
+            $startDate = Carbon::parse($startDate)->startOfDay(); 
+            $endDate = Carbon::parse($endDate)->endOfDay();
+
+            $query->whereBetween('date', [$startDate, $endDate]);
         }
-        // If only start_date is provided
         elseif ($startDate) {
-            $query->where('created_at', '>=', Carbon::parse($startDate)->startOfDay());
+            $query->where('date', '>=', Carbon::parse($startDate)->startOfDay());
         }
-        // If only end_date is provided
         elseif ($endDate) {
-            $query->where('created_at', '<=', Carbon::parse($endDate)->endOfDay());
+            $query->where('date', '<=', Carbon::parse($endDate)->endOfDay());
         }
-    
-        // Execute the query and get the data
+
         $agent = $query->get();
-    
-        // Return the view with the filtered data
+
         return view('admin.CustomerCalls.index', compact('agent'));
     }
-
-
+    
     // function index() {
     //     $agent = CustomerCalls::orderBy('id','DESC')->get();
     //     return view('admin/CustomerCalls/index',compact('agent'));
@@ -78,7 +69,7 @@ class CustomerCallsController extends Controller
                 'name' => 'required|string|max:255',
                 'phone' => 'required|string|max:20',
                 'state_id' => 'required|string|max:255',
-                'city' => 'required|string|max:255',
+                // 'city' => 'required|string|max:255',
                 'package_enquiry_details' => 'required',
                 'interest_details' => 'required',
                 'mark_lead' => 'required',
@@ -93,6 +84,7 @@ class CustomerCallsController extends Controller
             $agentCall->city = $request->city;
             $agentCall->interest_details = $request->interest_details;
             $agentCall->mark_lead = $request->mark_lead;
+            $agentCall->date = Carbon::now()->toDateString();
     
             $agentCall->save();  // Save the record in the database
     

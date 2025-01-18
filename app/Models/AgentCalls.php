@@ -14,6 +14,7 @@ class AgentCalls extends Model
         'phone',
         'state_id',
         'city',
+        'date',
         'remarks',
     ];
 

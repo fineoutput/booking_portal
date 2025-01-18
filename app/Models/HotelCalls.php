@@ -17,6 +17,7 @@ class HotelCalls extends Model
         'phone',
         'state_id',
         'city',
+        'date',
         'location',
     ];
 

@@ -46,6 +46,22 @@
               <div class="table-rep-plugin">
                 <div class="table-responsive b-0" data-pattern="priority-columns">
                   <table id="userTable" class="table  table-striped">
+
+                    <form method="GET" action="{{ route('hotelsCalls') }}">
+                      @csrf
+                      <div class="form-group">
+                          <label for="start_date">Start Date</label>
+                          <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
+                      </div>
+                  
+                      <div class="form-group">
+                          <label for="end_date">End Date</label>
+                          <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
+                      </div>
+                  
+                      <button type="submit" class="btn btn-primary mb-5">Filter</button>
+                  </form>
+
                     <thead>
                       <tr>
                         <th>#</th>

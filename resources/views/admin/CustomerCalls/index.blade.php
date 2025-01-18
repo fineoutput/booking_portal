@@ -48,6 +48,7 @@
                   <table id="userTable" class="table  table-striped">
 
                     <form method="GET" action="{{ route('customerCalls') }}">
+                      @csrf
                       <div class="form-group">
                           <label for="start_date">Start Date</label>
                           <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">

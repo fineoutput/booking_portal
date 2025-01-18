@@ -13,6 +13,7 @@ class CustomerCalls extends Model
         'name',
         'state_id',
         'city',
+        'date',
         'phone',
         'package_enquiry_details',
         'interest_details',
