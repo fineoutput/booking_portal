@@ -17,30 +17,23 @@ class AgentCallsController extends Controller
     $startDate = $request->input('start_date');
     $endDate = $request->input('end_date');
 
-    // Log the received parameters to check if they're coming through
     Log::debug('Start Date:', ['start_date' => $startDate]);
     Log::debug('End Date:', ['end_date' => $endDate]);
 
-    // Start building the query
     $query = AgentCalls::orderBy('id', 'DESC');
 
-    // If both start_date and end_date are provided
     if ($startDate && $endDate) {
         Log::debug('Filtering with both start_date and end_date');
         $query->whereBetween('created_at', [$startDate, $endDate]);
     }
-    // If only start_date is provided
     elseif ($startDate) {
         Log::debug('Filtering with start_date only');
         $query->where('created_at', '>=', $startDate);
     }
-    // If only end_date is provided
     elseif ($endDate) {
         Log::debug('Filtering with end_date only');
         $query->where('created_at', '<=', $endDate);
     }
-
-    // Get the filtered data
     $agentCalls = $query->get();
 
     return view('admin.agentcalls.index', compact('agentCalls'));

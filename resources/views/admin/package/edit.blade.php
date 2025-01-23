@@ -1,5 +1,12 @@
 @extends('admin.base_template')
 @section('main')
+
+<style>
+    select#city {
+    width: 337px;
+    height: 200px;
+}
+</style>
 <!-- Start content -->
 <div class="content">
     <div class="container-fluid">
@@ -61,7 +68,7 @@
                                     <input type="text" name="city_id" value="{{ old('city_id', $package->city_id) }}" class="form-control">
                                 </div> --}}
 
-                                <div class="col-sm-4">
+                                {{-- <div class="col-sm-4">
                                     <label for="state">State</label>
                                     <select class="form-control" id="state" name="state_id">
                                         @foreach ($states as $state)
@@ -83,8 +90,38 @@
                                     @error('city')
                                         <div style="color:red">{{ $message }}</div>
                                     @enderror
+                                </div> --}}
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                    <select class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
+                                        @foreach ($states as $state)
+                                        <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
+                                            {{ $state->state_name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    
+                                    @error('state')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                    <label for="city">City</label>
+                                    <div id="output"></div>
+                                    <select class="chosen-select" id="city" name="city_id[]" multiple >
+                                        <!-- Cities will be populated dynamically here -->
+                                    </select>
+                                    
+                                    @error('city')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                </div>
+
                                <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="image">Select Multipal Images</label>
@@ -191,6 +228,37 @@
 </div> <!-- content -->
 
 
+
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+
+<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
+
+<script>
+    $('#state').selectpicker();
+</script>
+
+<script>
+  document.getElementById('output').innerHTML = location.search;
+  $(".chosen-select").chosen();
+</script>
+
+
 <script>
     // JavaScript to handle video removal
     document.querySelectorAll('.remove-video').forEach(function(button) {
@@ -219,48 +287,139 @@
 
 
 <script>
-    $(document).ready(function() {
-        // Load cities for the selected state when the page loads
-        let selectedState = $('#state').val();  // Get the selected state
-        if (selectedState) {
-            loadCities(selectedState, "{{ old('city_id', isset($package) ? $package->city_id : '') }}");  // Preselect the city if it's available
-        }
 
-        // Fetch cities when state is changed
-        $('#state').change(function() {
-            let stateId = $(this).val();
-            loadCities(stateId);  // Load cities based on selected state
-        });
+    // $(document).ready(function() {
+    //     // Load cities for the selected state when the page loads
+    //     let selectedState = $('#state').val();  // Get the selected state
+    //     if (selectedState) {
+    //         loadCities(selectedState, "{{ old('city_id', isset($package) ? $package->city_id : '') }}");  // Preselect the city if it's available
+    //     }
 
-        function loadCities(stateId, selectedCity = null) {
-            if (stateId) {
-                $.ajax({
-                    url: '/booking_portal/public/admin/cities/' + stateId,
-                    method: 'GET',
-                    success: function(response) {
-                        let cities = response.cities;
-                        $('#city').empty().append('<option value="">Select a City</option>');
-                        cities.forEach(function(city) {
-                            // Append the city options
-                            $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
-                        });
-                        $('#city').prop('disabled', false);
-                    },
-                    error: function() {
-                        alert('Error fetching cities');
-                    }
+    //     // Fetch cities when state is changed
+    //     $('#state').change(function() {
+    //         let stateId = $(this).val();
+    //         loadCities(stateId);  // Load cities based on selected state
+    //     });
+
+    //     function loadCities(stateId, selectedCity = null) {
+    //         if (stateId) {
+    //             $.ajax({
+    //                 url: '/booking_portal/public/admin/cities/' + stateId,
+    //                 method: 'GET',
+    //                 success: function(response) {
+    //                     let cities = response.cities;
+    //                     $('#city').empty().append('<option value="">Select a City</option>');
+    //                     cities.forEach(function(city) {
+    //                         // Append the city options
+    //                         $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
+    //                     });
+    //                     $('#city').prop('disabled', false);
+    //                 },
+    //                 error: function() {
+    //                     alert('Error fetching cities');
+    //                 }
+    //             });
+    //         } else {
+    //             $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+    //         }
+    //     }
+
+    //     // Initialize select2 for interests
+    //     $('#interest').select2({
+    //         placeholder: 'Select interests',
+    //         allowClear: true
+    //     });
+    // });
+
+
+
+    
+function getSelectedValues() {
+    const selectedStates = document.getElementById('state').selectedOptions;
+    const selectedValues = Array.from(selectedStates).map(option => option.value);
+    console.log("Selected values:", selectedValues);
+}
+
+$(document).ready(function() {
+
+// Get the selected state values when the page loads
+let selectedStates = $('#state').val();
+if (selectedStates && selectedStates.length > 0) {
+    console.log("Selected values on page load:", selectedStates);
+    loadCities(selectedStates);  
+}
+
+// When the state selection changes
+$('#state').change(function() {
+    let stateIds = $(this).val(); 
+    console.log(stateIds);
+    loadCities(stateIds); 
+    console.log("Selected values after change:", stateIds);
+});
+
+// Function to get the selected values of states (you can call this anytime)
+// function getSelectedValues() {
+//     const selectedStates = $('#state').val(); // This will be an array of selected values
+//     console.log("Selected values:", selectedStates);
+//     return selectedStates; // Return the array of selected state values
+// }
+
+function loadCities(stateIds) {
+if (stateIds && stateIds.length > 0) {
+    // Clear the existing city options before appending new ones
+    $('#city').empty().append('<option value="">Select a City</option>');
+
+    $.ajax({
+        url: '/admin/cities',
+        method: 'GET',
+        data: { state_ids: stateIds },
+        success: function(response) {
+            let cities = response.cities;
+            console.log(cities, 'Cities data');
+            
+            if (typeof cities === 'object') {
+                // Iterate over the grouped cities by state
+                Object.keys(cities).forEach(function(stateId) {
+                    let cityGroup = cities[stateId];
+                    // Add a grouping option for each state
+                    $('#city').append('<optgroup label="state ' + stateId + '">');
+                    cityGroup.forEach(function(city) {
+                        $('#city').append('<option value="' + city.id + '">' + city.city_name + '</option>');
+                    });
+                    $('#city').append('</optgroup>');
                 });
-            } else {
-                $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
             }
-        }
 
-        // Initialize select2 for interests
-        $('#interest').select2({
-            placeholder: 'Select interests',
-            allowClear: true
-        });
+            // Reinitialize Chosen.js after appending options
+            $('#city').trigger('chosen:updated');
+
+            // Enable the dropdown after data is loaded
+            $('#city').prop('disabled', false);
+
+            // Debugging step: check if options are appended
+            console.log($('#city').html(), 'Updated city dropdown options');
+        },
+        error: function() {
+            alert('Error fetching cities');
+        }
     });
+} else {
+    // If no state is selected, disable and clear the dropdown
+    $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+}
+}
+// Initialize Chosen.js (for state select)
+$('#state').chosen({
+    placeholder_text_multiple: "Select States"
+});
+
+// Initialize select2 for interests (if needed)
+$('#interest').select2({
+    placeholder: 'Select interests',
+    allowClear: true
+});
+});
+
 </script>
 
 <script>

@@ -80,7 +80,8 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('packages.destroy');
    Route::get('packages/{id}/edit', [PackageController::class, 'edit'])->name('packages.edit');
    Route::put('packages/{id}', [PackageController::class, 'update'])->name('packages.update');
-   Route::get('/cities/{stateId}', [PackageController::class, 'getCitiesByState']);
+//    Route::get('/cities/{stateId}', [PackageController::class, 'getCitiesByState']);
+Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
 
    Route::get('/package-price/{id}', [PackagePriceController::class, 'index'])->name('package_price');

@@ -45,13 +45,14 @@
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
                 <div class="table-responsive b-0" data-pattern="priority-columns">
-                  <table id="userTable" class="table  table-striped">
+                  <div style="width: 100%; overflow-x: auto;">
+                  <table id="userTable"  class="table  table-striped">
                     <thead>
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Package Name</th>
-                        <th data-priority="3">State</th>
-                        <th data-priority="1">City</th>
+                        <th data-priority="3">State Citys</th>
+                        {{-- <th data-priority="1">City</th> --}}
                         <th data-priority="1">PDF File</th>
                         <th data-priority="3">Images</th>
                         <th data-priority="3">Videos</th>
@@ -61,63 +62,96 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($package as $key=> $pkg)
-                            <tr>
-                                <td>{{$key+1}}</td>
-                                <td>{{ $pkg->package_name ?? '' }}</td>
-                                <td>{{ $pkg->state->state_name ?? '' }}</td>
-                                <td>{{ $pkg->cities->city_name ?? '' }}</td>
-                                <td>
-                                  @if ($pkg->pdf)
-                                      <!-- Display PDF Inline -->
-                                      <embed src="{{ asset('storage/' . $pkg->pdf) }}" type="application/pdf" width="100%" height="100px" />
+                      @foreach ($package as $key => $pkg)
+                      <tr>
+                          <td>{{ $key + 1 }}</td>
+                          <td>{{ $pkg->package_name ?? '' }}</td>
+
+                          <td class="states" style="width: 404px !important;">
+                            @if($pkg->state_id && $pkg->city_id)
+                                @php
+                                    $stateIds = explode(',', $pkg->state_id); // List of state IDs
+                                    $cityIds = explode(',', $pkg->city_id);  // List of city IDs
+                                    $stateCityPairs = [];
+                                @endphp
+                        
+                                @foreach($stateIds as $index => $stateId)
+                                    @php
+                                        $state = \App\Models\State::find($stateId);
+                                        $city = \App\Models\City::find($cityIds[$index] ?? null); // Get the city for the current index
+                                        
+                                        // If the state is found, get the state name and code (abbreviation)
+                                        $stateName = $state ? $state->state_name : 'State Not Found';
+                                        $stateCode = $state ? $state->state_code : ''; // Assuming there's a 'state_code' field
+                                        
+                                        // If the city is found, get the city name
+                                        $cityName = $city ? $city->city_name : 'City Not Found';
+                                        
+                                        // Add the state = city pair
+                                        $stateCityPairs[] = $stateName . ' [' . $stateCode . '] = ' . $cityName;
+                                    @endphp
+                                @endforeach
+                        
+                                {{ implode('<br>', $stateCityPairs) }} <!-- Display each pair on a new line -->
+                            @else
+                                {{ '' }}
+                            @endif
+                        </td>
+
+
+                          <td>
+                              @if ($pkg->pdf)
+                                  <!-- Display PDF Inline -->
+                                  <embed src="{{ asset('storage/' . $pkg->pdf) }}" type="application/pdf" width="100%" height="100px" />
+                                  
+                                  <!-- Download Button -->
+                                  <br />
+                                  <a href="{{ asset('storage/' . $pkg->pdf) }}" class="btn btn-primary" download target="_blank">
+                                      Download PDF
+                                  </a>
+                              @else
+                                  No PDF available
+                              @endif
+                          </td>
+                  
+                          <!-- Display Images -->
+                          <td>
+                              @foreach (json_decode($pkg->image) as $image)
+                                  <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
+                              @endforeach
+                          </td>
+                  
+                          <!-- Display Videos -->
+                          <td>
+                              @foreach (json_decode($pkg->video) as $video)
+                                  <video width="150" controls>
+                                      <source src="{{ asset($video) }}" type="video/mp4">
+                                      Your browser does not support the video tag.
+                                  </video>
+                              @endforeach
+                          </td>
+                  
+                          <td>{!! $pkg->text_description !!}</td>
+                          <td>{!! $pkg->text_description_2 !!}</td>
+                  
+                          <td>
+                              <!-- Edit Button -->
+                              <a href="{{ route('packages.edit', $pkg->id) }}" class="btn btn-warning">Edit</a>
                               
-                                      <!-- Download Button -->
-                                      <br />
-                                      <a href="{{ asset($pkg->pdf) }}" class="btn btn-primary" download target="_blank">
-                                          Download PDF
-                                      </a>
-                                  @else
-                                      No PDF available
-                                  @endif
-                              </td>
-
-                                <!-- Display Images -->
-                                <td>
-                                    @foreach (json_decode($pkg->image) as $image)
-                                        <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
-                                    @endforeach
-                                </td>
-
-                                <!-- Display Videos -->
-                                <td>
-                                    @foreach (json_decode($pkg->video) as $video)
-                                        <video width="150" controls>
-                                            <source src="{{ asset($video) }}" type="video/mp4">
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    @endforeach
-                                </td>
-                                <td>{!! $pkg->text_description !!}</td>
-                                <td>{!! $pkg->text_description_2 !!}</td>
-                                <td>
-                                    <!-- Edit Button -->
-                                    <a href="{{ route('packages.edit', $pkg->id) }}" class="btn btn-warning">Edit</a>
-                                    
-                                    <!-- Delete Form -->
-                                    <form action="{{ route('packages.destroy', $pkg->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE') <!-- This generates a DELETE request -->
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete</button>
-                                    </form>
-
-                                    <a href="{{ route('package_price_create', $pkg->id) }}" class="btn btn-warning">Add Price</a>
-
-                                </td>
-                            </tr>
-                        @endforeach
+                              <!-- Delete Form -->
+                              <form action="{{ route('packages.destroy', $pkg->id) }}" method="POST" style="display:inline;">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete</button>
+                              </form>
+                  
+                              <a href="{{ route('package_price_create', $pkg->id) }}" class="btn btn-warning">Add Price</a>
+                          </td>
+                      </tr>
+                  @endforeach
                     </tbody>
                   </table>
+                </div>
                 </div>
               </div>
             </div>

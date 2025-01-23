@@ -17,15 +17,32 @@ class PackageController extends Controller
         return view('admin/package/index',$data);
     }
 
-    public function getCitiesByState($stateId)
-    {
-    $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
-    return response()->json(['cities' => $cities]);
+    public function getCitiesByState(Request $request)
+{
+    // Get the array of selected state IDs
+    $stateIds = $request->input('state_ids', []);
+    
+    // If no state is selected, return empty cities
+    if (empty($stateIds)) {
+        return response()->json(['cities' => []]);
     }
 
+    // Fetch cities for the selected states
+    $cities = City::whereIn('state_id', $stateIds)->get(['id', 'state_id', 'city_name']);
+    
+    // Group cities by state ID
+    $groupedCities = [];
+    foreach ($cities as $city) {
+        $groupedCities[$city->state_id][] = $city;
+    }
+    
+    // Return the cities grouped by state
+    return response()->json(['cities' => $groupedCities]);
+}
 
     function create(Request $request) {
         if($request->method()=='POST'){
+            // return $request->state_id;
                // Validate the incoming request
         // $validated = $request->validate([
         //     'package_name' => 'required',
@@ -128,8 +145,8 @@ class PackageController extends Controller
 
         $package = new Package();
         $package->package_name = $request->package_name;
-        $package->state_id = $request->state_id;
-        $package->city_id = $request->city_id;
+        $package->state_id = implode(',', $request->state_id);
+        $package->city_id = implode(',', $request->city_id);
         $package->image = $imagePaths ? json_encode($imagePaths) : null; 
         $package->video = $videoPaths ? json_encode($videoPaths) : null; 
         $package->text_description = $request->text_description;
@@ -250,8 +267,10 @@ class PackageController extends Controller
 
     // Update the basic fields
     $package->package_name = $request->package_name;
-    $package->state_id = $request->state_id;
-    $package->city_id = $request->city_id ?? $package->city_id;  // Use current city_id if not provided
+    $stateIds = $request->state_id;
+    $cityIds = $request->city_id ?? $package->city_id;
+    $package->state_id = implode(',', $stateIds);
+    $package->city_id = implode(',', $cityIds);
     $package->text_description = $request->text_description;
     $package->text_description_2 = $request->text_description_2;
 
