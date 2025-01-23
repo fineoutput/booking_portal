@@ -370,7 +370,7 @@ if (stateIds && stateIds.length > 0) {
     $('#city').empty().append('<option value="">Select a City</option>');
 
     $.ajax({
-        url: '/admin/cities',
+        url: '/booking_portal/public/admin/cities',
         method: 'GET',
         data: { state_ids: stateIds },
         success: function(response) {
