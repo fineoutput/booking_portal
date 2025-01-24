@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class HotelsController extends Controller
 {
     function index() {
-        $data['hotels'] = Hotels::orderBy('id','DESC')->get();
+        // $data['hotels'] = Hotels::orderBy('id','DESC')->get();
         return view('admin/hotels/index',$data);
     }
 
