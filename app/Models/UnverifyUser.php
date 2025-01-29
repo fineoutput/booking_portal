@@ -3,19 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Sanctum\HasApiTokens; 
-use Illuminate\Notifications\Notifiable;
-class Agent extends Authenticatable
+
+class UnverifyUser extends Model
 {
-    use Notifiable , HasApiTokens;
     use HasFactory;
-    protected $table = 'agent';
+
+    protected $table = 'unverify_user';
+
     protected $fillable = [
+        'number_verify', 
         'name',
         'business_name',
-        'auth',
         'state',
         'city',
         'aadhar_image',
@@ -28,4 +27,15 @@ class Agent extends Authenticatable
         'logo',
         'registration_charge',
     ];
+    // protected $hidden = [
+    //     'password',
+    //     'id',
+    // ];
+
+    // Optionally, you can define casts for certain fields (e.g., dates or JSON fields)
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 }
+

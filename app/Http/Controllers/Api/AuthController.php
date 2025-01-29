@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UnverifyUser;
 use App\Models\UserOtp;
+use App\Models\Agent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Mail\OtpMail;
+
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,31 +31,23 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-        
-        $validationRules  = [
-            'number' => 'required|string', 
-            'status' => 'required|in:insert,update,final',         
-            'name' => 'nullable|string|max:255',         
-            'email' => 'nullable|string|email|max:255|unique:unverify_user', 
-            'age' => 'nullable|string|max:255',         
-            'gender' => 'nullable|string|max:255',       
-            'looking_for' => 'nullable|string|max:255',  
-            'interest' => 'nullable|array',
-            'interest.*' => 'nullable|exists:interests,id',     
-            'profile_image' => 'nullable|array',
-            'profile_image.*' => 'nullable|image',
-            'state' => 'nullable|string|max:255',        
-            'city' => 'nullable|string|max:255',                
-            'password' => 'nullable|string|min:6',
+        $validationRules = [
+            'number' => 'required|string|unique:agent,number',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:agent,email', 
+            'password' => 'required|string|min:6',
+            'business_name' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'aadhar_image' => 'required',
+            'aadhar_image_back' => 'required',
+            'pan_image' => 'required',
+            'GST_number' => 'required',
+            'logo' => 'required',
+            'registration_charge' => 'required',
         ];
-
-        if ($request->status === 'insert') {
-            $validationRules['number'] = 'required|string|unique:users';
-            $validationRules['email'] = 'nullable|string|email|max:255|uunique:users';
-        } elseif ($request->status === 'update') {
-            $validationRules['number'] = 'required|string|exists:unverify_user,number'; 
-            $validationRules['email'] = 'nullable|string|email|max:255|unique:users,email|unique:unverify_user,email,' . $request->number;
-        }
+    
+        // Validate the request input
         $validator = Validator::make($request->all(), $validationRules);
         if ($validator->fails()) {
             $errors = [];
@@ -62,89 +56,78 @@ class AuthController extends Controller
             }
             return response()->json(['errors' => $errors], 400);
         }
+    
+        // Step 1: Store user data in UnverifyUser (initially with number_verify = 0)
+        if ($request->number) {
+            $aadharImagePath = $request->file('aadhar_image')->store('uploads/aadhar_images', 'public');
+            $aadharImageBackPath = $request->file('aadhar_image_back')->store('uploads/aadhar_images', 'public');
+            $logoPath = $request->file('logo')->store('uploads/logos', 'public');
+            $panImagePath = $request->file('pan_image')->store('uploads/pan_images', 'public');
 
-        if ($request->status === 'insert' && $request->number) {
-            $number = $request->number;
-            $otp = $this->sendOtp($number);
             $user = UnverifyUser::create([
                 'number' => $request->number,
+                'number_verify' => 0, 
+                'email' => $request->email, 
+                'name' => $request->name,
+                'business_name' => $request->business_name,
+                'state' => $request->state,
+                'city' => $request->city,
+                'registration_charge' => $request->registration_charge,
+                'GST_number' => $request->GST_number,
+                'password' =>  Hash::make($request->password),
+                'aadhar_image' => $aadharImagePath,
+                'aadhar_image_back' => $aadharImageBackPath, 
+                'logo' => $logoPath,
+                'pan_image' => $panImagePath,
             ]);
-            return $this->successResponse('OTP send successfully!');
+
+            $otp = $this->sendOtp($request->number);
+            return response()->json(['message' => 'OTP sent successfully!']);
         }
-        
-        elseif ($request->status === 'update') {
+    
+        if ($request->otp && $request->number) {
             $user = UnverifyUser::where('number', $request->number)->first();
+            
             if (!$user) {
                 return response()->json(['message' => 'User not found.'], 404);
             }
-            if($request->email){
-                $email = $request->email;
-                $otp = $this->sendOtp(null,$email);
-            }
-            $updateData = array_filter($request->only([
-                'name', 'email', 'age', 'gender', 'looking_for', 
-                'interest', 'profile_image', 'state', 'city', 'password'
-            ]));
-            // if ($request->has('password')) {
-            //     $updateData['password'] = bcrypt($request->password);
-            // }
-            if ($request->hasFile('profile_image') && is_array($request->profile_image)) {
-                $imagePaths = [];
-                $index=1;
-                foreach ($request->profile_image as $image) {
-                    $imageValidator = Validator::make(['image' => $image], [
-                        'image' => 'required|image|mimes:jpg,jpeg,png,gif',
-                    ]);
-                    
-                    if ($imageValidator->fails()) {
-                        return response()->json(['errors' => $imageValidator->errors()], 400);
-                    }
-                    $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                    
-                    $image->move(public_path('uploads/app/profile_images'), $imageName);
-                    
-                    $imagePaths[$index] = 'profile_images' . $imageName;
-                    $index++;
-                }
-                $updateData['profile_image'] = json_encode($imagePaths);
-            }
-            $user->update($updateData);
-            return response()->json(['message' => 'User updated successfully!', 'user' => $user], 200);
-        }
-        elseif ($request->status === 'final') {
-            $unverifyUser = UnverifyUser::where('number', $request->number)
-                ->where('email_verify', 1)
-                ->where('number_verify', 1)
+    
+            $existingOtp = UserOtp::where('source_name', $request->number)
+                ->where('otp', $request->otp)
+                ->where('expires_at', '>=', now()) 
                 ->first();
     
-            if ($unverifyUser) {
-                $newUser = User::create([
-                    'number' => $unverifyUser->number,
-                    'email' => $unverifyUser->email,
-                    'password' => $unverifyUser->password,
-                    'name' => $unverifyUser->name,
-                    'age' => $unverifyUser->age,
-                    'gender' => $unverifyUser->gender,
-                    'looking_for' => $unverifyUser->looking_for,
-                    'interest' => $unverifyUser->interest,
-                    'profile_image' => $unverifyUser->profile_image,
-                    'state' => $unverifyUser->state,
-                    'city' => $unverifyUser->city,
-                ]);
-                UnverifyUser::where('number', $request->number)->delete();
-                $token = $newUser->createToken('token')->plainTextToken;
-                $userss = User::where('email', $newUser->email)->first();
-                if ($userss) {
-                    $userss->auth = $token;
-                    $userss->save();
-                }
-                return response()->json(['message' => 'User verified and moved to users table successfully!', 'token' => $token], 200);
-            } else {
-                return response()->json(['message' => 'User not found or email or phone not verified.'], 404);
+            if (!$existingOtp) {
+                return response()->json(['message' => 'Invalid OTP or OTP has expired.'], 400);
             }
-        }
 
+            $user->number_verify = 1;
+            $user->save();
+
+            $newUser = Agent::create([
+                'number' => $user->number,
+                'email' => $user->email,
+                'password' => $user->password,
+                'name' => $user->name,
+                'profile_image' => $user->profile_image, 
+                'state' => $user->state, 
+                'city' => $user->city, 
+                'age' => $user->age, 
+                'gender' => $user->gender, 
+                'looking_for' => $user->looking_for, 
+                'interest' => $user->interest, 
+            ]);
+
+            UnverifyUser::where('number', $request->number)->delete();
+
+            $token = $newUser->createToken('token')->plainTextToken;
+    
+            return response()->json(['message' => 'User verified and moved to Agent table successfully!', 'token' => $token], 200);
+        }
+    
+        return response()->json(['message' => 'OTP not provided or invalid.'], 400);
     }
+    
 
     private function sendOtp($phone = null, $email = null)
     {
@@ -175,88 +158,165 @@ class AuthController extends Controller
 
     public function verify_auth_otp(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'otp' => 'required|numeric|digits:4', 
-            'type' => 'required|in:email,phone', 
-            'source_name' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = [];
-            foreach ($validator->errors()->getMessages() as $field => $messages) {
-                $errors[$field] = $messages[0];
-                break; 
-            }
-            return response()->json(['errors' => $errors], 400);
-        }
-        $validated = $validator->validated();
-        $otp = $validated['otp'];
-        $type = $validated['type'];
-        $source_name = $validated['source_name'];
-
-        $otpUser = UserOtp::where('type', $type)
-        ->where('source_name', $source_name)
-        ->where('otp', $otp)
-        ->first();
-        if (!$otpUser) {
-            return $this->successResponse('Invalid OTP or details!', false,400);
-        }
-        if ($otpUser->expires_at < now()) {
-            return $this->successResponse('OTP has expired. Please request a new OTP.', false, 400);
-        }
-        UserOtp::where('type', $type)
-        ->where('source_name', $source_name)
-        ->update(['otp' => 0]);
-        if ($type === 'email') {
-            $unverifyUser = UnverifyUser::where('email', $source_name)->first();
-            if ($unverifyUser) {
-                $unverifyUser->update(['email_verify' => 1]);
-            } else {
-                return $this->successResponse('No user found with the provided email.',false,404);
-            }
-        }
-        if ($type === 'phone') {
-            $unverifyUser = UnverifyUser::where('number', $source_name)->first();
-        
-            if ($unverifyUser) {
-                $unverifyUser->update(['number_verify' => 1]);
-            } else {
-                return $this->successResponse('No user found with the provided phone number.',false,404);
-            }
-        }
-        return $this->successResponse('OTP verified successfully!', true,200);
-    }
-
-    public function login(Request $request)
-    {
-        // Validate the request input
-        $validator = Validator::make($request->all(), [
-            'number' => 'required|string|exists:users,number',
-            'password' => 'required|string|min:6',
+            'source_name' => 'required|string',
         ]);
     
         if ($validator->fails()) {
             $errors = [];
             foreach ($validator->errors()->getMessages() as $field => $messages) {
                 $errors[$field] = $messages[0];
+                break;
+            }
+            return response()->json(['errors' => $errors], 400);
+        }
+    
+        $validated = $validator->validated();
+        $otp = $validated['otp'];
+        $source_name = $validated['source_name']; 
+    
+        $otpUser = UserOtp::where('source_name', $source_name)
+                          ->where('otp', $otp)
+                          ->first();
+    
+        if (!$otpUser) {
+            return $this->successResponse('Invalid OTP or details!', false, 400);
+        }
+    
+        if ($otpUser->expires_at < now()) {
+            return $this->successResponse('OTP has expired. Please request a new OTP.', false, 400);
+        }
+    
+        UserOtp::where('source_name', $source_name)
+               ->update(['otp' => 0]);
+    
+        $unverifyUser = UnverifyUser::where('number', $source_name)->first();
+
+        if (!$unverifyUser) {
+            return $this->successResponse('No user found with the provided phone number.', false, 404);
+        }
+        $unverifyUser->update(['number_verify' => 1]);
+
+        $newUser = Agent::create([
+            'number' => $unverifyUser->number,
+            'email' => $unverifyUser->email,
+            'password' => $unverifyUser->password,  // Ensure the password is already hashed
+            'name' => $unverifyUser->name,
+            'business_name' => $unverifyUser->business_name, 
+            'state' => $unverifyUser->state, 
+            'city' => $unverifyUser->city, 
+            'aadhar_image' => $unverifyUser->aadhar_image, 
+            'aadhar_image_back' => $unverifyUser->aadhar_image_back, 
+            'pan_image' => $unverifyUser->pan_image, 
+            'GST_number' => $unverifyUser->GST_number, 
+            'logo' => $unverifyUser->logo, 
+            'registration_charge' => $unverifyUser->registration_charge, 
+        ]);
+        
+        // Generate token using base64 encoding of email and password
+        $token = base64_encode($newUser->email . ',' . $unverifyUser->password);
+        
+        // Save the token to the user record
+        $newUser->auth = $token;
+        $newUser->save();
+        
+        // Delete the unverified user
+        $unverifyUser->delete();
+        
+        // Prepare the response data
+        $responseData = [
+            'message' => 'User phone verified and moved to users table successfully!',
+            'status' => 200,
+            'user' => [
+                'id' => $newUser->id,
+                'name' => $newUser->name,
+                'email' => $newUser->email,
+                'number' => $newUser->number,
+                'business_name' => $newUser->business_name,
+                'state' => $newUser->state,
+                'city' => $newUser->city,
+                'aadhar_image' => $newUser->aadhar_image, 
+                'aadhar_image_back' => $newUser->aadhar_image_back, 
+                'pan_image' => $newUser->pan_image,
+                'GST_number' => $newUser->GST_number,
+                'logo' => $newUser->logo,
+                'registration_charge' => $newUser->registration_charge,
+                'auth' => $token,  // Include the token
+            ]
+        ];
+        return response()->json($responseData, 200);
+        
+    }
+
+
+    public function login(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|exists:agent,email', 
+            'password' => 'required|string|min:6', 
+        ]);
+        
+        if ($validator->fails()) {
+            $errors = [];
+            foreach ($validator->errors()->getMessages() as $field => $messages) {
+                $errors[$field] = $messages[0];
                 break; 
             }
             return response()->json(['errors' => $errors], 400);
         }
-        $credentials = $request->only('number', 'password');
-        if (!Auth::attempt($credentials)) {
-            return $this->successResponse('Invalid credentials. Please check your number and password.', false, 401);
+
+        $credentials = $request->only('email', 'password');
+        
+        if (!Auth::guard('agent')->attempt($credentials)) { 
+            return response()->json(['message' => 'Invalid credentials. Please check your email and password.'], 401);
         }
-        $user = Auth::user();
-        $token = $user->createToken('token')->plainTextToken;
-        $user->auth = $token;
+
+        $user = Auth::guard('agent')->user(); 
+        $email = $user->email;
+        $password = $request->password; 
+        $base64Token = base64_encode($email . ',' . $password);
+
+        $user->auth = $base64Token; 
         $user->save();
+  
         return response()->json([
             'message' => 'Login successful.',
-            'token' => $token,
+            'token' => $base64Token,
         ], 200);
     }
+
+
+    // public function login(Request $request)
+    // {
+    //     // Validate the request input
+    //     $validator = Validator::make($request->all(), [
+    //         'number' => 'required|string|exists:users,number',
+    //         'password' => 'required|string|min:6',
+    //     ]);
+    
+    //     if ($validator->fails()) {
+    //         $errors = [];
+    //         foreach ($validator->errors()->getMessages() as $field => $messages) {
+    //             $errors[$field] = $messages[0];
+    //             break; 
+    //         }
+    //         return response()->json(['errors' => $errors], 400);
+    //     }
+    //     $credentials = $request->only('number', 'password');
+    //     if (!Auth::attempt($credentials)) {
+    //         return $this->successResponse('Invalid credentials. Please check your number and password.', false, 401);
+    //     }
+    //     $user = Auth::user();
+    //     $token = $user->createToken('token')->plainTextToken;
+    //     $user->auth = $token;
+    //     $user->save();
+    //     return response()->json([
+    //         'message' => 'Login successful.',
+    //         'token' => $token,
+    //     ], 200);
+    // }
 
     public function logout(Request $request)
     {

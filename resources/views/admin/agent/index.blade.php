@@ -51,32 +51,68 @@
                         <th>#</th>
                         <th data-priority="1">Name</th>
                         <th data-priority="3">Business Name</th>
+                        <th data-priority="3">Phone</th>
                         <th data-priority="3">State</th>
                         <th data-priority="3">City</th>
                         <th data-priority="3">Email</th>
                         <th data-priority="3">GST Number</th>
                         <th data-priority="3">Registration Charge</th>
-                        <th data-priority="3">Aadhar Image</th>
+                        <th data-priority="3">Aadhar Image Front</th>
+                        <th data-priority="3">Aadhar Image Back</th>
                         <th data-priority="3">Pan Image</th>
                         <th data-priority="3">Logo</th>
                       </tr>
                     </thead>
                    <tbody>
-                        @foreach($agent as $key=> $value)
-                            <tr>
-                                <td>{{$key+1}}</td>
-                                <td>{{$value->name ?? ''}}</td>
-                                <td>{{$value->business_name ?? ''}}</td>
-                                <td>{{$value->state ?? ''}}</td>
-                                <td>{{$value->city ?? ''}}</td>
-                                <td>{{$value->email ?? ''}}</td>
-                                <td>{{$value->GST_number ?? ''}}</td>
-                                <td>{{$value->registration_charge ?? ''}}</td>
-                                <td>{{$value->aadhar_image ?? ''}}</td>
-                                <td>{{$value->pan_image ?? ''}}</td>
-                                <td>{{$value->logo ?? ''}}</td>
-                            </tr>
-                        @endforeach
+                    @foreach($agent as $key => $value)
+    <tr>
+        <td>{{ $key + 1 }}</td>
+        <td>{{ $value->name ?? '' }}</td>
+        <td>{{ $value->business_name ?? '' }}</td>
+        <td>{{ $value->number ?? '' }}</td>
+        <td>{{ $value->state ?? '' }}</td>
+        <td>{{ $value->city ?? '' }}</td>
+        <td>{{ $value->email ?? '' }}</td>
+        <td>{{ $value->GST_number ?? '' }}</td>
+        <td>{{ $value->registration_charge ?? '' }}</td>
+        
+        <!-- Display Aadhar Image -->
+        <td>
+          @if($value->aadhar_image)
+              <img src="{{ asset('storage/' . $value->aadhar_image) }}" alt="Aadhar Image" style="max-width: 100px; max-height: 100px;">
+          @else
+              N/A
+          @endif
+      </td>
+
+        <!-- Display Aadhar Image Back -->
+        <td>
+            @if($value->aadhar_image_back)
+                <img src="{{ asset('storage/' . $value->aadhar_image_back) }}" alt="Aadhar Image Back" style="max-width: 100px; max-height: 100px;">
+            @else
+                N/A
+            @endif
+        </td>
+        
+        <!-- Display PAN Image -->
+        <td>
+            @if($value->pan_image)
+                <img src="{{ asset('storage/' . $value->pan_image) }}" alt="PAN Image" style="max-width: 100px; max-height: 100px;">
+            @else
+                N/A
+            @endif
+        </td>
+        
+        <!-- Display Logo -->
+        <td>
+            @if($value->logo)
+                <img src="{{ asset('storage/' . $value->logo) }}" alt="Logo" style="max-width: 100px; max-height: 100px;">
+            @else
+                N/A
+            @endif
+        </td>
+    </tr>
+@endforeach
                    </tbody>
                   </table>
                 </div>
