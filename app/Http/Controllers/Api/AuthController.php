@@ -249,133 +249,125 @@ class AuthController extends Controller
 
 
     public function verify_auth_otp(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'otp' => 'required|numeric|digits:4', 
-        'source_name' => 'required|string',
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'otp' => 'required|numeric|digits:4', 
+            'source_name' => 'required|string',
+        ]);
 
-    if ($validator->fails()) {
-        $errors = [];
-        foreach ($validator->errors()->getMessages() as $field => $messages) {
-            $errors[$field] = $messages[0];
-            break; // break to return the first error only
+        if ($validator->fails()) {
+            $errors = [];
+            foreach ($validator->errors()->getMessages() as $field => $messages) {
+                $errors[$field] = $messages[0];
+                break;
+            }
+            return response()->json(['errors' => $errors], 400);
         }
-        return response()->json(['errors' => $errors], 400);
-    }
 
-    $validated = $validator->validated();
-    $otp = $validated['otp'];
-    $source_name = $validated['source_name']; 
+        $validated = $validator->validated();
+        $otp = $validated['otp'];
+        $source_name = $validated['source_name']; 
 
-    // Check if OTP is valid
-    $otpUser = UserOtp::where('source_name', $source_name)
-                      ->where('otp', $otp)
-                      ->first();
+        $otpUser = UserOtp::where('source_name', $source_name)
+                        ->where('otp', $otp)
+                        ->first();
 
-    if (!$otpUser) {
-        return $this->successResponse('Invalid OTP or details!', false, 400);
-    }
+        if (!$otpUser) {
+            return $this->successResponse('Invalid OTP or details!', false, 400);
+        }
 
-    // Check if OTP has expired
-    if ($otpUser->expires_at < now()) {
-        return $this->successResponse('OTP has expired. Please request a new OTP.', false, 400);
-    }
+        if ($otpUser->expires_at < now()) {
+            return $this->successResponse('OTP has expired. Please request a new OTP.', false, 400);
+        }
 
-    // Mark OTP as used
-    UserOtp::where('source_name', $source_name)->update(['otp' => 0]);
+        UserOtp::where('source_name', $source_name)->update(['otp' => 0]);
 
-    // Find the unverified user
-    $unverifyUser = UnverifyUser::where('number', $source_name)->first();
+        $existingUser = Agent::where('number', $source_name)->first();
 
-    if (!$unverifyUser) {
-        return $this->successResponse('No user found with the provided phone number.', false, 404);
-    }
+        if ($existingUser) {
+            $token = base64_encode($existingUser->email . ',' . $existingUser->password);
+            $existingUser->auth = $token;
+            $existingUser->save();
 
-    // Check if the user already exists in the Agent table
-    $existingUser = Agent::where('number', $source_name)->orWhere('email', $unverifyUser->email)->first();
+            $responseData = [
+                'message' => 'Login successful !',
+                'status' => 200,
+                'user' => [
+                    'id' => $existingUser->id,
+                    'name' => $existingUser->name,
+                    'email' => $existingUser->email,
+                    'number' => $existingUser->number,
+                    'business_name' => $existingUser->business_name,
+                    'state' => $existingUser->state,
+                    'city' => $existingUser->city,
+                    'aadhar_image' => asset('storage/' . $existingUser->aadhar_image), 
+                    'aadhar_image_back' => asset('storage/' . $existingUser->aadhar_image_back), 
+                    'pan_image' => asset('storage/' . $existingUser->pan_image),
+                    'GST_number' => $existingUser->GST_number,
+                    'logo' => asset('storage/' . $existingUser->logo),
+                    'registration_charge' => $existingUser->registration_charge,
+                    'auth' => $token, 
+                ]
+            ];
+        
+            return response()->json($responseData, 200);
 
-    if ($existingUser) {
-        // If user exists, update the auth token and send user details
-        $token = base64_encode($existingUser->email . ',' . $existingUser->password);
-        $existingUser->auth = $token;
-        $existingUser->save();
+        }
+
+        $unverifyUser = UnverifyUser::where('number', $source_name)->first();
+
+        if (!$unverifyUser) {
+            return $this->successResponse('No user found with the provided phone number.', false, 404);
+        }
+
+        $unverifyUser->update(['number_verify' => 1]);
+
+        $newUser = Agent::create([
+            'number' => $unverifyUser->number,
+            'email' => $unverifyUser->email,
+            'password' => $unverifyUser->password,
+            'name' => $unverifyUser->name,
+            'business_name' => $unverifyUser->business_name, 
+            'state' => $unverifyUser->state, 
+            'city' => $unverifyUser->city, 
+            'aadhar_image' => $unverifyUser->aadhar_image, 
+            'aadhar_image_back' => $unverifyUser->aadhar_image_back, 
+            'pan_image' => $unverifyUser->pan_image, 
+            'GST_number' => $unverifyUser->GST_number, 
+            'logo' => $unverifyUser->logo, 
+            'registration_charge' => $unverifyUser->registration_charge, 
+        ]);
+
+        $token = base64_encode($newUser->email . ',' . $unverifyUser->password);
+
+        $newUser->auth = $token;
+        $newUser->save();
+
+        $unverifyUser->delete();
 
         $responseData = [
-            'message' => 'Login successful !',
+            'message' => 'User phone verified and moved to users table successfully!',
             'status' => 200,
             'user' => [
-                'id' => $existingUser->id,
-                'name' => $existingUser->name,
-                'email' => $existingUser->email,
-                'number' => $existingUser->number,
-                'business_name' => $existingUser->business_name,
-                'state' => $existingUser->state,
-                'city' => $existingUser->city,
-                'aadhar_image' => $existingUser->aadhar_image, 
-                'aadhar_image_back' => $existingUser->aadhar_image_back, 
-                'pan_image' => $existingUser->pan_image,
-                'GST_number' => $existingUser->GST_number,
-                'logo' => $existingUser->logo,
-                'registration_charge' => $existingUser->registration_charge,
-                'auth' => $token,  // Include the token
+                'id' => $newUser->id,
+                'name' => $newUser->name,
+                'email' => $newUser->email,
+                'number' => $newUser->number,
+                'business_name' => $newUser->business_name,
+                'state' => $newUser->state,
+                'city' => $newUser->city,
+                'aadhar_image' => asset('storage/' . $newUser->aadhar_image), 
+                'aadhar_image_back' => asset('storage/' . $newUser->aadhar_image_back), 
+                'pan_image' => asset('storage/' . $newUser->pan_image),
+                'GST_number' => $newUser->GST_number,
+                'logo' => asset('storage/' . $newUser->logo),
+                'registration_charge' => $newUser->registration_charge,
+                'auth' => $token, 
             ]
         ];
+        
         return response()->json($responseData, 200);
     }
-
-    // If user doesn't exist, create a new user
-    $unverifyUser->update(['number_verify' => 1]);
-
-    $newUser = Agent::create([
-        'number' => $unverifyUser->number,
-        'email' => $unverifyUser->email,
-        'password' => $unverifyUser->password,  // Ensure the password is already hashed
-        'name' => $unverifyUser->name,
-        'business_name' => $unverifyUser->business_name, 
-        'state' => $unverifyUser->state, 
-        'city' => $unverifyUser->city, 
-        'aadhar_image' => $unverifyUser->aadhar_image, 
-        'aadhar_image_back' => $unverifyUser->aadhar_image_back, 
-        'pan_image' => $unverifyUser->pan_image, 
-        'GST_number' => $unverifyUser->GST_number, 
-        'logo' => $unverifyUser->logo, 
-        'registration_charge' => $unverifyUser->registration_charge, 
-    ]);
-
-    $token = base64_encode($newUser->email . ',' . $unverifyUser->password);
-    
-    // Save the token to the user record
-    $newUser->auth = $token;
-    $newUser->save();
-    
-    // Delete the unverified user
-    $unverifyUser->delete();
-    
-    // Prepare the response data
-    $responseData = [
-        'message' => 'User phone verified and moved to users table successfully!',
-        'status' => 200,
-        'user' => [
-            'id' => $newUser->id,
-            'name' => $newUser->name,
-            'email' => $newUser->email,
-            'number' => $newUser->number,
-            'business_name' => $newUser->business_name,
-            'state' => $newUser->state,
-            'city' => $newUser->city,
-            'aadhar_image' => $newUser->aadhar_image, 
-            'aadhar_image_back' => $newUser->aadhar_image_back, 
-            'pan_image' => $newUser->pan_image,
-            'GST_number' => $newUser->GST_number,
-            'logo' => $newUser->logo,
-            'registration_charge' => $newUser->registration_charge,
-            'auth' => $token,  // Include the token
-        ]
-    ];
-    
-    return response()->json($responseData, 200);
-}
 
     // public function login(Request $request)
     // {
@@ -448,11 +440,11 @@ class AuthController extends Controller
 
     return response()->json([
         'message' => 'Login successful. OTP sent successfully!',
-        'otp' => $otp,  
+        'status' => 200,    
     ], 200);
 }
 
-    // public function login(Request $request)
+    // public function login(Request $request)    
     // {
     //     // Validate the request input
     //     $validator = Validator::make($request->all(), [
