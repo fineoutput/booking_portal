@@ -268,7 +268,7 @@
 
         if (phoneNumber) {
             // Assume an OTP is sent and the OTP field is shown
-            alert("OTP sent to " + phoneNumber);
+            // alert("OTP sent to " + phoneNumber);
             // Hide phone number input and show OTP input
             document.getElementById('phoneFormGroup').style.display = 'none';
             document.getElementById('otpFormGroup').style.display = 'block';
@@ -300,7 +300,7 @@
         const password = document.getElementById('passwordLogin').value;
 
         if (email && password) {
-            alert("Logged in with email!");
+            // alert("Logged in with email!");
             // Proceed with further logic or redirect
         } else {
             alert("Please fill in both email and password.");
