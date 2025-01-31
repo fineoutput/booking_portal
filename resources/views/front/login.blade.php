@@ -94,13 +94,13 @@
                         </div>
 
                         <!-- Submit Button for Phone Number -->
-                        <button type="submit" class="btn btn-primary">Submit Phone Number</button>
+                        <button type="button" class="btn btn-outline-primary mt-2" id="sendOtpBtn">Send OTP</button>
                         
                         <!-- OTP Field (Initially hidden) -->
                         <div id="otpFormGroup" class="mb-3" style="display: none;">
                             <label for="otpLogin" class="form-label">OTP</label>
                             <input type="text" class="form-control" id="otpLogin" name="otpLogin" placeholder="Enter OTP">
-                            <button type="button" class="btn btn-outline-primary mt-2" id="sendOtpBtn">Send OTP</button>
+                            <button type="button" class="btn btn-outline-primary mt-2" id="submitOtpBtn">Submit OTP</button>
                         </div>
 
                         <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="toggleLoginForm()">Back to Email Login</button>
@@ -259,6 +259,7 @@
         document.getElementById('otpLogin').value = '';
         document.getElementById('phoneFormGroup').style.display = 'block';
         document.getElementById('otpFormGroup').style.display = 'none';
+        document.getElementById('submitOtpBtn').style.display = 'none';
     }
 
     // Handle OTP submission
@@ -271,6 +272,8 @@
             // Hide phone number input and show OTP input
             document.getElementById('phoneFormGroup').style.display = 'none';
             document.getElementById('otpFormGroup').style.display = 'block';
+            document.getElementById('sendOtpBtn').style.display = 'none';
+            document.getElementById('submitOtpBtn').style.display = 'block';
         } else {
             alert("Please enter a valid phone number");
         }
