@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\TeamController; 
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -53,6 +54,10 @@ Route::group(['prefix' => '/'], function () {
     Route::get('list', [HomeController::class, 'list'])->name('list');
     Route::get('detail', [HomeController::class, 'detail'])->name('detail');
 });
+
+Route::post('signup', [AuthController::class, 'signup'])->name('signup');
+Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp'])->name('verify_auth_otp');
+Route::post('agentlogin', [AuthController::class, 'agentlogin'])->name('agentlogin');
 
 //======================================= ADMIN ===================================================
 
