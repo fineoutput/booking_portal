@@ -73,6 +73,7 @@
                         <th data-priority="6">State</th>
                         <th data-priority="6">City</th>
                         <th data-priority="6">Location</th>
+                        <th data-priority="6">Date</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -88,6 +89,9 @@
                                 <td>{{$value->state->state_name ?? ''}}</td>
                                 <td>{{$value->cities->city_name ?? ''}}</td>
                                 <td>{{$value->location ?? ''}}</td>
+                                <td>
+                                  {{ \Carbon\Carbon::parse($value->created_at)->format('Y M j') ?? '' }}
+                                </td>
                                 <td>
                                     <a href="{{ route('hotelsCalls.edit', $value->id) }}" class="btn btn-primary">
                                         Edit

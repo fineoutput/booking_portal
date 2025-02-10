@@ -71,6 +71,7 @@
                         <th data-priority="1">State</th>
                         <th data-priority="3">City</th>
                         <th data-priority="3">Remarks</th>
+                        <th data-priority="3">Date</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -83,6 +84,9 @@
                                 <td>{{$value->state->state_name	 ?? ''}}</td>
                                 <td>{{$value->cities->city_name ?? ''}}</td>
                                 <td>{{$value->remarks ?? ''}}</td>
+                                <td>
+                                  {{ \Carbon\Carbon::parse($value->created_at)->format('Y M j') ?? '' }}
+                                </td>
                                 <td>
 
                                     <a href="{{ route('AgentCalls.edit', $value->id) }}" class="btn btn-primary">
