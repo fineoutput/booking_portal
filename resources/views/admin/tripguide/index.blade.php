@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Hotels</h4>
+          <h4 class="page-title">View Safari</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Hotels</a></li>
-            <li class="breadcrumb-item active">View Hotels</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Safari</a></li>
+            <li class="breadcrumb-item active">View Safari</li>
           </ol>
         </div>
       </div>
@@ -38,9 +38,9 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Hotels List</h4>
+                  <h4 class="mt-0 header-title">View Safari List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('add_hotels')}}" role="button" style="margin-left: 20px;"> Add Hotels</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('tripguide_create')}}" role="button" style="margin-left: 20px;"> Add Safari</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -49,63 +49,36 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th data-priority="1">Name</th>
                         <th data-priority="1">State</th>
                         <th data-priority="1">City</th>
-                        <th data-priority="3">Location</th>
-                        <th data-priority="1">Hotel Category</th>
-                        <th data-priority="3">Package</th>
-                        <th data-priority="3">Image</th>
+                        <th data-priority="1">Location</th>
+                        <th data-priority="1">Language</th>
+                        <th data-priority="1">Local Guide</th>
+                        <th data-priority="1">Out Station Guide</th>
+                        <th data-priority="1">Cost</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
                    <tbody>
-                    @foreach($hotels as $key=> $hotel)
+                    @foreach($WildlifeSafari as $key=> $hotel)
                     <tr>
                         <td>{{ $key+1 }}</td> <!-- Loop index -->
-                        <td>{{ $hotel->name }}</td>
                         <td>{{ $hotel->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->cities->city_name ?? '' }}</td>
-                        <td>{{ $hotel->location }}</td>
-                        <td>{{ $hotel->hotel_category }}</td>
-                        <td>
-                          @php
-                          $propertyIds = explode(',', $hotel->package_id);  
-                          $isFirst = true;  // Variable to track the first iteration
-                      @endphp
-                     @foreach ($propertyIds as $propertyId)
-                        @php
-                           $property = \App\Models\Package::find($propertyId);  
-                        @endphp
-                  
-                        @if ($property)
-                          @if (!$isFirst) 
-                              ,
-                          @endif
-                          {{ $property->package_name }}
-                  
-                          @php
-                              $isFirst = false;
-                          @endphp
-                          @else
-                            Package not found
-                          @endif
-                      @endforeach
+                        <td>{{ $hotel->location ?? '' }}</td>
+                        <td>{{ $hotel->language ?? '' }}</td>
+                        <td>{{ $hotel->local_guide ?? '' }}</td>
+                        <td>{{ $hotel->out_station_guide ?? '' }}</td>
+                        <td>{{ $hotel->cost ?? '' }}</td>
+                        {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
 
-                        </td>
                         <td>
-                          @foreach (json_decode($hotel->images) as $image)
-                              <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
-                          @endforeach
-                      </td>
-                        <td>
-                            <a href="{{ route('hotels.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('tripguide.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('tripguide.destroy', $hotel->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this hotel?')">Delete</button>
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
                             </form>
-                            <a href="{{ route('hotel_price', $hotel->id) }}" class="btn btn-success mt-2">Add Price</a>
                         </td>
                     </tr>
                 @endforeach

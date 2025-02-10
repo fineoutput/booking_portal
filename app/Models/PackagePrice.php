@@ -34,6 +34,8 @@ class PackagePrice extends Model
         'traveller_big_cost',
         'premium_traveller_cost',
         'ac_coach_cost',
+        'start_date',
+        'end_date',
     ];
 
     
@@ -44,6 +46,10 @@ class PackagePrice extends Model
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id'); // State's foreign key is 'state_id'
+    }
+    public function package()
+    {
+        return $this->belongsTo(Package::class, 'package_id'); // State's foreign key is 'state_id'
     }
 
     // A package belongs to a city

@@ -7,37 +7,43 @@ use Illuminate\Http\Request;
 use App\Models\AgentCalls;
 use App\Models\State;
 use App\Models\City;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class AgentCallsController extends Controller
 {
     public function index(Request $request)
-{
-    $startDate = $request->input('start_date');
-    $endDate = $request->input('end_date');
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-    Log::debug('Start Date:', ['start_date' => $startDate]);
-    Log::debug('End Date:', ['end_date' => $endDate]);
+        Log::debug('Start Date:', ['start_date' => $startDate]);
+        Log::debug('End Date:', ['end_date' => $endDate]);
 
-    $query = AgentCalls::orderBy('id', 'DESC');
+        $user = Auth::user();
+        if($user->power == 4){
+            $agentCallIds = explode(',', $user->agent_calles_id);
+        $query = AgentCalls::orderBy('id', 'DESC')->whereIn('id',$agentCallIds);
+        }else{
+            $query = AgentCalls::orderBy('id', 'DESC');
+        }
+        if ($startDate && $endDate) {
+            Log::debug('Filtering with both start_date and end_date');
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        elseif ($startDate) {
+            Log::debug('Filtering with start_date only');
+            $query->where('created_at', '>=', $startDate);
+        }
+        elseif ($endDate) {
+            Log::debug('Filtering with end_date only');
+            $query->where('created_at', '<=', $endDate);
+        }
+        $agentCalls = $query->get();
 
-    if ($startDate && $endDate) {
-        Log::debug('Filtering with both start_date and end_date');
-        $query->whereBetween('created_at', [$startDate, $endDate]);
+        return view('admin.agentcalls.index', compact('agentCalls'));
     }
-    elseif ($startDate) {
-        Log::debug('Filtering with start_date only');
-        $query->where('created_at', '>=', $startDate);
-    }
-    elseif ($endDate) {
-        Log::debug('Filtering with end_date only');
-        $query->where('created_at', '<=', $endDate);
-    }
-    $agentCalls = $query->get();
-
-    return view('admin.agentcalls.index', compact('agentCalls'));
-}
 
 
     public function getCitiesByStateagent($stateId)

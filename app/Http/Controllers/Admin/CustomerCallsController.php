@@ -8,6 +8,7 @@ use App\Models\CustomerCalls;
 use App\Models\State;
 use Carbon\Carbon;
 use App\Models\City;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerCallsController extends Controller
 {
@@ -17,7 +18,15 @@ class CustomerCallsController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
     
-        $query = CustomerCalls::orderBy('id', 'DESC');
+        $user = Auth::user();
+        if($user->power == 4){
+            $agentCallIds = explode(',', $user->customer_calles_id);
+        $query = CustomerCalls::orderBy('id', 'DESC')->whereIn('id',$agentCallIds);
+        }else{
+            $query = CustomerCalls::orderBy('id', 'DESC');
+        }
+
+        // $query = CustomerCalls::orderBy('id', 'DESC');
     
         if ($startDate && $endDate) {
             $startDate = Carbon::parse($startDate)->startOfDay(); 
@@ -43,17 +52,59 @@ class CustomerCallsController extends Controller
     // }
 
     function Ongoing() {
-        $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','1')->get();
+
+        $user = Auth::user();
+
+        if($user->power == 4){
+
+            $agentCallIds = explode(',', $user->customer_calles_id);
+
+         $data['agent'] = CustomerCalls::orderBy('id','DESC')->whereIn('id',$agentCallIds)->where('mark_lead','1')->get();
+
+        }else{
+         $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','1')->get();
+        }
+
+
+        // $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','1')->get();
         return view('admin/CustomerCalls/ongoing',$data);
+
     }
 
     function Cancelled() {
-        $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','2')->get();
+
+        $user = Auth::user();
+
+        if($user->power == 4){
+
+            $agentCallIds = explode(',', $user->customer_calles_id);
+
+         $data['agent'] = CustomerCalls::orderBy('id','DESC')->whereIn('id',$agentCallIds)->where('mark_lead','2')->get();
+
+        }else{
+         $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','2')->get();
+        }
+
+        // $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','2')->get();
         return view('admin/CustomerCalls/cancelled',$data);
     }
 
     function Converted() {
-        $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','3')->get();
+
+        
+        $user = Auth::user();
+
+        if($user->power == 4){
+
+            $agentCallIds = explode(',', $user->customer_calles_id);
+
+         $data['agent'] = CustomerCalls::orderBy('id','DESC')->whereIn('id',$agentCallIds)->where('mark_lead','3')->get();
+
+        }else{
+         $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','3')->get();
+        }
+
+        // $data['agent'] = CustomerCalls::orderBy('id','DESC')->where('mark_lead','3')->get();
         return view('admin/CustomerCalls/converted',$data);
     }
 

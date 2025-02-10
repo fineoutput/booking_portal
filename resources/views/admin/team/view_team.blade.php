@@ -79,6 +79,9 @@
                         @if($pow == "3")
                         <td>{{ 'Manager' }}</td>
                         @endif
+                        @if($pow == "4")
+                        <td>{{ 'Caller' }}</td>
+                        @endif
                         <td>
                           <?php
                           $servicess = $team->services;

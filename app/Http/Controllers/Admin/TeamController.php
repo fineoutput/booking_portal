@@ -11,6 +11,9 @@ use App\adminmodel\Order1Modal;
 use App\adminmodel\UserModal;
 use App\adminmodel\CategoryModal;
 use App\adminmodel\ProductModal;
+use App\Models\CustomerCalls;
+use App\Models\AgentCalls;
+use App\Models\HotelCalls;
 
 class TeamController extends Controller
 {
@@ -31,10 +34,14 @@ class TeamController extends Controller
 				}
 			}
 	}
+	
 	public function add_team_view(Request $req)
 	{
-			$service_data = AdminSidebar::get();
-			return view('admin/team/add_team', compact('service_data'));
+			$data['service_data'] = AdminSidebar::get();
+			$data['hotelcalls'] = HotelCalls::get();
+			$data['agentcalls'] = AgentCalls::get();
+			$data['customercalls'] = CustomerCalls::get();
+			return view('admin/team/add_team',$data);
 	}
 	public function view_team(Request $req)
 	{
@@ -94,6 +101,7 @@ class TeamController extends Controller
 	}
 	public function add_team_process(Request $req)
 	{
+		// return $req->customer_calles_id;
 			$admin_id = $req->session()->get('admin_id');
 			$req->validate([
 				'name' => 'required',
@@ -136,6 +144,9 @@ class TeamController extends Controller
 				'image' => $fullimagepath,
 				'ip' => $req->ip(),
 				'added_by' => $req->input('admin_id'),
+				'customer_calles_id' => implode(',', $req->customer_calles_id),
+				'hotels_calles_id' => implode(',', $req->hotels_calles_id),
+				'agent_calles_id' => implode(',', $req->agent_calles_id),
 				'is_active' => 1,
 				'added_by' => 1,
 			];

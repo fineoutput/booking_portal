@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\CrmController;
+use App\Http\Controllers\Admin\WildlifeSafariOrderController;
 use App\Http\Controllers\Admin\HotelsController;
 use App\Http\Controllers\Admin\VehiclePriceController;
 use App\Http\Controllers\Admin\OrderController;
@@ -17,18 +18,21 @@ use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\PackagePriceController;
 use App\Http\Controllers\Admin\AgentCallsController;
 use App\Http\Controllers\Admin\HotelCallsController;
+use App\Http\Controllers\Admin\HotelsPriceController;
 use App\Http\Controllers\Admin\TaxiBookingController;
 use App\Http\Controllers\Admin\RouteController;
 use App\Http\Controllers\Admin\ConstantsController;
 use App\Http\Controllers\Admin\CustomerCallsController;
+use App\Http\Controllers\Admin\TripGuideController;
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\WildlifeSafariController;
 use App\Http\Controllers\Admin\VehicleController;
 use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Admin\PushNotificationController;
 use App\Http\Controllers\Admin\OutstationController;
 use App\Http\Controllers\Admin\RoundTripController;
 use App\Http\Controllers\Auth\adminlogincontroller;
-
+use App\Models\WildlifeSafari;
 
 Route::group(['prifix' => 'admin'], function () {
 
@@ -66,6 +70,12 @@ Route::group(['middleware'=>'admin.auth'],function(){
     Route::delete('hotels/{hotel}', [HotelsController::class, 'destroy'])->name('hotels.destroy');
     Route::get('/cities/{stateId}', [HotelsController::class, 'getCitiesByStatehotels']);
 
+    Route::get('/hotel-price/{id}', [HotelsPriceController::class, 'index'])->name('hotel_price');
+    Route::match(['get','post'],'/hotel/price/create/{id}', [HotelsPriceController::class, 'create'])->name('hotel_price_create');
+    Route::delete('/hotel-price/{id}', [HotelsPriceController::class, 'destroy'])->name('hotel_price.destroy');
+    Route::get('hotel-price/{id}/edit', [HotelsPriceController::class, 'edit'])->name('hotel_price.edit');
+    Route::put('hotel-price/{id}', [HotelsPriceController::class, 'update'])->name('hotel_price.update');
+
 
    Route::get('/route', [RouteController::class, 'index'])->name('route');
    Route::match(['get','post'],'/route/create', [RouteController::class, 'create'])->name('add_route');
@@ -86,10 +96,10 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
    Route::get('/package-price/{id}', [PackagePriceController::class, 'index'])->name('package_price');
    Route::match(['get','post'],'/package/price/create/{id}', [PackagePriceController::class, 'create'])->name('package_price_create');
-//    Route::delete('/packages/{id}', [PackagePriceController::class, 'destroy'])->name('packages.destroy');
-//    Route::get('packages/{id}/edit', [PackagePriceController::class, 'edit'])->name('packages.edit');
-//    Route::put('packages/{id}', [PackagePriceController::class, 'update'])->name('packages.update');
-//    Route::get('/cities/{stateId}', [PackagePriceController::class, 'getCitiesByState']);
+   Route::delete('/package-price/{id}', [PackagePriceController::class, 'destroy'])->name('package_price.destroy');
+   Route::get('package-price/{id}/edit', [PackagePriceController::class, 'edit'])->name('package_price.edit');
+   Route::put('package-price/{id}', [PackagePriceController::class, 'update'])->name('package_price.update');
+   Route::get('/cities/{stateId}', [PackagePriceController::class, 'getCitiesByState']);
 
 
 
@@ -168,6 +178,46 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('notification/create/{id?}', [PushNotificationController::class, 'create'])->name('notificationcreate');
 
     Route::post('notification/store', [PushNotificationController::class, 'store'])->name('notificationstore');
+
+
+   // WildlifeSafari
+
+    Route::get('/wild-life-safari', [WildlifeSafariController::class, 'index'])->name('wild_life_safari');
+    Route::match(['get','post'],'/wild-life-safari/create', [WildlifeSafariController::class, 'create'])->name('wild_life_safari_create');
+    Route::get('wild-life-safari/{id}/edit', [WildlifeSafariController::class, 'edit'])->name('wild_life_safari.edit');
+    Route::put('wild-life-safari/{id}', [WildlifeSafariController::class, 'update'])->name('wild_life_safari.update');
+    Route::delete('wild-life-safari/{id}', [WildlifeSafariController::class, 'destroy'])->name('wild_life_safari.destroy');
+    Route::patch('/wild-life-safari/{id}/status', [WildlifeSafariController::class, 'updateStatus'])->name('wild_life_safari.updateStatus');
+    Route::get('/safari/cities/{stateId}', [WildlifeSafariController::class, 'getCitiesByStatesafari']);
+
+
+   // WildlifeSafariorder
+
+    Route::get('/wild-life-safari-order', [WildlifeSafariOrderController::class, 'index'])->name('wild_life_safari_orders');
+
+    Route::get('/complete-wild-life-safari-order', [WildlifeSafariOrderController::class, 'completeorders'])->name('wild_life_safari_orders_complete');
+
+    Route::match(['get','post'],'/wild-life-safari-order/create', [WildlifeSafariOrderController::class, 'create'])->name('wild_life_safari_create_order');
+
+    Route::get('wild-life-safari-order/{id}/edit', [WildlifeSafariOrderController::class, 'edit'])->name('wild_life_safari_order.edit');
+
+    Route::put('wild-life-safari-order/{id}', [WildlifeSafariOrderController::class, 'update'])->name('wild_life_safari_order.update');
+
+    Route::delete('wild-life-safari-order/{id}', [WildlifeSafariOrderController::class, 'destroy'])->name('wild_life_safari_order.destroy');
+
+    Route::put('/wild-life-safari-order/{id}/status', [WildlifeSafariOrderController::class, 'updateStatus'])->name('wild_life_safari_order.updateStatus');
+
+    Route::get('/safari/cities/{stateId}', [WildlifeSafariOrderController::class, 'getCitiesByStatesafariorder']);
+
+   // TripGuide
+
+    Route::get('/trip-guide', [TripGuideController::class, 'index'])->name('tripguide');
+    Route::match(['get','post'],'/trip-guide/create', [TripGuideController::class, 'create'])->name('tripguide_create');
+    Route::get('trip-guide/{id}/edit', [TripGuideController::class, 'edit'])->name('tripguide.edit');
+    Route::put('trip-guide/{id}', [TripGuideController::class, 'update'])->name('tripguide.update');
+    Route::delete('trip-guide/{id}', [TripGuideController::class, 'destroy'])->name('tripguide.destroy');
+    Route::patch('/trip-guide/{id}/status', [TripGuideController::class, 'updateStatus'])->name('tripguide.updateStatus');
+    Route::get('/trip-guide/cities/{stateId}', [TripGuideController::class, 'getCitiesByStatetripguide']);
   
 });
    

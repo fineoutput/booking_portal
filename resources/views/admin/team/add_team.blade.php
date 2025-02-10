@@ -1,6 +1,18 @@
 @extends('admin.base_template')
 @section('main')
 <!-- Start content -->
+
+<style>
+  
+    form {
+      margin-top: 20px;
+    }
+    
+    select {
+      width: 400px;
+    }
+    </style>
+
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -89,6 +101,7 @@
                                             <option value="1">Super Admin</option>
                                             <option value="2">Admin</option>
                                             <option value="3">Manager</option>
+                                            <option value="4">Caller</option>
                                         </select>
                                         <div class="form-floating">
                                             @error('power')
@@ -112,13 +125,64 @@
                                                 @foreach ($service_data as $service)  
                                                     <div class="form-check-inline">
                                                         <label class="form-check-label" for="<?= $service->id ?>">
-                                                            <input type="checkbox" class="form-check-input" id="<?= $service->id ?>" name="services[]" value="<? echo $service->id; ?>">{{$service->name}}
+                                                            <input type="checkbox" class="form-check-input" id="{{$service->id ?? ''}}" name="services[]" value="{{$service->id ?? ''}}">{{$service->name}}
                                                         </label>
                                                     </div>
                                             @endforeach 
                                              @endif
                                         </div>
                                     </div>
+
+
+                                    
+                                    <div class="form-group col-md-6">
+                                        <div class="col-sm-12"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Agent Calles</label>
+                                        <div id="output"></div>
+                                        <select data-placeholder="" name="agent_calles_id[]" multiple class="chosen-select">
+                                            @foreach ($agentcalls as $value)
+                                                <option value="{{$value->id ?? ''}}">{{$value->name ?? ''}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('agent_calles_id')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="col-sm-12"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Hotel Calles</label>
+                                        <div id="output"></div>
+                                        <select data-placeholder="" name="hotels_calles_id[]" multiple class="chosen-select">
+                                            @foreach ($hotelcalls as $value)
+                                                <option value="{{$value->id ?? ''}}">{{$value->name ?? ''}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('hotels_calles_id')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="col-sm-12"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Customer Calles</label>
+                                        <div id="output"></div>
+                                        <select data-placeholder="" name="customer_calles_id[]" multiple class="chosen-select">
+                                            @foreach ($customercalls as $value)
+                                                <option value="{{$value->id ?? ''}}">{{$value->name ?? ''}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('customer_calles_id')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                        </div>
+                                    </div>
+
+
+
+
                                     <div class="form-group">
                                         <div class="w-100 text-center">
                                             <button type="submit" style="margin-top: 10px;" class="btn btn-danger"><i class="fa fa-user"></i> Submit</button>
@@ -133,4 +197,19 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        $('select').select2();  // Initializes Select2 on your select element
+    });
+</script>
+<script>
+    document.getElementById('output').innerHTML = location.search;
+    $(".chosen-select").chosen();
+</script>
+
 @endsection

@@ -46,6 +46,9 @@ class adminlogincontroller extends Controller
             if ($db_power == 3) {
               $pos = "Manager";
             }
+            if ($db_power == 4) {
+              $pos = "Caller";
+            }
             
             $req->session()->put('admin_name', $db_name);
             $req->session()->put('admin_image', $db_image);

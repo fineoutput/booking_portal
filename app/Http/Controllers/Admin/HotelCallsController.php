@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\HotelCalls;
 use App\Models\City;
 use App\Models\State;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class HotelCallsController extends Controller
@@ -18,7 +19,15 @@ class HotelCallsController extends Controller
         $endDate = $request->input('end_date');
     
         // Start the query
-        $query = HotelCalls::orderBy('id', 'DESC');
+        // $query = HotelCalls::orderBy('id', 'DESC');
+        
+        $user = Auth::user();
+        if($user->power == 4){
+            $agentCallIds = explode(',', $user->hotels_calles_id);
+        $query = HotelCalls::orderBy('id', 'DESC')->whereIn('id',$agentCallIds);
+        }else{
+            $query = HotelCalls::orderBy('id', 'DESC');
+        }
     
         // Apply the date filters if both start_date and end_date are provided
         if ($startDate && $endDate) {
