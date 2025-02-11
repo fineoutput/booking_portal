@@ -137,7 +137,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="rj_vk">
-                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="">
+                            <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
                                 <label for="startDate" class="form-label">End Date</label>
                                 </div>
                                 <input type="date" id="endDate" class="form-control no-form" required>
@@ -150,21 +150,21 @@
                         <div class="row g-3 mb-3 chin_up">
                             <div class="col-md-4 loc_stl">
                             <div class="rj_vk">
-                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/couple.png" alt="">
+                            <img style="width: 20px;" src="{{asset('frontend/images/couple.png')}}" alt="">
                                 <label for="adults" class="form-label">No. of Adults</label>
                             </div>
                                 <input type="number" id="adults" class="form-control no-form" min="1" required placeholder="Adults">
                             </div>
                             <div class="col-md-4 loc_stl">
                             <div class="rj_vk">
-                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/cot.png" alt="">
+                            <img style="width: 20px;" src="{{asset('frontend/images/cot.png')}}" alt="">
                                 <label for="kidsWithBed" class="form-label">Kids with Bed</label>
                             </div>
                                 <input type="number" id="kidsWithBed" class="form-control no-form" min="0" required placeholder="Kids with bed">
                             </div>
                             <div class="col-md-4">
                             <div class="rj_vk">
-                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/children.png" alt="">
+                            <img style="width: 20px;" src="{{asset('frontend/images/children.png')}}" alt="">
                                 <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
                             </div>
                                 <input type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required placeholder="kids without bed">
@@ -175,7 +175,7 @@
                         <div class="mb-3 row chin_up">
                         <div class="col-md-4 loc_stl">
                         <div class="rj_vk">
-                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/extra-bed.png" alt="">
+                        <img style="width: 20px;" src="{{asset('frontend/images/extra-bed.png')}}" alt="">
                             <label for="extraBed" class="form-label">Extra Bed</label>
                         </div>
                             <select id="extraBed" class="form-select no-form-select" required>
@@ -185,7 +185,7 @@
                         </div>
                         <div class="col-md-4 loc_stl">
                         <div class="rj_vk">
-                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/breakfast.png" alt="">
+                        <img style="width: 20px;" src="{{asset('frontend/images/breakfast.png')}}" alt="">
                             <label for="mealPlan" class="form-label">Meal Plan</label>
                         </div>
                             <select id="mealPlan" class="form-select no-form-select" required>
@@ -196,7 +196,7 @@
                         </div>
                         <div class="col-md-4">
                         <div class="rj_vk">
-                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/hotel.png" alt="">
+                        <img style="width: 20px;" src="{{asset('frontend/images/hotel.png')}}" alt="">
                                 <label for="hotelPreference" class="form-label">Hotel Preference</label>
                         </div>
                                 <select id="hotelPreference" class="form-select no-form-select" required>
@@ -211,7 +211,7 @@
                             
                             <div class="col-md-4 loc_stl">
                             <div class="rj_vk">
-                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/interior-design.png" alt="">
+                        <img style="width: 20px;" src="{{asset('frontend/images/interior-design.png')}}" alt="">
                                 <label for="roomPreference" class="form-label">Room Preference</label>
                             </div>
                                 <select id="roomPreference" class="form-select no-form-select" required>
@@ -222,7 +222,7 @@
                             </div>
                             <div class="col-md-4 loc_stl">
                             <div class="rj_vk">
-                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="">
+                        <img style="width: 20px;" src="{{asset('frontend/images/sport-car.png')}}" alt="">
                                 <label for="vehicleOptions" class="form-label">Vehicle Options</label>
                             </div>
                                 <select id="vehicleOptions" class="form-select no-form-select" required>
@@ -233,7 +233,7 @@
                             </div>
                             <div class="col-md-4">
                             <div class="rj_vk">
-                        <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/booking.png" alt="">
+                        <img style="width: 20px;" src="{{asset('frontend/images/booking.png')}}" alt="">
                                 <label for="bookingSource" class="form-label">Booking Source</label>
                             </div>
                                 <select id="bookingSource" class="form-select no-form-select" required>
