@@ -207,7 +207,7 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::put('/wild-life-safari-order/{id}/status', [WildlifeSafariOrderController::class, 'updateStatus'])->name('wild_life_safari_order.updateStatus');
 
-    Route::get('/safari/cities/{stateId}', [WildlifeSafariOrderController::class, 'getCitiesByStatesafariorder']);
+    // Route::get('/safari/cities/{stateId}', [WildlifeSafariOrderController::class, 'getCitiesByStatesafariorder']);
 
    // TripGuide
 
