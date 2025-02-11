@@ -204,7 +204,7 @@
                                 
                                <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="text_description_2">Additional Text Description</label>
+                                    <label for="text_description_2">Text Description 2 </label>
                                     <textarea name="text_description_2" class="form-control">{{ old('text_description_2', $package->text_description_2) }}</textarea>
                                 </div>
                                </div>

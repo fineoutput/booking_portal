@@ -188,7 +188,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/admin/safari/cities/' + stateId,
+                    url: '/booking_portal/public/admin/safari/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;
