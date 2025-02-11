@@ -155,7 +155,7 @@
 
                                         <div class="col-sm-12 mt-3">
                                             <label class="form-label" for="power">Text Description &nbsp;<span style="color:red;">*</span></label>
-                                            <textarea required class="form-control" name="text_description" id="text_description" required>{{ old('text_description') }}</textarea>
+                                            <textarea class="form-control" name="text_description" id="text_description" required>{{ old('text_description') }}</textarea>
                                             @error('text_description')
                                                 <div style="color:red">{{$message}}</div>
                                             @enderror
@@ -173,7 +173,7 @@
 
                                         <div class="col-sm-12 mt-3">
                                             <label class="form-label" for="power">Text Description 2 &nbsp;<span style="color:red;">*</span></label>
-                                            <textarea required class="form-control" name="text_description_2" id="text_description_2" required>{{ old('text_description_2') }}</textarea>
+                                            <textarea class="form-control" name="text_description_2" id="text_description_2" required>{{ old('text_description_2') }}</textarea>
                                             @error('text_description_2')
                                             <div style="color:red">{{$message}}</div>
                                         @enderror
