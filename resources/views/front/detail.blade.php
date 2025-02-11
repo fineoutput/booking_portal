@@ -130,7 +130,7 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6 loc_stl">
                                 <div class="rj_vk">
-                            <img style="width: 20px;" src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="">
+                            <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
                                 <label for="startDate" class="form-label">Start Date</label>
                                 </div>
                                 <input type="date" id="startDate" class="form-control no-form" required>
