@@ -142,14 +142,24 @@
                                     <div class="col-sm-12"><br>
                                         <label class="form-label" style="margin-left: 10px" for="power">Please Select Package</label>
                                         <div id="output"></div>
-                                        <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
+                                        {{-- <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
                                             @foreach($packages as $value)
                                                 <option value="{{ $value->id ?? '' }}" 
                                                     {{ in_array($value->id, explode(',', old('package_id', $hotel->package_id ?? ''))) ? 'selected' : '' }}>
                                                     {{ $value->package_name ?? '' }}
                                                 </option>
                                             @endforeach
+                                        </select> --}}
+                                        <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
+                                            @foreach($packages as $value)
+                                                <option value="{{ $value->id ?? '' }}" 
+                                                    {{ in_array($value->id, explode(',', (is_array(old('package_id', $hotel->package_id ?? '')) ? implode(',', old('package_id', $hotel->package_id ?? '')) : (string) old('package_id', $hotel->package_id ?? ''))) ) ? 'selected' : '' }}>
+                                                    {{ $value->package_name ?? '' }}
+                                                </option>
+                                            @endforeach
                                         </select>
+                                        
+                                        
                                         @error('property_id')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
@@ -247,7 +257,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/booking_portal/public/admin/cities/' + stateId,
+                    url: '/admin/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;

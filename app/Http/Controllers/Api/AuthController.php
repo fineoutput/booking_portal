@@ -292,7 +292,7 @@ class AuthController extends Controller
             $responseData = [
                 'message' => 'Login successful !',
                 'status' => 200,
-                'user' => [
+                'data' => [
                     'id' => $existingUser->id,
                     'name' => $existingUser->name,
                     'email' => $existingUser->email,
