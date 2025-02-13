@@ -1778,6 +1778,7 @@ textarea.form-control {
   background: white;
   width: 100%;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .filter-item_hotels {
@@ -1799,8 +1800,8 @@ textarea.form-control {
 }
 
 .filter-label_hotels {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: bold;
   margin-bottom: 4px;
 }
 
@@ -1915,4 +1916,36 @@ textarea.form-control {
     left: 0;
     right: 0;
   }
+  .ttiel_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+}
+.sachi{
+  border-right: 1px solid rgba(0, 0, 0, 0.21);
+  border-radius: 0;
+}
+.size {
+  font-size: 17px;
+  margin: 0;
+  font-weight: bold;
+}
+.key{
+  color: #6A6A6A;
+  font-size: 17px;
+}
+
+.alocate_hotel {
+  display: flex;
+  flex-direction: column;
+}
+
+.alocate_head_maze img {
+  border-radius: 10px;
+  height: 100%;
+}
+.new_lave img{
+  height: 15rem;
+  border-radius: 10px !important;
 }
