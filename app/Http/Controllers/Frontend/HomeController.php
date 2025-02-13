@@ -53,6 +53,10 @@ class HomeController extends Controller
     {
         return view('front/detail');
     }
+    public function hotelsbooking()
+    {
+        return view('front/hotelsbooking');
+    }
 
 
     public function successResponse($message, $status = true, $statusCode = 201)

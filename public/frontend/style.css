@@ -1757,3 +1757,162 @@ textarea.form-control {
   font-size: 50px;
   font-weight: bold;
 }
+
+/* //////////////////////////////Hotel Booking  */
+.header-container_hotels {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-header_hotels {
+  display: flex;
+  border: 1px solid #dddddd;
+  border-radius: 40px;
+  padding: 8px;
+  gap: 8px;
+  background: white;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.filter-item_hotels {
+  padding: 12px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+  flex: 1;
+  min-width: 150px;
+}
+
+.filter-item_hotels:hover {
+  background: #f7f7f7;
+}
+
+.filter-item_hotels.active {
+  background: #f7f7f7;
+}
+
+.filter-label_hotels {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.filter-value_hotels {
+  font-size: 14px;
+  color: #666;
+}
+
+.filter-value_hotels {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+}
+
+.dropdown_hotels {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+  margin-top: 10px;
+  z-index: 10;
+  display: none;
+}
+
+.dropdown_hotels.active {
+  display: block;
+}
+
+.destination-dropdown_hotels {
+  width: 300px;
+}
+
+.destination-option_hotels {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.destination-option_hotels:last-child {
+  border-bottom: none;
+}
+
+.destination-option_hotels:hover {
+  background: #f7f7f7;
+}
+
+.guests-dropdown_hotels {
+  width: 250px;
+}
+
+.guest-option_hotels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.guest-option_hotels label {
+  font-size: 14px;
+  color: #333;
+}
+
+.counter_hotels {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.counter_hotels button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter_hotels button:hover {
+  background: #f7f7f7;
+}
+
+.counter_hotels span {
+  font-size: 16px;
+  width: 30px;
+  text-align: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .search-header_hotels {
+    flex-direction: column;
+    border-radius: 20px;
+  }
+
+  .filter-item_hotels {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .dropdown_hotels {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+}
