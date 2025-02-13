@@ -134,71 +134,57 @@ public function edit($id)
 public function update(Request $request, $id)
 {
     // Validate the incoming request data
-    $validated = $request->validate([
-        'package_id' => 'required|array',
-        'name' => 'required|string|max:255',
-        'location' => 'required|string|max:255',
-        'state_id' => 'required',
-        'city_id' => 'nullable',
-        'hotel_category' => 'required|string',
-        'images' => 'nullable|array',
-        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'deleted_images' => 'nullable|string', // Comma-separated list of deleted images
-    ]);
+    // $validated = $request->validate([
+    //     // 'package_id' => 'required|array',
+    //     'name' => 'nullable|string|max:255',
+    //     'location' => 'nullable|string|max:255',
+    //     'state_id' => 'nullable',
+    //     'city_id' => 'nullable',
+    //     'hotel_category' => 'nullable|string',
+    //     'images' => 'nullable|array',
+    //     'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    //     'deleted_images' => 'nullable|string', // Comma-separated list of deleted images
+    // ]);
 
-    // Find the hotel by ID
     $hotel = Hotels::findOrFail($id);
 
-    // Decode existing images into an array
     $imagePaths = json_decode($hotel->images, true) ?? [];
 
-    // Handle image deletions if any
     if ($request->has('deleted_images')) {
         $deletedImages = explode(',', $request->deleted_images);
-        // Delete the images that were marked for deletion
+
         $this->deleteFiles($deletedImages);
 
-        // Remove deleted images from the array
         $imagePaths = array_diff($imagePaths, $deletedImages);
     }
 
     if ($request->hasFile('images')) {
-        // Handle new image uploads and add to the array
+
         foreach ($request->file('images') as $image) {
-            // Define the destination directory within the public directory
+            
             $destinationPath = public_path('hotels/images');
-    
-            // Ensure the destination directory exists, if not, create it
+
             if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+                mkdir($destinationPath, 0777, true);  
             }
     
-            // Get the original filename and optionally generate a unique name (optional)
             $filename = time() . '_' . $image->getClientOriginalName();
             
-            // Move the image to the destination directory
             $image->move($destinationPath, $filename);
             
-            // Add the new image's path to the array (keeping old ones intact)
             $imagePaths[] = 'hotels/images/' . $filename;
         }
     }
 
-    // Update the hotel details
     $hotel->name = $request->name;
     $hotel->location = $request->location;
     $hotel->state_id = $request->state_id;
-    $hotel->city_id = $request->city_id ?? $hotel->city_id;  // Use current city_id if not provided
+    $hotel->city_id = $request->city_id ?? $hotel->city_id;  
     $hotel->hotel_category = $request->hotel_category;
-    $hotel->package_id = implode(',', $request->package_id);  // Store package_ids as comma-separated values
-
-    // Save the updated image paths (only the non-deleted ones)
-    $hotel->images = json_encode(array_values($imagePaths));  // Save as a JSON string
-
-    // Save the updated hotel record
+    $hotel->package_id = implode(',', $request->package_id); 
+    $hotel->images = json_encode(array_values($imagePaths)); 
     $hotel->save();
 
-    // Redirect with a success message
     return redirect()->route('hotels')->with('success', 'Hotel updated successfully');
 }
 

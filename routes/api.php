@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\HotelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,12 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+// Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('hotel', [HotelController::class, 'hotel']);
+
+// });
 
 Route::post('signup', [AuthController::class, 'signup']);
 Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp']);

@@ -24,6 +24,7 @@ class CustomerCalls extends Model
     {
         return $this->belongsTo(State::class, 'state_id'); 
     }
+    
     // public function state()
     // {
     //     return $this->hasOne(State::class, 'id', 'state');

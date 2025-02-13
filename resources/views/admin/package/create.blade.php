@@ -97,7 +97,7 @@
                                             @endforeach
                                         </select> --}}
 
-                                        <select class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
+                                        <select required class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
                                             @foreach ($states as $state)
                                             <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
                                                 {{ $state->state_name }}
@@ -113,7 +113,7 @@
                                     <div class="col-sm-6">
                                         <label for="city">City</label>
                                         <div id="output"></div>
-                                        <select class="chosen-select" id="city" name="city_id[]" multiple >
+                                        <select  required class="chosen-select" id="city" name="city_id[]" multiple >
                                             <!-- Cities will be populated dynamically here -->
                                         </select>
                                         
@@ -131,7 +131,7 @@
                                     <div class="form-group row">
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Multipal Image</label>
-                                            <input class="form-control" style="margin-left: 10px" type="file" name="image[]" multiple>
+                                            <input required class="form-control" style="margin-left: 10px" type="file" name="image[]" multiple>
                                         </div>
                                         @error('image')
                                         <div style="color:red">{{$message}}</div>
@@ -139,7 +139,7 @@
 
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Video</label>
-                                            <input class="form-control" style="margin-left: 10px" type="file" name="video[]" multiple>
+                                            <input required class="form-control" style="margin-left: 10px" type="file" name="video[]" multiple>
                                             @error('video')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
@@ -147,7 +147,7 @@
 
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Upload PDF</label>
-                                             <input type="file" name="pdf" id="pdf" class="form-control" required>
+                                             <input  type="file" name="pdf" id="pdf" class="form-control" required>
                                             @error('video')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
@@ -268,7 +268,7 @@ $(document).ready(function() {
         $('#city').empty().append('<option value="">Select a City</option>');
 
         $.ajax({
-            url: '/booking_portal/public/admin/cities',
+            url: '/admin/cities',
             method: 'GET',
             data: { state_ids: stateIds },
             success: function(response) {

@@ -254,9 +254,9 @@ class PackageController extends Controller
         'state_id' => 'required',
         'city_id' => 'nullable',
         'image' => 'nullable|array', // Images can be null or an array
-        'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         'video' => 'nullable|array', // Videos can be null or an array
-        'video.*' => 'nullable|mimes:mp4,mkv,avi,webm|max:50000',
+        'video.*' => 'nullable|mimes:mp4,mkv,avi,webm',
         'text_description' => 'required|string',
         'text_description_2' => 'required|string',
         'pdf' => 'nullable|mimes:pdf|max:5000',
