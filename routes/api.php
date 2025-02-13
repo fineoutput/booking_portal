@@ -20,6 +20,8 @@ use App\Http\Controllers\Api\HotelController;
 // Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('hotel', [HotelController::class, 'hotel']);
+    Route::post('/hotel-with-packages', [HotelController::class, 'getHotelWithPackages']);
+
 
 // });
 

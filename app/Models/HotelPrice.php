@@ -24,17 +24,16 @@ class HotelPrice extends Model
     // }
     public function state()
     {
-        return $this->belongsTo(State::class, 'state_id'); // State's foreign key is 'state_id'
+        return $this->belongsTo(State::class, 'state_id');
     }
     public function hotel()
     {
-        return $this->belongsTo(Hotels::class, 'hotel_id'); // State's foreign key is 'state_id'
+        return $this->belongsTo(Hotels::class, 'hotel_id'); 
     }
 
-    // A package belongs to a city
     public function cities()
     {
-        return $this->belongsTo(City::class, 'city_id'); // City's foreign key is 'city_id'
+        return $this->belongsTo(City::class, 'city_id'); 
     }
 
 
