@@ -11,10 +11,10 @@
         <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
           
-          <div class="destination-option_hotels" onclick="selectDestination('New York')">New York</div>
-          <div class="destination-option_hotels" onclick="selectDestination('Paris')">Paris</div>
-          <div class="destination-option_hotels" onclick="selectDestination('Tokyo')">Tokyo</div>
-          <div class="destination-option_hotels" onclick="selectDestination('London')">London</div>
+          <div class="destination-option_hotels" onclick="selectDestination('Jaipur')">Jaipur</div>
+          <div class="destination-option_hotels" onclick="selectDestination('Jodhpur')">Jodhpur</div>
+          <div class="destination-option_hotels" onclick="selectDestination('Udaipur')">Udaipur</div>
+          <div class="destination-option_hotels" onclick="selectDestination('Jaisalmer')">Jaisalmer</div>
         </div>
       </div>
 
@@ -65,7 +65,7 @@
       <div class="search_sba">
         <div class="sba_center_Sarch">
         <a href="#">  
-        <img src="http://127.0.0.1:8000/frontend/images/search.png" alt="" style="
+        <img src="http://127.0.0.1:8000/frontend/images/searchblue.png" alt="" style="
     width: 80%;
 ">
         </a>  
