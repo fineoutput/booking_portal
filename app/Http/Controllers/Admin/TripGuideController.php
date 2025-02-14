@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Vehicle;
 use App\Models\VehiclePrice;
 use App\Models\Outstation;
+use App\Models\Languages;
 use App\Models\RoundTrip;
 use App\Models\WildlifeSafari;
 use App\Models\TripGuide;
@@ -44,7 +45,7 @@ class TripGuideController extends Controller
             $agentCall = new TripGuide();
             $agentCall->location = $request->location;
             $agentCall->out_station_guide = $request->out_station_guide;
-            $agentCall->language = $request->language;
+            $agentCall->languages_id = $request->languages_id;
             $agentCall->local_guide = $request->local_guide;
             $agentCall->city_id = $request->city_id;
             $agentCall->state_id = $request->state_id;
@@ -57,6 +58,7 @@ class TripGuideController extends Controller
         // $data['vehicle'] = Vehicle::orderBy('id','DESC')->where('id',$id)->first();
         $data['vehicleselect'] = Vehicle::orderBy('id','DESC')->get();
         $data['states'] = State::all();
+        $data['languages'] = Languages::all();
         return view('admin/tripguide/create',$data);
     }
 
@@ -74,6 +76,7 @@ class TripGuideController extends Controller
     {
         $data['wildlifeSafari'] = TripGuide::findOrFail($id);
         $data['states'] = State::all(); 
+        $data['languages'] = Languages::all();
         $data['cities'] = City::where('state_id', $data['wildlifeSafari']->state_id)->get(); 
 
         return view('admin/tripguide/edit',$data);
@@ -94,7 +97,7 @@ class TripGuideController extends Controller
         // Update the record
         $wildlifeSafari->location = $request->location;
         $wildlifeSafari->out_station_guide = $request->out_station_guide;
-        $wildlifeSafari->language = $request->language;
+        $wildlifeSafari->languages_id = $request->languages_id;
         $wildlifeSafari->local_guide = $request->local_guide;
         $wildlifeSafari->city_id = $request->city_id;
         $wildlifeSafari->state_id = $request->state_id;

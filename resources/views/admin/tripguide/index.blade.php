@@ -66,7 +66,7 @@
                         <td>{{ $hotel->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->location ?? '' }}</td>
-                        <td>{{ $hotel->language ?? '' }}</td>
+                        <td>{{ $hotel->languages->language_name ?? '' }}</td>
                         <td>{{ $hotel->local_guide ?? '' }}</td>
                         <td>{{ $hotel->out_station_guide ?? '' }}</td>
                         <td>{{ $hotel->cost ?? '' }}</td>

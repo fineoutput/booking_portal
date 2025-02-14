@@ -12,6 +12,7 @@ class WildlifeSafariOrder extends Model
     protected $fillable = [
         'state_id',
         'city_id',
+        'user_id',
         'safari_id',
         'national_park',
         'date',
@@ -27,6 +28,15 @@ class WildlifeSafariOrder extends Model
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id'); 
+    }
+
+    public function safari()
+    {
+        return $this->belongsTo(WildlifeSafari::class, 'safari_id'); 
+    }
+    public function user()
+    {
+        return $this->belongsTo(Agent::class, 'user_id'); 
     }
 
     public function cities()

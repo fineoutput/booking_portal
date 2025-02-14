@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HotelController;
+use App\Http\Controllers\Api\SafariController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,15 @@ use App\Http\Controllers\Api\HotelController;
 
     Route::get('hotel', [HotelController::class, 'hotel']);
     Route::post('/hotel-with-packages', [HotelController::class, 'getHotelWithPackages']);
+    Route::get('/vehicle', [HotelController::class, 'vehicle']);
+    Route::get('/wild-life-safari', [SafariController::class, 'wildsafari']);
+    Route::get('/routes', [SafariController::class, 'routes']);
+    Route::post('/tripguide', [SafariController::class, 'tripguide']);
+    Route::post('/wild-life-safari-book', [SafariController::class, 'wildsafaribooked']);
+    Route::get('/languages', [SafariController::class, 'getLanguages']);
+    Route::get('filter-state-city', [SafariController::class, 'filterStateCity']);
+    Route::post('hotel-state-city', [HotelController::class, 'statecityhotel']);
+
 
 
 // });

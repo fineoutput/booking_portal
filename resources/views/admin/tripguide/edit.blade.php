@@ -97,12 +97,27 @@
                                         @enderror
                                     </div>
                             
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="{{ old('language', $wildlifeSafari->language) }}" id="language" name="language" placeholder="Enter language" required>
                                             <label for="language">language &nbsp;<span style="color:red;">*</span></label>
                                         </div>
                                         @error('language')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div> --}}
+
+                                    <div class="col-sm-4">
+                                        <label for="languages">Language</label>
+                                        <select class="form-control" id="languages" name="languages_id">
+                                            @foreach($languages as $value)
+                                                <option value="{{$value->id}}" 
+                                                    @if($wildlifeSafari->languages_id == $value->id) selected @endif>
+                                                    {{$value->language_name}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('languages')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
