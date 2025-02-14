@@ -94,7 +94,7 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                    <select class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
+                                    <select required class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
                                         @foreach ($states as $state)
                                         <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
                                             {{ $state->state_name }}
@@ -112,7 +112,7 @@
                                     <div class="form-group">
                                     <label for="city">City</label>
                                     <div id="output"></div>
-                                    <select class="chosen-select" id="city" name="city_id[]" multiple >
+                                    <select required class="chosen-select" id="city" name="city_id[]" multiple >
                                         <!-- Cities will be populated dynamically here -->
                                     </select>
                                     
@@ -370,7 +370,7 @@ if (stateIds && stateIds.length > 0) {
     $('#city').empty().append('<option value="">Select a City</option>');
 
     $.ajax({
-        url: '/booking_portal/public/admin/cities',
+        url: '/admin/cities',
         method: 'GET',
         data: { state_ids: stateIds },
         success: function(response) {
