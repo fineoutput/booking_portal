@@ -1,7 +1,11 @@
 @extends('front.common.app')
 @section('title','home')
 @section('content')
-
+<style>
+    .splide__arrow {
+    display: none;
+}   
+</style>
 <section class="detail_htels mt-5">
     <div class="comp-container">
         <div class="upper_site_dets">
@@ -11,12 +15,12 @@
         </div>
         <div class="air_maze">
             <div class="row">
-                <div class="col-lg-7 nive">
+                <div class="col-lg-7 nive d-none d-lg-block">
                     <div class="mirror_maxe">
                         <img src="{{ asset('frontend/images/hotel_main.avif') }}" alt="">
                     </div>
                 </div>
-                <div class="col-lg-5">
+                <div class="col-lg-5 d-none d-lg-block">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="side_masic">
@@ -44,6 +48,16 @@
                     </div>
                 </div>
             </div>
+            
+            <div id="phlGlb" class="splide">
+    <div class="splide__track d-lg-none">
+        <ul class="splide__list">
+            <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
+            <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
+            <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
+        </ul>
+    </div>
+</div>
         </div>
 
         <div class="other_dets mt-5">
@@ -205,5 +219,22 @@
     </div>
 </section>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        new Splide('#phlGlb', {
+            type: 'loop',
+            perPage: 3,
+            perMove: 1,
+            gap: '1rem',
+            autoplay: true,
+            interval: 3000,
+            pauseOnHover: true,
+            breakpoints: {
+                768: { perPage: 2 },
+                480: { perPage: 1 }
+            }
+        }).mount();
+    });
+</script>
 
 @endsection
