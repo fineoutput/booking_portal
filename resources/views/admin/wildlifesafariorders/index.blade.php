@@ -56,20 +56,28 @@
                         <th data-priority="1">Timings</th>
                         <th data-priority="1">Vehicle</th>
                         <th data-priority="1">Cost</th>
+                        {{-- <th data-priority="1">Status</th> --}}
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
                    <tbody>
                     @foreach($WildlifeSafari as $key=> $hotel)
                     <tr>
-                        <td>{{ $key+1 }}</td> <!-- Loop index -->
-                        <td>{{ $hotel->state->state_name ?? '' }}</td>
-                        <td>{{ $hotel->cities->city_name ?? '' }}</td>
-                        <td>{{ $hotel->national_park ?? '' }}</td>
-                        <td>{{ $hotel->date ?? '' }}</td>
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ $hotel->safari->state->state_name ?? '' }}</td>
+                        <td>{{ $hotel->safari->cities->city_name ?? '' }}</td>
+                        <td>{{ $hotel->safari->national_park ?? '' }}</td>
+                        <td>{{ $hotel->safari->date ?? '' }}</td>
                         <td>{{ $hotel->timings ?? '' }}</td>
                         <td>{{ $hotel->vehicle ?? '' }}</td>
                         <td>{{ $hotel->cost ?? '' }}</td>
+                        {{-- <td>
+                          @if($hotel->status == 0)
+                          <p class="text-danger">Pending</p>
+                          @else
+                            <p class="text-success">Complete</p>
+                          @endif
+                        </td> --}}
                         {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
 
                         <td>
@@ -78,11 +86,14 @@
                                     @csrf
                                     @method('PUT') <!-- Use PUT method for updating status -->
                                     
-                                    <!-- Button with tooltip when disabled -->
+                                    @if($hotel->status == 0)
                                     <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure you want to change the status?')" 
                                             {{ $hotel->status == 1 ? 'disabled title=Status is already Complete' : '' }}>
-                                        {{ $hotel->status == 1 ? 'Complete' : 'Pending' }}
+                                        {{ $hotel->status == 1 ? 'Complete' : 'Complete' }}
                                     </button>
+                                    @else
+                                    <p class="text-success">Completed</p>
+                                    @endif
                                 </form>
                         </td>
                     </tr>

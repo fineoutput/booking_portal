@@ -19,4 +19,11 @@ class Vehicle extends Model
         'city',
         'remarks',
     ];
+
+    public function vehiclePrices()
+    {
+        return $this->hasMany(VehiclePrice::class, 'vehicle_id');
+    }
+
 }
+

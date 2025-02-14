@@ -91,7 +91,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        {{-- <div class="col-sm-4">
                                             <div class="form-floating">
                                                 <input class="form-control" type="language" value="" id="language" name="language" placeholder="Enter language" required>
                                                 <label for="language">language &nbsp;<span style="color:red;">*</span></label>
@@ -100,6 +100,20 @@
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
                                         </div>
+                                         --}}
+
+                                        
+                                    <div class="col-sm-4">
+                                        <label for="languages">Language</label>
+                                        <select data-placeholder="" class="form-control" id="languages" class="chosen-select" name="languages_id">
+                                            @foreach($languages as $value)
+                                            <option value="{{$value->id ?? ''}}">{{$value->language_name ?? ''}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('languages')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                                         <div class="col-sm-4">
                                             <div class="form-floating">
