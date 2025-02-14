@@ -4,7 +4,7 @@
   font-style: normal;
 }
 a{
-  text-decoration: none;
+  text-decoration: none !important;
 }
 img{
   width: 100%;
@@ -1930,6 +1930,7 @@ textarea.form-control {
   font-size: 17px;
   margin: 0;
   font-weight: bold;
+  color: #000;
 }
 .key{
   color: #6A6A6A;
@@ -1948,4 +1949,55 @@ textarea.form-control {
 .new_lave img{
   height: 15rem;
   border-radius: 10px !important;
+}
+.hotel_place{
+  font-size: 16px;
+    font-weight: bold;
+}
+.city_list_htotle {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.sizemaze img {
+  width: 5rem;
+}
+.hotels_spn {
+  font-size: 0.875rem;
+  color: #6a6a6a;
+  padding: 0px 12px;
+}
+
+/* //////////////////////////////Hotel detail page */
+.nive {
+  height: 50vh;
+}
+.mirror_maxe{
+  height: 100%;
+}
+.mirror_maxe img {
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px 0px 0px 10px;
+}
+.comp-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  min-width: 343px;
+  max-width: 1160px;
+  overflow: hidden;
+}
+.raj_hotel{
+
+    font-family: Airbnb Cereal VF,Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
+    color: #000;
+    font-weight: 600;
+    font-size: 1.8rem;
+
+}
+
+.side_masic img {
+  object-fit: cover;
 }
