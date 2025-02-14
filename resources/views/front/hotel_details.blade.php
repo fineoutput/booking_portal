@@ -4,74 +4,204 @@
 
 <section class="detail_htels mt-5">
     <div class="comp-container">
-    <div class="upper_site_dets">
-        <div class="site_det_head">
-            <h4 class="raj_hotel">Raj Palace Hotel</h4>
-        </div>
-    </div>
-    <div class="air_maze">
-        <div class="row">
-            <div class="col-lg-7 nive">
-                <div class="mirror_maxe">
-                    <img src="{{ asset('frontend/images/hotel_main.avif') }}" alt="">
-                </div>
-            </div>
-            <div class="col-lg-5 nive">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="side_masic">
-                            <img src="{{ asset('frontend/images/side_maze.avif') }}" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                    <div class="side_masic">
-                            <img src="{{ asset('frontend/images/side_maze.avif') }}" alt="">
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-lg-6">
-                    <div class="side_masic">
-                            <img src="{{ asset('frontend/images/side_maze.avif') }}" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                    <div class="side_masic">
-                            <img src="{{ asset('frontend/images/side_maze.avif') }}" alt="">
-                        </div>
-                    </div>
-                </div>
+        <div class="upper_site_dets">
+            <div class="site_det_head">
+                <h4 class="raj_hotel">Raj Palace Hotel</h4>
             </div>
         </div>
-    </div>
+        <div class="air_maze">
+            <div class="row">
+                <div class="col-lg-7 nive">
+                    <div class="mirror_maxe">
+                        <img src="{{ asset('frontend/images/hotel_main.avif') }}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="side_masic">
+                                <img src="{{ asset('frontend/images/side_maze.avif') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="side_masic">
+                                <img src="{{ asset('frontend/images/sered.avif') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="side_masic">
+                                <img src="{{ asset('frontend/images/sdas.avif') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="side_masic">
+                                <img src="{{ asset('frontend/images/sadsd.avif') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="other_dets mt-5">
-        <div class="row">
-            <div class="col-lg-7">
-                <div class="sides_maxe">
-                    <div class="aaeheads">
-                        <h4 class="hoses">Room in Udaipur, India
-                        </h4>
-                        <span class="sabke">
-                        2 bedrooms2 king bedsPrivate attached bathroom
-                        </span>
+        <div class="other_dets mt-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="sides_maxe">
+                        <div class="aaeheads">
+                            <h4 class="hoses">Room in Udaipur, India
+                            </h4>
+                            <span class="sabke">
+                                <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
+    padding-left: 0 !important;
+">
+                                    <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">2 bedrooms<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
+                                    <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>2 king beds<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
+                                    <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Private attached bathroom</li>
+                                </ol>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="htt_facili">
+                        <div class="sangeetam">
+                            <h4 class="hoses">Amenities</h4>
+                            <div class="final_kalyan">
+                                <div class="_wlu9uw">
+                                    <div class="_1wiczqm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;">
+                                            <path d="M17 6a2 2 0 0 1 2 1.85v8.91l.24.24H24v-3h-3a1 1 0 0 1-.98-1.2l.03-.12 2-6a1 1 0 0 1 .83-.67L23 6h4a1 1 0 0 1 .9.58l.05.1 2 6a1 1 0 0 1-.83 1.31L29 14h-3v3h5a1 1 0 0 1 1 .88V30h-2v-3H20v3h-2v-3H2v3H0V19a3 3 0 0 1 1-2.24V8a2 2 0 0 1 1.85-2H3zm13 13H20v6h10zm-13-1H3a1 1 0 0 0-1 .88V25h16v-6a1 1 0 0 0-.77-.97l-.11-.02zm8 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM17 8H3v8h2v-3a2 2 0 0 1 1.85-2H13a2 2 0 0 1 2 1.85V16h2zm-4 5H7v3h6zm13.28-5h-2.56l-1.33 4h5.22z"></path>
+                                        </svg></div>
+                                    <div>
+                                        <div class="_llvyuq">
+                                            <h3 tabindex="-1" class="hpipapi atm_7l_1kw7nm4 atm_c8_1x4eueo atm_cs_1kw7nm4 atm_g3_1kw7nm4 atm_gi_idpfg4 atm_l8_idpfg4 atm_kd_idpfg4_pfnrn2 dir dir-ltr" elementtiming="LCP-target">Room in a home</h3>
+                                        </div>
+                                        <div class="_1hwkgn6">Your own room in a home, plus access to shared spaces.</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="final_kalyan">
+                                <div class="_wlu9uw">
+                                    <div class="_1wiczqm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;">
+                                            <path d="M9 1a5 5 0 0 0 4.78 5H14v2a6.98 6.98 0 0 1-5-2.1V7a5 5 0 0 0 4.78 5H14v2a6.98 6.98 0 0 1-5-2.1v6.22c.54.14 1.05.39 1.49.73l.18.16c.35.31.83.49 1.33.49.5 0 .98-.17 1.33-.5A3.98 3.98 0 0 1 16 18c.99 0 1.95.35 2.67 1 .35.32.83.5 1.33.5.5 0 .98-.17 1.33-.5A3.97 3.97 0 0 1 24 18c.99 0 1.94.35 2.67 1 .35.33.83.5 1.33.5a2 2 0 0 0 1.2-.38l.13-.11c.2-.19.43-.35.67-.49V26a5 5 0 0 1-4.78 5H7a5 5 0 0 1-5-4.78v-7.7c.24.14.47.3.67.49.3.27.71.44 1.14.48l.19.01h.19c.37-.04.72-.17 1-.38l.14-.11A3.9 3.9 0 0 1 7 18.12V11.9A6.98 6.98 0 0 1 2.24 14H2v-2a5 5 0 0 0 5-4.78V5.9A6.98 6.98 0 0 1 2.24 8H2V6a5 5 0 0 0 5-4.78V1h2zm15 24c-.5 0-.98.17-1.33.5a3.98 3.98 0 0 1-2.67 1 3.98 3.98 0 0 1-2.67-1A1.98 1.98 0 0 0 16 25c-.5 0-.98.17-1.33.5a3.98 3.98 0 0 1-2.67 1 3.98 3.98 0 0 1-2.67-1A1.98 1.98 0 0 0 8 25c-.5 0-.98.17-1.33.5a3.94 3.94 0 0 1-2.22.97l-.2.02h-.2A3 3 0 0 0 6.81 29L7 29h18a3 3 0 0 0 2.96-2.5H28a3.98 3.98 0 0 1-2.67-1A1.98 1.98 0 0 0 24 25zm0-5c-.5 0-.98.17-1.33.5a3.98 3.98 0 0 1-2.67 1 3.98 3.98 0 0 1-2.67-1A1.98 1.98 0 0 0 16 20c-.5 0-.98.17-1.33.5a3.98 3.98 0 0 1-2.67 1 3.98 3.98 0 0 1-2.67-1A1.98 1.98 0 0 0 8 20c-.5 0-.98.17-1.33.5a3.94 3.94 0 0 1-2.22.97l-.2.02H4v3.01h.19c.37-.04.72-.17 1-.38l.14-.11A3.98 3.98 0 0 1 8 23c.99 0 1.95.35 2.67 1 .35.33.83.5 1.33.5.5 0 .98-.17 1.33-.5A3.98 3.98 0 0 1 16 23c.99 0 1.95.35 2.67 1 .35.32.83.5 1.33.5.5 0 .98-.17 1.33-.5A3.97 3.97 0 0 1 24 23c.99 0 1.94.35 2.67 1 .35.33.83.5 1.33.5v-3a3.98 3.98 0 0 1-2.67-1A1.98 1.98 0 0 0 24 20zm0-14a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path>
+                                        </svg></div>
+                                    <div>
+                                        <div class="_llvyuq">
+                                            <h3 tabindex="-1" class="hpipapi atm_7l_1kw7nm4 atm_c8_1x4eueo atm_cs_1kw7nm4 atm_g3_1kw7nm4 atm_gi_idpfg4 atm_l8_idpfg4 atm_kd_idpfg4_pfnrn2 dir dir-ltr" elementtiming="LCP-target">19-min walk to the lake</h3>
+                                        </div>
+                                        <div class="_1hwkgn6">This home is by Lake Pichola.</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="final_kalyan">
+                                <div class="_wlu9uw">
+                                    <div class="_1wiczqm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;">
+                                            <path d="M16 1a15 15 0 1 1 0 30 15 15 0 0 1 0-30zm0 2a13 13 0 1 0 0 26 13 13 0 0 0 0-26zm2 5a5 5 0 0 1 .22 10H13v6h-2V8zm0 2h-5v6h5a3 3 0 0 0 .18-6z"></path>
+                                        </svg></div>
+                                    <div>
+                                        <div class="_llvyuq">
+                                            <h3 tabindex="-1" class="hpipapi atm_7l_1kw7nm4 atm_c8_1x4eueo atm_cs_1kw7nm4 atm_g3_1kw7nm4 atm_gi_idpfg4 atm_l8_idpfg4 atm_kd_idpfg4_pfnrn2 dir dir-ltr" elementtiming="LCP-target">Park for free</h3>
+                                        </div>
+                                        <div class="_1hwkgn6">This is one of the few places in the area with free parking.</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="nizam_abt mt-5">
+                        <h4 class="naxo">About this place</h4>
+
+                        <div class="ho_bhe">
+                            <span>
+                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-5">
-            <div class="sides_maxe">
-                    <div class="aaeheads">
-                        <h4 class="hoses">Room in Udaipur, India
-                        </h4>
-                        <span class="sabke">
-                        2 bedrooms2 king bedsPrivate attached bathroom
-                        </span>
+                <div class="col-lg-4">
+                    <div class="sharan_side_box">
+                        <div class="stand_it">
+                            <div class="outer_box">
+                                <div class="inner_box">
+                                    <div class="inner_price">
+                                        <span style="color: rgb(106, 106, 106);"><del>₹1,980</del></span>
+                                        <span>₹1,782
+                                        </span>
+                                        <span>night</span>
+                                    </div>
+                                    <div class="checks">
+                                        <div class="bors">
+                                            <div class="caranke">
+
+                                                <label for="">Check In</label>
+                                                <input type="date" class="filter-value_hotels" placeholder="Check In">
+                                            </div>
+
+                                            <div class="caranke">
+
+                                                <label for="">Check Out</label>
+                                                <input type="date" class="filter-value_hotels" placeholder="Check out">
+                                            </div>
+
+                                        </div>
+                                        <div class="rivvsa">
+
+                                            <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
+                                                <div class="filter-label_hotels">Guests</div>
+                                                <div class="arrow">
+                                                    <div class="filter-value_hotels" id="guests-value">1 guest</div>
+          <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
+                                                </div>
+                                                <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+                                                    <div class="guest-option_hotels">
+                                                        <label>Adults</label>
+                                                        <div class="counter_hotels">
+                                                            <button onclick="updateGuests('adults', -1)">-</button>
+                                                            <span id="adults-count">1</span>
+                                                            <button onclick="updateGuests('adults', 1)">+</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="guest-option_hotels">
+                                                        <label>Children</label>
+                                                        <div class="counter_hotels">
+                                                            <button onclick="updateGuests('children', -1)">-</button>
+                                                            <span id="children-count">0</span>
+                                                            <button onclick="updateGuests('children', 1)">+</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="guest-option_hotels">
+                                                        <label>Infants</label>
+                                                        <div class="counter_hotels">
+                                                            <button onclick="updateGuests('infants', -1)">-</button>
+                                                            <span id="infants-count">0</span>
+                                                            <button onclick="updateGuests('infants', 1)">+</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        
+                                    </div>
+                                    <div class="live_set mt-3">
+                                            <button class="btn btn-info gggsd"> 
+                                                Reserve
+                                            </button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </section>
 
