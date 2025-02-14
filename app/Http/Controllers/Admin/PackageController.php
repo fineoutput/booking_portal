@@ -249,23 +249,24 @@ class PackageController extends Controller
         public function update(Request $request, $id)
 {
     // Validate the incoming request
-    $request->validate([
-        'package_name' => 'required|string|max:255',
-        'state_id' => 'required',
-        'city_id' => 'nullable',
-        'image' => 'nullable|array', // Images can be null or an array
-        'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-        'video' => 'nullable|array', // Videos can be null or an array
-        'video.*' => 'nullable|mimes:mp4,mkv,avi,webm',
-        'text_description' => 'required|string',
-        'text_description_2' => 'required|string',
-        'pdf' => 'nullable|mimes:pdf|max:5000',
-    ]);
+    // $request->validate([
+    //     // 'package_name' => 'required|string|max:255',
+    //     // 'state_id' => 'required',
+    //     // 'city_id' => 'nullable',
+    //     // 'image' => 'nullable|array', // Images can be null or an array
+    //     // 'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+    //     // 'video' => 'nullable|array', // Videos can be null or an array
+    //     // 'video.*' => 'nullable|mimes:mp4,mkv,avi,webm',
+    //     // 'text_description' => 'required|string',
+    //     // 'text_description_2' => 'required|string',
+    //     // 'pdf' => 'nullable|mimes:pdf|max:5000',
+    // ]);
 
     // Find the existing package by ID
     $package = Package::findOrFail($id);
 
     // Update the basic fields
+    
     $package->package_name = $request->package_name;
     $stateIds = $request->state_id;
     $cityIds = $request->city_id ?? $package->city_id;

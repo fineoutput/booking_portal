@@ -9,6 +9,10 @@ use App\Models\UserOtp;
 use App\Models\Hotels;
 use App\Models\Agent;
 use App\Models\Package;
+use App\Models\State;
+use Carbon\Carbon;
+use App\Models\City;
+use App\Models\PackagePrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -52,8 +56,8 @@ class HotelController extends Controller
                     return [
                         'id' => $price->id,
                         'night_cost' => $price->night_cost,
-                        'start_date' => $price->start_date,
-                        'end_date' => $price->end_date,
+                        'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+                        'end_date' => Carbon::parse($price->end_date)->format('F Y'),
                     ];
                 });
 
@@ -81,123 +85,198 @@ class HotelController extends Controller
     }
 
 
-    // public function getHotelWithPackages(Request $request)
-    // {
-    //     $token = $request->bearerToken();
-        
-    //     if (!$token) {
-    //         return response()->json(['message' => 'Unauthenticated.'], 401);
-    //     }
 
-    //     // Decode and verify token
-    //     $decodedToken = base64_decode($token);
-    //     list($email, $password) = explode(',', $decodedToken);
-
-    //     // Verify user credentials
-    //     $user = Agent::where('email', $email)->first();
-
-    //     if (!$user || $password !== $user->password) {
-    //         return response()->json(['message' => 'Unauthenticated.'], 401);
-    //     }
-
-    //     // Now that the user is authenticated, proceed with fetching hotel details
-    //     $request->validate([
-    //         'hotel_id' => 'required|integer|exists:hotels,id',  // Ensure hotel_id exists in the Hotels table
-    //     ]);
-
-    //     // Retrieve the hotel_id from form-data
-    //     $hotelId = $request->input('hotel_id');
-
-    //     // Find the hotel by its ID
-    //     $hotel = Hotels::find($hotelId);
-
-    //     if (!$hotel) {
-    //         // If hotel is not found, return an error
-    //         return response()->json(['message' => 'Hotel not found.'], 404);
-    //     }
-
-    //     // Get the package_ids associated with the hotel
-    //     $packageIds = explode(',', $hotel->package_id); // package_id is a comma-separated string
-
-    //     // Fetch the packages based on the package_ids
-    //     $packages = Package::whereIn('id', $packageIds)->get();
-
-    //     // Prepare the response data
-    //     $hotelData = [
-    //         'id' => $hotel->id,
-    //         'name' => $hotel->name,
-    //         'state' => $hotel->state ? $hotel->state->name : null,
-    //         'city' => $hotel->city ? $hotel->city->name : null,
-    //         'images' => $this->generateImageUrls($hotel->images, url('')),  // Assuming this is a method you use to generate image URLs
-    //         'location' => $hotel->location,
-    //         'hotel_category' => $hotel->hotel_category,
-    //         'package_id' => $hotel->package_id,
-    //         'packages' => $packages,  // Return the related packages
-    //     ];
-
-    //     // Return the hotel details along with its packages
-    //     return response()->json([
-    //         'message' => 'Hotel and related packages fetched successfully.',
-    //         'data' => $hotelData,
-    //         'status' => 200
-    //     ], 200);
-    // }
-
+//     public function getHotelWithPackages(Request $request)
+// {
+//     $token = $request->bearerToken();
     
-    public function getHotelWithPackages(Request $request)
-    {
-        $token = $request->bearerToken();
-        
-        if (!$token) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
+//     if (!$token) {
+//         return response()->json(['message' => 'Unauthenticated.'], 401);
+//     }
 
-        $decodedToken = base64_decode($token);
-        list($email, $password) = explode(',', $decodedToken);
-    
-        $user = Agent::where('email', $email)->first();
-    
-        if (!$user || $password !== $user->password) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
+//     // Decode the token
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
 
-        $request->validate([
-            'hotel_id' => 'required|integer|exists:hotels,id', 
-        ]);
-    
-        $hotelId = $request->input('hotel_id');
-    
-        $hotel = Hotels::find($hotelId);
-    
-        if (!$hotel) {
+//     // Verify the user credentials
+//     $user = Agent::where('email', $email)->first();
 
-            return response()->json(['message' => 'Hotel not found.'], 404);
-        }
+//     if (!$user || $password !== $user->password) {
+//         return response()->json(['message' => 'Unauthenticated.'], 401);
+//     }
+
+//     $request->validate([
+//         'hotel_id' => 'required|integer|exists:hotels,id',
+//     ]);
+
+//     $hotelId = $request->input('hotel_id');
+//     $hotel = Hotels::find($hotelId);
+
+//     if (!$hotel) {
+//         return response()->json(['message' => 'Hotel not found.'], 404);
+//     }
+
+//     $packageIds = explode(',', $hotel->package_id);
+//     $packages = Package::whereIn('id', $packageIds)->get();
+
+//     $states = State::all()->pluck('state_name', 'id');
+//     $cities = City::all()->pluck('city_name', 'id');
+
+//     $hotelData = [
+//         'packages' => $packages->map(function($package) use ($states, $cities) {
+
+//             $imageUrls = array_values(json_decode($package->image, true));
+
+//             $stateNames = $this->getNamesByIds($package->state_id, $states);
+//             $cityNames = $this->getNamesByIds($package->city_id, $cities);
+
+//             return [
+//                 'id' => $package->id,
+//                 'package_name' => $package->package_name,
+//                 // 'state_id' => $package->state_id,
+//                 // 'city_id' => $package->city_id,
+//                 'state_names' => $stateNames, 
+//                 'city_names' => $cityNames,   
+//                 'image' => array_map(function($image) {
+//                     return url('') . '/' . $image;
+//                 }, $imageUrls),
+//                 'video' => array_map(function($video) {
+//                     return url('') . '/' . $video;
+//                 }, json_decode($package->video, true)),
+//                 'pdf' => url('') . '/' . $package->pdf,
+//                 'text_description' => $package->text_description,
+//                 'text_description_2' => $package->text_description_2,
+//             ];
+//         }),
+//     ];
+
+//     return response()->json([
+//         'message' => 'Hotel and related packages fetched successfully.',
+//         'data' => $hotelData,
+//         'status' => 200
+//     ], 200);
+// }
+
+
+public function getHotelWithPackages(Request $request)
+{
+    $token = $request->bearerToken();
     
-        $packageIds = explode(',', $hotel->package_id);
+    if (!$token) {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    }
 
-        $packages = Package::whereIn('id', $packageIds)->get();
+    // Decode the token
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
 
-        $hotelData = $packages->map(function($package) {
+    // Verify the user credentials
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $password !== $user->password) {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    }
+
+    $request->validate([
+        'hotel_id' => 'required|integer|exists:hotels,id',
+    ]);
+
+    $hotelId = $request->input('hotel_id');
+    $hotel = Hotels::find($hotelId);
+
+    if (!$hotel) {
+        return response()->json(['message' => 'Hotel not found.'], 404);
+    }
+
+    $packageIds = explode(',', $hotel->package_id);
+    $packages = Package::whereIn('id', $packageIds)->get();
+
+    $states = State::all()->pluck('state_name', 'id');
+    $cities = City::all()->pluck('city_name', 'id');
+
+    $hotelData = [
+        'packages' => $packages->map(function($package) use ($states, $cities) {
+
+            // Get the images
+            $imageUrls = array_values(json_decode($package->image, true));
+
+            // Get state and city names
+            $stateNames = $this->getNamesByIds($package->state_id, $states);
+            $cityNames = $this->getNamesByIds($package->city_id, $cities);
+
+            // Get the prices for the current package
+            $packagePrices = PackagePrice::where('package_id', $package->id)->get();
+
+            // Prepare the price data
+            $prices = $packagePrices->map(function($price) {
+                return [
+                    'id' => $price->id,
+                    'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+                    'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                    'standard_cost' => $price->standard_cost,
+                    'deluxe_cost' => $price->deluxe_cost,
+                    'premium_cost' => $price->premium_cost,
+                    'super_deluxe_cost' => $price->super_deluxe_cost,
+                    'luxury_cost' => $price->luxury_cost,
+                    'nights_cost' => $price->nights_cost,
+                    'adults_cost' => $price->adults_cost,
+                    'child_with_bed_cost' => $price->child_with_bed_cost,
+                    'child_no_bed_infant_cost' => $price->child_no_bed_infant_cost,
+                    'child_no_bed_child_cost' => $price->child_no_bed_child_cost,
+                    'meal_plan_only_room_cost' => $price->meal_plan_only_room_cost,
+                    'meal_plan_breakfast_cost' => $price->meal_plan_breakfast_cost,
+                    'meal_plan_breakfast_lunch_dinner_cost' => $price->meal_plan_breakfast_lunch_dinner_cost,
+                    'meal_plan_all_meals_cost' => $price->meal_plan_all_meals_cost,
+                    'hatchback_cost' => $price->hatchback_cost,
+                    'sedan_cost' => $price->sedan_cost,
+                    'economy_suv_cost' => $price->economy_suv_cost,
+                    'luxury_suv_cost' => $price->luxury_suv_cost,
+                    'traveller_mini_cost' => $price->traveller_mini_cost,
+                    'traveller_big_cost' => $price->traveller_big_cost,
+                    'premium_traveller_cost' => $price->premium_traveller_cost,
+                    'ac_coach_cost' => $price->ac_coach_cost,
+                ];
+            });
+
             return [
                 'id' => $package->id,
                 'package_name' => $package->package_name,
-                'state_id' => $package->state_id,
-                'city_id' => $package->city_id,
-                'image' => $this->generateResourceUrls(json_decode($package->image, true), 'packages/images'), 
-                'video' => $this->generateResourceUrls(json_decode($package->video, true), 'packages/videos'), 
-                'pdf' => url('') . '/packages/pdf/' . $package->pdf,
+                'state_names' => $stateNames, 
+                'city_names' => $cityNames,
+                'image' => array_map(function($image) {
+                    return url('') . '/' . $image;
+                }, $imageUrls),
+                'video' => array_map(function($video) {
+                    return url('') . '/' . $video;
+                }, json_decode($package->video, true)),
+                'pdf' => url('') . '/' . $package->pdf,
                 'text_description' => $package->text_description,
                 'text_description_2' => $package->text_description_2,
+                'prices' => $prices,  // Added prices to the response
             ];
-        });
+        }),
+    ];
+
+    return response()->json([
+        'message' => 'Hotel and related packages fetched successfully.',
+        'data' => $hotelData,
+        'status' => 200
+    ], 200);
+}
+
+// Helper function to map IDs to their corresponding names
+private function getNamesByIds($ids, $list)
+{
+    // Convert the IDs string into an array
+    $idsArray = explode(',', $ids);
+
+    // Map the IDs to the respective names
+    return array_map(function($id) use ($list) {
+        return isset($list[$id]) ? $list[$id] : null;
+    }, $idsArray);
+}
+
     
-        return response()->json([
-            'message' => 'Hotel and related packages fetched successfully.',
-            'data' => $hotelData, 
-            'status' => 200
-        ], 200);
-    }
 
     private function generateResourceUrls($files, $type)
     {
