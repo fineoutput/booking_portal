@@ -1836,6 +1836,8 @@ textarea.form-control {
 
 .destination-dropdown_hotels {
   width: 300px;
+  height: 400px;
+  overflow-y: auto;
 }
 
 .destination-option_hotels {
