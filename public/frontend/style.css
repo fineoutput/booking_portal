@@ -4,7 +4,7 @@
   font-style: normal;
 }
 a{
-  text-decoration: none;
+  text-decoration: none !important;
 }
 img{
   width: 100%;
@@ -1930,6 +1930,7 @@ textarea.form-control {
   font-size: 17px;
   margin: 0;
   font-weight: bold;
+  color: #000;
 }
 .key{
   color: #6A6A6A;
@@ -1948,4 +1949,139 @@ textarea.form-control {
 .new_lave img{
   height: 15rem;
   border-radius: 10px !important;
+}
+.hotel_place{
+  font-size: 16px;
+    font-weight: bold;
+}
+.city_list_htotle {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.sizemaze img {
+  width: 5rem;
+}
+.hotels_spn {
+  font-size: 0.875rem;
+  color: #6a6a6a;
+  padding: 0px 12px;
+}
+
+/* //////////////////////////////Hotel detail page */
+.nive {
+  height: 50vh;
+}
+.mirror_maxe{
+  height: 100%;
+}
+.mirror_maxe img {
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px 0px 0px 10px;
+}
+.comp-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  min-width: 343px;
+  max-width: 1160px;
+  overflow: hidden;
+}
+.raj_hotel{
+
+    font-family: Airbnb Cereal VF,Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
+    color: #000;
+    font-weight: 600;
+    font-size: 1.8rem;
+
+}
+
+.side_masic img {
+  object-fit: cover;
+  border-radius: 10px;
+}
+.hoses {
+  font-weight: bold;
+}
+.atm_9s_1o8liyq_keqd55:nth-of-type(1n) {
+  display: inline-block;
+}
+._wlu9uw {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.hpipapi.atm_7l_1kw7nm4.atm_c8_1x4eueo.atm_cs_1kw7nm4.atm_g3_1kw7nm4.atm_gi_idpfg4.atm_l8_idpfg4.atm_kd_idpfg4_pfnrn2.dir.dir-ltr {
+  font-size: 1rem;
+  color: #000;
+  font-weight: bold;
+  margin: 0;
+}
+.sangeetam {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-top: 1px solid rgb(221, 221, 221);
+}
+
+.nizam_abt{
+  border-top: 1px solid rgb(221, 221, 221);
+  padding-top:15px ;
+}
+.naxo {
+  font-size: 1.5rem;
+  color: #000;
+  font-weight: bold;
+  margin: 0;
+}
+.inner_price {
+  font-size: 1.375rem;
+  font-weight: bold;
+}
+.outer_box{
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+}
+.bors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.trnas {
+  padding: 12px 10px !important;
+}
+
+.checks {
+  border: 1px solid #0000004f;
+  border-radius: 10px;
+}
+
+
+.caranke:nth-child(1) {
+  border-right: 1px solid #0000004f;
+}
+
+.rivvsa {
+  border-top: 1px solid #0000004f;
+}
+.caranke {
+  padding: 10px;
+}
+.arrow {
+  display: flex;
+}
+.gggsd{
+  width: 100%;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+}
+.side_masic {
+  height: 23vh;
 }

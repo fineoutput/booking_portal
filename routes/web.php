@@ -54,6 +54,7 @@ Route::group(['prefix' => '/'], function () {
     Route::get('list', [HomeController::class, 'list'])->name('list');
     Route::get('detail', [HomeController::class, 'detail'])->name('detail');
     Route::get('hotelsbooking', [HomeController::class, 'hotelsbooking'])->name('hotelsbooking');
+    Route::get('hotel_details', [HomeController::class, 'hotel_details'])->name('hotel_details');
 });
 
 Route::post('signup', [AuthController::class, 'signup'])->name('signup');
