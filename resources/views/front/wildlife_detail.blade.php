@@ -159,7 +159,7 @@
                                         <div class="bors">
                                             <div class="caranke">
 
-                                                <label for="">Date</label>
+                                                <label for=""><b>Date</b></label>
                                                 <input type="date" class="filter-value_hotels" placeholder="Check In">
                                             </div>
 
