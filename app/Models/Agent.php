@@ -27,5 +27,6 @@ class Agent extends Authenticatable
         'password',
         'logo',
         'registration_charge',
+        'approved',
     ];
 }

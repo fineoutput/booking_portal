@@ -28,8 +28,9 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/tripguide', [SafariController::class, 'tripguide']);
     Route::post('/wild-life-safari-book', [SafariController::class, 'wildsafaribooked']);
     Route::get('/languages', [SafariController::class, 'getLanguages']);
-    Route::get('filter-state-city', [SafariController::class, 'filterStateCity']);
-    Route::post('hotel-state-city', [HotelController::class, 'statecityhotel']);
+    Route::get('/filter-state-city', [SafariController::class, 'filterStateCity']);
+    Route::post('/hotel-state-city', [HotelController::class, 'statecityhotel']);
+    Route::post('/hotel-booking', [HotelController::class, 'hotelbooking']);
 
 
 

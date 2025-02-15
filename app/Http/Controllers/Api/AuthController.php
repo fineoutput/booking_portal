@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
+use Carbon\Carbon;
 use App\Mail\OtpMail;
 
 use Illuminate\Support\Facades\Mail;
@@ -64,7 +65,7 @@ class AuthController extends Controller
             $logoPath = $request->file('logo')->store('uploads/logos', 'public');
             $panImagePath = $request->file('pan_image')->store('uploads/pan_images', 'public');
 
-            $user = UnverifyUser::create([
+            $user = Agent::create([
                 'number' => $request->number,
                 'number_verify' => 0, 
                 'email' => $request->email, 
@@ -79,10 +80,11 @@ class AuthController extends Controller
                 'aadhar_image_back' => $aadharImageBackPath, 
                 'logo' => $logoPath,
                 'pan_image' => $panImagePath,
+                'approved' => 0,
             ]);
 
-            $otp = $this->sendOtp($request->number);
-            return response()->json(['message' => 'OTP sent successfully!']);
+            // $otp = $this->sendOtp($request->number);
+            return response()->json(['message' => 'Agent Created, Waiting for Admin Approval!']);
         }
     
         if ($request->otp && $request->number) {
@@ -406,12 +408,52 @@ class AuthController extends Controller
     //     ], 200);
     // }
 
-    public function login(Request $request)
+//     public function login(Request $request)
+// {
+//     // Validate the input
+//     $validator = Validator::make($request->all(), [
+//         'email' => 'required|string|exists:agent,email', 
+//         'password' => 'required|string|min:6', 
+//     ]);
+    
+//     // If validation fails, return errors
+//     if ($validator->fails()) {
+//         $errors = [];
+//         foreach ($validator->errors()->getMessages() as $field => $messages) {
+//             $errors[$field] = $messages[0];
+//             break; // break to return the first error only
+//         }
+//         return response()->json(['errors' => $errors], 400);
+//     }
+
+//     // Get the credentials from the request (email and password)
+//     $credentials = $request->only('email', 'password');
+    
+//     // Attempt to authenticate the user using the provided credentials
+//     if (!Auth::guard('agent')->attempt($credentials)) { 
+//         return response()->json(['message' => 'Invalid credentials. Please check your email and password.'], 401);
+//     }
+
+//     $user = Auth::guard('agent')->user(); 
+
+//     $userPhoneNumber = $user->number;
+
+//     $otp = $this->sendOtp($userPhoneNumber);
+
+//     return response()->json([
+//         'message' => 'Login successful. OTP sent successfully!',
+//         'status' => 200,    
+//     ], 200);
+// }
+
+
+public function login(Request $request)
 {
     // Validate the input
     $validator = Validator::make($request->all(), [
-        'email' => 'required|string|exists:agent,email', 
-        'password' => 'required|string|min:6', 
+        'email' => 'required_without:mobile_number|string|exists:agent,email',
+        'password' => 'required_without:mobile_number|string|min:6', 
+        'mobile_number' => 'required_without:email|exists:agent,number',
     ]);
     
     // If validation fails, return errors
@@ -424,55 +466,69 @@ class AuthController extends Controller
         return response()->json(['errors' => $errors], 400);
     }
 
-    // Get the credentials from the request (email and password)
-    $credentials = $request->only('email', 'password');
-    
-    // Attempt to authenticate the user using the provided credentials
-    if (!Auth::guard('agent')->attempt($credentials)) { 
-        return response()->json(['message' => 'Invalid credentials. Please check your email and password.'], 401);
+    // Check if login is using email and password or mobile number
+    if ($request->has('email') && $request->has('password')) {
+        // Email and password login
+        $credentials = $request->only('email', 'password');
+        
+        if (!Auth::guard('agent')->attempt($credentials)) {
+            return response()->json(['message' => 'Invalid credentials. Please check your email and password.'], 401);
+        }
+
+        $user = Auth::guard('agent')->user();
+
+        // Check if the user is approved
+        if ($user->approved != 1) {
+            return response()->json([
+                'message' => 'Your account is not approved by the admin. Please wait for approval.',
+                'status' => 201,
+            ], 403);
+        }
+
+        $token = base64_encode($request->email . ',' . $request->password);
+
+        // Update the user's auth token and expiration date
+        $user->update([
+            'auth' => $token,
+            'token_expires_at' => Carbon::now()->addDays(7), 
+        ]);
+
+        return response()->json([
+            'message' => 'Login successful.',
+            'auth_token' => $token,
+            'status' => 200,
+        ], 200);
+    } elseif ($request->has('mobile_number')) {
+        // Mobile number login
+        $user = Agent::where('number', $request->mobile_number)->first();
+        
+        if (!$user) {
+            return response()->json(['message' => 'User not found with this mobile number.'], 404);
+        }
+
+        // Check if the user is approved
+        if ($user->approved != 1) {
+            return response()->json(['message' => 'Your account is not approved by the admin. Please wait for approval.'], 403);
+        }
+
+        // Send OTP to the mobile number
+        $otp = $this->sendOtp($user->number);
+
+        // You may want to save the OTP and expiration time for validation later
+        $user->update([
+            'otp' => $otp,
+            'otp_expires_at' => Carbon::now()->addMinutes(5),  // OTP expiration time (5 minutes, adjust as needed)
+        ]);
+
+        return response()->json([
+            'message' => 'OTP sent successfully!',
+            'status' => 200,
+        ], 200);
     }
 
-    $user = Auth::guard('agent')->user(); 
-
-    $userPhoneNumber = $user->number;
-
-    $otp = $this->sendOtp($userPhoneNumber);
-
-    return response()->json([
-        'message' => 'Login successful. OTP sent successfully!',
-        'status' => 200,    
-    ], 200);
+    return response()->json(['message' => 'Invalid request.'], 400);
 }
 
-    // public function login(Request $request)    
-    // {
-    //     // Validate the request input
-    //     $validator = Validator::make($request->all(), [
-    //         'number' => 'required|string|exists:users,number',
-    //         'password' => 'required|string|min:6',
-    //     ]);
-    
-    //     if ($validator->fails()) {
-    //         $errors = [];
-    //         foreach ($validator->errors()->getMessages() as $field => $messages) {
-    //             $errors[$field] = $messages[0];
-    //             break; 
-    //         }
-    //         return response()->json(['errors' => $errors], 400);
-    //     }
-    //     $credentials = $request->only('number', 'password');
-    //     if (!Auth::attempt($credentials)) {
-    //         return $this->successResponse('Invalid credentials. Please check your number and password.', false, 401);
-    //     }
-    //     $user = Auth::user();
-    //     $token = $user->createToken('token')->plainTextToken;
-    //     $user->auth = $token;
-    //     $user->save();
-    //     return response()->json([
-    //         'message' => 'Login successful.',
-    //         'token' => $token,
-    //     ], 200);
-    // }
 
     public function logout(Request $request)
     {

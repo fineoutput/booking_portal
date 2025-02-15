@@ -11,6 +11,8 @@ use App\Models\Agent;
 use App\Models\Package;
 use App\Models\Vehicle;
 use App\Models\State;
+use App\Models\HotelBooking;
+use App\Models\HotelPrice;
 use Carbon\Carbon;
 use App\Models\City;
 use App\Models\PackagePrice;
@@ -441,7 +443,145 @@ public function statecityhotel(Request $request)
 }
 
 
+ 
+// public function hotelBooking(Request $request) {
 
+//     $token = $request->bearerToken();
+
+//     if (!$token) {
+//         return response()->json(['message' => 'Unauthenticated.'], 401);
+//     }
+
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
+
+//     $user = Agent::where('email', $email)->first();
+
+//     if (!$user || $password != $user->password) {
+//         return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
+//     }
+
+//     $validatedData = $request->validate([
+//         'hotel_id' => 'required',
+//         'city_id' => 'required', 
+//         'check_in_date' => 'required|date',
+//         'check_out_date' => 'required|date|after_or_equal:check_in_date',
+//         'no_occupants' => 'required|integer',
+//     ]);
+
+//     // Calculate the night count (difference between check-out and check-in dates)
+//     $checkInDate = Carbon::parse($request->check_in_date);
+//     $checkOutDate = Carbon::parse($request->check_out_date);
+//     $nightCount = $checkInDate->diffInDays($checkOutDate);  
+//     return $nightCount;
+
+//     $hotelBooking = new HotelBooking();
+//     $hotelBooking->hotel_id = $request->hotel_id;
+//     $hotelBooking->city_id = $request->city_id;
+//     $hotelBooking->check_in_date = $request->check_in_date;
+//     $hotelBooking->check_out_date = $request->check_out_date;
+//     $hotelBooking->no_occupants = $request->no_occupants;
+//     $hotelBooking->user_id = $user->id;
+//     $hotelBooking->status = 0;
+//     $hotelBooking->night_count = $nightCount; // Save the calculated night count
+//     $hotelBooking->save();
+
+//     return response()->json([
+//         'message' => 'Hotel booking successfully created.',
+//         'data' => [
+//             'id' => $hotelBooking->id,
+//             'hotel_id' => $hotelBooking->hotel_id,
+//             'city_id' => $hotelBooking->city_id,
+//             'check_in_date' => $hotelBooking->check_in_date,
+//             'check_out_date' => $hotelBooking->check_out_date,
+//             'no_occupants' => $hotelBooking->no_occupants,
+//             'user_id' => $hotelBooking->user_id,
+//             'status' => $hotelBooking->status,
+//             'night_count' => $hotelBooking->night_count,  // Include the night count in the response
+//         ],
+//         'status' => 200,
+//     ], 200);
+// }
+
+
+public function hotelBooking(Request $request) {
+
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $password != $user->password) {
+        return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
+    }
+
+    $validatedData = $request->validate([
+        'hotel_id' => 'required',
+        'city_id' => 'required', 
+        'check_in_date' => 'required|date',
+        'check_out_date' => 'required|date|after_or_equal:check_in_date',
+        'no_occupants' => 'required',
+    ]);
+
+    $checkInDate = Carbon::parse($request->check_in_date);
+    $checkOutDate = Carbon::parse($request->check_out_date);
+    $nightCount = $checkInDate->diffInDays($checkOutDate);  
+
+    $totalPrice = 0;
+    $currentDate = $checkInDate->copy();
+    $hotelPrices = HotelPrice::where('hotel_id', $request->hotel_id)
+                             ->where('start_date', '<=', $checkOutDate)
+                             ->where('end_date', '>=', $checkInDate)
+                             ->get();
+    foreach ($hotelPrices as $price) {
+        $overlapStart = max($currentDate, Carbon::parse($price->start_date));
+        $overlapEnd = min($checkOutDate, Carbon::parse($price->end_date));
+
+        if ($overlapStart->lt($overlapEnd)) {
+            $priceNights = $overlapStart->diffInDays($overlapEnd);
+            $totalPrice += $priceNights * $price->night_cost; 
+        }
+
+        $currentDate = $overlapEnd->addDay();
+    }
+
+    // return $totalPrice;
+
+    $hotelBooking = new HotelBooking();
+    $hotelBooking->hotel_id = $request->hotel_id;
+    $hotelBooking->city_id = $request->city_id;
+    $hotelBooking->check_in_date = $request->check_in_date;
+    $hotelBooking->check_out_date = $request->check_out_date;
+    $hotelBooking->no_occupants = $request->no_occupants;
+    $hotelBooking->user_id = $user->id;
+    $hotelBooking->status = 0;
+    $hotelBooking->night_count = $nightCount; 
+    $hotelBooking->cost = $totalPrice;
+    $hotelBooking->save();
+
+    return response()->json([
+        'message' => 'Hotel booking successfully created.',
+        'data' => [
+            'id' => $hotelBooking->id,
+            'hotel_id' => $hotelBooking->hotel_id,
+            'city_id' => $hotelBooking->city_id,
+            'check_in_date' => $hotelBooking->check_in_date,
+            'check_out_date' => $hotelBooking->check_out_date,
+            'no_occupants' => $hotelBooking->no_occupants,
+            'user_id' => $hotelBooking->user_id,
+            'status' => $hotelBooking->status,
+            'night_count' => $hotelBooking->night_count, 
+            'cost' => $hotelBooking->cost, 
+        ],
+        'status' => 200,
+    ], 200);
+}
 
 
 

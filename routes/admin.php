@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\AgentCallsController;
 use App\Http\Controllers\Admin\HotelCallsController;
 use App\Http\Controllers\Admin\HotelsPriceController;
 use App\Http\Controllers\Admin\TaxiBookingController;
+use App\Http\Controllers\Admin\HotelBookingController;
 use App\Http\Controllers\Admin\RouteController;
 use App\Http\Controllers\Admin\ConstantsController;
 use App\Http\Controllers\Admin\CustomerCallsController;
@@ -60,6 +61,10 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::post('/add_settings_process', [CrmController::class, 'add_settings_process'])->name('add_settings_process');
    Route::post('/update_settings_process/{id}', [CrmController::class, 'update_settings_process'])->name('update_settings_process');
    Route::get('/deletesetting/{id}', [CrmController::class, 'deletesetting'])->name('deletesetting');
+
+   Route::get('/pandin-hotels-booking', [HotelBookingController::class, 'index'])->name('pandinghotelsbooking');
+   Route::get('/complete-hotels-booking', [HotelBookingController::class, 'completeorders'])->name('completehotelsbooking');
+   Route::match(['put', 'patch'], '/hotels-booking/{id}/status', [HotelBookingController::class, 'updateStatus'])->name('hotelsbooking.updateStatus');
 
 
    //  Hotels  ------------------------
@@ -169,6 +174,10 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/agent', [AgentController::class, 'index'])->name('agent');
     Route::post('/agent/create', [AgentController::class, 'create'])->name('agent.create');
 
+    Route::get('/panding-agent', [AgentController::class, 'pandingagent'])->name('pandingagent');
+    Route::get('/complete-agent', [AgentController::class, 'completeagent'])->name('completegagent');
+    Route::match(['put', 'patch'], '/agent/{id}/status', [AgentController::class, 'updateStatus'])->name('agent.updateStatus');
+
     Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi-booking');
     Route::post('/taxi-booking/create', [TaxiBookingController::class, 'create'])->name('taxi-booking.create');
 
@@ -190,8 +199,6 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::patch('/wild-life-safari/{id}/status', [WildlifeSafariController::class, 'updateStatus'])->name('wild_life_safari.updateStatus');
     Route::get('/safari/cities/{stateId}', [WildlifeSafariController::class, 'getCitiesByStatesafari']);
 
-
-   // WildlifeSafariorder
 
     Route::get('/wild-life-safari-order', [WildlifeSafariOrderController::class, 'index'])->name('wild_life_safari_orders');
 
