@@ -45,7 +45,7 @@ class AuthController extends Controller
             'pan_image' => 'required',
             'GST_number' => 'required',
             'logo' => 'required',
-            'registration_charge' => 'required',
+            'registration_charge' => 'nullable',
         ];
     
         // Validate the request input
