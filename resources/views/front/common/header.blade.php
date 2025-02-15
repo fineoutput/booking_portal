@@ -167,6 +167,7 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('hotelsbooking') }}">Hotels</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('wildlife') }}">Safari</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('guide') }}">Guide</a></li>
       </ul>
     </div>
   </div>
