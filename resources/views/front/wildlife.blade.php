@@ -154,7 +154,7 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+      route: "{{ route('wildlife_detail') }}"
     },
     {
       images: [
@@ -166,7 +166,7 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+      route: "{{ route('wildlife_detail') }}"
     },
     {
       images: [
@@ -178,7 +178,7 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+      route: "{{ route('wildlife_detail') }}"
     },
     {
       images: [
@@ -190,7 +190,7 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+      route: "{{ route('wildlife_detail') }}"
     }
     
   ];

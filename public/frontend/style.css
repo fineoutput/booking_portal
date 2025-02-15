@@ -2073,6 +2073,7 @@ textarea.form-control {
 }
 .caranke {
   padding: 10px;
+  width: 50%;
 }
 .arrow {
   display: flex;

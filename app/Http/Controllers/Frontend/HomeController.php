@@ -65,6 +65,10 @@ class HomeController extends Controller
     {
         return view('front/wildlife');
     }
+    public function wildlife_detail()
+    {
+        return view('front/wildlife_detail');
+    }
 
 
     public function successResponse($message, $status = true, $statusCode = 201)
