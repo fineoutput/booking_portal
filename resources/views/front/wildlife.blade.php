@@ -131,4 +131,109 @@
   </div>
 </section>
 
+<section class="_hotels_filters">
+  <div class="container">
+    <div class="row" id="hotel-cards-container">
+      
+    </div>
+    <hr>
+    
+  </div>
+</section>
+
+<script>
+ 
+  const hotels = [
+    {
+      images: [
+        "https://i.pinimg.com/736x/9a/e7/e1/9ae7e14bc932239dbebb83de85dc989b.jpg",
+        "https://i.pinimg.com/736x/9a/e7/e1/9ae7e14bc932239dbebb83de85dc989b.jpg",
+        "https://i.pinimg.com/736x/9a/e7/e1/9ae7e14bc932239dbebb83de85dc989b.jpg"
+      ],
+      title: "Mashroop, India",
+      subtitle: "Mountain Views",
+      date: "13-18 Feb",
+      price: "₹18,806 night",
+      route: "{{ route('hotel_details') }}"
+    },
+    {
+      images: [
+        "https://i.pinimg.com/236x/7a/b6/0e/7ab60ec7ff20d00bb379a0ec22266593.jpg",
+        "frontend/images/secound.avif",
+        "https://i.pinimg.com/236x/7a/b6/0e/7ab60ec7ff20d00bb379a0ec22266593.jpg"
+      ],
+      title: "Mashroop, India",
+      subtitle: "Mountain Views",
+      date: "13-18 Feb",
+      price: "₹18,806 night",
+      route: "{{ route('hotel_details') }}"
+    },
+    {
+      images: [
+        "https://i.pinimg.com/474x/25/72/82/2572829778f02c5324cfcc62b006c341.jpg",
+        "frontend/images/secound.avif",
+        "https://i.pinimg.com/474x/25/72/82/2572829778f02c5324cfcc62b006c341.jpg"
+      ],
+      title: "Mashroop, India",
+      subtitle: "Mountain Views",
+      date: "13-18 Feb",
+      price: "₹18,806 night",
+      route: "{{ route('hotel_details') }}"
+    },
+    {
+      images: [
+        "https://i.pinimg.com/236x/0d/d8/cc/0dd8cc308b18416555a020c2dbcdc638.jpg",
+        "frontend/images/secound.avif",
+        "https://i.pinimg.com/236x/0d/d8/cc/0dd8cc308b18416555a020c2dbcdc638.jpg"
+      ],
+      title: "Mashroop, India",
+      subtitle: "Mountain Views",
+      date: "13-18 Feb",
+      price: "₹18,806 night",
+      route: "{{ route('hotel_details') }}"
+    }
+    
+  ];
+
+
+  function createHotelCard(hotel) {
+    return `
+      <div class="col-lg-3">
+        <div class="alocate_hotel">
+          <!-- Splide Slider -->
+          <div class="splide alocate_slider">
+            <div class="splide__track">
+              <ul class="splide__list">
+                ${hotel.images
+                  .map(
+                    (image, idx) => `
+                  <li class="splide__slide new_lave">
+                    <img src="${image}" alt="Image ${idx + 1}">
+                  </li>
+                `
+                  )
+                  .join("")}
+              </ul>
+            </div>
+          </div>
+          <a href="${hotel.route}">
+            <div class="alocate_title_data">
+              <div class="ttiel_head">
+                <h4 class="size">${hotel.title}</h4>
+                <h4 class="key">${hotel.subtitle}</h4>
+                <h4 class="path key">${hotel.date}</h4>
+                <h4 class="seeve size">${hotel.price}</h4>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+
+  const container = document.getElementById("hotel-cards-container");
+  container.innerHTML = hotels.map(createHotelCard).join("");
+</script>
+
 @endsection

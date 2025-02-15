@@ -114,257 +114,109 @@
 
 
   <section class="_hotels_filters">
-    <div class="container">
-      <div class="row">
-      <div class="col-lg-3">
-  <div class="alocate_hotel">
-    <!-- Splide Slider -->
-    <div class="splide alocate_slider">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/first.avif" alt="Image 1">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/secound.avif" alt="Image 2">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/third.avif" alt="Image 3">
-          </li>
-        </ul>
-      </div>
+  <div class="container">
+    <div class="row" id="hotel-cards-container">
+      
     </div>
-    <a href="{{ route('hotel_details') }}">
+    <hr>
     
-    <div class="alocate_title_data">
-      <div class="ttiel_head">
-        <h4 class="size">Mashroop, India</h4>
-        <h4 class="key">Mountain Views</h4>
-        <h4 class="path key">13-18 Feb</h4>
-        <h4 class="seeve size">₹18,806 night</h4>
-      </div>
-    </div>
-    </a>
   </div>
-</div>
+</section>
 
-<div class="col-lg-3">
-  <div class="alocate_hotel">
-    <!-- Splide Slider -->
-    <div class="splide alocate_slider">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/third.avif" alt="Image 1">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/secound.avif" alt="Image 2">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/fourth.avif" alt="Image 3">
-          </li>
-        </ul>
-      </div>
-    </div>
-   <a href="{{ route('hotel_details') }}">
-    <div class="alocate_title_data">
-      <div class="ttiel_head">
-        <h4 class="size">Mashroop, India</h4>
-        <h4 class="key">Mountain Views</h4>
-        <h4 class="path key">13-18 Feb</h4>
-        <h4 class="seeve size">₹18,806 night</h4>
-      </div>
-    </div>
-    </a> 
-  </div>
-</div>
-<div class="col-lg-3">
-  <div class="alocate_hotel">
-    <!-- Splide Slider -->
-    <div class="splide alocate_slider">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/fourth.avif" alt="Image 1">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/secound.avif" alt="Image 2">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/fifth.avif" alt="Image 3">
-          </li>
-        </ul>
-      </div>
-    </div>
-    <a href="{{ route('hotel_details') }}">
-    <div class="alocate_title_data">
-      <div class="ttiel_head">
-        <h4 class="size">Mashroop, India</h4>
-        <h4 class="key">Mountain Views</h4>
-        <h4 class="path key">13-18 Feb</h4>
-        <h4 class="seeve size">₹18,806 night</h4>
-      </div>
-    </div>
-    </a>
-  </div>
-</div>
-<div class="col-lg-3">
-  <div class="alocate_hotel">
-    <!-- Splide Slider -->
-    <div class="splide alocate_slider">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/sixth.avif" alt="Image 1">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/secound.avif" alt="Image 2">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/first.avif" alt="Image 3">
-          </li>
-        </ul>
-      </div>
-    </div>
-    <a href="{{ route('hotel_details') }}">
-    <div class="alocate_title_data">
-      <div class="ttiel_head">
-        <h4 class="size">Mashroop, India</h4>
-        <h4 class="key">Mountain Views</h4>
-        <h4 class="path key">13-18 Feb</h4>
-        <h4 class="seeve size">₹18,806 night</h4>
-      </div>
-    </div>
-    </a>
-  </div>
-</div>
+<script>
+ 
+  const hotels = [
+    {
+      images: [
+        "https://i.pinimg.com/736x/9a/e7/e1/9ae7e14bc932239dbebb83de85dc989b.jpg",
+        "https://i.pinimg.com/736x/9a/e7/e1/9ae7e14bc932239dbebb83de85dc989b.jpg",
+        "https://i.pinimg.com/736x/9a/e7/e1/9ae7e14bc932239dbebb83de85dc989b.jpg"
+      ],
+      title: "Mashroop, India",
+      subtitle: "Mountain Views",
+      date: "13-18 Feb",
+      price: "₹18,806 night",
+      route: "{{ route('hotel_details') }}"
+    },
+    {
+      images: [
+        "frontend/images/third.avif",
+        "frontend/images/secound.avif",
+        "frontend/images/fourth.avif"
+      ],
+      title: "Mashroop, India",
+      subtitle: "Mountain Views",
+      date: "13-18 Feb",
+      price: "₹18,806 night",
+      route: "{{ route('hotel_details') }}"
+    },
+    {
+      images: [
+        "frontend/images/fourth.avif",
+        "frontend/images/secound.avif",
+        "frontend/images/fifth.avif"
+      ],
+      title: "Mashroop, India",
+      subtitle: "Mountain Views",
+      date: "13-18 Feb",
+      price: "₹18,806 night",
+      route: "{{ route('hotel_details') }}"
+    },
+    {
+      images: [
+        "frontend/images/sixth.avif",
+        "frontend/images/secound.avif",
+        "frontend/images/first.avif"
+      ],
+      title: "Mashroop, India",
+      subtitle: "Mountain Views",
+      date: "13-18 Feb",
+      price: "₹18,806 night",
+      route: "{{ route('hotel_details') }}"
+    }
+    
+  ];
 
-      </div>
-  <hr>
-      <div class="row">
+
+  function createHotelCard(hotel) {
+    return `
       <div class="col-lg-3">
-  <div class="alocate_hotel">
-    <!-- Splide Slider -->
-    <div class="splide alocate_slider">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/third.avif" alt="Image 1">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/secound.avif" alt="Image 2">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/fourth.avif" alt="Image 3">
-          </li>
-        </ul>
+        <div class="alocate_hotel">
+          <!-- Splide Slider -->
+          <div class="splide alocate_slider">
+            <div class="splide__track">
+              <ul class="splide__list">
+                ${hotel.images
+                  .map(
+                    (image, idx) => `
+                  <li class="splide__slide new_lave">
+                    <img src="${image}" alt="Image ${idx + 1}">
+                  </li>
+                `
+                  )
+                  .join("")}
+              </ul>
+            </div>
+          </div>
+          <a href="${hotel.route}">
+            <div class="alocate_title_data">
+              <div class="ttiel_head">
+                <h4 class="size">${hotel.title}</h4>
+                <h4 class="key">${hotel.subtitle}</h4>
+                <h4 class="path key">${hotel.date}</h4>
+                <h4 class="seeve size">${hotel.price}</h4>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
-    </div>
-    <a href="{{ route('hotel_details') }}">
-    <div class="alocate_title_data">
-      <div class="ttiel_head">
-        <h4 class="size">Mashroop, India</h4>
-        <h4 class="key">Mountain Views</h4>
-        <h4 class="path key">13-18 Feb</h4>
-        <h4 class="seeve size">₹18,806 night</h4>
-      </div>
-    </div>
-    </a>
-  </div>
-</div>
-<div class="col-lg-3">
-  <div class="alocate_hotel">
-    <!-- Splide Slider -->
-    <div class="splide alocate_slider">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/third.avif" alt="Image 1">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/secound.avif" alt="Image 2">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/fourth.avif" alt="Image 3">
-          </li>
-        </ul>
-      </div>
-    </div>
-    <a href="{{ route('hotel_details') }}">
-    <div class="alocate_title_data">
-      <div class="ttiel_head">
-        <h4 class="size">Mashroop, India</h4>
-        <h4 class="key">Mountain Views</h4>
-        <h4 class="path key">13-18 Feb</h4>
-        <h4 class="seeve size">₹18,806 night</h4>
-      </div>
-    </div>
-    </a>
-  </div>
-</div>
-<div class="col-lg-3">
-  <div class="alocate_hotel">
-    <!-- Splide Slider -->
-    <div class="splide alocate_slider">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/third.avif" alt="Image 1">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/secound.avif" alt="Image 2">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/fourth.avif" alt="Image 3">
-          </li>
-        </ul>
-      </div>
-    </div>
-    <a href="{{ route('hotel_details') }}">
-    <div class="alocate_title_data">
-      <div class="ttiel_head">
-        <h4 class="size">Mashroop, India</h4>
-        <h4 class="key">Mountain Views</h4>
-        <h4 class="path key">13-18 Feb</h4>
-        <h4 class="seeve size">₹18,806 night</h4>
-      </div>
-    </div>
-    </a>
-  </div>
-</div>
-<div class="col-lg-3">
-  <div class="alocate_hotel">
-    <!-- Splide Slider -->
-    <div class="splide alocate_slider">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/third.avif" alt="Image 1">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/secound.avif" alt="Image 2">
-          </li>
-          <li class="splide__slide new_lave">
-            <img src="frontend/images/fourth.avif" alt="Image 3">
-          </li>
-        </ul>
-      </div>
-    </div>
-    <a href="{{ route('hotel_details') }}">
-    <div class="alocate_title_data">
-      <div class="ttiel_head">
-        <h4 class="size">Mashroop, India</h4>
-        <h4 class="key">Mountain Views</h4>
-        <h4 class="path key">13-18 Feb</h4>
-        <h4 class="seeve size">₹18,806 night</h4>
-      </div>
-    </div>
-    </a>
-  </div>
-</div>
-      </div>
-    </div>
-  </section>
+    `;
+  }
+
+
+  const container = document.getElementById("hotel-cards-container");
+  container.innerHTML = hotels.map(createHotelCard).join("");
+</script>
 
 
 @endsection
