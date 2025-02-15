@@ -488,7 +488,7 @@ public function login(Request $request)
             ], 403);
         }
 
-        $token = base64_encode($request->email . ',' . $request->password);
+        $token = base64_encode($user->email . ',' . $user->password);
 
         // Update the user's auth token and expiration date
         $user->update([
