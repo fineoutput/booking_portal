@@ -84,7 +84,10 @@ class AuthController extends Controller
             ]);
 
             // $otp = $this->sendOtp($request->number);
-            return response()->json(['message' => 'Agent Created, Waiting for Admin Approval!']);
+            return response()->json([
+                'message' => 'Agent Created, Waiting for Admin Approval!',
+                'status' => 200,
+            ]);
         }
     
         if ($request->otp && $request->number) {
