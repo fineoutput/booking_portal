@@ -77,7 +77,7 @@
             <label>Adults</label>
             <div class="counter_hotels">
               <button onclick="updateGuests('adults', -1)">-</button>
-              <span id="adults-count">1</span>
+              <input type="number" id="adults-count" value="1" min="1">
               <button onclick="updateGuests('adults', 1)">+</button>
             </div>
           </div>
@@ -85,7 +85,7 @@
             <label>Children</label>
             <div class="counter_hotels">
               <button onclick="updateGuests('children', -1)">-</button>
-              <span id="children-count">0</span>
+              <input type="number" id="children-count" value="1" min="1">
               <button onclick="updateGuests('children', 1)">+</button>
             </div>
           </div>
@@ -93,7 +93,7 @@
             <label>Infants</label>
             <div class="counter_hotels">
               <button onclick="updateGuests('infants', -1)">-</button>
-              <span id="infants-count">0</span>
+              <input type="number" id="infants-count" value="1" min="1">
               <button onclick="updateGuests('infants', 1)">+</button>
             </div>
           </div>

@@ -37,12 +37,18 @@
 
   function updateGuests(type, delta) {
     guests[type] = Math.max(0, guests[type] + delta);
-    document.getElementById(`${type}-count`).textContent = guests[type];
+
+    if (type === 'adults' || type === 'children' || type === 'infants') {
+        document.getElementById(`${type}-count`).value = guests[type]; // Update input field value
+    } else {
+        document.getElementById(`${type}-count`).textContent = guests[type]; // Update span text
+    }
 
     const totalGuests = guests.adults + guests.children;
     document.getElementById('guests-value').textContent =
       `${totalGuests} guest${totalGuests !== 1 ? 's' : ''}`;
-  }
+}
+
 
 
 

@@ -1,4 +1,4 @@
-<div class="comp-container">
+<div class="comp-container mt-5">
 <div class="upper_site_dets">
     <div class="site_det_head">
         <h4 class="raj_hotel">{{ $title }}</h4>
