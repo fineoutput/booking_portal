@@ -343,11 +343,14 @@ class SafariController extends Controller
 
 
 
+
+    
     public function filterStateCity(Request $request)
     {
+        // Validate the request data
         $validator = Validator::make($request->all(), [
-            'state_id' => 'nullable',
-            'city_id' => 'nullable',
+            'state_id' => 'nullable',  // Ensure valid state_id
+            'city_id' => 'nullable',  // Ensure valid city_id
         ]);
     
         if ($validator->fails()) {
@@ -361,28 +364,40 @@ class SafariController extends Controller
         // Query the Cities with the given filters
         $query = City::query();
     
+        // If state_id is provided, filter by state_id
         if ($request->has('state_id')) {
             $query->where('state_id', $request->state_id);
         }
     
+        // If city_id is provided, filter by city_id
         if ($request->has('city_id')) {
             $query->where('id', $request->city_id);
         }
     
+        // Get the filtered cities, along with their related state data
         $cities = $query->with('state')->get();
     
-        // Transform the response into an array structure
-        $cityData = $cities->map(function ($city) {
-            return [
-                'id' => $city->id,
-                'city_name' => $city->city_name,
-                'state_id' => $city->state_id,
-                'state' => [
-                    'id' => $city->state->id,
-                    'state_name' => $city->state->state_name,
-                ]
-            ];
-        });
+        // Prepare the response data based on whether state_id is provided or not
+        if ($request->has('state_id')) {
+            // If state_id is provided, return city data
+            $cityData = $cities->map(function ($city) {
+                return [
+                    'id' => $city->id,
+                    'city_name' => $city->city_name,
+                    'state_id' => $city->state_id,
+                    'state_name' => $city->state->state_name,  // Include state name
+                ];
+            });
+        } else {
+            // If state_id is not provided, return state data
+            $states = State::all();  // Get all states
+            $cityData = $states->map(function ($state) {
+                return [
+                    'id' => $state->id,
+                    'state_name' => $state->state_name,
+                ];
+            });
+        }
     
         return response()->json([
             'message' => 'Cities filtered successfully.',
@@ -390,6 +405,69 @@ class SafariController extends Controller
             'status' => 200,
         ], 200);
     }
+    
+
+
+    // public function filterStateCity(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'state_id' => 'nullable',
+    //         'city_id' => 'nullable',
+    //     ]);
+    
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'message' => 'Validation failed',
+    //             'errors' => $validator->errors(),
+    //             'status' => 422,
+    //         ], 422);
+    //     }
+    
+    //     // Query the Cities with the given filters
+    //     $query = City::query();
+    
+    //     if ($request->has('state_id')) {
+    //         $query->where('state_id', $request->state_id);
+    //     }
+    
+    //     if ($request->has('city_id')) {
+    //         $query->where('id', $request->city_id);
+    //     }
+    
+    //     $cities = $query->with('state')->get();
+    
+    //     if(!empty($request->state_id)){
+    //     $cityData = $cities->map(function ($city) {
+    //         return [
+    //             'id' => $city->id,
+    //             'city_name' => $city->city_name,
+    //             'state_id' => $city->state_id,
+    //             // 'state' => [
+    //             //     'id' => $city->state->id,
+    //             //     'state_name' => $city->state->state_name,
+    //             // ]
+    //         ];
+    //     });
+    // }else{
+    //     $cityData = $cities->map(function ($city) {
+    //         return [
+    //             // 'id' => $city->id,
+    //             // 'city_name' => $city->city_name,
+    //             // 'state_id' => $city->state_id,
+    //             // 'state' => [
+    //                 'id' => $city->state->id,
+    //                 'state_name' => $city->state->state_name,
+    //             // ]
+    //         ];
+    //     });
+    // }
+    
+    //     return response()->json([
+    //         'message' => 'Cities filtered successfully.',
+    //         'data' => $cityData,
+    //         'status' => 200,
+    //     ], 200);
+    // }
     
 
 
