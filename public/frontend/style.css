@@ -2087,3 +2087,10 @@ textarea.form-control {
 .side_masic {
   height: 23vh;
 }
+
+/* ///////////////////////////////////////Wildlife  */
+.brit_life {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}

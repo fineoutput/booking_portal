@@ -61,10 +61,28 @@
       </div>
 
       <!-- Check-out Date -->
-      <div class="filter-item_hotels sachi">
-        <div class="filter-label_hotels">Check out</div>
-        <input type="date" class="filter-value_hotels">
-      </div>
+      
+      <!-- Timing Dropdown -->
+<div class="filter-item_hotels sachi" onclick="toggleDropdown('timing')">
+    <div class="filter-label_hotels">Time</div>
+    <div class="filter-value_hotels" id="timing-value">Select Time</div>
+    <div class="dropdown_hotels timing-dropdown_hotels w-100" id="timing-dropdown">
+        <div class="time_list_hotels">
+          <div class="brit_life">
+            <div class="ujale">
+              <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
+            </div>
+            <div class="time-option_hotels" onclick="selectTiming('Morning')">Morning</div>
+          </div>
+          <div class="brit_life mt-3">
+            <div class="ujale">
+              <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
+            </div>
+            <div class="time-option_hotels" onclick="selectTiming('Evening')">Evening</div>
+          </div>
+          </div>
+    </div>
+</div>
 
       <!-- Guests Dropdown -->
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
