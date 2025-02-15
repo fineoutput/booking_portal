@@ -1782,7 +1782,7 @@ textarea.form-control {
 }
 
 .filter-item_hotels {
-  padding: 12px 24px;
+  padding: 12px 10px;
   border-radius: 30px;
   cursor: pointer;
   transition: background 0.2s;

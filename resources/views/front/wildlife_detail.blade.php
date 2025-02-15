@@ -190,6 +190,56 @@
                                         </div>
                                         <div class="rivvsa">
 
+                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+                                                <div class="filter-label_hotels">National Park</div>
+                                                <div class="filter-value_hotels" id="destination-value">Choose the national park</div>
+                                                <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+                                                    <div class="city_list_htotle">
+                                                        <div class="sizemaze">
+                                                            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="">
+                                                        </div>
+                                                        <div class="hotel_place">
+
+                                                            <div class="destination-option_hotels" onclick="selectDestination('Rajasthan')">Rajasthan</div>
+                                                            <span class="hotels_spn">Paradise in Rajasthan</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="city_list_htotle">
+                                                        <div class="sizemaze">
+                                                            <img src="{{ asset('frontend/images/sdds.webp') }}" alt="">
+                                                        </div>
+                                                        <div class="hotel_place">
+
+                                                            <div class="destination-option_hotels" onclick="selectDestination('Gujrat')">Gujrat</div>
+                                                            <span class="hotels_spn">Great Infrastructure</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="city_list_htotle">
+                                                        <div class="sizemaze">
+                                                            <img src="{{ asset('frontend/images/amem.webp') }}" alt="">
+                                                        </div>
+                                                        <div class="hotel_place">
+                                                            <div class="destination-option_hotels" onclick="selectDestination('Delhi')">Delhi</div>
+                                                            <span class="hotels_spn">The most Beautifull</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="city_list_htotle">
+                                                        <div class="sizemaze">
+                                                            <img src="{{ asset('frontend/images/dd61b8e6-7fa1-46d7-9284-7f3977e5da31.webp') }}" alt="">
+                                                        </div>
+                                                        <div class="hotel_place">
+                                                            <div class="destination-option_hotels" onclick="selectDestination('U.P')">U.P</div>
+                                                            <span class="hotels_spn">Heaven in Desert</span>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rivvsa">
+
                                             <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
                                                 <div class="filter-label_hotels">Guests</div>
                                                 <div class="arrow">
@@ -228,7 +278,7 @@
                                         <div class="rivvsa">
 
                                             <div class="select_sect trnas">
-                                                
+
                                                 <label for="vehicle-round" class="form-label">Select Vehicle</label>
                                             </div>
                                             <input
@@ -239,33 +289,34 @@
                                                 readonly
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#carModalRound">
+                                            <div class="modal fade" id="carModalRound" tabindex="-1" aria-labelledby="carModalRoundLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="carModalRoundLabel">Select Vehicle Type</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="car_model">
+                                                                <div class="frst_mes" onclick="selectCar('Canter', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
+                                                                    <h6>Canter</h6>
+                                                                    <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="Canter">
 
-                                        </div>
-
-                                        <div class="modal fade" id="carModalRound" tabindex="-1" aria-labelledby="carModalRoundLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="carModalRoundLabel">Select Vehicle Type</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="car_model">
-                                                            <div class="frst_mes" onclick="selectCar('Canter', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
-                                                                <h6>Canter</h6>
-                                                                <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="Canter">
-                                                                
+                                                                </div>
+                                                                <div class="frst_mes" id="trav" onclick="selectCar('Jeep','car-input-round', 'carModalRound')" style="cursor: pointer;">
+                                                                    <h6>Jeep</h6>
+                                                                    <img style="width:50%;" src="{{asset('frontend/images/car_icons/traveller.png')}}" alt="">
+                                                                </div>
+                                                                <!-- Add more car options here -->
                                                             </div>
-                                                            <div class="frst_mes" id="trav" onclick="selectCar('Jeep','car-input-round', 'carModalRound')" style="cursor: pointer;">
-                                                                <h6>Jeep</h6>
-                                                                <img style="width:50%;" src="{{asset('frontend/images/car_icons/traveller.png')}}" alt="">
-                                                            </div>
-                                                            <!-- Add more car options here -->
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+
+
                                     </div>
                                     <div class="live_set mt-3">
                                         <button class="btn btn-info gggsd">
