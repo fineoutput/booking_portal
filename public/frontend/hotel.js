@@ -60,3 +60,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }).mount();
   });
 });
+
+// Function to select time and update the display
+function selectTiming(time) {
+  document.getElementById('timing-value').textContent = time;
+  console.log(time, 'this is the selected time');
+  
+  // Close the timing dropdown
+  document.getElementById('timing-dropdown').classList.remove('active');
+}

@@ -2,13 +2,13 @@
 @section('title','home')
 @section('content')
 
-
-  <div class="header-container_hotels">
+<section class="wildlife_tallimala">
+<div class="header-container_hotels">
     <div class="search-header_hotels">
       <!-- Destination Dropdown -->
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-        <div class="filter-label_hotels">Destination</div>
-        <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
+        <div class="filter-label_hotels">State</div>
+        <div class="filter-value_hotels" id="destination-value">Choose the state?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
           <div class="city_list_htotle">
               <div class="sizemaze">
@@ -16,7 +16,7 @@
               </div>
               <div class="hotel_place">
 
-                <div class="destination-option_hotels" onclick="selectDestination('Jaipur')">Jaipur</div>
+                <div class="destination-option_hotels" onclick="selectDestination('Rajasthan')">Rajasthan</div>
                 <span class="hotels_spn">Paradise in Rajasthan</span>
               </div>
           </div>
@@ -26,7 +26,7 @@
           </div>
           <div class="hotel_place">
             
-            <div class="destination-option_hotels" onclick="selectDestination('Jodhpur')">Jodhpur</div>
+            <div class="destination-option_hotels" onclick="selectDestination('Gujrat')">Gujrat</div>
             <span class="hotels_spn">Great Infrastructure</span>
           </div>
           </div>
@@ -35,7 +35,7 @@
                 <img src="{{ asset('frontend/images/amem.webp') }}" alt="">
           </div>
           <div class="hotel_place">
-            <div class="destination-option_hotels" onclick="selectDestination('Udaipur')">Udaipur</div>
+            <div class="destination-option_hotels" onclick="selectDestination('Delhi')">Delhi</div>
             <span class="hotels_spn">The most Beautifull</span>
           </div>
           </div>
@@ -44,7 +44,7 @@
                 <img src="{{ asset('frontend/images/dd61b8e6-7fa1-46d7-9284-7f3977e5da31.webp') }}" alt="">
           </div>
           <div class="hotel_place">
-          <div class="destination-option_hotels" onclick="selectDestination('Jaisalmer')">Jaisalmer</div>
+          <div class="destination-option_hotels" onclick="selectDestination('U.P')">U.P</div>
             <span class="hotels_spn">Heaven in Desert</span>
           </div>
           </div>
@@ -56,15 +56,33 @@
 
       <!-- Check-in Date -->
       <div class="filter-item_hotels sachi">
-        <div class="filter-label_hotels">Check in</div>
+        <div class="filter-label_hotels">Date</div>
         <input type="date" class="filter-value_hotels">
       </div>
 
       <!-- Check-out Date -->
-      <div class="filter-item_hotels sachi">
-        <div class="filter-label_hotels">Check out</div>
-        <input type="date" class="filter-value_hotels">
-      </div>
+      
+      <!-- Timing Dropdown -->
+<div class="filter-item_hotels sachi" onclick="toggleDropdown('timing')">
+    <div class="filter-label_hotels">Time</div>
+    <div class="filter-value_hotels" id="timing-value">Select Time</div>
+    <div class="dropdown_hotels timing-dropdown_hotels w-100" id="timing-dropdown">
+        <div class="time_list_hotels">
+          <div class="brit_life">
+            <div class="ujale">
+              <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
+            </div>
+            <div class="time-option_hotels" onclick="selectTiming('Morning')">Morning</div>
+          </div>
+          <div class="brit_life mt-3">
+            <div class="ujale">
+              <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
+            </div>
+            <div class="time-option_hotels" onclick="selectTiming('Evening')">Evening</div>
+          </div>
+          </div>
+    </div>
+</div>
 
       <!-- Guests Dropdown -->
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
@@ -111,9 +129,9 @@
       </div>
     </div>
   </div>
+</section>
 
-
-  <section class="_hotels_filters">
+<section class="_hotels_filters">
   <div class="container">
     <div class="row" id="hotel-cards-container">
       
@@ -136,43 +154,43 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+      route: "{{ route('wildlife_detail') }}"
     },
     {
       images: [
-        "frontend/images/third.avif",
+        "https://i.pinimg.com/236x/7a/b6/0e/7ab60ec7ff20d00bb379a0ec22266593.jpg",
         "frontend/images/secound.avif",
-        "frontend/images/fourth.avif"
+        "https://i.pinimg.com/236x/7a/b6/0e/7ab60ec7ff20d00bb379a0ec22266593.jpg"
       ],
       title: "Mashroop, India",
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+      route: "{{ route('wildlife_detail') }}"
     },
     {
       images: [
-        "frontend/images/fourth.avif",
+        "https://i.pinimg.com/474x/25/72/82/2572829778f02c5324cfcc62b006c341.jpg",
         "frontend/images/secound.avif",
-        "frontend/images/fifth.avif"
+        "https://i.pinimg.com/474x/25/72/82/2572829778f02c5324cfcc62b006c341.jpg"
       ],
       title: "Mashroop, India",
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+      route: "{{ route('wildlife_detail') }}"
     },
     {
       images: [
-        "frontend/images/sixth.avif",
+        "https://i.pinimg.com/236x/0d/d8/cc/0dd8cc308b18416555a020c2dbcdc638.jpg",
         "frontend/images/secound.avif",
-        "frontend/images/first.avif"
+        "https://i.pinimg.com/236x/0d/d8/cc/0dd8cc308b18416555a020c2dbcdc638.jpg"
       ],
       title: "Mashroop, India",
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+      route: "{{ route('wildlife_detail') }}"
     }
     
   ];
@@ -217,6 +235,5 @@
   const container = document.getElementById("hotel-cards-container");
   container.innerHTML = hotels.map(createHotelCard).join("");
 </script>
-
 
 @endsection

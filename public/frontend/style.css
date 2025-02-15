@@ -1782,7 +1782,7 @@ textarea.form-control {
 }
 
 .filter-item_hotels {
-  padding: 12px 24px;
+  padding: 12px 10px;
   border-radius: 30px;
   cursor: pointer;
   transition: background 0.2s;
@@ -1835,11 +1835,13 @@ textarea.form-control {
 }
 
 .destination-dropdown_hotels {
-  width: 300px;
+  width: 330px;
+  height: 356px;
+  overflow-y: auto;
 }
 
 .destination-option_hotels {
-  padding: 8px 12px;
+  padding: 0px 12px;
   cursor: pointer;
   font-size: 14px;
   color: #333;
@@ -1923,7 +1925,7 @@ textarea.form-control {
 }
 }
 .sachi{
-  border-right: 1px solid rgba(0, 0, 0, 0.21);
+  /* border-right: 1px solid rgba(0, 0, 0, 0.21); */
   border-radius: 0;
 }
 .size {
@@ -2071,6 +2073,7 @@ textarea.form-control {
 }
 .caranke {
   padding: 10px;
+  width: 50%;
 }
 .arrow {
   display: flex;
@@ -2084,4 +2087,11 @@ textarea.form-control {
 }
 .side_masic {
   height: 23vh;
+}
+
+/* ///////////////////////////////////////Wildlife  */
+.brit_life {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
