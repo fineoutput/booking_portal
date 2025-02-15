@@ -73,7 +73,7 @@
                         <div class="aaeheads">
                             <h4 class="hoses">Leopard and Tiger Reserve, India
                             </h4>
-                            <span class="sabke">
+                            <!-- <span class="sabke">
                                 <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
     padding-left: 0 !important;
 ">
@@ -81,7 +81,7 @@
                                     <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>2 king beds<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
                                     <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Private attached bathroom</li>
                                 </ol>
-                            </span>
+                            </span> -->
                         </div>
                     </div>
 
