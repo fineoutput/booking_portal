@@ -19,5 +19,9 @@ class TaxiBooking extends Model
         'city',
         'one_way',
         'description',
+        'trip',
+        'start_date',
+        'start_time',
+        'pickup_address',
     ];
 }

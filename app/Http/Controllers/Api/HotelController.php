@@ -13,6 +13,7 @@ use App\Models\Vehicle;
 use App\Models\State;
 use App\Models\HotelBooking;
 use App\Models\HotelPrice;
+use App\Models\TaxiBooking;
 use Carbon\Carbon;
 use App\Models\City;
 use App\Models\PackagePrice;
@@ -584,6 +585,92 @@ public function hotelBooking(Request $request) {
 }
 
 
+    
+public function taxibooking(Request $request)
+{
 
-        
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'status' => 201,
+            'data' => [],
+        ], 401);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $password != $user->password) {
+        return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
+    }
+    
+    $request->validate([
+        'location' => 'nullable|string',
+        'vehicle_id' => 'nullable|integer',
+        'trip_type' => 'nullable|string',
+        'cost' => 'nullable|numeric',
+        'image' => 'nullable|image',
+        'state' => 'nullable|string',
+        'city' => 'nullable|string',
+        'one_way' => 'nullable|boolean',
+        'description' => 'nullable|string',
+        'trip' => 'nullable|string',
+        'start_date' => 'nullable|date',
+        'start_time' => 'nullable|date_format:H:i',
+        'pickup_address' => 'nullable|string',
+        'tour_type' => 'required|integer',
+    ]);
+
+
+    $tourType = $request->tour_type;
+    $data = [];
+
+    $data['location'] = $request->location;
+    $data['vehicle_id'] = $request->vehicle_id;
+    $data['trip_type'] = $request->trip_type;
+    $data['cost'] = $request->cost;
+
+    if ($tourType == 1) {
+        $data = array_merge($data, [
+            'location' => $request->location,
+            'user_id' => Auth::id(),
+            'vehicle_id' => $request->vehicle_id,
+            'trip_type' => $request->trip_type,
+            'cost' => $request->cost,
+        ]);
+    }
+
+    if ($tourType == 2) {
+        $data = array_merge($data, [
+            'image' => $request->file('image') ? $request->file('image')->store('taxi_images') : null,
+            'state' => $request->state,
+            'city' => $request->city,
+            'user_id' => Auth::id(),
+            'one_way' => $request->one_way,
+            'description' => $request->description,
+        ]);
+    }
+
+    if ($tourType == 3) {
+        $data = array_merge($data, [
+            'start_date' => $request->start_date,
+            'user_id' => Auth::id(),
+            'start_time' => $request->start_time,
+            'pickup_address' => $request->pickup_address,
+        ]);
+    }
+
+    $taxiBooking = TaxiBooking::create($data);
+
+    return response()->json([
+        'message' => 'Taxi booking created successfully',
+        'data' => $taxiBooking,
+    ], 201);
+}
+
+ 
 }
