@@ -13,6 +13,7 @@ class TaxiBooking extends Model
         'location',
         'vehicle_id',
         'trip_type',
+        'user_id',
         'cost',
         'image',
         'state',
