@@ -643,7 +643,7 @@ public function taxibooking(Request $request)
             'vehicle_id' => $request->vehicle_id,
             'trip_type' => $request->trip_type,
             'trip' => $request->trip,
-            'start_date' => $request->start_date,
+            'start_date' => $request->start_date,   
             'start_time' => $request->start_time ?? null,
             'cost' => $request->cost,
             'trip_type' => 'Airport',
