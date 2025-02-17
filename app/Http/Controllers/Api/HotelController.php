@@ -620,9 +620,10 @@ public function taxibooking(Request $request)
         'description' => 'nullable|string',
         'trip' => 'nullable|string',
         'start_date' => 'nullable|date',
-        'start_time' => 'nullable|date_format:H:i',
+        'start_time' => 'nullable',
         'pickup_address' => 'nullable|string',
         'tour_type' => 'required|integer',
+        'user_id' => 'nullable|integer',
     ]);
 
 
@@ -636,10 +637,13 @@ public function taxibooking(Request $request)
 
     if ($tourType == 1) {
         $data = array_merge($data, [
+            'pickup_address' => $request->pickup_address,
             'location' => $request->location,
             'user_id' => Auth::id(),
             'vehicle_id' => $request->vehicle_id,
             'trip_type' => $request->trip_type,
+            'trip' => $request->trip,
+            'start_date' => $request->start_date,
             'cost' => $request->cost,
         ]);
     }
