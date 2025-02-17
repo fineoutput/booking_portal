@@ -22,11 +22,76 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.2.10/css/tempus-dominus.min.css"
   >
   <link rel="stylesheet" href="{{ asset('frontend/style.css') }}">
+
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+
+  <!-- Add Toastr JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
   <style>
 
   </style>
 </head>
 <body>
+
+ <div class="pop-bg"></div>
+    {{-- @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif --}}
+
+{{-- @if ($errors->any())
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "timeOut": "300000", // 5 minutes = 300000ms
+        "extendedTimeOut": "1000" // additional time after hover (optional)
+    };
+    toastr.error('@foreach ($errors->all() as $error){{ $error }} @endforeach');
+</script>
+@endif
+
+<!-- Display Success Message -->
+@if (session('message'))
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "timeOut": "300000", // 5 minutes = 300000ms
+        "extendedTimeOut": "1000" // additional time after hover (optional)
+    };
+    toastr.success('{{ session('message') }}');
+</script>
+@endif --}}
+
+    @if ($errors->any())
+						<script>
+							toastr.error('@foreach ($errors->all() as $error){{ $error }} @endforeach');
+						</script>
+					@endif
+
+				<!-- Display Success Message -->
+				@if (session('message'))
+					<script>
+						toastr.success('{{ session('message') }}');
+					</script>
+				@endif
+
+				{{-- @if (session('prop'))
+					<script>
+						toastr.error('{{ session('message') }}');
+					</script>
+				@endif --}}
+
+
     
 <header class="header">
     <div class="container-fluid">

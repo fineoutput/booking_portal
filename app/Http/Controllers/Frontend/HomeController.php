@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\UnverifyUser;
 use App\Models\UserOtp;
 use App\Models\Agent;
+use App\Models\State;
+use App\Models\City;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Redirect;
@@ -25,9 +27,17 @@ class HomeController extends Controller
      
         return view('front/index')->withTitle('home');
     }
+
+    public function getCitiesByState($stateId)
+    {
+     $cities = City::where('state_id', $stateId)->get(['id', 'city_name']);
+     return response()->json(['cities' => $cities]);
+    }
+
     public function login()
     {
-        return view('front/login');
+        $data['states'] = State::all();
+        return view('front/login',$data);
     }
     public function options()
     {
@@ -86,101 +96,57 @@ class HomeController extends Controller
     public function signup(Request $request)
     {
         $validationRules = [
-            'number' => 'required|string|unique:agent,number',
-            'name' => 'required|string|max:255',
+            'number' => 'required|string|unique:agent,number|regex:/^\d{10}$/', 
+            'name' => 'required', 
             'email' => 'required|string|email|max:255|unique:agent,email', 
             'password' => 'required|string|min:6',
             'business_name' => 'required',
-            'state' => 'required',
-            'city' => 'required',
+            'state_id' => 'required',
+            'city_id' => 'required',
             'aadhar_image' => 'required',
             'aadhar_image_back' => 'required',
             'pan_image' => 'required',
             'GST_number' => 'required',
-            'logo' => 'required',
-            'registration_charge' => 'required',
+            'logo' => 'required', 
+            'registration_charge' => 'nullable|numeric',
         ];
-    
-        // Validate the request input
+
         $validator = Validator::make($request->all(), $validationRules);
+    
         if ($validator->fails()) {
-            $errors = [];
-            foreach ($validator->errors()->getMessages() as $field => $messages) {
-                $errors[$field] = $messages[0]; 
-            }
-            return response()->json(['errors' => $errors], 400);
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput(); 
         }
     
-        // Step 1: Store user data in UnverifyUser (initially with number_verify = 0)
-        if ($request->number) {
             $aadharImagePath = $request->file('aadhar_image')->store('uploads/aadhar_images', 'public');
             $aadharImageBackPath = $request->file('aadhar_image_back')->store('uploads/aadhar_images', 'public');
             $logoPath = $request->file('logo')->store('uploads/logos', 'public');
             $panImagePath = $request->file('pan_image')->store('uploads/pan_images', 'public');
-
-            $user = UnverifyUser::create([
+    
+            $user = Agent::create([
                 'number' => $request->number,
-                'number_verify' => 0, 
-                'email' => $request->email, 
+                'number_verify' => 0,
+                'email' => $request->email,
                 'name' => $request->name,
                 'business_name' => $request->business_name,
-                'state' => $request->state,
-                'city' => $request->city,
+                'state' => $request->city_id,
+                'city' => $request->city_id,
                 'registration_charge' => $request->registration_charge,
                 'GST_number' => $request->GST_number,
-                'password' =>  Hash::make($request->password),
+                'password' => Hash::make($request->password), 
                 'aadhar_image' => $aadharImagePath,
-                'aadhar_image_back' => $aadharImageBackPath, 
+                'aadhar_image_back' => $aadharImageBackPath,
                 'logo' => $logoPath,
                 'pan_image' => $panImagePath,
+                'approved' => 0,
             ]);
-
-            $otp = $this->sendOtp($request->number);
-            return response()->json(['message' => 'OTP sent successfully!']);
-        }
     
-        if ($request->otp && $request->number) {
-            $user = UnverifyUser::where('number', $request->number)->first();
-            
-            if (!$user) {
-                return response()->json(['message' => 'User not found.'], 404);
-            }
-    
-            $existingOtp = UserOtp::where('source_name', $request->number)
-                ->where('otp', $request->otp)
-                ->where('expires_at', '>=', now()) 
-                ->first();
-    
-            if (!$existingOtp) {
-                return response()->json(['message' => 'Invalid OTP or OTP has expired.'], 400);
-            }
-
-            $user->number_verify = 1;
-            $user->save();
-
-            $newUser = Agent::create([
-                'number' => $user->number,
-                'email' => $user->email,
-                'password' => $user->password,
-                'name' => $user->name,
-                'profile_image' => $user->profile_image, 
-                'state' => $user->state, 
-                'city' => $user->city, 
-                'age' => $user->age, 
-                'gender' => $user->gender, 
-                'looking_for' => $user->looking_for, 
-                'interest' => $user->interest, 
-            ]);
-
-            UnverifyUser::where('number', $request->number)->delete();
-
-            $token = $newUser->createToken('token')->plainTextToken;
-    
-            return response()->json(['message' => 'User verified and moved to Agent table successfully!', 'token' => $token], 200);
-        }
-    
-        return response()->json(['message' => 'OTP not provided or invalid.'], 400);
+            return redirect()->back()
+                ->with('message', 'Agent Created, Waiting for Admin Approval!');
+        
     }
+    
     
 
     private function sendOtp($phone = null, $email = null)

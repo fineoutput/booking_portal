@@ -116,7 +116,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="{{route('signup')}}">
+                                <form method="POST"  action="{{route('signup_agent')}}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-lg-5">
@@ -125,10 +125,16 @@
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
                                     </div>
                                         </div>
+                                        <div class="col-lg-5">
+                                    <div class="mb-3">
+                                        <label for="number" class="form-label">Phone Number</label>
+                                        <input type="number" class="form-control" id="number" name="number" placeholder="Enter your number" required maxlength="10" minlength="10">
+                                    </div>
+                                        </div>
                                         <div class="col-lg-7">
                                             <div class="mb-3">
                                         <label for="businessName" class="form-label">Business Name</label>
-                                        <input type="text" class="form-control" id="businessName" name="businessName" placeholder="Enter your business name" required>
+                                        <input type="text" class="form-control" id="businessName" name="business_name" placeholder="Enter your business name" required>
                                     </div>
                                         </div>
                                     </div>
@@ -137,24 +143,33 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="state" class="form-label">State</label>
-                                            <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+                                            <select class="form-control" id="state" name="state_id">
+                                                @foreach ($states as $state)
+                                                    <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
+                                                        {{ $state->state_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="city" class="form-label">City</label>
-                                            <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" class="form-control" id="city" class="chosen-select" name="city_id">
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6">
                                         <div class="mb-3">
                                         <label for="aadhar" class="form-label">Aadhar Upload Front</label>
-                                        <input type="file" class="form-control" id="aadhar" name="aadhar" required>
+                                        <input type="file" class="form-control" id="aadhar" name="aadhar_image" required>
                                     </div>
                                         </div>
                                         <div class="col-lg-6">
                                         <div class="mb-3">
                                         <label for="aadhar" class="form-label">Aadhar Upload back</label>
-                                        <input type="file" class="form-control" id="aadhar" name="aadhar" required>
+                                        <input type="file" class="form-control" id="aadhar" name="aadhar_image_back" required>
                                     </div>
                                         </div>
                                     </div>
@@ -162,13 +177,13 @@
                                         <div class="col-lg-6">
                                            <div class="mb-3">
                                         <label for="pan" class="form-label">Pan Upload</label>
-                                        <input type="file" class="form-control" id="pan" name="pan" required>
+                                        <input type="file" class="form-control" id="pan" name="pan_image" required>
                                     </div> 
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                         <label for="gst" class="form-label">GST Number</label>
-                                        <input type="text" class="form-control" id="gst" name="gst" placeholder="Enter your GST Number">
+                                        <input type="text" class="form-control" id="gst" name="GST_number" placeholder="Enter your GST Number">
                                     </div>
                                         </div>
                                     </div>
@@ -198,7 +213,7 @@
                                         <div class="col-lg-6">
                                         <div class="mb-3">
                                         <label for="charge" class="form-label">Registration Charge</label>
-                                        <input type="number" class="form-control" id="charge" name="charge" placeholder="Enter registration charge">
+                                        <input type="number" class="form-control" id="charge" name="registration_charge" placeholder="Enter registration charge">
                                     </div>
                                         </div>
                                     </div>
@@ -308,4 +323,60 @@
         }
     });
 </script>
+
+<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+
+<script>
+    document.getElementById('output').innerHTML = location.search;
+    $(".chosen-select").chosen();
+</script>
+<script>
+    $(document).ready(function() {
+        console.log('nasdjdibhsaihdihasiudhisabnioj');
+        // Load cities for the selected state when the page loads
+        let selectedState = $('#state').val();  // Get the selected state
+        if (selectedState) {
+            loadCities(selectedState, "{{ old('city', isset($user) ? $user->city : '') }}");  // Preselect the city if it's available
+        }
+
+        // Fetch cities when state is changed
+        $('#state').change(function() {
+            let stateId = $(this).val();
+            loadCities(stateId);  // Load cities based on selected state
+        });
+
+        function loadCities(stateId, selectedCity = null) {
+            if (stateId) {
+                $.ajax({
+                    url: '/cities/' + stateId,
+                    method: 'GET',
+                    success: function(response) {
+                        let cities = response.cities;
+              
+                        $('#city').empty().append('<option value="">Select a City</option>');
+                        cities.forEach(function(city) {
+                            // Append the city options
+                            $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
+                        });
+                        $('#city').prop('disabled', false);
+                    },
+                    error: function() {
+                        alert('Error fetching cities');
+                    }
+                });
+            } else {
+                $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+            }
+        }
+
+        // Initialize select2 for interests
+        $('#interest').select2({
+            placeholder: 'Select interests',
+            allowClear: true
+        });
+    });
+</script>
+
 @endsection
