@@ -56,6 +56,7 @@
                         <th data-priority="1">Local Guide</th>
                         <th data-priority="1">Out Station Guide</th>
                         <th data-priority="1">Cost</th>
+                        <th data-priority="1">Image</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -70,6 +71,19 @@
                         <td>{{ $hotel->local_guide ?? '' }}</td>
                         <td>{{ $hotel->out_station_guide ?? '' }}</td>
                         <td>{{ $hotel->cost ?? '' }}</td>
+                        <td>
+                          @php
+                             $images = json_decode($hotel->image); // Decode JSON to array
+                         @endphp
+ 
+                         @if($images && is_array($images))  <!-- Check if images is not null and is an array -->
+                             @foreach($images as $image)
+                                 <img src="{{ asset($image) }}" alt="Image" style="width: 50px; height: 50px; margin: 5px;">
+                             @endforeach
+                         @else
+                             <p>No images available.</p>
+                         @endif
+                        </td>
                         {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
 
                         <td>

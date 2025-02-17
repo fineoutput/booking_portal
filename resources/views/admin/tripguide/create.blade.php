@@ -151,6 +151,14 @@
 
                                     </div>
 
+                                    
+                                    <div class="form-group row">
+                                        <div class="col-sm-4"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Multiple Image</label>
+                                            <input class="form-control" style="margin-left: 10px" type="file" value="" id="image" name="image[]" multiple>
+                                        </div>
+                                        
+                                    </div>
  
 
                                     <div class="form-group">
@@ -197,7 +205,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/booking_portal/public/admin/cities/' + stateId,
+                    url: '/admin/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;

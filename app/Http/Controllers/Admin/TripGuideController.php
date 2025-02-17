@@ -30,6 +30,32 @@ class TripGuideController extends Controller
 
 
 
+    protected function deleteFiles($files)
+{
+    // Define the base directory where files are stored (e.g., public/hotels/images)
+    $basePath = public_path('uploads/image/trip_guide/');
+
+    if (is_array($files)) {
+        foreach ($files as $file) {
+            $filePath = $basePath . '/' . $file;
+
+            // Check if it's a file and delete it, otherwise skip
+            if (file_exists($filePath) && !is_dir($filePath)) {
+                unlink($filePath);  // Delete the file
+            }
+        }
+    } elseif ($files) {
+        $filePath = $basePath . '/' . $files;
+
+        // Check if it's a file and delete it, otherwise skip
+        if (file_exists($filePath) && !is_dir($filePath)) {
+            unlink($filePath);  // Delete a single file
+        }
+    }
+}
+
+
+
     function create(Request $request) {
         if($request->method()=='POST'){
             // $validated = $request->validate([           
@@ -42,12 +68,37 @@ class TripGuideController extends Controller
             //     'timing' => 'required',
             // ]);
 
+            if ($request->hasFile('image')) {
+                $imagePaths = [];
+                foreach ($request->file('image') as $image) {
+                    // Define the custom folder inside the public directory (you can change 'public/images')
+                    $destinationPath = public_path('uploads/image/trip_guide/');
+            
+                    // Ensure the destination directory exists
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0777, true);
+                    }
+            
+                    // Get the original file name and store the image with the new name
+                    $filename = time() . '_' . $image->getClientOriginalName();
+                    
+                    // Move the file to the destination
+                    $image->move($destinationPath, $filename);
+            
+                    // Store the relative path of the image (to access via URL later)
+                    $imagePaths[] = 'uploads/image/trip_guide/' . $filename;
+                }
+            } else {
+                $imagePaths = null;
+            }
+
             $agentCall = new TripGuide();
             $agentCall->location = $request->location;
             $agentCall->out_station_guide = $request->out_station_guide;
             $agentCall->languages_id = $request->languages_id;
             $agentCall->local_guide = $request->local_guide;
             $agentCall->city_id = $request->city_id;
+            $agentCall->image = $imagePaths ? json_encode($imagePaths) : null; 
             $agentCall->state_id = $request->state_id;
             $agentCall->cost = $request->cost;
 
@@ -93,6 +144,34 @@ class TripGuideController extends Controller
     
         // Find the WildlifeSafari entry
         $wildlifeSafari = TripGuide::findOrFail($id);
+
+        $imagePaths = json_decode($wildlifeSafari->image, true) ?? [];
+
+        if ($request->has('deleted_images')) {
+            $deletedImages = explode(',', $request->deleted_images);
+    
+            $this->deleteFiles($deletedImages);
+    
+            $imagePaths = array_diff($imagePaths, $deletedImages);
+        }
+    
+        if ($request->hasFile('image')) {
+    
+            foreach ($request->file('image') as $image) {
+                
+                $destinationPath = public_path('uploads/image/trip_guide/');
+    
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);  
+                }
+        
+                $filename = time() . '_' . $image->getClientOriginalName();
+                
+                $image->move($destinationPath, $filename);
+                
+                $imagePaths[] = 'uploads/image/trip_guide/' . $filename;
+            }
+        }
     
         // Update the record
         $wildlifeSafari->location = $request->location;
@@ -102,6 +181,7 @@ class TripGuideController extends Controller
         $wildlifeSafari->city_id = $request->city_id;
         $wildlifeSafari->state_id = $request->state_id;
         $wildlifeSafari->cost = $request->cost;
+        $wildlifeSafari->image = json_encode(array_values($imagePaths)); 
 
         $wildlifeSafari->save();
 
