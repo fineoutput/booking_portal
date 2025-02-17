@@ -630,13 +630,13 @@ public function taxibooking(Request $request)
     $tourType = $request->tour_type;
     $data = [];
 
-    $data['location'] = $request->location;
-    $data['vehicle_id'] = $request->vehicle_id;
-    $data['trip_type'] = $request->trip_type;
-    $data['cost'] = $request->cost;
+    // $data['location'] = $request->location;
+    // $data['vehicle_id'] = $request->vehicle_id;
+    // $data['trip_type'] = $request->trip_type;
+    // $data['cost'] = $request->cost;
 
     if ($tourType == 1) {
-        $data = array_merge($data, [
+        $data =  [
             'pickup_address' => $request->pickup_address,
             'location' => $request->location,
             'user_id' => Auth::id(),
@@ -644,28 +644,29 @@ public function taxibooking(Request $request)
             'trip_type' => $request->trip_type,
             'trip' => $request->trip,
             'start_date' => $request->start_date,
+            'start_time' => $request->start_time ?? null,
             'cost' => $request->cost,
-        ]);
+        ];
     }
 
     if ($tourType == 2) {
-        $data = array_merge($data, [
+        $data =  [
             'image' => $request->file('image') ? $request->file('image')->store('taxi_images') : null,
             'state' => $request->state,
             'city' => $request->city,
             'user_id' => Auth::id(),
             'one_way' => $request->one_way,
             'description' => $request->description,
-        ]);
+        ];
     }
 
     if ($tourType == 3) {
-        $data = array_merge($data, [
+        $data =  [
             'start_date' => $request->start_date,
             'user_id' => Auth::id(),
-            'start_time' => $request->start_time,
+            'start_time' => $request->start_time ?? null,
             'pickup_address' => $request->pickup_address,
-        ]);
+        ];
     }
 
     $taxiBooking = TaxiBooking::create($data);
