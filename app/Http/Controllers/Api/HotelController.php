@@ -646,6 +646,7 @@ public function taxibooking(Request $request)
             'start_date' => $request->start_date,
             'start_time' => $request->start_time ?? null,
             'cost' => $request->cost,
+            'trip_type' => 'Airport',
         ];
     }
 
@@ -657,6 +658,7 @@ public function taxibooking(Request $request)
             'user_id' => Auth::id(),
             'one_way' => $request->one_way,
             'description' => $request->description,
+            'trip_type' => 'Local Tour',
         ];
     }
 
@@ -666,6 +668,7 @@ public function taxibooking(Request $request)
             'user_id' => Auth::id(),
             'start_time' => $request->start_time ?? null,
             'pickup_address' => $request->pickup_address,
+            'trip_type' => 'Outstation',
         ];
     }
 
