@@ -56,7 +56,11 @@ class AuthController extends Controller
             foreach ($validator->errors()->getMessages() as $field => $messages) {
                 $errors[$field] = $messages[0]; 
             }
-            return response()->json(['errors' => $errors], 400);
+            return response()->json([
+                'message' => $errors,
+                'status' => 201,
+                'data' => [],
+            ], 400);
         }
     
         // Step 1: Store user data in UnverifyUser (initially with number_verify = 0)
@@ -128,10 +132,15 @@ class AuthController extends Controller
 
             $token = $newUser->createToken('token')->plainTextToken;
     
-            return response()->json(['message' => 'User verified and moved to Agent table successfully!', 'token' => $token], 200);
+            return response()->json([
+                'message' => 'User verified and moved to Agent table successfully!', 'token' => $token], 200);
         }
     
-        return response()->json(['message' => 'OTP not provided or invalid.'], 400);
+        return response()->json([
+            'message' => 'OTP not provided or invalid.',
+            'status' => 201,
+            'data' => [],
+        ], 400);
     }
     
 
@@ -354,7 +363,7 @@ class AuthController extends Controller
         $responseData = [
             'message' => 'User phone verified and moved to users table successfully!',
             'status' => 200,
-            'user' => [
+            'data' => [
                 'id' => $newUser->id,
                 'name' => $newUser->name,
                 'email' => $newUser->email,
@@ -503,7 +512,7 @@ public function login(Request $request)
 
         return response()->json([
             'message' => 'Login successful.',
-            'auth_token' => $token,
+            'data' => $token,
             'status' => 200,
         ], 200);
     } elseif ($request->has('mobile_number')) {
@@ -531,10 +540,15 @@ public function login(Request $request)
         return response()->json([
             'message' => 'OTP sent successfully!',
             'status' => 200,
+            'data' => [],
         ], 200);
     }
 
-    return response()->json(['message' => 'Invalid request.'], 400);
+    return response()->json([
+        'message' => 'Invalid request.',
+        'status' => 201,
+        'data' => [],
+    ], 400);
 }
 
 
