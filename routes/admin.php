@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\WildlifeSafariController;
 use App\Http\Controllers\Admin\VehicleController;
 use App\Http\Controllers\Admin\AgentController;
+use App\Http\Controllers\Admin\AirportController;
 use App\Http\Controllers\Admin\PushNotificationController;
 use App\Http\Controllers\Admin\OutstationController;
 use App\Http\Controllers\Admin\RoundTripController;
@@ -225,6 +226,15 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::delete('trip-guide/{id}', [TripGuideController::class, 'destroy'])->name('tripguide.destroy');
     Route::patch('/trip-guide/{id}/status', [TripGuideController::class, 'updateStatus'])->name('tripguide.updateStatus');
     Route::get('/trip-guide/cities/{stateId}', [TripGuideController::class, 'getCitiesByStatetripguide']);
+  
+  //Airport
+    Route::get('/airport', [AirportController::class, 'index'])->name('airport.index');
+    Route::match(['get','post'],'/airport/create', [AirportController::class, 'create'])->name('airport_create');
+    Route::get('airport/{id}/edit', [AirportController::class, 'edit'])->name('airport.edit');
+    Route::put('airport/{id}', [AirportController::class, 'update'])->name('airport.update');
+    Route::delete('airport/{id}', [AirportController::class, 'destroy'])->name('airport.destroy');
+    Route::patch('/airport/{id}/status', [AirportController::class, 'updateStatus'])->name('airport.updateStatus');
+    Route::get('/airport/cities/{stateId}', [AirportController::class, 'getCitiesByStatetripguide']);
   
 });
    
