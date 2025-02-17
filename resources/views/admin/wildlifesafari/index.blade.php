@@ -56,6 +56,7 @@
                         <th data-priority="1">Timings</th>
                         <th data-priority="1">Vehicle</th>
                         <th data-priority="1">Cost</th>
+                        <th data-priority="1">Image</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -70,6 +71,7 @@
                         <td>{{ $hotel->timings ?? '' }}</td>
                         <td>{{ $hotel->vehicle ?? '' }}</td>
                         <td>{{ $hotel->cost ?? '' }}</td>
+                        <td><img src="{{ asset($hotel->image) }}" alt="" width="50" height="50"></td>
                         {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
 
                         <td>

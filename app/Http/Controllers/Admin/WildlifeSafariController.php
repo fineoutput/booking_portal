@@ -41,7 +41,19 @@ class WildlifeSafariController extends Controller
             //     'state_id' => 'required',
             //     'timing' => 'required',
             // ]);
+            if (!empty($request->image)) {
 
+				$extension = strtolower($request->image->getClientOriginalExtension());
+
+				$file = time() . '.' . $extension;
+
+				$request->image->move(public_path('uploads/image/Safari/'), $file);
+
+				$fullimagepath = 'uploads/image/Safari/' . $file;
+				
+			} else {
+				return redirect()->back()->with('error', 'No image was uploaded. Please provide a valid image.');
+			}
             $agentCall = new WildlifeSafari();
             // $agentCall->cost = $request->cost;
             $agentCall->date = $request->date;
@@ -51,6 +63,7 @@ class WildlifeSafariController extends Controller
             $agentCall->state_id = $request->state_id;
             $agentCall->cost = $request->cost;
             $agentCall->timings = implode(',', $request->timings);
+            $agentCall->image= $fullimagepath;
 
             $agentCall->save(); 
 
@@ -84,6 +97,7 @@ class WildlifeSafariController extends Controller
     // Update the specified resource in storage
     public function update(Request $request, $id)
     {
+        // dd($request->image);
         $request->validate([
             'state_id' => 'required',
             'city_id' => 'required',
@@ -93,10 +107,28 @@ class WildlifeSafariController extends Controller
             'cost' => 'required|numeric',
             'timings' => 'nullable|array',
             'timings.*' => 'in:morning,evening',
+            'image' => 'nullable',
         ]);
-    
-        // Find the WildlifeSafari entry
         $wildlifeSafari = WildlifeSafari::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            
+            // Delete old image if exists
+            if (!empty($wildlifeSafari->image) && file_exists(public_path($wildlifeSafari->image))) {
+                unlink(public_path($wildlifeSafari->image));
+            }
+    
+            // Upload new image
+            $extension = strtolower($request->image->getClientOriginalExtension());
+            $file = time() . '.' . $extension;
+            $request->image->move(public_path('uploads/image/Safari/'), $file);
+            $wildlifeSafari->image = 'uploads/image/Safari/' . $file;
+        }
+        else {
+            return redirect()->back()->with('error', 'No image was uploaded. Please provide a valid image.');
+        }
+        // Find the WildlifeSafari entry
+        
     
         // Update the record
         $wildlifeSafari->state_id = $request->state_id;
@@ -106,6 +138,7 @@ class WildlifeSafariController extends Controller
         $wildlifeSafari->date = $request->date;
         $wildlifeSafari->cost = $request->cost;
         $wildlifeSafari->timings = implode(',', $request->timings);  // Save the timings as a comma-separated string
+        $wildlifeSafari->image= $wildlifeSafari->image;
         $wildlifeSafari->save();
 
         return redirect()->route('wild_life_safari')->with('success', 'Wild life Safari updated successfully!');

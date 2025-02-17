@@ -19,6 +19,7 @@ class WildlifeSafari extends Model
         'no_adults',
         'no_kids',
         'vehicle',
+        'image',
         'cost',
     ];
 
