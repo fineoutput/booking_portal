@@ -80,13 +80,14 @@
     </div>
 
     <div class="form-group row">
+
         <div class="col-sm-12">
-            <label class="form-label" style="margin-left: 10px" for="power">Select Package Multipal</label>
+            <label class="form-label" style="margin-left: 10px" for="power">Select Vehicle Multipal</label>
             <div id="output"></div>
             <select data-placeholder="" name="vehicle_id[]" multiple class="chosen-select">
                 @foreach($vehicle as $value)
                     <option value="{{ $value->id }}" 
-                        {{ in_array($value->id, explode(',', old('vehicle_id', $wildlifeSafari->vehicle_id))) ? 'selected' : '' }}>
+                        {{ in_array($value->id, is_array($wildlifeSafari->vehicle_id) ? $wildlifeSafari->vehicle_id : explode(',', old('vehicle_id', $wildlifeSafari->vehicle_id))) ? 'selected' : '' }}>
                         {{ $value->vehicle_type }}
                     </option>
                 @endforeach
@@ -95,7 +96,10 @@
                 <div style="color:red;">{{ $message }}</div>
             @enderror
         </div>
-    </div>
+        
+
+        
+        
 
     <div class="form-group row">
         <div class="col-sm-12 mt-3">

@@ -48,10 +48,7 @@ class AirportController extends Controller
             $agentCall->railway = $request->railway;
             $agentCall->vehicle_id = $request->vehicle_id;
             $agentCall->description = $request->description;
-            // $agentCall->city_id = $request->city_id;
-            // $agentCall->state_id = $request->state_id;
-            // $agentCall->cost = $request->cost;
-            // $agentCall->text_description = $request->text_description;
+
             $agentCall->vehicle_id = implode(',', $request->vehicle_id); 
             $agentCall->save(); 
 
@@ -88,15 +85,14 @@ class AirportController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'state_id' => 'required',
-            'city_id' => 'required',
-            'cost' => 'required|numeric',
+            // 'state_id' => 'required',
+            // 'city_id' => 'required',
+            // 'cost' => 'required|numeric',
         ]);
     
         // Find the WildlifeSafari entry
-        $agentCall = TripGuide::findOrFail($id);
-    
-        // Update the record
+        $agentCall = Airport::findOrFail($id);
+
         $agentCall->airport = $request->airport;
         $agentCall->railway = $request->railway;
         $agentCall->vehicle_id = $request->vehicle_id;
@@ -109,7 +105,7 @@ class AirportController extends Controller
 
         $agentCall->save();
 
-        return redirect()->route('tripguide')->with('success', 'Trip Guide updated successfully!');
+        return redirect()->route('airport.index')->with('success', 'Trip Guide updated successfully!');
     }
 
     public function updateStatus($id)
@@ -118,7 +114,7 @@ class AirportController extends Controller
         $vehicle->status = ($vehicle->status == 1) ? 2 : 1;
         $vehicle->save();
 
-        return redirect()->route('tripguide   ')->with('success', 'Outstation status updated successfully!');
+        return redirect()->route('airport.index')->with('success', 'Outstation status updated successfully!');
     }
 
 }
