@@ -142,16 +142,38 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group row">
+                                    {{-- <div class="form-group row">
                                         <div class="col-sm-4"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Image</label>
-                                            <input class="form-control" style="margin-left: 10px" type="file" value="" id="image" name="image">
+                                            <input class="form-control" style="margin-left: 10px" type="file" value="" id="image" name="image[]">
                                             
                                         </div>
                                         
+                                    </div> --}}
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="images">Select Multiple Images</label>
+                                            <input multiple type="file" name="image[]" class="form-control" multiple>
+                                            <small class="form-text text-muted">Leave blank to keep existing images.</small>
+                                            
+                                            @if($wildlifeSafari->image)
+                                                <div>
+                                                    @foreach(json_decode($wildlifeSafari->image) as $key => $image)
+                                                        <div class="image-item">
+                                                            <img src="{{ asset($image) }}" alt="Hotel Image" width="100" height="100">
+                                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-image" data-image="{{ $image }}" data-key="{{ $key }}">Remove</a>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
+
                                 </div>
                             
+                                <input type="hidden" name="deleted_images" id="deleted_images" value="">
+                                
                                 <div class="form-group">
                                     <div class="w-100 text-center">
                                         <button type="submit" style="margin-top: 10px;" class="btn btn-danger"><i class="fa fa-user"></i> Update</button>
@@ -170,6 +192,7 @@
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+
 {{-- <script>
     $(document).ready(function() {
         $('select').select2();  // Initializes Select2 on your select element
@@ -221,6 +244,31 @@
         $('#interest').select2({
             placeholder: 'Select interests',
             allowClear: true
+        });
+    });
+</script>
+
+<script>
+    document.querySelectorAll('.remove-image').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var image = this.getAttribute('data-image'); // Get the image path
+            var key = this.getAttribute('data-key'); // Get the key of the image in the array
+
+            // Get the current deleted images (from the hidden input field)
+            var deletedImages = document.getElementById('deleted_images').value;
+
+            // Add the image to the deleted images list (separated by commas)
+            if (deletedImages) {
+                deletedImages += ',' + image;
+            } else {
+                deletedImages = image;
+            }
+
+            // Update the hidden input field with the new deleted images list
+            document.getElementById('deleted_images').value = deletedImages;
+
+            // Remove the image from the form display (UI)
+            this.closest('.image-item').remove();
         });
     });
 </script>

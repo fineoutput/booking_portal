@@ -33,7 +33,8 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $validationRules = [
-            'number' => 'required|string|unique:agent,number',
+            'number' => 'required|string|unique:agent,number|regex:/^\d{10}$/',
+
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:agent,email', 
             'password' => 'required|string|min:6',
@@ -257,7 +258,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'otp' => 'required|numeric|digits:4', 
-            'source_name' => 'required|string',
+            'source_name' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -466,7 +467,11 @@ public function login(Request $request)
             $errors[$field] = $messages[0];
             break; // break to return the first error only
         }
-        return response()->json(['errors' => $errors], 400);
+        return response()->json([
+            'message' => $errors,
+            'status' => 201,
+            'data' => [],
+        ], 400);
     }
 
     // Check if login is using email and password or mobile number
