@@ -71,7 +71,21 @@
                         <td>{{ $hotel->timings ?? '' }}</td>
                         <td>{{ $hotel->vehicle ?? '' }}</td>
                         <td>{{ $hotel->cost ?? '' }}</td>
-                        <td><img src="{{ asset($hotel->image) }}" alt="" width="50" height="50"></td>
+                       <td>
+                        @php
+                        $images = json_decode($hotel->images); // Decode JSON to array
+                    @endphp
+
+                    @if($images && is_array($images))  <!-- Check if images is not null and is an array -->
+                        @foreach($images as $image)
+                            <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
+                        @endforeach
+                    @else
+                        <p>No images available.</p>
+                    @endif
+                       </td>
+
+                    
                         {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
 
                         <td>

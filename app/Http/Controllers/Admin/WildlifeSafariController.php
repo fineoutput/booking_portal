@@ -29,6 +29,30 @@ class WildlifeSafariController extends Controller
     }
 
 
+    protected function deleteFiles($files)
+{
+    // Define the base directory where files are stored (e.g., public/hotels/images)
+    $basePath = public_path('uploads/image/Safari/');
+
+    if (is_array($files)) {
+        foreach ($files as $file) {
+            $filePath = $basePath . '/' . $file;
+
+            // Check if it's a file and delete it, otherwise skip
+            if (file_exists($filePath) && !is_dir($filePath)) {
+                unlink($filePath);  // Delete the file
+            }
+        }
+    } elseif ($files) {
+        $filePath = $basePath . '/' . $files;
+
+        // Check if it's a file and delete it, otherwise skip
+        if (file_exists($filePath) && !is_dir($filePath)) {
+            unlink($filePath);  // Delete a single file
+        }
+    }
+}
+
 
     function create(Request $request) {
         if($request->method()=='POST'){
@@ -41,19 +65,30 @@ class WildlifeSafariController extends Controller
             //     'state_id' => 'required',
             //     'timing' => 'required',
             // ]);
-            if (!empty($request->image)) {
+            if ($request->hasFile('image')) {
+                $imagePaths = [];
+                foreach ($request->file('image') as $image) {
+                    // Define the custom folder inside the public directory (you can change 'public/images')
+                    $destinationPath = public_path('uploads/image/Safari/');
+            
+                    // Ensure the destination directory exists
+                    if (!file_exists($destinationPath)) {
+                        mkdir($destinationPath, 0777, true);
+                    }
+            
+                    // Get the original file name and store the image with the new name
+                    $filename = time() . '_' . $image->getClientOriginalName();
+                    
+                    // Move the file to the destination
+                    $image->move($destinationPath, $filename);
+            
+                    // Store the relative path of the image (to access via URL later)
+                    $imagePaths[] = 'uploads/image/Safari/' . $filename;
+                }
+            } else {
+                $imagePaths = null;
+            }
 
-				$extension = strtolower($request->image->getClientOriginalExtension());
-
-				$file = time() . '.' . $extension;
-
-				$request->image->move(public_path('uploads/image/Safari/'), $file);
-
-				$fullimagepath = 'uploads/image/Safari/' . $file;
-				
-			} else {
-				return redirect()->back()->with('error', 'No image was uploaded. Please provide a valid image.');
-			}
             $agentCall = new WildlifeSafari();
             // $agentCall->cost = $request->cost;
             $agentCall->date = $request->date;
@@ -62,8 +97,9 @@ class WildlifeSafariController extends Controller
             $agentCall->city_id = $request->city_id;
             $agentCall->state_id = $request->state_id;
             $agentCall->cost = $request->cost;
+            $agentCall->image = $imagePaths ? json_encode($imagePaths) : null; 
             $agentCall->timings = implode(',', $request->timings);
-            $agentCall->image= $fullimagepath;
+            // $agentCall->image= $fullimagepath;
 
             $agentCall->save(); 
 
@@ -111,21 +147,32 @@ class WildlifeSafariController extends Controller
         ]);
         $wildlifeSafari = WildlifeSafari::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            
-            // Delete old image if exists
-            if (!empty($wildlifeSafari->image) && file_exists(public_path($wildlifeSafari->image))) {
-                unlink(public_path($wildlifeSafari->image));
-            }
+        $imagePaths = json_decode($wildlifeSafari->image, true) ?? [];
+
+        if ($request->has('deleted_images')) {
+            $deletedImages = explode(',', $request->deleted_images);
     
-            // Upload new image
-            $extension = strtolower($request->image->getClientOriginalExtension());
-            $file = time() . '.' . $extension;
-            $request->image->move(public_path('uploads/image/Safari/'), $file);
-            $wildlifeSafari->image = 'uploads/image/Safari/' . $file;
+            $this->deleteFiles($deletedImages);
+    
+            $imagePaths = array_diff($imagePaths, $deletedImages);
         }
-        else {
-            return redirect()->back()->with('error', 'No image was uploaded. Please provide a valid image.');
+    
+        if ($request->hasFile('image')) {
+    
+            foreach ($request->file('image') as $image) {
+                
+                $destinationPath = public_path('uploads/image/Safari/');
+    
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);  
+                }
+        
+                $filename = time() . '_' . $image->getClientOriginalName();
+                
+                $image->move($destinationPath, $filename);
+                
+                $imagePaths[] = 'uploads/image/Safari/' . $filename;
+            }
         }
         // Find the WildlifeSafari entry
         
@@ -137,8 +184,8 @@ class WildlifeSafariController extends Controller
         $wildlifeSafari->vehicle = $request->vehicle;
         $wildlifeSafari->date = $request->date;
         $wildlifeSafari->cost = $request->cost;
-        $wildlifeSafari->timings = implode(',', $request->timings);  // Save the timings as a comma-separated string
-        $wildlifeSafari->image= $wildlifeSafari->image;
+        $wildlifeSafari->timings = implode(',', $request->timings);  
+        $wildlifeSafari->image = json_encode(array_values($imagePaths)); 
         $wildlifeSafari->save();
 
         return redirect()->route('wild_life_safari')->with('success', 'Wild life Safari updated successfully!');
