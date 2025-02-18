@@ -118,7 +118,7 @@
         <a href="#" class="text-white dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             {{ Auth::guard('agent')->user()->name }}
         </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+        <ul class="dropdown-menu dropdown-menu-end whatis" aria-labelledby="userDropdown">
             <li>
                 <a class="dropdown-item" href="{{ route('user_profile') }}">Profile</a>
             </li>
