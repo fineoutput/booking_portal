@@ -16,6 +16,7 @@ class WildlifeSafariOrder extends Model
         'safari_id',
         'national_park',
         'date',
+        'time',
         'timings',
         'no_persons',
         'no_adults',

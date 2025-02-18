@@ -16,11 +16,65 @@
     <div class="comp-container">
         <div class="upper_site_dets">
             <div class="site_det_head">
-                <h4 class="raj_hotel">Amagarh Leopard Reserve</h4>
+                <h4 class="raj_hotel">{{$wildlife->national_park ?? ''}}</h4>
             </div>
         </div>
         <div class="air_maze">
+
             <div class="row">
+                <div class="col-lg-7 nive d-none d-lg-block">
+                    <div class="mirror_maxe">
+                        @php
+                            // Assuming 'image' contains a JSON array of images
+                            $images = json_decode($wildlife->image); // Decode the JSON to an array
+                        @endphp
+            
+                        @if($images && is_array($images) && count($images) > 0)
+                            <!-- Display the first image on top -->
+                            <img src="{{ asset($images[0]) }}" alt="">
+                        @else
+                            <p>No image available.</p>
+                        @endif
+                    </div>
+                </div>
+            
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="row">
+                        @if($images && is_array($images) && count($images) > 1)
+                            <!-- Loop through the remaining images -->
+                            @foreach(array_slice($images, 1) as $image)
+                                <div class="col-lg-6">
+                                    <div class="side_masic">
+                                        <img src="{{ asset($image) }}" alt="">
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <p>No additional images available.</p>
+                        @endif
+                    </div>
+            
+                    <hr>
+            
+                    <div class="row">
+                        @if($images && is_array($images) && count($images) > 2)
+                            <!-- Loop through the remaining images (after the first two) -->
+                            @foreach(array_slice($images, 2) as $image)
+                                <div class="col-lg-6">
+                                    <div class="side_masic">
+                                        <img src="{{ asset($image) }}" alt="">
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <p>No additional images available.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            
+
+            {{-- <div class="row">
                 <div class="col-lg-7 nive d-none d-lg-block">
                     <div class="mirror_maxe">
                         <img src="https://i.pinimg.com/736x/41/a8/8e/41a88e0bcc032c9d378169ebd48b21c7.jpg" alt="">
@@ -53,14 +107,28 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div id="phlGlb" class="splide">
                 <div class="splide__track d-lg-none">
                     <ul class="splide__list">
+                        {{-- <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
                         <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
-                        <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
-                        <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
+                        <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li> --}}
+                        @php
+                            $images = json_decode($wildlife->image);
+                        @endphp
+
+                        @if($images && is_array($images))  
+                            @foreach($images as $image)
+                                <li class="splide__slide">
+                                    <img src="{{ asset($image) }}" alt="">
+                                </li>
+                            @endforeach
+                        @else
+                            <p>No images available.</p>
+                        @endif
+
                     </ul>
                 </div>
             </div>
@@ -71,7 +139,7 @@
                 <div class="col-lg-8">
                     <div class="sides_maxe">
                         <div class="aaeheads">
-                            <h4 class="hoses">Leopard and Tiger Reserve, India
+                            <h4 class="hoses">{{$wildlife->national_park ?? ''}},       {{$wildlife->cities->city_name ?? ''}}
                             </h4>
                             <!-- <span class="sabke">
                                 <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
@@ -139,7 +207,27 @@
 
                         <div class="ho_bhe">
                             <span>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam sequi accusantium odit ipsam? Facilis saepe impedit, sunt eum rerum soluta tempore! Beatae inventore, tempora numquam itaque hic consequatur cumque possimus iusto dicta. Tempora optio quia nobis natus neque consectetur consequatur molestias, temporibus alias, unde, exercitationem ea. Nulla commodi ullam reprehenderit vitae ut quam minima!
+                                State :-  {{$wildlife->state->state_name ?? ''}}
+                            </span>
+                            <br>
+                            <span>
+                                City :-  {{$wildlife->cities->city_name ?? ''}}
+                            </span>
+                            <br>
+                            <span>
+                                Timing :-  {{$wildlife->timings ?? ''}}
+                            </span>
+                            <br>
+                            <span>
+                                Date :-  {{$wildlife->date ?? ''}}
+                            </span>
+                            <br>
+                            <span>
+                                Vehicle :-  {{$wildlife->vehicle ?? ''}}
+                            </span>
+                            <br>
+                            <span>
+                                Cost :-  ₹{{$wildlife->cost ?? '0'}}
                             </span>
                         </div>
                     </div>
@@ -150,17 +238,18 @@
                             <div class="outer_box">
                                 <div class="inner_box">
                                     <div class="inner_price">
-                                        <span style="color: rgb(106, 106, 106);"><del>₹1,980</del></span>
-                                        <span>₹1,782
+                                        {{-- <span style="color: rgb(106, 106, 106);"><del>₹1,980</del></span> --}}
+                                        <span>₹{{$wildlife->cost ?? '0'}}
                                         </span>
-                                        <span>night</span>
+                                        {{-- <span>night</span> --}}
                                     </div>
+                                    <form action="">
                                     <div class="checks">
                                         <div class="bors">
                                             <div class="caranke">
 
                                                 <label for=""><b>Date</b></label>
-                                                <input type="date" class="filter-value_hotels" placeholder="Check In">
+                                                <input type="date" name="name" class="filter-value_hotels" placeholder="Check In">
                                             </div>
 
                                             <div class="caranke">
@@ -314,10 +403,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
+                                    </form>
                                     <div class="live_set mt-3">
                                         <button class="btn btn-info gggsd">
                                             Reserve

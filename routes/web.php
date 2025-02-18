@@ -56,7 +56,8 @@ Route::group(['prefix' => '/'], function () {
     Route::get('hotelsbooking', [HomeController::class, 'hotelsbooking'])->name('hotelsbooking');
     Route::get('hotel_details', [HomeController::class, 'hotel_details'])->name('hotel_details');
     Route::get('wildlife', [HomeController::class, 'wildlife'])->name('wildlife');
-    Route::get('wildlife_detail', [HomeController::class, 'wildlife_detail'])->name('wildlife_detail');
+    Route::get('wildlife_detail/{id}', [HomeController::class, 'wildlife_detail'])->name('wildlife_detail');
+
     Route::get('guide', [HomeController::class, 'guide'])->name('guide');
 });
 

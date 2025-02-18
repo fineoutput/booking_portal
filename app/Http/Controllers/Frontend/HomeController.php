@@ -11,6 +11,7 @@ use App\Models\Agent;
 use App\Models\State;
 use App\Models\City;
 use App\Models\WildlifeSafari;
+use App\Models\WildlifeSafariOrder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Redirect;
@@ -87,10 +88,21 @@ class HomeController extends Controller
         $data['wildlife'] = WildlifeSafari::all();
         return view('front/wildlife',$data);
     }
-    public function wildlife_detail()
+
+    public function wildlife_detail(Request $request,$id)
     {
-        return view('front/wildlife_detail');
+        $id = base64_decode($id);
+        $data['wildlife'] = WildlifeSafari::where('id',$id)->first();
+        return view('front/wildlife_detail',$data);
     }
+
+    public function add_wildlife_booking(Request $request,$id)
+    {
+        $id = base64_decode($id);
+        $data['wildlife'] = new WildlifeSafariOrder;
+        return redirect()->back()->with('message','Booking Created Succesfully');
+    }
+
     public function guide()
     {
         return view('front/guide');

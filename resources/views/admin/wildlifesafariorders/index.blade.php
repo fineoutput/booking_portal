@@ -56,7 +56,9 @@
                         <th data-priority="1">Timings</th>
                         <th data-priority="1">Vehicle</th>
                         <th data-priority="1">Cost</th>
-                        {{-- <th data-priority="1">Status</th> --}}
+                        <th data-priority="1">Persons</th>
+                        <th data-priority="1">Adults</th>
+                        <th data-priority="1">Kids</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -71,6 +73,9 @@
                         <td>{{ $hotel->timings ?? '' }}</td>
                         <td>{{ $hotel->vehicle ?? '' }}</td>
                         <td>{{ $hotel->cost ?? '' }}</td>
+                        <td>{{ $hotel->no_persons ?? '' }}</td>
+                        <td>{{ $hotel->no_adults ?? '' }}</td>
+                        <td>{{ $hotel->no_kids ?? '' }}</td>
                         {{-- <td>
                           @if($hotel->status == 0)
                           <p class="text-danger">Pending</p>
