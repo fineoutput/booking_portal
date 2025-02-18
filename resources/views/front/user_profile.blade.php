@@ -44,12 +44,60 @@
                     <p class="suther">{{$user->number ?? ''}}</p>
                 </div>
                 <div class="col-md-6 suther">
+                    <label class="fw-bold suther">Business Name:</label>
+                    <p class="suther">{{$user->business_name ?? ''}}</p>
+                </div>
+                <div class="col-md-6 suther">
+                    <label class="fw-bold suther">GST Number:</label>
+                    <p class="suther">{{$user->GST_number ?? ''}}</p>
+                </div>
+                <div class="col-md-6 suther">
                     <label class="fw-bold suther">State:</label>
                     <p class="suther">{{ optional($user->state)->state_name ?? '' }}</p>
                 </div>
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">City:</label>
                     <p class="suther">{{ optional($user->cities)->city_name ?? '' }}</p>
+                </div>
+                <div class="col-md-6 suther">
+                    <label class="fw-bold suther">Aadhar Image Front:</label>
+                    <p class="suther">
+                        @if($user->aadhar_image)
+                            <img src="{{ asset('storage/' . $user->aadhar_image) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
+                        @else
+                            N/A
+                        @endif
+                    </p>
+                </div>
+                <div class="col-md-6 suther">
+                    <label class="fw-bold suther">Aadhar Image Back:</label>
+                    <p class="suther">
+                        @if($user->aadhar_image_back)
+                            <img src="{{ asset('storage/' . $user->aadhar_image_back) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
+                        @else
+                            N/A
+                        @endif
+                    </p>
+                </div>
+                <div class="col-md-6 suther">
+                    <label class="fw-bold suther">Pancard Image:</label>
+                    <p class="suther">
+                        @if($user->pan_image)
+                            <img src="{{ asset('storage/' . $user->pan_image) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
+                        @else
+                            N/A
+                        @endif
+                    </p>
+                </div>
+                <div class="col-md-6 suther">
+                    <label class="fw-bold suther">Logo:</label>
+                    <p class="suther">
+                        @if($user->logo)
+                            <img src="{{ asset('storage/' . $user->logo) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
+                        @else
+                            N/A
+                        @endif
+                    </p>
                 </div>
             </div>
         </div>

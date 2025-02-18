@@ -33,6 +33,7 @@ class HotelController extends Controller
 
     public function hotel(Request $request)
     {
+
         $token = $request->bearerToken();
         
         if (!$token) {
@@ -81,6 +82,102 @@ class HotelController extends Controller
             return response()->json([
                 'message' => 'Hotels fetched successfully.',
                 'data' => $hotelsData,
+                'status' => 200
+            ], 200);
+        }
+
+        return response()->json(['message' => 'Unauthenticated'], 401);
+
+    }
+
+
+    public function package(Request $request)
+    {
+        $token = $request->bearerToken();
+        
+        if (!$token) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        $decodedToken = base64_decode($token);
+        list($email, $password) = explode(',', $decodedToken);
+
+        $user = Agent::where('email', $email)->first();
+
+        if ($user && $password == $user->password) {
+            
+            $hotels = Hotels::all();
+            $packages = Package::get();
+
+            $states = State::all()->pluck('state_name', 'id');
+            $cities = City::all()->pluck('city_name', 'id');
+
+            $hotelData = [
+                'packages' => $packages->map(function($package) use ($states, $cities) {
+        
+                    // Get the images
+                    $imageUrls = array_values(json_decode($package->image, true));
+        
+                    // Get state and city names
+                    $stateNames = $this->getNamesByIds($package->state_id, $states);
+                    $cityNames = $this->getNamesByIds($package->city_id, $cities);
+        
+                    // Get the prices for the current package
+                    $packagePrices = PackagePrice::where('package_id', $package->id)->get();
+        
+                    // Prepare the price data
+                    $prices = $packagePrices->map(function($price) {
+                        return [
+                            'id' => $price->id,
+                            'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+                            'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                            'standard_cost' => $price->standard_cost,
+                            'deluxe_cost' => $price->deluxe_cost,
+                            'premium_cost' => $price->premium_cost,
+                            'super_deluxe_cost' => $price->super_deluxe_cost,
+                            'luxury_cost' => $price->luxury_cost,
+                            'nights_cost' => $price->nights_cost,
+                            'adults_cost' => $price->adults_cost,
+                            'child_with_bed_cost' => $price->child_with_bed_cost,
+                            'child_no_bed_infant_cost' => $price->child_no_bed_infant_cost,
+                            'child_no_bed_child_cost' => $price->child_no_bed_child_cost,
+                            'meal_plan_only_room_cost' => $price->meal_plan_only_room_cost,
+                            'meal_plan_breakfast_cost' => $price->meal_plan_breakfast_cost,
+                            'meal_plan_breakfast_lunch_dinner_cost' => $price->meal_plan_breakfast_lunch_dinner_cost,
+                            'meal_plan_all_meals_cost' => $price->meal_plan_all_meals_cost,
+                            'hatchback_cost' => $price->hatchback_cost,
+                            'sedan_cost' => $price->sedan_cost,
+                            'economy_suv_cost' => $price->economy_suv_cost,
+                            'luxury_suv_cost' => $price->luxury_suv_cost,
+                            'traveller_mini_cost' => $price->traveller_mini_cost,
+                            'traveller_big_cost' => $price->traveller_big_cost,
+                            'premium_traveller_cost' => $price->premium_traveller_cost,
+                            'ac_coach_cost' => $price->ac_coach_cost,
+                        ];
+                    });
+        
+                    return [
+                        'id' => $package->id,
+                        'package_name' => $package->package_name,
+                        'state_names' => $stateNames, 
+                        'city_names' => $cityNames,
+                        'image' => array_map(function($image) {
+                            return url('') . '/' . $image;
+                        }, $imageUrls),
+                        'video' => array_map(function($video) {
+                            return url('') . '/' . $video;
+                        }, json_decode($package->video, true)),
+                        'pdf' => url('') . '/' . $package->pdf,
+                        'text_description' => strip_tags($package->text_description),
+                        'text_description_2' => strip_tags($package->text_description_2),
+                        'prices' => $prices,  // Added prices to the response
+                    ];
+                }),
+            ];
+
+            return response()->json([
+                'message' => 'Hotels fetched successfully.',
+                'data' => $hotelData,
                 'status' => 200
             ], 200);
         }

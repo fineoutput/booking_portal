@@ -59,7 +59,7 @@
                         <th data-priority="3">Registration Charge</th>
                         <th data-priority="3">Aadhar Image Front</th>
                         <th data-priority="3">Aadhar Image Back</th>
-                        <th data-priority="3">Pan Image</th>
+                        <th data-priority="3">Pancard Image</th>
                         <th data-priority="3">Logo</th>
                         <th data-priority="3">Action</th>
                       </tr>
@@ -71,8 +71,8 @@
         <td>{{ $value->name ?? '' }}</td>
         <td>{{ $value->business_name ?? '' }}</td>
         <td>{{ $value->number ?? '' }}</td>
-        <td>{{ $value->state ?? '' }}</td>
-        <td>{{ $value->city ?? '' }}</td>
+        <td>{{ $value->state->state_name ?? '' }}</td>
+        <td>{{ $value->cities->city_name ?? '' }}</td>
         <td>{{ $value->email ?? '' }}</td>
         <td>{{ $value->GST_number ?? '' }}</td>
         <td>{{ $value->registration_charge ?? '' }}</td>

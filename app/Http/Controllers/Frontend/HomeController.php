@@ -10,6 +10,7 @@ use App\Models\UserOtp;
 use App\Models\Agent;
 use App\Models\State;
 use App\Models\City;
+use App\Models\WildlifeSafari;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Redirect;
@@ -53,7 +54,7 @@ class HomeController extends Controller
     //     $data['user'] = Auth::guard('agent')->user()->load('cities','state');
     //     return view('front/user_profile',$data);
     // }
-    
+
     public function user_profile()
     {
         $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
@@ -83,6 +84,7 @@ class HomeController extends Controller
     }
     public function wildlife()
     {
+        $data['wildlife'] = WildlifeSafari::all();
         return view('front/wildlife');
     }
     public function wildlife_detail()

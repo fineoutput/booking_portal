@@ -70,8 +70,8 @@
         <td>{{ $value->name ?? '' }}</td>
         <td>{{ $value->business_name ?? '' }}</td>
         <td>{{ $value->number ?? '' }}</td>
-        <td>{{ $value->state ?? '' }}</td>
-        <td>{{ $value->city ?? '' }}</td>
+        <td>{{ $value->state->state_name ?? '' }}</td>
+        <td>{{ $value->cities->city_name ?? '' }}</td>
         <td>{{ $value->email ?? '' }}</td>
         <td>{{ $value->GST_number ?? '' }}</td>
         <td>{{ $value->registration_charge ?? '' }}</td>
