@@ -65,14 +65,15 @@
                     <h2 class="text-center mb-4" id="loginFormTitle">Login</h2>
                     <button type="button" class="ashrsy" data-bs-toggle="modal" data-bs-target="#registerModal">Signup</button>
                     </div>
-                    <form id="loginWithEmail" class="showEmailForm">
+                    {{-- <form method="POST" action="{{route('agentLoginWithEmail')}}" id="loginWithEmail" class="showEmailForm">
+                        @csrf
                         <div class="mb-3">
                             <label for="emailLogin" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="emailLogin" name="emailLogin" placeholder="Enter your email" required>
+                            <input type="email" class="form-control" id="emailLogin" name="email" placeholder="Enter your email" required>
                         </div>
                         <div class="mb-3">
                             <label for="passwordLogin" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="passwordLogin" name="passwordLogin" placeholder="Enter your password" required>
+                            <input type="password" class="form-control" id="passwordLogin" name="password" placeholder="Enter your password" required>
                         </div>
                         <div class="small-buttons-container">
                             
@@ -81,9 +82,45 @@
                         </div>
                         
                         <button type="submit" class="btn btn-primary">Login</button>
+                    </form> --}}
 
-                       
+                    <form method="POST" action="{{ route('agentLoginWithEmail') }}" id="loginWithEmail" class="showEmailForm">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="emailLogin" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="emailLogin" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordLogin" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="passwordLogin" name="password" placeholder="Enter your password" required>
+                        </div>
+                    
+                        <!-- Show flash messages -->
+                        @if (session('error'))
+                            <div class="alert alert-danger">{{ session('error') }}</div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-success">{{ session('message') }}</div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    
+                        <div class="small-buttons-container">
+                            <button style="width: 50%;" type="button" class="khadk" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</button>
+                            <button style="width: 50%;" type="button" class="khadk" id="toggleLoginTypeBtn" onclick="toggleLoginForm()">Login with Phone</button>
+                        </div>
+                    
+                        <button type="submit" class="btn btn-primary">Login</button>
+
                     </form>
+                    
 
                     <!-- Phone Login Form -->
                     <form id="loginWithPhone" class="hidden">

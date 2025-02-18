@@ -118,13 +118,13 @@
            @csrf
            @method('PATCH') <!-- Change from PUT to PATCH -->
        
-           @if($value->status == 0)
+           @if($value->approved == 0)
            <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure you want to change the status?')" 
-                   {{ $value->status == 1 ? 'disabled title=Status is already Complete' : '' }}>
-               {{ $value->status == 1 ? 'Complete' : 'Complete' }}
+                   {{ $value->status == 1 ? 'disabled title=Status is already Approved' : '' }}>
+               {{ $value->status == 1 ? 'Approve' : 'Approve' }}
            </button>
            @else
-           <p class="text-success">Completed</p>
+           <p class="text-success">Approved</p>
            @endif
        </form>
        </td>
