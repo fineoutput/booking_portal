@@ -120,7 +120,7 @@
               <a href="{{ route('login') }}">Sign In</a>
           @endif          
             </a>
-          </div>
+          </div>  
         </div>
       </div>
     </div>
