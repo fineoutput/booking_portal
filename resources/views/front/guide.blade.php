@@ -21,50 +21,7 @@ asset('frontend/images/hotel_main.avif')
 
 @include('front.common.slides', compact('title', 'mainImage', 'sideImages', 'bottomImages', 'mobileImages'))
 
-<style>
-    .guide-selection {
-        display: flex;
-        gap: 20px;
-    }
-    .guide-option {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-        padding: 10px 15px;
-        /* border: 2px solid #3498db; */
-        border-radius: 8px;
-        transition: all 0.3s;
-        position: relative;
-    }
-    .guide-option:hover {
-        background-color: #ecf0f1;
-    }
-    .guide-option input {
-        display: none;
-    }
-    .custom-radio {
-        width: 18px;
-        height: 18px;
-        border: 2px solid #3498db;
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 10px;
-        position: relative;
-    }
-    .guide-option input:checked + .custom-radio::after {
-        content: "";
-        width: 10px;
-        height: 10px;
-        background: #3498db;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-</style>
+
 <div id="phlGlb" class="splide">
     <div class="splide__track d-lg-none">
         <ul class="splide__list">
@@ -86,15 +43,15 @@ asset('frontend/images/hotel_main.avif')
                             <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style=" 
     padding-left: 0 !important;
 ">
-                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">2 bedrooms<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
-                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>2 king beds<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
-                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Private attached bathroom</li>
+                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">Experienced<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
+                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Local<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
+                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Friendly</li>
                             </ol>
                         </span>
                     </div>
                 </div>
 
-                <div class="htt_facili">
+                <!-- <div class="htt_facili">
                     <div class="sangeetam">
                         <h4 class="hoses">Amenities</h4>
                         <div class="final_kalyan">
@@ -141,14 +98,14 @@ asset('frontend/images/hotel_main.avif')
                         </div>
 
                     </div>
-                </div>
+                </div> -->
 
                 <div class="nizam_abt mt-5">
-                    <h4 class="naxo">About this place</h4>
+                    <h4 class="naxo">About the Guide</h4>
 
                     <div class="ho_bhe">
                         <span>
-                            Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, impedit repudiandae! Inventore enim nam, dolor, voluptate sit vero in repellat suscipit recusandae velit fugit praesentium voluptatem saepe. Non, dignissimos. Excepturi quae recusandae sint hic illo nobis saepe nemo voluptate tenetur, iste eos a quos ullam alias rem vitae magni quia perspiciatis. Eveniet laboriosam id repudiandae!
                         </span>
                     </div>
                 </div>

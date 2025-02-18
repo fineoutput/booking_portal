@@ -52,7 +52,7 @@ class AirportController extends Controller
             $agentCall->vehicle_id = implode(',', $request->vehicle_id); 
             $agentCall->save(); 
 
-            return redirect()->route('airport.index')->with('success', 'Trip Guide added successfully!');
+            return redirect()->route('airport.index')->with('success', 'Airport List added successfully!');
         }
         $data['vehicle'] = Vehicle::orderBy('id','DESC')->get();
         $data['vehicleselect'] = Vehicle::orderBy('id','DESC')->get();
@@ -67,7 +67,7 @@ class AirportController extends Controller
         $agentCall = Airport::findOrFail($id); // Find the agent call by ID
         $agentCall->delete(); 
 
-        return redirect()->back()->with('success', 'Trip Guide deleted successfully!');
+        return redirect()->back()->with('success', 'Airport List deleted successfully!');
     }
 
 
@@ -105,7 +105,7 @@ class AirportController extends Controller
 
         $agentCall->save();
 
-        return redirect()->route('airport.index')->with('success', 'Trip Guide updated successfully!');
+        return redirect()->route('airport.index')->with('success', 'Airport List updated successfully!');
     }
 
     public function updateStatus($id)
@@ -114,7 +114,7 @@ class AirportController extends Controller
         $vehicle->status = ($vehicle->status == 1) ? 2 : 1;
         $vehicle->save();
 
-        return redirect()->route('airport.index')->with('success', 'Outstation status updated successfully!');
+        return redirect()->route('airport.index')->with('success', 'Airport List status updated successfully!');
     }
 
 }
