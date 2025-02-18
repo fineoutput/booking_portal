@@ -98,6 +98,7 @@ class HomeController extends Controller
 
     public function add_wildlife_booking(Request $request,$id)
     {
+        return $request;
         $id = base64_decode($id);
         $data['wildlife'] = new WildlifeSafariOrder;
         return redirect()->back()->with('message','Booking Created Succesfully');

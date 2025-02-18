@@ -274,10 +274,10 @@
 
                                 <div class="inner_box">
                                     <div class="inner_price">
-                                        <span style="color: rgb(106, 106, 106);">
-                                            <del>₹<span id="original-price">{{ $wildlife->cost + 100 ?? '0' }}</span></del>
-                                        </span>
-                                        <span>₹<span id="final-price">{{ $wildlife->cost ?? '0' }}</span></span>
+                                        {{-- <span style="color: rgb(106, 106, 106);">
+                                            <del>₹<span id="original-price"></span>0</del>
+                                        </span> --}}
+                                        <span>₹<span id="final-price"></span>0</span>
                                     </div>
                                     <form action="{{ route('add_wildlife_booking',['id'=>$wildlife->id]) }}" method="POST">
                                         @csrf
