@@ -62,7 +62,14 @@
                         <td>{{ $key+1 }}</td> <!-- Loop index -->
                         <td>{{ $hotel->airport ?? '' }}</td>
                         <td>{{ $hotel->railway ?? '' }}</td>
-                        <td>{{ $hotel->vehicle_id ?? '' }}</td>
+                        <td>
+    @php
+        $vehicleIds = explode(',', $hotel->vehicle_id);
+        $vehicleNames = \App\Models\Vehicle::whereIn('id', $vehicleIds)->pluck('vehicle_type')->toArray();
+        echo implode(', ', $vehicleNames);
+    @endphp
+</td>
+
                         <td>{!!  $hotel->description  !!}</td>
                         <!-- <td>{{ $hotel->local_guide ?? '' }}</td>
                         <td>{{ $hotel->out_station_guide ?? '' }}</td>
