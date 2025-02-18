@@ -96,6 +96,8 @@ class WildlifeSafariController extends Controller
             $agentCall->national_park = $request->national_park;
             $agentCall->city_id = $request->city_id;
             $agentCall->state_id = $request->state_id;
+            $agentCall->center_price = $request->center_price;
+            $agentCall->jeep_price = $request->jeep_price;
             $agentCall->cost = $request->cost;
             $agentCall->description = $request->description;
             $agentCall->image = $imagePaths ? json_encode($imagePaths) : null; 
@@ -139,7 +141,7 @@ class WildlifeSafariController extends Controller
             'state_id' => 'required',
             'city_id' => 'required',
             'national_park' => 'required|string',
-            'vehicle' => 'required|string',
+            // 'vehicle' => 'required|string',
             'date' => 'required|date',
             'cost' => 'required|numeric',
             'timings' => 'nullable|array',
@@ -183,6 +185,8 @@ class WildlifeSafariController extends Controller
         $wildlifeSafari->city_id = $request->city_id;
         $wildlifeSafari->national_park = $request->national_park;
         $wildlifeSafari->vehicle = $request->vehicle;
+        $wildlifeSafari->center_price = $request->center_price;
+        $wildlifeSafari->jeep_price = $request->jeep_price;
         $wildlifeSafari->date = $request->date;
         $wildlifeSafari->cost = $request->cost;
         $wildlifeSafari->description = $request->description;

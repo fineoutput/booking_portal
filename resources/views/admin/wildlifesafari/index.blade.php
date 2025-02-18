@@ -93,7 +93,7 @@
                             <form action="{{ route('wild_life_safari.destroy', $hotel->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
+                                <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
                             </form>
                         </td>
                     </tr>

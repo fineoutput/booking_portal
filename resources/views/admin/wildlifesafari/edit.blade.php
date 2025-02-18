@@ -97,13 +97,33 @@
                                         @enderror
                                     </div>
                             
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="{{ old('vehicle', $wildlifeSafari->vehicle) }}" id="vehicle" name="vehicle" placeholder="Enter vehicle" required>
                                             <label for="vehicle">Vehicle &nbsp;<span style="color:red;">*</span></label>
                                         </div>
                                         @error('vehicle')
                                             <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div> --}}
+
+                                    <div class="col-sm-4">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="number" value="{{ old('jeep_price', $wildlifeSafari->jeep_price) }}" id="jeep_price" name="jeep_price" placeholder="Enter jeep_price" required>
+                                            <label for="jeep_price">Jeep Price &nbsp;<span style="color:red;">*</span></label>
+                                        </div>
+                                        @error('jeep_price')
+                                        <div style="color:red">{{$message}}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="number" value="{{ old('center_price', $wildlifeSafari->center_price) }}" id="center_price" name="center_price" placeholder="Enter center_price" required>
+                                            <label for="center_price">Canter Price &nbsp;<span style="color:red;">*</span></label>
+                                        </div>
+                                        @error('center_price')
+                                        <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
                             
@@ -228,7 +248,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/booking_portal/public/admin/cities/' + stateId,
+                    url: '/admin/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;

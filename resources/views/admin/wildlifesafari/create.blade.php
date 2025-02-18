@@ -91,12 +91,32 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        {{-- <div class="col-sm-4">
                                             <div class="form-floating">
                                                 <input class="form-control" type="vehicle" value="" id="vehicle" name="vehicle" placeholder="Enter vehicle" required>
                                                 <label for="vehicle">Vehicle &nbsp;<span style="color:red;">*</span></label>
                                             </div>
                                             @error('vehicle')
+                                            <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div> --}}
+
+                                        <div class="col-sm-4">
+                                            <div class="form-floating">
+                                                <input class="form-control" type="number" value="" id="jeep_price" name="jeep_price" placeholder="Enter jeep_price" required>
+                                                <label for="jeep_price">Jeep Price &nbsp;<span style="color:red;">*</span></label>
+                                            </div>
+                                            @error('jeep_price')
+                                            <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="form-floating">
+                                                <input class="form-control" type="number" value="" id="center_price" name="center_price" placeholder="Enter center_price" required>
+                                                <label for="center_price">Canter Price &nbsp;<span style="color:red;">*</span></label>
+                                            </div>
+                                            @error('center_price')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
                                         </div>

@@ -203,10 +203,40 @@
                     </div> -->
 
                     <div class="nizam_abt mt-5">
-                        <h4 class="naxo">About this place</h4>
+                        <h4 class="naxo">About this Safari</h4>
 
                         <div class="ho_bhe">
                             <span>
+                                State :-  {{$wildlife->state->state_name ?? ''}}
+                            </span>
+                            <span>· ·</span>
+                            <span>
+                                City :-  {{$wildlife->cities->city_name ?? ''}}
+                            </span>
+                            <span>· ·</span>
+                            <span>
+                                Timing :-  {{$wildlife->timings ?? ''}}
+                            </span>
+                            <span>· ·</span>
+                            <span>
+                                Date :-  {{$wildlife->date ?? ''}}
+                            </span>
+                            <br>
+                            <span>
+                                Vehicle :-  {{$wildlife->vehicle ?? ''}}
+                            </span>
+                            <span>· ·</span>
+                            <span>
+                                Cost :-  ₹{{$wildlife->cost ?? '0'}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="nizam_abt mt-5">
+                        <h4 class="naxo">About this place</h4>
+
+                        <div class="ho_bhe">
+                            {{-- <span>
                                 State :-  {{$wildlife->state->state_name ?? ''}}
                             </span>
                             <br>
@@ -228,189 +258,147 @@
                             <br>
                             <span>
                                 Cost :-  ₹{{$wildlife->cost ?? '0'}}
+                            </span> --}}
+                            <span>
+                                {!! $wildlife->description !!}
                             </span>
                         </div>
                     </div>
+                   
                 </div>
                 <div class="col-lg-4">
                     <div class="sharan_side_box">
                         <div class="stand_it">
                             <div class="outer_box">
+                            
+
                                 <div class="inner_box">
                                     <div class="inner_price">
-                                        <span style="color: rgb(106, 106, 106);"><del>₹{{$wildlife->cost + 100 ?? '0'}}</del></span>
-                                        <span>₹{{$wildlife->cost ?? '0'}}
+                                        <span style="color: rgb(106, 106, 106);">
+                                            <del>₹<span id="original-price">{{ $wildlife->cost + 100 ?? '0' }}</span></del>
                                         </span>
-                                        {{-- <span>night</span> --}}
+                                        <span>₹<span id="final-price">{{ $wildlife->cost ?? '0' }}</span></span>
                                     </div>
-                                    <form action="">
-                                    <div class="checks">
-                                        <div class="bors">
-                                            <div class="caranke">
-
-                                                <label for=""><b>Date</b></label>
-                                                <input type="date" name="name" class="filter-value_hotels" placeholder="Check In">
-                                            </div>
-
-                                            <div class="caranke">
-
-                                                <div class="filter-item_hotels sachi" onclick="toggleDropdown('timing')">
-                                                    <div class="filter-label_hotels">Time</div>
-                                                    <div class="filter-value_hotels" id="timing-value">Select Time</div>
-                                                    <div class="dropdown_hotels timing-dropdown_hotels w-100" id="timing-dropdown">
-                                                        <div class="time_list_hotels">
-                                                            <div class="brit_life">
-                                                                <div class="ujale">
-                                                                    <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
+                                    <form action="{{ route('add_wildlife_booking',['id'=>$wildlife->id]) }}" method="POST">
+                                        @csrf
+                                        <div class="checks">
+                                            <div class="bors">
+                                                <div class="caranke">
+                                                    <label for=""><b>Date</b></label>
+                                                    <input type="date" name="date" class="filter-value_hotels" placeholder="Check In">
+                                                </div>
+                                                <div class="caranke">
+                                                    <div class="filter-item_hotels sachi" onclick="toggleDropdown('timing')">
+                                                        <div class="filter-label_hotels">Time</div>
+                                                        <div class="filter-value_hotels" id="timing-value">Select Time</div>
+                                                        <div class="dropdown_hotels timing-dropdown_hotels w-100" id="timing-dropdown">
+                                                            <div class="time_list_hotels">
+                                                                <div class="brit_life">
+                                                                    <div class="ujale">
+                                                                        <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
+                                                                    </div>
+                                                                    <div class="time-option_hotels" onclick="selectTiming('Morning')">Morning</div>
                                                                 </div>
-                                                                <div class="time-option_hotels" onclick="selectTiming('Morning')">Morning</div>
+                                                                <div class="brit_life mt-3">
+                                                                    <div class="ujale">
+                                                                        <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
+                                                                    </div>
+                                                                    <div class="time-option_hotels" onclick="selectTiming('Evening')">Evening</div>
+                                                                </div>
                                                             </div>
-                                                            <div class="brit_life mt-3">
-                                                                <div class="ujale">
-                                                                    <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
-                                                                </div>
-                                                                <div class="time-option_hotels" onclick="selectTiming('Evening')">Evening</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                
+                                            <div class="rivvsa">
+                                                <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
+                                                    <div class="filter-label_hotels">Guests</div>
+                                                    <div class="arrow">
+                                                        <div class="filter-value_hotels" id="guests-value">1 guest</div>
+                                                        <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
+                                                    </div>
+                                                    <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+                                                        <div class="guest-option_hotels">
+                                                            <label>Adults</label>
+                                                            <div class="counter_hotels">
+                                                                <button type="button" onclick="updateGuests('adults', -1)">-</button>
+                                                                <input type="number" id="adults-count" value="1" min="1" onchange="updateTotal()">
+                                                                <button type="button" onclick="updateGuests('adults', 1)">+</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="guest-option_hotels">
+                                                            <label>Children</label>
+                                                            <div class="counter_hotels">
+                                                                <button type="button" onclick="updateGuests('children', -1)">-</button>
+                                                                <input type="number" id="children-count" value="0" min="0" onchange="updateTotal()">
+                                                                <button type="button" onclick="updateGuests('children', 1)">+</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="guest-option_hotels">
+                                                            <label>Infants</label>
+                                                            <div class="counter_hotels">
+                                                                <button type="button" onclick="updateGuests('infants', -1)">-</button>
+                                                                <input type="number" id="infants-count" value="0" min="0" onchange="updateTotal()">
+                                                                <button type="button" onclick="updateGuests('infants', 1)">+</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                        </div>
-                                        {{-- <div class="rivvsa"> --}}
-
-                                            {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-                                                <div class="filter-label_hotels">National Park</div>
-                                                <div class="filter-value_hotels" id="destination-value">Choose the national park</div>
-                                                <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-
-                                                            <div class="destination-option_hotels" onclick="selectDestination('Rajasthan')">Rajasthan</div>
-                                                            <span class="hotels_spn">Paradise in Rajasthan</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/sdds.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-
-                                                            <div class="destination-option_hotels" onclick="selectDestination('Gujrat')">Gujrat</div>
-                                                            <span class="hotels_spn">Great Infrastructure</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/amem.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-                                                            <div class="destination-option_hotels" onclick="selectDestination('Delhi')">Delhi</div>
-                                                            <span class="hotels_spn">The most Beautifull</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/dd61b8e6-7fa1-46d7-9284-7f3977e5da31.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-                                                            <div class="destination-option_hotels" onclick="selectDestination('U.P')">U.P</div>
-                                                            <span class="hotels_spn">Heaven in Desert</span>
-                                                        </div>
-                                                    </div>
-
-
-
+                                
+                                            <div class="rivvsa">
+                                                <div class="select_sect trnas">
+                                                    <label for="vehicle-round" class="form-label">Select Vehicle</label>
                                                 </div>
-                                            </div> --}}
-                                        {{-- </div> --}}
-                                        <div class="rivvsa">
-
-                                            <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
-                                                <div class="filter-label_hotels">Guests</div>
-                                                <div class="arrow">
-                                                    <div class="filter-value_hotels" id="guests-value">1 guest</div>
-                                                    <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
-                                                </div>
-                                                <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
-                                                    <div class="guest-option_hotels">
-                                                        <label>Adults</label>
-                                                        <div class="counter_hotels">
-                                                            <button onclick="updateGuests('adults', -1)">-</button>
-                                                            <input type="number" id="adults-count" value="1" min="1">
-                                                            <button onclick="updateGuests('adults', 1)">+</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="guest-option_hotels">
-                                                        <label>Children</label>
-                                                        <div class="counter_hotels">
-                                                            <button onclick="updateGuests('children', -1)">-</button>
-                                                            <input type="number" id="children-count" value="1" min="1">
-                                                            <button onclick="updateGuests('children', 1)">+</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="guest-option_hotels">
-                                                        <label>Infants</label>
-                                                        <div class="counter_hotels">
-                                                            <button onclick="updateGuests('infants', -1)">-</button>
-                                                            <input type="number" id="infants-count" value="1" min="1">
-                                                            <button onclick="updateGuests('infants', 1)">+</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="rivvsa">
-
-                                            <div class="select_sect trnas">
-
-                                                <label for="vehicle-round" class="form-label">Select Vehicle</label>
-                                            </div>
-                                            <input
-                                                type="text"
-                                                id="car-input-round"
-                                                class="form-control car-input no-form"
-                                                placeholder="Select a vehicle"
-                                                readonly
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#carModalRound">
-                                            <div class="modal fade" id="carModalRound" tabindex="-1" aria-labelledby="carModalRoundLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="carModalRoundLabel">Select Vehicle Type</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="car_model">
-                                                                <div class="frst_mes" onclick="selectCar('Canter', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
-                                                                    <h6>Canter</h6>
-                                                                    <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="Canter">
-
+                                                <input
+                                                    type="text"
+                                                    id="car-input-round"
+                                                    class="form-control car-input no-form"
+                                                    placeholder="Select a vehicle"
+                                                    readonly
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#carModalRound">
+                                                
+                                                <!-- Modal for vehicle selection -->
+                                                <div class="modal fade" id="carModalRound" tabindex="-1" aria-labelledby="carModalRoundLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="carModalRoundLabel">Select Vehicle Type</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="car_model">
+                                                                    <div class="frst_mes" onclick="selectCar('Canter', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
+                                                                        <h6>Canter</h6>
+                                                                        <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="Canter">
+                                                                    </div>
+                                                                    <div class="frst_mes" id="trav" onclick="selectCar('Jeep','car-input-round', 'carModalRound')" style="cursor: pointer;">
+                                                                        <h6>Jeep</h6>
+                                                                        <img style="width:50%;" src="{{ asset('frontend/images/car_icons/traveller.png') }}" alt="Jeep">
+                                                                    </div>
                                                                 </div>
-                                                                <div class="frst_mes" id="trav" onclick="selectCar('Jeep','car-input-round', 'carModalRound')" style="cursor: pointer;">
-                                                                    <h6>Jeep</h6>
-                                                                    <img style="width:50%;" src="{{asset('frontend/images/car_icons/traveller.png')}}" alt="">
-                                                                </div>
-                                                                <!-- Add more car options here -->
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                
+                                        <!-- Hidden input fields to store total price, vehicle, and guest counts -->
+                                        <input type="hidden" name="total_price" id="total-price" value="{{ $wildlife->cost ?? '0' }}">
+                                        <input type="hidden" name="vehicle" id="selected-vehicle" value="">
+                                        <input type="hidden" name="guest_count" id="guest-count" value="1">
+                                
+                                        <div class="live_set mt-3">
+                                            <button class="btn btn-info gggsd" type="submit">
+                                                Reserve
+                                            </button>
+                                        </div>
                                     </form>
-                                    <div class="live_set mt-3">
-                                        <button class="btn btn-info gggsd">
-                                            Reserve
-                                        </button>
-                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -419,6 +407,57 @@
         </div>
     </div>
 </section>
+
+
+<script>
+    let wildlifeCost = {{ $wildlife->cost ?? 0 }};
+    let jeepPrice = {{ $wildlife->jeep_price ?? 0 }};
+    let canterPrice = {{ $wildlife->canter_price ?? 0 }};
+    let totalPrice = wildlifeCost;
+
+    // Update total price when guests are changed
+    function updateGuests(type, value) {
+        let count = document.getElementById(`${type}-count`).value;
+        count = parseInt(count) + value;
+        if (count < 1) count = 1;  // Ensure minimum 1 guest
+        document.getElementById(`${type}-count`).value = count;
+        updateTotal();
+    }
+
+    // Update total price on guest count or vehicle selection change
+    function updateTotal() {
+        let adults = parseInt(document.getElementById('adults-count').value);
+        let children = parseInt(document.getElementById('children-count').value);
+        let infants = parseInt(document.getElementById('infants-count').value);
+
+        // Calculate total price based on guests
+        totalPrice = wildlifeCost * (adults + children + infants);
+
+        // Add vehicle price if selected
+        let vehicleType = document.getElementById('car-input-round').value;
+        if (vehicleType === 'Jeep') {
+            totalPrice += jeepPrice;
+        } else if (vehicleType === 'Canter') {
+            totalPrice += canterPrice;
+        }
+
+        // Update the final price displayed
+        document.getElementById('final-price').innerText = totalPrice;
+
+        // Update hidden input fields for submission
+        document.getElementById('total-price').value = totalPrice;
+        document.getElementById('selected-vehicle').value = vehicleType;
+        document.getElementById('guest-count').value = adults + children + infants;
+    }
+
+    // Handle vehicle selection
+    function selectCar(vehicle, inputId, modalId) {
+        document.getElementById(inputId).value = vehicle;
+        updateTotal();  // Update price when vehicle is selected
+        document.getElementById(modalId).modal('hide');
+    }
+</script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
