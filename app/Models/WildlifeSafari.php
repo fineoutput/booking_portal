@@ -21,6 +21,7 @@ class WildlifeSafari extends Model
         'vehicle',
         'image',
         'cost',
+        'description',
     ];
 
     public function state()

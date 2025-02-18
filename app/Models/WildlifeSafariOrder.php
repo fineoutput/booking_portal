@@ -24,6 +24,7 @@ class WildlifeSafariOrder extends Model
         'vehicle',
         'cost',
         'status',
+        'description',
     ];
 
     public function state()
