@@ -66,6 +66,8 @@ Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp'])->name
 Route::post('agentlogin', [AuthController::class, 'agentlogin'])->name('agentlogin');
 // routes/web.php
 Route::post('/agent/login/email', [AuthController::class, 'agentLoginWithEmail'])->name('agentLoginWithEmail');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 
 

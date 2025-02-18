@@ -49,11 +49,12 @@ class HomeController extends Controller
     }
     public function user_profile()
     {
-        return view('front/user_profile');
+        $data['user'] = Auth::guard('agent')->user()->load('cities');
+        return view('front/user_profile',$data);
     }
     public function taxi_booking()
     {
-        $data['user'] = Auth::user();
+        $data['user'] = Auth::guard('agent')->user();
         return view('front/taxi_booking',$data);
     }
     public function list()

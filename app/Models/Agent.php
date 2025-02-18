@@ -29,4 +29,19 @@ class Agent extends Authenticatable
         'registration_charge',
         'approved',
     ];
+
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state'); 
+    }
+    // public function state()
+    // {
+    //     return $this->hasOne(State::class, 'id', 'state');
+    // }
+
+    public function cities()
+    {
+        return $this->belongsTo(City::class, 'city');
+    }
+
 }

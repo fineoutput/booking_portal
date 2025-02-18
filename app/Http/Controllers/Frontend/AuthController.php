@@ -69,8 +69,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'name' => $request->name,
             'business_name' => $request->business_name,
-            'state' => $request->state,
-            'city' => $request->city,
+            'state' => $request->state_id,
+            'city' => $request->city_id,
             'registration_charge' => $request->registration_charge,
             'GST_number' => $request->GST_number,
             'password' => Hash::make($request->password), 
@@ -433,6 +433,17 @@ public function agentLoginWithEmail(Request $request)
     //     ], 200);
     // }
 
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('message', 'Successfully logged out');
+    }
+    
 
     
 }

@@ -33,19 +33,23 @@
             <div class="row suther">
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">Name:</label>
-                    <p class="suther">John Doe</p>
+                    <p class="suther">{{$user->name ?? ''}}</p>
                 </div>
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">Email:</label>
-                    <p class="suther">johndoe@example.com</p>
+                    <p class="suther">{{$user->email ?? ''}}</p>
                 </div>
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">Phone:</label>
-                    <p class="suther">+1 123 456 7890</p>
+                    <p class="suther">{{$user->number ?? ''}}</p>
                 </div>
                 <div class="col-md-6 suther">
-                    <label class="fw-bold suther">Address:</label>
-                    <p class="suther">123 Main St, Anytown, USA</p>
+                    <label class="fw-bold suther">State:</label>
+                    <p class="suther">{{$user->state->city_name ?? ''}}</p>
+                </div>
+                <div class="col-md-6 suther">
+                    <label class="fw-bold suther">City:</label>
+                    <p class="suther">{{ optional($user->cities)->city_name ?? '' }}</p>
                 </div>
             </div>
         </div>
