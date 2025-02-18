@@ -1948,6 +1948,9 @@ textarea.form-control {
 .alocate_hotel {
   display: flex;
   flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 10px;
+  border-radius: 20px;
 }
 
 .alocate_head_maze img {
