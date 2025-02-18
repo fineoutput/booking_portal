@@ -85,7 +85,7 @@ class HomeController extends Controller
     public function wildlife()
     {
         $data['wildlife'] = WildlifeSafari::all();
-        return view('front/wildlife');
+        return view('front/wildlife',$data);
     }
     public function wildlife_detail()
     {

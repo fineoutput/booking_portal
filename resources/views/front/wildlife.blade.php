@@ -134,16 +134,54 @@
 <section class="_hotels_filters">
   <div class="container">
     <div class="row" id="hotel-cards-container">
+
+      @foreach ($wildlife as $key => $value)     
+      <div class="col-lg-3 mt-3 mb-4">
+          <div class="alocate_hotel">
+              <!-- Splide Slider -->
+              <div class="splide alocate_slider">
+                  <div class="splide__track">
+                      <ul class="splide__list">
+                          @php
+                              // Assuming the 'image' field is stored as a JSON string
+                              $images = json_decode($value->image); // Decode JSON to array
+                          @endphp
       
+                          @if($images && is_array($images))  <!-- Check if images is not null and is an array -->
+                              @foreach($images as $image)
+                                  <li class="splide__slide new_lave">
+                                      <img src="{{ asset($image) }}" alt="Image">
+                                  </li>
+                              @endforeach
+                          @else
+                              <p>No images available.</p>
+                          @endif
+                      </ul>
+                  </div>
+              </div>
+              <a href="hotel.route"> <!-- Ensure this is a valid route -->
+                  <div class="alocate_title_data">
+                      <div class="ttiel_head">
+                          <h4 class="size">{{ $value->national_park	 ?? '' }}</h4>
+                          <h4 class="key">{{ $value->timings ?? '' }}</h4>
+                          <h4 class="path key">{{ $value->date ?? '' }}</h4>
+                          <h4 class="seeve size">₹{{ $value->cost ?? '0' }}</h4>
+                      </div>
+                  </div>
+              </a>
+          </div>
+      </div>
+      @endforeach
+
     </div>
-    <hr>
+
     
   </div>
 </section>
 
 <script>
  
-  const hotels = [
+  // const hotels = [
     {
       images: [
         "https://i.pinimg.com/736x/9a/e7/e1/9ae7e14bc932239dbebb83de85dc989b.jpg",
@@ -198,36 +236,36 @@
 
   function createHotelCard(hotel) {
     return `
-      <div class="col-lg-3">
-        <div class="alocate_hotel">
-          <!-- Splide Slider -->
-          <div class="splide alocate_slider">
-            <div class="splide__track">
-              <ul class="splide__list">
-                ${hotel.images
-                  .map(
-                    (image, idx) => `
-                  <li class="splide__slide new_lave">
-                    <img src="${image}" alt="Image ${idx + 1}">
-                  </li>
-                `
-                  )
-                  .join("")}
-              </ul>
-            </div>
-          </div>
-          <a href="${hotel.route}">
-            <div class="alocate_title_data">
-              <div class="ttiel_head">
-                <h4 class="size">${hotel.title}</h4>
-                <h4 class="key">${hotel.subtitle}</h4>
-                <h4 class="path key">${hotel.date}</h4>
-                <h4 class="seeve size">${hotel.price}</h4>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
+      // <div class="col-lg-3">
+      //   <div class="alocate_hotel">
+      //     <!-- Splide Slider -->
+      //     <div class="splide alocate_slider">
+      //       <div class="splide__track">
+      //         <ul class="splide__list">
+      //           ${hotel.images
+      //             .map(
+      //               (image, idx) => `
+      //             <li class="splide__slide new_lave">
+      //               <img src="${image}" alt="Image ${idx + 1}">
+      //             </li>
+      //           `
+      //             )
+      //             .join("")}
+      //         </ul>
+      //       </div>
+      //     </div>
+      //     <a href="${hotel.route}">
+      //       <div class="alocate_title_data">
+      //         <div class="ttiel_head">
+      //           <h4 class="size">${hotel.title}</h4>
+      //           <h4 class="key">${hotel.subtitle}</h4>
+      //           <h4 class="path key">${hotel.date}</h4>
+      //           <h4 class="seeve size">${hotel.price}</h4>
+      //         </div>
+      //       </div>
+      //     </a>
+      //   </div>
+      // </div>
     `;
   }
 
