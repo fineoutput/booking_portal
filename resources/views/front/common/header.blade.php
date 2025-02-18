@@ -112,15 +112,28 @@
           <div class="contact me-3">
             📞 1800 22 7979
           </div>
-          <div class="sign-in">
-            👤 <a href="#" class="text-white">
-              @if(Auth::guard('agent')->check())
-              {{ Auth::guard('agent')->user()->name }}
-          @else
-              <a href="{{ route('login') }}">Sign In</a>
-          @endif          
-            </a>
-          </div>  
+          <div class="sign-in dropdown">
+    👤 
+    @if(Auth::guard('agent')->check())
+        <a href="#" class="text-white dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ Auth::guard('agent')->user()->name }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end whatis" aria-labelledby="userDropdown">
+            <li>
+                <a class="dropdown-item" href="{{ route('user_profile') }}">Profile</a>
+            </li>
+            <li>
+            <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="btn btn-danger">Logout</button>
+</form>
+            </li>
+        </ul>
+    @else
+        <a href="{{ route('login') }}" class="text-white">Sign In</a>
+    @endif
+</div>
+
         </div>
       </div>
     </div>

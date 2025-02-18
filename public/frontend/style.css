@@ -1890,7 +1890,12 @@ textarea.form-control {
   align-items: center;
   justify-content: center;
 }
-
+.whatis{
+  width: 100%;
+  text-align: center;
+  height: 20vh;
+  overflow-y: auto;
+}
 .counter_hotels button:hover {
   background: #f7f7f7;
 }
