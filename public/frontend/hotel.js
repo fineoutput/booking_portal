@@ -59,7 +59,7 @@
         document.getElementById(`${type}-count`).textContent = guests[type]; // Update span text
     }
 
-    const totalGuests = guests.adults + guests.children;
+    const totalGuests = guests.adults + guests.children + guests.infants;
     document.getElementById('guests-value').textContent =
       `${totalGuests} guest${totalGuests !== 1 ? 's' : ''}`;
 }
