@@ -113,7 +113,13 @@
             📞 1800 22 7979
           </div>
           <div class="sign-in">
-            👤 <a href="#" class="text-white">Sign In</a>
+            👤 <a href="#" class="text-white">
+              @if(Auth::guard('agent')->check())
+              {{ Auth::guard('agent')->user()->name }}
+          @else
+              <a href="{{ route('login') }}">Sign In</a>
+          @endif          
+            </a>
           </div>
         </div>
       </div>

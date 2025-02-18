@@ -53,7 +53,8 @@ class HomeController extends Controller
     }
     public function taxi_booking()
     {
-        return view('front/taxi_booking');
+        $data['user'] = Auth::user();
+        return view('front/taxi_booking',$data);
     }
     public function list()
     {

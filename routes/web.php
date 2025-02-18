@@ -58,7 +58,6 @@ Route::group(['prefix' => '/'], function () {
     Route::get('wildlife', [HomeController::class, 'wildlife'])->name('wildlife');
     Route::get('wildlife_detail', [HomeController::class, 'wildlife_detail'])->name('wildlife_detail');
     Route::get('guide', [HomeController::class, 'guide'])->name('guide');
-    
 });
 
 Route::post('signup', [AuthController::class, 'signup'])->name('signup_agent');
@@ -66,7 +65,9 @@ Route::get('cities/{stateId}', [HomeController::class, 'getCitiesByState']);
 Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp'])->name('verify_auth_otp');
 Route::post('agentlogin', [AuthController::class, 'agentlogin'])->name('agentlogin');
 // routes/web.php
-Route::post('/agent/login/email', [AgentController::class, 'agentLoginWithEmail'])->name('agentLoginWithEmail');
+Route::post('/agent/login/email', [AuthController::class, 'agentLoginWithEmail'])->name('agentLoginWithEmail');
+
+
 
 Route::post('agentLoginWithMobile', [AuthController::class, 'agentLoginWithMobile'])->name('agentLoginWithMobile');
 

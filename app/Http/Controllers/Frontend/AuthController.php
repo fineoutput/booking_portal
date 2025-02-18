@@ -361,7 +361,6 @@ public function agentLoginWithMobile(Request $request)
 
 public function agentLoginWithEmail(Request $request)
 {
-    return $request;
     $validator = Validator::make($request->all(), [
         'email' => 'required',
         'password' => 'required',
@@ -378,14 +377,18 @@ public function agentLoginWithEmail(Request $request)
     }
 
     $user = Auth::guard('agent')->user();
+    Auth::login($user);
 
     if ($user->approved != 1) {
         return redirect()->back()->with('error', 'Your account is not approved by the admin. Please wait for approval.');
     }
 
-    Auth::guard('agent')->login($user);
+    // No need for this line as 'attempt' already handles the login
+    // Auth::guard('agent')->login($user);
+
     return redirect()->route('index')->with('message', 'Login successful.');
 }
+
 
 
 

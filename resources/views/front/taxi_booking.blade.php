@@ -27,7 +27,8 @@
 
 <!-- /* //////////////form starts///////////// */ -->
 <div class="container py-5">
-  <h1 class="text-center mb-4">Taxi Booking</h1>
+  <h1 class="text-center mb-4">Taxi Booking
+  </h1>
 
   <!-- Tabs for booking types -->
   <ul class="nav nav-tabs mb-4 flex-nowrap " id="bookingTabs" role="tablist">
