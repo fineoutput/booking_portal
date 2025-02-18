@@ -173,7 +173,15 @@
                                 </div>
                             
                                 <input type="hidden" name="deleted_images" id="deleted_images" value="">
-                                
+                                <div class="form-group row">
+        <div class="col-sm-12 mt-3">
+            <label class="form-label" for="description">Description &nbsp;<span style="color:red;">*</span></label>
+            <textarea class="form-control" name="description" id="description" required>{{ old('description', $wildlifeSafari->description) }}</textarea>
+            @error('description')
+                <div style="color:red">{{$message}}</div>
+            @enderror
+        </div>
+    </div>
                                 <div class="form-group">
                                     <div class="w-100 text-center">
                                         <button type="submit" style="margin-top: 10px;" class="btn btn-danger"><i class="fa fa-user"></i> Update</button>
@@ -192,7 +200,7 @@
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
-
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 {{-- <script>
     $(document).ready(function() {
         $('select').select2();  // Initializes Select2 on your select element
@@ -272,6 +280,21 @@
         });
     });
 </script>
+<script>
+    CKEDITOR.replace('description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 200
+    });
 
+    // Initialize CKEditor for long description
+    
+</script>
 @endsection
 <!-- /booking_portal/public -->
