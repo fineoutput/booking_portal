@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">State:</label>
-                    <p class="suther">{{$user->state->city_name ?? ''}}</p>
+                    <p class="suther">{{ optional($user->state)->state_name ?? '' }}</p>
                 </div>
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">City:</label>
