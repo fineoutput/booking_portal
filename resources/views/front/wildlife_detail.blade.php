@@ -238,7 +238,7 @@
                             <div class="outer_box">
                                 <div class="inner_box">
                                     <div class="inner_price">
-                                        {{-- <span style="color: rgb(106, 106, 106);"><del>₹1,980</del></span> --}}
+                                        <span style="color: rgb(106, 106, 106);"><del>₹{{$wildlife->cost + 100 ?? '0'}}</del></span>
                                         <span>₹{{$wildlife->cost ?? '0'}}
                                         </span>
                                         {{-- <span>night</span> --}}
@@ -277,9 +277,9 @@
                                             </div>
 
                                         </div>
-                                        <div class="rivvsa">
+                                        {{-- <div class="rivvsa"> --}}
 
-                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+                                            {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
                                                 <div class="filter-label_hotels">National Park</div>
                                                 <div class="filter-value_hotels" id="destination-value">Choose the national park</div>
                                                 <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
@@ -325,8 +325,8 @@
 
 
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </div> --}}
+                                        {{-- </div> --}}
                                         <div class="rivvsa">
 
                                             <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">

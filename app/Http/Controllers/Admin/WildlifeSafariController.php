@@ -97,6 +97,7 @@ class WildlifeSafariController extends Controller
             $agentCall->city_id = $request->city_id;
             $agentCall->state_id = $request->state_id;
             $agentCall->cost = $request->cost;
+            $agentCall->description = $request->description;
             $agentCall->image = $imagePaths ? json_encode($imagePaths) : null; 
             $agentCall->timings = implode(',', $request->timings);
             // $agentCall->image= $fullimagepath;
@@ -184,6 +185,7 @@ class WildlifeSafariController extends Controller
         $wildlifeSafari->vehicle = $request->vehicle;
         $wildlifeSafari->date = $request->date;
         $wildlifeSafari->cost = $request->cost;
+        $wildlifeSafari->description = $request->description;
         $wildlifeSafari->timings = implode(',', $request->timings);  
         $wildlifeSafari->image = json_encode(array_values($imagePaths)); 
         $wildlifeSafari->save();
