@@ -21,11 +21,26 @@
 
   // Update destination value when a city is selected
   function selectDestination(city) {
-    document.getElementById('destination-value').textContent = city;
+    document.getElementById('destination-value' || 'location-value').textContent = city;
     console.log(city, 'this is the selected');
     
     // Close the destination dropdown
-    document.getElementById('destination-dropdown').classList.remove('active');
+    document.getElementById('destination-value' || 'location-value').classList.remove('active');
+  }
+  function selectLocation(city) {
+    document.getElementById('location-value').textContent = city;
+    console.log(city, 'this is the selected');
+    
+    // Close the destination dropdown
+    document.getElementById('location-value').classList.remove('active');
+  }
+  
+  function selectLanguage(city) {
+    document.getElementById('language-value').textContent = city;
+    console.log(city, 'this is the selected');
+    
+    // Close the destination dropdown
+    document.getElementById('language-value').classList.remove('active');
   }
 
   // Update guests value

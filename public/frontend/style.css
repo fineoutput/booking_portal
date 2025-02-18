@@ -2101,3 +2101,47 @@ textarea.form-control {
   align-items: center;
   justify-content: space-evenly;
 }
+
+/* //////////////////Guide */
+.guide-selection {
+  display: flex;
+  gap: 20px;
+}
+.guide-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 15px;
+  /* border: 2px solid #3498db; */
+  border-radius: 8px;
+  transition: all 0.3s;
+  position: relative;
+}
+.guide-option:hover {
+  background-color: #ecf0f1;
+}
+.guide-option input {
+  display: none;
+}
+.custom-radio {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #3498db;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+}
+.guide-option input:checked + .custom-radio::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: #3498db;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
