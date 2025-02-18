@@ -69,7 +69,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'name' => $request->name,
             'business_name' => $request->business_name,
-            'state' => $request->state_id,
+            'state_id' => $request->state_id,
             'city' => $request->city_id,
             'registration_charge' => $request->registration_charge,
             'GST_number' => $request->GST_number,

@@ -16,7 +16,7 @@ class Agent extends Authenticatable
         'name',
         'business_name',
         'auth',
-        'state',
+        'state_id',
         'city',
         'aadhar_image',
         'aadhar_image_back',
@@ -31,9 +31,9 @@ class Agent extends Authenticatable
     ];
 
     public function state()
-    {
-        return $this->belongsTo(State::class, 'state'); 
-    }
+{
+    return $this->belongsTo(State::class);
+}
     // public function state()
     // {
     //     return $this->hasOne(State::class, 'id', 'state');
