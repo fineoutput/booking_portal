@@ -311,6 +311,15 @@ class SafariController extends Controller
             $cityName = $safari->cities ? $safari->cities->city_name : null; 
             $language_name = $safari->languages ? $safari->languages->language_name : null; 
 
+            $images = array_values(json_decode($safari->image, true));
+    
+            // Clean up and prepend the base URL to each image path
+            $imageUrls = array_map(function($image) {
+                $image = trim($image, ' "'); // Trim any extra spaces or quotes
+                return url('') . '/' . $image; // Prepend the base URL
+            }, $images);
+
+
             return [
                 'id' => $safari->id,
                 'state_name' => $stateName,
@@ -320,6 +329,7 @@ class SafariController extends Controller
                 'local_guide' => $safari->local_guide,
                 'out_station_guide' => $safari->out_station_guide,
                 'cost' => $safari->cost,
+                'image' => $imageUrls,
             ];
         });
 
