@@ -326,8 +326,8 @@ class SafariController extends Controller
                 'city_name' => $cityName, 
                 'location' => $safari->location,
                 'language' => $language_name,
-                'local_guide' => $safari->local_guide,
-                'out_station_guide' => $safari->out_station_guide,
+                // 'local_guide' => $safari->local_guide,
+                'guide_type' => $safari->guide_type,
                 'cost' => $safari->cost,
                 'image' => $imageUrls,
             ];
