@@ -961,6 +961,7 @@ public function taxibooking(Request $request)
         'description' => 'nullable',
         'trip' => 'nullable',
         'start_date' => 'nullable',
+        'end_date' => 'nullable',
         'start_time' => 'nullable',
         'pickup_address' => 'nullable',
         'tour_type' => 'required',
@@ -1012,10 +1013,11 @@ public function taxibooking(Request $request)
     if ($tourType == 3) {
         $data =  [
             'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
             'user_id' => Auth::id(),
-            'start_time' => $request->start_time ?? null,
+            // 'start_time' => $request->start_time ?? null,
             'vehicle_id' => $request->vehicle_id,
-            'pickup_address' => $request->pickup_address,
+            // 'pickup_address' => $request->pickup_address,
             'trip_type' => $request->trip_type,
             'one_way_location' => $request->one_way_location,
             'round_start_location' => $request->round_start_location,
