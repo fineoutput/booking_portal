@@ -997,13 +997,13 @@ public function taxibooking(Request $request)
 
     if ($tourType == 2) {
         $data =  [
-            'image' => $request->file('image') ? $request->file('image')->store('taxi_images') : null,
+            // 'image' => $request->file('image') ? $request->file('image')->store('taxi_images') : null,
             'state' => $request->state,
             'city' => $request->city,
             'user_id' => Auth::id(),
             'one_way' => $request->one_way,
             'description' => $request->description,
-            'trip_type' => 'Local Tour',
+            'tour_type' => 'Local Tour',
         ];
     }
 
