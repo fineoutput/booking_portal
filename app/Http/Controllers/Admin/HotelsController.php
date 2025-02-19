@@ -134,17 +134,9 @@ public function edit($id)
 public function update(Request $request, $id)
 {
     // Validate the incoming request data
-    // $validated = $request->validate([
-    //     // 'package_id' => 'required|array',
-    //     'name' => 'nullable|string|max:255',
-    //     'location' => 'nullable|string|max:255',
-    //     'state_id' => 'nullable',
-    //     'city_id' => 'nullable',
-    //     'hotel_category' => 'nullable|string',
-    //     'images' => 'nullable|array',
-    //     'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    //     'deleted_images' => 'nullable|string', // Comma-separated list of deleted images
-    // ]);
+    $validated = $request->validate([
+        'package_id' => 'required',
+    ]);
 
     $hotel = Hotels::findOrFail($id);
 
