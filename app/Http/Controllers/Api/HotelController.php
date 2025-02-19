@@ -87,8 +87,92 @@ class HotelController extends Controller
         }
 
         return response()->json(['message' => 'Unauthenticated'], 401);
-
     }
+
+
+    public function filterHotels(Request $request)
+{
+    // Extract the token for authentication
+    $token = $request->bearerToken();
+    
+    // Check if the token exists
+    if (!$token) {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    }
+
+    // Decode the token to get the email and password
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    // Find the user based on the email
+    $user = Agent::where('email', $email)->first();
+
+    // If user exists and password matches
+    if ($user && $password == $user->password) {
+
+        // Get state_id and city_id from the form data
+        $stateId = $request->input('state_id');
+        $cityId = $request->input('city_id');
+
+        // Query hotels, applying filters for state_id and city_id if they are provided
+        $query = Hotels::query();
+
+        if ($stateId) {
+            // Filter hotels by state_id if provided
+            $query->where('state_id', $stateId);
+        }
+
+        if ($cityId) {
+            // Filter hotels by city_id if provided
+            $query->where('city_id', $cityId);
+        }
+
+        // Get the filtered hotels
+        $hotels = $query->get();
+
+        // Map the hotels data to the required format
+        $hotelsData = $hotels->map(function ($hotel) {
+            $baseUrl = url('');
+            
+            $stateName = $hotel->state ? $hotel->state->state_name : null;
+            $cityName = $hotel->cities ? $hotel->cities->city_name : null;
+
+            $hotelPrices = $hotel->prices;
+
+            $pricesData = $hotelPrices->map(function ($price) {
+                return [
+                    'id' => $price->id,
+                    'night_cost' => $price->night_cost,
+                    'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+                    'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                ];
+            });
+
+            return [
+                'id' => $hotel->id,
+                'name' => $hotel->name,
+                'state' => $stateName, 
+                'city' => $cityName, 
+                'images' => $this->generateImageUrls($hotel->images, $baseUrl),
+                'location' => $hotel->location,
+                'hotel_category' => $hotel->hotel_category,
+                'package_id' => $hotel->package_id,
+                'prices' => $pricesData,  
+            ];
+        });
+
+        // Return the filtered hotels data with a success message
+        return response()->json([
+            'message' => 'Filtered hotels fetched successfully.',
+            'data' => $hotelsData,
+            'status' => 200
+        ], 200);
+    }
+
+    // If user is unauthenticated
+    return response()->json(['message' => 'Unauthenticated'], 401);
+}
+
 
 
     public function package(Request $request)

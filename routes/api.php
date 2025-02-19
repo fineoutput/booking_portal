@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\SafariController;
 // Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('hotel', [HotelController::class, 'hotel']);
+    Route::post('filter-hotel', [HotelController::class, 'filterHotels']);
     Route::get('packages', [HotelController::class, 'package']);
     Route::get('package-detailes', [HotelController::class, 'packagedetailes']);
     Route::post('/hotel-with-packages', [HotelController::class, 'getHotelWithPackages']);
