@@ -270,78 +270,78 @@ class SafariController extends Controller
 
 
     public function tripguide(Request $request)
-{
-    $token = $request->bearerToken();
-
-    if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
-    }
-
-    $decodedToken = base64_decode($token);
-
-    if (strpos($decodedToken, ',') === false) {
-        return response()->json(['message' => 'Invalid token format.'], 400);
-    }
-
-    list($email, $password) = explode(',', $decodedToken);
-
-    $user = Agent::where('email', $email)->first();
-
-    if ($user && $password == $user->password) {
-
-        $tripGuides = TripGuide::query();
-
-        if ($request->has('state_id') && $request->state_id !== '') {
-            $tripGuides->where('state_id', $request->state_id);
-        }
-
-        if ($request->has('location') && $request->location !== '') {
-            $tripGuides->where('location', 'LIKE', '%' . $request->location . '%');
-        }
-
-        if ($request->has('languages_id') && $request->languages_id !== '') {
-            $tripGuides->where('languages_id', $request->languages_id);
-        }
-
-        $wildlifeSafaris = $tripGuides->orderBy('id', 'DESC')->get();
-
-        $wildlifeSafarisData = $wildlifeSafaris->map(function ($safari) {
-
-            $stateName = $safari->state ? $safari->state->state_name : null;  
-            $cityName = $safari->cities ? $safari->cities->city_name : null; 
-            $language_name = $safari->languages ? $safari->languages->language_name : null; 
-
-            $images = array_values(json_decode($safari->image, true));
+    {
+        $token = $request->bearerToken();
     
-            // Clean up and prepend the base URL to each image path
-            $imageUrls = array_map(function($image) {
-                $image = trim($image, ' "'); // Trim any extra spaces or quotes
-                return url('') . '/' . $image; // Prepend the base URL
-            }, $images);
-
-
-            return [
-                'id' => $safari->id,
-                'state_name' => $stateName,
-                'city_name' => $cityName, 
-                'location' => $safari->location,
-                'language' => $language_name,
-                // 'local_guide' => $safari->local_guide,
-                'guide_type' => $safari->guide_type,
-                'cost' => $safari->cost,
-                'image' => $imageUrls,
-            ];
-        });
-
-        return response()->json([
-            'message' => 'Trip Guide fetched successfully.',
-            'data' => $wildlifeSafarisData,
-            'status' => 200
-        ], 200);
+        if (!$token) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+    
+        $decodedToken = base64_decode($token);
+    
+        if (strpos($decodedToken, ',') === false) {
+            return response()->json(['message' => 'Invalid token format.'], 400);
+        }
+    
+        list($email, $password) = explode(',', $decodedToken);
+    
+        $user = Agent::where('email', $email)->first();
+    
+        if ($user && $password == $user->password) {
+    
+            $tripGuides = TripGuide::query();
+    
+            if ($request->has('state_id') && $request->state_id !== '') {
+                $tripGuides->where('state_id', $request->state_id);
+            }
+    
+            if ($request->has('location') && $request->location !== '') {
+                $tripGuides->where('location', 'LIKE', '%' . $request->location . '%');
+            }
+    
+            if ($request->has('languages_id') && $request->languages_id !== '') {
+                $tripGuides->where('languages_id', $request->languages_id);
+            }
+    
+            $wildlifeSafaris = $tripGuides->orderBy('id', 'DESC')->get();
+    
+            $wildlifeSafarisData = $wildlifeSafaris->map(function ($safari) {
+    
+                $stateName = $safari->state ? $safari->state->state_name : null;
+                $cityName = $safari->cities ? $safari->cities->city_name : null;
+                $language_name = $safari->languages ? $safari->languages->language_name : null;
+    
+                // Check if the image field is not empty and decode the JSON safely
+                $imageData = $safari->image ? json_decode($safari->image, true) : null;
+    
+                // If imageData is null or not an array, return an empty array
+                $imageUrls = is_array($imageData) ? array_map(function($image) {
+                    $image = trim($image, ' "'); // Trim any extra spaces or quotes
+                    return url('') . '/' . $image; // Prepend the base URL
+                }, $imageData) : [];
+    
+                return [
+                    'id' => $safari->id,
+                    'state_name' => $stateName,
+                    'city_name' => $cityName,
+                    'location' => $safari->location,
+                    'language' => $language_name,
+                    'guide_type' => $safari->guide_type,
+                    'cost' => $safari->cost,
+                    'image' => $imageUrls,
+                ];
+            });
+    
+            return response()->json([
+                'message' => 'Trip Guide fetched successfully.',
+                'data' => $wildlifeSafarisData,
+                'status' => 200
+            ], 200);
+        }
+    
+        return response()->json(['message' => 'Unauthenticated'], 401);
     }
-
-    return response()->json(['message' => 'Unauthenticated'], 401);
-}
+    
 
 
 
