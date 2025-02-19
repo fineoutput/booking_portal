@@ -13,6 +13,7 @@ class TripGuide extends Model
         'state_id',
         'city_id',
         'location',
+        'guide_type',
         'languages_id',
         'local_guide',
         'out_station_guide',

@@ -115,7 +115,21 @@
                                         @enderror
                                     </div>
 
-                                        <div class="col-sm-4">
+                                    <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <label for="guide_type">Guide Type</label>
+                                        <div id="output"></div>
+                                        <select name="guide_type[]" id="guide_type" multiple class="chosen-select" required>
+                                            <option value="Local" {{ (collect(old('guide_type'))->contains('Local')) ? 'selected' : '' }}>Local</option>
+                                            <option value="Outstation" {{ (collect(old('guide_type'))->contains('Outstation')) ? 'selected' : '' }}>Outstation</option>
+                                        </select>
+                                        @error('guide_type')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                        <!-- <div class="col-sm-4">
                                             <div class="form-floating">
                                                 <input class="form-control" type="local_guide" value="" id="local_guide" name="local_guide" placeholder="Enter local_guide" required>
                                                 <label for="local_guide">Local Guide &nbsp;<span style="color:red;">*</span></label>
@@ -123,7 +137,7 @@
                                             @error('local_guide')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                     </div>
 
@@ -139,7 +153,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <!-- <div class="col-sm-4">
                                             <div class="form-floating">
                                                 <input class="form-control" type="out_station_guide" value="" id="out_station_guide" name="out_station_guide" placeholder="Enter out_station_guide" required>
                                                 <label for="out_station_guide">Out Station Guide &nbsp;<span style="color:red;">*</span></label>
@@ -147,7 +161,7 @@
                                             @error('out_station_guide')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                     </div>
 

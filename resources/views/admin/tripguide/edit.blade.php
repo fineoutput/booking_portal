@@ -122,6 +122,24 @@
                                         @enderror
                                     </div>
 
+                                    <div class="form-group row">
+    <div class="col-sm-4">
+        <label for="guide_type">Guide Type</label>
+        <div id="output"></div>
+        @php
+            // Retrieve old input or use the saved value, converting it to an array.
+            $selectedGuideTypes = old('guide_type', isset($wildlifeSafari) ? explode(',', $wildlifeSafari->guide_type) : []);
+        @endphp
+        <select name="guide_type[]" id="guide_type" multiple class="chosen-select" required>
+            <option value="Local" {{ in_array('Local', $selectedGuideTypes) ? 'selected' : '' }}>Local</option>
+            <option value="Outstation" {{ in_array('Outstation', $selectedGuideTypes) ? 'selected' : '' }}>Outstation</option>
+        </select>
+        @error('guide_type')
+            <div style="color:red">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
+
                                     <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="{{ old('local_guide', $wildlifeSafari->local_guide) }}" id="local_guide" name="local_guide" placeholder="Enter local_guide" required>

@@ -101,7 +101,7 @@ class TripGuideController extends Controller
             $agentCall->image = $imagePaths ? json_encode($imagePaths) : null; 
             $agentCall->state_id = $request->state_id;
             $agentCall->cost = $request->cost;
-
+            $agentCall->guide_type = is_array($request->guide_type) ? implode(',', $request->guide_type) : $request->guide_type;
             $agentCall->save(); 
 
             return redirect()->route('tripguide')->with('success', 'Trip Guide added successfully!');
@@ -183,6 +183,8 @@ class TripGuideController extends Controller
         $wildlifeSafari->cost = $request->cost;
         $wildlifeSafari->image = json_encode(array_values($imagePaths)); 
 
+        $wildlifeSafari->guide_type = is_array($request->guide_type) ? implode(',', $request->guide_type) : $request->guide_type;
+        
         $wildlifeSafari->save();
 
         return redirect()->route('tripguide')->with('success', 'Trip Guide updated successfully!');

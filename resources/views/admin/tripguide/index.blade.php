@@ -53,8 +53,9 @@
                         <th data-priority="1">City</th>
                         <th data-priority="1">Location</th>
                         <th data-priority="1">Language</th>
-                        <th data-priority="1">Local Guide</th>
-                        <th data-priority="1">Out Station Guide</th>
+                        <th data-priority="1">Guide Type</th>
+                        <!-- <th data-priority="1">Local Guide</th>
+                        <th data-priority="1">Out Station Guide</th> -->
                         <th data-priority="1">Cost</th>
                         <th data-priority="1">Image</th>
                         <th data-priority="6">Action</th>
@@ -68,8 +69,18 @@
                         <td>{{ $hotel->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->location ?? '' }}</td>
                         <td>{{ $hotel->languages->language_name ?? '' }}</td>
-                        <td>{{ $hotel->local_guide ?? '' }}</td>
-                        <td>{{ $hotel->out_station_guide ?? '' }}</td>
+                        <td>
+            @if($hotel->guide_type)
+                @php
+                    $guideTypes = explode(',', $hotel->guide_type);
+                @endphp
+                {{ implode(', ', $guideTypes) }}
+            @else
+                N/A
+            @endif
+        </td>
+                        <!-- <td>{{ $hotel->local_guide ?? '' }}</td>
+                        <td>{{ $hotel->out_station_guide ?? '' }}</td> -->
                         <td>{{ $hotel->cost ?? '' }}</td>
                         <td>
                           @php
