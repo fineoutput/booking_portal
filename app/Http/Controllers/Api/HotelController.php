@@ -597,8 +597,6 @@ private function generateImageUrls($images, $baseUrl)
     }, $imagePaths);
 }
 
-
-
 public function vehicle(Request $request)
 {
     $token = $request->bearerToken();
@@ -620,7 +618,7 @@ public function vehicle(Request $request)
     if ($user && $password == $user->password) {
 
         // Fetch vehicles with vehiclePrices and outstation relationships
-        $vehicles = Vehicle::orderBy('id','DESC')->where('status',1)->with('vehiclePrices','outstation')->get();
+        $vehicles = Vehicle::orderBy('id','DESC')->where('status',1)->with('vehiclePrices', 'outstation')->get();
 
         // Map vehicle data into desired format
         $vehiclesData = $vehicles->map(function($vehicle) {
@@ -637,18 +635,35 @@ public function vehicle(Request $request)
                 ];
             }) : [];
 
-            // Handle outstation: Check if outstation is not null and map data
-            $outstationData = $vehicle->outstation ? $vehicle->outstation->map(function($outstation) {
-                return [
-                    'id' => $outstation->id,
-                    'drop_point' => $outstation->drop_point,
-                    'available_km' => $outstation->available_km,
-                    'extra_km_charge' => $outstation->extra_km_charge,
-                    'trip_type' => $outstation->trip_type,
-                    'cost' => $outstation->cost,
-                    'description' => strip_tags($outstation->description),
-                ];
-            }) : [];
+            // Handle outstation: Check if outstation is a collection or a single instance
+            $outstationData = [];
+            if ($vehicle->outstation) {
+                // If outstation is a collection (many-to-many or has many relationship), we map through it
+                if ($vehicle->outstation instanceof \Illuminate\Database\Eloquent\Collection) {
+                    $outstationData = $vehicle->outstation->map(function($outstation) {
+                        return [
+                            'id' => $outstation->id,
+                            'drop_point' => $outstation->drop_point,
+                            'available_km' => $outstation->available_km,
+                            'extra_km_charge' => $outstation->extra_km_charge,
+                            'trip_type' => $outstation->trip_type,
+                            'cost' => $outstation->cost,
+                            'description' => strip_tags($outstation->description),
+                        ];
+                    });
+                } else {
+                    // If outstation is a single instance, just use it directly
+                    $outstationData[] = [
+                        'id' => $vehicle->outstation->id,
+                        'drop_point' => $vehicle->outstation->drop_point,
+                        'available_km' => $vehicle->outstation->available_km,
+                        'extra_km_charge' => $vehicle->outstation->extra_km_charge,
+                        'trip_type' => $vehicle->outstation->trip_type,
+                        'cost' => $vehicle->outstation->cost,
+                        'description' => strip_tags($vehicle->outstation->description),
+                    ];
+                }
+            }
 
             // If vehicle has an image, use the asset path
             $imagepath = $vehicle->image ? asset($vehicle->image) : null;
@@ -671,7 +686,6 @@ public function vehicle(Request $request)
 
     return response()->json(['message' => 'Unauthenticated'], 401);
 }
-
 
 
 
