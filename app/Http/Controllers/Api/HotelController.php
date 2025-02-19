@@ -948,12 +948,13 @@ public function taxibooking(Request $request)
             'location' => $request->location,
             'user_id' => Auth::id(),
             'vehicle_id' => $request->vehicle_id,
-            'trip_type' => $request->trip_type,
+            // 'trip_type' => $request->trip_type,
             'trip' => $request->trip,
             'start_date' => $request->start_date,   
             'start_time' => $request->start_time ?? null,
             'cost' => $request->cost,
-            'trip_type' => 'Airport',
+            'description' => $request->description,
+            'tour_type' => 'Airport',
         ];
     }
 
