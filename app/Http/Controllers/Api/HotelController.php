@@ -14,8 +14,10 @@ use App\Models\State;
 use App\Models\HotelBooking;
 use App\Models\HotelPrice;
 use App\Models\TaxiBooking;
+use App\Models\RoundTrip;
 use Carbon\Carbon;
 use App\Models\City;
+use App\Models\Route;
 use App\Models\PackagePrice;
 use App\Models\PackageBooking;
 use App\Models\PackageBookingTemp;
@@ -1357,6 +1359,44 @@ $packageBooking->makeHidden('updated_at','created_at');
 //     ], 201);
 // }
 
+
+
+public function city(Request $request)
+{
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if ($user && $password == $user->password) {
+        
+        // Fetch all routes (RoundTrips)
+        $roundTrips = Route::all();
+
+        // Map each round trip data
+        $roundTripsData = $roundTrips->map(function ($route) {
+            return [
+                'id' => $route->id,
+                'from_destination' => $route->from_destination,
+                'to_destination' => $route->to_destination,
+            ];
+        });
+
+        return response()->json([
+            'message' => 'RoundTrip fetched successfully.',
+            'data' => $roundTripsData, // Returning the mapped data
+            'status' => 200
+        ], 200);
+    }
+
+    return response()->json(['message' => 'Unauthenticated'], 401);
+}
 
 
  
