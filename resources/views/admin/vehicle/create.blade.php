@@ -52,13 +52,13 @@
                                         @enderror
                                     </div>
 
-                                    {{-- <div class="col-sm-12 mt-3">
-                                        <label class="form-label" for="power">Description &nbsp;<span style="color:red;">*</span></label>
-                                        <textarea class="form-control" name="description" id="description" required>{{ old('description') }}</textarea>
-                                        @error('description')
+                                    <div class="col-sm-12 mt-3">
+                                        <label class="form-label" for="power">Image &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="file" class="form-control" type="text" value="" id="image" name="image" placeholder="Enter Vehicle type" required>
+                                        @error('image')
                                         <div style="color:red">{{$message}}</div>
                                     @enderror
-                                    </div> --}}
+                                    </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="form-group">

@@ -71,7 +71,7 @@
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <label for="standard_cost" class="form-label">Standard (2 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="standard_cost" class="form-label">Standard (1 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="standard_cost" value="" required>
                                         @error('standard_cost')
                                             <div style="color:red;">{{ $message }}</div>
@@ -79,7 +79,7 @@
                                     </div>
                             
                                     <div class="col-sm-6">
-                                        <label for="deluxe_cost" class="form-label">Deluxe (3 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="deluxe_cost" class="form-label">Deluxe (2 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="deluxe_cost" value="" required>
                                         @error('deluxe_cost')
                                             <div style="color:red;">{{ $message }}</div>
@@ -89,7 +89,7 @@
                                     <div class="form-group row"> 
                             
                                     <div class="col-sm-6">
-                                        <label for="super_deluxe_cost" class="form-label">Super Deluxe (premium 3 star) Hotel categoryCost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="super_deluxe_cost" class="form-label">Super Deluxe (3 star) Hotel categoryCost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="super_deluxe_cost" value="" required>
                                         @error('super_deluxe_cost')
                                             <div style="color:red;">{{ $message }}</div>
@@ -97,7 +97,7 @@
                                     </div>
                             
                                     <div class="col-sm-6">
-                                        <label for="luxury_cost" class="form-label">Luxury (5 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="luxury_cost" class="form-label">Luxury (4 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="luxury_cost" value="" required>
                                         @error('luxury_cost')
                                             <div style="color:red;">{{ $message }}</div>
@@ -108,7 +108,7 @@
                                     <div class="form-group row"> 
                                             
                                     <div class="col-sm-6">
-                                        <label for="premium_cost" class="form-label">Premium (4 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="premium_cost" class="form-label">Premium (5 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="premium_cost" value="" required>
                                         @error('premium_cost')
                                             <div style="color:red;">{{ $message }}</div>

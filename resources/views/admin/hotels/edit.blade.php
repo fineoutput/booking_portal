@@ -150,7 +150,7 @@
                                                 </option>
                                             @endforeach
                                         </select> --}}
-                                        <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
+                                        <select data-placeholder="" name="package_id[]" multiple class="chosen-select" required>
                                             @foreach($packages as $value)
                                                 <option value="{{ $value->id ?? '' }}" 
                                                     {{ in_array($value->id, explode(',', (is_array(old('package_id', $hotel->package_id ?? '')) ? implode(',', old('package_id', $hotel->package_id ?? '')) : (string) old('package_id', $hotel->package_id ?? ''))) ) ? 'selected' : '' }}>

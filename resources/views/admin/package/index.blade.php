@@ -142,10 +142,10 @@
                               <form action="{{ route('packages.destroy', $pkg->id) }}" method="POST" style="display:inline;">
                                   @csrf
                                   @method('DELETE')
-                                  <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete</button>
+                                  <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Are you sure you want to delete this package?')">Delete</button>
                               </form>
                   
-                              <a href="{{ route('package_price', $pkg->id) }}" class="btn btn-warning">Add Price</a>
+                              <a href="{{ route('package_price', $pkg->id) }}" class="btn btn-warning mt-2">Add Price</a>
                           </td>
                       </tr>
                   @endforeach

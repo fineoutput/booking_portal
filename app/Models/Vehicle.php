@@ -16,6 +16,7 @@ class Vehicle extends Model
         'description',
         'state',
         'status',
+        'image',
         'city',
         'remarks',
     ];
