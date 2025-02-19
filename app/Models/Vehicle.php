@@ -26,5 +26,11 @@ class Vehicle extends Model
         return $this->hasMany(VehiclePrice::class, 'vehicle_id');
     }
 
+    public function outstation()
+    {
+        return $this->hasOne(Outstation::class, 'vehicle_type', 'id');
+    }
+
+
 }
 

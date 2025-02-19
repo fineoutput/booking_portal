@@ -619,14 +619,15 @@ public function vehicle(Request $request)
 
     if ($user && $password == $user->password) {
 
-        $vehicles = Vehicle::orderBy('id','DESC')->where('status',1)->with('vehiclePrices')->get();
+        // Fetch vehicles with vehiclePrices and outstation relationships
+        $vehicles = Vehicle::orderBy('id','DESC')->where('status',1)->with('vehiclePrices','outstation')->get();
 
+        // Map vehicle data into desired format
         $vehiclesData = $vehicles->map(function($vehicle) {
             $baseUrl = url('');
 
-            $vehiclePrices = $vehicle->vehiclePrices;
-
-            $pricesData = $vehiclePrices->map(function($price) {
+            // Handle vehiclePrices: Check if vehiclePrices is not null and map data
+            $pricesData = $vehicle->vehiclePrices ? $vehicle->vehiclePrices->map(function($price) {
                 return [
                     'id' => $price->id,
                     'price' => $price->price,
@@ -634,19 +635,30 @@ public function vehicle(Request $request)
                     'type' => $price->type,
                     'description' => strip_tags($price->description),
                 ];
-            });
+            }) : [];
 
-            if($vehicle->image){
-                $imagepath = asset($vehicle->image);
-            }else{
-                $imagepath = null;
-            }
+            // Handle outstation: Check if outstation is not null and map data
+            $outstationData = $vehicle->outstation ? $vehicle->outstation->map(function($outstation) {
+                return [
+                    'id' => $outstation->id,
+                    'drop_point' => $outstation->drop_point,
+                    'available_km' => $outstation->available_km,
+                    'extra_km_charge' => $outstation->extra_km_charge,
+                    'trip_type' => $outstation->trip_type,
+                    'cost' => $outstation->cost,
+                    'description' => strip_tags($outstation->description),
+                ];
+            }) : [];
+
+            // If vehicle has an image, use the asset path
+            $imagepath = $vehicle->image ? asset($vehicle->image) : null;
 
             return [
                 'id' => $vehicle->id,
                 'vehicle_type' => $vehicle->vehicle_type,
                 'image' => $imagepath,
                 'prices' => $pricesData,
+                'outstation' => $outstationData,  // Added outstation data
             ];
         });
 
@@ -659,6 +671,7 @@ public function vehicle(Request $request)
 
     return response()->json(['message' => 'Unauthenticated'], 401);
 }
+
 
 
 
@@ -1071,6 +1084,105 @@ $packageBooking->makeHidden('updated_at','created_at');
         'status' => 201
     ], 201);
 }
+
+
+public function packagebookingse(Request $request)
+{
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json(['message' => 'Unauthenticated.', 'status' => 201], 401);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+    if (!$user || $password != $user->password) {
+        return response()->json(['message' => 'Unauthorized. Invalid credentials.', 'status' => 201], 401);
+    }
+
+    $request->validate([
+        'package_id' => 'required', 'start_date' => 'nullable', 'end_date' => 'nullable',
+        'standard_count' => 'nullable|integer', 'premium_count' => 'nullable|integer',
+        'deluxe_count' => 'nullable|integer', 'super_deluxe_count' => 'nullable|integer',
+        'luxury_count' => 'nullable|integer', 'nights_count' => 'nullable|integer', 'adults_count' => 'nullable|integer',
+        'child_with_bed_count' => 'nullable|integer', 'child_no_bed_infant_count' => 'nullable|integer',
+        'child_no_bed_child_count' => 'nullable|integer', 'meal_plan_only_room_count' => 'nullable|integer',
+        'meal_plan_breakfast_count' => 'nullable|integer', 'meal_plan_breakfast_lunch_dinner_count' => 'nullable|integer',
+        'meal_plan_all_meals_count' => 'nullable|integer', 'hatchback_count' => 'nullable|integer',
+        'sedan_count' => 'nullable|integer', 'economy_suv_count' => 'nullable|integer', 'luxury_suv_count' => 'nullable|integer',
+        'traveller_mini_count' => 'nullable|integer', 'traveller_big_count' => 'nullable|integer',
+        'premium_traveller_count' => 'nullable|integer', 'ac_coach_count' => 'nullable|integer'
+    ]);
+
+    $start_date = Carbon::parse($request->start_date);
+    $end_date = Carbon::parse($request->end_date);
+    $nights_count = $start_date->diffInDays($end_date);
+
+    // Create new booking
+    $packageBooking = new PackageBooking([
+        'user_id' => $user->id, 
+        'package_id' => $request->package_id,
+        'start_date' => $request->start_date, 
+        'end_date' => $request->end_date,
+        'nights_count' => $nights_count, 
+        'status' => 0
+    ]);
+    // Set counts
+    $packageBooking->fill($request->only([
+        'standard_count', 'premium_count', 'deluxe_count', 'super_deluxe_count',
+        'luxury_count', 'adults_count', 'child_with_bed_count', 'child_no_bed_infant_count',
+        'child_no_bed_child_count', 'meal_plan_only_room_count', 'meal_plan_breakfast_count',
+        'meal_plan_breakfast_lunch_dinner_count', 'meal_plan_all_meals_count', 'hatchback_count',
+        'sedan_count', 'economy_suv_count', 'luxury_suv_count', 'traveller_mini_count',
+        'traveller_big_count', 'premium_traveller_count', 'ac_coach_count'
+    ]));
+
+    // Get package price for given package_id and date range
+    $formatted_date = Carbon::parse($request->start_date)->format('Y-m');
+    $package_price = PackagePrice::where('package_id', $request->package_id)
+    ->where('start_date', '<=', $formatted_date)
+    ->where('end_date', '>=', $formatted_date)
+    ->first();
+    // return $package_price;
+
+if ($package_price) {
+    $total_cost = 0;
+    $fields = [
+        'standard', 'premium', 'deluxe', 'super_deluxe', 'luxury', 'nights', 'adults',
+        'child_with_bed', 'child_no_bed_infant', 'child_no_bed_child', 'meal_plan_only_room',
+        'meal_plan_breakfast', 'meal_plan_breakfast_lunch_dinner', 'meal_plan_all_meals',
+        'hatchback', 'sedan', 'economy_suv', 'luxury_suv', 'traveller_mini', 'traveller_big',
+        'premium_traveller', 'ac_coach'
+    ];
+
+    foreach ($fields as $field) {
+        // Ensure count is an integer
+        $count = (int) $request->get("{$field}_count", 0);
+        
+        // Get the cost from the PackagePrice object and ensure it's a float
+        $cost = (float) $package_price->{"{$field}_cost"};
+        
+        // Multiply count and cost and add to the total cost
+        $total_cost += $count * $cost;
+    }
+
+    $packageBooking->total_cost = $total_cost;
+}
+$packageBooking->save();
+$packageBooking->makeHidden('updated_at','created_at');
+
+    // Save the booking
+    // $packageBooking->save();
+
+    return response()->json([
+        'message' => 'Package booking created successfully.',
+        'data' => $packageBooking,
+        'status' => 201
+    ], 201);
+}
+
 
 
 
