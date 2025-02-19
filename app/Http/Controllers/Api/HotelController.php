@@ -618,7 +618,7 @@ public function vehicle(Request $request)
     if ($user && $password == $user->password) {
 
         // Fetch vehicles with vehiclePrices and outstation relationships
-        $vehicles = Vehicle::orderBy('id','DESC')->where('status',1)->with('vehiclePrices', 'outstation')->get();
+        $vehicles = Vehicle::orderBy('id','DESC')->where('status',1)->with('vehiclePrices', 'outstation','roundtrip')->get();
 
         // Map vehicle data into desired format
         $vehiclesData = $vehicles->map(function($vehicle) {
@@ -635,10 +635,8 @@ public function vehicle(Request $request)
                 ];
             }) : [];
 
-            // Handle outstation: Check if outstation is a collection or a single instance
             $outstationData = [];
             if ($vehicle->outstation) {
-                // If outstation is a collection (many-to-many or has many relationship), we map through it
                 if ($vehicle->outstation instanceof \Illuminate\Database\Eloquent\Collection) {
                     $outstationData = $vehicle->outstation->map(function($outstation) {
                         return [
@@ -665,6 +663,25 @@ public function vehicle(Request $request)
                 }
             }
 
+            $roundtrip = [];
+            if ($vehicle->roundtrip) {
+                if ($vehicle->roundtrip instanceof \Illuminate\Database\Eloquent\Collection) {
+                    $roundtrip = $vehicle->roundtrip->map(function($roundtrip) {
+                        return [
+                            'id' => $roundtrip->id,
+                            'per_km_charge' => $roundtrip->per_km_charge,
+                            'description' => strip_tags($roundtrip->description),
+                        ];
+                    });
+                } else {
+                    $roundtrip[] = [
+                        'id' => $vehicle->roundtrip->id,
+                        'per_km_charge' => $vehicle->roundtrip->per_km_charge,
+                        'description' => strip_tags($vehicle->roundtrip->description),
+                    ];
+                }
+            }
+
             // If vehicle has an image, use the asset path
             $imagepath = $vehicle->image ? asset($vehicle->image) : null;
 
@@ -674,6 +691,7 @@ public function vehicle(Request $request)
                 'image' => $imagepath,
                 'prices' => $pricesData,
                 'outstation' => $outstationData,  // Added outstation data
+                'roundtrip' => $roundtrip,  // Added outstation data
             ];
         });
 

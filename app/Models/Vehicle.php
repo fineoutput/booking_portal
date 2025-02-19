@@ -30,6 +30,10 @@ class Vehicle extends Model
     {
         return $this->hasOne(Outstation::class, 'vehicle_type', 'id');
     }
+    public function roundtrip()
+    {
+        return $this->hasOne(RoundTrip::class, 'car_type_id', 'id');
+    }
 
 
 }
