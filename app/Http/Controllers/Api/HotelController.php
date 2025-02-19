@@ -990,7 +990,7 @@ public function taxibooking(Request $request)
             'start_date' => $request->start_date,   
             'start_time' => $request->start_time ?? null,
             // 'cost' => $request->cost,
-            'description' => $request->description,
+            // 'description' => $request->description,
             'tour_type' => 'Airport',
         ];
     }
@@ -998,8 +998,10 @@ public function taxibooking(Request $request)
     if ($tourType == 2) {
         $data =  [
             // 'image' => $request->file('image') ? $request->file('image')->store('taxi_images') : null,
-            'state' => $request->state,
-            'city' => $request->city,
+            // 'state' => $request->state,
+            // 'city' => $request->city,
+            'location' => $request->location,
+            'vehicle_id' => $request->vehicle_id,
             'user_id' => Auth::id(),
             'one_way' => $request->one_way,
             'description' => $request->description,
@@ -1012,6 +1014,7 @@ public function taxibooking(Request $request)
             'start_date' => $request->start_date,
             'user_id' => Auth::id(),
             'start_time' => $request->start_time ?? null,
+            'vehicle_id' => $request->vehicle_id,
             'pickup_address' => $request->pickup_address,
             'trip_type' => $request->trip_type,
             'one_way_location' => $request->one_way_location,
