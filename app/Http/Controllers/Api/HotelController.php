@@ -975,100 +975,238 @@ public function taxibooking(Request $request)
 }
 
 
-  public function packagebooking(Request $request)
-    {
-        $token = $request->bearerToken();
+public function packagebooking(Request $request)
+{
+    $token = $request->bearerToken();
 
-        if (!$token) {
-            return response()->json([
-                'message' => 'Unauthenticated.',
-                'status' => 201,
-                'data' => [],
-            ], 401);
-        }
-
-        $decodedToken = base64_decode($token);
-        list($email, $password) = explode(',', $decodedToken);
-
-        $user = Agent::where('email', $email)->first();
-
-        if (!$user || $password != $user->password) {
-            return response()->json([
-                'message' => 'Unauthorized. Invalid credentials.',
-                'status' => 201,
-            ], 401);
-        }
-
-        $request->validate([
-            'package_id' => 'required',
-            'start_date' => 'nullable',
-            'end_date' => 'nullable',
-            'standard_count' => 'nullable|integer',
-            'premium_count' => 'nullable|integer',
-            'deluxe_count' => 'nullable|integer',
-            'super_deluxe_count' => 'nullable|integer',
-            'luxury_count' => 'nullable|integer',
-            'nights_count' => 'nullable|integer',
-            'adults_count' => 'nullable|integer',
-            'child_with_bed_count' => 'nullable|integer',
-            'child_no_bed_infant_count' => 'nullable|integer',
-            'child_no_bed_child_count' => 'nullable|integer',
-            'meal_plan_only_room_count' => 'nullable|integer',
-            'meal_plan_breakfast_count' => 'nullable|integer',
-            'meal_plan_breakfast_lunch_dinner_count' => 'nullable|integer',
-            'meal_plan_all_meals_count' => 'nullable|integer',
-            'hatchback_count' => 'nullable|integer',
-            'sedan_count' => 'nullable|integer',
-            'economy_suv_count' => 'nullable|integer',
-            'luxury_suv_count' => 'nullable|integer',
-            'traveller_mini_count' => 'nullable|integer',
-            'traveller_big_count' => 'nullable|integer',
-            'premium_traveller_count' => 'nullable|integer',
-            'ac_coach_count' => 'nullable|integer',
-        ]);
-
-        $start_date = Carbon::parse($request->start_date);
-        $end_date = Carbon::parse($request->end_date);
-      
-        $nights_count = $start_date->diffInDays($end_date);
-
-        $packageBooking = PackageBookingTemp::create([
-            'user_id' => $user->id, 
-            'package_id' => $request->package_id,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'standard_count' => $request->standard_count,
-            'premium_count' => $request->premium_count,
-            'deluxe_count' => $request->deluxe_count,
-            'super_deluxe_count' => $request->super_deluxe_count,
-            'luxury_count' => $request->luxury_count,
-            'nights_count' => $nights_count, // use calculated nights_count here
-            'adults_count' => $request->adults_count,
-            'child_with_bed_count' => $request->child_with_bed_count,
-            'child_no_bed_infant_count' => $request->child_no_bed_infant_count,
-            'child_no_bed_child_count' => $request->child_no_bed_child_count,
-            'meal_plan_only_room_count' => $request->meal_plan_only_room_count,
-            'meal_plan_breakfast_count' => $request->meal_plan_breakfast_count,
-            'meal_plan_breakfast_lunch_dinner_count' => $request->meal_plan_breakfast_lunch_dinner_count,
-            'meal_plan_all_meals_count' => $request->meal_plan_all_meals_count,
-            'hatchback_count' => $request->hatchback_count,
-            'sedan_count' => $request->sedan_count,
-            'economy_suv_count' => $request->economy_suv_count,
-            'luxury_suv_count' => $request->luxury_suv_count,
-            'traveller_mini_count' => $request->traveller_mini_count,
-            'traveller_big_count' => $request->traveller_big_count,
-            'premium_traveller_count' => $request->premium_traveller_count,
-            'ac_coach_count' => $request->ac_coach_count,
-            'status' => 0,
-        ]);
-        
-
-        return response()->json([
-            'message' => 'Package booking created successfully.',
-            'data' => $packageBooking,
-            'status' => 201
-        ], 201);
+    if (!$token) {
+        return response()->json(['message' => 'Unauthenticated.', 'status' => 201], 401);
     }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+    if (!$user || $password != $user->password) {
+        return response()->json(['message' => 'Unauthorized. Invalid credentials.', 'status' => 201], 401);
+    }
+
+    $request->validate([
+        'package_id' => 'required', 'start_date' => 'nullable', 'end_date' => 'nullable',
+        'standard_count' => 'nullable|integer', 'premium_count' => 'nullable|integer',
+        'deluxe_count' => 'nullable|integer', 'super_deluxe_count' => 'nullable|integer',
+        'luxury_count' => 'nullable|integer', 'nights_count' => 'nullable|integer', 'adults_count' => 'nullable|integer',
+        'child_with_bed_count' => 'nullable|integer', 'child_no_bed_infant_count' => 'nullable|integer',
+        'child_no_bed_child_count' => 'nullable|integer', 'meal_plan_only_room_count' => 'nullable|integer',
+        'meal_plan_breakfast_count' => 'nullable|integer', 'meal_plan_breakfast_lunch_dinner_count' => 'nullable|integer',
+        'meal_plan_all_meals_count' => 'nullable|integer', 'hatchback_count' => 'nullable|integer',
+        'sedan_count' => 'nullable|integer', 'economy_suv_count' => 'nullable|integer', 'luxury_suv_count' => 'nullable|integer',
+        'traveller_mini_count' => 'nullable|integer', 'traveller_big_count' => 'nullable|integer',
+        'premium_traveller_count' => 'nullable|integer', 'ac_coach_count' => 'nullable|integer'
+    ]);
+
+    $start_date = Carbon::parse($request->start_date);
+    $end_date = Carbon::parse($request->end_date);
+    $nights_count = $start_date->diffInDays($end_date);
+
+    // Create new booking
+    $packageBooking = new PackageBookingTemp([
+        'user_id' => $user->id, 'package_id' => $request->package_id,
+        'start_date' => $request->start_date, 'end_date' => $request->end_date,
+        'nights_count' => $nights_count, 'status' => 0
+    ]);
+    // Set counts
+    $packageBooking->fill($request->only([
+        'standard_count', 'premium_count', 'deluxe_count', 'super_deluxe_count',
+        'luxury_count', 'adults_count', 'child_with_bed_count', 'child_no_bed_infant_count',
+        'child_no_bed_child_count', 'meal_plan_only_room_count', 'meal_plan_breakfast_count',
+        'meal_plan_breakfast_lunch_dinner_count', 'meal_plan_all_meals_count', 'hatchback_count',
+        'sedan_count', 'economy_suv_count', 'luxury_suv_count', 'traveller_mini_count',
+        'traveller_big_count', 'premium_traveller_count', 'ac_coach_count'
+    ]));
+
+    // Get package price for given package_id and date range
+    $formatted_date = Carbon::parse($request->start_date)->format('Y-m');
+    $package_price = PackagePrice::where('package_id', $request->package_id)
+    ->where('start_date', '<=', $formatted_date)
+    ->where('end_date', '>=', $formatted_date)
+    ->first();
+    // return $package_price;
+
+if ($package_price) {
+    $total_cost = 0;
+    $fields = [
+        'standard', 'premium', 'deluxe', 'super_deluxe', 'luxury', 'nights', 'adults',
+        'child_with_bed', 'child_no_bed_infant', 'child_no_bed_child', 'meal_plan_only_room',
+        'meal_plan_breakfast', 'meal_plan_breakfast_lunch_dinner', 'meal_plan_all_meals',
+        'hatchback', 'sedan', 'economy_suv', 'luxury_suv', 'traveller_mini', 'traveller_big',
+        'premium_traveller', 'ac_coach'
+    ];
+
+    foreach ($fields as $field) {
+        // Ensure count is an integer
+        $count = (int) $request->get("{$field}_count", 0);
+        
+        // Get the cost from the PackagePrice object and ensure it's a float
+        $cost = (float) $package_price->{"{$field}_cost"};
+        
+        // Multiply count and cost and add to the total cost
+        $total_cost += $count * $cost;
+    }
+
+    $packageBooking->total_cost = $total_cost;
+}
+
+    // Save the booking
+    // $packageBooking->save();
+
+    return response()->json([
+        'message' => 'Package booking created successfully.',
+        'data' => $packageBooking,
+        'status' => 201
+    ], 201);
+}
+
+
+
+// public function packagebooking(Request $request)
+// {
+//     $token = $request->bearerToken();
+
+//     if (!$token) {
+//         return response()->json([
+//             'message' => 'Unauthenticated.',
+//             'status' => 201,
+//             'data' => [],
+//         ], 401);
+//     }
+
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
+
+//     $user = Agent::where('email', $email)->first();
+
+//     if (!$user || $password != $user->password) {
+//         return response()->json([
+//             'message' => 'Unauthorized. Invalid credentials.',
+//             'status' => 201,
+//         ], 401);
+//     }
+
+//     $request->validate([
+//         'package_id' => 'required',
+//         'start_date' => 'nullable',
+//         'end_date' => 'nullable',
+//         'standard_count' => 'nullable|integer',
+//         'premium_count' => 'nullable|integer',
+//         'deluxe_count' => 'nullable|integer',
+//         'super_deluxe_count' => 'nullable|integer',
+//         'luxury_count' => 'nullable|integer',
+//         'nights_count' => 'nullable|integer',
+//         'adults_count' => 'nullable|integer',
+//         'child_with_bed_count' => 'nullable|integer',
+//         'child_no_bed_infant_count' => 'nullable|integer',
+//         'child_no_bed_child_count' => 'nullable|integer',
+//         'meal_plan_only_room_count' => 'nullable|integer',
+//         'meal_plan_breakfast_count' => 'nullable|integer',
+//         'meal_plan_breakfast_lunch_dinner_count' => 'nullable|integer',
+//         'meal_plan_all_meals_count' => 'nullable|integer',
+//         'hatchback_count' => 'nullable|integer',
+//         'sedan_count' => 'nullable|integer',
+//         'economy_suv_count' => 'nullable|integer',
+//         'luxury_suv_count' => 'nullable|integer',
+//         'traveller_mini_count' => 'nullable|integer',
+//         'traveller_big_count' => 'nullable|integer',
+//         'premium_traveller_count' => 'nullable|integer',
+//         'ac_coach_count' => 'nullable|integer',
+//     ]);
+
+//     $start_date = Carbon::parse($request->start_date);
+//     $end_date = Carbon::parse($request->end_date);
+  
+//     $nights_count = $start_date->diffInDays($end_date);
+
+//     $packageBooking = new PackageBookingTemp();
+//     $packageBooking->user_id = $user->id; 
+//     $packageBooking->package_id = $request->package_id;
+//     $packageBooking->start_date = $request->start_date;
+//     $packageBooking->end_date = $request->end_date;
+//     $packageBooking->standard_count = $request->standard_count;
+//     $packageBooking->premium_count = $request->premium_count;
+//     $packageBooking->deluxe_count = $request->deluxe_count;
+//     $packageBooking->super_deluxe_count = $request->super_deluxe_count;
+//     $packageBooking->luxury_count = $request->luxury_count;
+//     $packageBooking->nights_count = $nights_count; 
+//     $packageBooking->adults_count = $request->adults_count;
+//     $packageBooking->child_with_bed_count = $request->child_with_bed_count;
+//     $packageBooking->child_no_bed_infant_count = $request->child_no_bed_infant_count;
+//     $packageBooking->child_no_bed_child_count = $request->child_no_bed_child_count;
+//     $packageBooking->meal_plan_only_room_count = $request->meal_plan_only_room_count;
+//     $packageBooking->meal_plan_breakfast_count = $request->meal_plan_breakfast_count;
+//     $packageBooking->meal_plan_breakfast_lunch_dinner_count = $request->meal_plan_breakfast_lunch_dinner_count;
+//     $packageBooking->meal_plan_all_meals_count = $request->meal_plan_all_meals_count;
+//     $packageBooking->hatchback_count = $request->hatchback_count;
+//     $packageBooking->sedan_count = $request->sedan_count;
+//     $packageBooking->economy_suv_count = $request->economy_suv_count;
+//     $packageBooking->luxury_suv_count = $request->luxury_suv_count;
+//     $packageBooking->traveller_mini_count = $request->traveller_mini_count;
+//     $packageBooking->traveller_big_count = $request->traveller_big_count;
+//     $packageBooking->premium_traveller_count = $request->premium_traveller_count;
+//     $packageBooking->ac_coach_count = $request->ac_coach_count;
+//     $packageBooking->status = 0;
+//     $packageBooking->save();
+
+//     $request_date = \Carbon\Carbon::parse($request->start_date);
+//     $formatted_date = $request_date->format('Y-m');
+
+//     $package_price = PackagePrice::where('package_id', $request->package_id)
+//         ->where('start_date', '<=', $formatted_date)
+//         ->where('end_date', '>=', $formatted_date)
+//         ->first();
+
+//     if ($package_price) {
+//         $total_standard_cost = $package_price->standard_cost * $request->standard_count;
+//         $total_premium_cost = $package_price->premium_cost * $request->premium_count;
+//         $total_deluxe_cost = $package_price->deluxe_cost * $request->deluxe_count;
+//         $total_super_deluxe_cost = $package_price->super_deluxe_cost * $request->super_deluxe_count;
+//         $total_luxury_cost = $package_price->luxury_cost * $request->luxury_count;
+//         $total_nights_cost = $package_price->nights_cost * $nights_count;
+//         $total_adults_cost = $package_price->adults_cost * $request->adults_count;
+//         $total_child_with_bed_cost = $package_price->child_with_bed_cost * $request->child_with_bed_count;
+//         $total_child_no_bed_infant_cost = $package_price->child_no_bed_infant_cost * $request->child_no_bed_infant_count;
+//         $total_child_no_bed_child_cost = $package_price->child_no_bed_child_cost * $request->child_no_bed_child_count;
+//         $total_meal_plan_only_room_cost = $package_price->meal_plan_only_room_cost * $request->meal_plan_only_room_count;
+//         $total_meal_plan_breakfast_cost = $package_price->meal_plan_breakfast_cost * $request->meal_plan_breakfast_count;
+//         $total_meal_plan_breakfast_lunch_dinner_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost * $request->meal_plan_breakfast_lunch_dinner_count;
+//         $total_meal_plan_all_meals_cost = $package_price->meal_plan_all_meals_cost * $request->meal_plan_all_meals_count;
+//         $total_hatchback_cost = $package_price->hatchback_cost * $request->hatchback_count;
+//         $total_sedan_cost = $package_price->sedan_cost * $request->sedan_count;
+//         $total_economy_suv_cost = $package_price->economy_suv_cost * $request->economy_suv_count;
+//         $total_luxury_suv_cost = $package_price->luxury_suv_cost * $request->luxury_suv_count;
+//         $total_traveller_mini_cost = $package_price->traveller_mini_cost * $request->traveller_mini_count;
+//         $total_traveller_big_cost = $package_price->traveller_big_cost * $request->traveller_big_count;
+//         $total_premium_traveller_cost = $package_price->premium_traveller_cost * $request->premium_traveller_count;
+//         $total_ac_coach_cost = $package_price->ac_coach_cost * $request->ac_coach_count;
+
+//         $total_cost = $total_standard_cost + $total_premium_cost + $total_deluxe_cost + $total_super_deluxe_cost +
+//             $total_luxury_cost + $total_nights_cost + $total_adults_cost + $total_child_with_bed_cost +
+//             $total_child_no_bed_infant_cost + $total_child_no_bed_child_cost + $total_meal_plan_only_room_cost +
+//             $total_meal_plan_breakfast_cost + $total_meal_plan_breakfast_lunch_dinner_cost + $total_meal_plan_all_meals_cost +
+//             $total_hatchback_cost + $total_sedan_cost + $total_economy_suv_cost + $total_luxury_suv_cost +
+//             $total_traveller_mini_cost + $total_traveller_big_cost + $total_premium_traveller_cost + $total_ac_coach_cost;
+
+//         $packageBooking->total_cost = $total_cost;
+//     }
+
+//     // $packageBooking->save();
+
+//     return response()->json([
+//         'message' => 'Package booking created successfully.',
+//         'data' => $packageBooking,
+//         'status' => 201,
+//     ], 201);
+// }
+
 
 
  
