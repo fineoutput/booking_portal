@@ -1011,9 +1011,12 @@ public function packagebooking(Request $request)
 
     // Create new booking
     $packageBooking = new PackageBookingTemp([
-        'user_id' => $user->id, 'package_id' => $request->package_id,
-        'start_date' => $request->start_date, 'end_date' => $request->end_date,
-        'nights_count' => $nights_count, 'status' => 0
+        'user_id' => $user->id, 
+        'package_id' => $request->package_id,
+        'start_date' => $request->start_date, 
+        'end_date' => $request->end_date,
+        'nights_count' => $nights_count, 
+        'status' => 0
     ]);
     // Set counts
     $packageBooking->fill($request->only([
@@ -1056,6 +1059,8 @@ if ($package_price) {
 
     $packageBooking->total_cost = $total_cost;
 }
+$packageBooking->save();
+$packageBooking->makeHidden('updated_at','created_at');
 
     // Save the booking
     // $packageBooking->save();

@@ -37,6 +37,7 @@ class PackageBookingTemp extends Model
         'traveller_big_count',
         'premium_traveller_count',
         'ac_coach_count',
+        'total_cost',
         'status',
     ];
 
