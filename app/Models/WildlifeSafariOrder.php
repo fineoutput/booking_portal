@@ -22,6 +22,7 @@ class WildlifeSafariOrder extends Model
         'no_adults',
         'no_kids',
         'vehicle',
+        'guest_count',
         'cost',
         'status',
         'description',

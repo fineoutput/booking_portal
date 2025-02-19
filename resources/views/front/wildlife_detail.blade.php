@@ -277,11 +277,13 @@
                                         {{-- <span style="color: rgb(106, 106, 106);">
                                             <del>₹<span id="original-price"></span>0</del>
                                         </span> --}}
-                                        <span>₹<span id="final-price"></span>0</span>
+                                        <span>₹<span id="final-price"></span></span>
                                     </div>
                                     <form action="{{ route('add_wildlife_booking',['id'=>$wildlife->id]) }}" method="POST">
                                         @csrf
                                         <div class="checks">
+
+
                                             <div class="bors">
                                                 <div class="caranke">
                                                     <label for=""><b>Date</b></label>
@@ -297,19 +299,20 @@
                                                                     <div class="ujale">
                                                                         <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
                                                                     </div>
-                                                                    <div class="time-option_hotels" onclick="selectTiming('Morning')">Morning</div>
+                                                                    <div class="time-option_hotels" onclick="selectTimings('morning')">Morning</div>
                                                                 </div>
                                                                 <div class="brit_life mt-3">
                                                                     <div class="ujale">
                                                                         <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
                                                                     </div>
-                                                                    <div class="time-option_hotels" onclick="selectTiming('Evening')">Evening</div>
+                                                                    <div class="time-option_hotels" onclick="selectTimings('evening')">Evening</div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                 
                                             <div class="rivvsa">
                                                 <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
@@ -323,7 +326,7 @@
                                                             <label>Adults</label>
                                                             <div class="counter_hotels">
                                                                 <button type="button" onclick="updateGuests('adults', -1)">-</button>
-                                                                <input type="number" id="adults-count" value="1" min="1" onchange="updateTotal()">
+                                                                <input type="number" id="adults-count" value="1" min="1" name="no_adults" onchange="updateTotal()">
                                                                 <button type="button" onclick="updateGuests('adults', 1)">+</button>
                                                             </div>
                                                         </div>
@@ -331,7 +334,7 @@
                                                             <label>Children</label>
                                                             <div class="counter_hotels">
                                                                 <button type="button" onclick="updateGuests('children', -1)">-</button>
-                                                                <input type="number" id="children-count" value="0" min="0" onchange="updateTotal()">
+                                                                <input name="no_persons" type="number" id="children-count" value="0" min="0" onchange="updateTotal()">
                                                                 <button type="button" onclick="updateGuests('children', 1)">+</button>
                                                             </div>
                                                         </div>
@@ -339,7 +342,7 @@
                                                             <label>Infants</label>
                                                             <div class="counter_hotels">
                                                                 <button type="button" onclick="updateGuests('infants', -1)">-</button>
-                                                                <input type="number" id="infants-count" value="0" min="0" onchange="updateTotal()">
+                                                                <input name="no_kids" type="number" id="infants-count" value="0" min="0" onchange="updateTotal()">
                                                                 <button type="button" onclick="updateGuests('infants', 1)">+</button>
                                                             </div>
                                                         </div>
@@ -390,12 +393,24 @@
                                         <input type="hidden" name="total_price" id="total-price" value="{{ $wildlife->cost ?? '0' }}">
                                         <input type="hidden" name="vehicle" id="selected-vehicle" value="">
                                         <input type="hidden" name="guest_count" id="guest-count" value="1">
-                                
+                                        <input type="hidden" name="selected_time" id="selected_time">
+                                        {{-- <input type="hidden" name="user_id" value="{{Auth::guard('agent')->user()}}"> --}}
+
+                                        @if(Auth::guard('agent')->check())
                                         <div class="live_set mt-3">
                                             <button class="btn btn-info gggsd" type="submit">
                                                 Reserve
                                             </button>
                                         </div>
+                                        @else
+                                        <div class="live_set mt-3">
+                                            <a class="btn btn-info gggsd" href="{{route('login')}}">
+                                            {{-- <button > --}}
+                                                Reserve
+                                            {{-- </button> --}}
+                                        </a>
+                                        </div>
+                                        @endif
                                     </form>
                                 </div>
 
@@ -456,6 +471,32 @@
         updateTotal();  // Update price when vehicle is selected
         document.getElementById(modalId).modal('hide');
     }
+
+
+
+    function selectTimings(time) {
+
+    console.log("selectTimings called with:", time); 
+
+    document.getElementById('timing-value').innerText = time;
+
+    
+    let hiddenInput = document.querySelector('input[name="selected_time"]');
+    if (!hiddenInput) {
+        hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'selected_time');
+        document.querySelector('form').appendChild(hiddenInput);
+    }
+
+    hiddenInput.setAttribute('value', time);
+    console.log("Hidden input value:", hiddenInput.value);  
+
+    document.getElementById('timing-dropdown').style.display = 'none';
+}
+
+
+
 </script>
 
 

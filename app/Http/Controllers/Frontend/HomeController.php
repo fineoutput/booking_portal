@@ -98,9 +98,22 @@ class HomeController extends Controller
 
     public function add_wildlife_booking(Request $request,$id)
     {
-        return $request;
-        $id = base64_decode($id);
-        $data['wildlife'] = new WildlifeSafariOrder;
+        // return $request;
+        $wildlife = new WildlifeSafariOrder();
+        $wildlife->user_id = Auth::guard('agent')->id();
+        $wildlife->safari_id = $id;
+        $wildlife->date = $request->date;
+        $wildlife->no_adults = $request->no_adults;
+        $wildlife->no_persons = $request->no_persons;
+        $wildlife->no_kids = $request->no_kids;
+        $wildlife->cost = $request->total_price;
+        $wildlife->vehicle = $request->vehicle;
+        $wildlife->guest_count = $request->guest_count;
+        $wildlife->timings = $request->selected_time;
+        $wildlife->status = 0;
+
+        $wildlife->save();
+
         return redirect()->back()->with('message','Booking Created Succesfully');
     }
 

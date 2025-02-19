@@ -72,7 +72,7 @@
                         <td>{{ $hotel->safari->date ?? '' }}</td>
                         <td>{{ $hotel->timings ?? '' }}</td>
                         <td>{{ $hotel->vehicle ?? '' }}</td>
-                        <td>{{ $hotel->cost ?? '' }}</td>
+                        <td>₹{{ $hotel->cost ?? '' }}</td>
                         <td>{{ $hotel->no_persons ?? '' }}</td>
                         <td>{{ $hotel->no_adults ?? '' }}</td>
                         <td>{{ $hotel->no_kids ?? '' }}</td>
