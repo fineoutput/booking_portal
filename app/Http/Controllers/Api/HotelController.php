@@ -903,21 +903,24 @@ public function taxibooking(Request $request)
     }
     
     $request->validate([
-        'location' => 'nullable|string',
-        'vehicle_id' => 'nullable|integer',
-        'trip_type' => 'nullable|string',
-        'cost' => 'nullable|numeric',
-        'image' => 'nullable|image',
-        'state' => 'nullable|string',
-        'city' => 'nullable|string',
-        'one_way' => 'nullable|boolean',
-        'description' => 'nullable|string',
-        'trip' => 'nullable|string',
-        'start_date' => 'nullable|date',
+        'location' => 'nullable',
+        'vehicle_id' => 'nullable',
+        'trip_type' => 'nullable',
+        'cost' => 'nullable',
+        'image' => 'nullable',
+        'state' => 'nullable',
+        'city' => 'nullable',
+        'one_way' => 'nullable',
+        'description' => 'nullable',
+        'trip' => 'nullable',
+        'start_date' => 'nullable',
         'start_time' => 'nullable',
-        'pickup_address' => 'nullable|string',
-        'tour_type' => 'required|integer',
-        'user_id' => 'nullable|integer',
+        'pickup_address' => 'nullable',
+        'tour_type' => 'required',
+        'user_id' => 'nullable',
+        'one_way_location' => 'nullable',
+        'round_start_location' => 'nullable',
+        'round_end_location' => 'nullable',
     ]);
 
 
@@ -963,7 +966,10 @@ public function taxibooking(Request $request)
             'user_id' => Auth::id(),
             'start_time' => $request->start_time ?? null,
             'pickup_address' => $request->pickup_address,
-            'trip_type' => 'Outstation',
+            'trip_type' => $request->trip_type,
+            'one_way_location' => $request->one_way_location,
+            'round_start_location' => $request->round_start_location,
+            'round_end_location' => $request->round_end_location,
         ];
     }
 
