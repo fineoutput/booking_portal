@@ -288,7 +288,12 @@ class AuthController extends Controller
                         ->first();
 
         if (!$otpUser) {
-            return $this->successResponse('Invalid OTP or details!', false, 400);
+            return response()->json([
+                'message' => 'Invalid OTP or details!',
+                'status' => 200,
+                'data' => [],
+            ], 400);
+            
         }
 
         if ($otpUser->expires_at < now()) {
