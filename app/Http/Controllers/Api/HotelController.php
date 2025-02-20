@@ -929,6 +929,7 @@ public function hotelBooking(Request $request) {
     
 public function taxibooking(Request $request)
 {
+    
 
     $token = $request->bearerToken();
 
@@ -971,7 +972,7 @@ public function taxibooking(Request $request)
         'round_end_location' => 'nullable',
     ]);
 
-
+    print_r($request->all()); 
     $tourType = $request->tour_type;
     $data = [];
 
@@ -992,7 +993,7 @@ public function taxibooking(Request $request)
             'start_time' => $request->start_time ?? null,
             // 'cost' => $request->cost,
             // 'description' => $request->description,
-            'tour_type' => 'Airport',
+            'tour_type' => $request->tour_type,
         ];
     }
 
