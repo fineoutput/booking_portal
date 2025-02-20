@@ -32,11 +32,17 @@ class RouteController extends Controller
             $validated = $request->validate([
                 'from_destination' => 'required',
                 'to_destination' => 'required', 
+                'city_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
     
             $hotel = new Route();
             $hotel->from_destination = $request->from_destination;
             $hotel->to_destination  = $request->to_destination;
+
+            if ($request->hasFile('city_image')) {
+                $imagePath = $request->file('city_image')->store('city_images', 'public');
+                $hotel->city_image = $imagePath;
+            }
             $hotel->save();
 
             return redirect()->route('route')->with('success', 'Route added successfully.');
@@ -87,12 +93,22 @@ public function update(Request $request, $id)
     $validated = $request->validate([
         'from_destination' => 'required',
         'to_destination' => 'required',
+        'city_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
     $hotel = Route::findOrFail($id);
 
     $hotel->from_destination = $request->from_destination;
     $hotel->to_destination  = $request->to_destination;
+
+    if ($request->hasFile('city_image')) {
+        // Delete old image if it exists
+        if ($hotel->city_image && Storage::disk('public')->exists($hotel->city_image)) {
+            Storage::disk('public')->delete($hotel->city_image);
+        }
+        $imagePath = $request->file('city_image')->store('city_images', 'public');
+        $hotel->city_image = $imagePath;
+    }
 
     $hotel->save();
 

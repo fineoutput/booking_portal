@@ -12,5 +12,6 @@ class Route extends Model
     protected $fillable = [
         'from_destination',
         'to_destination',
+        'city_image',
     ];
 }
