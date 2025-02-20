@@ -1025,6 +1025,7 @@ public function taxibooking(Request $request)
             'one_way_location' => $request->one_way_location,
             'round_start_location' => $request->round_start_location,
             'round_end_location' => $request->round_end_location,
+            'tour_type' => 'Outstation',
         ];
     }
 
