@@ -66,11 +66,17 @@
                         <td>{{ $hotel->from_destination ?? '' }}</td>
                         <td>{{ $hotel->to_destination ?? '' }}</td>
                         <td>
-                          @if ($hotel->city_image)
-                            <img src="{{ asset('storage/' . $hotel->city_image) }}" alt="City Image" style="max-width: 100px; max-height: 100px;">
-                          @else
-                            No Image
-                          @endif
+                          @php
+                             $images = json_decode($hotel->image); // Decode JSON to array
+                         @endphp
+ 
+                         @if($images && is_array($images))  <!-- Check if images is not null and is an array -->
+                             @foreach($images as $image)
+                                 <img src="{{ asset($image) }}" alt="Image" style="width: 50px; height: 50px; margin: 5px;">
+                             @endforeach
+                         @else
+                             <p>No images available.</p>
+                         @endif
                         </td>
                         <td>
                           <a href="{{ route('route.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>

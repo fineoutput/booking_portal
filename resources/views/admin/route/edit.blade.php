@@ -73,21 +73,26 @@
                                         <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label for="city_image">City Image</label>
-                                            <input type="file" class="form-control-file" id="city_image" name="city_image" accept="image/*">
-                                            @if ($route->city_image)
-                                                <div style="margin-top: 10px;">
-                                                    <img src="{{ asset('storage/' . $route->city_image) }}" alt="Current City Image" style="max-width: 100px; max-height: 100px;">
-                                                    <p><small>Current Image: {{ $route->city_image }}</small></p>
-                                                </div>
-                                            @endif
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="images">Select Multiple Images</label>
+                                                <input multiple type="file" name="image[]" class="form-control" multiple>
+                                                <small class="form-text text-muted">Leave blank to keep existing images.</small>
+                                                
+                                                @if($wildlifeSafari->image)
+                                                    <div>
+                                                        @foreach(json_decode($wildlifeSafari->image) as $key => $image)
+                                                            <div class="image-item">
+                                                                <img src="{{ asset($image) }}" alt="Hotel Image" width="100" height="100">
+                                                                <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-image" data-image="{{ $image }}" data-key="{{ $key }}">Remove</a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
-                                        @error('city_image')
-                                        <div style="color:red">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                        </div>
                                 </div>
 
                                 <div class="form-group">

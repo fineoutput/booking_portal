@@ -72,14 +72,12 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label for="city_image">City Image</label>
-                                            <input type="file" class="form-control-file" id="city_image" name="city_image" accept="image/*">
+                                    <div class="form-group row">
+                                        <div class="col-sm-4"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Multiple Image</label>
+                                            <input class="form-control" style="margin-left: 10px" type="file" value="" id="image" name="image[]" multiple>
                                         </div>
-                                        @error('city_image')
-                                        <div style="color:red">{{ $message }}</div>
-                                        @enderror
+                                        
                                     </div>
                                    
                                 </div>
