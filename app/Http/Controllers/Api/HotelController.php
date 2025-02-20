@@ -982,6 +982,7 @@ public function taxibooking(Request $request)
             'trip' => $request->trip,
             'start_date' => $request->start_date,
             'start_time' => $request->start_time ?? null,
+            'tour_type' => $request->tour_type,
         ];
     }
 
@@ -992,6 +993,7 @@ public function taxibooking(Request $request)
             'user_id' => $user->id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'tour_type' => $request->tour_type,
         ];
     }
 
@@ -1005,6 +1007,7 @@ public function taxibooking(Request $request)
             'one_way_location' => $request->one_way_location,
             'round_start_location' => $request->round_start_location,
             'round_end_location' => $request->round_end_location,
+            'tour_type' => $request->tour_type,
         ];
     }
 
