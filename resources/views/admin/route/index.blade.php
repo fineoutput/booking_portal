@@ -25,14 +25,16 @@
               <div class="alert alert-success" role="alert">
                 {{ session('success') }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+                  <span aria-hidden="true">×</span>
+                </button>
               </div>
               @endif
               @if (session('error'))
               <div class="alert alert-danger" role="alert">
                 {{ session('error') }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+                  <span aria-hidden="true">×</span>
+                </button>
               </div>
               @endif
               <!-- End show success and error messages -->
@@ -40,38 +42,47 @@
                 <div class="col-md-10">
                   <h4 class="mt-0 header-title">View Route List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('add_route')}}" role="button" style="margin-left: 20px;"> Add Route</a></div>
+                <div class="col-md-2">
+                  <a class="btn btn-info cticket" href="{{ route('add_route') }}" role="button" style="margin-left: 20px;">Add Route</a>
+                </div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
                 <div class="table-responsive b-0" data-pattern="priority-columns">
-                  <table id="userTable" class="table  table-striped">
+                  <table id="userTable" class="table table-striped">
                     <thead>
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Starting Destination</th>
                         <th data-priority="1">Ending Destination</th>
+                        <th data-priority="3">City Image</th> <!-- Added column -->
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
-                   <tbody>
-                    @foreach($hotels as $key=> $hotel)
-                    <tr>
-                        <td>{{ $key+1 }}</td> <!-- Loop index -->
+                    <tbody>
+                      @foreach($hotels as $key => $hotel)
+                      <tr>
+                        <td>{{ $key + 1 }}</td> <!-- Loop index -->
                         <td>{{ $hotel->from_destination ?? '' }}</td>
                         <td>{{ $hotel->to_destination ?? '' }}</td>
-
                         <td>
-                            <a href="{{ route('route.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('route.destroy', $hotel->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Route?')">Delete</button>
-                            </form>
+                          @if ($hotel->city_image)
+                            <img src="{{ asset('storage/' . $hotel->city_image) }}" alt="City Image" style="max-width: 100px; max-height: 100px;">
+                          @else
+                            No Image
+                          @endif
                         </td>
-                    </tr>
-                @endforeach
-                   </tbody>
+                        <td>
+                          <a href="{{ route('route.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
+                          <form action="{{ route('route.destroy', $hotel->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Route?')">Delete</button>
+                          </form>
+                        </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
                   </table>
                 </div>
               </div>
