@@ -929,14 +929,12 @@ public function hotelBooking(Request $request) {
     
 public function taxibooking(Request $request)
 {
-    
-
     $token = $request->bearerToken();
 
     if (!$token) {
         return response()->json([
             'message' => 'Unauthenticated.',
-            'status' => 201,
+            'status' => 401,
             'data' => [],
         ], 401);
     }
@@ -949,7 +947,7 @@ public function taxibooking(Request $request)
     if (!$user || $password != $user->password) {
         return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
     }
-    
+
     $request->validate([
         'location' => 'nullable',
         'vehicle_id' => 'nullable',
@@ -972,60 +970,41 @@ public function taxibooking(Request $request)
         'round_end_location' => 'nullable',
     ]);
 
-    // print_r($request->all()); 
     $tourType = $request->tour_type;
     $data = [];
 
-    // $data['location'] = $request->location;
-    // $data['vehicle_id'] = $request->vehicle_id;
-    // $data['trip_type'] = $request->trip_type;
-    // $data['cost'] = $request->cost;
-
     if ($tourType == 1) {
-        $data =  [
+        $data = [
             'pickup_address' => $request->pickup_address,
             'location' => $request->location,
-            'user_id' => Auth::id(),
+            'user_id' => $user->id, // Use $user->id instead of Auth::id()
             'vehicle_id' => $request->vehicle_id,
-            // 'trip_type' => $request->trip_type,
             'trip' => $request->trip,
-            'start_date' => $request->start_date,   
+            'start_date' => $request->start_date,
             'start_time' => $request->start_time ?? null,
-            // 'cost' => $request->cost,
-            // 'description' => $request->description,
-            // 'tour_type' => 'Airport/Railway',
         ];
     }
 
     if ($tourType == 2) {
-        $data =  [
-            // 'image' => $request->file('image') ? $request->file('image')->store('taxi_images') : null,
-            // 'state' => $request->state,
-            // 'city' => $request->city,
+        $data = [
             'location' => $request->location,
             'vehicle_id' => $request->vehicle_id,
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            // 'one_way' => $request->one_way,
-            // 'description' => $request->description,
-            // 'tour_type' => 'Local Tour',
         ];
     }
 
     if ($tourType == 3) {
-        $data =  [
+        $data = [
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'user_id' => Auth::id(),
-            // 'start_time' => $request->start_time ?? null,
+            'user_id' => $user->id,
             'vehicle_id' => $request->vehicle_id,
-            // 'pickup_address' => $request->pickup_address,
             'trip_type' => $request->trip_type,
             'one_way_location' => $request->one_way_location,
             'round_start_location' => $request->round_start_location,
             'round_end_location' => $request->round_end_location,
-            // 'tour_type' => 'Outstation',
         ];
     }
 
