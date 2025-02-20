@@ -1394,6 +1394,7 @@ public function city(Request $request)
                 'id' => $route->id,
                 'from_destination' => $route->from_destination,
                 'to_destination' => $route->to_destination,
+                'city_image' => $route->city_image ? url('storage/' . $route->city_image) : null,
             ];
         });
 
