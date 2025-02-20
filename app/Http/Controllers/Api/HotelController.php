@@ -993,7 +993,7 @@ public function taxibooking(Request $request)
             'start_time' => $request->start_time ?? null,
             // 'cost' => $request->cost,
             // 'description' => $request->description,
-            'tour_type' => 'Airport/Railway',
+            // 'tour_type' => 'Airport/Railway',
         ];
     }
 
@@ -1009,7 +1009,7 @@ public function taxibooking(Request $request)
             'end_date' => $request->end_date,
             // 'one_way' => $request->one_way,
             // 'description' => $request->description,
-            'tour_type' => 'Local Tour',
+            // 'tour_type' => 'Local Tour',
         ];
     }
 
@@ -1025,7 +1025,7 @@ public function taxibooking(Request $request)
             'one_way_location' => $request->one_way_location,
             'round_start_location' => $request->round_start_location,
             'round_end_location' => $request->round_end_location,
-            'tour_type' => 'Outstation',
+            // 'tour_type' => 'Outstation',
         ];
     }
 
