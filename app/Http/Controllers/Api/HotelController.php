@@ -961,6 +961,7 @@ public function taxibooking(Request $request)
         'trip' => 'nullable',
         'start_date' => 'nullable',
         'end_date' => 'nullable',
+        'end_time' => 'nullable',
         'start_time' => 'nullable',
         'pickup_address' => 'nullable',
         'tour_type' => 'required|integer',
@@ -995,6 +996,7 @@ public function taxibooking(Request $request)
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'tour_type' => $request->tour_type,
+            'end_time' => $request->end_time,
            
         ];
     }
