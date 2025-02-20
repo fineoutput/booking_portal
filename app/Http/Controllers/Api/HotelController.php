@@ -996,8 +996,8 @@ public function taxibooking(Request $request)
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'tour_type' => $request->tour_type,
-            'end_time' => $request->end_time,
-           'start_time' => $request->start_time,
+            'end_time' => $request->end_time ?? null,
+           'start_time' => $request->start_time ?? null,
         ];
     }
 
