@@ -953,7 +953,7 @@ public function taxibooking(Request $request)
         'vehicle_id' => 'nullable',
         'trip_type' => 'nullable',
         'cost' => 'nullable',
-        'image' => 'nullable',
+        'city_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'state' => 'nullable',
         'city' => 'nullable',
         'one_way' => 'nullable',
@@ -1003,6 +1003,10 @@ public function taxibooking(Request $request)
     }
 
     if ($tourType == 3) {
+        $cityImagePath = null;
+        if ($request->hasFile('city_image')) {
+            $cityImagePath = $request->file('city_image')->store('city_images', 'public');
+        }
         $data = [
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -1013,7 +1017,7 @@ public function taxibooking(Request $request)
             'round_start_location' => $request->round_start_location,
             'round_end_location' => $request->round_end_location,
             'tour_type' => $request->tour_type,
-            
+            'city_image' => $cityImagePath,
         ];
     }
 

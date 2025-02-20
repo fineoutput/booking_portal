@@ -16,7 +16,7 @@ class TaxiBooking extends Model
         'tour_type',
         'id',
         'cost',
-        'image',
+        'city_image',
         'state',
         'city',
         'one_way',
