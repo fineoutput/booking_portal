@@ -1019,7 +1019,9 @@ public function taxibooking(Request $request)
     return response()->json([
         'message' => 'Taxi booking created successfully',
         'data' => $taxiBooking,
-    ], 201);
+        'status' => 200,
+    ], 
+    201);
 }
 
 
