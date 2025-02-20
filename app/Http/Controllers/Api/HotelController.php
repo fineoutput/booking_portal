@@ -1004,8 +1004,10 @@ public function taxibooking(Request $request)
             'location' => $request->location,
             'vehicle_id' => $request->vehicle_id,
             'user_id' => Auth::id(),
-            'one_way' => $request->one_way,
-            'description' => $request->description,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            // 'one_way' => $request->one_way,
+            // 'description' => $request->description,
             'tour_type' => 'Local Tour',
         ];
     }
