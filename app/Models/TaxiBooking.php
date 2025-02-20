@@ -24,6 +24,7 @@ class TaxiBooking extends Model
         'trip',
         'start_date',
         'end_date',
+        'end_time',
         'start_time',
         'pickup_address',
         'one_way_location',
