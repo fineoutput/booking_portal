@@ -964,7 +964,7 @@ public function taxibooking(Request $request)
         'end_date' => 'nullable',
         'start_time' => 'nullable',
         'pickup_address' => 'nullable',
-        'tour_type' => 'required',
+        'tour_type' => 'required|integer',
         'user_id' => 'nullable',
         'one_way_location' => 'nullable',
         'round_start_location' => 'nullable',
