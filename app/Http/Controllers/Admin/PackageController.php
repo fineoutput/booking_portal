@@ -18,27 +18,22 @@ class PackageController extends Controller
     }
 
     public function getCitiesByState(Request $request)
-{
-    // Get the array of selected state IDs
-    $stateIds = $request->input('state_ids', []);
-    
-    // If no state is selected, return empty cities
-    if (empty($stateIds)) {
-        return response()->json(['cities' => []]);
-    }
+    {
+        $stateIds = $request->input('state_ids', []);
+        
+        if (empty($stateIds)) {
+            return response()->json(['cities' => []]);
+        }
 
-    // Fetch cities for the selected states
-    $cities = City::whereIn('state_id', $stateIds)->get(['id', 'state_id', 'city_name']);
-    
-    // Group cities by state ID
-    $groupedCities = [];
-    foreach ($cities as $city) {
-        $groupedCities[$city->state_id][] = $city;
+        $cities = City::whereIn('state_id', $stateIds)->get(['id', 'state_id', 'city_name']);
+        
+        $groupedCities = [];
+        foreach ($cities as $city) {
+            $groupedCities[$city->state_id][] = $city;
+        }
+
+        return response()->json(['cities' => $groupedCities]);
     }
-    
-    // Return the cities grouped by state
-    return response()->json(['cities' => $groupedCities]);
-}
 
     function create(Request $request) {
         if($request->method()=='POST'){

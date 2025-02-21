@@ -12,6 +12,8 @@ use App\Models\State;
 use App\Models\HotelPrice;
 use App\Models\Hotels;
 use App\Models\HotelBooking;
+use App\Models\PackagePrice;
+use App\Models\PackageBookingTemp;
 use App\Models\City;
 use App\Models\Package;
 use App\Models\WildlifeSafari;
@@ -86,18 +88,54 @@ class HomeController extends Controller
         $data['user'] = Auth::guard('agent')->user();
         return view('front/taxi_booking',$data);
     }
+
+    // public function list($id)
+    // {
+    //     $id = base64_decode($id);
+    //     $data['hotel'] = Hotels::all();
+    //     $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
+    //     return view('front.list', $data);
+    // }
+
+
     public function list($id)
     {
         $id = base64_decode($id);
-        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
         
+        $city['city'] = City::where('id', $id)->first();
+    
+        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
+    
+        $formatted_date = Carbon::now()->format('Y-m'); // Get current date formatted as 'Y-m'
+    
+        foreach ($data['packages'] as $package) {
+            $package_price = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '<=', $formatted_date)
+                ->where('end_date', '>=', $formatted_date)
+                ->first();
+    
+            $package->prices = $package_price;
+    
+            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+            
+            $package->hotels = $hotels;
+        }
         return view('front.list', $data);
     }
+    
 
-    public function detail()
+
+
+    public function detail($id)
     {
-        return view('front/detail');
+        $id = base64_decode($id);
+
+        $data['packages'] = Package::where('id',$id)->first();
+
+        return view('front/detail',$data);
     }
+
+
     public function hotelsbooking()
     {
         $data['hotel'] = Hotels::all();
@@ -129,6 +167,141 @@ class HomeController extends Controller
 
         return redirect()->back()->with('message','Hotel Booking Created Succesfully');
     }
+
+
+    public function add_package_booking(Request $request, $id)
+    {
+        
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
+        
+        $night_count = $start_date->diffInDays($end_date); 
+
+        $formatted_date = Carbon::now()->format('Y-m');
+
+        $package_price = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '<=', $formatted_date)
+                ->where('end_date', '>=', $formatted_date)
+                ->first();
+
+        $wildlife = new PackageBookingTemp();
+        $wildlife->user_id = Auth::guard('agent')->id();
+        $wildlife->package_id = $id;
+        $wildlife->start_date = $start_date;
+        $wildlife->end_date = $end_date;
+        $wildlife->adults_count = $request->adults_count;
+        $wildlife->child_with_bed_count = $request->child_with_bed_count;
+        $wildlife->night_count = $night_count;  
+        $wildlife->child_no_bed_child_count = $request->child_no_bed_child_count;  
+        $wildlife->extra_bed = $request->extra_bed;  
+        $wildlife->meal = $request->meal;  
+        $wildlife->hotel_preference = $request->hotel_preference;  
+        $wildlife->vehicle_options = $request->vehicle_options;  
+        $wildlife->travelinsurance = $request->travelinsurance;  
+        $wildlife->specialremarks = $request->specialremarks;  
+        $wildlife->status = 0;
+
+        if($request->meal == 'only_room'){
+
+           $meal_cost = $package_price->meal_plan_only_room_cost;
+
+        }elseif($request->meal == 'breakfast'){
+
+            $meal_cost = $package_price->meal_plan_breakfast_cost;
+
+        }elseif($request->meal == 'breakfast_lunch'){
+
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+
+        }elseif($request->meal == 'breakfast_dinner'){
+
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+
+        }else{
+
+            $meal_cost = $package_price->meal_plan_all_meals_cost;
+        }
+
+
+        // hotel_preference
+
+        if($request->hotel_preference == 'standard'){
+
+           $hotel_preference_cost = $package_price->standard_cost;
+
+        }elseif($request->hotel_preference == 'deluxe'){
+
+            $hotel_preference_cost = $package_price->deluxe_cost;
+
+        }elseif($request->hotel_preference == 'super_deluxe'){
+
+            $hotel_preference_cost = $package_price->super_deluxe_cost;
+
+        }elseif($request->hotel_preference == 'luxury'){
+
+            $hotel_preference_cost = $package_price->luxury_cost;
+
+        }else{
+
+            $hotel_preference_cost = $package_price->premium_cost;
+        }
+
+        // vehicle_options
+
+        if($request->vehicle_options == 'hatchback_cost'){
+
+           $vehicle_options_cost = $package_price->hatchback_cost;
+
+        }elseif($request->vehicle_options == 'sedan_cost'){
+
+            $vehicle_options_cost = $package_price->sedan_cost;
+
+        }elseif($request->vehicle_options == 'economy_suv_cost'){
+
+            $vehicle_options_cost = $package_price->economy_suv_cost;
+
+        }elseif($request->vehicle_options == 'luxury_suv_cost'){
+
+            $vehicle_options_cost = $package_price->luxury_suv_cost;
+
+        }
+        elseif($request->vehicle_options == 'traveller_mini_cost'){
+
+            $vehicle_options_cost = $package_price->traveller_mini_cost;
+
+        }
+        elseif($request->vehicle_options == 'traveller_big_cost'){
+
+            $vehicle_options_cost = $package_price->traveller_big_cost;
+
+        }
+        elseif($request->vehicle_options == 'premium_traveller_cost'){
+
+            $vehicle_options_cost = $package_price->premium_traveller_cost;
+
+        }
+        else{
+
+            $vehicle_options_cost = $package_price->ac_coach_cost;
+        }
+
+        $total_night_cost = $package_price->nights_cost *  $night_count;
+        $adults_cost = $package_price->adults_cost *  $request->adults_count;
+        $child_with_bed_cost = $package_price->child_with_bed_cost *  $request->child_with_bed_count;
+        $child_no_bed_child_cost = $package_price->child_no_bed_child_cost *  $request->child_no_bed_child_count;
+        $total_meal_cost = $meal_cost;
+        $total_hotel_preference_cost = $hotel_preference_cost;
+        $total_vehicle_options_cost = $vehicle_options_cost;
+
+        $finaltotal = $total_night_cost +  $adults_cost + $child_with_bed_cost + $child_no_bed_child_cost + $total_meal_cost + $total_hotel_preference_cost + $total_vehicle_options_cost; 
+
+        $wildlife->total_cost = $finaltotal;
+          return $finaltotal;
+        $wildlife->save();
+    
+        return redirect()->back()->with('message', 'Package Booking Created Successfully');
+    }
+    
 
 
 

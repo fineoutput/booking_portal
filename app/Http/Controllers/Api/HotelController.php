@@ -1350,12 +1350,12 @@ $packageBooking->makeHidden('updated_at','created_at');
 //         $total_premium_traveller_cost = $package_price->premium_traveller_cost * $request->premium_traveller_count;
 //         $total_ac_coach_cost = $package_price->ac_coach_cost * $request->ac_coach_count;
 
-//         $total_cost = $total_standard_cost + $total_premium_cost + $total_deluxe_cost + $total_super_deluxe_cost +
-//             $total_luxury_cost + $total_nights_cost + $total_adults_cost + $total_child_with_bed_cost +
-//             $total_child_no_bed_infant_cost + $total_child_no_bed_child_cost + $total_meal_plan_only_room_cost +
-//             $total_meal_plan_breakfast_cost + $total_meal_plan_breakfast_lunch_dinner_cost + $total_meal_plan_all_meals_cost +
-//             $total_hatchback_cost + $total_sedan_cost + $total_economy_suv_cost + $total_luxury_suv_cost +
-//             $total_traveller_mini_cost + $total_traveller_big_cost + $total_premium_traveller_cost + $total_ac_coach_cost;
+        // $total_cost = $total_standard_cost + $total_premium_cost + $total_deluxe_cost + $total_super_deluxe_cost +
+        //     $total_luxury_cost + $total_nights_cost + $total_adults_cost + $total_child_with_bed_cost +
+        //     $total_child_no_bed_infant_cost + $total_child_no_bed_child_cost + $total_meal_plan_only_room_cost +
+        //     $total_meal_plan_breakfast_cost + $total_meal_plan_breakfast_lunch_dinner_cost + $total_meal_plan_all_meals_cost +
+        //     $total_hatchback_cost + $total_sedan_cost + $total_economy_suv_cost + $total_luxury_suv_cost +
+        //     $total_traveller_mini_cost + $total_traveller_big_cost + $total_premium_traveller_cost + $total_ac_coach_cost;
 
 //         $packageBooking->total_cost = $total_cost;
 //     }

@@ -114,7 +114,17 @@
             <div class="plan_outer w-100">
               <div class="outer_plan_upper">
                 <div class="outer_plan_img">
-                  <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="European Marvels">
+                  @php
+                  // Assuming 'image' contains a JSON array of images
+                  $images = json_decode($value->image); // Decode the JSON to an array
+              @endphp
+  
+              @if($images && is_array($images) && count($images) > 0)
+                  <!-- Display the first image on top -->
+                  <img src="{{ asset($images[0]) }}" alt="">
+              @else
+                  <p>No image available.</p>
+              @endif
                 </div>
                 <div class="inner_outer_txt">
                   
@@ -139,7 +149,10 @@
                 
                 <div class="destination">
                   <p style="margin: 0;">{{$value->package_name ?? ''}}</p>
-                  <span>Vrindavan launge and hotels</span>
+                  
+                  @foreach($value->hotels as $hotel)
+                    <span>{{ $hotel->name }}</span>,
+                  @endforeach
                 </div>
                 
               </div>
@@ -152,14 +165,28 @@
                   <div class="destination skit">
                     <div class="manags">
                       <p>Starts from
-                        <b style="color: #000;">₹4,20,000</b>
+                        <b style="color: #000;">
+                          @if($value->prices)
+                          @php
+                            $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
+            $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
+            $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
+            $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
+            $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
+            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost; 
+                          @endphp
+                          <p>Price: ₹{{ number_format($total, 2) }}</p>
+                      @else
+                          <p>No price available for this package.</p>
+                      @endif
+                        </b>
                       </p>
                       <span style="font-size: 10px;">per person on twin sharing</span>
                     </div>
                   </div>
                 </div>
                 <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                  <a class="_btn" href="{{route('detail',['id' => base64_encode($value->id)])}}">Book Now</a>
                 </div>
                 
               </div>
