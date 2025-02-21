@@ -194,9 +194,9 @@
                             <div class="outer_box">
                                 <div class="inner_box">
                                     <div class="inner_price">
-                                        <span style="color: rgb(106, 106, 106);"><del>₹1,980</del></span>
-                                        <span id="dynamic-price">₹1,782</span> <!-- Dynamically updated price -->
-                                        <span>per night</span>
+                                        <span style="color: rgb(106, 106, 106);"><del></del></span>
+                                        <span id="dynamic-price">₹</span> <!-- Dynamically updated price -->
+                                        <span></span>
                                     </div>
                                     
 
@@ -222,34 +222,36 @@
                                                     <div class="guest-option_hotels">
                                                         <label>Adults</label>
                                                         <div class="counter_hotels">
-                                                            <button type="button" onclick="updateGuests('adults', -1)">-</button>
-                                                            <input type="number" id="adults-count" value="1" min="1" onchange="updateGuestCount()">
-                                                            <button type="button" onclick="updateGuests('adults', 1)">+</button>
+                                                            <button type="button" onclick="updateGuestss('adults', -1)">-</button>
+                                                            <input type="number" id="adults-count" value="1" min="1" onchange="updateGuestCounts()">
+                                                            <button type="button" onclick="updateGuestss('adults', 1)">+</button>
                                                         </div>
                                                     </div>
                                                     <div class="guest-option_hotels">
                                                         <label>Children</label>
                                                         <div class="counter_hotels">
-                                                            <button type="button" onclick="updateGuests('children', -1)">-</button>
-                                                            <input type="number" id="children-count" value="0" min="0" onchange="updateGuestCount()">
-                                                            <button type="button" onclick="updateGuests('children', 1)">+</button>
+                                                            <button type="button" onclick="updateGuestss('children', -1)">-</button>
+                                                            <input type="number" id="children-count" value="0" min="0" onchange="updateGuestCounts()">
+                                                            <button type="button" onclick="updateGuestss('children', 1)">+</button>
                                                         </div>
                                                     </div>
                                                     <div class="guest-option_hotels">
                                                         <label>Infants</label>
                                                         <div class="counter_hotels">
-                                                            <button type="button" onclick="updateGuests('infants', -1)">-</button>
-                                                            <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestCount()">
-                                                            <button type="button" onclick="updateGuests('infants', 1)">+</button>
+                                                            <button type="button" onclick="updateGuestss('infants', -1)">-</button>
+                                                            <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestCounts()">
+                                                            <button type="button" onclick="updateGuestss('infants', 1)">+</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     
-                                        <!-- Hidden inputs -->
-                                        <input type="" name="night_count" id="night_count">
-                                        <input type="" name="guest_count" id="guest_count">
+                                        {{-- {{$hotel_price}} --}}
+                                        <input type="hidden" name="night_count" id="night_count">
+                                        <input type="hidden" name="total_cost" id="total-cost-input">
+
+                                        <input type="hidden" name="guest_count" id="guest_count">
                                     </div>
                                     
 
@@ -275,9 +277,9 @@
 
 <script>
    // Assuming this is sent via PHP:
-const hotelPriceStartDate = "{{ $hotel_price->start_date }}"; // Example: 2025-03
-const hotelPriceEndDate = "{{ $hotel_price->end_date }}"; // Example: 2025-03
-const nightCost = {{ $hotel_price->night_cost }}; // Example: 1782
+const hotelPriceStartDate = "{{ $hotel_price->start_date ?? '' }}";
+const hotelPriceEndDate = "{{ $hotel_price->end_date ?? '' }}";
+const nightCost = {{ $hotel_price->night_cost ?? '' }};
 
 function updateNightCount() {
     const checkInDate = document.getElementById('check_in_date').value;
@@ -299,7 +301,6 @@ function updateNightCount() {
         }
     }
 }
-
 function updatePrice(nightCount, checkInDate, checkOutDate) {
     // Extract month and year from check-in and check-out dates
     const checkInMonth = new Date(checkInDate).getMonth() + 1; // Get month (1-12)
@@ -320,14 +321,21 @@ function updatePrice(nightCount, checkInDate, checkOutDate) {
         // Calculate total price
         const totalPrice = nightCost * nightCount;
         
-        // Update the price dynamically in the HTML
+        // Update the price dynamically in the HTML (for display purposes)
         document.getElementById('dynamic-price').innerText = '₹' + totalPrice;
+
+        // Set the hidden total cost input value
+        document.getElementById('total-cost-input').value = totalPrice; // This is the correct hidden input
     } else {
         document.getElementById('dynamic-price').innerText = 'Price not available for selected dates';
+
+        // Set the hidden total cost input to null or a message
+        document.getElementById('total-cost-input').value = null;
     }
 }
 
-function updateGuests(type, delta) {
+
+function updateGuestss(type, delta) {
     const countElement = document.getElementById(type + '-count');
     let count = parseInt(countElement.value);
     count += delta;
@@ -335,24 +343,25 @@ function updateGuests(type, delta) {
     // Ensure the count doesn't go below 0 for children or infants
     if (count >= 0) {
         countElement.value = count;
-        updateGuestCount();
+        updateGuestCounts();
     }
 }
 
-function updateGuestCount() {
+function updateGuestCounts() {
+    console.log("Update guest count triggered");
     const adultsCount = parseInt(document.getElementById('adults-count').value) || 0;
     const childrenCount = parseInt(document.getElementById('children-count').value) || 0;
     const infantsCount = parseInt(document.getElementById('infants-count').value) || 0;
 
     const totalGuests = adultsCount + childrenCount + infantsCount;
+    console.log("Total Guests: ", totalGuests); // Debugging line
 
     document.getElementById('guests-value').innerText = totalGuests + (totalGuests === 1 ? ' guest' : ' guests');
-    
-    // Update hidden guest count input
     document.getElementById('guest_count').value = totalGuests;
 }
 
-}
+
+
 
 </script>
 

@@ -11,6 +11,7 @@ use App\Models\Agent;
 use App\Models\State;
 use App\Models\HotelPrice;
 use App\Models\Hotels;
+use App\Models\HotelBooking;
 use App\Models\City;
 use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
@@ -104,20 +105,19 @@ class HomeController extends Controller
 
     public function add_hotel_booking(Request $request,$id)
     {
-        return $request;
-        $wildlife = new Hotels();
+        // return $request;
+        $wildlife = new HotelBooking();
         $wildlife->user_id = Auth::guard('agent')->id();
         $wildlife->hotel_id = $id;
         $wildlife->check_in_date = $request->check_in_date;
         $wildlife->check_out_date = $request->check_out_date;
         $wildlife->no_occupants = $request->guest_count;
         $wildlife->night_count = $request->night_count;
-        $wildlife->cost = $request->total_price;
+        $wildlife->cost = $request->total_cost;
         $wildlife->status = 0;
-
         $wildlife->save();
 
-        return redirect()->back()->with('message','Booking Created Succesfully');
+        return redirect()->back()->with('message','Hotel Booking Created Succesfully');
     }
 
 

@@ -16,6 +16,7 @@ class Hotels extends Model
         'state_id',
         'city_id',
         'location',
+        'location',
         'hotel_category',
         'package_id',
     ];
