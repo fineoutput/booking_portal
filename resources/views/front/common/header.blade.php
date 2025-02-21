@@ -153,7 +153,7 @@
           <a class="nav-link dropdown-toggle" href="#" id="megaMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Package Booking
           </a>
-          <div class="dropdown-menu mega-menu-content" aria-labelledby="megaMenu" style="width: 500px;">
+          <div class="dropdown-menu mega-menu-content" aria-labelledby="megaMenu" style="width: 750px;">
             <div class="row">
               <!-- Column 1 -->
               <div class="col-md-4">
