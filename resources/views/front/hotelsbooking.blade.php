@@ -125,7 +125,7 @@
                   <div class="splide__track">
                       <ul class="splide__list">
                           @php
-                              $images = json_decode($value->image); 
+                              $images = json_decode($value->images); 
                           @endphp
       
                           @if($images && is_array($images))  
