@@ -494,6 +494,7 @@ class SafariController extends Controller
 
     $query = City::query();
 
+    if($request->has('type') == 'hotel'){
     if ($request->has('state_id')) {
         // Filter cities by state_id
         $query->where('state_id', $request->state_id);
@@ -508,10 +509,8 @@ class SafariController extends Controller
         $query->where('id', $request->city_id);
     }
 
-    // Get the filtered cities with related state data
     $cities = $query->with('state')->get();
 
-    // Prepare the response data based on whether state_id is passed
     if ($request->has('state_id')) {
         $cityData = $cities->map(function ($city) {
             return [
@@ -531,6 +530,36 @@ class SafariController extends Controller
             ];
         });
     }
+}else{
+    if ($request->has('state_id')) {
+                $query->where('state_id', $request->state_id);
+            }
+    
+            if ($request->has('city_id')) {
+                $query->where('id', $request->city_id);
+            }
+    
+            $cities = $query->with('state')->get();
+    
+            if ($request->has('state_id')) {
+                $cityData = $cities->map(function ($city) {
+                    return [
+                        'id' => $city->id,
+                        'city_name' => $city->city_name,
+                        'state_id' => $city->state_id,
+                        'state_name' => $city->state->state_name, 
+                    ];
+                });
+            } else {
+                $states = State::all(); 
+                $cityData = $states->map(function ($state) {
+                    return [
+                        'id' => $state->id,
+                        'state_name' => $state->state_name,
+                    ];
+                });
+            }
+}
 
     return response()->json([
         'message' => 'Cities filtered successfully.',
