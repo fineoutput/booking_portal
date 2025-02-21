@@ -13,6 +13,7 @@ use App\Models\HotelPrice;
 use App\Models\Hotels;
 use App\Models\HotelBooking;
 use App\Models\City;
+use App\Models\Package;
 use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
 use Carbon\Carbon;
@@ -30,6 +31,7 @@ class HomeController extends Controller
     public function index(Request $req)
     {
      
+        // $data['states'] = State::with('cities')->get();
         return view('front/index')->withTitle('home');
     }
 
@@ -80,10 +82,14 @@ class HomeController extends Controller
         $data['user'] = Auth::guard('agent')->user();
         return view('front/taxi_booking',$data);
     }
-    public function list()
+    public function list($id)
     {
-        return view('front/list');
+        $id = base64_decode($id);
+        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
+        
+        return view('front.list', $data);
     }
+
     public function detail()
     {
         return view('front/detail');

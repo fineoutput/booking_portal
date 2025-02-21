@@ -107,231 +107,71 @@
       <!-- <div class="col-lg-1"></div> -->
       <div class="col-lg-9 col-sm-12 col-md-12">
         <div class="row">
-          <div class="col-lg-6">
-          <div class="plan_outer w-100">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-                <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
-                
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jaipur </h6>
-                </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
-            </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center justify-content-center">
-                <div class="night_ski skit">
-                  
-                  <span><a href="#"></a></span>
-                </div>
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
-                  </div>
-                </div>
-              </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
-              </div>
-              
-            </div>
-          </div>
-          </div>
+
+          @if($packages)
+          @foreach ($packages as $key => $value)
           <div class="col-lg-6">
             <div class="plan_outer w-100">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-                <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJodhpur_1.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
-                
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jodhpur </h6>
+              <div class="outer_plan_upper">
+                <div class="outer_plan_img">
+                  <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="European Marvels">
                 </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
-            </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center justify-content-center">
-                <div class="night_ski skit">
+                <div class="inner_outer_txt">
                   
-                  <span><a href="#"></a></span>
-                </div>
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
+                  <div class="outer_type_price">
+                    <h6 class="type_xtxt"> {{$value->cities->city_name ?? ''}} </h6>
+                  </div>
+                  <div class="plan_type_date">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <p style="margin: 0;">2 reviews</p>
+                  </div>
+                  <div class="inclusive">
+                    <i class="fa-solid fa-infinity"></i>
+                    <p class="m-0">All Inclusive</p>
                   </div>
                 </div>
               </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
-              </div>
-              
-            </div>
-          </div>
-          </div>
-        </div>
-        <hr>
-        <hr>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="plan_outer w-100">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-                <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FDelhi.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
+              <div class="">
                 
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Delhi </h6>
+                <div class="destination">
+                  <p style="margin: 0;">{{$value->package_name ?? ''}}</p>
+                  <span>Vrindavan launge and hotels</span>
                 </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
+                
               </div>
-            </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
-            </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center justify-content-center">
-                <div class="night_ski skit">
-                  
-                  <span><a href="#"></a></span>
-                </div>
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
+              <div class="options_tav night">
+                <div class="outer_car_txt justify-content-center justify-content-center">
+                  <div class="night_ski skit">
+                    
+                    <span><a href="#"></a></span>
+                  </div>
+                  <div class="destination skit">
+                    <div class="manags">
+                      <p>Starts from
+                        <b style="color: #000;">₹4,20,000</b>
+                      </p>
+                      <span style="font-size: 10px;">per person on twin sharing</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
-              </div>
-              
-            </div>
-          </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="plan_outer w-100">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FUdaipur_1.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
+                <div class="options_btns d-flex justify-content-center">
+                  <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                </div>
                 
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> udaipur </h6>
-                </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
               </div>
             </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
             </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center justify-content-center">
-                <div class="night_ski skit">
-                  
-                  <span><a href="#"></a></span>
-                </div>
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
-                  </div>
-                </div>
-              </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
-              </div>
-              
+          @endforeach
+          @else
+            <div class="col-lg-6">
+              <h1>No Package Found</h1>
             </div>
-          </div>
-          </div>
-        </div>
+          @endif
+
       </div>
     </div>
   </div>

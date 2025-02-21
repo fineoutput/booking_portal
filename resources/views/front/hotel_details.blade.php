@@ -50,7 +50,8 @@
                             <p>No additional images available.</p>
                         @endif
                     </div>
-                    
+
+          
                     
                     {{-- <div class="row">
                         @if($images && is_array($images) && count($images) > 2)

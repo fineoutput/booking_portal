@@ -154,94 +154,31 @@
             Package Booking
           </a>
           <div class="dropdown-menu mega-menu-content" aria-labelledby="megaMenu" style="width: 500px;">
+
             <div class="row">
-              <!-- Column 1 -->
-              <div class="col-md-4">
+
+              {{-- <div class="col-md-4">
                 <h6>Rajasthan</h6>
                 <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Jaipur</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Udaipur</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Chittod</a></li>
+                  <li><a class="dropdown-item" href="">Jaipur</a></li>
+                  <li><a class="dropdown-item" href="">Udaipur</a></li>
+                  <li><a class="dropdown-item" href="">Chittod</a></li>
                 </ul>
-              </div>
-              <!-- Column 2 -->
-              <div class="col-md-4">
-                <h6>Himachal</h6>
-                <ul class="list-unstyled" style="overflow-y: auto; height: 200px;">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Manali</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Rohtang</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Sisu</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Manali</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Rohtang</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Sisu</a></li>
-                </ul>
-              </div>
-              <!-- Column 3 -->
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
+              </div> --}}
+
+              @foreach($states as $state)
+        <div class="col-md-4">
+            <h6>{{ $state->state_name }}</h6>
+            <ul class="list-unstyled">
+                @foreach($state->cities as $city)
+                    <li><a class="dropdown-item" href="{{ route('list', ['city_id' => base64_encode($city->id)]) }}">{{ $city->city_name }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+    @endforeach
+
             </div>
+
           </div>
           <div class="mega-menu-backdrop"></div>
         </li>
