@@ -54,6 +54,10 @@ class HomeController extends Controller
     {
         return view('front/confirmation');
     }
+    public function all_images()
+    {
+        return view('front/all_images');
+    }
 
     // public function user_profile()
     // {

@@ -2148,3 +2148,9 @@ textarea.form-control {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.maze_trace img {
+  height: 274px;
+  object-fit: cover;
+  border-radius: 20px;
+}
