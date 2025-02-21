@@ -1018,6 +1018,7 @@ public function taxibooking(Request $request)
             'round_end_location' => $request->round_end_location,
             'tour_type' => $request->tour_type,
             'city_image' => $cityImagePath,
+            'start_time' => $request->start_time ?? null,
         ];
     }
 
