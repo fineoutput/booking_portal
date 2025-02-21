@@ -115,8 +115,45 @@
 
   <section class="_hotels_filters">
   <div class="container">
-    <div class="row" id="hotel-cards-container">
+    <div class="row" >
       
+      @foreach ($hotel as $key => $value)     
+      <div class="col-lg-3 mt-3 mb-4">
+          <div class="alocate_hotel">
+              <!-- Splide Slider -->
+              <div class="splide alocate_slider">
+                  <div class="splide__track">
+                      <ul class="splide__list">
+                          @php
+                              $images = json_decode($value->image); 
+                          @endphp
+      
+                          @if($images && is_array($images))  
+                              @foreach($images as $image)
+                                  <li class="splide__slide new_lave">
+                                      <img src="{{ asset($image) }}" alt="Image">
+                                  </li>
+                              @endforeach
+                          @else
+                              <p>No images available.</p>
+                          @endif
+                      </ul>
+                  </div>
+              </div>
+              <a href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
+                  <div class="alocate_title_data">
+                      <div class="ttiel_head">
+                        <h4 class="path key">{{ $value->name ?? '' }}</h4>
+                          <h4 class="size">{{ $value->hotel_category	 ?? '' }}</h4>
+                          <h4 class="key">{{ $value->location ?? '' }}</h4>
+                          {{-- <h4 class="seeve size">₹{{ $value->cost ?? '0' }}</h4> --}}
+                      </div>
+                  </div>
+              </a>
+          </div>
+      </div>
+      @endforeach
+
     </div>
     <hr>
     
@@ -136,7 +173,7 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+
     },
     {
       images: [
@@ -148,7 +185,7 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+
     },
     {
       images: [
@@ -160,7 +197,7 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+
     },
     {
       images: [
@@ -172,7 +209,7 @@
       subtitle: "Mountain Views",
       date: "13-18 Feb",
       price: "₹18,806 night",
-      route: "{{ route('hotel_details') }}"
+
     }
     
   ];

@@ -9,6 +9,8 @@ use App\Models\UnverifyUser;
 use App\Models\UserOtp;
 use App\Models\Agent;
 use App\Models\State;
+use App\Models\HotelPrice;
+use App\Models\Hotels;
 use App\Models\City;
 use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
@@ -19,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 use DateTime;
-
+use Ramsey\Console\Repl;
 
 class HomeController extends Controller
 {
@@ -56,11 +58,21 @@ class HomeController extends Controller
     //     return view('front/user_profile',$data);
     // }
 
+    // public function user_profile()
+    // {
+    //     $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
+    //     return view('front/user_profile', $data);
+    // }
+
     public function user_profile()
     {
-        $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
-        return view('front/user_profile', $data);
+        if (Auth::guard('agent')->check()) {
+            $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
+            return view('front/user_profile', $data);
+        }
+        return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
     }
+
 
     public function taxi_booking()
     {
@@ -77,12 +89,40 @@ class HomeController extends Controller
     }
     public function hotelsbooking()
     {
-        return view('front/hotelsbooking');
+        $data['hotel'] = Hotels::all();
+        return view('front/hotelsbooking',$data);
     }
-    public function hotel_details()
+
+
+    public function hotel_details(Request $request, $id)
     {
-        return view('front/hotel_details');
+        $id = base64_decode($id);
+        $data['hotel'] = Hotels::where('id',$id)->first();
+        $data['hotel_price'] = HotelPrice::where('hotel_id',$id)->first();
+        return view('front/hotel_details',$data);
     }
+
+    public function add_hotel_booking(Request $request,$id)
+    {
+        return $request;
+        $wildlife = new Hotels();
+        $wildlife->user_id = Auth::guard('agent')->id();
+        $wildlife->hotel_id = $id;
+        $wildlife->check_in_date = $request->check_in_date;
+        $wildlife->check_out_date = $request->check_out_date;
+        $wildlife->no_occupants = $request->guest_count;
+        $wildlife->night_count = $request->night_count;
+        $wildlife->cost = $request->total_price;
+        $wildlife->status = 0;
+
+        $wildlife->save();
+
+        return redirect()->back()->with('message','Booking Created Succesfully');
+    }
+
+
+
+
     public function wildlife()
     {
         $data['wildlife'] = WildlifeSafari::all();

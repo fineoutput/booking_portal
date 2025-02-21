@@ -10,41 +10,55 @@
     <div class="comp-container">
         <div class="upper_site_dets">
             <div class="site_det_head">
-                <h4 class="raj_hotel">Raj Palace Hotel</h4>
+                <h4 class="raj_hotel">{{$hotel->name ?? ''}}</h4>
             </div>
         </div>
         <div class="air_maze">
             <div class="row">
                 <div class="col-lg-7 nive d-none d-lg-block">
                     <div class="mirror_maxe">
-                        <img src="{{ asset('frontend/images/hotel_main.avif') }}" alt="">
+                        @php
+                        // Assuming 'image' contains a JSON array of images
+                        $images = json_decode($hotel->image); // Decode the JSON to an array
+                    @endphp
+        
+                    @if($images && is_array($images) && count($images) > 0)
+                        <!-- Display the first image on top -->
+                        <img src="{{ asset($images[0]) }}" alt="">
+                    @else
+                        <p>No image available.</p>
+                    @endif
                     </div>
                 </div>
                 <div class="col-lg-5 d-none d-lg-block">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="side_masic">
-                                <img src="{{ asset('frontend/images/side_maze.avif') }}" alt="">
+                        @if($images && is_array($images) && count($images) > 1)
+                        <!-- Loop through the remaining images -->
+                        @foreach(array_slice($images, 1) as $image)
+                            <div class="col-lg-6">
+                                <div class="side_masic">
+                                    <img src="{{ asset($image) }}" alt="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="side_masic">
-                                <img src="{{ asset('frontend/images/sered.avif') }}" alt="">
-                            </div>
-                        </div>
+                        @endforeach
+                    @else
+                        <p>No additional images available.</p>
+                    @endif
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="side_masic">
-                                <img src="{{ asset('frontend/images/sdas.avif') }}" alt="">
+                        @if($images && is_array($images) && count($images) > 2)
+                        <!-- Loop through the remaining images (after the first two) -->
+                        @foreach(array_slice($images, 2) as $image)
+                            <div class="col-lg-6">
+                                <div class="side_masic">
+                                    <img src="{{ asset($image) }}" alt="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="side_masic">
-                                <img src="{{ asset('frontend/images/sadsd.avif') }}" alt="">
-                            </div>
-                        </div>
+                        @endforeach
+                    @else
+                        <p>No additional images available.</p>
+                    @endif
                     </div>
                 </div>
             </div>
@@ -52,9 +66,19 @@
             <div id="phlGlb" class="splide">
     <div class="splide__track d-lg-none">
         <ul class="splide__list">
-            <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
-            <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
-            <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
+                         @php
+                            $images = json_decode($hotel->image);
+                        @endphp
+
+                        @if($images && is_array($images))  
+                            @foreach($images as $image)
+                                <li class="splide__slide">
+                                    <img src="{{ asset($image) }}" alt="">
+                                </li>
+                            @endforeach
+                        @else
+                            <p>No images available.</p>
+                        @endif
         </ul>
     </div>
 </div>
@@ -65,21 +89,34 @@
                 <div class="col-lg-8">
                     <div class="sides_maxe">
                         <div class="aaeheads">
-                            <h4 class="hoses">Room in Udaipur, India
+                            <h4 class="hoses">{{$hotel->name ?? ''}},{{$hotel->cities->city_name ?? ''}}
                             </h4>
                             <span class="sabke">
                                 <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
     padding-left: 0 !important;
 ">
-                                    <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">2 bedrooms<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
+                <div class="nizam_abt mt-5">
+                    <h4 class="naxo">About this Hotel</h4>
+
+                    <div class="ho_bhe">
+                        <span>
+                            State :-  {{$hotel->state->state_name ?? ''}}
+                        </span>
+                        <span>· ·</span>
+                        <span>
+                            City :-  {{$hotel->cities->city_name ?? ''}}
+                        </span>
+                    </div>
+                </div>
+                                    {{-- <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">2 bedrooms<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
                                     <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>2 king beds<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
-                                    <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Private attached bathroom</li>
+                                    <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Private attached bathroom</li> --}}
                                 </ol>
                             </span>
                         </div>
                     </div>
 
-                    <div class="htt_facili">
+                    {{-- <div class="htt_facili">
                         <div class="sangeetam">
                             <h4 class="hoses">Amenities</h4>
                             <div class="final_kalyan">
@@ -126,7 +163,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="nizam_abt mt-5">
                         <h4 class="naxo">About this place</h4>
@@ -137,75 +174,87 @@
                             </span>
                         </div>
                     </div>
+                    <div class="nizam_abt mt-5">
+                        <h4 class="naxo">About this place</h4>
+
+                        <div class="ho_bhe">
+                            <span>
+                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
+                            </span>
+                        </div>
+                    </div>
                 </div>
+
+
                 <div class="col-lg-4">
+                    <form action="{{ route('add_hotel_booking',['id'=>$hotel->id]) }}" method="POST">
+                        @csrf
                     <div class="sharan_side_box">
                         <div class="stand_it">
                             <div class="outer_box">
                                 <div class="inner_box">
                                     <div class="inner_price">
                                         <span style="color: rgb(106, 106, 106);"><del>₹1,980</del></span>
-                                        <span>₹1,782
-                                        </span>
-                                        <span>night</span>
+                                        <span id="dynamic-price">₹1,782</span> <!-- Dynamically updated price -->
+                                        <span>per night</span>
                                     </div>
+                                    
+
                                     <div class="checks">
                                         <div class="bors">
                                             <div class="caranke">
-
                                                 <label for="">Check In</label>
-                                                <input type="date" class="filter-value_hotels" placeholder="Check In">
+                                                <input name="check_in_date" id="check_in_date" type="date" class="filter-value_hotels" placeholder="Check In" onchange="updateNightCount()">
                                             </div>
-
                                             <div class="caranke">
-
                                                 <label for="">Check Out</label>
-                                                <input type="date" class="filter-value_hotels" placeholder="Check out">
+                                                <input name="check_out_date" id="check_out_date" type="date" class="filter-value_hotels" placeholder="Check out" onchange="updateNightCount()">
                                             </div>
-
                                         </div>
                                         <div class="rivvsa">
-
                                             <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
                                                 <div class="filter-label_hotels">Guests</div>
                                                 <div class="arrow">
                                                     <div class="filter-value_hotels" id="guests-value">1 guest</div>
-          <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
+                                                    <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
                                                 </div>
                                                 <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
                                                     <div class="guest-option_hotels">
                                                         <label>Adults</label>
                                                         <div class="counter_hotels">
-                                                            <button onclick="updateGuests('adults', -1)">-</button>
-                                                            <input type="number" id="adults-count" value="1" min="1">
-                                                            <button onclick="updateGuests('adults', 1)">+</button>
+                                                            <button type="button" onclick="updateGuests('adults', -1)">-</button>
+                                                            <input type="number" id="adults-count" value="1" min="1" onchange="updateGuestCount()">
+                                                            <button type="button" onclick="updateGuests('adults', 1)">+</button>
                                                         </div>
                                                     </div>
                                                     <div class="guest-option_hotels">
                                                         <label>Children</label>
                                                         <div class="counter_hotels">
-                                                            <button onclick="updateGuests('children', -1)">-</button>
-                                                            <input type="number" id="children-count" value="1" min="1">
-                                                            <button onclick="updateGuests('children', 1)">+</button>
+                                                            <button type="button" onclick="updateGuests('children', -1)">-</button>
+                                                            <input type="number" id="children-count" value="0" min="0" onchange="updateGuestCount()">
+                                                            <button type="button" onclick="updateGuests('children', 1)">+</button>
                                                         </div>
                                                     </div>
                                                     <div class="guest-option_hotels">
                                                         <label>Infants</label>
                                                         <div class="counter_hotels">
-                                                            <button onclick="updateGuests('infants', -1)">-</button>
-                                                            <input type="number" id="infants-count" value="1" min="1">
-                                                            <button onclick="updateGuests('infants', 1)">+</button>
+                                                            <button type="button" onclick="updateGuests('infants', -1)">-</button>
+                                                            <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestCount()">
+                                                            <button type="button" onclick="updateGuests('infants', 1)">+</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
-
-                                        
+                                    
+                                        <!-- Hidden inputs -->
+                                        <input type="" name="night_count" id="night_count">
+                                        <input type="" name="guest_count" id="guest_count">
                                     </div>
+                                    
+
                                     <div class="live_set mt-3">
-                                            <button class="btn btn-info gggsd"> 
+                                            <button type="submit" class="btn btn-info gggsd"> 
                                                 Reserve
                                             </button>
                                         </div>
@@ -213,11 +262,99 @@
                             </div>
                         </div>
                     </div>
+                </form>
                 </div>
+
+
+
             </div>
         </div>
     </div>
 </section>
+
+
+<script>
+   // Assuming this is sent via PHP:
+const hotelPriceStartDate = "{{ $hotel_price->start_date }}"; // Example: 2025-03
+const hotelPriceEndDate = "{{ $hotel_price->end_date }}"; // Example: 2025-03
+const nightCost = {{ $hotel_price->night_cost }}; // Example: 1782
+
+function updateNightCount() {
+    const checkInDate = document.getElementById('check_in_date').value;
+    const checkOutDate = document.getElementById('check_out_date').value;
+    
+    if (checkInDate && checkOutDate) {
+        const checkIn = new Date(checkInDate);
+        const checkOut = new Date(checkOutDate);
+
+        // Calculate the number of nights
+        const timeDiff = checkOut - checkIn;
+        const nightCount = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
+
+        if (nightCount > 0) {
+            document.getElementById('night_count').value = nightCount;
+            updatePrice(nightCount, checkInDate, checkOutDate);
+        } else {
+            alert("Check-out date must be later than check-in date.");
+        }
+    }
+}
+
+function updatePrice(nightCount, checkInDate, checkOutDate) {
+    // Extract month and year from check-in and check-out dates
+    const checkInMonth = new Date(checkInDate).getMonth() + 1; // Get month (1-12)
+    const checkInYear = new Date(checkInDate).getFullYear(); // Get year
+
+    // Extract month and year from hotel price availability
+    const hotelPriceStartMonth = new Date(hotelPriceStartDate).getMonth() + 1;
+    const hotelPriceStartYear = new Date(hotelPriceStartDate).getFullYear();
+
+    const hotelPriceEndMonth = new Date(hotelPriceEndDate).getMonth() + 1;
+    const hotelPriceEndYear = new Date(hotelPriceEndDate).getFullYear();
+
+    // Check if the selected date range is within the available range
+    if (
+        (checkInYear > hotelPriceStartYear || (checkInYear === hotelPriceStartYear && checkInMonth >= hotelPriceStartMonth)) &&
+        (checkInYear < hotelPriceEndYear || (checkInYear === hotelPriceEndYear && checkInMonth <= hotelPriceEndMonth))
+    ) {
+        // Calculate total price
+        const totalPrice = nightCost * nightCount;
+        
+        // Update the price dynamically in the HTML
+        document.getElementById('dynamic-price').innerText = '₹' + totalPrice;
+    } else {
+        document.getElementById('dynamic-price').innerText = 'Price not available for selected dates';
+    }
+}
+
+function updateGuests(type, delta) {
+    const countElement = document.getElementById(type + '-count');
+    let count = parseInt(countElement.value);
+    count += delta;
+
+    // Ensure the count doesn't go below 0 for children or infants
+    if (count >= 0) {
+        countElement.value = count;
+        updateGuestCount();
+    }
+}
+
+function updateGuestCount() {
+    const adultsCount = parseInt(document.getElementById('adults-count').value) || 0;
+    const childrenCount = parseInt(document.getElementById('children-count').value) || 0;
+    const infantsCount = parseInt(document.getElementById('infants-count').value) || 0;
+
+    const totalGuests = adultsCount + childrenCount + infantsCount;
+
+    document.getElementById('guests-value').innerText = totalGuests + (totalGuests === 1 ? ' guest' : ' guests');
+    
+    // Update hidden guest count input
+    document.getElementById('guest_count').value = totalGuests;
+}
+
+}
+
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

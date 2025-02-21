@@ -79,8 +79,7 @@
                                             <input type="file" class="form-control-file" id="city_image" name="city_image" accept="image/*">
                                             @if ($route->city_image)
                                                 <div style="margin-top: 10px;">
-                                                    <img src="{{ asset('storage/' . $route->city_image) }}" alt="Current City Image" style="max-width: 100px; max-height: 100px;">
-                                                    <p><small>Current Image: {{ $route->city_image }}</small></p>
+                                                    <img src="{{ asset($route->city_image) }}" alt="Current City Image" style="max-width: 100px; max-height: 100px;">
                                                 </div>
                                             @endif
                                         </div>

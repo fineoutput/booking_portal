@@ -67,7 +67,7 @@
                         <td>{{ $hotel->to_destination ?? '' }}</td>
                         <td>
                           @if ($hotel->city_image)
-                            <img src="{{ asset('storage/' . $hotel->city_image) }}" alt="City Image" style="max-width: 100px; max-height: 100px;">
+                            <img src="{{ asset($hotel->city_image) }}" alt="City Image" style="max-width: 100px; max-height: 100px;">
                           @else
                             No Image
                           @endif

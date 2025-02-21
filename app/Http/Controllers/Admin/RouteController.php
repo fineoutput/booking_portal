@@ -40,9 +40,28 @@ class RouteController extends Controller
             $hotel->to_destination  = $request->to_destination;
 
             if ($request->hasFile('city_image')) {
-                $imagePath = $request->file('city_image')->store('city_images', 'public');
-                $hotel->city_image = $imagePath;
+                // Get the uploaded file
+                $file = $request->file('city_image');
+            
+                // Define the destination path (public/uploads/city_images)
+                $destinationPath = public_path('uploads/city_images');
+            
+                // Ensure the directory exists, if not, create it
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);  // Create directory if it doesn't exist
+                }
+            
+                // Get the original filename
+                $fileName = time() . '_' . $file->getClientOriginalName();
+            
+                // Move the file to the destination directory
+                $file->move($destinationPath, $fileName);
+            
+                // Save the file path in the database (relative to public)
+                $hotel->city_image = 'uploads/city_images/' . $fileName;
             }
+            
+            
             $hotel->save();
 
             return redirect()->route('route')->with('success', 'Route added successfully.');
@@ -103,13 +122,32 @@ public function update(Request $request, $id)
 
     if ($request->hasFile('city_image')) {
         // Delete old image if it exists
-        if ($hotel->city_image && Storage::disk('public')->exists($hotel->city_image)) {
-            Storage::disk('public')->delete($hotel->city_image);
+        if ($hotel->city_image && file_exists(public_path($hotel->city_image))) {
+            unlink(public_path($hotel->city_image));  // Delete old image manually
         }
-        $imagePath = $request->file('city_image')->store('city_images', 'public');
-        $hotel->city_image = $imagePath;
+    
+        // Get the uploaded file
+        $file = $request->file('city_image');
+    
+        // Define the destination path (public/uploads/city_images)
+        $destinationPath = public_path('uploads/city_images');
+    
+        // Ensure the directory exists, if not, create it
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);  // Create directory if it doesn't exist
+        }
+    
+        // Get the original filename
+        $fileName = time() . '_' . $file->getClientOriginalName();
+    
+        // Move the file to the destination directory
+        $file->move($destinationPath, $fileName);
+    
+        // Update the hotel model with the new image path (relative to public)
+        $hotel->city_image = 'uploads/city_images/' . $fileName;
     }
-
+    
+    
     $hotel->save();
 
     // Redirect with a success message
