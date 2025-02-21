@@ -68,7 +68,7 @@
                         <td>{{ $key+1 }}</td>
                         <td>{{ $hotel->user->name ?? '' }}</td>
                         <td>{{ $hotel->hotel->name ?? '' }}</td>
-                        <td>{{ $hotel->city_id ?? '' }}</td>
+                        <td>{{ $hotel->hotel->cities->city_name ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($hotel->check_in_date)->format('d F Y') ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($hotel->check_out_date)->format('d F Y') ?? '' }}</td>
                         <td>{{ $hotel->no_occupants ?? '' }}</td>

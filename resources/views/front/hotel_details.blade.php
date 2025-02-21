@@ -19,7 +19,7 @@
                     <div class="mirror_maxe">
                         @php
                         // Assuming 'image' contains a JSON array of images
-                        $images = json_decode($hotel->image); // Decode the JSON to an array
+                        $images = json_decode($hotel->images); // Decode the JSON to an array
                     @endphp
         
                     @if($images && is_array($images) && count($images) > 0)
@@ -33,20 +33,26 @@
                 <div class="col-lg-5 d-none d-lg-block">
                     <div class="row">
                         @if($images && is_array($images) && count($images) > 1)
-                        <!-- Loop through the remaining images -->
-                        @foreach(array_slice($images, 1) as $image)
-                            <div class="col-lg-6">
-                                <div class="side_masic">
-                                    <img src="{{ asset($image) }}" alt="">
+                            <!-- Loop through the remaining images -->
+                            @foreach(array_slice($images, 1) as $key => $image)
+                                <div class="col-lg-6 mb-2">
+                                    <div class="side_masic">
+                                        <img src="{{ asset($image) }}" alt="">
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <p>No additional images available.</p>
-                    @endif
+                    
+                                <!-- Add <hr> after the second image (index 1) -->
+                                @if($key == 1)
+                                    <hr>
+                                @endif
+                            @endforeach
+                        @else
+                            <p>No additional images available.</p>
+                        @endif
                     </div>
-                    <hr>
-                    <div class="row">
+                    
+                    
+                    {{-- <div class="row">
                         @if($images && is_array($images) && count($images) > 2)
                         <!-- Loop through the remaining images (after the first two) -->
                         @foreach(array_slice($images, 2) as $image)
@@ -59,7 +65,7 @@
                     @else
                         <p>No additional images available.</p>
                     @endif
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             
@@ -67,7 +73,7 @@
     <div class="splide__track d-lg-none">
         <ul class="splide__list">
                          @php
-                            $images = json_decode($hotel->image);
+                            $images = json_decode($hotel->images);
                         @endphp
 
                         @if($images && is_array($images))  
