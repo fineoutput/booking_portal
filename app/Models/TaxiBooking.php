@@ -11,6 +11,7 @@ class TaxiBooking extends Model
     protected $table = 'taxi_booking';
     protected $fillable = [
         'location',
+        'drop_location',
         'vehicle_id',
         'trip_type',
         'tour_type',
@@ -27,6 +28,7 @@ class TaxiBooking extends Model
         'end_time',
         'start_time',
         'pickup_address',
+        'drop_pickup_address',
         'one_way_location',
         'round_start_location',
         'round_end_location',

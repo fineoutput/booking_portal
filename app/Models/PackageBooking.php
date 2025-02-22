@@ -53,6 +53,15 @@ class PackageBooking extends Model
     // {
     //     return $this->belongsTo(State::class);
     // }
+
+    // In PackageBooking model (App\Models\PackageBooking)
+
+    public function tourists()
+    {
+        return $this->hasMany(Tourist::class,'booking_id','id');
+    }
+
+
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id'); // State's foreign key is 'state_id'

@@ -10,13 +10,16 @@ use App\Models\UserOtp;
 use App\Models\Agent;
 use App\Models\State;
 use App\Models\HotelPrice;
+use App\Models\VehiclePrice;
 use App\Models\Hotels;
 use App\Models\HotelBooking;
+use App\Models\Airport;
 use App\Models\PackagePrice;
 use App\Models\PackageBookingTemp;
 use App\Models\PackageBooking;
 use App\Models\City;
 use App\Models\Package;
+use App\Models\Vehicle;
 use App\Models\Tourist;
 use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
@@ -80,7 +83,8 @@ class HomeController extends Controller
 
             $user->load('cities', 'state');
 
-            $booking = PackageBooking::where('user_id', $user->id)->get();
+            $booking = PackageBooking::with('tourists')->where('user_id', $user->id)->get();
+            
 
             return view('front/user_profile', compact('user', 'booking'));
         }
@@ -90,47 +94,96 @@ class HomeController extends Controller
     }
 
 
-    public function saveTouristDetails(Request $request)
-    {
-        // Validate the incoming data
-        $request->validate([
-            'tourist.*.name' => 'required',
-            'tourist.*.age' => 'required',
-            'tourist.*.phone' => 'required',
-            'tourist.*.aadhar_front' => 'nullable',
-            'tourist.*.aadhar_back' => 'nullable',
-            'additional_info' => 'nullable',
-        ]);
-    
-        foreach ($request->tourist as $tourist) {
-            $touristRecord = new Tourist();
-            $touristRecord->user_id = Auth::guard('agent')->id();
-            $touristRecord->name = $tourist['name'];
-            $touristRecord->age = $tourist['age'];
-            $touristRecord->phone = $tourist['phone'];
-            $touristRecord->additional_info = $request->additional_info;
-            
-            // Handle file uploads
-            if (isset($tourist['aadhar_front'])) {
-                $touristRecord->aadhar_front = $tourist['aadhar_front']->store('aadhar_cards');
-            }
-            if (isset($tourist['aadhar_back'])) {
-                $touristRecord->aadhar_back = $tourist['aadhar_back']->store('aadhar_cards');
-            }
-            
-            // Save tourist record
-            $touristRecord->save();
+//     public function saveTouristDetails(Request $request)
+// {
+//     // Validate incoming data
+//     $request->validate([
+//         'booking_id' => 'nullable',
+//         'tourist.*.name' => 'required',
+//         'tourist.*.age' => 'required',
+//         'tourist.*.phone' => 'required',
+//         'tourist.*.aadhar_front' => 'nullable',
+//         'tourist.*.aadhar_back' => 'nullable',
+//         'additional_info' => 'nullable',
+//     ]);
+
+//     $bookingId = $request->input('booking_id');
+//     foreach ($request->tourist as $tourist) {
+//         $touristRecord = new Tourist();
+//         $touristRecord->booking_id = $bookingId; 
+//         $touristRecord->user_id = Auth::guard('agent')->id(); 
+//         $touristRecord->name = $tourist['name'];
+//         $touristRecord->age = $tourist['age'];
+//         $touristRecord->phone = $tourist['phone'];
+//         $touristRecord->additional_info = $request->additional_info;
+        
+//         // Handle file uploads
+//         if ($request->hasFile("tourist.*.aadhar_front")) {
+//             $touristRecord->aadhar_front = $tourist['aadhar_front']->store('aadhar_cards');
+//         }
+//         if ($request->hasFile("tourist.*.aadhar_back")) {
+//             $touristRecord->aadhar_back = $tourist['aadhar_back']->store('aadhar_cards');
+//         }
+
+//         // Save the tourist record
+//         $touristRecord->save();
+//     }
+
+//     return response()->json(['message' => 'Tourist details saved successfully!']);
+// }
+
+
+public function saveTouristDetails(Request $request)
+{
+    $validated = $request->validate([
+        'tourist.*.name' => 'required',
+        'tourist.*.age' => 'required',
+        'tourist.*.phone' => 'required',
+        'tourist.*.aadhar_front' => 'required|file',  
+        'tourist.*.aadhar_back' => 'required|file', 
+        'additional_info' => 'nullable',
+    ]);
+
+    foreach ($request->tourist as $touristData) {
+        $aadharFrontPath = null;
+        $aadharBackPath = null;
+
+        if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
+            $aadharFrontPath = $touristData['aadhar_front']->store('uploads/tourist');
         }
-    
-        return response()->json(['message' => 'Tourist details saved successfully!']);
+
+        if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
+            $aadharBackPath = $touristData['aadhar_back']->store('uploads/tourist');
+        }
+
+        $tourist = new Tourist([
+            'user_id' => Auth::guard('agent')->id(),
+            'name' => $touristData['name'],
+            'age' => $touristData['age'],
+            'phone' => $touristData['phone'],
+            'aadhar_front' => $aadharFrontPath,
+            'aadhar_back' => $aadharBackPath,
+            'additional_info' => $request->additional_info,
+            'booking_id' => $request->booking_id,
+        ]);
+
+        $tourist->save();
     }
-    
+
+    return redirect()->back()->with(['message' => 'Tourist details saved successfully!']);
+}
+
+
 
 
 
     public function taxi_booking()
     {
         $data['user'] = Auth::guard('agent')->user();
+        $data['airport'] = Airport::all();
+        $data['vehicle'] = Vehicle::where('status',1)->get();
+        $data['vehicleprice'] = VehiclePrice::where('type','Airport/Railway station')->get();
+        $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
         return view('front/taxi_booking',$data);
     }
 

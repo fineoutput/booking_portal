@@ -48,16 +48,19 @@
     <!-- Airport/Railway Station -->
 
     <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
-      <form>
+
+      <form action="" method="POST">
+        @csrf
         <div class="mb-3">
           <div class="omh_air_rail">
             <div class="lo_ka">
+
               <div class="act_trans">
                 <img style="width: 20px;" src="{{asset('frontend/images/destination.png')}}" alt="">
                 <label for="trip-type" class="form-label whtts">Select Trip</label>
-
               </div>
-              <select class="form-select" id="trip-type" style="width: 50%; text-align: center;" onchange="updateInputs()">
+
+              <select name="trip" class="form-select" id="trip-type" style="width: 50%; text-align: center;" onchange="updateInputs()">
                 <option disabled>Select</option>
                 <option value="pickup">Pickup from Airport/Railway station</option>
                 <option value="drop">Drop to Airport/Railway station</option>
@@ -78,21 +81,20 @@
                 </div>
                 <select class="form-select no-form-select" id="pickup-airport">
                   <option value="">Select an Airport</option>
-                  <option value="airport1">Airport 1</option>
-                  <option value="airport2">Airport 2</option>
-                  <option value="airport3">Airport 3</option>
+                  @foreach($airport as $value)
+                  <option value="{{$value->id ?? '' }}">{{$value->airport ?? ''}}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
                 <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
-    width: 20px;
-">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" 
+                  style="width: 20px;">
                   <label for="drop-address" class="form-label no-form">Drop off Address</label>
                 </div>
-                <input type="text" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
+                <input type="text" name="location" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
               </div>
             </div>
           </div>
@@ -108,11 +110,11 @@
 ">
                   <label for="drop-airport" class="form-label">Drop to</label>
                 </div>
-                <select class="form-select no-form-select" id="drop-airport">
+                <select name="drop_location" class="form-select no-form-select" id="drop-airport">
                   <option value="">Select an Airport</option>
-                  <option value="airport1">Airport 1</option>
-                  <option value="airport2">Airport 2</option>
-                  <option value="airport3">Airport 3</option>
+                  @foreach($airport as $value)
+                  <option value="{{$value->id ?? '' }}">{{$value->airport ?? ''}}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -124,7 +126,7 @@
 ">
                   <label for="drop-address" class="form-label">Pickup Address</label>
                 </div>
-                <input type="text" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
+                <input name="drop_pickup_address" type="text" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
               </div>
             </div>
           </div>
@@ -140,37 +142,31 @@
 
                   <label for="vehicle2" class="form-label">Select Vehicle</label>
                 </div>
-              <input type="text" id="car-input1" class="form-control car-input no-form" placeholder="Select a vehicle" readonly data-bs-toggle="modal" data-bs-target="#carmodal1">
+
+              
+                <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()">
+                  <option value="">Select a Vehicle</option>
+                  @foreach($vehicle as $value)
+                    <option value="{{ $value->id }}" data-price="{{ $value->price_per_km }}">
+                      {{ $value->vehicle_type }}
+                    </option>
+                  @endforeach
+                </select>
+                
+
+              {{-- <input name="vehicle_id" type="text" id="car-input1" class="form-control car-input no-form" placeholder="Select a vehicle" readonly data-bs-toggle="modal" data-bs-target="#carmodal1"> --}}
+
+
             </div>
           </div>
-          <div class="modal fade" id="carmodal1" tabindex="-1" aria-labelledby="carmodallabel1" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="carmodallabel1">Select car type</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="car_model">
-                    <div class="frst_mes" onclick="selectCar('SUV', 'car-input1', 'carmodal1')" style="cursor: pointer;">
-                      <h6>SUV</h6>
-                      <img style="width:50%;" src="{{asset('frontend/images/car_icons/suv.png')}}" alt="">
-                    </div>
-                    <div class="frst_mes" onclick="selectCar('Hatchback', 'car-input1', 'carmodal1')" style="cursor: pointer;">
-                      <h6>Hatchback</h6>
-                      <img style="width:50%;" src="{{asset('frontend/images/car_icons/hatchback.png')}}" alt="">
-                    </div>
-                    <div class="frst_mes" id="sed" onclick="selectCar('Sedan','car-input1', 'carmodal1')" style="cursor: pointer;">
-                      <h6>Sedan</h6>
-                      <img style="width:50%;" src="{{asset('frontend/images/car_icons/sedan.png')}}" alt="">
-                    </div>
-                    <div class="frst_mes" id="trav" onclick="selectCar('Traveller','car-input1', 'carmodal1')" style="cursor: pointer;">
-                      <h6>Traveller</h6>
-                      <img style="width:50%;" src="{{asset('frontend/images/car_icons/traveller.png')}}" alt="">
-                    </div>
-                    <!-- More options... -->
-                  </div>
-                </div>
+
+
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <div class="start_time">
+              <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
+              <label for="datetime" class="form-label">Choose Pickup Date and Time</label>
+                <input name="start_date" style="width: 30%;" type="date" class="form-control no-form" id="datetime" placeholder="Select date and time">
               </div>
             </div>
           </div>
@@ -179,8 +175,8 @@
             <div class="mb-3">
               <div class="start_time">
               <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
-              <label for="datetime" class="form-label">Choose Pickup Date and Time</label>
-                <input style="width: 30%;" type="datetime-local" class="form-control no-form" id="datetime" placeholder="Select date and time">
+              <label for="datetime" class="form-label">Choose Pickup Time</label>
+                <input name="start_time" style="width: 30%;" type="time" class="form-control no-form" id="datetime" placeholder="Select date and time">
               </div>
             </div>
           </div>
@@ -191,22 +187,20 @@
             <div class="insidee">
               <label for="local-cost" class="form-label">Estimated Cost</label>
               <div class="final_amy_see">
-
                 <input type="text" class="form-control no-form" id="local-cost" placeholder="Calculated automatically" readonly>
                 <div class="site_price">
-                  <span>
-                    2 days
-                  </span>
-                  <span>
-                    ₹300/km
-                  </span>
+                  <span>2 days</span>
+                  <span>₹300/km</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        
         <button type="submit" class="btn btn-primary">Send Request to Admin</button>
       </form>
+
+
     </div>
 
     <!-- Local Tour -->
@@ -329,7 +323,7 @@
 
               </div>
           <label for="type" class="form-label">Trip Type</label>
-          <select class="form-select mormal" id="type" onchange="updateTypes()">
+          <select name="" class="form-select mormal" id="type" onchange="updateTypes()">
             <option disabled>Select type</option>
             <option value="one-way">One-Way</option>
             <option value="round-trip">Round Trip</option>
@@ -629,6 +623,31 @@
 
 
 <!-- /* //////////////Cards Starts///////////// */ -->
+<script>
+  function updateEstimatedCost() {
+    // Get the selected vehicle from the dropdown
+    const vehicleSelect = document.getElementById('vehicle-select');
+    const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+    
+    // Get the price per km from the selected option's data-price attribute
+    const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
+
+    if (pricePerKm) {
+      const days = 2;  // Example: You can replace this with an actual input value for the days
+      const distance = 300;  // Example: You can replace this with an actual input value for distance
+
+      // Calculate the estimated cost (price * days * distance)
+      const estimatedCost = days * distance * pricePerKm;
+      console.log(estimatedCost.'dghasghyj')
+
+      // Update the estimated cost field
+      document.getElementById('local-cost').value = "₹" + estimatedCost.toFixed(2);
+    } else {
+      // If no vehicle is selected or price is unavailable, reset the cost field
+      document.getElementById('local-cost').value = "Calculated automatically";
+    }
+  }
+</script>
 
 <script>
   const selectCar = (carType, inputId, modalId) => {

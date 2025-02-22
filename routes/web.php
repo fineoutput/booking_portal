@@ -49,10 +49,13 @@ Route::group(['prefix' => '/'], function () {
     Route::get('login', [HomeController::class, 'login'])->name('login');
     Route::get('options', [HomeController::class, 'options'])->name('options');
     Route::get('confirmation/{id}', [HomeController::class, 'confirmation'])->name('confirmation');
-    Route::post('add_confirmation/{id}', [HomeController::class, 'add_confirmation'])->name('add_confirmation');
+    
+    Route::post('/save-tourist-details/{id}', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
+
 
     Route::get('user_profile', [HomeController::class, 'user_profile'])->name('user_profile');
-    Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
+
+    Route::post('/save-tourist-details/{id}', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
 
 
     Route::get('taxi_booking', [HomeController::class, 'taxi_booking'])->name('taxi_booking');
