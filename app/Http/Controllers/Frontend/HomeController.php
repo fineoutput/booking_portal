@@ -14,8 +14,10 @@ use App\Models\Hotels;
 use App\Models\HotelBooking;
 use App\Models\PackagePrice;
 use App\Models\PackageBookingTemp;
+use App\Models\PackageBooking;
 use App\Models\City;
 use App\Models\Package;
+use App\Models\Tourist;
 use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
 use Carbon\Carbon;
@@ -52,35 +54,78 @@ class HomeController extends Controller
     {
         return view('front/options');
     }
-    public function confirmation()
-    {
-        return view('front/confirmation');
-    }
+   
     public function all_images()
     {
         return view('front/all_images');
     }
 
-    // public function user_profile()
-    // {
-    //     $data['user'] = Auth::guard('agent')->user()->load('cities','state');
-    //     return view('front/user_profile',$data);
-    // }
 
     // public function user_profile()
     // {
-    //     $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
-    //     return view('front/user_profile', $data);
+    //     if (Auth::guard('agent')->check()) {
+    //         $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
+    //         $data['booking'] = PackageBooking::where('id',$data['user']->id)->get();
+    //         return view('front/user_profile', $data);
+    //     }
+    //     return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
     // }
+
 
     public function user_profile()
     {
         if (Auth::guard('agent')->check()) {
-            $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
-            return view('front/user_profile', $data);
+
+            $user = Auth::guard('agent')->user();
+
+            $user->load('cities', 'state');
+
+            $booking = PackageBooking::where('user_id', $user->id)->get();
+
+            return view('front/user_profile', compact('user', 'booking'));
         }
+
         return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
+
     }
+
+
+    public function saveTouristDetails(Request $request)
+    {
+        // Validate the incoming data
+        $request->validate([
+            'tourist.*.name' => 'required',
+            'tourist.*.age' => 'required',
+            'tourist.*.phone' => 'required',
+            'tourist.*.aadhar_front' => 'nullable',
+            'tourist.*.aadhar_back' => 'nullable',
+            'additional_info' => 'nullable',
+        ]);
+    
+        foreach ($request->tourist as $tourist) {
+            $touristRecord = new Tourist();
+            $touristRecord->user_id = Auth::guard('agent')->id();
+            $touristRecord->name = $tourist['name'];
+            $touristRecord->age = $tourist['age'];
+            $touristRecord->phone = $tourist['phone'];
+            $touristRecord->additional_info = $request->additional_info;
+            
+            // Handle file uploads
+            if (isset($tourist['aadhar_front'])) {
+                $touristRecord->aadhar_front = $tourist['aadhar_front']->store('aadhar_cards');
+            }
+            if (isset($tourist['aadhar_back'])) {
+                $touristRecord->aadhar_back = $tourist['aadhar_back']->store('aadhar_cards');
+            }
+            
+            // Save tourist record
+            $touristRecord->save();
+        }
+    
+        return response()->json(['message' => 'Tourist details saved successfully!']);
+    }
+    
+
 
 
     public function taxi_booking()
@@ -88,14 +133,6 @@ class HomeController extends Controller
         $data['user'] = Auth::guard('agent')->user();
         return view('front/taxi_booking',$data);
     }
-
-    // public function list($id)
-    // {
-    //     $id = base64_decode($id);
-    //     $data['hotel'] = Hotels::all();
-    //     $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
-    //     return view('front.list', $data);
-    // }
 
 
     public function list($id)
@@ -179,7 +216,7 @@ class HomeController extends Controller
 
         $formatted_date = Carbon::now()->format('Y-m');
 
-        $package_price = PackagePrice::where('package_id', $package->id)
+        $package_price = PackagePrice::where('package_id', $id)
                 ->where('start_date', '<=', $formatted_date)
                 ->where('end_date', '>=', $formatted_date)
                 ->first();
@@ -285,6 +322,13 @@ class HomeController extends Controller
             $vehicle_options_cost = $package_price->ac_coach_cost;
         }
 
+        if($request->extra_bed == 'yes'){
+            $extrabed_cost = $package_price->extra_bed_cost;
+        }
+        else{
+            $extrabed_cost = 0;
+        }
+
         $total_night_cost = $package_price->nights_cost *  $night_count;
         $adults_cost = $package_price->adults_cost *  $request->adults_count;
         $child_with_bed_cost = $package_price->child_with_bed_cost *  $request->child_with_bed_count;
@@ -293,17 +337,48 @@ class HomeController extends Controller
         $total_hotel_preference_cost = $hotel_preference_cost;
         $total_vehicle_options_cost = $vehicle_options_cost;
 
-        $finaltotal = $total_night_cost +  $adults_cost + $child_with_bed_cost + $child_no_bed_child_cost + $total_meal_cost + $total_hotel_preference_cost + $total_vehicle_options_cost; 
+        $finaltotal = $total_night_cost +  $adults_cost + $child_with_bed_cost + $child_no_bed_child_cost + $total_meal_cost + $total_hotel_preference_cost + $total_vehicle_options_cost + $extrabed_cost; 
 
         $wildlife->total_cost = $finaltotal;
-          return $finaltotal;
+        //   return $finaltotal;
         $wildlife->save();
     
-        return redirect()->back()->with('message', 'Package Booking Created Successfully');
+        return redirect()->route('confirmation', ['id' => base64_encode($wildlife->id)]);
+    }
+
+    
+    
+
+    public function confirmation(Request $request, $id)
+    {
+        $id = base64_decode($id);  // Decode the ID
+        $data['packagebookingtemp'] = PackageBookingTemp::where('id', $id)->first();
+        return view('front/confirmation', $data);
     }
     
 
+    public function add_confirmation(Request $request, $id)
+    {
+            // return $request;
+            $packagetempbooking = PackageBookingTemp::where('id',$id)->first();
 
+            // return $packagetempbooking;
+
+            $packagebooking = new PackageBooking();
+            $packagebooking->package_temp_id = $id;
+            $packagebooking->user_id = $packagetempbooking->user_id;
+            $packagebooking->package_id = $packagetempbooking->package_id;
+            $packagebooking->fetched_price = $request->fetched_price;
+            $packagebooking->agent_margin = $request->agent_margin;
+            $packagebooking->final_price = $request->final_price;
+            $packagebooking->salesman_name = $request->salesman_name;
+            $packagebooking->salesman_mobile = $request->salesman_mobile;
+            $packagebooking->status = 0;
+            $packagebooking->save();
+
+            return redirect()->route('index')->with('message', 'Package Booking Created Successfully');
+
+    }
 
 
     public function wildlife()

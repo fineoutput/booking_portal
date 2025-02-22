@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tours Dekho</title>
   <!-- Bootstrap CSS -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css">
@@ -182,7 +184,11 @@
           <div class="mega-menu-backdrop"></div>
         </li>
         <!-- Other Nav Items -->
+        @if(Auth::guard('agent')->check())
+
+        @else
         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+        @endif
         <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('hotelsbooking') }}">Hotels</a></li>

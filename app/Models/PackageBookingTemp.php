@@ -40,6 +40,8 @@ class PackageBookingTemp extends Model
         'total_cost',
         
         'meal',
+        'extra_bed',
+        'night_count',
         'hotel_preference',
         'vehicle_options',
         'travelinsurance',

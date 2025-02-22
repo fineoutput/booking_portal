@@ -96,6 +96,13 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('packages.destroy');
    Route::get('packages/{id}/edit', [PackageController::class, 'edit'])->name('packages.edit');
    Route::put('packages/{id}', [PackageController::class, 'update'])->name('packages.update');
+
+
+   Route::get('/pandin-package-booking', [PackageController::class, 'pandingindex'])->name('pandingpackagebooking');
+   Route::get('/complete-package-booking', [PackageController::class, 'completeorders'])->name('completepackagebooking');
+   Route::match(['put', 'patch'], '/package-booking/{id}/status', [PackageController::class, 'updateStatus'])->name('packagebooking.updateStatus');
+
+
 //    Route::get('/cities/{stateId}', [PackageController::class, 'getCitiesByState']);
 Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 

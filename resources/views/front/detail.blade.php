@@ -268,8 +268,12 @@
                         </div>
 
                         <!-- Submit Button -->
+                        @if(Auth::guard('agent')->check())
                         <button style="text-decoration: none; color: #fff;" class="btn btn-primary w-80 d-flex justify-content-center" type="submit">Submit</button>
-                        <!-- <a style="text-decoration: none; color: #fff; " href="{{ route('confirmation') }}"><button class="btn btn-primary w-100">Login</button></a> -->
+                        @else
+                            <a class="btn btn-primary w-80 d-flex justify-content-center" style="text-decoration: none; color: #fff; " href="{{ route('login') }}">Submit</a> 
+                        @endif
+                       
                     </form>
                 </div>
 
@@ -291,36 +295,39 @@
     <div class="reviews-img-wrapper justify-content-xl-between d-flex flex-wrap ng-star-inserted">
 
         <!-- Display the first image -->
-        @if($images && is_array($images) && count($images) > 0)
-            <div class="image-col mob-d-none ng-star-inserted">
-                <img class="background-image" src="{{ asset($images[0]) }}" alt="First Image">
-                <img class="display-image" src="{{ asset($images[0]) }}" alt="First Image">
-            </div>
-        @endif
+        @if($images && is_array($images) && array_key_exists(4, $images)) <!-- Check if the 4th key exists -->
+        <div class="image-col mob-d-none ng-star-inserted">
+            <img class="background-image" src="{{ asset($images[4]) }}" alt="First Image">
+            <img class="display-image" src="{{ asset($images[4]) }}" alt="First Image">
+        </div>
+    @endif
+
 
         <!-- Display the second image (if exists) -->
-        @if($images && is_array($images) && count($images) > 1)
-            <div class="image-col mob-d-none ng-star-inserted">
-                <img class="background-image" src="{{ asset($images[1]) }}" alt="Second Image">
-                <img class="display-image" src="{{ asset($images[1]) }}" alt="Second Image">
-            </div>
-        @endif
+      
+    
+    @if($images && is_array($images) && array_key_exists(5, $images)) <!-- Check if the 5th key exists -->
+        <div class="image-col mob-d-none ng-star-inserted">
+            <img class="background-image" src="{{ asset($images[5]) }}" alt="Second Image">
+            <img class="display-image" src="{{ asset($images[5]) }}" alt="Second Image">
+        </div>
+    @endif
+    
+    @if($images && is_array($images) && array_key_exists(6, $images)) <!-- Check if the 6th key exists -->
+        <div class="image-col mob-d-none ng-star-inserted">
+            <img class="background-image" src="{{ asset($images[6]) }}" alt="Third Image">
+            <img class="display-image" src="{{ asset($images[6]) }}" alt="Third Image">
+        </div>
+    @endif
+    
+    @if($images && is_array($images) && array_key_exists(7, $images)) <!-- Check if the 7th key exists -->
+        <div class="image-col mob-d-none ng-star-inserted mod-sd" data-bs-toggle="modal" data-bs-target="#imageModal">
+            <img class="background-image" src="{{ asset($images[7]) }}" alt="Last Image">
+            <img class="display-image" src="{{ asset($images[7]) }}" alt="Last Image">
+        </div>
+    @endif
+    
 
-        <!-- Display the third image (if exists) -->
-        @if($images && is_array($images) && count($images) > 2)
-            <div class="image-col mob-d-none ng-star-inserted">
-                <img class="background-image" src="{{ asset($images[2]) }}" alt="Third Image">
-                <img class="display-image" src="{{ asset($images[2]) }}" alt="Third Image">
-            </div>
-        @endif
-
-        <!-- Trigger modal on last image -->
-        @if($images && is_array($images) && count($images) > 0)
-            <div class="image-col mob-d-none ng-star-inserted mod-sd" data-bs-toggle="modal" data-bs-target="#imageModal">
-                <img class="background-image" src="{{ asset($images[count($images) - 1]) }}" alt="Last Image">
-                <img class="display-image" src="{{ asset($images[count($images) - 1]) }}" alt="Last Image">
-            </div>
-        @endif
 
     </div>
 </div>

@@ -5,46 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PackageBooking extends Model
+class Tourist extends Model
 {
     use HasFactory;
 
-    protected $table = 'package_booking';
+    protected $table = 'tourist';
     protected $fillable = [
         'user_id',
         'package_id',
-
-        'package_temp_id',
-        'fetched_price',
-        'agent_margin',
-        'final_price',
-        'salesman_name',
-        'salesman_mobile',
-
-        'end_date',
-        'start_date',
-        'standard_count',
-        'premium_count',
-        'deluxe_count',
-        'super_deluxe_count',
-        'luxury_count',
-        'nights_count',
-        'adults_count',
-        'child_with_bed_count',
-        'child_no_bed_infant_count',
-        'child_no_bed_child_count',
-        'meal_plan_only_room_count',
-        'meal_plan_breakfast_count',
-        'meal_plan_breakfast_lunch_dinner_count',
-        'meal_plan_all_meals_count',
-        'hatchback_count',
-        'sedan_count',
-        'economy_suv_count',
-        'luxury_suv_count',
-        'traveller_mini_count',
-        'traveller_big_count',
-        'premium_traveller_count',
-        'ac_coach_count',
+        'booking_id',
+        'name',
+        'age',
+        'phone',
+        'aadhar_front',
+        'aadhar_back',
+        'additional_info',
         'status',
     ];
 

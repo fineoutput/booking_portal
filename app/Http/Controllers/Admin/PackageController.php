@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
+use App\Models\PackageBooking;
 use App\Models\City;
 use App\Models\State;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +17,28 @@ class PackageController extends Controller
         $data['package'] = Package::orderBy('id','DESC')->get();
         return view('admin/package/index',$data);
     }
+
+    function pandingindex() {
+        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',0)->get();
+        return view('admin/package/pandingindex',$data);
+    }
+
+    function completeorders() {
+        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',1)->get();
+        return view('admin/package/pandingindex',$data);
+    }
+
+
+    public function updateStatus($id)
+    {
+        $vehicle = PackageBooking::findOrFail($id);
+        $vehicle->status = ($vehicle->status == 0) ? 1 : 0;
+        $vehicle->save();
+
+        return redirect()->back()->with('success', 'Package Booking status updated successfully!');
+    }
+
+
 
     public function getCitiesByState(Request $request)
     {

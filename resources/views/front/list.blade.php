@@ -116,15 +116,16 @@
                 <div class="outer_plan_img">
                   @php
                   // Assuming 'image' contains a JSON array of images
-                  $images = json_decode($value->image); // Decode the JSON to an array
+                  $images = json_decode($value->image, true); // Decode the JSON to an array (true for associative array)
               @endphp
-  
+              
               @if($images && is_array($images) && count($images) > 0)
-                  <!-- Display the first image on top -->
-                  <img src="{{ asset($images[0]) }}" alt="">
+                  <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
+                  <img src="{{ asset(reset($images)) }}" alt="First Image">
               @else
                   <p>No image available.</p>
               @endif
+              
                 </div>
                 <div class="inner_outer_txt">
                   
@@ -173,7 +174,7 @@
             $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
             $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
             $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
-            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost; 
+            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
                           @endphp
                           <p>Price: ₹{{ number_format($total, 2) }}</p>
                       @else
