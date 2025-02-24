@@ -42,8 +42,26 @@ class HomeController extends Controller
     public function index(Request $req)
     {
      
+        // $city['city'] = City::where('id', $id)->first();
+    
+        $data['packages'] = Package::get();
+    
+        $formatted_date = Carbon::now()->format('Y-m'); // Get current date formatted as 'Y-m'
+    
+        foreach ($data['packages'] as $package) {
+            $package_price = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '<=', $formatted_date)
+                ->where('end_date', '>=', $formatted_date)
+                ->first();
+    
+            $package->prices = $package_price;
+    
+            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+            
+            $package->hotels = $hotels;
+        }
         // $data['states'] = State::with('cities')->get();
-        return view('front/index')->withTitle('home');
+        return view('front/index',$data)->withTitle('home');
     }
 
     public function getCitiesByState($stateId)
