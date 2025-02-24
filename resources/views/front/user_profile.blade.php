@@ -191,17 +191,25 @@
             <div class="modal-body suther">
                 <form class="suther">
                     <h6 class="fw-bold suther">Refund/Recharge Details</h6>
-                    <div class="mb-3 suther">
-                        <label for="transactionType" class="form-label suther">Transaction Type</label>
-                        <select class="form-control suther" id="transactionType">
-                            <option value="refund">Refund</option>
-                            <option value="recharge">Recharge</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3 suther">
+                                <label for="transactionType" class="form-label suther">Transaction Type</label>
+                                <select class="form-control suther" id="transactionType">
+                                    <option value="refund">Refund</option>
+                                    <option value="recharge">Recharge</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3 suther">
+                                <label for="amount" class="form-label suther">Amount</label>
+                                <input type="number" class="form-control suther" id="amount" placeholder="Enter Amount">
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3 suther">
-                        <label for="amount" class="form-label suther">Amount</label>
-                        <input type="number" class="form-control suther" id="amount" placeholder="Enter Amount">
-                    </div>
+                    
+                    
                     <div class="mb-3 suther">
                         <label for="notes" class="form-label suther">Notes</label>
                         <textarea class="form-control suther" id="notes" rows="3" placeholder="Enter Notes (Optional)"></textarea>

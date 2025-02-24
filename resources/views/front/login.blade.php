@@ -84,7 +84,7 @@
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form> --}}
 
-                    <form method="POST" action="{{ route('agentLoginWithEmail') }}"  class="showEmailForm">
+                    <form method="POST" action="{{ route('agentLoginWithEmail') }}" id="loginWithEmail" class="showEmailForm">
 
                         @if (session('error'))
                         <div class="alert alert-danger">{{ session('error') }}</div>
