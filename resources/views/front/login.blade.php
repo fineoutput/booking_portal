@@ -84,7 +84,8 @@
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form> --}}
 
-                    <form method="POST" action="{{ route('agentLoginWithEmail') }}" id="loginWithEmail" class="showEmailForm">
+                    <div id="loginWithEmail" class="showEmailForm">
+                    <form method="POST" action="{{ route('agentLoginWithEmail') }}">
 
                         @if (session('error'))
                         <div class="alert alert-danger">{{ session('error') }}</div>
@@ -123,10 +124,11 @@
                         <button type="submit" class="btn btn-primary">Login</button>
 
                     </form>
-                    
+                </div>
 
                     <!-- Phone Login Form -->
-                    <form id="loginWithPhone" class="hidden">
+                    <div id="loginWithPhone" class="hidden">
+                    <form>
                         <!-- Phone Number Field -->
                         <div id="phoneFormGroup" class="mb-3">
                             <label for="phoneLogin" class="form-label">Phone Number</label>
@@ -145,6 +147,7 @@
 
                         <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="toggleLoginForm()">Back to Email Login</button>
                     </form>
+                </div>
                 </div>
 
                 <!-- Register Modal -->
@@ -350,18 +353,18 @@
     });
 
     // Handle email login form submission
-    document.getElementById('loginWithEmail').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const email = document.getElementById('emailLogin').value;
-        const password = document.getElementById('passwordLogin').value;
+    // document.getElementById('loginWithEmail').addEventListener('submit', function (event) {
+    //     event.preventDefault();
+    //     const email = document.getElementById('emailLogin').value;
+    //     const password = document.getElementById('passwordLogin').value;
 
-        if (email && password) {
-            // alert("Logged in with email!");
-            // Proceed with further logic or redirect
-        } else {
-            alert("Please fill in both email and password.");
-        }
-    });
+    //     if (email && password) {
+    //         // alert("Logged in with email!");
+    //         // Proceed with further logic or redirect
+    //     } else {
+    //         alert("Please fill in both email and password.");
+    //     }
+    // });
 </script>
 
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
