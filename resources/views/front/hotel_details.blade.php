@@ -213,11 +213,11 @@
                                         <div class="bors">
                                             <div class="caranke">
                                                 <label for="">Check In</label>
-                                                <input name="check_in_date" id="check_in_date" type="date" class="filter-value_hotels" placeholder="Check In" onchange="updateNightCount()">
+                                                <input name="check_in_date" id="check_in_date" type="date" class="filter-value_hotels" placeholder="Check In" onchange="updateNightCount()" required>
                                             </div>
                                             <div class="caranke">
                                                 <label for="">Check Out</label>
-                                                <input name="check_out_date" id="check_out_date" type="date" class="filter-value_hotels" placeholder="Check out" onchange="updateNightCount()">
+                                                <input name="check_out_date" id="check_out_date" type="date" class="filter-value_hotels" placeholder="Check out" onchange="updateNightCount()" required> 
                                             </div>
                                         </div>
                                         <div class="rivvsa">
@@ -265,9 +265,14 @@
                                     
 
                                     <div class="live_set mt-3">
-                                            <button type="submit" class="btn btn-info gggsd"> 
-                                                Reserve
-                                            </button>
+                                        @if(Auth::guard('agent')->check())
+                                        <button type="submit" class="btn btn-info gggsd"> 
+                                            Reserve
+                                        </button>
+                                        @else
+                                        <a href="{{ route('login') }}" class="btn btn-primary">Send Request to Admin</a>
+                                        @endif
+                                            
                                         </div>
                                 </div>
                             </div>
