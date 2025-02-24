@@ -104,7 +104,7 @@
 
         <!-- Bookings Tab -->
         <div class="tab-pane fade suther" id="bookings">
-            <h5 class="fw-bold suther">Bookings</h5>
+            <h5 class="fw-bold suther">Package Bookings</h5>
             <p class="suther">View your booking history and manage reservations.</p>
             <!-- Bookings Details Section -->
             <div class="table-responsive ">
@@ -113,7 +113,7 @@
                     <tr class="suther">
                         <th class="suther">#</th>
                         <th class="suther">Booking ID</th>
-                        <th class="suther">Service</th>
+                        <th class="suther">Package Name</th>
                         <th class="suther">Date</th>
                         <th class="suther">Status</th>
                         <th class="suther">Action</th>

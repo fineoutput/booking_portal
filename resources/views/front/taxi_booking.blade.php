@@ -49,8 +49,9 @@
 
     <div class="tab-pane fade show active" id="airport" role="tabpanel" aria-labelledby="airport-tab">
 
-      <form action="" method="POST">
+      <form action="{{ route('book_airport_railway') }}" method="POST">
         @csrf
+    
         <div class="mb-3">
           <div class="omh_air_rail">
             <div class="lo_ka">
@@ -60,7 +61,7 @@
                 <label for="trip-type" class="form-label whtts">Select Trip</label>
               </div>
 
-              <select name="trip" class="form-select" id="trip-type" style="width: 50%; text-align: center;" onchange="updateInputs()">
+              <select name="trip" class="form-select" id="trip-type" style="width: 50%; text-align: center;" onchange="updateInputs()" required>
                 <option disabled>Select</option>
                 <option value="pickup">Pickup from Airport/Railway station</option>
                 <option value="drop">Drop to Airport/Railway station</option>
@@ -79,7 +80,7 @@
 ">
                   <label for="pickup-airport" class="form-label">Pickup from</label>
                 </div>
-                <select class="form-select no-form-select" id="pickup-airport">
+                <select name="airport_id" class="form-select no-form-select" id="pickup-airport">
                   <option value="">Select an Airport</option>
                   @foreach($airport as $value)
                   <option value="{{$value->id ?? '' }}">{{$value->airport ?? ''}}</option>
@@ -110,7 +111,7 @@
 ">
                   <label for="drop-airport" class="form-label">Drop to</label>
                 </div>
-                <select name="drop_location" class="form-select no-form-select" id="drop-airport">
+                <select name="airport_id" class="form-select no-form-select" id="drop-airport" >
                   <option value="">Select an Airport</option>
                   @foreach($airport as $value)
                   <option value="{{$value->id ?? '' }}">{{$value->airport ?? ''}}</option>
@@ -126,7 +127,7 @@
 ">
                   <label for="drop-address" class="form-label">Pickup Address</label>
                 </div>
-                <input name="drop_pickup_address" type="text" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
+                <input name="drop_pickup_address" type="text" class="form-control no-form" id="drop-address" placeholder="Enter drop address" >
               </div>
             </div>
           </div>
@@ -144,14 +145,15 @@
                 </div>
 
               
-                <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()">
+                <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()" >
                   <option value="">Select a Vehicle</option>
                   @foreach($vehicle as $value)
-                    <option value="{{ $value->id }}" data-price="{{ $value->price_per_km }}">
+                    <option value="{{ $value->id }}" data-price="{{ $vehicleprice->where('vehicle_id', $value->id)->first()->price ?? '' }}">
                       {{ $value->vehicle_type }}
                     </option>
                   @endforeach
                 </select>
+                
                 
 
               {{-- <input name="vehicle_id" type="text" id="car-input1" class="form-control car-input no-form" placeholder="Select a vehicle" readonly data-bs-toggle="modal" data-bs-target="#carmodal1"> --}}
@@ -165,8 +167,8 @@
             <div class="mb-3">
               <div class="start_time">
               <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
-              <label for="datetime" class="form-label">Choose Pickup Date and Time</label>
-                <input name="start_date" style="width: 30%;" type="date" class="form-control no-form" id="datetime" placeholder="Select date and time">
+              <label for="datetime" class="form-label">Choose Pickup Date</label>
+                <input name="pickup_date" style="width: 30%;" type="date" class="form-control no-form" id="datetime" placeholder="Select date and time" required>
               </div>
             </div>
           </div>
@@ -176,7 +178,7 @@
               <div class="start_time">
               <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
               <label for="datetime" class="form-label">Choose Pickup Time</label>
-                <input name="start_time" style="width: 30%;" type="time" class="form-control no-form" id="datetime" placeholder="Select date and time">
+                <input name="pickup_time" style="width: 30%;" type="time" class="form-control no-form" id="datetime" placeholder="Select date and time" required>
               </div>
             </div>
           </div>
@@ -187,7 +189,7 @@
             <div class="insidee">
               <label for="local-cost" class="form-label">Estimated Cost</label>
               <div class="final_amy_see">
-                <input type="text" class="form-control no-form" id="local-cost" placeholder="Calculated automatically" readonly>
+                <input type="text" name="cost" class="form-control no-form" id="local-cost" placeholder="Calculated automatically" readonly>
                 <div class="site_price">
                   <span>2 days</span>
                   <span>₹300/km</span>
@@ -195,9 +197,14 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>        
         
+        @if(Auth::guard('agent')->check())
         <button type="submit" class="btn btn-primary">Send Request to Admin</button>
+        @else
+        <a href="{{ route('login') }}" class="btn btn-primary">Send Request to Admin</a>
+        @endif
+
       </form>
 
 
@@ -205,7 +212,9 @@
 
     <!-- Local Tour -->
     <div class="tab-pane fade" id="local" role="tabpanel" aria-labelledby="local-tab">
-      <form>
+
+      <form action="{{route('book_local_tour')}}" method="POST">
+        @csrf
         <div class="row">
           <div class="col-lg-3">
             <div class="mb-3">
@@ -216,114 +225,114 @@
 ">
                   <label for="local-location" class="form-label">Select Location</label>
                 </div>
-                <input type="text" class="form-control no-form" id="local-location" placeholder="Enter location">
+                <input type="text" name="location" class="form-control no-form" id="local-location" placeholder="Enter location" required>
               </div>
             </div>
           </div>
+
           <div class="col-lg-3">
-            <div class="mb-3">
-              <div class="loc_stl">
-                <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="
-    width: 20px;
+            <div class="select_sect">
+              <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="
+width: 20px;
 ">
 
-                  <label for="vehicle2" class="form-label">Select Vehicle</label>
-                </div>
-                <input type="text" id="car-input2" class="form-control car-input no-form" placeholder="Select a vehicle" readonly data-bs-toggle="modal" data-bs-target="#carmodal2">
-              </div>
-
-              <div class="modal fade" id="carmodal2" tabindex="-1" aria-labelledby="carmodallabel2" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="carmodallabel2">Select car type</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="car_model">
-                        <div class="frst_mes" onclick="selectCar('SUV', 'car-input2', 'carmodal2')" style="cursor: pointer;">
-                          <h6>SUV</h6>
-                          <img style="width:50%;" src="{{asset('frontend/images/car_icons/suv.png')}}" alt="">
-                        </div>
-                        <div class="frst_mes" onclick="selectCar('Hatchback', 'car-input2', 'carmodal2')" style="cursor: pointer;">
-                          <h6>Hatchback</h6>
-                          <img style="width:50%;" src="{{asset('frontend/images/car_icons/hatchback.png')}}" alt="">
-                        </div>
-                        <div class="frst_mes" id="sed" onclick="selectCar('Sedan','car-input2', 'carmodal2')" style="cursor: pointer;">
-                          <h6>Sedan</h6>
-                          <img style="width:50%;" src="{{asset('frontend/images/car_icons/sedan.png')}}" alt="">
-                        </div>
-                        <div class="frst_mes" id="trav" onclick="selectCar('Traveller','car-input2', 'carmodal2')" style="cursor: pointer;">
-                          <h6>Traveller</h6>
-                          <img style="width:50%;" src="{{asset('frontend/images/car_icons/traveller.png')}}" alt="">
-                        </div>
-                        <!-- More options... -->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <label for="vehicle2" class="form-label">Select Vehicle</label>
             </div>
+
+            <select name="vehicle_id" class="form-select no-form-select" id="vehicle-selects" onchange="updateEstimatedCosts()" required>
+              <option value="">Select a Vehicle</option>
+              @foreach($vehicle as $value)
+                <option value="{{ $value->id }}" data-price="{{ $vehicleprice->where('vehicle_id', $value->id)->first()->price ?? '' }}">
+                  {{ $value->vehicle_type }}
+                </option>
+              @endforeach
+            </select>
+
           </div>
+
           <div class="col-lg-3">
             <div class="start_time">
               <div class="loc_stl">
                 <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
-                <label for="datetime" class="form-label">Choose Pickup Date and Time</label>
-
-                <input style="width: 100%;" type="datetime-local" class="form-control no-form" id="datetime" placeholder="Select date and time">
+                <label for="datetime" class="form-label">Choose Pickup Date </label>
+                <input style="width: 100%;" name="pickup_date" type="date" class="form-control no-form" id="datetime" placeholder="Select date and time" required>
               </div>
             </div>
           </div>
+
+          <div class="col-lg-3">
+            <div class="start_time">
+              <div class="loc_stl">
+                <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
+                <label for="datetime" class="form-label">Choose Pickup Time</label>
+                <input style="width: 100%;" name="pickup_time" type="time" class="form-control no-form" id="datetime" placeholder="Select date and time" required>
+              </div>
+            </div>
+          </div>
+
           <div class="col-lg-3">
             <div class="start_time">
               <div class="loc_stl" style="border: none;">
                 <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
-                <label for="datetime" class="form-label">Choose Drop Date and Time</label>
-                <input style="width: 100%;" type="datetime-local" class="form-control no-form" id="datetime" placeholder="Select date and time">
+                <label for="datetime" class="form-label">Choose Drop Date</label>
+                <input style="width: 100%;" name="drop_date" type="date" class="form-control no-form" id="datetime" placeholder="Select date and time" required>
               </div>
             </div>
           </div>
+
+          <div class="col-lg-3">
+            <div class="start_time">
+              <div class="loc_stl" style="border: none;">
+                <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
+                <label for="datetime" class="form-label">Choose Drop Time</label>
+                <input style="width: 100%;" name="drop_time" type="time" class="form-control no-form" id="datetime" placeholder="Select date and time" required>
+              </div>
+            </div>
+          </div>
+
         </div>
 
 
-        <div class="mb-3">
+        <div class="mb-3 mt-3">
           <div class="subbs">
             <div class="insidee">
               <label for="local-cost" class="form-label">Estimated Cost</label>
               <div class="final_amy_see">
-
-                <input type="text" class="form-control no-form" id="local-cost" placeholder="Calculated automatically" readonly>
+                <input type="text" name="cost" class="form-control no-form" id="local-costs" placeholder="Calculated automatically" readonly>
                 <div class="site_price">
-                  <span>
-                    2 days
-                  </span>
-                  <span>
-                    ₹300/km
-                  </span>
+                  <span>2 days</span>
+                  <span>₹300/km</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div>   
+
+        @if(Auth::guard('agent')->check())
         <button type="submit" class="btn btn-primary">Send Request to Admin</button>
+        @else
+        <a href="{{ route('login') }}" class="btn btn-primary">Send Request to Admin</a>
+        @endif
+
       </form>
+
+
     </div>
 
     <!-- Outstation Booking -->
     <div class="tab-pane fade" id="outstation" role="tabpanel" aria-labelledby="outstation-tab">
-      <form>
+
+      <form action="{{route('outstationbooked')}}" method="POST">
+        @csrf
         <div class="mb-3">
         <div class="omh_air_rail">
             <div class="lo_ka">
               <div class="act_trans">
                 <img style="width: 20px;" src="{{asset('frontend/images/destination.png')}}" alt="">
                 <label for="trip-type" class="form-label whtts">Select Trip</label>
-
               </div>
           <label for="type" class="form-label">Trip Type</label>
-          <select name="" class="form-select mormal" id="type" onchange="updateTypes()">
+          <select name="trip_type" class="form-select mormal" id="type" onchange="updateTypes()">
             <option disabled>Select type</option>
             <option value="one-way">One-Way</option>
             <option value="round-trip">Round Trip</option>
@@ -338,145 +347,69 @@
             <div class="col-lg-4">
             <div class="mb-3 loc_stl">
             <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
-    width: 20px;
-">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt=""
+                   style="width: 20px;">
                   <label for="pickup-airport" class="form-label">Destination City</label>
                 </div>
-                <input
-      type="text"
-      class="form-control modal-trigger no-form"
-      id="departure-location-1"
-      placeholder="Enter departure location"
-      data-bs-target="#cityModal"
-      data-bs-toggle="modal"
-      data-target-input="departure-location-1"
-    >
-</div>
-<div class="modal fade" id="cityModal" tabindex="-1" aria-labelledby="cityModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cityModalLabel">Select a City</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="container">
-            <div class="row g-4">
-              <!-- City items -->
-              <div class="col-3 city-item" data-city="New York">
-                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FUdaipur_1.png&w=128&q=75" alt="New York">
-                <p>Jaipur-Delhi</p>
-              </div>
-              <div class="col-3 city-item" data-city="Los Angeles">
-                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJodhpur_1.png&w=128&q=75" alt="Los Angeles">
-                <p>Jodhpur-Haryana</p>
-              </div>
-              <div class="col-3 city-item" data-city="Chicago">
-                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="Chicago">
-                <p>Delhi-Udaipur</p>
-              </div>
-              <div class="col-3 city-item" data-city="Houston">
-                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2Fpali_edit.jpg&w=128&q=75" alt="Houston">
-                <p>Pali-surat</p>
-              </div>
-
-              <div class="col-3 city-item" data-city="Phoenix">
-                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FLucknow.png&w=128&q=75" alt="Phoenix">
-                <p>Lukhnow-kolkata</p>
-              </div>
-              <div class="col-3 city-item" data-city="San Francisco">
-                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FBengaluru.png&w=128&q=75" alt="San Francisco">
-                <p>Banglore-ooty</p>
-              </div>
-              <div class="col-3 city-item" data-city="Miami">
-                <img class="loose_img" src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FDelhi.png&w=128&q=75" alt="Miami">
-                <p>Delhi NCR-Noida</p>
-              </div>
-              
+                <select name="destination_city" class="form-select no-form-select">
+                  <option value="">Destination City</option>
+                  @foreach($route as $value)
+                    <option value="{{ $value->id ?? '' }}">
+                       {{ $value->from_destination ?? ''}} -  {{ $value->to_destination ?? '' }}
+                      </option>
+                  @endforeach
+                </select>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-            </div>
           
 
-          <div class="col-lg-4">
+        <div class="col-lg-4">
           <div class="mb-3 loc_stl">
-    <div class="select_sect">
-      <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
-      <label for="vehicle3" class="form-label">Select Vehicle</label>
-    </div>
-    <input type="text" id="car-input4" class="form-control car-input no-form" placeholder="Select a vehicle" readonly data-bs-toggle="modal" data-bs-target="#carmodal4">
-  </div>
-  <div class="modal fade" id="carmodal4" tabindex="-1" aria-labelledby="carmodallabel4" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="carmodallabel4">Select car type</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="car_model">
-          <div class="frst_mes" onclick="selectCar('SUV', 'car-input4', 'carmodal4')" style="cursor: pointer;">
-            <h6>SUV</h6>
-            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="SUV">
+            <div class="select_sect">
+              <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
+              <label for="vehicle3" class="form-label">Select Vehicle</label>
+            </div>
+            <select name="vehicle_id" class="form-select no-form-select" id="vehicle-selectss" onchange="updateEstimatedCostss()">
+              <option value="">Select a Vehicle</option>
+              @foreach($vehicle as $value)
+                <option value="{{ $value->id ?? '' }}" data-price="{{ $vehicleprice->where('vehicle_id', $value->id)->first()->price ?? '' }}">
+                  {{ $value->vehicle_type ?? '' }}
+                </option>
+              @endforeach
+            </select>
           </div>
-          <div class="frst_mes" onclick="selectCar('Hatchback', 'car-input4', 'carmodal4')" style="cursor: pointer;">
-            <h6>Hatchback</h6>
-            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/hatchback.png') }}" alt="Hatchback">
-          </div>
-          <div class="frst_mes" onclick="selectCar('Sedan', 'car-input4', 'carmodal4')" style="cursor: pointer;">
-            <h6>Sedan</h6>
-            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/sedan.png') }}" alt="Sedan">
-          </div>
-          <div class="frst_mes" onclick="selectCar('Traveller', 'car-input4', 'carmodal4')" style="cursor: pointer;">
-            <h6>Traveller</h6>
-            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/traveller.png') }}" alt="Traveller">
-          </div>
-          <!-- Add more car options as needed -->
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-          </div>
-
-          <div class="col-lg-4">
+        
+        <div class="col-lg-4">
           <div class="mb-3">
-          <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="
-    width: 20px;
-">
+             <div class="select_sect">
+                  <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt=""style="width: 20px;">
                   <label for="pickup-time" class="form-label">Pickup Date</label>
-                </div>
-            <input style="width: 50%;" type="date" class="form-control no-form" id="return-date">
-          </div>
+              </div>
+            <input name="pickup_date" style="width: 50%;" type="date" class="form-control no-form" id="return-date">
           </div>
         </div>
+
+        </div>
+
         <div class="row">
           <div class="col-lg-12">
-          <div class="mb-3">
-          <div class="subbs">
-            <div class="insidee">
-              <label for="local-cost" class="form-label">Estimated Cost</label>
-              <div class="final_amy_see">
 
-                <input type="text" class="form-control no-form" id="local-cost" placeholder="Calculated automatically" readonly>
-                <div class="site_price">
-                  <span>
-                    2 days
-                  </span>
-                  <span>
-                    ₹300/km
-                  </span>
+            <div class="mb-3 mt-3">
+              <div class="subbs">
+                <div class="insidee">
+                  <label for="local-cost" class="form-label">Estimated Cost</label>
+                  <div class="final_amy_see">
+                    <input type="text" name="cost" class="form-control no-form" id="local-costss" placeholder="Calculated automatically" readonly>
+                    <div class="site_price">
+                      <span>2 days</span>
+                      <span>₹300/km</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </div>  
+
           </div>
         </div>
         </div>
@@ -490,10 +423,7 @@
           <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
           <label for="departure-location-round" class="form-label">Departure Location</label>
         </div>
-        <input
-          type="text"
-          class="form-control no-form"
-          placeholder="Enter departure location">
+        <input name="departure_location" type="text" class="form-control no-form" placeholder="Enter departure location">
       </div>
     </div>
 
@@ -504,11 +434,8 @@
           <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
           <label for="destination-location-round" class="form-label">Destination Location</label>
         </div>
-        <input
-          type="text"
-          class="form-control modal-trigger no-form"
-          placeholder="Enter destination location"
-        >
+        <input name="destination_location" type="text" class="form-control modal-trigger no-form"
+         placeholder="Enter destination location">
       </div>
     </div>
 
@@ -519,12 +446,7 @@
           <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="width: 20px;">
           <label for="pickup-date" class="form-label">Pickup Date</label>
         </div>
-        <input
-          type="date"
-          class="form-control no-form"
-          id="pickup-date"
-          style="width: 50%;"
-        >
+        <input name="pickup_date_1" type="date" class="form-control no-form" id="pickup-date" style="width: 50%;">
       </div>
     </div>
   </div>
@@ -537,12 +459,8 @@
           <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="width: 20px;">
           <label for="return-date" class="form-label">Return Date</label>
         </div>
-        <input
-          type="date"
-          class="form-control no-form"
-          id="return-date"
-          style="width: 50%;"
-        >
+        <input name="drop_date" type="date" class="form-control no-form" id="return-date" 
+        style="width: 50%;">
       </div>
     </div>
 
@@ -553,15 +471,14 @@
           <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
           <label for="vehicle-round" class="form-label">Select Vehicle</label>
         </div>
-        <input
-          type="text"
-          id="car-input-round"
-          class="form-control car-input no-form"
-          placeholder="Select a vehicle"
-          readonly
-          data-bs-toggle="modal"
-          data-bs-target="#carModalRound"
-        >
+        <select name="vehicle_id_1" class="form-select no-form-select" id="car-input-round">
+          <option value="">Select a Vehicle</option>
+          @foreach($vehicle as $value)
+            <option value="{{ $value->id ?? '' }}">
+              {{ $value->vehicle_type ?? '' }}
+            </option>
+          @endforeach
+        </select>
       </div>
     </div>
   </div>
@@ -572,49 +489,15 @@
   <!-- Modal content similar to City Modal in One Way Module -->
 </div>
 
-<!-- Car Modal for Round Trip -->
-<div class="modal fade" id="carModalRound" tabindex="-1" aria-labelledby="carModalRoundLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="carModalRoundLabel">Select Vehicle Type</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="car_model">
-          <div class="frst_mes" onclick="selectCar('SUV', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
-            <h6>SUV</h6>
-            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/suv.png') }}" alt="SUV">
-            <p>₹10/km</p>
-          </div>
-          <div class="frst_mes" onclick="selectCar('Hatchback', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
-            <h6>Hatchback</h6>
-            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/hatchback.png') }}" alt="Hatchback">
-            <p>₹50/km</p>
-          </div>
-          <div class="frst_mes" onclick="selectCar('Sedan', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
-            <h6>Sedan</h6>
-            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/sedan.png') }}" alt="Sedan">
-            <p>₹80/km</p>
-          </div>
-          <div class="frst_mes" onclick="selectCar('Traveller', 'car-input-round', 'carModalRound')" style="cursor: pointer;">
-            <h6>Traveller</h6>
-            <img style="width:50%;" src="{{ asset('frontend/images/car_icons/traveller.png') }}" alt="Traveller">
-            <p>₹100/km</p>
-          </div>
-          <!-- Add more car options here -->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      @if(Auth::guard('agent')->check())
+      <button type="submit" class="btn btn-primary">Send Request to Admin</button>
+      @else
+      <a href="{{ route('login') }}" class="btn btn-primary">Send Request to Admin</a>
+      @endif
 
-
-
-        
-        
-        <button type="submit" class="btn btn-primary">Send Request to Admin</button>
       </form>
+
+
     </div>
   </div>
 </div>
@@ -629,25 +512,82 @@
     const vehicleSelect = document.getElementById('vehicle-select');
     const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
     
-    // Get the price per km from the selected option's data-price attribute
-    const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
+    // Get the selected vehicle's ID
+    const vehicleId = selectedOption.value;
 
-    if (pricePerKm) {
-      const days = 2;  // Example: You can replace this with an actual input value for the days
-      const distance = 300;  // Example: You can replace this with an actual input value for distance
+    // If a vehicle is selected, proceed to fetch its price
+    if (vehicleId) {
+      // Get the price per km from the selected vehicle's data-price attribute
+      const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
+      
+      // Log the selected vehicle's price to the console
+      console.log("Price per km: ₹" + pricePerKm);
 
-      // Calculate the estimated cost (price * days * distance)
-      const estimatedCost = days * distance * pricePerKm;
-      console.log(estimatedCost.'dghasghyj')
+      // Update the estimated cost field to show the same price as in the console
+      document.getElementById('local-cost').value = "₹" + pricePerKm.toFixed(2);
 
-      // Update the estimated cost field
-      document.getElementById('local-cost').value = "₹" + estimatedCost.toFixed(2);
     } else {
-      // If no vehicle is selected or price is unavailable, reset the cost field
+      // If no vehicle is selected, reset the cost field
       document.getElementById('local-cost').value = "Calculated automatically";
     }
   }
 </script>
+
+<script>
+  function updateEstimatedCosts() {
+    // Get the selected vehicle from the dropdown
+    const vehicleSelect = document.getElementById('vehicle-selects');
+    const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+    
+    // Get the selected vehicle's ID
+    const vehicleId = selectedOption.value;
+
+    // If a vehicle is selected, proceed to fetch its price
+    if (vehicleId) {
+      // Get the price per km from the selected vehicle's data-price attribute
+      const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
+      
+      // Log the selected vehicle's price to the console
+      console.log("Price per km: ₹" + pricePerKm);
+
+      // Update the estimated cost field to show the same price as in the console
+      document.getElementById('local-costs').value = "₹" + pricePerKm.toFixed(2);
+
+    } else {
+      // If no vehicle is selected, reset the cost field
+      document.getElementById('local-costs').value = "Calculated automatically";
+    }
+  }
+</script>
+
+<script>
+  function updateEstimatedCostss() {
+    // Get the selected vehicle from the dropdown
+    const vehicleSelect = document.getElementById('vehicle-selectss');
+    const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+    
+    // Get the selected vehicle's ID
+    const vehicleId = selectedOption.value;
+
+    // If a vehicle is selected, proceed to fetch its price
+    if (vehicleId) {
+      // Get the price per km from the selected vehicle's data-price attribute
+      const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
+      
+      // Log the selected vehicle's price to the console
+      console.log("Price per km: ₹" + pricePerKm);
+
+      // Update the estimated cost field to show the same price as in the console
+      document.getElementById('local-costss').value = "₹" + pricePerKm.toFixed(2);
+
+    } else {
+      // If no vehicle is selected, reset the cost field
+      document.getElementById('local-costss').value = "Calculated automatically";
+    }
+  }
+</script>
+
+
 
 <script>
   const selectCar = (carType, inputId, modalId) => {

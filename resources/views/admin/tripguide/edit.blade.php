@@ -140,7 +140,7 @@
     </div>
 </div>
 
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="{{ old('local_guide', $wildlifeSafari->local_guide) }}" id="local_guide" name="local_guide" placeholder="Enter local_guide" required>
                                             <label for="local_guide">Local Guide &nbsp;<span style="color:red;">*</span></label>
@@ -148,7 +148,7 @@
                                         @error('local_guide')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                             
 
                                 </div>
@@ -164,7 +164,7 @@
                                         @enderror
                                     </div>
                             
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="{{ old('out_station_guide', $wildlifeSafari->out_station_guide) }}" id="out_station_guide" name="out_station_guide" placeholder="Enter out_station_guide" required>
                                             <label for="out_station_guide">Out Station Guide &nbsp;<span style="color:red;">*</span></label>
@@ -172,7 +172,7 @@
                                         @error('out_station_guide')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                 </div>
 
@@ -197,6 +197,20 @@
                                 </div>
                                 </div>
 
+                               
+                                <div class="form-group row">
+                                    <div class="col-sm-12 mt-3">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" id="description" name="description" placeholder="Enter long description" rows="4" required>{{ old('description', $wildlifeSafari->description) }}</textarea>
+                                            <label for="description">Description &nbsp;<span style="color:red;">*</span></label>
+                                        </div>
+                                        @error('description')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            
+
                                 <input type="hidden" name="deleted_images" id="deleted_images" value="">
                             
                                 <div class="form-group">
@@ -214,6 +228,27 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 200
+    });
+
+</script>
+
+
+
+
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>

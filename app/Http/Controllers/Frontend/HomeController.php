@@ -15,7 +15,11 @@ use App\Models\Hotels;
 use App\Models\HotelBooking;
 use App\Models\Airport;
 use App\Models\PackagePrice;
+use App\Models\TripGuideBook;
 use App\Models\PackageBookingTemp;
+use App\Models\TaxiBooking;
+use App\Models\TripGuide;
+use App\Models\Route;
 use App\Models\PackageBooking;
 use App\Models\City;
 use App\Models\Package;
@@ -174,9 +178,6 @@ public function saveTouristDetails(Request $request)
 }
 
 
-
-
-
     public function taxi_booking()
     {
         $data['user'] = Auth::guard('agent')->user();
@@ -184,7 +185,113 @@ public function saveTouristDetails(Request $request)
         $data['vehicle'] = Vehicle::where('status',1)->get();
         $data['vehicleprice'] = VehiclePrice::where('type','Airport/Railway station')->get();
         $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
+        $data['route'] = Route::get();
         return view('front/taxi_booking',$data);
+    }
+
+
+    public function book_airport_railway(Request $request){
+        // return $request;
+
+        $taxibooking = new TaxiBooking();
+
+        if($request->trip == 'pickup'){
+
+        $taxibooking->tour_type = 'Airport/Railway station';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->trip = $request->trip;
+        $taxibooking->location = $request->location;
+        $taxibooking->airport_id = $request->airport_id;
+        $taxibooking->vehicle_id = $request->vehicle_id;
+        $taxibooking->start_date = $request->start_date;
+        $taxibooking->pickup_date = $request->pickup_date;
+        $taxibooking->pickup_time = $request->pickup_time;
+        $taxibooking->start_time = $request->start_time;
+        $taxibooking->cost = $request->cost;
+
+    }else{
+
+        $taxibooking->tour_type = 'Airport/Railway station';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->trip = $request->trip;
+        // $taxibooking->drop_location = $request->drop_location;
+        $taxibooking->drop_pickup_address = $request->drop_pickup_address;
+        $taxibooking->location = $request->location;
+        $taxibooking->airport_id = $request->airport_id;
+        $taxibooking->vehicle_id = $request->vehicle_id;
+        $taxibooking->start_date = $request->start_date;
+        $taxibooking->start_time = $request->start_time;
+        $taxibooking->pickup_date = $request->pickup_date;
+        $taxibooking->pickup_time = $request->pickup_time;
+        $taxibooking->cost = $request->cost;
+
+    }
+
+    $taxibooking->save();
+
+    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+
+    }
+
+    public function book_local_tour(Request $request){
+        
+        
+        $taxibooking = new TaxiBooking();
+
+        $taxibooking->tour_type = 'Local Tour';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->location = $request->location;
+        $taxibooking->vehicle_id = $request->vehicle_id;
+        $taxibooking->pickup_date = $request->pickup_date;
+        $taxibooking->pickup_time = $request->pickup_time;
+        $taxibooking->drop_date = $request->drop_date;
+        $taxibooking->drop_time = $request->drop_time;
+        $taxibooking->cost = $request->cost;
+        $taxibooking->save();
+
+    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+
+    }
+
+    public function outstation(Request $request){
+
+        $taxibooking = new TaxiBooking();
+
+        if($request->trip_type == 'one-way'){
+            $validated = $request->validate([
+                // 'vehicle_id' => 'required',
+                'pickup_date' => 'required', 
+                'destination_city' => 'required', 
+            ]);
+
+        $taxibooking->tour_type = 'Outstation';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->trip_type = $request->trip_type;
+        $taxibooking->vehicle_id = $request->vehicle_id;
+        $taxibooking->pickup_date = $request->pickup_date;
+        $taxibooking->destination_city = $request->destination_city;
+        $taxibooking->cost = $request->cost;
+
+    }else{
+        $validated = $request->validate([
+            'vehicle_id_1' => 'required',
+            'pickup_date_1' => 'required', 
+            'departure_location' => 'required', 
+        ]);
+        $taxibooking->tour_type = 'Outstation';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->trip_type = $request->trip_type;
+        $taxibooking->vehicle_id_1 = $request->vehicle_id_1;
+        $taxibooking->pickup_date_1 = $request->pickup_date_1;
+        $taxibooking->departure_location = $request->departure_location;
+        $taxibooking->drop_date = $request->drop_date;
+        $taxibooking->destination_location = $request->destination_location;
+
+    }
+        $taxibooking->save();
+
+    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+
     }
 
 
@@ -470,7 +577,34 @@ public function saveTouristDetails(Request $request)
 
     public function guide()
     {
-        return view('front/guide');
+        $data['tripguide'] = TripGuide::latest()->first();
+        $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
+        return view('front/guide',$data);
+    }
+
+    public function bookguide(Request $request){
+
+        $validated = $request->validate([
+            'state_id' => 'required',
+            'location' => 'required',
+            'languages_id' => 'required',
+        ]);
+
+        $TripGuide = new TripGuideBook();
+
+        $TripGuide->user_id = Auth::guard('agent')->id();
+        $TripGuide->tour_guide_id = $request->tour_guide_id;
+        $TripGuide->languages_id = $request->languages_id;
+        $TripGuide->state_id = $request->state_id;
+        $TripGuide->location = $request->location;
+        $TripGuide->guide_type = $request->guide_type;
+        $TripGuide->cost = $request->cost;
+        $TripGuide->status = 0;
+
+        $TripGuide->save();
+
+        return redirect()->back()->with('message','Tour Guide Booked Succesfully!');
+        
     }
 
 

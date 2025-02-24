@@ -98,7 +98,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::put('packages/{id}', [PackageController::class, 'update'])->name('packages.update');
 
 
-   Route::get('/pandin-package-booking', [PackageController::class, 'pandingindex'])->name('pandingpackagebooking');
+   Route::get('/panding-package-booking', [PackageController::class, 'pandingindex'])->name('pandingpackagebooking');
    Route::get('/complete-package-booking', [PackageController::class, 'completeorders'])->name('completepackagebooking');
    Route::match(['put', 'patch'], '/package-booking/{id}/status', [PackageController::class, 'updateStatus'])->name('packagebooking.updateStatus');
 
@@ -187,6 +187,8 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::match(['put', 'patch'], '/agent/{id}/status', [AgentController::class, 'updateStatus'])->name('agent.updateStatus');
 
     Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi-booking');
+    Route::get('/outstation-taxi-booking', [TaxiBookingController::class, 'outstationindex'])->name('outstation_taxi_booking');
+    Route::get('/localtour-taxi-booking', [TaxiBookingController::class, 'localtourindex'])->name('localtour_taxi_booking');
     Route::post('/taxi-booking/create', [TaxiBookingController::class, 'create'])->name('taxi-booking.create');
 
 
@@ -234,6 +236,11 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::patch('/trip-guide/{id}/status', [TripGuideController::class, 'updateStatus'])->name('tripguide.updateStatus');
     Route::get('/trip-guide/cities/{stateId}', [TripGuideController::class, 'getCitiesByStatetripguide']);
   
+    Route::get('/trip-guide-booking', [TripGuideController::class, 'tripguidebooking'])->name('tripguidebooking');
+    Route::get('/complete-trip-guide-booking', [TripGuideController::class, 'completetripguidebooking'])->name('completetripguidebooking');
+    
+    Route::put('/trip-guide-booking/{id}/status', [TripGuideController::class, 'updateStatuss'])->name('trip_guide_booking.updateStatus');
+
   //Airport
     Route::get('/airport', [AirportController::class, 'index'])->name('airport.index');
     Route::match(['get','post'],'/airport/create', [AirportController::class, 'create'])->name('airport_create');

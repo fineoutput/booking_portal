@@ -12,6 +12,7 @@ use App\Models\RoundTrip;
 use App\Models\WildlifeSafari;
 use App\Models\TripGuide;
 use App\Models\State;
+use App\Models\TripGuideBook;
 use App\Models\City;
 
 
@@ -20,6 +21,25 @@ class TripGuideController extends Controller
     function index() {
         $data['WildlifeSafari'] = TripGuide::orderBy('id','DESC')->get();
         return view('admin/tripguide/index',$data);
+    }
+    
+    function tripguidebooking() {
+        $data['TripGuideBook'] = TripGuideBook::orderBy('id','DESC')->where('status',0)->get();
+        return view('admin/tripguide/tripguidebooking',$data);
+    }
+
+    function completetripguidebooking() {
+        $data['TripGuideBook'] = TripGuideBook::orderBy('id','DESC')->where('status',1)->get();
+        return view('admin/tripguide/tripguidebooking',$data);
+    }
+
+    public function updateStatuss($id)
+    {
+        $vehicle = TripGuideBook::findOrFail($id);
+        $vehicle->status = ($vehicle->status == 0) ? 1 : 0;
+        $vehicle->save();
+
+        return redirect()->back()->with('success', 'status updated successfully!');
     }
     
     public function getCitiesByStatetripguide($stateId)
@@ -101,6 +121,7 @@ class TripGuideController extends Controller
             $agentCall->image = $imagePaths ? json_encode($imagePaths) : null; 
             $agentCall->state_id = $request->state_id;
             $agentCall->cost = $request->cost;
+            $agentCall->description = $request->description;
             $agentCall->guide_type = is_array($request->guide_type) ? implode(',', $request->guide_type) : $request->guide_type;
             $agentCall->save(); 
 
@@ -179,6 +200,7 @@ class TripGuideController extends Controller
         $wildlifeSafari->languages_id = $request->languages_id;
         $wildlifeSafari->local_guide = $request->local_guide;
         $wildlifeSafari->city_id = $request->city_id;
+        $wildlifeSafari->description = $request->description;
         $wildlifeSafari->state_id = $request->state_id;
         $wildlifeSafari->cost = $request->cost;
         $wildlifeSafari->image = json_encode(array_values($imagePaths)); 
