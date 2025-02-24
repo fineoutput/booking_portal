@@ -92,7 +92,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
-Route::post('agentLoginWithMobile', [AuthController::class, 'agentLoginWithMobile'])->name('agentLoginWithMobile');
+Route::post('/agent/login/mobile', [AuthController::class, 'agentLoginWithMobile'])->name('agentLoginWithMobile');
+
+
+Route::post('verifyOtp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
 
 //======================================= ADMIN ===================================================
 

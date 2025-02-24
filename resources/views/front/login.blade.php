@@ -128,7 +128,25 @@
 
                     <!-- Phone Login Form -->
                     <div id="loginWithPhone" class="hidden">
-                    <form>
+
+                    {{-- <form method="POST" action="{{route('agentLoginWithMobile')}}">
+                        @if (session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    @endif
+                    @if (session('message'))
+                        <div class="alert alert-success">{{ session('message') }}</div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+                        @csrf
                         <!-- Phone Number Field -->
                         <div id="phoneFormGroup" class="mb-3">
                             <label for="phoneLogin" class="form-label">Phone Number</label>
@@ -146,7 +164,63 @@
                         </div>
 
                         <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="toggleLoginForm()">Back to Email Login</button>
+                    </form> --}}
+
+                    <form id="agentLoginForm" method="POST" action="{{ route('agentLoginWithMobile') }}">
+                        @csrf
+                        @if (session('error'))
+                            <div class="alert alert-danger" id="errorMessage">{{ session('error') }}</div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-success" id="successMessage">{{ session('message') }}</div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger" id="validationErrors">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    
+                        <!-- Phone Number Field -->
+                        <div id="phoneFormGroup" class="mb-3">
+                            <label for="phoneLogin" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phoneLogin" name="mobile_number" placeholder="Enter your phone number" required>
+                            <button type="button" class="btn btn-outline-primary mt-2" id="sendOtpBtn">Send OTP</button>
+                            <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="toggleLoginForm()">Back to Email Login</button>
+                        </div>
                     </form>
+                    
+
+                    <form id="otpVerificationForm" method="POST">
+                        @csrf
+                    
+                        <div id="otpFormGroup" class="mb-3" style="display: none;">
+                            <label for="otpLogin" class="form-label">OTP</label>
+                            <input type="text" class="form-control" id="otpLogin" name="otpLogin" placeholder="Enter OTP" required>
+                            <button type="submit" class="btn btn-outline-primary mt-2" id="submitOtpBtn">Submit OTP</button>
+                        </div>
+                    </form>
+                    
+                    <!-- Error message container (Initially hidden) -->
+                    <div id="otpErrorMessage" class="alert alert-danger" style="display:none;"></div>
+                    
+                    <!-- Success message container (Initially hidden) -->
+                    <div id="otpSuccessMessage" class="alert alert-success" style="display:none;"></div>
+                    
+                    
+                    
+                    <!-- Toast for Success -->
+                    <div id="otpSuccessToast" class="toast" style="position: fixed; bottom: 20px; right: 20px; display: none;">
+                        <div class="toast-body">
+                            OTP sent successfully!
+                        </div>
+                    </div>
+                    
+
+
                 </div>
                 </div>
 
@@ -295,6 +369,201 @@
     </div>
 </section>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+   $(document).ready(function () {
+    // Show the OTP form when the Send OTP button is clicked
+    $('#sendOtpBtn').on('click', function (e) {
+        e.preventDefault(); // Prevent form submission
+        
+        var phone_number = $('#phoneLogin').val(); // Get the phone number value from input
+
+        $.ajax({
+            url: "{{ route('agentLoginWithMobile') }}",  // Send request to your backend to send OTP
+            method: "POST",
+            data: {
+                _token: $("input[name='_token']").val(),
+                mobile_number: phone_number, // Passing the phone number
+            },
+            success: function (response) {
+                if (response.errors) {
+                $('#validationErrors').html('');
+                $.each(response.errors, function (key, value) {
+                    $('#validationErrors').append('<li>' + value + '</li>');
+                });
+                $('#validationErrors').show();
+            } else if (response.success) {
+                $('#successMessage').text(response.success);
+                $('#successMessage').show();
+
+                $('#otpFormGroup').show();
+                $('#phoneFormGroup').hide();
+                $('#sendOtpBtn').hide();
+                $('#submitOtpBtn').show();
+            }
+            },
+            error: function () {
+                // Handle server error
+                $('#errorMessage').text('Error while processing the request. Please try again later.');
+                $('#errorMessage').show();
+            }
+        });
+    });
+
+    // Handle OTP form submission via AJAX
+    $('#otpVerificationForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent form submission
+
+        var otp = $('#otpLogin').val(); // Get the OTP entered by the user
+        var phone_number = $('#phoneLogin').val(); // Get the mobile number entered by the user
+
+        $.ajax({
+            url: "{{ route('verifyOtp') }}", // URL for verifying OTP
+            method: "POST",
+            data: {
+                _token: $("input[name='_token']").val(),
+                otp: otp,  // OTP entered by the user
+                mobile_number: phone_number,  // Mobile number passed to backend for OTP verification
+            },
+            success: function (response) {
+                if (response.success) {
+                    $('#otpSuccessMessage').text(response.message); // Success message
+                    $('#otpSuccessMessage').show();
+
+                    // Optionally redirect or show another page
+                    window.location.href = "{{ route('index') }}"; // Redirect to the agent dashboard after success
+                } else {
+                    // OTP verification failed
+                    $('#otpErrorMessage').text(response.error);
+                    $('#otpErrorMessage').show();
+                }
+            },
+            error: function () {
+                // Handle error during OTP verification
+                $('#otpErrorMessage').text('An error occurred while verifying the OTP. Please try again.');
+                $('#otpErrorMessage').show();
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+{{-- <script>
+$(document).ready(function () {
+    $('#sendOtpBtn').on('click', function (e) {
+        e.preventDefault();  // Prevent the form from submitting traditionally
+
+        console.log('Send OTP button clicked');
+        
+        // Clear any previous messages
+        $('#errorMessage').hide();
+        $('#successMessage').hide();
+        $('#validationErrors').hide();
+
+        var phone_number = $('#phoneLogin').val();
+        console.log('Phone Number: ' + phone_number); // Debugging log
+
+        $.ajax({
+    url: "{{ route('agentLoginWithMobile') }}", 
+    method: "POST",
+    data: {
+        _token: $("input[name='_token']").val(),
+        mobile_number: phone_number
+    },
+    success: function (response) {
+        console.log(response); 
+        if (response.errors) {
+            $('#validationErrors').html('');
+            $.each(response.errors, function (key, value) {
+                $('#validationErrors').append('<li>' + value + '</li>');
+            });
+            $('#validationErrors').show();
+        } else if (response.success) {
+            $('#successMessage').text(response.success);
+            $('#successMessage').show();
+            $('#otpSuccessToast').toast('show');
+            $('#otpFormGroup').show(); 
+            $('#phoneFormGroup').hide();
+            $('#sendOtpBtn').hide();
+            $('#submitOtpBtn').show();
+        }
+    },
+    error: function (xhr, status, error) {
+        console.log('Error: ', error); 
+        $('#errorMessage').text('An error occurred while processing your request. Please try again later.');
+        $('#errorMessage').show();
+    }
+});
+
+    });
+});
+
+
+
+$(document).ready(function () {
+
+$('#otpVerificationForm').on('submit', function (e) {
+    e.preventDefault();  // Prevent the default form submission
+
+    // Clear any previous messages
+    $('#otpErrorMessage').hide();
+    $('#otpSuccessMessage').hide();
+
+    var otp = $('#otp').val();  // Get the entered OTP value
+
+    // Send AJAX request to verify OTP
+    $.ajax({
+        url: "{{ route('verifyOtp') }}",  // This is the route where your backend will handle OTP verification
+        method: "POST",
+        data: {
+            _token: $("input[name='_token']").val(),  // CSRF Token
+            otp: otp,  // OTP entered by the user
+            mobile_number: "{{ $mobile_number }}"  // Pass the mobile number (this should be available in your session or passed from the controller)
+        },
+        success: function (response) {
+            if (response.success) {
+                // OTP verification successful
+                $('#otpSuccessMessage').text(response.message);  // Display success message
+                $('#otpSuccessMessage').show();
+                
+                // Redirect to the dashboard or another page
+                setTimeout(function () {
+                    window.location.href = "{{ route('agent.dashboard') }}";  // Redirect to dashboard after success
+                }, 2000);
+            } else {
+                // OTP verification failed
+                $('#otpErrorMessage').text(response.error);  // Display error message
+                $('#otpErrorMessage').show();
+            }
+        },
+        error: function (xhr, status, error) {
+            // Handle any server-side errors
+            $('#otpErrorMessage').text('An error occurred while verifying the OTP. Please try again.'); 
+            $('#otpErrorMessage').show();
+        }
+    });
+});
+
+});
+
+
+</script> --}}
+
+
+<script>
+    // Toast functionality
+    $('#otpSuccessToast').toast({
+        autohide: true,
+        delay: 3000
+    });
+</script>
+
+
 <script>
     function toggleLoginForm() {
         const emailForm = document.getElementById("loginWithEmail");
@@ -322,21 +591,21 @@
     }
 
     // Handle OTP submission
-    document.getElementById('sendOtpBtn').addEventListener('click', function () {
-        const phoneNumber = document.getElementById('phoneLogin').value;
+    // document.getElementById('sendOtpBtn').addEventListener('click', function () {
+    //     const phoneNumber = document.getElementById('phoneLogin').value;
 
-        if (phoneNumber) {
-            // Assume an OTP is sent and the OTP field is shown
-            // alert("OTP sent to " + phoneNumber);
-            // Hide phone number input and show OTP input
-            document.getElementById('phoneFormGroup').style.display = 'none';
-            document.getElementById('otpFormGroup').style.display = 'block';
-            document.getElementById('sendOtpBtn').style.display = 'none';
-            document.getElementById('submitOtpBtn').style.display = 'block';
-        } else {
-            alert("Please enter a valid phone number");
-        }
-    });
+    //     if (phoneNumber) {
+    //         // Assume an OTP is sent and the OTP field is shown
+    //         // alert("OTP sent to " + phoneNumber);
+    //         // Hide phone number input and show OTP input
+    //         document.getElementById('phoneFormGroup').style.display = 'none';
+    //         document.getElementById('otpFormGroup').style.display = 'block';
+    //         document.getElementById('sendOtpBtn').style.display = 'none';
+    //         document.getElementById('submitOtpBtn').style.display = 'block';
+    //     } else {
+    //         alert("Please enter a valid phone number");
+    //     }
+    // });
 
     // Handle phone login form submission
     document.getElementById('loginWithPhone').addEventListener('submit', function (event) {

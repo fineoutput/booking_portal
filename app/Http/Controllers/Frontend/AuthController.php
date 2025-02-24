@@ -87,28 +87,7 @@ class AuthController extends Controller
     }
     
 
-    private function sendOtp($phone = null, $email = null)
-    {
-        $otp = rand(1000, 9999); 
-        $sourceName = $phone ?? $email; 
-        $existingOtp = UserOtp::where('source_name', $sourceName);
-        if ($existingOtp) {
-            $existingOtp->update(['otp' => 0]);
-        }
-        $data = [
-            'otp' => $otp,
-            'expires_at' => now()->addMinutes(10), // Set expiry time for OTP (e.g., 10 minutes)
-            'source_name' => $sourceName,
-            'type' => $phone ? 'phone' : 'email',
-        ];
-        UserOtp::create($data);
-        if ($phone) {
-            // $this->sendOtpToPhone($phone, $otp);
-        } elseif ($email) {
-            // $this->sendOtpToEmail($email, $otp);
-        }
-    }
-
+  
   
     public function verify_auth_otp(Request $request)
     {
@@ -329,33 +308,56 @@ public function agentlogin(Request $request)
 public function agentLoginWithMobile(Request $request)
 {
     $validator = Validator::make($request->all(), [
-        'mobile_number' => 'required|string|exists:agent,number',
+        'mobile_number' => 'required|string|exists:agent,number|digits:10',
     ]);
 
     if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
+        return response()->json(['errors' => $validator->errors()], 400); 
     }
 
     $user = Agent::where('number', $request->mobile_number)->first();
     
     if (!$user) {
-        return redirect()->back()->with('error', 'User not found with this mobile number.');
+        return response()->json(['error' => 'User not found with this mobile number.'], 404);
     }
 
     if ($user->approved != 1) {
-        return redirect()->back()->with('error', 'Your account is not approved by the admin. Please wait for approval.');
+        return response()->json(['error' => 'Your account is not approved by the admin. Please wait for approval.'], 403);
     }
 
+    // Send OTP and update user record
     $otp = $this->sendOtp($user->number);
-
     $user->update([
         'otp' => $otp,
-        'otp_expires_at' => Carbon::now()->addMinutes(5),  
+        'otp_expires_at' => Carbon::now()->addMinutes(5),
     ]);
 
-    return redirect()->route('otp.verify')->with('message', 'OTP sent successfully!');
+    return response()->json(['success' => 'OTP sent successfully!']);
 }
 
+
+
+private function sendOtp($phone = null, $email = null)
+{
+    $otp = rand(1000, 9999); 
+    $sourceName = $phone ?? $email; 
+    $existingOtp = UserOtp::where('source_name', $sourceName);
+    if ($existingOtp) {
+        $existingOtp->update(['otp' => 0]);
+    }
+    $data = [
+        'otp' => $otp,
+        'expires_at' => now()->addMinutes(10), // Set expiry time for OTP (e.g., 10 minutes)
+        'source_name' => $sourceName,
+        'type' => $phone ? 'phone' : 'email',
+    ];
+    UserOtp::create($data);
+    if ($phone) {
+        // $this->sendOtpToPhone($phone, $otp);
+    } elseif ($email) {
+        // $this->sendOtpToEmail($email, $otp);
+    }
+}
 
 
 
@@ -390,6 +392,64 @@ public function agentLoginWithEmail(Request $request)
 }
 
 
+
+public function verifyOtp(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'otp' => 'required|digits:4',  // Validate OTP (should be a 4-digit number)
+        'mobile_number' => 'required|string',  // Make sure the mobile number is provided
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'error' => 'Invalid OTP or phone number format.'
+        ]);
+    }
+
+    // Get mobile number and OTP from the request
+    $mobile_number = $request->mobile_number;
+    $otp = $request->otp;
+
+    // Find the OTP record based on mobile number and OTP entered
+    $userOtp = UserOtp::where('source_name', $mobile_number)
+                     ->where('otp', $otp)
+                     ->first();
+
+    if (!$userOtp) {
+        // OTP is not valid
+        return response()->json([
+            'error' => 'Invalid OTP. Please try again.'
+        ]);
+    }
+
+    // Check if OTP is expired
+    if (Carbon::now()->greaterThan($userOtp->expires_at)) {
+        // OTP has expired
+        return response()->json([
+            'error' => 'OTP has expired. Please request a new one.'
+        ]);
+    }
+
+    // OTP is valid, so log the user in
+    $user = Agent::where('number', $mobile_number)->first();
+
+    if (!$user) {
+        return response()->json([
+            'error' => 'User not found.'
+        ]);
+    }
+
+    // Optional: You can check if the user is approved or perform any other checks here
+
+    // Log the user in
+    Auth::guard('agent')->login($user);
+
+    // Return success response
+    return response()->json([
+        'success' => true,
+        'message' => 'OTP verified successfully. You are now logged in!'
+    ]);
+}
 
 
 
