@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tours Dekho</title>
   <!-- Bootstrap CSS -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css">
@@ -155,98 +157,38 @@
           </a>
           <div class="dropdown-menu mega-menu-content" aria-labelledby="megaMenu" style="width: 750px;">
             <div class="row">
-              <!-- Column 1 -->
-              <div class="col-md-4">
+
+              {{-- <div class="col-md-4">
                 <h6>Rajasthan</h6>
                 <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Jaipur</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Udaipur</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Chittod</a></li>
+                  <li><a class="dropdown-item" href="">Jaipur</a></li>
+                  <li><a class="dropdown-item" href="">Udaipur</a></li>
+                  <li><a class="dropdown-item" href="">Chittod</a></li>
                 </ul>
-              </div>
-              <!-- Column 2 -->
-              <div class="col-md-4">
-                <h6>Himachal</h6>
-                <ul class="list-unstyled" style="overflow-y: auto; height: 200px;">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Manali</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Rohtang</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Sisu</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Manali</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Rohtang</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Sisu</a></li>
-                </ul>
-              </div>
-              <!-- Column 3 -->
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
-              <div class="col-md-4">
-                <h6>J&K</h6>
-                <ul class="list-unstyled">
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Kashmir</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Ooty</a></li>
-                  <li><a class="dropdown-item" href="{{ route('list') }}">Gangtok</a></li>
-                </ul>
-              </div>
+              </div> --}}
+
+              @foreach($states as $state)
+        <div class="col-md-4">
+            <h6>{{ $state->state_name }}</h6>
+            <ul class="list-unstyled">
+                @foreach($state->cities as $city)
+                    <li><a class="dropdown-item" href="{{ route('list', ['city_id' => base64_encode($city->id)]) }}">{{ $city->city_name }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+    @endforeach
+
             </div>
+
           </div>
           <div class="mega-menu-backdrop"></div>
         </li>
         <!-- Other Nav Items -->
+        @if(Auth::guard('agent')->check())
+
+        @else
         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+        @endif
         <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('hotelsbooking') }}">Hotels</a></li>

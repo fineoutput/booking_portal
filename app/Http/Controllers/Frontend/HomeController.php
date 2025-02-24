@@ -10,9 +10,21 @@ use App\Models\UserOtp;
 use App\Models\Agent;
 use App\Models\State;
 use App\Models\HotelPrice;
+use App\Models\VehiclePrice;
 use App\Models\Hotels;
 use App\Models\HotelBooking;
+use App\Models\Airport;
+use App\Models\PackagePrice;
+use App\Models\TripGuideBook;
+use App\Models\PackageBookingTemp;
+use App\Models\TaxiBooking;
+use App\Models\TripGuide;
+use App\Models\Route;
+use App\Models\PackageBooking;
 use App\Models\City;
+use App\Models\Package;
+use App\Models\Vehicle;
+use App\Models\Tourist;
 use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
 use Carbon\Carbon;
@@ -30,6 +42,7 @@ class HomeController extends Controller
     public function index(Request $req)
     {
      
+        // $data['states'] = State::with('cities')->get();
         return view('front/index')->withTitle('home');
     }
 
@@ -48,50 +61,278 @@ class HomeController extends Controller
     {
         return view('front/options');
     }
-    public function confirmation()
-    {
-        return view('front/confirmation');
-    }
+   
     public function all_images()
     {
         return view('front/all_images');
     }
 
-    // public function user_profile()
-    // {
-    //     $data['user'] = Auth::guard('agent')->user()->load('cities','state');
-    //     return view('front/user_profile',$data);
-    // }
 
     // public function user_profile()
     // {
-    //     $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
-    //     return view('front/user_profile', $data);
+    //     if (Auth::guard('agent')->check()) {
+    //         $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
+    //         $data['booking'] = PackageBooking::where('id',$data['user']->id)->get();
+    //         return view('front/user_profile', $data);
+    //     }
+    //     return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
     // }
+
 
     public function user_profile()
     {
         if (Auth::guard('agent')->check()) {
-            $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
-            return view('front/user_profile', $data);
+
+            $user = Auth::guard('agent')->user();
+
+            $user->load('cities', 'state');
+
+            $booking = PackageBooking::with('tourists')->where('user_id', $user->id)->get();
+            
+
+            return view('front/user_profile', compact('user', 'booking'));
         }
+
         return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
+
     }
+
+
+//     public function saveTouristDetails(Request $request)
+// {
+//     // Validate incoming data
+//     $request->validate([
+//         'booking_id' => 'nullable',
+//         'tourist.*.name' => 'required',
+//         'tourist.*.age' => 'required',
+//         'tourist.*.phone' => 'required',
+//         'tourist.*.aadhar_front' => 'nullable',
+//         'tourist.*.aadhar_back' => 'nullable',
+//         'additional_info' => 'nullable',
+//     ]);
+
+//     $bookingId = $request->input('booking_id');
+//     foreach ($request->tourist as $tourist) {
+//         $touristRecord = new Tourist();
+//         $touristRecord->booking_id = $bookingId; 
+//         $touristRecord->user_id = Auth::guard('agent')->id(); 
+//         $touristRecord->name = $tourist['name'];
+//         $touristRecord->age = $tourist['age'];
+//         $touristRecord->phone = $tourist['phone'];
+//         $touristRecord->additional_info = $request->additional_info;
+        
+//         // Handle file uploads
+//         if ($request->hasFile("tourist.*.aadhar_front")) {
+//             $touristRecord->aadhar_front = $tourist['aadhar_front']->store('aadhar_cards');
+//         }
+//         if ($request->hasFile("tourist.*.aadhar_back")) {
+//             $touristRecord->aadhar_back = $tourist['aadhar_back']->store('aadhar_cards');
+//         }
+
+//         // Save the tourist record
+//         $touristRecord->save();
+//     }
+
+//     return response()->json(['message' => 'Tourist details saved successfully!']);
+// }
+
+
+public function saveTouristDetails(Request $request)
+{
+    $validated = $request->validate([
+        'tourist.*.name' => 'required',
+        'tourist.*.age' => 'required',
+        'tourist.*.phone' => 'required',
+        'tourist.*.aadhar_front' => 'required|file',  
+        'tourist.*.aadhar_back' => 'required|file', 
+        'additional_info' => 'nullable',
+    ]);
+
+    foreach ($request->tourist as $touristData) {
+        $aadharFrontPath = null;
+        $aadharBackPath = null;
+
+        if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
+            $aadharFrontPath = $touristData['aadhar_front']->store('uploads/tourist');
+        }
+
+        if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
+            $aadharBackPath = $touristData['aadhar_back']->store('uploads/tourist');
+        }
+
+        $tourist = new Tourist([
+            'user_id' => Auth::guard('agent')->id(),
+            'name' => $touristData['name'],
+            'age' => $touristData['age'],
+            'phone' => $touristData['phone'],
+            'aadhar_front' => $aadharFrontPath,
+            'aadhar_back' => $aadharBackPath,
+            'additional_info' => $request->additional_info,
+            'booking_id' => $request->booking_id,
+        ]);
+
+        $tourist->save();
+    }
+
+    return redirect()->back()->with(['message' => 'Tourist details saved successfully!']);
+}
 
 
     public function taxi_booking()
     {
         $data['user'] = Auth::guard('agent')->user();
+        $data['airport'] = Airport::all();
+        $data['vehicle'] = Vehicle::where('status',1)->get();
+        $data['vehicleprice'] = VehiclePrice::where('type','Airport/Railway station')->get();
+        $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
+        $data['route'] = Route::get();
         return view('front/taxi_booking',$data);
     }
-    public function list()
-    {
-        return view('front/list');
+
+
+    public function book_airport_railway(Request $request){
+        // return $request;
+
+        $taxibooking = new TaxiBooking();
+
+        if($request->trip == 'pickup'){
+
+        $taxibooking->tour_type = 'Airport/Railway station';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->trip = $request->trip;
+        $taxibooking->location = $request->location;
+        $taxibooking->airport_id = $request->airport_id;
+        $taxibooking->vehicle_id = $request->vehicle_id;
+        $taxibooking->start_date = $request->start_date;
+        $taxibooking->pickup_date = $request->pickup_date;
+        $taxibooking->pickup_time = $request->pickup_time;
+        $taxibooking->start_time = $request->start_time;
+        $taxibooking->cost = $request->cost;
+
+    }else{
+
+        $taxibooking->tour_type = 'Airport/Railway station';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->trip = $request->trip;
+        // $taxibooking->drop_location = $request->drop_location;
+        $taxibooking->drop_pickup_address = $request->drop_pickup_address;
+        $taxibooking->location = $request->location;
+        $taxibooking->airport_id = $request->airport_id;
+        $taxibooking->vehicle_id = $request->vehicle_id;
+        $taxibooking->start_date = $request->start_date;
+        $taxibooking->start_time = $request->start_time;
+        $taxibooking->pickup_date = $request->pickup_date;
+        $taxibooking->pickup_time = $request->pickup_time;
+        $taxibooking->cost = $request->cost;
+
     }
-    public function detail()
-    {
-        return view('front/detail');
+
+    $taxibooking->save();
+
+    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+
     }
+
+    public function book_local_tour(Request $request){
+        
+        
+        $taxibooking = new TaxiBooking();
+
+        $taxibooking->tour_type = 'Local Tour';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->location = $request->location;
+        $taxibooking->vehicle_id = $request->vehicle_id;
+        $taxibooking->pickup_date = $request->pickup_date;
+        $taxibooking->pickup_time = $request->pickup_time;
+        $taxibooking->drop_date = $request->drop_date;
+        $taxibooking->drop_time = $request->drop_time;
+        $taxibooking->cost = $request->cost;
+        $taxibooking->save();
+
+    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+
+    }
+
+    public function outstation(Request $request){
+
+        $taxibooking = new TaxiBooking();
+
+        if($request->trip_type == 'one-way'){
+            $validated = $request->validate([
+                // 'vehicle_id' => 'required',
+                'pickup_date' => 'required', 
+                'destination_city' => 'required', 
+            ]);
+
+        $taxibooking->tour_type = 'Outstation';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->trip_type = $request->trip_type;
+        $taxibooking->vehicle_id = $request->vehicle_id;
+        $taxibooking->pickup_date = $request->pickup_date;
+        $taxibooking->destination_city = $request->destination_city;
+        $taxibooking->cost = $request->cost;
+
+    }else{
+        $validated = $request->validate([
+            'vehicle_id_1' => 'required',
+            'pickup_date_1' => 'required', 
+            'departure_location' => 'required', 
+        ]);
+        $taxibooking->tour_type = 'Outstation';
+        $taxibooking->user_id = Auth::guard('agent')->id();
+        $taxibooking->trip_type = $request->trip_type;
+        $taxibooking->vehicle_id_1 = $request->vehicle_id_1;
+        $taxibooking->pickup_date_1 = $request->pickup_date_1;
+        $taxibooking->departure_location = $request->departure_location;
+        $taxibooking->drop_date = $request->drop_date;
+        $taxibooking->destination_location = $request->destination_location;
+
+    }
+        $taxibooking->save();
+
+    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+
+    }
+
+
+    public function list($id)
+    {
+        $id = base64_decode($id);
+        
+        $city['city'] = City::where('id', $id)->first();
+    
+        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
+    
+        $formatted_date = Carbon::now()->format('Y-m'); // Get current date formatted as 'Y-m'
+    
+        foreach ($data['packages'] as $package) {
+            $package_price = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '<=', $formatted_date)
+                ->where('end_date', '>=', $formatted_date)
+                ->first();
+    
+            $package->prices = $package_price;
+    
+            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+            
+            $package->hotels = $hotels;
+        }
+        return view('front.list', $data);
+    }
+    
+
+
+
+    public function detail($id)
+    {
+        $id = base64_decode($id);
+
+        $data['packages'] = Package::where('id',$id)->first();
+
+        return view('front/detail',$data);
+    }
+
+
     public function hotelsbooking()
     {
         $data['hotel'] = Hotels::all();
@@ -125,6 +366,179 @@ class HomeController extends Controller
     }
 
 
+    public function add_package_booking(Request $request, $id)
+    {
+        
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
+        
+        $night_count = $start_date->diffInDays($end_date); 
+
+        $formatted_date = Carbon::now()->format('Y-m');
+
+        $package_price = PackagePrice::where('package_id', $id)
+                ->where('start_date', '<=', $formatted_date)
+                ->where('end_date', '>=', $formatted_date)
+                ->first();
+
+        $wildlife = new PackageBookingTemp();
+        $wildlife->user_id = Auth::guard('agent')->id();
+        $wildlife->package_id = $id;
+        $wildlife->start_date = $start_date;
+        $wildlife->end_date = $end_date;
+        $wildlife->adults_count = $request->adults_count;
+        $wildlife->child_with_bed_count = $request->child_with_bed_count;
+        $wildlife->night_count = $night_count;  
+        $wildlife->child_no_bed_child_count = $request->child_no_bed_child_count;  
+        $wildlife->extra_bed = $request->extra_bed;  
+        $wildlife->meal = $request->meal;  
+        $wildlife->hotel_preference = $request->hotel_preference;  
+        $wildlife->vehicle_options = $request->vehicle_options;  
+        $wildlife->travelinsurance = $request->travelinsurance;  
+        $wildlife->specialremarks = $request->specialremarks;  
+        $wildlife->status = 0;
+
+        if($request->meal == 'only_room'){
+
+           $meal_cost = $package_price->meal_plan_only_room_cost;
+
+        }elseif($request->meal == 'breakfast'){
+
+            $meal_cost = $package_price->meal_plan_breakfast_cost;
+
+        }elseif($request->meal == 'breakfast_lunch'){
+
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+
+        }elseif($request->meal == 'breakfast_dinner'){
+
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+
+        }else{
+
+            $meal_cost = $package_price->meal_plan_all_meals_cost;
+        }
+
+
+        // hotel_preference
+
+        if($request->hotel_preference == 'standard'){
+
+           $hotel_preference_cost = $package_price->standard_cost;
+
+        }elseif($request->hotel_preference == 'deluxe'){
+
+            $hotel_preference_cost = $package_price->deluxe_cost;
+
+        }elseif($request->hotel_preference == 'super_deluxe'){
+
+            $hotel_preference_cost = $package_price->super_deluxe_cost;
+
+        }elseif($request->hotel_preference == 'luxury'){
+
+            $hotel_preference_cost = $package_price->luxury_cost;
+
+        }else{
+
+            $hotel_preference_cost = $package_price->premium_cost;
+        }
+
+        // vehicle_options
+
+        if($request->vehicle_options == 'hatchback_cost'){
+
+           $vehicle_options_cost = $package_price->hatchback_cost;
+
+        }elseif($request->vehicle_options == 'sedan_cost'){
+
+            $vehicle_options_cost = $package_price->sedan_cost;
+
+        }elseif($request->vehicle_options == 'economy_suv_cost'){
+
+            $vehicle_options_cost = $package_price->economy_suv_cost;
+
+        }elseif($request->vehicle_options == 'luxury_suv_cost'){
+
+            $vehicle_options_cost = $package_price->luxury_suv_cost;
+
+        }
+        elseif($request->vehicle_options == 'traveller_mini_cost'){
+
+            $vehicle_options_cost = $package_price->traveller_mini_cost;
+
+        }
+        elseif($request->vehicle_options == 'traveller_big_cost'){
+
+            $vehicle_options_cost = $package_price->traveller_big_cost;
+
+        }
+        elseif($request->vehicle_options == 'premium_traveller_cost'){
+
+            $vehicle_options_cost = $package_price->premium_traveller_cost;
+
+        }
+        else{
+
+            $vehicle_options_cost = $package_price->ac_coach_cost;
+        }
+
+        if($request->extra_bed == 'yes'){
+            $extrabed_cost = $package_price->extra_bed_cost;
+        }
+        else{
+            $extrabed_cost = 0;
+        }
+
+        $total_night_cost = $package_price->nights_cost *  $night_count;
+        $adults_cost = $package_price->adults_cost *  $request->adults_count;
+        $child_with_bed_cost = $package_price->child_with_bed_cost *  $request->child_with_bed_count;
+        $child_no_bed_child_cost = $package_price->child_no_bed_child_cost *  $request->child_no_bed_child_count;
+        $total_meal_cost = $meal_cost;
+        $total_hotel_preference_cost = $hotel_preference_cost;
+        $total_vehicle_options_cost = $vehicle_options_cost;
+
+        $finaltotal = $total_night_cost +  $adults_cost + $child_with_bed_cost + $child_no_bed_child_cost + $total_meal_cost + $total_hotel_preference_cost + $total_vehicle_options_cost + $extrabed_cost; 
+
+        $wildlife->total_cost = $finaltotal;
+        //   return $finaltotal;
+        $wildlife->save();
+    
+        return redirect()->route('confirmation', ['id' => base64_encode($wildlife->id)]);
+    }
+
+    
+    
+
+    public function confirmation(Request $request, $id)
+    {
+        $id = base64_decode($id);  // Decode the ID
+        $data['packagebookingtemp'] = PackageBookingTemp::where('id', $id)->first();
+        return view('front/confirmation', $data);
+    }
+    
+
+    public function add_confirmation(Request $request, $id)
+    {
+            // return $request;
+            $packagetempbooking = PackageBookingTemp::where('id',$id)->first();
+
+            // return $packagetempbooking;
+
+            $packagebooking = new PackageBooking();
+            $packagebooking->package_temp_id = $id;
+            $packagebooking->user_id = $packagetempbooking->user_id;
+            $packagebooking->package_id = $packagetempbooking->package_id;
+            $packagebooking->fetched_price = $request->fetched_price;
+            $packagebooking->agent_margin = $request->agent_margin;
+            $packagebooking->final_price = $request->final_price;
+            $packagebooking->salesman_name = $request->salesman_name;
+            $packagebooking->salesman_mobile = $request->salesman_mobile;
+            $packagebooking->status = 0;
+            $packagebooking->save();
+
+            return redirect()->route('index')->with('message', 'Package Booking Created Successfully');
+
+    }
 
 
     public function wildlife()
@@ -163,7 +577,34 @@ class HomeController extends Controller
 
     public function guide()
     {
-        return view('front/guide');
+        $data['tripguide'] = TripGuide::latest()->first();
+        $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
+        return view('front/guide',$data);
+    }
+
+    public function bookguide(Request $request){
+
+        $validated = $request->validate([
+            'state_id' => 'required',
+            'location' => 'required',
+            'languages_id' => 'required',
+        ]);
+
+        $TripGuide = new TripGuideBook();
+
+        $TripGuide->user_id = Auth::guard('agent')->id();
+        $TripGuide->tour_guide_id = $request->tour_guide_id;
+        $TripGuide->languages_id = $request->languages_id;
+        $TripGuide->state_id = $request->state_id;
+        $TripGuide->location = $request->location;
+        $TripGuide->guide_type = $request->guide_type;
+        $TripGuide->cost = $request->cost;
+        $TripGuide->status = 0;
+
+        $TripGuide->save();
+
+        return redirect()->back()->with('message','Tour Guide Booked Succesfully!');
+        
     }
 
 

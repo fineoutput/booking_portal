@@ -48,12 +48,29 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('login', [HomeController::class, 'login'])->name('login');
     Route::get('options', [HomeController::class, 'options'])->name('options');
-    Route::get('confirmation', [HomeController::class, 'confirmation'])->name('confirmation');
+    Route::get('confirmation/{id}', [HomeController::class, 'confirmation'])->name('confirmation');
+    
+    Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
+
+
     Route::get('user_profile', [HomeController::class, 'user_profile'])->name('user_profile');
+
+    // Route::post('/save-tourist-details/{id}', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
+
+
     Route::get('taxi_booking', [HomeController::class, 'taxi_booking'])->name('taxi_booking');
+    Route::get('list/{city_id}', [HomeController::class, 'list'])->name('list');
+    Route::POST('add_package_booking/{id}', [HomeController::class, 'add_package_booking'])->name('add_package_booking');
+    Route::post('book-airport-railway', [HomeController::class, 'book_airport_railway'])->name('book_airport_railway');
+    Route::post('book-local-tour', [HomeController::class, 'book_local_tour'])->name('book_local_tour');
+    Route::post('book-outstation', [HomeController::class, 'outstation'])->name('outstationbooked');
+    Route::post('book-guide', [HomeController::class, 'bookguide'])->name('bookguide');
+
+
+    // Route::POST('add_confirmation/{id}', [HomeController::class, 'add_confirmation'])->name('add_confirmation');
+
     Route::get('all_images', [HomeController::class, 'all_images'])->name('all_images');
-    Route::get('list', [HomeController::class, 'list'])->name('list');
-    Route::get('detail', [HomeController::class, 'detail'])->name('detail');
+    Route::get('detail/{id}', [HomeController::class, 'detail'])->name('detail');
     Route::get('hotelsbooking', [HomeController::class, 'hotelsbooking'])->name('hotelsbooking');
     Route::get('hotel_details/{id}', [HomeController::class, 'hotel_details'])->name('hotel_details');
     Route::POST('add_hotel_booking/{id}', [HomeController::class, 'add_hotel_booking'])->name('add_hotel_booking');

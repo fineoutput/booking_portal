@@ -1660,7 +1660,7 @@ textarea.form-control {
   width: 100%;
   height: 100%;
   /* background: rgb(149 142 142 / 50%); */
-  content: "9 guest photos";
+  content: "Click to view all";
   z-index: 1;
   color: #fff;
   top: 40px;

@@ -556,7 +556,7 @@
                                             <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
                                         </div>
                                         <div class="world_upper_txt_btns travel_btn">
-                                            <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                                            <a class="_btn" href="">Book Now</a>
                                         </div>
                                     </div>
                                 </div>
@@ -586,7 +586,7 @@
                                             <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
                                         </div>
                                         <div class="world_upper_txt_btns travel_btn">
-                                            <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                                            <a class="_btn" href="">Book Now</a>
                                         </div>
                                     </div>
                                 </div>
@@ -652,7 +652,7 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                <a class="_btn" href="">Book Now</a>
               </div>
               
             </div>
@@ -705,7 +705,7 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                <a class="_btn" href="">Book Now</a>
               </div>
               
             </div>
@@ -758,7 +758,7 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                <a class="_btn" href="">Book Now</a>
               </div>
               
             </div>
@@ -811,7 +811,7 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                <a class="_btn" href="">Book Now</a>
               </div>
               
             </div>
@@ -864,7 +864,7 @@
                 </div>
               </div>
               <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="{{route('detail')}}">Book Now</a>
+                <a class="_btn" href="">Book Now</a>
               </div>
               
             </div>

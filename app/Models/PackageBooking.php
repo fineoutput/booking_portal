@@ -13,6 +13,14 @@ class PackageBooking extends Model
     protected $fillable = [
         'user_id',
         'package_id',
+
+        'package_temp_id',
+        'fetched_price',
+        'agent_margin',
+        'final_price',
+        'salesman_name',
+        'salesman_mobile',
+
         'end_date',
         'start_date',
         'standard_count',
@@ -37,6 +45,7 @@ class PackageBooking extends Model
         'traveller_big_count',
         'premium_traveller_count',
         'ac_coach_count',
+        'status',
     ];
 
     
@@ -44,6 +53,15 @@ class PackageBooking extends Model
     // {
     //     return $this->belongsTo(State::class);
     // }
+
+    // In PackageBooking model (App\Models\PackageBooking)
+
+    public function tourists()
+    {
+        return $this->hasMany(Tourist::class,'booking_id','id');
+    }
+
+
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id'); // State's foreign key is 'state_id'
@@ -53,6 +71,22 @@ class PackageBooking extends Model
     public function cities()
     {
         return $this->belongsTo(City::class, 'city_id'); // City's foreign key is 'city_id'
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class, 'package_id'); // State's foreign key is 'state_id'
+    }
+
+   
+    public function packagetemp()
+    {
+        return $this->belongsTo(PackageBookingTemp::class,'id' ,'package_temp_id'); 
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(Agent::class, 'user_id'); 
     }
 
 

@@ -166,6 +166,8 @@
                                     </div>
 
                                     
+
+                                    
                                     <div class="form-group row">
                                         <div class="col-sm-4"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Multiple Image</label>
@@ -174,6 +176,18 @@
                                         
                                     </div>
  
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 mt-3">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" id="description" name="description" placeholder="Enter long description" rows="4" required></textarea>
+                                                <label for="description">Description &nbsp;<span style="color:red;">*</span></label>
+                                            </div>
+                                            @error('description')
+                                                <div style="color:red">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
 
                                     <div class="form-group">
                                         <div class="w-100 text-center">
@@ -189,6 +203,23 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 200
+    });
+
+</script>
+
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
@@ -219,7 +250,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/admin/cities/' + stateId,
+                    url: '/booking_portal/public/admin/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;

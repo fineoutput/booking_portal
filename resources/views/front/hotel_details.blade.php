@@ -52,7 +52,8 @@
 
                         <a href="{{route('all_images')}}">View All Images</a>
                     </div>
-                    
+
+          
                     
                     {{-- <div class="row">
                         @if($images && is_array($images) && count($images) > 2)

@@ -241,6 +241,7 @@ class HotelController extends Controller
                             'traveller_big_cost' => $price->traveller_big_cost,
                             'premium_traveller_cost' => $price->premium_traveller_cost,
                             'ac_coach_cost' => $price->ac_coach_cost,
+                            'extra_bed_cost' => $price->extra_bed_cost,
                         ];
                     });
         
@@ -321,7 +322,7 @@ class HotelController extends Controller
             // Prepare the price data
             $prices = $packagePrices->map(function($price) {
                 $totalprice = $price->standard_cost + $price->deluxe_cost + $price->premium_cost + $price->super_deluxe_cost + $price->luxury_cost + $price->nights_cost + $price->adults_cost + $price->child_with_bed_cost + $price->child_no_bed_infant_cost + $price->child_no_bed_child_cost + $price->meal_plan_only_room_cost + $price->meal_plan_breakfast_cost + $price->meal_plan_breakfast_lunch_dinner_cost + $price->meal_plan_all_meals_cost + $price->hatchback_cost + $price->sedan_cost + $price->economy_suv_cost + $price->luxury_suv_cost + $price->traveller_mini_cost
-                + $price->traveller_big_cost + $price->premium_traveller_cost +$price->ac_coach_cost;
+                + $price->traveller_big_cost + $price->premium_traveller_cost + $price->ac_coach_cost + $price->extra_bed_cost;
                 return [
                     'id' => $price->id,
                     'start_date' => Carbon::parse($price->start_date)->format('F Y'),
@@ -348,6 +349,7 @@ class HotelController extends Controller
                     'traveller_big_cost' => $price->traveller_big_cost,
                     'premium_traveller_cost' => $price->premium_traveller_cost,
                     'ac_coach_cost' => $price->ac_coach_cost,
+                    'extra_bed_cost' => $price->extra_bed_cost,
                     'totalprice' => $totalprice,
                 ];
             });
@@ -529,6 +531,7 @@ public function getHotelWithPackages(Request $request)
                     'traveller_big_cost' => $price->traveller_big_cost,
                     'premium_traveller_cost' => $price->premium_traveller_cost,
                     'ac_coach_cost' => $price->ac_coach_cost,
+                    'extra_bed_cost' => $price->extra_bed_cost,
                 ];
             });
 
@@ -1350,12 +1353,12 @@ $packageBooking->makeHidden('updated_at','created_at');
 //         $total_premium_traveller_cost = $package_price->premium_traveller_cost * $request->premium_traveller_count;
 //         $total_ac_coach_cost = $package_price->ac_coach_cost * $request->ac_coach_count;
 
-//         $total_cost = $total_standard_cost + $total_premium_cost + $total_deluxe_cost + $total_super_deluxe_cost +
-//             $total_luxury_cost + $total_nights_cost + $total_adults_cost + $total_child_with_bed_cost +
-//             $total_child_no_bed_infant_cost + $total_child_no_bed_child_cost + $total_meal_plan_only_room_cost +
-//             $total_meal_plan_breakfast_cost + $total_meal_plan_breakfast_lunch_dinner_cost + $total_meal_plan_all_meals_cost +
-//             $total_hatchback_cost + $total_sedan_cost + $total_economy_suv_cost + $total_luxury_suv_cost +
-//             $total_traveller_mini_cost + $total_traveller_big_cost + $total_premium_traveller_cost + $total_ac_coach_cost;
+        // $total_cost = $total_standard_cost + $total_premium_cost + $total_deluxe_cost + $total_super_deluxe_cost +
+        //     $total_luxury_cost + $total_nights_cost + $total_adults_cost + $total_child_with_bed_cost +
+        //     $total_child_no_bed_infant_cost + $total_child_no_bed_child_cost + $total_meal_plan_only_room_cost +
+        //     $total_meal_plan_breakfast_cost + $total_meal_plan_breakfast_lunch_dinner_cost + $total_meal_plan_all_meals_cost +
+        //     $total_hatchback_cost + $total_sedan_cost + $total_economy_suv_cost + $total_luxury_suv_cost +
+        //     $total_traveller_mini_cost + $total_traveller_big_cost + $total_premium_traveller_cost + $total_ac_coach_cost;
 
 //         $packageBooking->total_cost = $total_cost;
 //     }

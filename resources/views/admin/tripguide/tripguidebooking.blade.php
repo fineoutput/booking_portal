@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Trip Guide</h4>
+          <h4 class="page-title">View Trip Guide Booking</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Trip Guide</a></li>
-            <li class="breadcrumb-item active">View Trip Guide</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Trip Guide Booking</a></li>
+            <li class="breadcrumb-item active">View Trip Guide Booking</li>
           </ol>
         </div>
       </div>
@@ -38,9 +38,9 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Trip Guide List</h4>
+                  <h4 class="mt-0 header-title">View Trip Guide Booking List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('tripguide_create')}}" role="button" style="margin-left: 20px;"> Add Trip Guide</a></div>
+                {{-- <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('tripguide_create')}}" role="button" style="margin-left: 20px;"> Add Trip Guide</a></div> --}}
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -49,24 +49,24 @@
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th data-priority="1">User Name</th>
                         <th data-priority="1">State</th>
-                        <th data-priority="1">City</th>
                         <th data-priority="1">Location</th>
                         <th data-priority="1">Language</th>
                         <th data-priority="1">Guide Type</th>
                         <!-- <th data-priority="1">Local Guide</th>
                         <th data-priority="1">Out Station Guide</th> -->
                         <th data-priority="1">Cost</th>
-                        <th data-priority="1">Image</th>
-                        <th data-priority="6">Action</th>
+                        <th data-priority="1">Action</th>
+
                       </tr>
                     </thead>
                    <tbody>
-                    @foreach($WildlifeSafari as $key=> $hotel)
+                    @foreach($TripGuideBook as $key=> $hotel)
                     <tr>
-                        <td>{{ $key+1 }}</td> <!-- Loop index -->
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ $hotel->user->name ?? '' }}</td>
                         <td>{{ $hotel->state->state_name ?? '' }}</td>
-                        <td>{{ $hotel->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->location ?? '' }}</td>
                         <td>{{ $hotel->languages->language_name ?? '' }}</td>
                         <td>
@@ -79,30 +79,21 @@
                 N/A
             @endif
         </td>
-                        <!-- <td>{{ $hotel->local_guide ?? '' }}</td>
-                        <td>{{ $hotel->out_station_guide ?? '' }}</td> -->
-                        <td>{{ $hotel->cost ?? '' }}</td>
-                        <td>
-                          @php
-                             $images = json_decode($hotel->image); // Decode JSON to array
-                         @endphp
- 
-                         @if($images && is_array($images))  <!-- Check if images is not null and is an array -->
-                             @foreach($images as $image)
-                                 <img src="{{ asset($image) }}" alt="Image" style="width: 50px; height: 50px; margin: 5px;">
-                             @endforeach
-                         @else
-                             <p>No images available.</p>
-                         @endif
-                        </td>
-                        {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
+                        <td>₹{{ $hotel->cost ?? '0' }}</td>
 
                         <td>
-                            <a href="{{ route('tripguide.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('tripguide.destroy', $hotel->id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('trip_guide_booking.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
+                                @method('PUT') <!-- Use PUT method for updating status -->
+                                
+                                @if($hotel->status == 0)
+                                <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure you want to change the status?')" 
+                                        {{ $hotel->status == 1 ? 'disabled title=Status is already Complete' : '' }}>
+                                    {{ $hotel->status == 1 ? 'Complete' : 'Complete' }}
+                                </button>
+                                @else
+                                <p class="text-success">Completed</p>
+                                @endif
                             </form>
                         </td>
                     </tr>

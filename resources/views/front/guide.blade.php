@@ -19,7 +19,7 @@ asset('frontend/images/hotel_main.avif')
 ];
 @endphp
 
-@include('front.common.slides', compact('title', 'mainImage', 'sideImages', 'bottomImages', 'mobileImages'))
+{{-- @include('front.common.slides', compact('title', 'mainImage', 'sideImages', 'bottomImages', 'mobileImages')) --}}
 
 
 <div id="phlGlb" class="splide">
@@ -31,7 +31,37 @@ asset('frontend/images/hotel_main.avif')
         </ul>
     </div>
 </div>
+
 <div class="comp-container">
+    
+    <div class="row mt-5">
+        <div class="col-lg-7 nive d-none d-lg-block">
+            <div class="mirror_maxe">
+                @php
+                    $images = json_decode($tripguide->image);
+                @endphp
+                
+                @if (!empty($images))
+                    <img src="{{ asset($images[0]) }}" alt="Trip Image">
+                @endif
+            </div>
+        </div>
+        
+        <div class="col-lg-5 d-none d-lg-block">
+            <div class="row">
+                @foreach ($images as $key => $image)
+                    @if ($key > 0)  <!-- Skip the first image -->
+                        <div class="col-lg-6 mb-2">
+                            <div class="side_masic">
+                                <img src="{{ asset($image) }}" alt="">
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+    
     <div class="other_dets mt-5">
         <div class="row">
             <div class="col-lg-8">
@@ -43,9 +73,8 @@ asset('frontend/images/hotel_main.avif')
                             <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style=" 
     padding-left: 0 !important;
 ">
-                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">Experienced<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
-                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Local<span class="axjq0r atm_9s_glywfm dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span></li>
-                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr"><span class="pen26si dir dir-ltr"><span class="s1b4clln atm_mj_glywfm atm_vb_glywfm atm_vv_1jtmq4 atm_lk_idpfg4 atm_ll_idpfg4 dir dir-ltr" aria-hidden="true"> · </span></span>Friendly</li>
+                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">{{$tripguide->guide_type ?? ''}}</li>
+                           
                             </ol>
                         </span>
                     </div>
@@ -105,7 +134,7 @@ asset('frontend/images/hotel_main.avif')
 
                     <div class="ho_bhe">
                         <span>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, impedit repudiandae! Inventore enim nam, dolor, voluptate sit vero in repellat suscipit recusandae velit fugit praesentium voluptatem saepe. Non, dignissimos. Excepturi quae recusandae sint hic illo nobis saepe nemo voluptate tenetur, iste eos a quos ullam alias rem vitae magni quia perspiciatis. Eveniet laboriosam id repudiandae!
+                         {!!$tripguide->description!!}
                         </span>
                     </div>
                 </div>
@@ -114,165 +143,63 @@ asset('frontend/images/hotel_main.avif')
                 <div class="sharan_side_box">
                     <div class="stand_it">
                         <div class="outer_box">
+                            <form action="{{route('bookguide')}}" method="POST">
+                                @csrf
                             <div class="inner_box">
                                 <div class="inner_price">
-                                    <span style="color: rgb(106, 106, 106);"><del>₹1,980</del></span>
-                                    <span>₹1,782
+                                    <span style="color: rgb(106, 106, 106);"><del>₹{{$tripguide->cost + 100}}</del></span>
+                                    <span>₹{{$tripguide->cost}}
                                     </span>
-                                    <span>night</span>
+                                    <span></span>
                                 </div>
+                                <input type="hidden" value="{{ $tripguide->id ?? '' }}" name="tour_guide_id">
+                                <input type="hidden" value="{{ $tripguide->id ?? '' }}" name="tour_guide_id">
+                                <input type="hidden" value="{{ $tripguide->cost ?? '' }}" name="cost">
                                 <div class="checks">
                                     <div class="bors">
                                         <div class="caranke">
-
                                             <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
                                                 <div class="filter-label_hotels">State</div>
-                                                <div class="filter-value_hotels" id="destination-value">Choose State</div>
-                                                <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-
-                                                            <div class="destination-option_hotels" onclick="selectDestination('Rajasthan')">Rajasthan</div>
-                                                            <span class="hotels_spn">Paradise in Rajasthan</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/sdds.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-
-                                                            <div class="destination-option_hotels" onclick="selectDestination('Delhi')">Delhi</div>
-                                                            <span class="hotels_spn">Great Infrastructure</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/amem.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-                                                            <div class="destination-option_hotels" onclick="selectDestination('Punjab')">Punjab</div>
-                                                            <span class="hotels_spn">The most Beautifull</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/dd61b8e6-7fa1-46d7-9284-7f3977e5da31.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-                                                            <div class="destination-option_hotels" onclick="selectDestination('Ooty')">Ooty</div>
-                                                            <span class="hotels_spn">Heaven on Earth</span>
-                                                        </div>
-                                                    </div>
-
-
-
-                                                </div>
+                                                <select class="form-control" name="state_id" id="">
+                                                    <option value="" selected disabled>Select</option>
+                                                    <option value="{{$state->id ?? ''}}">{{$state->state_name ?? ''}}</option>
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="caranke">
-
                                             <div class="filter-item_hotels sachi" onclick="toggleDropdown('location')">
                                                 <div class="filter-label_hotels">Location</div>
-                                                <div class="filter-value_hotels" id="location-value">Choose Location</div>
-                                                <div class="dropdown_hotels location-dropdown_hotels" id="location-dropdown">
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-                                                            <div class="destination-option_hotels" onclick="selectLocation('Jaipur')">Jaipur</div>
-                                                            <!-- <span class="hotels_spn"></span> -->
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/sdds.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-                                                            <div class="destination-option_hotels" onclick="selectLocation('Jodhpur')">Jodhpur</div>
-                                                            <!-- <span class="hotels_spn">Silicon Valley of India</span> -->
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/dd61b8e6-7fa1-46d7-9284-7f3977e5da31.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-                                                            <div class="destination-option_hotels" onclick="selectLocation('Kota')">Kota</div>
-                                                            <!-- <span class="hotels_spn">City of Joy</span> -->
-                                                        </div>
-                                                    </div>
-                                                    <div class="city_list_htotle">
-                                                        <div class="sizemaze">
-                                                            <img src="{{ asset('frontend/images/amem.webp') }}" alt="">
-                                                        </div>
-                                                        <div class="hotel_place">
-                                                            <div class="destination-option_hotels" onclick="selectLocation('Udaipur')">Udaipur</div>
-                                                            <!-- <span class="hotels_spn">Gateway to South India</span> -->
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <select class="form-control" name="location" id="">
+                                                    <option value="" selected disabled>Select</option>
+                                                    <option value="{{$tripguide->location ?? ''}}">{{$tripguide->location ?? ''}}</option>
+                                                </select>
                                             </div>
-
                                         </div>
-
                                     </div>
                                     <div class="rivvsa">
-
                                     <div class="filter-item_hotels sachi" onclick="toggleDropdown('language')">
-    <div class="filter-label_hotels">Language</div>
-    <div class="filter-value_hotels" id="language-value">Choose Language</div>
-    <div class="dropdown_hotels language-dropdown_hotels" id="language-dropdown">
-        <div class="city_list_htotle">
-            <div class="sizemaze">
-            </div>
-            <div class="hotel_place">
-                <div class="destination-option_hotels" onclick="selectLanguage('English')">English</div>
-            </div>
-        </div>
-        <div class="city_list_htotle">
-            <div class="sizemaze">
-            </div>
-            <div class="hotel_place">
-                <div class="destination-option_hotels" onclick="selectLanguage('Hindi')">Hindi</div>
-            </div>
-        </div>
-        <div class="city_list_htotle">
-            <div class="sizemaze">
-            </div>
-            <div class="hotel_place">
-                <div class="destination-option_hotels" onclick="selectLanguage('French')">French</div>
-            </div>
-        </div>
-        <div class="city_list_htotle">
-            <div class="sizemaze">
-            </div>
-            <div class="hotel_place">
-                <div class="destination-option_hotels" onclick="selectLanguage('Spanish')">Spanish</div>
-            </div>
-        </div>
-    </div>
-</div>
-
+                                        <div class="filter-label_hotels">Language</div>
+                                        <select class="form-control" name="languages_id" id="">
+                                            <option value="" selected disabled>Select</option>
+                                            <option value="{{$tripguide->languages_id ?? ''}}">{{$tripguide->languages->language_name ?? ''}}</option>
+                                        </select>
                                     </div>
-<hr>
+                                    </div>
+                                    <hr>
                                     <div class="guide-selection">
-    <label class="guide-option">
-        <input type="radio" name="guide" value="local" checked>
-        <span class="custom-radio"></span>
-        Local Guide
-    </label>
-    <label class="guide-option">
-        <input type="radio" name="guide" value="outstation">
-        <span class="custom-radio"></span>
-        Outstation Guide
-    </label>
-</div>
+                                        <label class="guide-option">
+                                            <input name="guide_type" type="radio" value="local" checked>
+                                            <span class="custom-radio"></span>
+                                            Local Guide
+                                        </label>
+                                        <label class="guide-option">
+                                            <input name="guide_type" type="radio" value="outstation">
+                                            <span class="custom-radio"></span>
+                                            Outstation Guide
+                                        </label>
+                                    </div>
+                                    
                                 </div>
                                 <div class="live_set mt-3">
                                     <button class="btn btn-info gggsd">
@@ -280,6 +207,7 @@ asset('frontend/images/hotel_main.avif')
                                     </button>
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>

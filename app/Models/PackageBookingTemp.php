@@ -38,6 +38,14 @@ class PackageBookingTemp extends Model
         'premium_traveller_count',
         'ac_coach_count',
         'total_cost',
+        
+        'meal',
+        'extra_bed',
+        'night_count',
+        'hotel_preference',
+        'vehicle_options',
+        'travelinsurance',
+        'specialremarks',
         'status',
     ];
 

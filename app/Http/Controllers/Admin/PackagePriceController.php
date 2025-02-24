@@ -53,6 +53,7 @@ class PackagePriceController extends Controller
                 'traveller_big_cost' => 'required|numeric',
                 'premium_traveller_cost' => 'required|numeric',
                 'ac_coach_cost' => 'required|numeric',
+                'extra_bed_cost' => 'required|numeric',
             ]);
     
             // Check if a PackagePrice entry already exists for this package
@@ -113,6 +114,7 @@ class PackagePriceController extends Controller
                 $packagePrice->traveller_big_cost = $request->traveller_big_cost;
                 $packagePrice->premium_traveller_cost = $request->premium_traveller_cost;
                 $packagePrice->ac_coach_cost = $request->ac_coach_cost;
+                $packagePrice->extra_bed_cost = $request->extra_bed_cost;
                 $packagePrice->save();
     
                 $message = 'Package price added successfully.';
@@ -174,6 +176,7 @@ class PackagePriceController extends Controller
                 'traveller_big_cost' => 'required|numeric',
                 'premium_traveller_cost' => 'required|numeric',
                 'ac_coach_cost' => 'required|numeric',
+                'extra_bed_cost' => 'required|numeric',
             ]);
         
             // Find the existing package by ID
@@ -203,6 +206,7 @@ class PackagePriceController extends Controller
                 $packagePrice->traveller_big_cost = $request->traveller_big_cost;
                 $packagePrice->premium_traveller_cost = $request->premium_traveller_cost;
                 $packagePrice->ac_coach_cost = $request->ac_coach_cost;
+                $packagePrice->extra_bed_cost = $request->extra_bed_cost;
                 $packagePrice->save();
         
             return redirect()->route('package_price', ['id' => $packagePrice->package_id])->with('success', 'Package updated successfully.');

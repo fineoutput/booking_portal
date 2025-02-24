@@ -34,6 +34,7 @@ class PackagePrice extends Model
         'traveller_big_cost',
         'premium_traveller_cost',
         'ac_coach_cost',
+        'extra_bed_cost',
         'start_date',
         'end_date',
     ];

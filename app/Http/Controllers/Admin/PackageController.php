@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
+use App\Models\PackageBooking;
 use App\Models\City;
 use App\Models\State;
 use Illuminate\Support\Facades\Storage;
@@ -17,28 +18,45 @@ class PackageController extends Controller
         return view('admin/package/index',$data);
     }
 
-    public function getCitiesByState(Request $request)
-{
-    // Get the array of selected state IDs
-    $stateIds = $request->input('state_ids', []);
-    
-    // If no state is selected, return empty cities
-    if (empty($stateIds)) {
-        return response()->json(['cities' => []]);
+    function pandingindex() {
+        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',0)->get();
+        return view('admin/package/pandingindex',$data);
     }
 
-    // Fetch cities for the selected states
-    $cities = City::whereIn('state_id', $stateIds)->get(['id', 'state_id', 'city_name']);
-    
-    // Group cities by state ID
-    $groupedCities = [];
-    foreach ($cities as $city) {
-        $groupedCities[$city->state_id][] = $city;
+    function completeorders() {
+        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',1)->get();
+        return view('admin/package/pandingindex',$data);
     }
-    
-    // Return the cities grouped by state
-    return response()->json(['cities' => $groupedCities]);
-}
+
+
+    public function updateStatus($id)
+    {
+        $vehicle = PackageBooking::findOrFail($id);
+        $vehicle->status = ($vehicle->status == 0) ? 1 : 0;
+        $vehicle->save();
+
+        return redirect()->back()->with('success', 'Package Booking status updated successfully!');
+    }
+
+
+
+    public function getCitiesByState(Request $request)
+    {
+        $stateIds = $request->input('state_ids', []);
+        
+        if (empty($stateIds)) {
+            return response()->json(['cities' => []]);
+        }
+
+        $cities = City::whereIn('state_id', $stateIds)->get(['id', 'state_id', 'city_name']);
+        
+        $groupedCities = [];
+        foreach ($cities as $city) {
+            $groupedCities[$city->state_id][] = $city;
+        }
+
+        return response()->json(['cities' => $groupedCities]);
+    }
 
     function create(Request $request) {
         if($request->method()=='POST'){
