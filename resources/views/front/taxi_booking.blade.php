@@ -80,12 +80,14 @@
 ">
                   <label for="pickup-airport" class="form-label">Pickup from</label>
                 </div>
-                <select name="airport_id" class="form-select no-form-select" id="pickup-airport">
+
+                <select name="airport_id" class="form-select no-form-select" id="pickup-airport" onchange="updateVehicles()">
                   <option value="">Select an Airport</option>
                   @foreach($airport as $value)
-                  <option value="{{$value->id ?? '' }}">{{$value->airport ?? ''}}</option>
+                      <option value="{{$value->id ?? ''}}">{{$value->airport ?? ''}}</option>
                   @endforeach
-                </select>
+              </select>
+
               </div>
             </div>
             <div class="col-lg-6">
@@ -111,12 +113,14 @@
 ">
                   <label for="drop-airport" class="form-label">Drop to</label>
                 </div>
-                <select name="airport_id" class="form-select no-form-select" id="drop-airport" >
+
+                <select name="airport_id" class="form-select no-form-select" id="drop-airport" onchange="updateVehicless()">
                   <option value="">Select an Airport</option>
                   @foreach($airport as $value)
-                  <option value="{{$value->id ?? '' }}">{{$value->airport ?? ''}}</option>
+                      <option value="{{$value->id ?? ''}}">{{$value->airport ?? ''}}</option>
                   @endforeach
-                </select>
+              </select>
+
               </div>
             </div>
             <div class="col-lg-6">
@@ -145,14 +149,19 @@
                 </div>
 
               
-                <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()" >
+                {{-- <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()" >
                   <option value="">Select a Vehicle</option>
                   @foreach($vehicle as $value)
                     <option value="{{ $value->id }}" data-price="{{ $vehicleprice->where('vehicle_id', $value->id)->first()->price ?? '' }}">
                       {{ $value->vehicle_type }}
                     </option>
                   @endforeach
-                </select>
+                </select> --}}
+
+                <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()">
+                  <option value="">Select a Vehicle</option>
+                  <!-- Options will be populated dynamically based on the selected airport -->
+              </select>
                 
                 
 
@@ -504,6 +513,123 @@ width: 20px;
 <!-- /* //////////////Cards Starts///////////// */ -->
 
 <script>
+
+function updateVehicles() {
+    var airportId = document.getElementById("pickup-airport").value;
+
+    // Clear previous vehicle options
+    var vehicleSelect = document.getElementById("vehicle-select");
+    vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+
+    // Check if airport is selected
+    if (airportId) {
+        // Send AJAX request to get vehicles for the selected airport
+        fetch(`/get-vehicles-by-airport?airport_id=${airportId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Populate vehicle options
+                data.forEach(vehicle => {
+                    var option = document.createElement("option");
+                    option.value = vehicle.id;
+                    option.text = vehicle.vehicle_type;
+
+                    // Set the price in the data-price attribute
+                    option.setAttribute("data-price", vehicle.price); // Now we're getting the price from the AJAX response
+
+                    // Append the option to the select element
+                    vehicleSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching vehicle data:', error));
+    }
+}
+
+function updateVehicless() {
+    var airportId = document.getElementById("drop-airport").value;
+
+    // Clear previous vehicle options
+    var vehicleSelect = document.getElementById("vehicle-select");
+    vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+
+    // Check if airport is selected
+    if (airportId) {
+        // Send AJAX request to get vehicles for the selected airport
+        fetch(`/get-vehicles-by-airport?airport_id=${airportId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Populate vehicle options
+                data.forEach(vehicle => {
+                    var option = document.createElement("option");
+                    option.value = vehicle.id;
+                    option.text = vehicle.vehicle_type;
+
+                    // Set the price in the data-price attribute
+                    option.setAttribute("data-price", vehicle.price); // Now we're getting the price from the AJAX response
+
+                    // Append the option to the select element
+                    vehicleSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching vehicle data:', error));
+    }
+}
+
+
+
+// function updateEstimatedCostssss() {
+//     const vehicleSelect = document.getElementById('vehicle-select');
+    
+//     if (!vehicleSelect) {
+//         console.log('Vehicle select element not found');
+//         return; // Exit if no vehicle select element exists
+//     }
+
+//     const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+
+//     if (!selectedOption) {
+//         console.log('No option selected');
+//         return; // Exit if no option is selected
+//     }
+
+//     const vehicleId = selectedOption.value;
+//     const pricePerKm = selectedOption.getAttribute('data-price');
+
+//     console.log('Selected Vehicle ID:', vehicleId);
+//     console.log('Price per km:', pricePerKm);
+
+//     if (vehicleId && pricePerKm && !isNaN(pricePerKm)) {
+//         // Convert pricePerKm to a float and ensure it's valid
+//         const price = parseFloat(pricePerKm);
+//         console.log("Price per km: ₹" + price.toFixed(2));
+//         document.getElementById('local-cost').value = "₹" + price.toFixed(2);
+//     } else {
+//         console.log('Invalid price or no vehicle selected');
+//         document.getElementById('local-cost').value = "Calculated automatically";
+//     }
+// }
+
+
+
+
+// function updateEstimatedCostssss() {
+//     const vehicleSelect = document.getElementById('vehicle-select');
+//     const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+
+//     const vehicleId = selectedOption.value;
+//     const pricePerKm = selectedOption.getAttribute('data-price');
+
+//     if (vehicleId && pricePerKm && !isNaN(pricePerKm)) {
+//         // Convert pricePerKm to a float and ensure it's valid
+//         const price = parseFloat(pricePerKm);
+//         console.log("Price per km: ₹" + price.toFixed(2));
+//         document.getElementById('local-cost').value = "₹" + price.toFixed(2);
+//     } else {
+//         document.getElementById('local-cost').value = "Calculated automatically";
+//     }
+// }
+
+
+
   function updateVehicleList() {
     var destinationCityId = document.getElementById("destination-city").value;
     

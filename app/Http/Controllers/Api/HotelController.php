@@ -12,6 +12,7 @@ use App\Models\Package;
 use App\Models\Vehicle;
 use App\Models\State;
 use App\Models\HotelBooking;
+use App\Models\Airport;
 use App\Models\HotelPrice;
 use App\Models\TaxiBooking;
 use App\Models\VehiclePrice;
@@ -1013,10 +1014,12 @@ public function taxibooking(Request $request)
     }
 
     if ($tourType == 3) {
+
         // $cityImagePath = null;
         // if ($request->hasFile('city_image')) {
         //     $cityImagePath = $request->file('city_image')->store('city_images', 'public');
         // }
+
         if($request->trip_type == 'one-way'){
         $data = [
             'trip_type' => $request->trip_type,
@@ -1602,6 +1605,31 @@ public function bookGuide(Request $request)
 }
 return response()->json(['message' => 'Unauthenticated'], 401);
 }
+
+
+    public function airport()
+    {
+        $airports = Airport::all();
+
+        $response = [];
+
+        foreach ($airports as $airport) {
+            $response[] = [
+                'airport' => $airport->airport,  
+                'railway' => $airport->railway, 
+                'vehicle_id' => $airport->vehicle_id, 
+                'description' => strip_tags($airport->description), 
+            ];
+        }
+
+        return response()->json([
+            'message' => 'Data Fetch Succesfully',
+            'data' => $response,
+            'status' => 200,
+        ],
+        );
+    }
+
 
  
 }

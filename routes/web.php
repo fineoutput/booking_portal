@@ -91,6 +91,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
+Route::get('/get-vehicles-by-airport', [HomeController::class, 'getVehiclesByAirport']);
 
 Route::post('/agent/login/mobile', [AuthController::class, 'agentLoginWithMobile'])->name('agentLoginWithMobile');
 
