@@ -17,6 +17,7 @@ use App\Models\HotelPrice;
 use App\Models\TaxiBooking;
 use App\Models\VehiclePrice;
 use App\Models\TripGuideBook;
+use App\Models\Outstation;
 use App\Models\RoundTrip;
 use Carbon\Carbon;
 use App\Models\City;
@@ -625,14 +626,70 @@ public function vehicle(Request $request)
 
     if ($user && $password == $user->password) {
 
-        // Fetch vehicles with vehiclePrices and outstation relationships
-        $vehicles = Vehicle::orderBy('id','DESC')->where('status',1)->with('vehiclePrices', 'outstation','roundtrip')->get();
 
-        // Map vehicle data into desired format
+        // $validatedData = $request->validate([
+        //     'airport_id' => 'nullable',
+        //     'city_id' => 'nullable',
+        // ]);
+
+        // $airport_id = Airport::where('id',$request->airport_id)->get();
+        // $vehicleIds = explode(',', $airport_id->vehicle_id);
+
+        // $city_id = Outstation::where('trip_type',$request->city_id)->get();
+
+
+        // if($airport_id){
+
+        // $vehicles = Vehicle::whereIn('id', $vehicleIds)->orderBy('id','DESC')->where('status',1)->with('vehiclePrices', 'outstation','roundtrip')->get();
+
+        // }elseif($airport_id){
+        //     $vehicles = Vehicle::whereIn('id', $city_id->vehicle_type)->orderBy('id','DESC')->where('status',1)->with('vehiclePrices', 'outstation','roundtrip')->get();
+        // }else{
+
+        // $vehicles = Vehicle::orderBy('id','DESC')->where('status',1)->with('vehiclePrices', 'outstation','roundtrip')->get();
+        // }
+
+        $validatedData = $request->validate([
+            'airport_id' => 'nullable',
+            'city_id' => 'nullable',
+        ]);
+
+        $vehicles = collect();
+
+        $airport_id = Airport::find($request->airport_id);
+    
+        if ($airport_id) {
+            $vehicleIds = explode(',', $airport_id->vehicle_id);
+
+            $vehicles = Vehicle::whereIn('id', $vehicleIds)
+                ->orderBy('id', 'DESC')
+                ->where('status', 1)
+                ->with('vehiclePrices', 'outstation', 'roundtrip')
+                ->get();
+        } elseif ($request->city_id) {
+            $outstations = Outstation::where('trip_type', $request->city_id)->get();
+            foreach ($outstations as $outstation) {
+                $vehicleIds = explode(',', $outstation->vehicle_type);
+    
+                $vehicles = $vehicles->merge(Vehicle::whereIn('id', $vehicleIds)
+                    ->orderBy('id', 'DESC')
+                    ->where('status', 1)
+                    ->with('vehiclePrices', 'outstation', 'roundtrip')
+                    ->get());
+            }
+
+            $vehicles = $vehicles->unique('id');
+        } else {
+            $vehicles = Vehicle::orderBy('id', 'DESC')
+                ->where('status', 1)
+                ->with('vehiclePrices', 'outstation', 'roundtrip')
+                ->get();
+        }
+    
+    
         $vehiclesData = $vehicles->map(function($vehicle) {
             $baseUrl = url('');
 
-            // Handle vehiclePrices: Check if vehiclePrices is not null and map data
             $pricesData = $vehicle->vehiclePrices ? $vehicle->vehiclePrices->map(function($price) {
                 return [
                     'id' => $price->id,
@@ -705,7 +762,8 @@ public function vehicle(Request $request)
 
         return response()->json([
             'message' => 'Vehicles fetched successfully.',
-            'data' => $vehiclesData,
+            // 'data' => $vehiclesData,
+            'data' => $vehiclesData->values()->all(),
             'status' => 200
         ], 200);
     }

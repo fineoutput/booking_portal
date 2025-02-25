@@ -199,26 +199,21 @@ public function saveTouristDetails(Request $request)
 
 public function getVehiclesByAirport(Request $request)
 {
-    // Get vehicles based on the selected airport
     $airportId = $request->input('airport_id');
     $airport = Airport::find($airportId);
 
-    // Get the vehicle IDs related to this airport (assuming vehicle_ids is a comma-separated string)
-    $vehicleIds = explode(',', $airport->vehicle_id); // Assuming vehicle_id contains multiple ids, separated by commas
+    $vehicleIds = explode(',', $airport->vehicle_id);
 
-    // Fetch the vehicles that match the IDs
     $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
     $vehiclePrices = VehiclePrice::all();
 
-    // Merge vehicles with their prices
     $data = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
-        // Find price for the vehicle
         $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first()->price ?? null;
 
         return [
             'id' => $vehicle->id,
             'vehicle_type' => $vehicle->vehicle_type,
-            'price' => $price // Add the price to the data
+            'price' => $price 
         ];
     });
 
