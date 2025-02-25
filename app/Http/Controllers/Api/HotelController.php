@@ -1220,200 +1220,422 @@ public function taxibooking(Request $request)
 // }
 
 
+
+
 public function packagebooking(Request $request)
 {
     $token = $request->bearerToken();
 
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.', 'status' => 201], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'status' => 401,
+            'data' => [],
+        ], 401);
     }
 
     $decodedToken = base64_decode($token);
     list($email, $password) = explode(',', $decodedToken);
 
     $user = Agent::where('email', $email)->first();
+
     if (!$user || $password != $user->password) {
-        return response()->json(['message' => 'Unauthorized. Invalid credentials.', 'status' => 201], 401);
+        return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
     }
 
-    $request->validate([
-        'package_id' => 'required', 'start_date' => 'nullable', 'end_date' => 'nullable',
-        'standard_count' => 'nullable|integer', 'premium_count' => 'nullable|integer',
-        'deluxe_count' => 'nullable|integer', 'super_deluxe_count' => 'nullable|integer',
-        'luxury_count' => 'nullable|integer', 'nights_count' => 'nullable|integer', 'adults_count' => 'nullable|integer',
-        'child_with_bed_count' => 'nullable|integer', 'child_no_bed_infant_count' => 'nullable|integer',
-        'child_no_bed_child_count' => 'nullable|integer', 'meal_plan_only_room_count' => 'nullable|integer',
-        'meal_plan_breakfast_count' => 'nullable|integer', 'meal_plan_breakfast_lunch_dinner_count' => 'nullable|integer',
-        'meal_plan_all_meals_count' => 'nullable|integer', 'hatchback_count' => 'nullable|integer',
-        'sedan_count' => 'nullable|integer', 'economy_suv_count' => 'nullable|integer', 'luxury_suv_count' => 'nullable|integer',
-        'traveller_mini_count' => 'nullable|integer', 'traveller_big_count' => 'nullable|integer',
-        'premium_traveller_count' => 'nullable|integer', 'ac_coach_count' => 'nullable|integer'
+    $validatedData = $request->validate([
+        'package_id' => 'required',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date',
+        'adults_count' => 'required|integer|min:1',
+        'child_with_bed_count' => 'nullable|integer|min:0',
+        'child_no_bed_child_count' => 'nullable|integer|min:0',
+        'extra_bed' => 'nullable|in:yes,no',
+        'meal' => 'nullable|in:only_room,breakfast,breakfast_lunch,breakfast_dinner,all_meals',
+        'hotel_preference' => 'nullable|in:standard,deluxe,super_deluxe,luxury,premium',
+        'vehicle_options' => 'nullable|in:hatchback_cost,sedan_cost,economy_suv_cost,luxury_suv_cost,traveller_mini_cost,traveller_big_cost,premium_traveller_cost,ac_coach_cost',
+        // 'travelinsurance' => 'nullable|boolean',
+        'specialremarks' => 'nullable|string',
     ]);
 
+    // Parse dates
     $start_date = Carbon::parse($request->start_date);
     $end_date = Carbon::parse($request->end_date);
-    $nights_count = $start_date->diffInDays($end_date);
+    $night_count = $start_date->diffInDays($end_date); 
+    $formatted_date = Carbon::now()->format('Y-m');
 
-    // Create new booking
-    $packageBooking = new PackageBookingTemp([
-        'user_id' => $user->id, 
-        'package_id' => $request->package_id,
-        'start_date' => $request->start_date, 
-        'end_date' => $request->end_date,
-        'nights_count' => $nights_count, 
-        'status' => 0
-    ]);
-    // Set counts
-    $packageBooking->fill($request->only([
-        'standard_count', 'premium_count', 'deluxe_count', 'super_deluxe_count',
-        'luxury_count', 'adults_count', 'child_with_bed_count', 'child_no_bed_infant_count',
-        'child_no_bed_child_count', 'meal_plan_only_room_count', 'meal_plan_breakfast_count',
-        'meal_plan_breakfast_lunch_dinner_count', 'meal_plan_all_meals_count', 'hatchback_count',
-        'sedan_count', 'economy_suv_count', 'luxury_suv_count', 'traveller_mini_count',
-        'traveller_big_count', 'premium_traveller_count', 'ac_coach_count'
-    ]));
-
-    // Get package price for given package_id and date range
-    $formatted_date = Carbon::parse($request->start_date)->format('Y-m');
+    // Get package price for the specific package
     $package_price = PackagePrice::where('package_id', $request->package_id)
-    ->where('start_date', '<=', $formatted_date)
-    ->where('end_date', '>=', $formatted_date)
-    ->first();
-    // return $package_price;
+        ->where('start_date', '<=', $formatted_date)
+        ->where('end_date', '>=', $formatted_date)
+        ->first();
 
-if ($package_price) {
-    $total_cost = 0;
-    $fields = [
-        'standard', 'premium', 'deluxe', 'super_deluxe', 'luxury', 'nights', 'adults',
-        'child_with_bed', 'child_no_bed_infant', 'child_no_bed_child', 'meal_plan_only_room',
-        'meal_plan_breakfast', 'meal_plan_breakfast_lunch_dinner', 'meal_plan_all_meals',
-        'hatchback', 'sedan', 'economy_suv', 'luxury_suv', 'traveller_mini', 'traveller_big',
-        'premium_traveller', 'ac_coach'
-    ];
-
-    foreach ($fields as $field) {
-        // Ensure count is an integer
-        $count = (int) $request->get("{$field}_count", 0);
-        
-        // Get the cost from the PackagePrice object and ensure it's a float
-        $cost = (float) $package_price->{"{$field}_cost"};
-        
-        // Multiply count and cost and add to the total cost
-        $total_cost += $count * $cost;
+    if (!$package_price) {
+        return response()->json(['message' => 'Package not found for the selected dates'], 404);
     }
 
-    $packageBooking->total_cost = $total_cost;
-}
-$packageBooking->save();
-$packageBooking->makeHidden('updated_at','created_at');
+    // Initialize PackageBookingTemp object
+    $wildlife = new PackageBookingTemp();
+    $wildlife->user_id = $user->id;
+    $wildlife->package_id = $request->package_id;
+    $wildlife->start_date = $start_date;
+    $wildlife->end_date = $end_date;
+    $wildlife->adults_count = $request->adults_count;
+    $wildlife->child_with_bed_count = $request->child_with_bed_count;
+    $wildlife->night_count = $night_count;  
+    $wildlife->child_no_bed_child_count = $request->child_no_bed_child_count;  
+    $wildlife->extra_bed = $request->extra_bed;  
+    $wildlife->meal = $request->meal;  
+    $wildlife->hotel_preference = $request->hotel_preference;  
+    $wildlife->vehicle_options = $request->vehicle_options;  
+    $wildlife->travelinsurance = $request->travelinsurance;  
+    $wildlife->specialremarks = $request->specialremarks;  
+    $wildlife->status = 0;
 
-    // Save the booking
-    // $packageBooking->save();
+    // Meal cost calculation
+    switch ($request->meal) {
+        case 'only_room':
+            $meal_cost = $package_price->meal_plan_only_room_cost;
+            break;
+        case 'breakfast':
+            $meal_cost = $package_price->meal_plan_breakfast_cost;
+            break;
+        case 'breakfast_lunch':
+        case 'breakfast_dinner':
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+            break;
+        default:
+            $meal_cost = $package_price->meal_plan_all_meals_cost;
+    }
 
+    // Hotel preference cost calculation
+    switch ($request->hotel_preference) {
+        case 'standard':
+            $hotel_preference_cost = $package_price->standard_cost;
+            break;
+        case 'deluxe':
+            $hotel_preference_cost = $package_price->deluxe_cost;
+            break;
+        case 'super_deluxe':
+            $hotel_preference_cost = $package_price->super_deluxe_cost;
+            break;
+        case 'luxury':
+            $hotel_preference_cost = $package_price->luxury_cost;
+            break;
+        default:
+            $hotel_preference_cost = $package_price->premium_cost;
+    }
+
+    // Vehicle options cost calculation
+    switch ($request->vehicle_options) {
+        case 'hatchback_cost':
+            $vehicle_options_cost = $package_price->hatchback_cost;
+            break;
+        case 'sedan_cost':
+            $vehicle_options_cost = $package_price->sedan_cost;
+            break;
+        case 'economy_suv_cost':
+            $vehicle_options_cost = $package_price->economy_suv_cost;
+            break;
+        case 'luxury_suv_cost':
+            $vehicle_options_cost = $package_price->luxury_suv_cost;
+            break;
+        case 'traveller_mini_cost':
+            $vehicle_options_cost = $package_price->traveller_mini_cost;
+            break;
+        case 'traveller_big_cost':
+            $vehicle_options_cost = $package_price->traveller_big_cost;
+            break;
+        case 'premium_traveller_cost':
+            $vehicle_options_cost = $package_price->premium_traveller_cost;
+            break;
+        default:
+            $vehicle_options_cost = $package_price->ac_coach_cost;
+    }
+
+    // Extra bed cost
+    $extrabed_cost = ($request->extra_bed == 'yes') ? $package_price->extra_bed_cost : 0;
+
+    // Calculate total costs
+    $total_night_cost = $package_price->nights_cost * $night_count;
+    $adults_cost = $package_price->adults_cost * $request->adults_count;
+    $child_with_bed_cost = $package_price->child_with_bed_cost * $request->child_with_bed_count;
+    $child_no_bed_child_cost = $package_price->child_no_bed_child_cost * $request->child_no_bed_child_count;
+    $total_meal_cost = $meal_cost;
+    $total_hotel_preference_cost = $hotel_preference_cost;
+    $total_vehicle_options_cost = $vehicle_options_cost;
+
+    $finaltotal = $total_night_cost + $adults_cost + $child_with_bed_cost + $child_no_bed_child_cost + $total_meal_cost + $total_hotel_preference_cost + $total_vehicle_options_cost + $extrabed_cost; 
+
+    // Save package booking data
+    $wildlife->total_cost = $finaltotal;
+    $wildlife->save();
+
+    // Return response as JSON
     return response()->json([
-        'message' => 'Package booking created successfully.',
-        'data' => $packageBooking,
-        'status' => 201
-    ], 201);
+        'message' => 'Package booking successfully added.',
+        'data' => [
+            'id' => $wildlife->id,
+            'total_cost' => $finaltotal,
+            'start_date' => $start_date->toDateString(),
+            'end_date' => $end_date->toDateString(),
+            'adults_count' => $request->adults_count,
+            'child_with_bed_count' => $request->child_with_bed_count,
+            'child_no_bed_child_count' => $request->child_no_bed_child_count,
+            'meal' => $request->meal,
+            'hotel_preference' => $request->hotel_preference,
+            'vehicle_options' => $request->vehicle_options,
+            'extra_bed' => $request->extra_bed,
+            'specialremarks' => $request->specialremarks,
+        ]
+    ], 200);
 }
 
 
-public function packagebookingse(Request $request)
+
+public function packagebookingse(Request $request, $id)
 {
-    $token = $request->bearerToken();
-
-    if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.', 'status' => 201], 401);
-    }
-
-    $decodedToken = base64_decode($token);
-    list($email, $password) = explode(',', $decodedToken);
-
-    $user = Agent::where('email', $email)->first();
-    if (!$user || $password != $user->password) {
-        return response()->json(['message' => 'Unauthorized. Invalid credentials.', 'status' => 201], 401);
-    }
-
-    $request->validate([
-        'package_id' => 'required', 'start_date' => 'nullable', 'end_date' => 'nullable',
-        'standard_count' => 'nullable|integer', 'premium_count' => 'nullable|integer',
-        'deluxe_count' => 'nullable|integer', 'super_deluxe_count' => 'nullable|integer',
-        'luxury_count' => 'nullable|integer', 'nights_count' => 'nullable|integer', 'adults_count' => 'nullable|integer',
-        'child_with_bed_count' => 'nullable|integer', 'child_no_bed_infant_count' => 'nullable|integer',
-        'child_no_bed_child_count' => 'nullable|integer', 'meal_plan_only_room_count' => 'nullable|integer',
-        'meal_plan_breakfast_count' => 'nullable|integer', 'meal_plan_breakfast_lunch_dinner_count' => 'nullable|integer',
-        'meal_plan_all_meals_count' => 'nullable|integer', 'hatchback_count' => 'nullable|integer',
-        'sedan_count' => 'nullable|integer', 'economy_suv_count' => 'nullable|integer', 'luxury_suv_count' => 'nullable|integer',
-        'traveller_mini_count' => 'nullable|integer', 'traveller_big_count' => 'nullable|integer',
-        'premium_traveller_count' => 'nullable|integer', 'ac_coach_count' => 'nullable|integer'
+    // Validate incoming request data
+    $validatedData = $request->validate([
+        'fetched_price' => 'required|numeric',
+        'agent_margin' => 'required|numeric',
+        'final_price' => 'required|numeric',
+        'salesman_name' => 'required|string|max:255',
+        'salesman_mobile' => 'required|string|max:15',
     ]);
 
-    $start_date = Carbon::parse($request->start_date);
-    $end_date = Carbon::parse($request->end_date);
-    $nights_count = $start_date->diffInDays($end_date);
+    // Retrieve the temporary package booking
+    $packagetempbooking = PackageBookingTemp::find($id);
 
-    // Create new booking
-    $packageBooking = new PackageBooking([
-        'user_id' => $user->id, 
-        'package_id' => $request->package_id,
-        'start_date' => $request->start_date, 
-        'end_date' => $request->end_date,
-        'nights_count' => $nights_count, 
-        'status' => 0
-    ]);
-    // Set counts
-    $packageBooking->fill($request->only([
-        'standard_count', 'premium_count', 'deluxe_count', 'super_deluxe_count',
-        'luxury_count', 'adults_count', 'child_with_bed_count', 'child_no_bed_infant_count',
-        'child_no_bed_child_count', 'meal_plan_only_room_count', 'meal_plan_breakfast_count',
-        'meal_plan_breakfast_lunch_dinner_count', 'meal_plan_all_meals_count', 'hatchback_count',
-        'sedan_count', 'economy_suv_count', 'luxury_suv_count', 'traveller_mini_count',
-        'traveller_big_count', 'premium_traveller_count', 'ac_coach_count'
-    ]));
-
-    // Get package price for given package_id and date range
-    $formatted_date = Carbon::parse($request->start_date)->format('Y-m');
-    $package_price = PackagePrice::where('package_id', $request->package_id)
-    ->where('start_date', '<=', $formatted_date)
-    ->where('end_date', '>=', $formatted_date)
-    ->first();
-    // return $package_price;
-
-if ($package_price) {
-    $total_cost = 0;
-    $fields = [
-        'standard', 'premium', 'deluxe', 'super_deluxe', 'luxury', 'nights', 'adults',
-        'child_with_bed', 'child_no_bed_infant', 'child_no_bed_child', 'meal_plan_only_room',
-        'meal_plan_breakfast', 'meal_plan_breakfast_lunch_dinner', 'meal_plan_all_meals',
-        'hatchback', 'sedan', 'economy_suv', 'luxury_suv', 'traveller_mini', 'traveller_big',
-        'premium_traveller', 'ac_coach'
-    ];
-
-    foreach ($fields as $field) {
-        // Ensure count is an integer
-        $count = (int) $request->get("{$field}_count", 0);
-        
-        // Get the cost from the PackagePrice object and ensure it's a float
-        $cost = (float) $package_price->{"{$field}_cost"};
-        
-        // Multiply count and cost and add to the total cost
-        $total_cost += $count * $cost;
+    if (!$packagetempbooking) {
+        return response()->json(['message' => 'Package booking not found'], 404);
     }
 
-    $packageBooking->total_cost = $total_cost;
-}
-$packageBooking->save();
-$packageBooking->makeHidden('updated_at','created_at');
+    // Create the actual package booking
+    $packagebooking = new PackageBooking();
+    $packagebooking->package_temp_id = $id;
+    $packagebooking->user_id = $packagetempbooking->user_id;
+    $packagebooking->package_id = $packagetempbooking->package_id;
+    $packagebooking->fetched_price = $request->fetched_price;
+    $packagebooking->agent_margin = $request->agent_margin;
+    $packagebooking->final_price = $request->final_price;
+    $packagebooking->salesman_name = $request->salesman_name;
+    $packagebooking->salesman_mobile = $request->salesman_mobile;
+    $packagebooking->status = 0; // assuming status 0 is default, change if needed
+    $packagebooking->save();
 
-    // Save the booking
-    // $packageBooking->save();
-
+    // Return success response with package booking data
     return response()->json([
-        'message' => 'Package booking created successfully.',
-        'data' => $packageBooking,
-        'status' => 201
-    ], 201);
+        'message' => 'Package Booking Created Successfully',
+        'data' => [
+            'package_booking_id' => $packagebooking->id,
+            'package_temp_id' => $id,
+            'fetched_price' => $packagebooking->fetched_price,
+            'agent_margin' => $packagebooking->agent_margin,
+            'final_price' => $packagebooking->final_price,
+            'salesman_name' => $packagebooking->salesman_name,
+            'salesman_mobile' => $packagebooking->salesman_mobile,
+            'status' => $packagebooking->status,
+        ]
+    ], 200);
 }
+
+
+
+// public function packagebooking(Request $request)
+// {
+//     $token = $request->bearerToken();
+
+//     if (!$token) {
+//         return response()->json(['message' => 'Unauthenticated.', 'status' => 201], 401);
+//     }
+
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
+
+//     $user = Agent::where('email', $email)->first();
+//     if (!$user || $password != $user->password) {
+//         return response()->json(['message' => 'Unauthorized. Invalid credentials.', 'status' => 201], 401);
+//     }
+
+//     $request->validate([
+//         'package_id' => 'required', 'start_date' => 'nullable', 'end_date' => 'nullable',
+//         'standard_count' => 'nullable|integer', 'premium_count' => 'nullable|integer',
+//         'deluxe_count' => 'nullable|integer', 'super_deluxe_count' => 'nullable|integer',
+//         'luxury_count' => 'nullable|integer', 'nights_count' => 'nullable|integer', 'adults_count' => 'nullable|integer',
+//         'child_with_bed_count' => 'nullable|integer', 'child_no_bed_infant_count' => 'nullable|integer',
+//         'child_no_bed_child_count' => 'nullable|integer', 'meal_plan_only_room_count' => 'nullable|integer',
+//         'meal_plan_breakfast_count' => 'nullable|integer', 'meal_plan_breakfast_lunch_dinner_count' => 'nullable|integer',
+//         'meal_plan_all_meals_count' => 'nullable|integer', 'hatchback_count' => 'nullable|integer',
+//         'sedan_count' => 'nullable|integer', 'economy_suv_count' => 'nullable|integer', 'luxury_suv_count' => 'nullable|integer',
+//         'traveller_mini_count' => 'nullable|integer', 'traveller_big_count' => 'nullable|integer',
+//         'premium_traveller_count' => 'nullable|integer', 'ac_coach_count' => 'nullable|integer'
+//     ]);
+
+//     $start_date = Carbon::parse($request->start_date);
+//     $end_date = Carbon::parse($request->end_date);
+//     $nights_count = $start_date->diffInDays($end_date);
+
+//     // Create new booking
+//     $packageBooking = new PackageBookingTemp([
+//         'user_id' => $user->id, 
+//         'package_id' => $request->package_id,
+//         'start_date' => $request->start_date, 
+//         'end_date' => $request->end_date,
+//         'nights_count' => $nights_count, 
+//         'status' => 0
+//     ]);
+//     // Set counts
+//     $packageBooking->fill($request->only([
+//         'standard_count', 'premium_count', 'deluxe_count', 'super_deluxe_count',
+//         'luxury_count', 'adults_count', 'child_with_bed_count', 'child_no_bed_infant_count',
+//         'child_no_bed_child_count', 'meal_plan_only_room_count', 'meal_plan_breakfast_count',
+//         'meal_plan_breakfast_lunch_dinner_count', 'meal_plan_all_meals_count', 'hatchback_count',
+//         'sedan_count', 'economy_suv_count', 'luxury_suv_count', 'traveller_mini_count',
+//         'traveller_big_count', 'premium_traveller_count', 'ac_coach_count'
+//     ]));
+
+//     // Get package price for given package_id and date range
+//     $formatted_date = Carbon::parse($request->start_date)->format('Y-m');
+//     $package_price = PackagePrice::where('package_id', $request->package_id)
+//     ->where('start_date', '<=', $formatted_date)
+//     ->where('end_date', '>=', $formatted_date)
+//     ->first();
+//     // return $package_price;
+
+// if ($package_price) {
+//     $total_cost = 0;
+//     $fields = [
+//         'standard', 'premium', 'deluxe', 'super_deluxe', 'luxury', 'nights', 'adults',
+//         'child_with_bed', 'child_no_bed_infant', 'child_no_bed_child', 'meal_plan_only_room',
+//         'meal_plan_breakfast', 'meal_plan_breakfast_lunch_dinner', 'meal_plan_all_meals',
+//         'hatchback', 'sedan', 'economy_suv', 'luxury_suv', 'traveller_mini', 'traveller_big',
+//         'premium_traveller', 'ac_coach'
+//     ];
+
+//     foreach ($fields as $field) {
+//         // Ensure count is an integer
+//         $count = (int) $request->get("{$field}_count", 0);
+        
+//         // Get the cost from the PackagePrice object and ensure it's a float
+//         $cost = (float) $package_price->{"{$field}_cost"};
+        
+//         // Multiply count and cost and add to the total cost
+//         $total_cost += $count * $cost;
+//     }
+
+//     $packageBooking->total_cost = $total_cost;
+// }
+// $packageBooking->save();
+// $packageBooking->makeHidden('updated_at','created_at');
+
+//     // Save the booking
+//     // $packageBooking->save();
+
+//     return response()->json([
+//         'message' => 'Package booking created successfully.',
+//         'data' => $packageBooking,
+//         'status' => 201
+//     ], 201);
+// }
+
+
+// public function packagebookingse(Request $request)
+// {
+//     $token = $request->bearerToken();
+
+//     if (!$token) {
+//         return response()->json(['message' => 'Unauthenticated.', 'status' => 201], 401);
+//     }
+
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
+
+//     $user = Agent::where('email', $email)->first();
+//     if (!$user || $password != $user->password) {
+//         return response()->json(['message' => 'Unauthorized. Invalid credentials.', 'status' => 201], 401);
+//     }
+
+//     $request->validate([
+//         'package_id' => 'required', 'start_date' => 'nullable', 'end_date' => 'nullable',
+//         'standard_count' => 'nullable|integer', 'premium_count' => 'nullable|integer',
+//         'deluxe_count' => 'nullable|integer', 'super_deluxe_count' => 'nullable|integer',
+//         'luxury_count' => 'nullable|integer', 'nights_count' => 'nullable|integer', 'adults_count' => 'nullable|integer',
+//         'child_with_bed_count' => 'nullable|integer', 'child_no_bed_infant_count' => 'nullable|integer',
+//         'child_no_bed_child_count' => 'nullable|integer', 'meal_plan_only_room_count' => 'nullable|integer',
+//         'meal_plan_breakfast_count' => 'nullable|integer', 'meal_plan_breakfast_lunch_dinner_count' => 'nullable|integer',
+//         'meal_plan_all_meals_count' => 'nullable|integer', 'hatchback_count' => 'nullable|integer',
+//         'sedan_count' => 'nullable|integer', 'economy_suv_count' => 'nullable|integer', 'luxury_suv_count' => 'nullable|integer',
+//         'traveller_mini_count' => 'nullable|integer', 'traveller_big_count' => 'nullable|integer',
+//         'premium_traveller_count' => 'nullable|integer', 'ac_coach_count' => 'nullable|integer'
+//     ]);
+
+//     $start_date = Carbon::parse($request->start_date);
+//     $end_date = Carbon::parse($request->end_date);
+//     $nights_count = $start_date->diffInDays($end_date);
+
+//     // Create new booking
+//     $packageBooking = new PackageBooking([
+//         'user_id' => $user->id, 
+//         'package_id' => $request->package_id,
+//         'start_date' => $request->start_date, 
+//         'end_date' => $request->end_date,
+//         'nights_count' => $nights_count, 
+//         'status' => 0
+//     ]);
+//     // Set counts
+//     $packageBooking->fill($request->only([
+//         'standard_count', 'premium_count', 'deluxe_count', 'super_deluxe_count',
+//         'luxury_count', 'adults_count', 'child_with_bed_count', 'child_no_bed_infant_count',
+//         'child_no_bed_child_count', 'meal_plan_only_room_count', 'meal_plan_breakfast_count',
+//         'meal_plan_breakfast_lunch_dinner_count', 'meal_plan_all_meals_count', 'hatchback_count',
+//         'sedan_count', 'economy_suv_count', 'luxury_suv_count', 'traveller_mini_count',
+//         'traveller_big_count', 'premium_traveller_count', 'ac_coach_count'
+//     ]));
+
+//     // Get package price for given package_id and date range
+//     $formatted_date = Carbon::parse($request->start_date)->format('Y-m');
+//     $package_price = PackagePrice::where('package_id', $request->package_id)
+//     ->where('start_date', '<=', $formatted_date)
+//     ->where('end_date', '>=', $formatted_date)
+//     ->first();
+//     // return $package_price;
+
+// if ($package_price) {
+//     $total_cost = 0;
+//     $fields = [
+//         'standard', 'premium', 'deluxe', 'super_deluxe', 'luxury', 'nights', 'adults',
+//         'child_with_bed', 'child_no_bed_infant', 'child_no_bed_child', 'meal_plan_only_room',
+//         'meal_plan_breakfast', 'meal_plan_breakfast_lunch_dinner', 'meal_plan_all_meals',
+//         'hatchback', 'sedan', 'economy_suv', 'luxury_suv', 'traveller_mini', 'traveller_big',
+//         'premium_traveller', 'ac_coach'
+//     ];
+
+//     foreach ($fields as $field) {
+//         // Ensure count is an integer
+//         $count = (int) $request->get("{$field}_count", 0);
+        
+//         // Get the cost from the PackagePrice object and ensure it's a float
+//         $cost = (float) $package_price->{"{$field}_cost"};
+        
+//         // Multiply count and cost and add to the total cost
+//         $total_cost += $count * $cost;
+//     }
+
+//     $packageBooking->total_cost = $total_cost;
+// }
+// $packageBooking->save();
+// $packageBooking->makeHidden('updated_at','created_at');
+
+//     // Save the booking
+//     // $packageBooking->save();
+
+//     return response()->json([
+//         'message' => 'Package booking created successfully.',
+//         'data' => $packageBooking,
+//         'status' => 201
+//     ], 201);
+// }
 
 
 
@@ -1673,6 +1895,7 @@ return response()->json(['message' => 'Unauthenticated'], 401);
 
         foreach ($airports as $airport) {
             $response[] = [
+                'id' => $airport->id,  
                 'airport' => $airport->airport,  
                 'railway' => $airport->railway, 
                 'vehicle_id' => $airport->vehicle_id, 

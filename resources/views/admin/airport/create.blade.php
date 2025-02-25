@@ -85,7 +85,7 @@
 
                                     <div class="form-group row">
                                         <div class="col-sm-12"><br>
-                                            <label class="form-label" style="margin-left: 10px" for="power">Select Package Multipal</label>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Vehicle Multipal</label>
                                             <div id="output"></div>
                                             <select data-placeholder="" name="vehicle_id[]" multiple class="chosen-select">
                                                 @foreach($vehicle as $value)
