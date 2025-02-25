@@ -1066,7 +1066,7 @@ public function taxibooking(Request $request)
             'user_id' => $user->id,
             'drop_time' => $request->drop_time,
             'drop_date' => $request->drop_date,
-            'cost' => $vehiclepricetour->price,
+            'cost' => $vehiclepricetour->price ?? null,
             'tour_type' => 'Local Tour',
         ];
     }
