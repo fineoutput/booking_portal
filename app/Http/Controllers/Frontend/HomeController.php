@@ -15,6 +15,7 @@ use App\Models\Hotels;
 use App\Models\HotelBooking;
 use App\Models\Airport;
 use App\Models\PackagePrice;
+use App\Models\Outstation;
 use App\Models\TripGuideBook;
 use App\Models\PackageBookingTemp;
 use App\Models\TaxiBooking;
@@ -204,6 +205,7 @@ public function saveTouristDetails(Request $request)
         $data['vehicleprice'] = VehiclePrice::where('type','Airport/Railway station')->get();
         $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
         $data['route'] = Route::get();
+        $data['outstation'] = Outstation::get();
         return view('front/taxi_booking',$data);
     }
 

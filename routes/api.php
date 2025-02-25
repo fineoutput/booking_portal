@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/hotel-booking', [HotelController::class, 'hotelbooking']);
     Route::post('/taxi-booking', [HotelController::class, 'taxibooking']);
     Route::get('/city', [HotelController::class, 'city']);
+    Route::post('/book-guide', [HotelController::class, 'bookGuide']);
 
 
 

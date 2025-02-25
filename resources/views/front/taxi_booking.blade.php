@@ -242,7 +242,7 @@ width: 20px;
             <select name="vehicle_id" class="form-select no-form-select" id="vehicle-selects" onchange="updateEstimatedCosts()" required>
               <option value="">Select a Vehicle</option>
               @foreach($vehicle as $value)
-                <option value="{{ $value->id }}" data-price="{{ $vehicleprice->where('vehicle_id', $value->id)->first()->price ?? '' }}">
+                <option value="{{ $value->id }}" data-price="{{ $vehiclepricetour->where('vehicle_id', $value->id)->first()->price ?? '' }}">
                   {{ $value->vehicle_type }}
                 </option>
               @endforeach
@@ -344,41 +344,37 @@ width: 20px;
         <!-- One-Way Specific Inputs -->
         <div id="one-way-inputs" style="display: block;">
           <div class="row">
+
             <div class="col-lg-4">
-            <div class="mb-3 loc_stl">
-            <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt=""
-                   style="width: 20px;">
-                  <label for="pickup-airport" class="form-label">Destination City</label>
-                </div>
-                <select name="destination_city" class="form-select no-form-select">
-                  <option value="">Destination City</option>
-                  @foreach($route as $value)
-                    <option value="{{ $value->id ?? '' }}">
-                       {{ $value->from_destination ?? ''}} -  {{ $value->to_destination ?? '' }}
-                      </option>
-                  @endforeach
-                </select>
-            </div>
+              <div class="mb-3 loc_stl">
+                  <div class="select_sect">
+                      <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                      <label for="pickup-airport" class="form-label">Destination City</label>
+                  </div>
+                  <select name="destination_city" class="form-select no-form-select" id="destination-city" onchange="updateVehicleList()">
+                      <option value="">Destination City</option>
+                      @foreach($route as $value)
+                          <option value="{{ $value->id ?? '' }}">
+                              {{ $value->from_destination ?? ''}} - {{ $value->to_destination ?? '' }}
+                          </option>
+                      @endforeach
+                  </select>
+              </div>
           </div>
           
-
-        <div class="col-lg-4">
-          <div class="mb-3 loc_stl">
-            <div class="select_sect">
-              <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
-              <label for="vehicle3" class="form-label">Select Vehicle</label>
-            </div>
-            <select name="vehicle_id" class="form-select no-form-select" id="vehicle-selectss" onchange="updateEstimatedCostss()">
-              <option value="">Select a Vehicle</option>
-              @foreach($vehicle as $value)
-                <option value="{{ $value->id ?? '' }}" data-price="{{ $vehicleprice->where('vehicle_id', $value->id)->first()->price ?? '' }}">
-                  {{ $value->vehicle_type ?? '' }}
-                </option>
-              @endforeach
-            </select>
+          <div class="col-lg-4">
+              <div class="mb-3 loc_stl">
+                  <div class="select_sect">
+                      <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
+                      <label for="vehicle3" class="form-label">Select Vehicle</label>
+                  </div>
+                  <select name="vehicle_id" class="form-select no-form-select" id="vehicle-selectss" onchange="updateEstimatedCostss()">
+                      <option value="">Select a Vehicle</option>
+                      <!-- Vehicle options will be dynamically populated based on the destination city -->
+                  </select>
+              </div>
           </div>
-        </div>
+          
         
         <div class="col-lg-4">
           <div class="mb-3">
@@ -506,28 +502,54 @@ width: 20px;
 
 
 <!-- /* //////////////Cards Starts///////////// */ -->
+
+<script>
+  function updateVehicleList() {
+    var destinationCityId = document.getElementById("destination-city").value;
+    
+    // Clear previous vehicle options
+    var vehicleSelect = document.getElementById("vehicle-selectss");
+    vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+
+    // Check if a destination city is selected
+    if (destinationCityId) {
+        // Get matching vehicles for the selected destination city
+        var matchingOutstation = @json($outstation).filter(function(outstation) {
+            return outstation.trip_type == destinationCityId;
+        });
+
+        // Loop through matching outstation data
+        matchingOutstation.forEach(function(outstation) {
+            var matchingVehicle = @json($vehicle).find(function(vehicle) {
+                return vehicle.id == outstation.vehicle_type;
+            });
+
+            if (matchingVehicle) {
+                // Add the vehicle options dynamically
+                var option = document.createElement("option");
+                option.value = matchingVehicle.id;
+                option.text = matchingVehicle.vehicle_type;
+                option.setAttribute("data-price", outstation.cost); // Add cost to data attribute
+                vehicleSelect.appendChild(option);
+            }
+        });
+    }
+}
+</script>
+
+
+
 <script>
   function updateEstimatedCost() {
-    // Get the selected vehicle from the dropdown
     const vehicleSelect = document.getElementById('vehicle-select');
     const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
-    
-    // Get the selected vehicle's ID
+
     const vehicleId = selectedOption.value;
-
-    // If a vehicle is selected, proceed to fetch its price
     if (vehicleId) {
-      // Get the price per km from the selected vehicle's data-price attribute
       const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
-      
-      // Log the selected vehicle's price to the console
       console.log("Price per km: ₹" + pricePerKm);
-
-      // Update the estimated cost field to show the same price as in the console
       document.getElementById('local-cost').value = "₹" + pricePerKm.toFixed(2);
-
     } else {
-      // If no vehicle is selected, reset the cost field
       document.getElementById('local-cost').value = "Calculated automatically";
     }
   }
@@ -535,26 +557,19 @@ width: 20px;
 
 <script>
   function updateEstimatedCosts() {
-    // Get the selected vehicle from the dropdown
     const vehicleSelect = document.getElementById('vehicle-selects');
     const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
-    
-    // Get the selected vehicle's ID
+
     const vehicleId = selectedOption.value;
 
-    // If a vehicle is selected, proceed to fetch its price
     if (vehicleId) {
-      // Get the price per km from the selected vehicle's data-price attribute
       const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
-      
-      // Log the selected vehicle's price to the console
+
       console.log("Price per km: ₹" + pricePerKm);
 
-      // Update the estimated cost field to show the same price as in the console
       document.getElementById('local-costs').value = "₹" + pricePerKm.toFixed(2);
 
     } else {
-      // If no vehicle is selected, reset the cost field
       document.getElementById('local-costs').value = "Calculated automatically";
     }
   }
@@ -562,26 +577,19 @@ width: 20px;
 
 <script>
   function updateEstimatedCostss() {
-    // Get the selected vehicle from the dropdown
     const vehicleSelect = document.getElementById('vehicle-selectss');
     const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
-    
-    // Get the selected vehicle's ID
+
     const vehicleId = selectedOption.value;
 
-    // If a vehicle is selected, proceed to fetch its price
     if (vehicleId) {
-      // Get the price per km from the selected vehicle's data-price attribute
       const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
       
-      // Log the selected vehicle's price to the console
       console.log("Price per km: ₹" + pricePerKm);
 
-      // Update the estimated cost field to show the same price as in the console
       document.getElementById('local-costss').value = "₹" + pricePerKm.toFixed(2);
 
     } else {
-      // If no vehicle is selected, reset the cost field
       document.getElementById('local-costss').value = "Calculated automatically";
     }
   }
