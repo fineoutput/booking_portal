@@ -1393,43 +1393,64 @@ public function packagebooking(Request $request)
 
 
 
-public function packagebookingse(Request $request, $id)
+public function packagebookingse(Request $request)
 {
-    // Validate incoming request data
+    
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'status' => 401,
+            'data' => [],
+        ], 401);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $password != $user->password) {
+        return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
+    }
+
     $validatedData = $request->validate([
-        'fetched_price' => 'required|numeric',
+        'package_id' => 'required',
         'agent_margin' => 'required|numeric',
-        'final_price' => 'required|numeric',
         'salesman_name' => 'required|string|max:255',
         'salesman_mobile' => 'required|string|max:15',
     ]);
 
-    // Retrieve the temporary package booking
-    $packagetempbooking = PackageBookingTemp::find($id);
+    $packagetempbooking = PackageBookingTemp::find($request->package_id);
 
     if (!$packagetempbooking) {
         return response()->json(['message' => 'Package booking not found'], 404);
     }
 
-    // Create the actual package booking
+    $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
+
+
     $packagebooking = new PackageBooking();
-    $packagebooking->package_temp_id = $id;
+    $packagebooking->package_temp_id = $request->package_id;
     $packagebooking->user_id = $packagetempbooking->user_id;
     $packagebooking->package_id = $packagetempbooking->package_id;
-    $packagebooking->fetched_price = $request->fetched_price;
+    $packagebooking->fetched_price = $packagetempbooking->total_cost;
     $packagebooking->agent_margin = $request->agent_margin;
-    $packagebooking->final_price = $request->final_price;
+    $packagebooking->final_price = $final_price;
     $packagebooking->salesman_name = $request->salesman_name;
     $packagebooking->salesman_mobile = $request->salesman_mobile;
     $packagebooking->status = 0; // assuming status 0 is default, change if needed
     $packagebooking->save();
+
+    $packagetempbooking->update(['status' => 1]);
 
     // Return success response with package booking data
     return response()->json([
         'message' => 'Package Booking Created Successfully',
         'data' => [
             'package_booking_id' => $packagebooking->id,
-            'package_temp_id' => $id,
+            'package_temp_id' => $packagebooking->package_temp_id,
             'fetched_price' => $packagebooking->fetched_price,
             'agent_margin' => $packagebooking->agent_margin,
             'final_price' => $packagebooking->final_price,

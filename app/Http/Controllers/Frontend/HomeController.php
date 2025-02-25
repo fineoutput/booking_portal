@@ -581,6 +581,8 @@ public function getVehiclesByAirport(Request $request)
             $packagebooking->status = 0;
             $packagebooking->save();
 
+            $packagetempbooking->update(['status' => 1]);
+
             return redirect()->route('index')->with('message', 'Package Booking Created Successfully');
 
     }
