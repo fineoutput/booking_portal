@@ -27,6 +27,11 @@ class HotelBookingController extends Controller
         return view('admin/hotelbooking/index',$data);
     }
 
+    function rejectorders() {
+        $data['WildlifeSafari'] = HotelBooking::orderBy('id','DESC')->where('status',2)->get();
+        return view('admin/hotelbooking/index',$data);
+    }
+
 
     
     public function getCitiesByStatesafari($stateId)
@@ -121,10 +126,26 @@ class HotelBookingController extends Controller
     public function updateStatus($id)
     {
         $vehicle = HotelBooking::findOrFail($id);
-        $vehicle->status = ($vehicle->status == 0) ? 1 : 0;
+    
+        // Check the action from the form
+        $action = request()->input('status_action');
+    
+        if ($action == 'complete') {
+            // Change status to 1 (Confirmed)
+            $vehicle->status = 1;
+        } elseif ($action == 'cancel') {
+            // Change status to 2 (Canceled)
+            $vehicle->status = 2;
+        } else {
+            // Default case, no action (status might not change)
+            return redirect()->back()->with('error', 'Invalid status update action.');
+        }
+    
+        // Save the changes
         $vehicle->save();
-
+    
         return redirect()->back()->with('success', 'Hotel Booking status updated successfully!');
     }
+    
 
 }

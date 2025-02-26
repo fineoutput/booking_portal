@@ -65,6 +65,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
 
    Route::get('/pandin-hotels-booking', [HotelBookingController::class, 'index'])->name('pandinghotelsbooking');
    Route::get('/complete-hotels-booking', [HotelBookingController::class, 'completeorders'])->name('completehotelsbooking');
+   Route::get('/reject-hotels-booking', [HotelBookingController::class, 'rejectorders'])->name('rejecthotelsbooking');
    Route::match(['put', 'patch'], '/hotels-booking/{id}/status', [HotelBookingController::class, 'updateStatus'])->name('hotelsbooking.updateStatus');
 
 

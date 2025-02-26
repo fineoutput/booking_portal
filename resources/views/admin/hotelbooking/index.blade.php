@@ -89,18 +89,40 @@
                         <td>
                                 <!-- Update Status Button -->
                                 <form action="{{ route('hotelsbooking.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('PATCH') <!-- Change from PUT to PATCH -->
-                                
-                                    @if($hotel->status == 0)
-                                    <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure you want to change the status?')" 
-                                            {{ $hotel->status == 1 ? 'disabled title=Status is already Complete' : '' }}>
-                                        {{ $hotel->status == 1 ? 'Complete' : 'Complete' }}
-                                    </button>
-                                    @else
-                                    <p class="text-success">Completed</p>
-                                    @endif
-                                </form>
+                                  @csrf
+                                  @method('PATCH') <!-- Change from PUT to PATCH -->
+                              
+                                  <!-- Show "Complete" or "Cancel" buttons based on the current status -->
+                                  @if($hotel->status == 0)
+                                      <!-- Pending, show Complete and Cancel buttons -->
+                                      <button type="submit" class="btn btn-info" 
+                                              name="status_action" value="complete" 
+                                              onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                          Complete
+                                      </button>
+                              
+                                      <button type="submit" class="btn btn-danger" 
+                                              name="status_action" value="cancel" 
+                                              onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                          Cancel
+                                      </button>
+                                  @elseif($hotel->status == 1)
+                                  <p class="text-success">Completed</p>
+                                      <!-- Confirmed, show Cancel button -->
+                                      {{-- <button type="submit" class="btn btn-danger mt-3" 
+                                              name="status_action" value="cancel" 
+                                              onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                          Cancel
+                                      </button> --}}
+                                  @else
+                                  @if($hotel->status == 1)
+                                      <p class="text-success">Completed</p>
+                                      @else
+                                      <p class="text-danger">Rejected</p>
+                                      @endif
+                                  @endif
+                              </form>
+                              
                                 
                         </td>
                     </tr>
