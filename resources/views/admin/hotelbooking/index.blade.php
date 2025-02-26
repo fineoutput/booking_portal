@@ -104,7 +104,7 @@
                                       <button type="submit" class="btn btn-danger" 
                                               name="status_action" value="cancel" 
                                               onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                          Cancel
+                                          Reject
                                       </button>
                                   @elseif($hotel->status == 1)
                                   <p class="text-success">Completed</p>
