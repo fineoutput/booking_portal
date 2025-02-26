@@ -193,7 +193,8 @@ public function saveTouristDetails(Request $request)
         $tourist->save();
     }
 
-    return redirect()->back()->with(['message' => 'Tourist details saved successfully!']);
+    return redirect()->back()->with([
+        'message' => 'Tourist details saved successfully!']);
 }
 
 

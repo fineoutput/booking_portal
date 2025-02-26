@@ -92,13 +92,21 @@ class SafariController extends Controller
         $token = $request->bearerToken();
     
         if (!$token) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 201,
+            ], 401);
         }
     
         $decodedToken = base64_decode($token);
     
         if (strpos($decodedToken, ',') === false) {
-            return response()->json(['message' => 'Invalid token format.'], 400);
+            return response()->json([
+                'message' => 'Invalid token format.',
+                'data' => [],
+                'status' => 201,
+            ], 400);
         }
     
         list($email, $password) = explode(',', $decodedToken);
@@ -145,7 +153,11 @@ class SafariController extends Controller
             ], 200);
         }
     
-        return response()->json(['message' => 'Unauthenticated'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
     
     
@@ -157,13 +169,21 @@ class SafariController extends Controller
         $token = $request->bearerToken();
 
         if (!$token) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 201,
+            ], 401);
         }
 
         $decodedToken = base64_decode($token);
 
         if (strpos($decodedToken, ',') === false) {
-            return response()->json(['message' => 'Invalid token format.'], 400);
+            return response()->json([
+                'message' => 'Invalid token format.',
+                'data' => [],
+                'status' => 201,
+            ], 400);
         }
 
         list($email, $password) = explode(',', $decodedToken);
@@ -220,7 +240,11 @@ class SafariController extends Controller
             ], 200);
         }
 
-        return response()->json(['message' => 'Unauthenticated'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
 
@@ -232,13 +256,21 @@ class SafariController extends Controller
         $token = $request->bearerToken();
 
         if (!$token) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 201,
+            ], 401);
         }
 
         $decodedToken = base64_decode($token);
 
         if (strpos($decodedToken, ',') === false) {
-            return response()->json(['message' => 'Invalid token format.'], 400);
+            return response()->json([
+                'message' => 'Invalid token format.',
+                'data' => [],
+                'status' => 201,
+            ], 400);
         }
 
         list($email, $password) = explode(',', $decodedToken);
@@ -265,7 +297,11 @@ class SafariController extends Controller
             ], 200);
         }
 
-        return response()->json(['message' => 'Unauthenticated'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
 
@@ -274,13 +310,21 @@ class SafariController extends Controller
         $token = $request->bearerToken();
     
         if (!$token) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 201,
+            ], 401);
         }
     
         $decodedToken = base64_decode($token);
     
         if (strpos($decodedToken, ',') === false) {
-            return response()->json(['message' => 'Invalid token format.'], 400);
+            return response()->json([
+                'message' => 'Invalid token format.',
+                'data' => [],
+                'status' => 201,
+            ], 400);
         }
     
         list($email, $password) = explode(',', $decodedToken);
@@ -339,7 +383,11 @@ class SafariController extends Controller
             ], 200);
         }
     
-        return response()->json(['message' => 'Unauthenticated'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
     
 

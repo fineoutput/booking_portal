@@ -91,6 +91,7 @@ class AuthController extends Controller
             // $otp = $this->sendOtp($request->number);
             return response()->json([
                 'message' => 'Agent Created, Waiting for Admin Approval!',
+                'data' => [],
                 'status' => 200,
             ]);
         }
@@ -99,7 +100,11 @@ class AuthController extends Controller
             $user = UnverifyUser::where('number', $request->number)->first();
             
             if (!$user) {
-                return response()->json(['message' => 'User not found.'], 404);
+                return response()->json([
+                    'message' => 'User not found.',
+                    'data' => [],
+                    'status' => 201,
+                ], 404);
             }
     
             $existingOtp = UserOtp::where('source_name', $request->number)
@@ -108,7 +113,11 @@ class AuthController extends Controller
                 ->first();
     
             if (!$existingOtp) {
-                return response()->json(['message' => 'Invalid OTP or OTP has expired.'], 400);
+                return response()->json([
+                    'message' => 'Invalid OTP or OTP has expired.',
+                    'data' => [],
+                    'status' => 201,
+                ], 400);
             }
 
             $user->number_verify = 1;
@@ -494,7 +503,11 @@ public function login(Request $request)
         $credentials = $request->only('email', 'password');
         
         if (!Auth::guard('agent')->attempt($credentials)) {
-            return response()->json(['message' => 'Invalid credentials. Please check your email and password.'], 401);
+            return response()->json([
+                'message' => 'Invalid credentials. Please check your email and password.',
+                'data' => [],
+                'status' => 201,
+            ], 401);
         }
 
         $user = Auth::guard('agent')->user();
@@ -503,6 +516,7 @@ public function login(Request $request)
         if ($user->approved != 1) {
             return response()->json([
                 'message' => 'Your account is not approved by the admin. Please wait for approval.',
+                'data' => [],
                 'status' => 201,
             ], 403);
         }
@@ -525,12 +539,20 @@ public function login(Request $request)
         $user = Agent::where('number', $request->mobile_number)->first();
         
         if (!$user) {
-            return response()->json(['message' => 'User not found with this mobile number.'], 404);
+            return response()->json([
+                'message' => 'User not found with this mobile number.',
+                'data' => [],
+                'status' => 201,
+            ], 404);
         }
 
         // Check if the user is approved
         if ($user->approved != 1) {
-            return response()->json(['message' => 'Your account is not approved by the admin. Please wait for approval.'], 403);
+            return response()->json([
+                'message' => 'Your account is not approved by the admin. Please wait for approval.',
+                'data' => [],
+                'status' => 201,
+            ], 403);
         }
 
         // Send OTP to the mobile number

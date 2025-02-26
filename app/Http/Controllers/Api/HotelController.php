@@ -45,7 +45,11 @@ class HotelController extends Controller
         $token = $request->bearerToken();
         
         if (!$token) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 201,
+            ], 401);
         }
 
         $decodedToken = base64_decode($token);
@@ -94,7 +98,11 @@ class HotelController extends Controller
             ], 200);
         }
 
-        return response()->json(['message' => 'Unauthenticated'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
 
@@ -105,7 +113,11 @@ class HotelController extends Controller
     
     // Check if the token exists
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     // Decode the token to get the email and password
@@ -178,7 +190,11 @@ class HotelController extends Controller
     }
 
     // If user is unauthenticated
-    return response()->json(['message' => 'Unauthenticated'], 401);
+    return response()->json([
+        'message' => 'Unauthenticated',
+        'data' => [],
+        'status' => 201,
+    ], 401);
 }
 
 
@@ -188,7 +204,11 @@ class HotelController extends Controller
         $token = $request->bearerToken();
         
         if (!$token) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 201,
+            ], 401);
         }
 
         $decodedToken = base64_decode($token);
@@ -275,7 +295,11 @@ class HotelController extends Controller
             ], 200);
         }
 
-        return response()->json(['message' => 'Unauthenticated'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
 
@@ -284,7 +308,11 @@ class HotelController extends Controller
     $token = $request->bearerToken();
     
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     // Decode the token
@@ -295,7 +323,11 @@ class HotelController extends Controller
     $user = Agent::where('email', $email)->first();
 
     if (!$user || $password !== $user->password) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $request->validate([
@@ -463,7 +495,11 @@ public function getHotelWithPackages(Request $request)
     $token = $request->bearerToken();
     
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     // Decode the token
@@ -474,7 +510,11 @@ public function getHotelWithPackages(Request $request)
     $user = Agent::where('email', $email)->first();
 
     if (!$user || $password !== $user->password) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $request->validate([
@@ -611,13 +651,21 @@ public function vehicle(Request $request)
     $token = $request->bearerToken();
 
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $decodedToken = base64_decode($token);
 
     if (strpos($decodedToken, ',') === false) {
-        return response()->json(['message' => 'Invalid token format.'], 400);
+        return response()->json([
+            'message' => 'Invalid token format.',
+            'data' => [],
+            'status' => 201,
+        ], 400);
     }
 
     list($email, $password) = explode(',', $decodedToken);
@@ -768,7 +816,11 @@ public function vehicle(Request $request)
         ], 200);
     }
 
-    return response()->json(['message' => 'Unauthenticated'], 401);
+    return response()->json([
+        'message' => 'Unauthenticated',
+        'data' => [],
+        'status' => 201,
+    ], 401);
 }
 
 
@@ -780,7 +832,11 @@ public function statecityhotel(Request $request)
     $token = $request->bearerToken();
 
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $decodedToken = base64_decode($token);
@@ -845,7 +901,11 @@ public function statecityhotel(Request $request)
         ], 200);
     }
 
-    return response()->json(['message' => 'Unauthenticated'], 401);
+    return response()->json([
+        'message' => 'Unauthenticated',
+        'data' => [],
+        'status' => 201,
+    ], 401);
 }
 
 
@@ -915,7 +975,11 @@ public function hotelBooking(Request $request) {
     $token = $request->bearerToken();
 
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $decodedToken = base64_decode($token);
@@ -924,7 +988,11 @@ public function hotelBooking(Request $request) {
     $user = Agent::where('email', $email)->first();
 
     if (!$user || $password != $user->password) {
-        return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
+        return response()->json([
+            'message' => 'Unauthorized. Invalid credentials.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $validatedData = $request->validate([
@@ -1009,7 +1077,11 @@ public function taxibooking(Request $request)
     $user = Agent::where('email', $email)->first();
 
     if (!$user || $password != $user->password) {
-        return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
+        return response()->json([
+            'message' => 'Unauthorized. Invalid credentials.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $request->validate([
@@ -1229,7 +1301,7 @@ public function packagebooking(Request $request)
     if (!$token) {
         return response()->json([
             'message' => 'Unauthenticated.',
-            'status' => 401,
+            'status' => 201,
             'data' => [],
         ], 401);
     }
@@ -1240,7 +1312,11 @@ public function packagebooking(Request $request)
     $user = Agent::where('email', $email)->first();
 
     if (!$user || $password != $user->password) {
-        return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
+        return response()->json([
+            'message' => 'Unauthorized. Invalid credentials.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $validatedData = $request->validate([
@@ -1401,7 +1477,7 @@ public function packagebookingse(Request $request)
     if (!$token) {
         return response()->json([
             'message' => 'Unauthenticated.',
-            'status' => 401,
+            'status' => 201,
             'data' => [],
         ], 401);
     }
@@ -1412,7 +1488,11 @@ public function packagebookingse(Request $request)
     $user = Agent::where('email', $email)->first();
 
     if (!$user || $password != $user->password) {
-        return response()->json(['message' => 'Unauthorized. Invalid credentials.'], 401);
+        return response()->json([
+            'message' => 'Unauthorized. Invalid credentials.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $validatedData = $request->validate([
@@ -1806,7 +1886,11 @@ public function city(Request $request)
     $token = $request->bearerToken();
 
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $decodedToken = base64_decode($token);
@@ -1836,7 +1920,11 @@ public function city(Request $request)
         ], 200);
     }
 
-    return response()->json(['message' => 'Unauthenticated'], 401);
+    return response()->json([
+        'message' => 'Unauthenticated',
+        'data' => [],
+        'status' => 201,
+    ], 401);
 }
 
 
@@ -1846,7 +1934,11 @@ public function bookGuide(Request $request)
     $token = $request->bearerToken();
 
     if (!$token) {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
     }
 
     $decodedToken = base64_decode($token);
@@ -1904,7 +1996,11 @@ public function bookGuide(Request $request)
         ], 500);
     }
 }
-return response()->json(['message' => 'Unauthenticated'], 401);
+return response()->json([
+    'message' => 'Unauthenticated',
+    'data' => [],
+    'status' => 201,
+], 401);
 }
 
 
