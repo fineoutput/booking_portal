@@ -86,7 +86,7 @@
 
                     <div id="loginWithEmail" class="showEmailForm">
                     <form method="POST" action="{{ route('agentLoginWithEmail') }}">
-
+                        @csrf
                         @if (session('error'))
                         <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
@@ -102,8 +102,7 @@
                             </ul>
                         </div>
                     @endif
-                    
-                        @csrf
+
                         <div class="mb-3">
                             <label for="emailLogin" class="form-label">Email</label>
                             <input type="email" class="form-control" id="emailLogin" name="email" placeholder="Enter your email" required>
