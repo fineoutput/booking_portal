@@ -232,7 +232,7 @@
                                                         <label>Adults</label>
                                                         <div class="counter_hotels">
                                                             <button type="button" onclick="updateGuestss('adults', -1)">-</button>
-                                                            <input type="number" id="adults-count" value="1" min="1" onchange="updateGuestCounts()">
+                                                            <input type="number" id="adults-count" value="1" min="1" onchange="updateGuestss()">
                                                             <button type="button" onclick="updateGuestss('adults', 1)">+</button>
                                                         </div>
                                                     </div>
@@ -240,7 +240,7 @@
                                                         <label>Children</label>
                                                         <div class="counter_hotels">
                                                             <button type="button" onclick="updateGuestss('children', -1)">-</button>
-                                                            <input type="number" id="children-count" value="0" min="0" onchange="updateGuestCounts()">
+                                                            <input type="number" id="children-count" value="0" min="0" onchange="updateGuestss()">
                                                             <button type="button" onclick="updateGuestss('children', 1)">+</button>
                                                         </div>
                                                     </div>
@@ -248,7 +248,7 @@
                                                         <label>Infants</label>
                                                         <div class="counter_hotels">
                                                             <button type="button" onclick="updateGuestss('infants', -1)">-</button>
-                                                            <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestCounts()">
+                                                            <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestss()">
                                                             <button type="button" onclick="updateGuestss('infants', 1)">+</button>
                                                         </div>
                                                     </div>
