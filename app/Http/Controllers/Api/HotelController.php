@@ -271,29 +271,29 @@ class HotelController extends Controller
                             
                             // // Calculate total cost by summing all the costs
                             'total_cost' => 
-                                $price->standard_cost +
-                                $price->deluxe_cost +
-                                $price->premium_cost +
-                                $price->super_deluxe_cost +
-                                $price->luxury_cost +
-                                $price->nights_cost +
-                                $price->adults_cost +
-                                $price->child_with_bed_cost +
-                                $price->child_no_bed_infant_cost +
-                                $price->child_no_bed_child_cost +
-                                $price->meal_plan_only_room_cost +
-                                $price->meal_plan_breakfast_cost +
-                                $price->meal_plan_breakfast_lunch_dinner_cost +
-                                $price->meal_plan_all_meals_cost +
-                                $price->hatchback_cost +
-                                $price->sedan_cost +
-                                $price->economy_suv_cost +
-                                $price->luxury_suv_cost +
-                                $price->traveller_mini_cost +
-                                $price->traveller_big_cost +
-                                $price->premium_traveller_cost +
-                                $price->ac_coach_cost +
-                                $price->extra_bed_cost
+                            $price->standard_cost ?? 0 +
+                            $price->deluxe_cost ?? 0 +
+                            $price->premium_cost ?? 0 +
+                            $price->super_deluxe_cost ?? 0 +
+                            $price->luxury_cost ?? 0 +
+                            $price->nights_cost ?? 0 +
+                            $price->adults_cost ?? 0 +
+                            $price->child_with_bed_cost ?? 0 +
+                            $price->child_no_bed_infant_cost ?? 0 +
+                            $price->child_no_bed_child_cost ?? 0 +
+                            $price->meal_plan_only_room_cost ?? 0 +
+                            $price->meal_plan_breakfast_cost ?? 0 +
+                            $price->meal_plan_breakfast_lunch_dinner_cost ?? 0 +
+                            $price->meal_plan_all_meals_cost ?? 0 +
+                            $price->hatchback_cost ?? 0 +
+                            $price->sedan_cost ?? 0 +
+                            $price->economy_suv_cost ?? 0 +
+                            $price->luxury_suv_cost ?? 0 +
+                            $price->traveller_mini_cost ?? 0 +
+                            $price->traveller_big_cost ?? 0 +
+                            $price->premium_traveller_cost ?? 0 +
+                            $price->ac_coach_cost ?? 0 +
+                            $price->extra_bed_cost ?? 0
                         ];
                         
                     });
