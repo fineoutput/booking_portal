@@ -57,6 +57,7 @@
                         <th data-priority="3">Pickup Date</th>
                         <th data-priority="3">Pickup Time</th>
                         <th data-priority="3">Cost</th>
+                        <th data-priority="3">Action</th>
 
                       </tr>
                     </thead>
@@ -77,10 +78,44 @@
                                 <td>{{$value->drop_pickup_address ?? ''}}</td>
                                 <td>{{$value->pickup_date ?? ''}}</td>
                                 <td>{{$value->pickup_time ?? ''}}</td>
-
                                 <td>{{$value->cost ?? '0'}}</td>
-                              
+
+                                <td>
+                                  <form action="{{ route('taxi.updateStatus', $value->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('PUT') <!-- Change from PUT to PATCH -->
                                 
+                                    <!-- Show "Complete" or "Cancel" buttons based on the current status -->
+                                    @if($value->status == 0)
+                                        <!-- Pending, show Complete and Cancel buttons -->
+                                        <button type="submit" class="btn btn-info" 
+                                                name="status_action" value="complete" 
+                                                onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                            Complete
+                                        </button>
+                                
+                                        <button type="submit" class="btn btn-danger" 
+                                                name="status_action" value="cancel" 
+                                                onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                            Reject
+                                        </button>
+                                    @elseif($value->status == 1)
+                                    <p class="text-success">Completed</p>
+                                        <!-- Confirmed, show Cancel button -->
+                                        {{-- <button type="submit" class="btn btn-danger mt-3" 
+                                                name="status_action" value="cancel" 
+                                                onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                            Cancel
+                                        </button> --}}
+                                    @else
+                                    @if($value->status == 1)
+                                        <p class="text-success">Completed</p>
+                                        @else
+                                        <p class="text-danger">Rejected</p>
+                                        @endif
+                                    @endif
+                                </form>
+                                </td>
                             </tr>
                         @endforeach
                    </tbody>

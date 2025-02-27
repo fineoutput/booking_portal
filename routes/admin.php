@@ -189,8 +189,25 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::match(['put', 'patch'], '/agent/{id}/status', [AgentController::class, 'updateStatus'])->name('agent.updateStatus');
 
     Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi-booking');
+    Route::get('/complete-taxi-booking', [TaxiBookingController::class, 'completeindex'])->name('completetaxi-booking');
+    Route::get('/reject-taxi-booking', [TaxiBookingController::class, 'rejectindex'])->name('rejecttaxi-booking');
+    Route::match(['put', 'patch'], '/taxi/{id}/status', [TaxiBookingController::class, 'updateStatus'])->name('taxi.updateStatus');
+
+
     Route::get('/outstation-taxi-booking', [TaxiBookingController::class, 'outstationindex'])->name('outstation_taxi_booking');
+
+    Route::get('/complete-outstation-taxi-booking', [TaxiBookingController::class, 'completeoutstationindex'])->name('complete_outstation_taxi_booking');
+
+    Route::get('/reject-outstation-taxi-booking', [TaxiBookingController::class, 'rejectoutstationindex'])->name('reject_outstation_taxi_booking');
+
+
     Route::get('/localtour-taxi-booking', [TaxiBookingController::class, 'localtourindex'])->name('localtour_taxi_booking');
+
+    Route::get('/complete-localtour-taxi-booking', [TaxiBookingController::class, 'completelocaltourindex'])->name('complete_localtour_taxi_booking');
+
+    Route::get('/reject-localtour-taxi-booking', [TaxiBookingController::class, 'rejectlocaltourindex'])->name('reject_localtour_taxi_booking');
+
+
     Route::post('/taxi-booking/create', [TaxiBookingController::class, 'create'])->name('taxi-booking.create');
 
 

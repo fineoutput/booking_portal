@@ -40,6 +40,7 @@ class TaxiBooking extends Model
         'one_way_location',
         'round_start_location',
         'round_end_location',
+        'status',
     ];
 
     public function vehicle()
