@@ -26,6 +26,11 @@ class WildlifeSafariOrderController extends Controller
         return view('admin/wildlifesafariorders/index',$data);
     }
 
+    function rejectorders() {
+        $data['WildlifeSafari'] = WildlifeSafariOrder::orderBy('id','DESC')->where('status',2)->get();
+        return view('admin/wildlifesafariorders/index',$data);
+    }
+
 
     
     public function getCitiesByStatesafari($stateId)
@@ -117,13 +122,37 @@ class WildlifeSafariOrderController extends Controller
         return redirect()->route('wild_life_safari')->with('success', 'Wild life Safari updated successfully!');
     }
 
+    // public function updateStatus($id)
+    // {
+    //     $vehicle = WildlifeSafariOrder::findOrFail($id);
+    //     $vehicle->status = ($vehicle->status == 0) ? 1 : 0;
+    //     $vehicle->save();
+
+    //     return redirect()->back()->with('success', 'Outstation status updated successfully!');
+    // }
+
     public function updateStatus($id)
     {
         $vehicle = WildlifeSafariOrder::findOrFail($id);
-        $vehicle->status = ($vehicle->status == 0) ? 1 : 0;
+    
+        // Check the action from the form
+        $action = request()->input('status_action');
+    
+        if ($action == 'complete') {
+            // Change status to 1 (Confirmed)
+            $vehicle->status = 1;
+        } elseif ($action == 'cancel') {
+            // Change status to 2 (Canceled)
+            $vehicle->status = 2;
+        } else {
+            // Default case, no action (status might not change)
+            return redirect()->back()->with('error', 'Invalid status update action.');
+        }
+    
+        // Save the changes
         $vehicle->save();
-
-        return redirect()->back()->with('success', 'Outstation status updated successfully!');
+    
+        return redirect()->back()->with('success', 'Safari Order status updated successfully!');
     }
 
 }

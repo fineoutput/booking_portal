@@ -101,6 +101,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
 
    Route::get('/panding-package-booking', [PackageController::class, 'pandingindex'])->name('pandingpackagebooking');
    Route::get('/complete-package-booking', [PackageController::class, 'completeorders'])->name('completepackagebooking');
+   Route::get('/reject-package-booking', [PackageController::class, 'rejectorders'])->name('rejectpackagebooking');
    Route::match(['put', 'patch'], '/package-booking/{id}/status', [PackageController::class, 'updateStatus'])->name('packagebooking.updateStatus');
 
 
@@ -215,6 +216,8 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/complete-wild-life-safari-order', [WildlifeSafariOrderController::class, 'completeorders'])->name('wild_life_safari_orders_complete');
 
+    Route::get('/reject-wild-life-safari-order', [WildlifeSafariOrderController::class, 'rejectorders'])->name('wild_life_safari_orders_reject');
+
     Route::match(['get','post'],'/wild-life-safari-order/create', [WildlifeSafariOrderController::class, 'create'])->name('wild_life_safari_create_order');
 
     Route::get('wild-life-safari-order/{id}/edit', [WildlifeSafariOrderController::class, 'edit'])->name('wild_life_safari_order.edit');
@@ -238,7 +241,10 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/trip-guide/cities/{stateId}', [TripGuideController::class, 'getCitiesByStatetripguide']);
   
     Route::get('/trip-guide-booking', [TripGuideController::class, 'tripguidebooking'])->name('tripguidebooking');
+
     Route::get('/complete-trip-guide-booking', [TripGuideController::class, 'completetripguidebooking'])->name('completetripguidebooking');
+
+    Route::get('/reject-trip-guide-booking', [TripGuideController::class, 'rejecttripguidebooking'])->name('rejecttripguidebooking');
     
     Route::put('/trip-guide-booking/{id}/status', [TripGuideController::class, 'updateStatuss'])->name('trip_guide_booking.updateStatus');
 

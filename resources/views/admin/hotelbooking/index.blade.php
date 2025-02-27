@@ -122,8 +122,6 @@
                                       @endif
                                   @endif
                               </form>
-                              
-                                
                         </td>
                     </tr>
                 @endforeach

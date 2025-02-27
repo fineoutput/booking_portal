@@ -28,16 +28,46 @@ class PackageController extends Controller
         return view('admin/package/pandingindex',$data);
     }
 
+    function rejectorders() {
+        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',2)->get();
+        return view('admin/package/pandingindex',$data);
+    }
+
+
+    // public function updateStatus($id)
+    // {
+    //     $vehicle = PackageBooking::findOrFail($id);
+    //     $vehicle->status = ($vehicle->status == 0) ? 1 : 0;
+    //     $vehicle->save();
+
+    //     return redirect()->back()->with('success', 'Package Booking status updated successfully!');
+    // }
 
     public function updateStatus($id)
     {
         $vehicle = PackageBooking::findOrFail($id);
-        $vehicle->status = ($vehicle->status == 0) ? 1 : 0;
-        $vehicle->save();
 
+        $action = request()->input('status_action');
+
+        if ($action == 'complete') {
+
+            $vehicle->status = 1;
+
+        } elseif ($action == 'cancel') {
+
+            $vehicle->status = 2;
+
+        } else {
+
+            return redirect()->back()->with('error', 'Invalid status update action.');
+            
+        }
+    
+        $vehicle->save();
+    
         return redirect()->back()->with('success', 'Package Booking status updated successfully!');
     }
-
+    
 
 
     public function getCitiesByState(Request $request)
