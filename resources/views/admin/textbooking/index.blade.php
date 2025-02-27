@@ -52,8 +52,8 @@
                         <th data-priority="1">Trip</th>
                         <th data-priority="3">Vehicle</th>
                         <th data-priority="3">Airport</th>
-                        <th data-priority="3">Drop off Address for Pickup</th>
-                        <th data-priority="3">Pickup Address for Drop</th>
+                        <th data-priority="3">Drop off Address</th>
+                        <th data-priority="3">Pickup Address</th>
                         <th data-priority="3">Pickup Date</th>
                         <th data-priority="3">Pickup Time</th>
                         <th data-priority="3">Cost</th>
