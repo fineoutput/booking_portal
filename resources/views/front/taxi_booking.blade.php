@@ -62,7 +62,7 @@
               </div>
 
               <select name="trip" class="form-select" id="trip-type" style="width: 50%; text-align: center;" onchange="updateInputs()" required>
-                <option disabled>Select</option>
+                <option disabled selected>Select</option>
                 <option value="pickup">Pickup from Airport/Railway station</option>
                 <option value="drop">Drop to Airport/Railway station</option>
               </select>
@@ -70,31 +70,26 @@
           </div>
         </div>
 
-        <div id="pickup-inputs" style="display: block;">
+        <div>
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3 loc_stl">
-                <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
-    width: 20px;
-">
+                <div class="select_sect" id="pickup-inputs">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
                   <label for="pickup-airport" class="form-label">Pickup from</label>
                 </div>
-
                 <select name="airport_id" class="form-select no-form-select" id="pickup-airport" onchange="updateVehicles()">
                   <option value="">Select an Airport</option>
                   @foreach($airport as $value)
                       <option value="{{$value->id ?? ''}}">{{$value->airport ?? ''}}</option>
                   @endforeach
-              </select>
-
+                </select>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
-                <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" 
-                  style="width: 20px;">
+                <div class="select_sect" id="drop-inputs">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
                   <label for="drop-address" class="form-label no-form">Drop off Address</label>
                 </div>
                 <input type="text" name="location" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
@@ -103,7 +98,7 @@
           </div>
         </div>
 
-        <div id="drop-inputs" style="display: none;">
+        {{-- <div >
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3 loc_stl">
@@ -135,7 +130,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
 
         <div class="row">
           <div class="col-lg-6">
@@ -747,18 +742,24 @@ function updateVehicless() {
     const tripType = document.getElementById("trip-type").value;
     const pickupInputs = document.getElementById("pickup-inputs");
     const dropInputs = document.getElementById("drop-inputs");
+    
+    // Make sure both input sections are visible
+    pickupInputs.style.display = "block";
+    dropInputs.style.display = "block";
+
+    // Get the label elements inside each container
+    const pickupLabel = pickupInputs.querySelector("label");
+    const dropLabel = dropInputs.querySelector("label");
 
     if (tripType === "pickup") {
-      pickupInputs.style.display = "block";
-      dropInputs.style.display = "none";
+      pickupLabel.textContent = "Pickup from";
+      dropLabel.textContent = "Drop to";
     } else if (tripType === "drop") {
-      pickupInputs.style.display = "none";
-      dropInputs.style.display = "block";
-    } else {
-      pickupInputs.style.display = "block";
-      dropInputs.style.display = "none";
+      pickupLabel.textContent = "Drop to";
+      dropLabel.textContent = "Pickup from";
     }
   }
+
 
   document.querySelectorAll('.city-item').forEach(item => {
   item.addEventListener('click', function () {
