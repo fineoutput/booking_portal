@@ -245,30 +245,57 @@ class HotelController extends Controller
                             'id' => $price->id,
                             'start_date' => Carbon::parse($price->start_date)->format('F Y'),
                             'end_date' => Carbon::parse($price->end_date)->format('F Y'),
-                            'standard_cost' => $price->standard_cost,
-                            'deluxe_cost' => $price->deluxe_cost,
-                            'premium_cost' => $price->premium_cost,
-                            'super_deluxe_cost' => $price->super_deluxe_cost,
-                            'luxury_cost' => $price->luxury_cost,
-                            'nights_cost' => $price->nights_cost,
-                            'adults_cost' => $price->adults_cost,
-                            'child_with_bed_cost' => $price->child_with_bed_cost,
-                            'child_no_bed_infant_cost' => $price->child_no_bed_infant_cost,
-                            'child_no_bed_child_cost' => $price->child_no_bed_child_cost,
-                            'meal_plan_only_room_cost' => $price->meal_plan_only_room_cost,
-                            'meal_plan_breakfast_cost' => $price->meal_plan_breakfast_cost,
-                            'meal_plan_breakfast_lunch_dinner_cost' => $price->meal_plan_breakfast_lunch_dinner_cost,
-                            'meal_plan_all_meals_cost' => $price->meal_plan_all_meals_cost,
-                            'hatchback_cost' => $price->hatchback_cost,
-                            'sedan_cost' => $price->sedan_cost,
-                            'economy_suv_cost' => $price->economy_suv_cost,
-                            'luxury_suv_cost' => $price->luxury_suv_cost,
-                            'traveller_mini_cost' => $price->traveller_mini_cost,
-                            'traveller_big_cost' => $price->traveller_big_cost,
-                            'premium_traveller_cost' => $price->premium_traveller_cost,
-                            'ac_coach_cost' => $price->ac_coach_cost,
-                            'extra_bed_cost' => $price->extra_bed_cost,
+                            // 'standard_cost' => $price->standard_cost,
+                            // 'deluxe_cost' => $price->deluxe_cost,
+                            // 'premium_cost' => $price->premium_cost,
+                            // 'super_deluxe_cost' => $price->super_deluxe_cost,
+                            // 'luxury_cost' => $price->luxury_cost,
+                            // 'nights_cost' => $price->nights_cost,
+                            // 'adults_cost' => $price->adults_cost,
+                            // 'child_with_bed_cost' => $price->child_with_bed_cost,
+                            // 'child_no_bed_infant_cost' => $price->child_no_bed_infant_cost,
+                            // 'child_no_bed_child_cost' => $price->child_no_bed_child_cost,
+                            // 'meal_plan_only_room_cost' => $price->meal_plan_only_room_cost,
+                            // 'meal_plan_breakfast_cost' => $price->meal_plan_breakfast_cost,
+                            // 'meal_plan_breakfast_lunch_dinner_cost' => $price->meal_plan_breakfast_lunch_dinner_cost,
+                            // 'meal_plan_all_meals_cost' => $price->meal_plan_all_meals_cost,
+                            // 'hatchback_cost' => $price->hatchback_cost,
+                            // 'sedan_cost' => $price->sedan_cost,
+                            // 'economy_suv_cost' => $price->economy_suv_cost,
+                            // 'luxury_suv_cost' => $price->luxury_suv_cost,
+                            // 'traveller_mini_cost' => $price->traveller_mini_cost,
+                            // 'traveller_big_cost' => $price->traveller_big_cost,
+                            // 'premium_traveller_cost' => $price->premium_traveller_cost,
+                            // 'ac_coach_cost' => $price->ac_coach_cost,
+                            // 'extra_bed_cost' => $price->extra_bed_cost,
+                            
+                            // // Calculate total cost by summing all the costs
+                            'total_cost' => 
+                                $price->standard_cost +
+                                $price->deluxe_cost +
+                                $price->premium_cost +
+                                $price->super_deluxe_cost +
+                                $price->luxury_cost +
+                                $price->nights_cost +
+                                $price->adults_cost +
+                                $price->child_with_bed_cost +
+                                $price->child_no_bed_infant_cost +
+                                $price->child_no_bed_child_cost +
+                                $price->meal_plan_only_room_cost +
+                                $price->meal_plan_breakfast_cost +
+                                $price->meal_plan_breakfast_lunch_dinner_cost +
+                                $price->meal_plan_all_meals_cost +
+                                $price->hatchback_cost +
+                                $price->sedan_cost +
+                                $price->economy_suv_cost +
+                                $price->luxury_suv_cost +
+                                $price->traveller_mini_cost +
+                                $price->traveller_big_cost +
+                                $price->premium_traveller_cost +
+                                $price->ac_coach_cost +
+                                $price->extra_bed_cost
                         ];
+                        
                     });
         
                     return [
