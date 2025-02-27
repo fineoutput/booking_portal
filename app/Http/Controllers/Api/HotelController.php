@@ -15,6 +15,8 @@ use App\Models\HotelBooking;
 use App\Models\Airport;
 use App\Models\HotelPrice;
 use App\Models\TaxiBooking;
+use App\Models\WildlifeSafari;
+use App\Models\WildlifeSafariOrder;
 use App\Models\VehiclePrice;
 use App\Models\TripGuideBook;
 use App\Models\Outstation;
@@ -2029,5 +2031,203 @@ return response()->json([
     }
 
 
+    public function allbookings(Request $request) {
+        $token = $request->bearerToken();
+    
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+    
+        $decodedToken = base64_decode($token);
+        list($email, $password) = explode(',', $decodedToken);
+    
+        $user = Agent::where('email', $email)->first();
+    
+        if ($user && $password == $user->password) {
+            $type = $request->input('type');
+            $status = (int) $request->input('status'); 
+    
+            $bookings = [];
+    
+            switch ($type) {
+                case 'hotel':
+                    $bookings = HotelBooking::where('user_id', $user->id)
+                        ->where('status', $status)
+                        ->get();
+    
+                    foreach ($bookings as $booking) {
+        
+                        $hotel = Hotels::find($booking->hotel_id);
+                        
+                        if ($hotel) {
+                            $imagePaths = $hotel->images;
+    
+                            if (is_string($imagePaths)) {
+            
+                                $imagePaths = json_decode($imagePaths, true);
+                            }
+    
+                            if (!is_array($imagePaths)) {
+                                $imagePaths = [$imagePaths];
+                            }
+    
+                            $baseUrl = url('');
+                            $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+
+                                return $baseUrl . '/' . ltrim($image, '/');
+                            }, $imagePaths);
+    
+                            $booking->hotel_images = $fullImageUrls;
+                        } else {
+                            $booking->hotel_images = []; 
+                        }
+                    }
+                    break;
+    
+                case 'package':
+                    $bookings = PackageBooking::where('user_id', $user->id)
+                        ->where('status', $status) 
+                        ->get();
+    
+
+                    foreach ($bookings as $booking) {
+
+                        $package = Package::find($booking->package_id);  
+    
+                        if ($package) {
+                            $imagePaths = $package->image;
+    
+                            if (is_string($imagePaths)) {
+
+                                $imagePaths = json_decode($imagePaths, true);
+                            }
+
+                            if (!is_array($imagePaths)) {
+                                $imagePaths = [$imagePaths];
+                            }
+
+                            $baseUrl = url(''); 
+
+                            $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+
+                                return $baseUrl . '/' . ltrim($image, '/');
+                            }, $imagePaths);
+    
+                            $booking->package_images = array_values($fullImageUrls); 
+                        } else {
+                            $booking->package_images = [];
+                        }
+                    }
+                    break;
+    
+                case 'safari':
+                    $bookings = WildlifeSafariOrder::where('user_id', $user->id)
+                        ->where('status', $status) 
+                        ->get();
+    
+                    foreach ($bookings as $booking) {
+  
+                        $safari = WildlifeSafari::find($booking->safari_id);  
+                        
+                        if ($safari) {
+
+                            $imagePaths = $safari->image;
+
+                            if (is_string($imagePaths)) {
+
+                                $imagePaths = json_decode($imagePaths, true);
+                            }
+
+                            if (!is_array($imagePaths)) {
+                                $imagePaths = [$imagePaths];
+                            }
+    
+                            $baseUrl = url(''); 
+
+                            $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+
+                                return $baseUrl . '/' . ltrim($image, '/');
+                            }, $imagePaths);
+    
+                            $booking->safari_images = array_values($fullImageUrls); 
+                        } else {
+                            $booking->safari_images = [];
+                        }
+                    }
+                    break;
+
+                    case 'taxi':
+                        $bookings = TaxiBooking::where('user_id', $user->id)
+                            ->where('status', $status)
+                            ->get();
+
+                        foreach ($bookings as $booking) {
+                            $vehicleId = $booking->vehicle_id ?: $booking->vehicle_id_1; 
+                    
+                            if ($vehicleId) {
+                                $vehicle = Vehicle::find($vehicleId);  
+                                
+                                if ($vehicle) {
+                                    $imagePath = $vehicle->image;
+                                    if ($imagePath) {
+                                        $baseUrl = url(''); 
+                                        $fullImageUrl = $baseUrl . '/' . ltrim($imagePath, '/');
+                                        $booking->vehicle_images = [$fullImageUrl]; 
+                                    } else {
+                                        $booking->vehicle_images = []; 
+                                    }
+                                } else {
+                                    $booking->vehicle_images = []; 
+                                }
+                            } else {
+                                $booking->vehicle_images = [];
+                            }
+                        }
+                        break;
+    
+                default:
+                    return response()->json([
+                        'message' => 'Invalid booking type',
+                        'data' => null,
+                        'status' => 400,
+                    ]);
+            }
+    
+            $statusLabels = [
+                0 => 'pending',
+                1 => 'complete',
+                2 => 'reject',
+            ];
+    
+            // Transform the result to include the status label
+            $bookings = $bookings->map(function ($booking) use ($statusLabels) {
+                $booking->status_label = $statusLabels[$booking->status];
+                return $booking;
+            });
+    
+            // Make hidden specific fields
+            $bookings->makeHidden(['created_at','updated_at','deleted_at']);
+    
+            // Return the response with the message and data
+            return response()->json([
+                'message' => 'Data fetched successfully',
+                'data' => $bookings,
+                'status' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Unauthenticated. Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ], 401);
+        }
+    }
+    
+    
+    
  
 }
