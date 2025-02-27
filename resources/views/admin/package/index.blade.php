@@ -131,8 +131,9 @@
                               @endforeach
                           </td>
                   
-                          <td>{!! $pkg->text_description !!}</td>
-                          <td>{!! $pkg->text_description_2 !!}</td>
+                          <td>{!! \Str::words($pkg->text_description, 20) !!}</td>
+                          <td>{!! \Str::words($pkg->text_description_2, 20) !!}</td>
+
                   
                           <td>
                               <!-- Edit Button -->

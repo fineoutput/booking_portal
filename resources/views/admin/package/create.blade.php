@@ -87,6 +87,7 @@
 
                                     <div class="col-sm-8">
                                         <label for="state">State</label>
+                                        <br>
                                         {{-- <div id="output"></div>
                                         <select class="chosen-select state" onchange="getSelectedValues()"  id="state" name="state_id[]" multiple >
                                             <select class="selectpicker" multiple data-live-search="true">

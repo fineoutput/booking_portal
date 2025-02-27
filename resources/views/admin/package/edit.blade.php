@@ -92,7 +92,7 @@
                                     @enderror
                                 </div> --}}
 
-                                <div class="col-sm-4">
+                                {{-- <div class="col-sm-4">
                                     <div class="form-group">
                                     <select required class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
                                         @foreach ($states as $state)
@@ -106,7 +106,27 @@
                                         <div style="color:red">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                </div> --}}
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="city">State</label>
+                                        <br>
+                                        <select required class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->id }}" 
+                                                    {{ in_array($state->id, old('state_id', isset($user) ? $user->state->pluck('id')->toArray() : [])) ? 'selected' : '' }}>
+                                                    {{ $state->state_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                
+                                        @error('state_id')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
+                                
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -249,9 +269,16 @@
 
 
 
+{{-- <script>
+    $('#state').selectpicker();
+</script> --}}
+
 <script>
     $('#state').selectpicker();
+
+    $('#state').selectpicker('refresh');
 </script>
+
 
 <script>
   document.getElementById('output').innerHTML = location.search;
