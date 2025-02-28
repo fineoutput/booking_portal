@@ -25,7 +25,9 @@ use App\Http\Controllers\Api\SafariController;
     Route::get('packages', [HotelController::class, 'package']);
     Route::post('package-detailes', [HotelController::class, 'packagedetailes']);
     Route::post('package-booking', [HotelController::class, 'packagebooking']);
-    Route::post('package-booking-se', [HotelController::class, 'packagebookingse']);
+
+    Route::post('package-booking-se', [HotelController::class, 'confirm']);
+
     Route::post('/hotel-with-packages', [HotelController::class, 'getHotelWithPackages']);
     Route::post('/vehicle', [HotelController::class, 'vehicle']);
     Route::get('/wild-life-safari', [SafariController::class, 'wildsafari']);
@@ -36,7 +38,9 @@ use App\Http\Controllers\Api\SafariController;
     Route::get('/filter-state-city', [SafariController::class, 'filterStateCity']);
     Route::post('/hotel-state-city', [HotelController::class, 'statecityhotel']);
     Route::post('/hotel-booking', [HotelController::class, 'hotelbooking']);
+
     Route::post('/taxi-booking', [HotelController::class, 'taxibooking']);
+
     Route::get('/city', [HotelController::class, 'city']);
     Route::post('/book-guide', [HotelController::class, 'bookGuide']);
     Route::get('/airport', [HotelController::class, 'airport']);

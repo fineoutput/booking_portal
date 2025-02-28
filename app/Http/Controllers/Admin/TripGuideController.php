@@ -14,6 +14,7 @@ use App\Models\TripGuide;
 use App\Models\State;
 use App\Models\TripGuideBook;
 use App\Models\City;
+use App\Models\TripGuideBook2;
 
 
 class TripGuideController extends Controller
@@ -24,17 +25,17 @@ class TripGuideController extends Controller
     }
     
     function tripguidebooking() {
-        $data['TripGuideBook'] = TripGuideBook::orderBy('id','DESC')->where('status',0)->get();
+        $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',0)->get();
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
     function completetripguidebooking() {
-        $data['TripGuideBook'] = TripGuideBook::orderBy('id','DESC')->where('status',1)->get();
+        $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',1)->get();
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
     function rejecttripguidebooking() {
-        $data['TripGuideBook'] = TripGuideBook::orderBy('id','DESC')->where('status',2)->get();
+        $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',2)->get();
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
@@ -50,7 +51,7 @@ class TripGuideController extends Controller
 
     public function updateStatuss($id)
     {
-        $vehicle = TripGuideBook::findOrFail($id);
+        $vehicle = TripGuideBook2::findOrFail($id);
 
         $action = request()->input('status_action');
 

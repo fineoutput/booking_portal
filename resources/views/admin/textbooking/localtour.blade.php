@@ -49,13 +49,17 @@
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th data-priority="1">User Name</th>
+                        <th data-priority="1">Salesman Name</th>
+                        <th data-priority="1">Salesman Mobile</th>
                         <th data-priority="1">Location</th>
                         <th data-priority="3">Vehicle</th>
                         <th data-priority="3">Pickup Date</th>
                         <th data-priority="3">Pickup Time</th>
                         <th data-priority="3">Drop Date</th>
                         <th data-priority="3">Drop Time</th>
-                        <th data-priority="3">Cost</th>
+                        <th data-priority="3">Agent Margin</th>
+                        <th data-priority="3">Final Cost</th>
                         <th data-priority="3">Action</th>
 
                       </tr>
@@ -64,13 +68,17 @@
                         @foreach($agent as $key=> $value)
                             <tr>
                                 <td>{{$key+1}}</td>
-                                <td>{{$value->location ?? ''}}</td>
-                                <td>{{$value->vehicle->vehicle_type ?? ''}}</td>
-                                <td>{{$value->pickup_date ?? ''}}</td>
-                                <td>{{$value->pickup_time ?? ''}}</td>
-                                <td>{{$value->drop_date ?? ''}}</td>
-                                <td>{{$value->drop_time ?? ''}}</td>
-                                <td>{{$value->cost ?? '0'}}</td>
+                                <td>{{$value->user->name ?? ''}}</td>
+                                <td>{{$value->salesman_name ?? ''}}</td>
+                                <td>{{$value->salesman_mobile	 ?? ''}}</td>
+                                <td>{{$value->taxi_se->location ?? ''}}</td>
+                                <td>{{$value->taxi_se->vehicle->vehicle_type ?? ''}}</td>
+                                <td>{{$value->taxi_se->pickup_date ?? ''}}</td>
+                                <td>{{$value->taxi_se->pickup_time ?? ''}}</td>
+                                <td>{{$value->taxi_se->drop_date ?? ''}}</td>
+                                <td>{{$value->taxi_se->drop_time ?? ''}}</td>
+                                <td>₹{{$value->agent_margin ?? '0'}}</td>
+                                <td>₹{{$value->final_price ?? '0'}}</td>
                               <td>
                                 <form action="{{ route('taxi.updateStatus', $value->id) }}" method="POST" style="display:inline;">
                                   @csrf

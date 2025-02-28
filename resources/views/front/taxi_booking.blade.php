@@ -92,7 +92,7 @@
                   <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
                   <label for="drop-address" class="form-label no-form">Drop off Address</label>
                 </div>
-                <input type="text" name="location" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
+                <input type="text" name="drop_pickup_address" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
               </div>
             </div>
           </div>

@@ -12,22 +12,23 @@ use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
 use App\Models\State;
 use App\Models\City;
+use App\Models\WildlifeSafariOrder2;
 
 
 class WildlifeSafariOrderController extends Controller
 {
     function index() {
-        $data['WildlifeSafari'] = WildlifeSafariOrder::orderBy('id','DESC')->where('status',0)->get();
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',0)->get();
         return view('admin/wildlifesafariorders/index',$data);
     }
 
     function completeorders() {
-        $data['WildlifeSafari'] = WildlifeSafariOrder::orderBy('id','DESC')->where('status',1)->get();
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',1)->get();
         return view('admin/wildlifesafariorders/index',$data);
     }
 
     function rejectorders() {
-        $data['WildlifeSafari'] = WildlifeSafariOrder::orderBy('id','DESC')->where('status',2)->get();
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',2)->get();
         return view('admin/wildlifesafariorders/index',$data);
     }
 
@@ -133,7 +134,7 @@ class WildlifeSafariOrderController extends Controller
 
     public function updateStatus($id)
     {
-        $vehicle = WildlifeSafariOrder::findOrFail($id);
+        $vehicle = WildlifeSafariOrder2::findOrFail($id);
     
         // Check the action from the form
         $action = request()->input('status_action');

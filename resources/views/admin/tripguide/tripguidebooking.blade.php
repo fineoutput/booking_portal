@@ -50,13 +50,16 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">User Name</th>
+                        <th data-priority="1">Salesman Name</th>
+                        <th data-priority="1">Salesman Mobile</th>
                         <th data-priority="1">State</th>
                         <th data-priority="1">Location</th>
                         <th data-priority="1">Language</th>
                         <th data-priority="1">Guide Type</th>
                         <!-- <th data-priority="1">Local Guide</th>
                         <th data-priority="1">Out Station Guide</th> -->
-                        <th data-priority="1">Cost</th>
+                        <th data-priority="1">Agent Margin</th>
+                        <th data-priority="1">Final Cost</th>
                         <th data-priority="1">Action</th>
 
                       </tr>
@@ -66,20 +69,23 @@
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ $hotel->user->name ?? '' }}</td>
-                        <td>{{ $hotel->state->state_name ?? '' }}</td>
-                        <td>{{ $hotel->location ?? '' }}</td>
-                        <td>{{ $hotel->languages->language_name ?? '' }}</td>
+                        <td>{{ $hotel->salesman_name ?? '' }}</td>
+                        <td>{{ $hotel->salesman_mobile ?? '' }}</td>
+                        <td>{{ $hotel->guide_se->state->state_name ?? '' }}</td>
+                        <td>{{ $hotel->guide_se->location ?? '' }}</td>
+                        <td>{{ $hotel->guide_se->languages->language_name ?? '' }}</td>
                         <td>
-            @if($hotel->guide_type)
+            @if($hotel->guide_se->guide_type)
                 @php
-                    $guideTypes = explode(',', $hotel->guide_type);
+                    $guideTypes = explode(',', $hotel->guide_se->guide_type);
                 @endphp
                 {{ implode(', ', $guideTypes) }}
             @else
                 N/A
             @endif
         </td>
-                        <td>₹{{ $hotel->cost ?? '0' }}</td>
+                        <td>₹{{ $hotel->agent_margin ?? '0' }}</td>
+                        <td>₹{{ $hotel->final_price ?? '0' }}</td>
 
                         <td>
 

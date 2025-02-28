@@ -11,12 +11,16 @@ use App\Models\Agent;
 use App\Models\State;
 use App\Models\HotelPrice;
 use App\Models\VehiclePrice;
+use App\Models\WildlifeSafariOrder2;
 use App\Models\Hotels;
 use App\Models\HotelBooking;
 use App\Models\Airport;
+use App\Models\TaxiBooking2;
+use App\Models\TripGuideBook2;
 use App\Models\PackagePrice;
 use App\Models\Outstation;
 use App\Models\TripGuideBook;
+use App\Models\HotelBooking2;
 use App\Models\PackageBookingTemp;
 use App\Models\TaxiBooking;
 use App\Models\TripGuide;
@@ -236,6 +240,37 @@ public function getVehiclesByAirport(Request $request)
     }
 
 
+    
+    public function taxiconfirmation(Request $request, $id)
+    {
+        $id = base64_decode($id);  // Decode the ID
+        $data['packagebookingtemp'] = TaxiBooking::where('id', $id)->first();
+        return view('front/taxi_confirmation', $data);
+    }
+
+    public function add_taxi_confirm_booking(Request $request,$id)
+    {
+        $packagetempbooking = TaxiBooking::where('id',$id)->first();
+
+
+        $packagebooking = new TaxiBooking2();
+        $packagebooking->taxi_order_id = $id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->tour_type = $packagetempbooking->tour_type;
+        $packagebooking->fetched_price = $request->fetched_price;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $request->final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0;
+        $packagebooking->save();
+
+        $packagetempbooking->update(['status' => 1]);
+
+        return redirect()->route('index')->with('message', 'Taxi Booking Created Successfully');
+    }
+
+
     public function book_airport_railway(Request $request){
         // return $request;
 
@@ -275,7 +310,8 @@ public function getVehiclesByAirport(Request $request)
 
     $taxibooking->save();
 
-    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+    // return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+    return redirect()->route('taxi_confirmation', ['id' => base64_encode($taxibooking->id)]);
 
     }
 
@@ -295,7 +331,7 @@ public function getVehiclesByAirport(Request $request)
         $taxibooking->cost = $request->cost;
         $taxibooking->save();
 
-    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+        return redirect()->route('taxi_confirmation', ['id' => base64_encode($taxibooking->id)]);
 
     }
 
@@ -336,7 +372,8 @@ public function getVehiclesByAirport(Request $request)
     }
         $taxibooking->save();
 
-    return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+    // return redirect()->back()->with(['message' => 'Taxi booked successfully!']);
+    return redirect()->route('taxi_confirmation', ['id' => base64_encode($taxibooking->id)]);
 
     }
 
@@ -349,7 +386,7 @@ public function getVehiclesByAirport(Request $request)
     
         $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
     
-        $formatted_date = Carbon::now()->format('Y-m'); // Get current date formatted as 'Y-m'
+        $formatted_date = Carbon::now()->format('Y-m');
     
         foreach ($data['packages'] as $package) {
             $package_price = PackagePrice::where('package_id', $package->id)
@@ -394,6 +431,37 @@ public function getVehiclesByAirport(Request $request)
         return view('front/hotel_details',$data);
     }
 
+
+    public function hotelconfirmation(Request $request, $id) {
+        $id = base64_decode($id);  // Decode the ID
+        $data['packagebookingtemp'] = HotelBooking::where('id', $id)->first();
+        return view('front/hotel_confirmation', $data);
+    }
+
+
+
+    public function add_hotel_confirm_booking(Request $request,$id)
+    {
+        $packagetempbooking = HotelBooking::where('id',$id)->first();
+
+
+        $packagebooking = new HotelBooking2();
+        $packagebooking->hotel_order_id = $id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->hotel_id = $packagetempbooking->hotel_id;
+        $packagebooking->fetched_price = $request->fetched_price;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $request->final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0;
+        $packagebooking->save();
+
+        $packagetempbooking->update(['status' => 1]);
+
+        return redirect()->route('index')->with('message', 'Hotel Booking Created Successfully');
+    }
+
     public function add_hotel_booking(Request $request,$id)
     {
         // return $request;
@@ -408,7 +476,8 @@ public function getVehiclesByAirport(Request $request)
         $wildlife->status = 0;
         $wildlife->save();
 
-        return redirect()->back()->with('message','Hotel Booking Created Succesfully');
+        // return redirect()->back()->with('message','Hotel Booking Created Succesfully');
+        return redirect()->route('hotel_confirmation', ['id' => base64_encode($wildlife->id)]);
     }
 
 
@@ -602,6 +671,35 @@ public function getVehiclesByAirport(Request $request)
         return view('front/wildlife_detail',$data);
     }
 
+    public function safariconfirmation(Request $request, $id)
+    {
+        $id = base64_decode($id);  // Decode the ID
+        $data['packagebookingtemp'] = WildlifeSafariOrder::where('id', $id)->first();
+        return view('front/wildlife_confirmation', $data);
+    }
+
+    public function add_confirm_wildlife_booking(Request $request,$id) {
+
+        $packagetempbooking = WildlifeSafariOrder::where('id',$id)->first();
+
+
+        $packagebooking = new WildlifeSafariOrder2();
+        $packagebooking->safari_order_id = $id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->safari_id = $packagetempbooking->safari_id;
+        $packagebooking->fetched_price = $request->fetched_price;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $request->final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0;
+        $packagebooking->save();
+
+        $packagetempbooking->update(['status' => 1]);
+
+        return redirect()->route('index')->with('message', 'Safari Booking Created Successfully');
+    }
+
     public function add_wildlife_booking(Request $request,$id)
     {
         // return $request;
@@ -619,8 +717,8 @@ public function getVehiclesByAirport(Request $request)
         $wildlife->status = 0;
 
         $wildlife->save();
+        return redirect()->route('safari_confirmation', ['id' => base64_encode($wildlife->id)]);
 
-        return redirect()->back()->with('message','Booking Created Succesfully');
     }
 
     public function guide()
@@ -629,6 +727,38 @@ public function getVehiclesByAirport(Request $request)
         $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
         return view('front/guide',$data);
     }
+
+
+    public function guideconfirmation(Request $request, $id)
+    {
+        $id = base64_decode($id);  // Decode the ID
+        $data['packagebookingtemp'] = TripGuideBook::where('id', $id)->first();
+        return view('front/guide_confirmation', $data);
+    }
+
+    public function add_confirm_guide_booking(Request $request,$id) {
+
+        $packagetempbooking = TripGuideBook::where('id',$id)->first();
+
+        $packagebooking = new TripGuideBook2();
+        $packagebooking->guide_order_id = $id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->guide_id = $packagetempbooking->tour_guide_id;
+        $packagebooking->fetched_price = $request->fetched_price;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $request->final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0;
+        $packagebooking->save();
+
+        $packagetempbooking->update(['status' => 1]);
+
+        return redirect()->route('index')->with('message', 'Tour Guide Booked Succesfully!');
+    }
+
+
+
 
     public function bookguide(Request $request){
 
@@ -651,7 +781,8 @@ public function getVehiclesByAirport(Request $request)
 
         $TripGuide->save();
 
-        return redirect()->back()->with('message','Tour Guide Booked Succesfully!');
+        return redirect()->route('guide_confirmation', ['id' => base64_encode($TripGuide->id)]);
+        // return redirect()->back()->with('message','Tour Guide Booked Succesfully!');
         
     }
 

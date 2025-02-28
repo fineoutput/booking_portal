@@ -13,22 +13,23 @@ use App\Models\HotelBooking;
 use App\Models\WildlifeSafariOrder;
 use App\Models\State;
 use App\Models\City;
+use App\Models\HotelBooking2;
 
 
 class HotelBookingController extends Controller
 {
     function index() {
-        $data['WildlifeSafari'] = HotelBooking::orderBy('id','DESC')->where('status',0)->get();
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',0)->get();
         return view('admin/hotelbooking/index',$data);
     }
 
     function completeorders() {
-        $data['WildlifeSafari'] = HotelBooking::orderBy('id','DESC')->where('status',1)->get();
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',1)->get();
         return view('admin/hotelbooking/index',$data);
     }
 
     function rejectorders() {
-        $data['WildlifeSafari'] = HotelBooking::orderBy('id','DESC')->where('status',2)->get();
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',2)->get();
         return view('admin/hotelbooking/index',$data);
     }
 
@@ -125,7 +126,7 @@ class HotelBookingController extends Controller
 
     public function updateStatus($id)
     {
-        $vehicle = HotelBooking::findOrFail($id);
+        $vehicle = HotelBooking2::findOrFail($id);
     
         // Check the action from the form
         $action = request()->input('status_action');

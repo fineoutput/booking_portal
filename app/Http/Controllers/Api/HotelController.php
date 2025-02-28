@@ -1148,6 +1148,7 @@ public function taxibooking(Request $request)
             'pickup_date' => $request->pickup_date ?? null,
             'cost' => $vehicleprice->price ?? null,
             'tour_type' => 'Airport/Railway station',
+            'status' => 0,
         ];
     }else{
         $data = [
@@ -1161,6 +1162,7 @@ public function taxibooking(Request $request)
             'cost' => $vehicleprice->price ?? null,
             'drop_pickup_address' => $request->drop_pickup_address ?? null,
             'tour_type' => 'Airport/Railway station',
+            'status' => 0,
         ];
     }
     }
@@ -1176,6 +1178,7 @@ public function taxibooking(Request $request)
             'drop_date' => $request->drop_date,
             'cost' => $vehiclepricetour->price ?? null,
             'tour_type' => 'Local Tour',
+            'status' => 0,
         ];
     }
 
@@ -1195,6 +1198,7 @@ public function taxibooking(Request $request)
             'destination_city' => $request->destination_city,
             'cost' => $request->cost,
             'tour_type' => 'Outstation',
+            'status' => 0,
         ];
     }else{
         $data = [
@@ -1206,6 +1210,7 @@ public function taxibooking(Request $request)
             'drop_date' => $request->drop_date,
             'destination_location' => $request->destination_location,
             'tour_type' => 'Outstation',
+            'status' => 0,
         ];
     }
 }
@@ -1505,7 +1510,7 @@ public function packagebooking(Request $request)
 
 
 
-public function packagebookingse(Request $request)
+public function confirm(Request $request)
 {
     
     $token = $request->bearerToken();

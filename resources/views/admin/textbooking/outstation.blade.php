@@ -49,6 +49,9 @@
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th data-priority="1">User Name</th>
+                        <th data-priority="1">Salesman Name</th>
+                        <th data-priority="1">Salesman Mobile	</th>
                         <th data-priority="1">Trip Type</th>
                         <th data-priority="3">Destination City</th>
                         <th data-priority="3">Vehicle</th>
@@ -58,7 +61,8 @@
                         {{-- <th data-priority="3">Pickup Date For Round Trip</th> --}}
                         <th data-priority="3">Return Date</th>
 
-                        <th data-priority="3">Cost</th>
+                        <th data-priority="3">Agent Margin</th>
+                        <th data-priority="3">Final Cost</th>
                         <th data-priority="3">Per KM Charge</th>
                         <th data-priority="3">Action</th>
 
@@ -68,31 +72,35 @@
                         @foreach($agent as $key=> $value)
                             <tr>
                                 <td>{{$key+1}}</td>
-                                <td>{{$value->trip_type ?? ''}}</td>
-                                <td>{{$value->destination_city ?? ''}}</td>
+                                <td>{{$value->user->name ?? ''}}</td>
+                                <td>{{$value->salesman_name ?? ''}}</td>
+                                <td>{{$value->salesman_mobile	 ?? ''}}</td>
+                                <td>{{$value->taxi_se->trip_type ?? ''}}</td>
+                                <td>{{$value->taxi_se->routes->from_destination ?? ''}}-{{$value->taxi_se->routes->to_destination ?? ''}}</td>
 
                                 <td>
-                                    @if($value->trip_type == 'one-way')
-                                    {{$value->vehicle->vehicle_type ?? ''}}
+                                    @if($value->taxi_se->trip_type == 'one-way')
+                                    {{$value->taxi_se->vehicle->vehicle_type ?? ''}}
                                     @else
-                                    {{$value->vehicle_1->vehicle_type ?? ''}}
+                                    {{$value->taxi_se->vehicle_1->vehicle_type ?? ''}}
                                     @endif
                                 </td>
 
                                 <td>
-                                    @if($value->trip_type == 'one-way')
-                                    {{$value->pickup_date ?? ''}}
+                                    @if($value->taxi_se->trip_type == 'one-way')
+                                    {{$value->taxi_se->pickup_date ?? ''}}
                                     @else
-                                    {{$value->pickup_date_1 ?? ''}}
+                                    {{$value->taxi_se->pickup_date_1 ?? ''}}
                                     @endif
                                 </td>
 
-                                <td>{{$value->departure_location ?? ''}}</td>
-                                <td>{{$value->destination_location ?? ''}}</td>
-                                <td>{{$value->drop_date ?? ''}}</td>
+                                <td>{{$value->taxi_se->departure_location ?? ''}}</td>
+                                <td>{{$value->taxi_se->destination_location ?? ''}}</td>
+                                <td>{{$value->taxi_se->drop_date ?? ''}}</td>
 
-                                <td>{{$value->cost ?? '₹0'}}</td>
-                                <td>₹{{$value->vehicle_1->roundtrip->per_km_charge ?? '0'}}</td>
+                                <td>₹{{$value->agent_margin ?? '₹0'}}</td>
+                                <td>₹{{$value->final_price ?? '₹0'}}</td>
+                                <td>₹{{$value->taxi_se->vehicle_1->roundtrip->per_km_charge ?? '0'}}</td>
                               <td>
                                 <form action="{{ route('taxi.updateStatus', $value->id) }}" method="POST" style="display:inline;">
                                   @csrf

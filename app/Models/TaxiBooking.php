@@ -55,5 +55,9 @@ class TaxiBooking extends Model
     {
         return $this->hasOne(Airport::class, 'id', 'airport_id');
     }
+    public function routes()
+    {
+        return $this->hasOne(Route::class, 'id', 'destination_city');
+    }
 
 }

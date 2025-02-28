@@ -50,6 +50,8 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">User Name</th>
+                        <th data-priority="1">Salesman Name</th>
+                        <th data-priority="1">Salesman Mobile</th>
                         <th data-priority="1">Hotel Name</th>
                         <th data-priority="1">City</th>
                         {{-- <th data-priority="1">Date</th> --}}
@@ -57,7 +59,8 @@
                         <th data-priority="1">Check Out Date</th>
                         <th data-priority="1">No Occupants</th>
                         <th data-priority="1">Night Count</th>
-                        <th data-priority="1">Cost</th>
+                        <th data-priority="1">Agent Cost</th>
+                        <th data-priority="1">Final Cost</th>
                         <th data-priority="1">Date</th>
                         <th data-priority="6">Action</th>
                       </tr>
@@ -67,13 +70,16 @@
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ $hotel->user->name ?? '' }}</td>
-                        <td>{{ $hotel->hotel->name ?? '' }}</td>
-                        <td>{{ $hotel->hotel->cities->city_name ?? '' }}</td>
+                        <td>{{ $hotel->salesman_name ?? '' }}</td>
+                        <td>{{ $hotel->salesman_mobile ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->hotel->name ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->hotel->cities->city_name ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($hotel->check_in_date)->format('d F Y') ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($hotel->check_out_date)->format('d F Y') ?? '' }}</td>
-                        <td>{{ $hotel->no_occupants ?? '' }}</td>
-                        <td>{{ $hotel->night_count ?? '' }}</td>
-                        <td>{{ $hotel->cost ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->no_occupants ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->night_count ?? '' }}</td>
+                        <td>{{ $hotel->agent_margin ?? '' }}</td>
+                        <td>{{ $hotel->final_price ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($hotel->created_at)->format('d F Y') ?? '' }}</td>
                         {{-- <td>{{ $hotel->cost ?? '' }}</td> --}}
                         {{-- <td>

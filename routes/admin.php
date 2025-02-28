@@ -63,7 +63,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::post('/update_settings_process/{id}', [CrmController::class, 'update_settings_process'])->name('update_settings_process');
    Route::get('/deletesetting/{id}', [CrmController::class, 'deletesetting'])->name('deletesetting');
 
-   Route::get('/pandin-hotels-booking', [HotelBookingController::class, 'index'])->name('pandinghotelsbooking');
+   Route::get('/panding-hotels-booking', [HotelBookingController::class, 'index'])->name('pandinghotelsbooking');
    Route::get('/complete-hotels-booking', [HotelBookingController::class, 'completeorders'])->name('completehotelsbooking');
    Route::get('/reject-hotels-booking', [HotelBookingController::class, 'rejectorders'])->name('rejecthotelsbooking');
    Route::match(['put', 'patch'], '/hotels-booking/{id}/status', [HotelBookingController::class, 'updateStatus'])->name('hotelsbooking.updateStatus');

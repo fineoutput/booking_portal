@@ -50,13 +50,17 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Trip</th>
+                        <th data-priority="1">User Name</th>
+                        <th data-priority="1">Salesman Name</th>
+                        <th data-priority="1">Salesman Mobile</th>
                         <th data-priority="3">Vehicle</th>
                         <th data-priority="3">Airport</th>
                         <th data-priority="3">Drop off Address</th>
                         <th data-priority="3">Pickup Address</th>
                         <th data-priority="3">Pickup Date</th>
                         <th data-priority="3">Pickup Time</th>
-                        <th data-priority="3">Cost</th>
+                        <th data-priority="3">Agent Margin</th>
+                        <th data-priority="3">Final Cost</th>
                         <th data-priority="3">Action</th>
 
                       </tr>
@@ -65,20 +69,24 @@
                         @foreach($agent as $key=> $value)
                             <tr>
                                 <td>{{$key+1}}</td>
+                                <td>{{$value->user->name}}</td>
+                                <td>{{$value->salesman_name}}</td>
+                                <td>{{$value->salesman_mobile}}</td>
                                 <td>
-                                  @if($value->trip == 'drop')
+                                  @if($value->taxi_se->trip == 'drop')
                                   Drop to Airport/Railway station
                                   @else
                                   Pickup from Airport/Railway station
                                   @endif
                                 </td>
-                                <td>{{$value->vehicle->vehicle_type ?? ''}}</td>
-                                <td>{{$value->airport->airport ?? ''}}</td>
-                                <td>{{$value->location ?? ''}}</td>
-                                <td>{{$value->drop_pickup_address ?? ''}}</td>
-                                <td>{{$value->pickup_date ?? ''}}</td>
-                                <td>{{$value->pickup_time ?? ''}}</td>
-                                <td>{{$value->cost ?? '0'}}</td>
+                                <td>{{$value->taxi_se->vehicle->vehicle_type ?? ''}}</td>
+                                <td>{{$value->taxi_se->airport->airport ?? ''}}</td>
+                                <td>{{$value->taxi_se->location ?? ''}}</td>
+                                <td>{{$value->taxi_se->drop_pickup_address ?? ''}}</td>
+                                <td>{{$value->taxi_se->pickup_date ?? ''}}</td>
+                                <td>{{$value->taxi_se->pickup_time ?? ''}}</td>
+                                <td>₹{{$value->agent_margin ?? '0'}}</td>
+                                <td>₹{{$value->final_price ?? '0'}}</td>
 
                                 <td>
                                   <form action="{{ route('taxi.updateStatus', $value->id) }}" method="POST" style="display:inline;">

@@ -49,6 +49,10 @@ Route::group(['prefix' => '/'], function () {
     Route::get('login', [HomeController::class, 'login'])->name('login');
     Route::get('options', [HomeController::class, 'options'])->name('options');
     Route::get('confirmation/{id}', [HomeController::class, 'confirmation'])->name('confirmation');
+    Route::get('safari-confirmation/{id}', [HomeController::class, 'safariconfirmation'])->name('safari_confirmation');
+    Route::get('hotel-confirmation/{id}', [HomeController::class, 'hotelconfirmation'])->name('hotel_confirmation');
+    Route::get('guide-confirmation/{id}', [HomeController::class, 'guideconfirmation'])->name('guide_confirmation');
+    Route::get('taxi-confirmation/{id}', [HomeController::class, 'taxiconfirmation'])->name('taxi_confirmation');
     
     Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
 
@@ -67,16 +71,23 @@ Route::group(['prefix' => '/'], function () {
     Route::post('book-guide', [HomeController::class, 'bookguide'])->name('bookguide');
 
 
-    // Route::POST('add_confirmation/{id}', [HomeController::class, 'add_confirmation'])->name('add_confirmation');
+    Route::POST('add_confirmation/{id}', [HomeController::class, 'add_confirmation'])->name('add_confirmation');
+    Route::POST('add-confirm-guide-booking/{id}', [HomeController::class, 'add_confirm_guide_booking'])->name('add_confirm_guide_booking');
 
     Route::get('all_images', [HomeController::class, 'all_images'])->name('all_images');
     Route::get('detail/{id}', [HomeController::class, 'detail'])->name('detail');
     Route::get('hotelsbooking', [HomeController::class, 'hotelsbooking'])->name('hotelsbooking');
     Route::get('hotel_details/{id}', [HomeController::class, 'hotel_details'])->name('hotel_details');
     Route::POST('add_hotel_booking/{id}', [HomeController::class, 'add_hotel_booking'])->name('add_hotel_booking');
+
+    Route::POST('add-hotel-confirm-booking/{id}', [HomeController::class, 'add_hotel_confirm_booking'])->name('add_hotel_confirm_booking');
+
+    Route::POST('add-taxi-confirm-booking/{id}', [HomeController::class, 'add_taxi_confirm_booking'])->name('add_taxi_confirm_booking');
+
     Route::get('wildlife', [HomeController::class, 'wildlife'])->name('wildlife');
     Route::get('wildlife_detail/{id}', [HomeController::class, 'wildlife_detail'])->name('wildlife_detail');
     Route::POST('add_wildlife_booking/{id}', [HomeController::class, 'add_wildlife_booking'])->name('add_wildlife_booking');
+    Route::POST('add_confirm_wildlife_booking/{id}', [HomeController::class, 'add_confirm_wildlife_booking'])->name('add_confirm_wildlife_booking');
 
     Route::get('guide', [HomeController::class, 'guide'])->name('guide');
 });

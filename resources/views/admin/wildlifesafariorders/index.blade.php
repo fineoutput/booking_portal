@@ -49,16 +49,20 @@
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th data-priority="1">User Name</th>
+                        <th data-priority="1">Salesman Name</th>
+                        <th data-priority="1">Salesman Mobile	</th>
                         <th data-priority="1">State</th>
                         <th data-priority="1">City</th>
                         <th data-priority="1">National Park</th>
                         <th data-priority="1">Date</th>
                         <th data-priority="1">Timings</th>
                         <th data-priority="1">Vehicle</th>
-                        <th data-priority="1">Cost</th>
                         <th data-priority="1">Persons</th>
                         <th data-priority="1">Adults</th>
                         <th data-priority="1">Kids</th>
+                        <th data-priority="1">Agent Margin</th>
+                        <th data-priority="1">Final Cost</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -66,16 +70,20 @@
                     @foreach($WildlifeSafari as $key=> $hotel)
                     <tr>
                         <td>{{ $key+1 }}</td>
+                        <td>{{ $hotel->user->name ?? '' }}</td>
+                        <td>{{ $hotel->salesman_name ?? '' }}</td>
+                        <td>{{ $hotel->salesman_mobile ?? '' }}</td>
                         <td>{{ $hotel->safari->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->safari->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->safari->national_park ?? '' }}</td>
                         <td>{{ $hotel->safari->date ?? '' }}</td>
-                        <td>{{ $hotel->timings ?? '' }}</td>
-                        <td>{{ $hotel->vehicle ?? '' }}</td>
-                        <td>₹{{ $hotel->cost ?? '' }}</td>
-                        <td>{{ $hotel->no_persons ?? '' }}</td>
-                        <td>{{ $hotel->no_adults ?? '' }}</td>
-                        <td>{{ $hotel->no_kids ?? '' }}</td>
+                        <td>{{ $hotel->safari_se->timings ?? '' }}</td>
+                        <td>{{ $hotel->safari_se->vehicle ?? '' }}</td>
+                        <td>{{ $hotel->safari_se->no_persons ?? '' }}</td>
+                        <td>{{ $hotel->safari_se->no_adults ?? '' }}</td>
+                        <td>{{ $hotel->safari_se->no_kids ?? '' }}</td>
+                        <td>₹{{ $hotel->agent_margin ?? '' }}</td>
+                        <td>₹{{ $hotel->final_price ?? '' }}</td>
                         {{-- <td>
                           @if($hotel->status == 0)
                           <p class="text-danger">Pending</p>
