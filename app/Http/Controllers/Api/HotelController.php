@@ -1542,6 +1542,10 @@ public function confirm(Request $request)
 
     $validatedData = $request->validate([
         'package_id' => 'nullable',
+        'hotel_id' => 'nullable',
+        'safari_id' => 'nullable',
+        'guide_id' => 'nullable',
+        'taxi_id' => 'nullable',
         'agent_margin' => 'required|numeric',
         'salesman_name' => 'required|string|max:255',
         'salesman_mobile' => 'required|string|max:15',
