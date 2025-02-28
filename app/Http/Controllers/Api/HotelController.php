@@ -239,11 +239,11 @@ class HotelController extends Controller
                     $today = Carbon::today()->format('Y-m');
 
                     $packagePrice = PackagePrice::where('package_id', $package->id)
-                        ->where('start_date',[$today])  
-                        ->where('end_date',[$today]) 
+                        ->where('start_date', '<=',$today)  
+                        ->where('end_date', '>=',$today) 
                         ->get();
 
-                    // $packagePrices = PackagePrice::where('package_id', $package->id)->get();
+                    // $packagePrice = PackagePrice::where('package_id', $package->id)->get();
                     $prices = null;
                     if($packagePrice){
                     $prices = $packagePrice->map(function($price) {
