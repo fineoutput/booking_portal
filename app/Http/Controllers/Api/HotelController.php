@@ -235,12 +235,18 @@ class HotelController extends Controller
                     // Get state and city names
                     $stateNames = $this->getNamesByIds($package->state_id, $states);
                     $cityNames = $this->getNamesByIds($package->city_id, $cities);
-        
-                    // Get the prices for the current package
-                    $packagePrices = PackagePrice::where('package_id', $package->id)->get();
-        
-                    // Prepare the price data
-                    $prices = $packagePrices->map(function($price) {
+
+                    $today = Carbon::today()->format('Y-m');
+
+                    $packagePrice = PackagePrice::where('package_id', $package->id)
+                        ->where('start_date',[$today])  
+                        ->where('end_date',[$today]) 
+                        ->get();
+
+                    // $packagePrices = PackagePrice::where('package_id', $package->id)->get();
+                    $prices = null;
+                    if($packagePrice){
+                    $prices = $packagePrice->map(function($price) {
                         return [
                             'id' => $price->id,
                             'start_date' => Carbon::parse($price->start_date)->format('F Y'),
@@ -297,6 +303,7 @@ class HotelController extends Controller
                         ];
                         
                     });
+                }
         
                     return [
                         'id' => $package->id,
