@@ -12,6 +12,9 @@ use App\Models\Package;
 use App\Models\Vehicle;
 use App\Models\State;
 use App\Models\HotelBooking;
+use App\Models\HotelBooking2;
+use App\Models\WildlifeSafariOrder2;
+use App\Models\TaxiBooking2;
 use App\Models\Airport;
 use App\Models\HotelPrice;
 use App\Models\TaxiBooking;
@@ -26,6 +29,7 @@ use App\Models\City;
 use App\Models\Route;
 use App\Models\PackagePrice;
 use App\Models\PackageBooking;
+use App\Models\TripGuideBook2;
 use App\Models\PackageBookingTemp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -1508,7 +1512,7 @@ public function packagebooking(Request $request)
     ], 200);
 }
 
-
+// ======================================= Booking Confirm start ========================================
 
 public function confirm(Request $request)
 {
@@ -1537,12 +1541,19 @@ public function confirm(Request $request)
     }
 
     $validatedData = $request->validate([
-        'package_id' => 'required',
+        'package_id' => 'nullable',
         'agent_margin' => 'required|numeric',
         'salesman_name' => 'required|string|max:255',
         'salesman_mobile' => 'required|string|max:15',
     ]);
 
+    $package_id = $request->package_id;
+    $hotel_id = $request->hotel_id;
+    $safari_id = $request->safari_id;
+    $guide_id = $request->guide_id;
+    $taxi_id = $request->taxi_id;
+
+    if($package_id){
     $packagetempbooking = PackageBookingTemp::find($request->package_id);
 
     if (!$packagetempbooking) {
@@ -1550,7 +1561,6 @@ public function confirm(Request $request)
     }
 
     $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
-
 
     $packagebooking = new PackageBooking();
     $packagebooking->package_temp_id = $request->package_id;
@@ -1563,25 +1573,156 @@ public function confirm(Request $request)
     $packagebooking->salesman_mobile = $request->salesman_mobile;
     $packagebooking->status = 0; // assuming status 0 is default, change if needed
     $packagebooking->save();
-
     $packagetempbooking->update(['status' => 1]);
 
-    // Return success response with package booking data
-    return response()->json([
-        'message' => 'Package Booking Created Successfully',
-        'data' => [
-            'package_booking_id' => $packagebooking->id,
-            'package_temp_id' => $packagebooking->package_temp_id,
+    $data = [
+        'id' => $packagebooking->id,
+        'package_temp_id' => $packagebooking->package_temp_id,
+        'fetched_price' => $packagebooking->fetched_price,
+        'agent_margin' => $packagebooking->agent_margin,
+        'final_price' => $packagebooking->final_price,
+        'salesman_name' => $packagebooking->salesman_name,
+        'salesman_mobile' => $packagebooking->salesman_mobile,
+        'status' => $packagebooking->status,
+    ];
+    }elseif($hotel_id){
+        $packagetempbooking = HotelBooking::where('id',$request->hotel_id)->first();
+
+        if (!$packagetempbooking) {
+            return response()->json(['message' => 'Package booking not found'], 404);
+        }
+    
+        $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
+    
+        $packagebooking = new HotelBooking2();
+        $packagebooking->hotel_order_id = $request->hotel_id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->hotel_id = $packagetempbooking->package_id;
+        $packagebooking->fetched_price = $packagetempbooking->total_cost;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0; // assuming status 0 is default, change if needed
+        $packagebooking->save();
+        $packagetempbooking->update(['status' => 1]);
+    
+        $data = [
+            'id' => $packagebooking->id,
+            'hotel_order_id' => $packagebooking->hotel_order_id,
             'fetched_price' => $packagebooking->fetched_price,
             'agent_margin' => $packagebooking->agent_margin,
             'final_price' => $packagebooking->final_price,
             'salesman_name' => $packagebooking->salesman_name,
             'salesman_mobile' => $packagebooking->salesman_mobile,
             'status' => $packagebooking->status,
-        ]
+        ];
+    }elseif($safari_id){
+        $packagetempbooking = WildlifeSafariOrder::where('id',$request->safari_id)->first();
+
+        if (!$packagetempbooking) {
+            return response()->json(['message' => 'Package booking not found'], 404);
+        }
+    
+        $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
+    
+        $packagebooking = new WildlifeSafariOrder2();
+        $packagebooking->safari_order_id = $request->safari_id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->safari_id = $packagetempbooking->safari_id;
+        $packagebooking->fetched_price = $packagetempbooking->total_cost;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0; // assuming status 0 is default, change if needed
+        $packagebooking->save();
+        $packagetempbooking->update(['status' => 1]);
+    
+        $data = [
+            'id' => $packagebooking->id,
+            'safari_order_id' => $packagebooking->safari_order_id,
+            'fetched_price' => $packagebooking->fetched_price,
+            'agent_margin' => $packagebooking->agent_margin,
+            'final_price' => $packagebooking->final_price,
+            'salesman_name' => $packagebooking->salesman_name,
+            'salesman_mobile' => $packagebooking->salesman_mobile,
+            'status' => $packagebooking->status,
+        ];
+    }elseif($guide_id){
+        $packagetempbooking = TripGuideBook::where('id',$request->guide_id)->first();
+
+        if (!$packagetempbooking) {
+            return response()->json(['message' => 'Package booking not found'], 404);
+        }
+    
+        $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
+    
+        $packagebooking = new TripGuideBook2();
+        $packagebooking->guide_order_id = $request->guide_id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->guide_id = $packagetempbooking->tour_guide_id;
+        $packagebooking->fetched_price = $packagetempbooking->total_cost;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0; // assuming status 0 is default, change if needed
+        $packagebooking->save();
+        $packagetempbooking->update(['status' => 1]);
+    
+        $data = [
+            'id' => $packagebooking->id,
+            'guide_order_id' => $packagebooking->guide_order_id,
+            'fetched_price' => $packagebooking->fetched_price,
+            'agent_margin' => $packagebooking->agent_margin,
+            'final_price' => $packagebooking->final_price,
+            'salesman_name' => $packagebooking->salesman_name,
+            'salesman_mobile' => $packagebooking->salesman_mobile,
+            'status' => $packagebooking->status,
+        ];
+    }else{
+        $packagetempbooking = TaxiBooking::where('id',$request->taxi_id)->first();
+
+        if (!$packagetempbooking) {
+            return response()->json(['message' => 'Package booking not found'], 404);
+        }
+    
+        $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
+    
+        $packagebooking = new TaxiBooking2();
+        $packagebooking->taxi_order_id = $request->taxi_id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->tour_type = $packagetempbooking->tour_type;
+        $packagebooking->fetched_price = $packagetempbooking->total_cost;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0; // assuming status 0 is default, change if needed
+        $packagebooking->save();
+        $packagetempbooking->update(['status' => 1]);
+    
+        $data = [
+            'id' => $packagebooking->id,
+            'guide_order_id' => $packagebooking->guide_order_id,
+            'fetched_price' => $packagebooking->fetched_price,
+            'agent_margin' => $packagebooking->agent_margin,
+            'final_price' => $packagebooking->final_price,
+            'salesman_name' => $packagebooking->salesman_name,
+            'salesman_mobile' => $packagebooking->salesman_mobile,
+            'status' => $packagebooking->status,
+        ];
+    }
+
+    return response()->json([
+        'message' => 'Package Booking Created Successfully',
+        'data' => $data,
     ], 200);
 }
 
+
+// ======================================= Booking Confirm end ========================================
 
 
 public function city(Request $request)
