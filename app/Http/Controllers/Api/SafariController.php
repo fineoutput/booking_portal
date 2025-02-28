@@ -138,8 +138,10 @@ class SafariController extends Controller
                     'city_name' => $cityName,  
                     'national_park' => $safari->national_park,
                     'date' => $safari->date,
-                    'timings' => $safari->timings,
+                    'timings' => explode(',', $safari->timings), 
                     'vehicle' => $safari->vehicle,
+                    'jeep_price' => $safari->jeep_price,
+                    'center_price' => $safari->center_price,
                     'cost' => $safari->cost,
                     'description' => strip_tags($safari->description),
                     'images' => $imageUrls, // Array of image URLs
@@ -195,7 +197,7 @@ class SafariController extends Controller
             $validatedData = $request->validate([
                 'safari_id' => 'required', 
                 // 'national_park' => 'required|string|max:255',
-                // 'date' => 'required|date',
+                'date' => 'required|date',
                 'timings' => 'required|string|max:255',
                 'no_persons' => 'required|integer|min:1',
                 'no_adults' => 'required|integer|min:0',
