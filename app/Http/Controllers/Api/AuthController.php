@@ -579,12 +579,20 @@ public function login(Request $request)
 }
 
 
-    public function logout(Request $request)
-    {
-        $request->user()->tokens->each(function ($token) {
-            $token->delete();
-        });
-
-        return response()->json(['message' => 'Successfully logged out']);
+public function logout(Request $request)
+{
+    // Check if user is authenticated
+    if (!$request->user()) {
+        return response()->json([
+            'message' => 'No authenticated user found'
+        ], 401); // Unauthorized
     }
+
+    // Delete all tokens for the authenticated user
+    $request->user()->tokens()->delete();
+
+    return response()->json([
+        'message' => 'Successfully logged out'
+    ], 200);
+}
 }
