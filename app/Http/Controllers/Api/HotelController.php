@@ -1561,7 +1561,7 @@ public function confirm(Request $request)
     $packagetempbooking = PackageBookingTemp::find($request->package_id);
 
     if (!$packagetempbooking) {
-        return response()->json(['message' => 'Package booking not found'], 404);
+        return response()->json(['message' => 'Package booking not found', 'status' => 201], 404);
     }
 
     $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
@@ -1593,7 +1593,7 @@ public function confirm(Request $request)
         $packagetempbooking = HotelBooking::where('id',$request->hotel_id)->first();
 
         if (!$packagetempbooking) {
-            return response()->json(['message' => 'Package booking not found'], 404);
+            return response()->json(['message' => 'Package booking not found', 'status' => 201], 404);
         }
     
         $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
@@ -1625,7 +1625,7 @@ public function confirm(Request $request)
         $packagetempbooking = WildlifeSafariOrder::where('id',$request->safari_id)->first();
 
         if (!$packagetempbooking) {
-            return response()->json(['message' => 'Package booking not found'], 404);
+            return response()->json(['message' => 'Package booking not found', 'status' => 201], 404);
         }
     
         $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
@@ -1657,7 +1657,7 @@ public function confirm(Request $request)
         $packagetempbooking = TripGuideBook::where('id',$request->guide_id)->first();
 
         if (!$packagetempbooking) {
-            return response()->json(['message' => 'Package booking not found'], 404);
+            return response()->json(['message' => 'Package booking not found','status' => 201], 404);
         }
     
         $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
@@ -1689,7 +1689,10 @@ public function confirm(Request $request)
         $packagetempbooking = TaxiBooking::where('id',$request->taxi_id)->first();
 
         if (!$packagetempbooking) {
-            return response()->json(['message' => 'Package booking not found'], 404);
+            return response()->json([
+                'message' => 'Package booking not found',
+                'status' => 201
+            ], 404);
         }
     
         $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
