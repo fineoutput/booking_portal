@@ -584,8 +584,9 @@ public function logout(Request $request)
     // Check for Authorization header
     if (!$request->header('Authorization')) {
         return response()->json([
-            'message' => 'No authentication token provided'
-        ], 401);
+            'message' => 'No authentication token provided',
+            'status' => 401
+        ], 200);
     }
 
     // Extract the token
@@ -596,7 +597,8 @@ public function logout(Request $request)
 
     if (!$user) {
         return response()->json([
-            'message' => 'No authenticated user found'
+            'message' => 'No authenticated user found',
+            'status' => 201
         ], 401);
     }
 
@@ -607,7 +609,8 @@ public function logout(Request $request)
     ]);
 
     return response()->json([
-        'message' => 'Successfully logged out'
+        'message' => 'Successfully logged out',
+        'status' => 200
     ], 200);
 }
 }
