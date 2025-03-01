@@ -1722,6 +1722,7 @@ public function confirm(Request $request)
     return response()->json([
         'message' => 'Package Booking Created Successfully',
         'data' => $data,
+        'status' => 200,
     ], 200);
 }
 
