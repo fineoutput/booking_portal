@@ -53,3 +53,4 @@ use App\Http\Controllers\Api\SafariController;
 Route::post('signup', [AuthController::class, 'signup']);
 Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout']);
