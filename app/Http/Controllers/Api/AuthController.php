@@ -581,15 +581,30 @@ public function login(Request $request)
 
 public function logout(Request $request)
 {
-    // Check if user is authenticated
-    if (!$request->user()) {
+    // Check for Authorization header
+    if (!$request->header('Authorization')) {
         return response()->json([
-            'message' => 'No authenticated user found'
-        ], 401); // Unauthorized
+            'message' => 'No authentication token provided'
+        ], 401);
     }
 
-    // Delete all tokens for the authenticated user
-    $request->user()->tokens()->delete();
+    // Extract the token
+    $auth_token = str_replace('Bearer ', '', $request->header('Authorization'));
+
+    // Find user by token
+    $user = Agent::where('auth', $auth_token)->first();
+
+    if (!$user) {
+        return response()->json([
+            'message' => 'No authenticated user found'
+        ], 401);
+    }
+
+    // Clear the auth token
+    $user->update([
+        'auth' => null,
+        'token_expires_at' => null,
+    ]);
 
     return response()->json([
         'message' => 'Successfully logged out'
