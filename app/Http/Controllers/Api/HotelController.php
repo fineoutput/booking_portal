@@ -1037,7 +1037,7 @@ public function hotelBooking(Request $request) {
 
     $validatedData = $request->validate([
         'hotel_id' => 'required',
-        'city_id' => 'required', 
+        'city_id' => 'nullable', 
         'check_in_date' => 'required|date',
         'check_out_date' => 'required|date|after_or_equal:check_in_date',
         'no_occupants' => 'required',
