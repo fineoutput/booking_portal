@@ -1392,7 +1392,11 @@ public function packagebooking(Request $request)
         ->first();
 
     if (!$package_price) {
-        return response()->json(['message' => 'Package not found for the selected dates'], 404);
+        return response()->json([
+            'message' => 'Package not found for the selected dates',
+            'data' => [],
+            'status' => 201,
+        ], 404);
     }
 
     // Initialize PackageBookingTemp object
