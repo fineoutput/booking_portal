@@ -631,4 +631,71 @@ public function logout(Request $request)
         'status' => 200
     ], 200);
 }
+
+
+public function profile(Request $request) {
+    // Get the Bearer token from the request
+    $token = $request->bearerToken();
+
+    // Check if the token exists
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'status' => 201,
+            'data' => [],
+        ], 401);
+    }
+
+    // Decode the token (Assuming it's base64 encoded with email and password)
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    // Find the user based on the email from the Agent model
+    $user = Agent::where('email', $email)->first();
+
+    // Check if the user exists and if the password matches
+    if (!$user || $password != $user->password) {
+        return response()->json([
+            'message' => 'Unauthorized. Invalid credentials.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
+    }
+
+    // Generate image URLs
+    $aadharImageUrl = asset('uploads/aadhar_images/' . $user->aadhar_image);
+    $aadharImageBackUrl = asset('uploads/aadhar_images/' . $user->aadhar_image_back);
+    $logoUrl = asset('uploads/logos/' . $user->logo);
+    $panImageUrl = asset('uploads/pan_images/' . $user->pan_image);
+
+    // Prepare the response data
+    $data = [
+        'id' => $user->id,
+        'name' => $user->name,
+        'business_name' => $user->business_name,
+        'auth' => $user->auth,
+        'state_id' => $user->state->state_id,
+        'city' => $user->cities->city,
+        'aadhar_image' => $aadharImageUrl, // Image URL
+        'aadhar_image_back' => $aadharImageBackUrl, // Image URL
+        'number' => $user->number,
+        'pan_image' => $panImageUrl, // Image URL
+        'GST_number' => $user->GST_number,
+        'email' => $user->email,
+        'logo' => $logoUrl, // Image URL
+        'created_at' => $user->created_at,
+        'updated_at' => $user->updated_at,
+    ];
+
+    // Return the response with the user data
+    return response()->json([
+        'message' => 'User profile retrieved successfully.',
+        'status' => 200,
+        'data' => $data,
+    ], 200);
+}
+
+
+
+
 }
