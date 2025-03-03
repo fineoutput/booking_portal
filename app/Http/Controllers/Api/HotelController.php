@@ -1126,7 +1126,7 @@ public function taxibooking(Request $request)
 
     $request->validate([
         'location' => 'nullable',
-        'vehicle_id' => 'nullable',
+        'vehicle_id' => 'required',
         'trip_type' => 'nullable',
         'cost' => 'nullable',
         'trip' => 'nullable',
