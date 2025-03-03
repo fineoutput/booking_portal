@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Package</h4>
+          <h4 class="page-title">View Package Price</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Package</a></li>
-            <li class="breadcrumb-item active">View Package</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Package Price</a></li>
+            <li class="breadcrumb-item active">View Package Price</li>
           </ol>
         </div>
       </div>
@@ -38,9 +38,9 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Package List</h4>
+                  <h4 class="mt-0 header-title">View Package Price List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('package_price_create', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add Package</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('package_price_create', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add Price</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
