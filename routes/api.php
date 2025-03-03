@@ -45,13 +45,14 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/book-guide', [HotelController::class, 'bookGuide']);
     Route::get('/airport', [HotelController::class, 'airport']);
     Route::post('/all-bookings', [HotelController::class, 'allbookings']);
+    Route::get('/user-profile', [HotelController::class, 'profile']);
+
 
 
 
 // });
 
 Route::post('signup', [AuthController::class, 'signup']);
-Route::get('/profile', [AuthController::class, 'profile']);
 Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);

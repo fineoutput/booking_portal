@@ -1339,6 +1339,76 @@ public function taxibooking(Request $request)
 
 
 
+public function profile(Request $request) {
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'status' => 201,
+            'data' => [],
+        ], 401);
+    }
+
+    // Decode the token
+    $decodedToken = base64_decode($token);
+
+    $tokenParts = explode(',', $decodedToken);
+
+    if (count($tokenParts) !== 2) {
+        return response()->json([
+            'message' => 'Invalid token format.',
+            'status' => 400,
+            'data' => [],
+        ], 400);
+    }
+
+    // Get email and password from the token
+    list($email, $password) = $tokenParts;
+
+    // Find the user based on the email from the Agent model
+    $user = Agent::where('email', $email)->first();
+
+    // Check if the user exists and if the password matches
+    if (!$user || $password != $user->password) {
+        return response()->json([
+            'message' => 'Unauthorized. Invalid credentials.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
+    }
+
+    // Generate image URLs
+    $aadharImageUrl = asset($user->aadhar_image);
+    $aadharImageBackUrl = asset($user->aadhar_image_back);
+    $logoUrl = asset($user->logo);
+    $panImageUrl = asset($user->pan_image);
+
+    // Prepare the response data
+    $data = [
+        'id' => $user->id,
+        'name' => $user->name,
+        'business_name' => $user->business_name,
+        'state_id' => $user->state->state_name,
+        'city' => $user->cities->city_name,
+        'number' => $user->number,
+        'GST_number' => $user->GST_number,
+        'email' => $user->email,
+        'pan_image' => $panImageUrl,
+        'aadhar_image' => $aadharImageUrl,
+        'aadhar_image_back' => $aadharImageBackUrl,
+        'logo' => $logoUrl, 
+    ];
+
+    // Return the response with the user data
+    return response()->json([
+        'message' => 'User profile retrieved successfully.',
+        'status' => 200,
+        'data' => $data,
+    ], 200);
+}
+
+
 public function packagebooking(Request $request)
 {
     $token = $request->bearerToken();
