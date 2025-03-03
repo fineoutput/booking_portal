@@ -2151,7 +2151,7 @@ return response()->json([
             }
     
             $bookings->each(function ($booking) {
-                $booking->makeHidden(['created_at', 'updated_at', 'deleted_at']);
+                $booking->makeHidden(['updated_at', 'deleted_at']);
             });
     
             // Return the response with the message and data

@@ -46,7 +46,8 @@ use App\Http\Controllers\Api\SafariController;
     Route::get('/airport', [HotelController::class, 'airport']);
     Route::post('/all-bookings', [HotelController::class, 'allbookings']);
     Route::get('/user-profile', [HotelController::class, 'profile']);
-    Route::get('/popular-city', [HotelController::class, 'popcities']);
+    Route::get('/popular-city', [HotelController::class, 'popularCity']);
+
 
 
 
