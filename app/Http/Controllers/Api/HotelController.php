@@ -2371,10 +2371,45 @@ return response()->json([
     // }
 
 
-    function popcities(Request $request){
-        
-    }
+    public function popularCity(Request $request)
+{
+    // Fetch all PackageBookings and join with the Package and City models
+    $popularCity = PackageBooking::selectRaw('count(*) as bookings_count, package.city_id')
+        ->join('packages', 'package_bookings.package_id', '=', 'packages.id')
+        ->join('cities', 'packages.city_id', '=', 'cities.id')
+        ->groupBy('packages.city_id')
+        ->orderByDesc('bookings_count')
+        ->first(); // Get the city with the highest number of bookings
     
+    if ($popularCity) {
+        // Get the name of the most popular city
+        $city = City::find($popularCity->city_id);
+        
+        if ($city) {
+            return response()->json([
+                'message' => 'Most popular city fetched successfully.',
+                'data' => [
+                    'city_name' => $city->name,
+                    'bookings_count' => $popularCity->bookings_count,
+                ],
+                'status' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'City not found.',
+                'data' => [],
+                'status' => 404,
+            ]);
+        }
+    } else {
+        return response()->json([
+            'message' => 'No bookings found.',
+            'data' => [],
+            'status' => 404,
+        ]);
+    }
+}
+
     
     
  

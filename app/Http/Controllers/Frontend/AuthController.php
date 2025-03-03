@@ -57,10 +57,42 @@ class AuthController extends Controller
         }
     
         // Check and store files only if they exist
-        $aadharImagePath = $request->hasFile('aadhar_image') ? $request->file('aadhar_image')->store('uploads/aadhar_images', 'public') : null;
-        $aadharImageBackPath = $request->hasFile('aadhar_image_back') ? $request->file('aadhar_image_back')->store('uploads/aadhar_images', 'public') : null;
-        $logoPath = $request->hasFile('logo') ? $request->file('logo')->store('uploads/logos', 'public') : null;
-        $panImagePath = $request->hasFile('pan_image') ? $request->file('pan_image')->store('uploads/pan_images', 'public') : null;
+        // $aadharImagePath = $request->hasFile('aadhar_image') ? $request->file('aadhar_image')->store('uploads/aadhar_images', 'public') : null;
+        // $aadharImageBackPath = $request->hasFile('aadhar_image_back') ? $request->file('aadhar_image_back')->store('uploads/aadhar_images', 'public') : null;
+        // $logoPath = $request->hasFile('logo') ? $request->file('logo')->store('uploads/logos', 'public') : null;
+        // $panImagePath = $request->hasFile('pan_image') ? $request->file('pan_image')->store('uploads/pan_images', 'public') : null;
+
+        // Define the upload directory within the public folder
+$aadharImagePath = null;
+$aadharImageBackPath = null;
+$logoPath = null;
+$panImagePath = null;
+
+// Check if files are uploaded and move them to the public directory
+if ($request->hasFile('aadhar_image')) {
+    $aadharImage = $request->file('aadhar_image');
+    $aadharImagePath = 'uploads/aadhar_images/' . time() . '_' . $aadharImage->getClientOriginalName();
+    $aadharImage->move(public_path('uploads/aadhar_images'), $aadharImagePath);
+}
+
+if ($request->hasFile('aadhar_image_back')) {
+    $aadharImageBack = $request->file('aadhar_image_back');
+    $aadharImageBackPath = 'uploads/aadhar_images/' . time() . '_' . $aadharImageBack->getClientOriginalName();
+    $aadharImageBack->move(public_path('uploads/aadhar_images'), $aadharImageBackPath);
+}
+
+if ($request->hasFile('logo')) {
+    $logo = $request->file('logo');
+    $logoPath = 'uploads/logos/' . time() . '_' . $logo->getClientOriginalName();
+    $logo->move(public_path('uploads/logos'), $logoPath);
+}
+
+if ($request->hasFile('pan_image')) {
+    $panImage = $request->file('pan_image');
+    $panImagePath = 'uploads/pan_images/' . time() . '_' . $panImage->getClientOriginalName();
+    $panImage->move(public_path('uploads/pan_images'), $panImagePath);
+}
+
     
         // Create the user record in the database
         $user = Agent::create([
