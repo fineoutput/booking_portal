@@ -1499,6 +1499,7 @@ public function packagebooking(Request $request)
     // Return response as JSON
     return response()->json([
         'message' => 'Package booking successfully added.',
+        'status' => 200,
         'data' => [
             'id' => $wildlife->id,
             'total_cost' => $finaltotal,
