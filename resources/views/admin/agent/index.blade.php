@@ -79,7 +79,7 @@
         <!-- Display Aadhar Image -->
         <td>
           @if($value->aadhar_image)
-              <img src="{{ asset('storage/' . $value->aadhar_image) }}" alt="Aadhar Image" style="max-width: 100px; max-height: 100px;">
+              <img src="{{ asset($value->aadhar_image) }}" alt="Aadhar Image" style="max-width: 100px; max-height: 100px;">
           @else
               N/A
           @endif
@@ -88,7 +88,7 @@
         <!-- Display Aadhar Image Back -->
         <td>
             @if($value->aadhar_image_back)
-                <img src="{{ asset('storage/' . $value->aadhar_image_back) }}" alt="Aadhar Image Back" style="max-width: 100px; max-height: 100px;">
+                <img src="{{ asset($value->aadhar_image_back) }}" alt="Aadhar Image Back" style="max-width: 100px; max-height: 100px;">
             @else
                 N/A
             @endif
@@ -97,7 +97,7 @@
         <!-- Display PAN Image -->
         <td>
             @if($value->pan_image)
-                <img src="{{ asset('storage/' . $value->pan_image) }}" alt="PAN Image" style="max-width: 100px; max-height: 100px;">
+                <img src="{{ asset($value->pan_image) }}" alt="PAN Image" style="max-width: 100px; max-height: 100px;">
             @else
                 N/A
             @endif
@@ -106,7 +106,7 @@
         <!-- Display Logo -->
         <td>
             @if($value->logo)
-                <img src="{{ asset('storage/' . $value->logo) }}" alt="Logo" style="max-width: 100px; max-height: 100px;">
+                <img src="{{ asset($value->logo) }}" alt="Logo" style="max-width: 100px; max-height: 100px;">
             @else
                 N/A
             @endif
