@@ -65,10 +65,28 @@ class AuthController extends Controller
     
         // Step 1: Store user data in UnverifyUser (initially with number_verify = 0)
         if ($request->number) {
-            $aadharImagePath = $request->file('aadhar_image')->store('uploads/aadhar_images', 'public');
-            $aadharImageBackPath = $request->file('aadhar_image_back')->store('uploads/aadhar_images', 'public');
-            $logoPath = $request->file('logo')->store('uploads/logos', 'public');
-            $panImagePath = $request->file('pan_image')->store('uploads/pan_images', 'public');
+            // $aadharImagePath = $request->file('aadhar_image')->store('uploads/aadhar_images', 'public');
+            // $aadharImageBackPath = $request->file('aadhar_image_back')->store('uploads/aadhar_images', 'public');
+            // $logoPath = $request->file('logo')->store('uploads/logos', 'public');
+            // $panImagePath = $request->file('pan_image')->store('uploads/pan_images', 'public');
+
+                        
+                $aadharImage = $request->file('aadhar_image');
+                $aadharImageBack = $request->file('aadhar_image_back');
+                $logo = $request->file('logo');
+                $panImage = $request->file('pan_image');
+
+                // Define paths for storing the files in the public directory
+                $aadharImagePath = 'uploads/aadhar_images/' . $aadharImage->getClientOriginalName();
+                $aadharImageBackPath = 'uploads/aadhar_images/' . $aadharImageBack->getClientOriginalName();
+                $logoPath = 'uploads/logos/' . $logo->getClientOriginalName();
+                $panImagePath = 'uploads/pan_images/' . $panImage->getClientOriginalName();
+
+                // Move the files to the public directory
+                $aadharImage->move(public_path('uploads/aadhar_images'), $aadharImage->getClientOriginalName());
+                $aadharImageBack->move(public_path('uploads/aadhar_images'), $aadharImageBack->getClientOriginalName());
+                $logo->move(public_path('uploads/logos'), $logo->getClientOriginalName());
+                $panImage->move(public_path('uploads/pan_images'), $panImage->getClientOriginalName());
 
             $user = Agent::create([
                 'number' => $request->number,

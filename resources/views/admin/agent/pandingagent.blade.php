@@ -98,7 +98,8 @@
         <!-- Display PAN Image -->
         <td>
             @if($value->pan_image)
-                <img src="{{ asset($value->pan_image) }}" alt="PAN Image" style="max-width: 100px; max-height: 100px;">
+            <img src="{{ asset($value->pan_image) }}" alt="PAN Image" style="max-width: 100px; max-height: 100px;">
+
             @else
                 N/A
             @endif
