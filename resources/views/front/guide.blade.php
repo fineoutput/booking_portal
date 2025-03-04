@@ -202,9 +202,21 @@ asset('frontend/images/hotel_main.avif')
                                     
                                 </div>
                                 <div class="live_set mt-3">
-                                    <button class="btn btn-info gggsd">
-                                        Reserve
-                                    </button>
+                                    @if(Auth::guard('agent')->check())
+                                        <div class="live_set mt-3">
+                                            <button class="btn btn-info gggsd" type="submit">
+                                                Reserve
+                                            </button>
+                                        </div>
+                                        @else
+                                        <div class="live_set mt-3">
+                                            <a class="btn btn-info gggsd" href="{{route('login')}}">
+                                            {{-- <button > --}}
+                                                Reserve
+                                            {{-- </button> --}}
+                                        </a>
+                                        </div>
+                                        @endif
                                 </div>
                             </div>
                         </form>
