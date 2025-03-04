@@ -2373,35 +2373,31 @@ return response()->json([
 
     public function popularCity(Request $request)
     {
-        // Fetch all PackageBookings and join with the Package and City models
-        $popularCities = DB::table('package_booking') // Using the correct table name for PackageBooking
+
+        $popularCities = DB::table('package_booking')
             ->selectRaw('count(*) as bookings_count, package.city_id')
             ->join('package', 'package_booking.package_id', '=', 'package.id')
             ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
             ->groupBy('package.city_id')
             ->orderByDesc('bookings_count')
-            ->get(); // Get all cities with their booking counts
-        
-        // Fetch all HotelBookings (HotelBooking2) and join with the Hotels and City models
-        $hotelBookings = DB::table('hotel_booking_2') // Using HotelBooking2
+            ->get(); 
+
+        $hotelBookings = DB::table('hotel_booking_2') 
             ->selectRaw('count(*) as bookings_count, hotels.city_id')
             ->join('hotels', 'hotel_booking_2.hotel_id', '=', 'hotels.id')
             ->join('all_cities', 'hotels.city_id', '=', 'all_cities.id')
             ->groupBy('hotels.city_id')
-            ->get(); // Get all cities with their booking counts for hotels
+            ->get(); 
     
-        // Fetch all Wildlife Safari Orders (WildlifeSafariOrder2) and join with the WildlifeSafari and City models
-        $safariBookings = DB::table('wildlife_safari_order_2') // Using wildlife_safari_order_2 table
+        $safariBookings = DB::table('wildlife_safari_order_2')
             ->selectRaw('count(*) as bookings_count, wildlife_safari.city_id')
             ->join('wildlife_safari', 'wildlife_safari_order_2.safari_id', '=', 'wildlife_safari.id')
             ->join('all_cities', 'wildlife_safari.city_id', '=', 'all_cities.id')
             ->groupBy('wildlife_safari.city_id')
-            ->get(); // Get all cities with their booking counts for safaris
-    
-        // Merge all the booking data (package, hotel, and safari)
+            ->get();
+
         $allCities = $popularCities->merge($hotelBookings)->merge($safariBookings);
     
-        // If no bookings found
         if ($allCities->isEmpty()) {
             return response()->json([
                 'message' => 'No bookings found.',
@@ -2410,19 +2406,14 @@ return response()->json([
             ]);
         }
     
-        // Group the cities by city_id and sum up the booking counts
         $groupedCities = $allCities->groupBy('city_id')->map(function ($cities) {
             return $cities->sum('bookings_count');
         });
     
-        // Sort the cities by booking count in descending order
         $sortedCities = $groupedCities->sortDesc();
     
-        // Prepare response with city names and booking counts
         $responseCities = $sortedCities->map(function ($bookingsCount, $cityId) {
-            // Get city name for each city_id
             $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
-            
             return [
                 'city_name' => $cityName,
                 'bookings_count' => $bookingsCount,
@@ -2431,7 +2422,7 @@ return response()->json([
     
         return response()->json([
             'message' => 'Most popular cities fetched successfully.',
-            'data' => $responseCities->values(), // Ensure that the response is indexed sequentially
+            'data' => $responseCities->values(),
             'status' => 200,
         ]);
     }
