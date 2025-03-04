@@ -18,6 +18,7 @@ class TripGuide extends Model
         'local_guide',
         'out_station_guide',
         'cost',
+        'description',
         'image',
     ];
 

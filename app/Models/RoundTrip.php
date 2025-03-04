@@ -14,6 +14,10 @@ class RoundTrip extends Model
         'per_km_charge',
         'description',
         'cost',
+        'ip',
+        'date',
+        'added_by',
+        'is_active',
     ];
 
     
