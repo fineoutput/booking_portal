@@ -82,13 +82,10 @@ class HomeController extends Controller
 
     public function index(Request $req)
 {
-    // Fetch all packages
     $data['packages'] = Package::get();
 
-    // Get the current date formatted as 'Y-m'
     $formatted_date = Carbon::now()->format('Y-m'); 
 
-    // Loop through each package to fetch prices and hotels
     foreach ($data['packages'] as $package) {
         $package_price = PackagePrice::where('package_id', $package->id)
             ->where('start_date', '<=', $formatted_date)
@@ -146,7 +143,7 @@ class HomeController extends Controller
     {
         $request->validate([
             'transaction_type' => 'required|string',
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'required',
             'note' => 'nullable|string',
         ]);
 
@@ -157,12 +154,11 @@ class HomeController extends Controller
         $wallet->transaction_type = $request->transaction_type;
         $wallet->amount = $request->amount;
         $wallet->note = $request->note ?? '';
+        $wallet->status = 0;
         $wallet->save();
 
-        return redirect()->back()->with('success', 'Wallet transaction added successfully.');
+        return redirect()->back()->with('message', 'Wallet transaction added successfully.');
     }
-
-
 
 
     public function getCitiesByState($stateId)
@@ -202,14 +198,33 @@ class HomeController extends Controller
     {
         if (Auth::guard('agent')->check()) {
 
-            $user = Auth::guard('agent')->user();
+            $data['user'] = Auth::guard('agent')->user();
 
-            $user->load('cities', 'state');
+            $data['user']->load('cities', 'state');
 
-            $booking = PackageBooking::with('tourists')->where('user_id', $user->id)->get();
+            $data['booking'] = PackageBooking::with('tourists')->where('user_id', $data['user']->id)->get();
             
+            $user_id = Auth::guard('agent')->id();
 
-            return view('front/user_profile', compact('user', 'booking'));
+            $data['wallet'] = Wallet::where('user_id', $user_id)
+            ->where('transaction_type', 'recharge')
+            ->get();
+        
+            $totalAmount = $data['wallet']->sum('amount');
+        
+            $lastRecharge = Wallet::where('user_id', $user_id)
+                ->where('transaction_type', 'recharge')
+                ->latest('created_at')
+                ->first();
+        
+            $lastRechargeAmount = $lastRecharge ? $lastRecharge->amount : 0;
+            $lastRechargeDate = $lastRecharge ? $lastRecharge->created_at->format('Y-m-d H:i:s') : 'No recharges found';
+        
+            $data['totalAmount'] = $totalAmount;
+            $data['lastRechargeAmount'] = $lastRechargeAmount;
+            $data['lastRechargeDate'] = $lastRechargeDate;
+
+            return view('front/user_profile',$data);
         }
 
         return redirect()->route('login')->with('error', 'You must be logged in to view this page.');

@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\AirportController;
 use App\Http\Controllers\Admin\PushNotificationController;
 use App\Http\Controllers\Admin\OutstationController;
 use App\Http\Controllers\Admin\RoundTripController;
+use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Auth\adminlogincontroller;
 use App\Models\WildlifeSafari;
 
@@ -273,7 +274,16 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::delete('airport/{id}', [AirportController::class, 'destroy'])->name('airport.destroy');
     Route::patch('/airport/{id}/status', [AirportController::class, 'updateStatus'])->name('airport.updateStatus');
     Route::get('/airport/cities/{stateId}', [AirportController::class, 'getCitiesByStatetripguide']);
-  
+
+
+    Route::put('/wallet/{id}/status', [WalletController::class, 'updateStatus'])
+    ->name('wallet.updateStatus');
+
+    Route::get('/panding-wallet', [WalletController::class, 'index'])->name('panding.wallet');
+    Route::get('/accept-wallet', [WalletController::class, 'accept'])->name('accept.wallet');
+    Route::get('/reject-wallet', [WalletController::class, 'reject'])->name('reject.wallet');
+    Route::get('/recharge-wallet', [WalletController::class, 'rechargewallet'])->name('rechargewallet');
+
 });
    
 });

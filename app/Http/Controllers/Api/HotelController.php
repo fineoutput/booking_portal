@@ -32,6 +32,7 @@ use App\Models\PackageBooking;
 use App\Models\TripGuideBook2;
 use App\Models\PackageBookingTemp;
 use App\Models\TripGuide;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -2540,6 +2541,140 @@ return response()->json([
     }
     
     
+    public function add_wallet(Request $request)
+{
+    // Step 1: Validate the request
+    $request->validate([
+        'transaction_type' => 'required|string',
+        'amount' => 'required|numeric',
+        'note' => 'nullable|string',
+    ]);
+
+    // Step 2: Get and validate the Bearer token
+    $token = $request->bearerToken();
+    
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 401,
+        ]);
+    }
+
+    // Step 3: Decode the token and authenticate the user
+    $decodedToken = base64_decode($token); 
+    list($email, $password) = explode(',', $decodedToken);
+
+    // Find the agent based on the decoded email
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $password != $user->password) {
+        return response()->json([
+            'message' => 'Invalid credentials.',
+            'data' => [],
+            'status' => 401,
+        ]);
+    }
+
+    // Step 4: Create the wallet transaction
+    $wallet = new Wallet;
+    $wallet->user_id = $user->id; // Use the authenticated agent's ID
+    $wallet->transaction_type = $request->transaction_type;
+    $wallet->amount = $request->amount;
+    $wallet->note = $request->note ?? '';  // Default to an empty string if note is not provided
+    $wallet->status = 0;  // Set status to 0 (pending)
+    $wallet->save();
+
+    // Step 5: Return success response
+    return response()->json([
+        'message' => 'Wallet transaction added successfully.',
+        'data' => [
+            'transaction_id' => $wallet->id,
+            'transaction_type' => $wallet->transaction_type,
+            'amount' => $wallet->amount,
+            'note' => $wallet->note,
+            'status' => $wallet->status,
+            'created_at' => $wallet->created_at->toDateTimeString(),
+        ],
+        'status' => 200,
+    ]);
+}
+
+
+public function get_user_transactions(Request $request)
+{
+    $token = $request->bearerToken();
+    
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ]);
+    }
+
+    $decodedToken = base64_decode($token); 
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $password != $user->password) {
+        return response()->json([
+            'message' => 'Invalid credentials.',
+            'data' => [],
+            'status' => 401,
+        ]);
+    }
+
+    // Fetch transactions for the authenticated user
+    $transactions = Wallet::where('user_id', $user->id)->get();
+
+    // Filter transactions where the transaction_type is 'recharge' and sum their amounts
+    $totalAmount = $transactions->where('transaction_type', 'recharge')->sum('amount');
+
+    // Map through the transactions and format them
+    $transactionData = $transactions->map(function($transaction) {
+        $formattedTransaction = [
+            'transaction_id' => $transaction->id,
+            'transaction_type' => $transaction->transaction_type,
+            'amount' => $transaction->amount,
+            'note' => $transaction->note,
+            'status' => $transaction->status,
+            'created_at' => $transaction->created_at->toDateTimeString(),
+        ];
+
+        // For recharge transactions, return the formatted transaction
+        if ($transaction->transaction_type == 'recharge') {
+            return $formattedTransaction;
+        }
+
+        // For refund transactions, add the status_text based on the status
+        if ($transaction->transaction_type == 'refund') {
+            if ($transaction->status == 0) {
+                $formattedTransaction['status_text'] = 'Pending';
+            } elseif ($transaction->status == 1) {
+                $formattedTransaction['status_text'] = 'Accepted';
+            } elseif ($transaction->status == 2) {
+                $formattedTransaction['status_text'] = 'Rejected';
+            }
+            return $formattedTransaction;
+        }
+
+        // Return the formatted transaction if it's neither recharge nor refund (if any)
+        return $formattedTransaction;
+    });
+
+    // Return the response with transaction data and total amount
+    return response()->json([
+        'message' => 'Transactions fetched successfully.',
+        'data' => [
+            'transactions' => $transactionData,
+            'total_amount' => $totalAmount,
+        ],
+        'status' => 200,
+    ]);
+}
+
     
  
 }

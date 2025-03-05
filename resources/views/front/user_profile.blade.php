@@ -263,11 +263,11 @@
     <div class="row suther">
         <div class="col-md-6 suther">
             <label class="fw-bold suther">Balance:</label>
-            <p class="suther">$500.00</p>
+            <p class="suther">₹{{$totalAmount ?? '0'}}</p>
         </div>
         <div class="col-md-6 suther">
             <label class="fw-bold suther">Last Transaction:</label>
-            <p class="suther">+ $200.00 on 2024-12-15</p>
+            <p class="suther">₹{{$lastRechargeAmount ?? '0'}} on {{$lastRechargeDate ?? ''}}</p>
         </div>
     </div>
     <div class="mt-3">
@@ -300,15 +300,14 @@
                         <div class="col-lg-6">
                             <div class="mb-3 suther">
                                 <label for="amount" class="form-label suther">Amount</label>
-                                <input type="number" class="form-control suther" id="amount" placeholder="Enter Amount">
+                                <input  name="amount" type="number" class="form-control suther" id="amount" placeholder="Enter Amount">
                             </div>
                         </div>
                     </div>
                     
-                    
                     <div class="mb-3 suther">
                         <label for="notes" class="form-label suther">Notes</label>
-                        <textarea class="form-control suther" id="notes" rows="3" placeholder="Enter Notes (Optional)"></textarea>
+                        <textarea name="note" class="form-control suther" id="notes" rows="3" placeholder="Enter Notes (Optional)"></textarea>
                     </div>
                     <button type="submit" class="btn btn-success suther">Submit</button>
                 </form>

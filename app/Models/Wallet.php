@@ -15,7 +15,7 @@ class Wallet extends Model
         'transaction_type',
         'amount',
         'note',
-        
+        'status',
     ];
 
 
