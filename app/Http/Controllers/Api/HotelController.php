@@ -2486,7 +2486,7 @@ return response()->json([
             return response()->json([
                 'message' => 'Package name is required for search.',
                 'data' => [],
-                'status' => 400,
+                'status' => 201,
             ], 400);
         }
     
@@ -2498,7 +2498,7 @@ return response()->json([
             return response()->json([
                 'message' => 'No packages found matching the search term.',
                 'data' => [],
-                'status' => 404,
+                'status' => 201,
             ], 404);
         }
     
