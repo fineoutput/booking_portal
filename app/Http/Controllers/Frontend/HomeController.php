@@ -32,6 +32,7 @@ use App\Models\Vehicle;
 use App\Models\Tourist;
 use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
+use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Redirect;
@@ -39,35 +40,130 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Ramsey\Console\Repl;
 
 class HomeController extends Controller
 {
     // ============================= START INDEX ============================ 
-    public function index(Request $req)
-    {
-     
-        // $city['city'] = City::where('id', $id)->first();
+    // public function index(Request $req)
+    // {
+    //     // $city['city'] = City::where('id', $id)->first();
     
-        $data['packages'] = Package::get();
+    //     $data['packages'] = Package::get();
     
-        $formatted_date = Carbon::now()->format('Y-m'); // Get current date formatted as 'Y-m'
+    //     $formatted_date = Carbon::now()->format('Y-m'); // Get current date formatted as 'Y-m'
     
-        foreach ($data['packages'] as $package) {
-            $package_price = PackagePrice::where('package_id', $package->id)
-                ->where('start_date', '<=', $formatted_date)
-                ->where('end_date', '>=', $formatted_date)
-                ->first();
+    //     foreach ($data['packages'] as $package) {
+    //         $package_price = PackagePrice::where('package_id', $package->id)
+    //             ->where('start_date', '<=', $formatted_date)
+    //             ->where('end_date', '>=', $formatted_date)
+    //             ->first();
     
-            $package->prices = $package_price;
+    //         $package->prices = $package_price;
     
-            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+    //         $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
             
-            $package->hotels = $hotels;
-        }
-        // $data['states'] = State::with('cities')->get();
-        return view('front/index',$data)->withTitle('home');
+    //         $package->hotels = $hotels;
+    //     }
+
+    //     $popularCities = DB::table('package_booking')
+    //     ->selectRaw('count(*) as bookings_count, package.city_id')
+    //     ->join('package', 'package_booking.package_id', '=', 'package.id')
+    //     ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
+    //     ->groupBy('package.city_id')
+    //     ->orderByDesc('bookings_count')
+    //     ->get();
+    //     // $data['states'] = State::with('cities')->get();
+    //     return view('front/index',$data)->withTitle('home');
+    // }
+
+
+
+    public function index(Request $req)
+{
+    // Fetch all packages
+    $data['packages'] = Package::get();
+
+    // Get the current date formatted as 'Y-m'
+    $formatted_date = Carbon::now()->format('Y-m'); 
+
+    // Loop through each package to fetch prices and hotels
+    foreach ($data['packages'] as $package) {
+        $package_price = PackagePrice::where('package_id', $package->id)
+            ->where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)
+            ->first();
+
+        $package->prices = $package_price;
+
+        $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+        
+        $package->hotels = $hotels;
     }
+
+    $popularCities = DB::table('package_booking')
+    ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
+    ->join('package', 'package_booking.package_id', '=', 'package.id')
+    ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
+    ->join('package_booking_temp', 'package_booking.package_temp_id', '=', 'package_booking_temp.id')
+    ->groupBy('package.city_id', 'package_booking.package_temp_id')
+    ->orderByDesc('bookings_count')
+    ->get();
+
+    if ($popularCities->isEmpty()) {
+        $data['popularCities'] = [];
+    } else {
+        $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
+            return $cities->sum('bookings_count');
+        });
+
+        $sortedCities = $groupedCities->sortDesc();
+
+        $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
+            $city = $popularCities->firstWhere('city_id', $cityId);
+
+            $adultCount = \DB::table('package_booking_temp')
+                ->where('id', $city->package_temp_id)
+                ->value('adults_count'); 
+
+            $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
+            return [
+                'city_name' => $cityName,
+                'bookings_count' => $bookingsCount,
+                'adults_count' => $adultCount,
+            ];
+        })->values();
+    }
+
+
+    return view('front/index', $data)->withTitle('home');
+}
+
+
+
+    public function add_wallet(Request $request)
+    {
+        $request->validate([
+            'transaction_type' => 'required|string',
+            'amount' => 'required|numeric|min:0',
+            'note' => 'nullable|string',
+        ]);
+
+        $wallet = new Wallet;
+
+        $wallet->user_id = Auth::guard('agent')->id();
+
+        $wallet->transaction_type = $request->transaction_type;
+        $wallet->amount = $request->amount;
+        $wallet->note = $request->note ?? '';
+        $wallet->save();
+
+        return redirect()->back()->with('success', 'Wallet transaction added successfully.');
+    }
+
+
+
 
     public function getCitiesByState($stateId)
     {

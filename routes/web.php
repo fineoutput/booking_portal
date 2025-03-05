@@ -89,6 +89,8 @@ Route::group(['prefix' => '/'], function () {
     Route::POST('add_wildlife_booking/{id}', [HomeController::class, 'add_wildlife_booking'])->name('add_wildlife_booking');
     Route::POST('add_confirm_wildlife_booking/{id}', [HomeController::class, 'add_confirm_wildlife_booking'])->name('add_confirm_wildlife_booking');
 
+    Route::post('wallet/store', [HomeController::class, 'add_wallet'])->name('wallet.store');
+
     Route::get('guide', [HomeController::class, 'guide'])->name('guide');
 });
 

@@ -2428,77 +2428,32 @@ return response()->json([
     }
     
     
-    
 
-    // public function popularCity(Request $request)
-    // {
-    //     // Fetch all PackageBookings and join with the Package and City models
-    //     $popularCities = DB::table('package_booking') // Using the correct table name
-    //         ->selectRaw('count(*) as bookings_count, package.city_id')
-    //         ->join('package', 'package_booking.package_id', '=', 'package.id')
-    //         ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
-    //         ->groupBy('package.city_id')
-    //         ->orderByDesc('bookings_count')
-    //         ->get(); // Get all cities with their booking counts
-        
-    //     // If no bookings found
-    //     if ($popularCities->isEmpty()) {
-    //         return response()->json([
-    //             'message' => 'No bookings found.',
-    //             'data' => [],
-    //             'status' => 404,
-    //         ]);
-    //     }
-    
-    //     // Find the maximum bookings count
-    //     $maxBookingsCount = $popularCities->max('bookings_count');
-    
-    //     // Fetch all cities that have the maximum bookings count
-    //     $topCities = $popularCities->filter(function ($city) use ($maxBookingsCount) {
-    //         return $city->bookings_count == $maxBookingsCount;
-    //     });
-    
-    //     // Prepare response with city names and booking counts
-    //     $responseCities = $topCities->map(function ($city) {
-    //         $cityName = \DB::table('all_cities')->where('id', $city->city_id)->value('city_name');
-            
-    //         return [
-    //             'city_name' => $cityName,
-    //             'bookings_count' => $city->bookings_count,
-    //         ];
-    //     });
-    
-    //     return response()->json([
-    //         'message' => 'Most popular cities fetched successfully.',
-    //         'data' => $responseCities,
-    //         'status' => 200,
-    //     ]);
-    // }
     
 
 
     public function packagesearch(Request $request)
     {
-        // Get the search term from the request
+        // Get the search term from the request (if any)
         $searchTerm = $request->get('package_name');
     
-        if (!$searchTerm) {
-            return response()->json([
-                'message' => 'Package name is required for search.',
-                'data' => [],
-                'status' => 201,
-            ], 400);
+        // Get all packages by default
+        $packagesQuery = Package::query();
+    
+        // If a search term is provided, filter the packages by package_name
+        if ($searchTerm) {
+            $packagesQuery->where('package_name', 'like', '%' . $searchTerm . '%');
         }
     
-        // Find the packages where package_name matches the search term (case insensitive)
-        $packages = Package::where('package_name', 'like', '%' . $searchTerm . '%')->get();
+        // Get the packages (either all or filtered by package_name)
+        $packages = $packagesQuery->get();
     
         // If no packages are found, return a message
         if ($packages->isEmpty()) {
             return response()->json([
                 'message' => 'No packages found matching the search term.',
                 'data' => [],
-                'status' => 201,
+                'status' => 404,
             ], 404);
         }
     
@@ -2583,6 +2538,7 @@ return response()->json([
             'status' => 200,
         ], 200);
     }
+    
     
     
  

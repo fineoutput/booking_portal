@@ -284,13 +284,14 @@
                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body suther">
-                <form class="suther">
+                <form action="{{route('wallet.store')}}" class="suther" method="POST">
+                    @csrf
                     <h6 class="fw-bold suther">Refund/Recharge Details</h6>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="mb-3 suther">
                                 <label for="transactionType" class="form-label suther">Transaction Type</label>
-                                <select class="form-control suther" id="transactionType">
+                                <select name="transaction_type" class="form-control suther" id="transactionType">
                                     <option value="refund">Refund</option>
                                     <option value="recharge">Recharge</option>
                                 </select>

@@ -225,6 +225,7 @@
             <!-- /////large screeen tab///// -->
             <div class="col-lg-8 setts d-lg-block d-none">
     <div class="row">
+      @foreach($popularCities as $value)
         <div class="col-lg-3">
             <div class="gallery_loc">
                 <div class="inner_gallery_loc">
@@ -232,131 +233,18 @@
                 </div>
                 <div class="inner_gallery_loc_txt">
                     <div class="type_gallery">
-                        <p><b>33</b> tours | <b>72</b> Departures</p>
-                        <p><b>61,838</b> guest Travelled</p>
+                        <p><b>{{ $value['bookings_count'] }}</b> tours |</p>
+                        <p><b>{{ $value['adults_count'] }}</b> guest Travelled</p>
                     </div>
                     <div class="gall_place">
-                        <h4>Jammu</h4>
+                        <h4>{{ $value['city_name'] }}</h4>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
-            <div class="gallery_loc">
-                <div class="inner_gallery_loc">
-                    <img src="{{ asset('frontend/images/gallery/rjwm-rjwp-1522023.avif') }}" alt="">
-                </div>
-                <div class="inner_gallery_loc_txt">
-                    <div class="type_gallery">
-                        <p><b>33</b> tours | <b>72</b> Departures</p>
-                        <p><b>61,838</b> guest Travelled</p>
-                    </div>
-                    <div class="gall_place">
-                        <h4>Rajasthan</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="gallery_loc">
-                <div class="inner_gallery_loc">
-                    <img src="{{ asset('frontend/images/gallery/klwa-i-thb-klwl-672021.avif') }}" alt="">
-                </div>
-                <div class="inner_gallery_loc_txt">
-                    <div class="type_gallery">
-                        <p><b>33</b> tours | <b>72</b> Departures</p>
-                        <p><b>61,838</b> guest Travelled</p>
-                    </div>
-                    <div class="gall_place">
-                        <h4>Kerela</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="gallery_loc">
-                <div class="inner_gallery_loc">
-                    <img src="{{ asset('frontend/images/gallery/tbh-GTSD-382021.avif') }}" alt="">
-                </div>
-                <div class="inner_gallery_loc_txt">
-                    <div class="type_gallery">
-                        <p><b>33</b> tours | <b>72</b> Departures</p>
-                        <p><b>61,838</b> guest Travelled</p>
-                    </div>
-                    <div class="gall_place">
-                        <h4>Gujrat</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 
-    <div class="row mt-2">
-        <div class="col-lg-3">
-            <div class="gallery_loc">
-                <div class="inner_gallery_loc">
-                    <img src="{{ asset('frontend/images/gallery/thb-baku-eubq-20102023.avif') }}" alt="">
-                </div>
-                <div class="inner_gallery_loc_txt">
-                    <div class="type_gallery">
-                        <p><b>33</b> tours | <b>72</b> Departures</p>
-                        <p><b>61,838</b> guest Travelled</p>
-                    </div>
-                    <div class="gall_place">
-                        <h4>Europe</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="gallery_loc">
-                <div class="inner_gallery_loc">
-                    <img src="{{ asset('frontend/images/gallery/amep-thb.avif') }}" alt="">
-                </div>
-                <div class="inner_gallery_loc_txt">
-                    <div class="type_gallery">
-                        <p><b>33</b> tours | <b>72</b> Departures</p>
-                        <p><b>61,838</b> guest Travelled</p>
-                    </div>
-                    <div class="gall_place">
-                        <h4>America</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="gallery_loc">
-                <div class="inner_gallery_loc">
-                    <img src="{{ asset('frontend/images/gallery/asja-thb.avif') }}" alt="">
-                </div>
-                <div class="inner_gallery_loc_txt">
-                    <div class="type_gallery">
-                        <p><b>33</b> tours | <b>72</b> Departures</p>
-                        <p><b>61,838</b> guest Travelled</p>
-                    </div>
-                    <div class="gall_place">
-                        <h5>South east asia</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="gallery_loc">
-                <div class="inner_gallery_loc">
-                    <img src="{{ asset('frontend/images/gallery/auwg-thb.avif') }}" alt="">
-                </div>
-                <div class="inner_gallery_loc_txt">
-                    <div class="type_gallery">
-                        <p><b>33</b> tours | <b>72</b> Departures</p>
-                        <p><b>61,838</b> guest Travelled</p>
-                    </div>
-                    <div class="gall_place">
-                        <h4>Australia</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 
