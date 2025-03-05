@@ -2475,6 +2475,115 @@ return response()->json([
     //     ]);
     // }
     
+
+
+    public function packagesearch(Request $request)
+    {
+        // Get the search term from the request
+        $searchTerm = $request->get('package_name');
+    
+        if (!$searchTerm) {
+            return response()->json([
+                'message' => 'Package name is required for search.',
+                'data' => [],
+                'status' => 400,
+            ], 400);
+        }
+    
+        // Find the packages where package_name matches the search term (case insensitive)
+        $packages = Package::where('package_name', 'like', '%' . $searchTerm . '%')->get();
+    
+        // If no packages are found, return a message
+        if ($packages->isEmpty()) {
+            return response()->json([
+                'message' => 'No packages found matching the search term.',
+                'data' => [],
+                'status' => 404,
+            ], 404);
+        }
+    
+        // Get all states and cities as you did before
+        $states = State::all()->pluck('state_name', 'id');
+        $cities = City::all()->pluck('city_name', 'id');
+    
+        // Map through the packages and return the necessary data
+        $hotelData = $packages->map(function($package) use ($states, $cities) {
+    
+            // Get the images
+            $imageUrls = array_values(json_decode($package->image, true));
+    
+            // Get state and city names
+            $stateNames = $this->getNamesByIds($package->state_id, $states);
+            $cityNames = $this->getNamesByIds($package->city_id, $cities);
+    
+            $today = Carbon::today()->format('Y-m');
+    
+            $packagePrice = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '<=', $today)
+                ->where('end_date', '>=', $today)
+                ->get();
+    
+            // Get prices
+            $prices = null;
+            if ($packagePrice) {
+                $prices = $packagePrice->map(function ($price) {
+                    return [
+                        'id' => $price->id,
+                        'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+                        'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                        'total_cost' => 
+                            $price->standard_cost ?? 0 +
+                            $price->deluxe_cost ?? 0 +
+                            $price->premium_cost ?? 0 +
+                            $price->super_deluxe_cost ?? 0 +
+                            $price->luxury_cost ?? 0 +
+                            $price->nights_cost ?? 0 +
+                            $price->adults_cost ?? 0 +
+                            $price->child_with_bed_cost ?? 0 +
+                            $price->child_no_bed_infant_cost ?? 0 +
+                            $price->child_no_bed_child_cost ?? 0 +
+                            $price->meal_plan_only_room_cost ?? 0 +
+                            $price->meal_plan_breakfast_cost ?? 0 +
+                            $price->meal_plan_breakfast_lunch_dinner_cost ?? 0 +
+                            $price->meal_plan_all_meals_cost ?? 0 +
+                            $price->hatchback_cost ?? 0 +
+                            $price->sedan_cost ?? 0 +
+                            $price->economy_suv_cost ?? 0 +
+                            $price->luxury_suv_cost ?? 0 +
+                            $price->traveller_mini_cost ?? 0 +
+                            $price->traveller_big_cost ?? 0 +
+                            $price->premium_traveller_cost ?? 0 +
+                            $price->ac_coach_cost ?? 0 +
+                            $price->extra_bed_cost ?? 0
+                    ];
+                });
+            }
+    
+            return [
+                'id' => $package->id,
+                'package_name' => $package->package_name,
+                'state_names' => $stateNames,
+                'city_names' => $cityNames,
+                'image' => array_map(function($image) {
+                    return url('') . '/' . $image;
+                }, $imageUrls),
+                'video' => array_map(function($video) {
+                    return url('') . '/' . $video;
+                }, json_decode($package->video, true)),
+                'pdf' => url('') . '/' . $package->pdf,
+                'text_description' => strip_tags($package->text_description),
+                'text_description_2' => strip_tags($package->text_description_2),
+                'prices' => $prices,
+            ];
+        });
+    
+        return response()->json([
+            'message' => 'Package search results fetched successfully.',
+            'data' => $hotelData,
+            'status' => 200,
+        ], 200);
+    }
+    
     
  
 }
