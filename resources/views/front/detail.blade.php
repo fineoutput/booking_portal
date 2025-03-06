@@ -57,13 +57,34 @@
                             <h4>About Package</h4>
                         </div>
                         <div class="inc_icn d-flex gap-4">
-                            <p>
+                            {{-- <p>
                                 {!! $packages->text_description !!}
                             </p>
                             <p>
                                 {!! $packages->text_description_2 !!}
-                            </p>
+                            </p> --}}
                         </div>
+                        <div class="tab-container mt-5">
+                            <div class="button-container">
+                                <button class="tab-button" id="tab1-btn">About 1</button>
+                                <button class="tab-button" id="tab2-btn">About 2</button>
+                            </div>
+                
+                            <div class="content-container">
+                    <div class="tab-content" id="tab1-content">
+                        <p>
+                            {!! $packages->text_description !!}
+                        </p>
+                    </div>
+                
+                    <div class="tab-content" id="tab2-content" style="display: none;">
+                        <p>
+                            {!! $packages->text_description_2 !!}
+                        </p>
+                    </div>
+                </div>
+                
+                            </div>
                     </div>
 
                     <div class="sonn_rght d-flex align-items-baseline justify-content-between">
