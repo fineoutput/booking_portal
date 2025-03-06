@@ -33,7 +33,9 @@ use App\Http\Controllers\Admin\AirportController;
 use App\Http\Controllers\Admin\PushNotificationController;
 use App\Http\Controllers\Admin\OutstationController;
 use App\Http\Controllers\Admin\RoundTripController;
+use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\WalletController;
+use App\Http\Controllers\Admin\LocalTourPriceController;
 use App\Http\Controllers\Auth\adminlogincontroller;
 use App\Models\WildlifeSafari;
 
@@ -78,11 +80,18 @@ Route::group(['middleware'=>'admin.auth'],function(){
     Route::delete('hotels/{hotel}', [HotelsController::class, 'destroy'])->name('hotels.destroy');
     Route::get('/cities/{stateId}', [HotelsController::class, 'getCitiesByStatehotels']);
 
+
     Route::get('/hotel-price/{id}', [HotelsPriceController::class, 'index'])->name('hotel_price');
     Route::match(['get','post'],'/hotel/price/create/{id}', [HotelsPriceController::class, 'create'])->name('hotel_price_create');
     Route::delete('/hotel-price/{id}', [HotelsPriceController::class, 'destroy'])->name('hotel_price.destroy');
     Route::get('hotel-price/{id}/edit', [HotelsPriceController::class, 'edit'])->name('hotel_price.edit');
     Route::put('hotel-price/{id}', [HotelsPriceController::class, 'update'])->name('hotel_price.update');
+
+    Route::get('/city', [CityController::class, 'index'])->name('city.index');
+    Route::match(['get','post'],'/city/create', [CityController::class, 'create'])->name('city.create');
+    Route::delete('/city/{id}', [CityController::class, 'destroy'])->name('city.destroy');
+    Route::get('city/{id}/edit', [CityController::class, 'edit'])->name('city.edit');
+    Route::put('city/{id}', [CityController::class, 'update'])->name('city.update');
 
 
    Route::get('/route', [RouteController::class, 'index'])->name('route');
@@ -283,6 +292,21 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/accept-wallet', [WalletController::class, 'accept'])->name('accept.wallet');
     Route::get('/reject-wallet', [WalletController::class, 'reject'])->name('reject.wallet');
     Route::get('/recharge-wallet', [WalletController::class, 'rechargewallet'])->name('rechargewallet');
+
+
+    Route::get('/local-vehicle', [LocalTourPriceController::class, 'index'])->name('localvehicle');
+    Route::match(['get','post'],'/local-vehicle/create', [LocalTourPriceController::class, 'create'])->name('localvehicle.create');
+    Route::get('local-vehicle/{id}/edit', [LocalTourPriceController::class, 'edit'])->name('localvehicle.edit');
+    Route::put('local-vehicle/{id}', [LocalTourPriceController::class, 'update'])->name('localvehicle.update');
+    Route::delete('local-vehicle/{id}', [LocalTourPriceController::class, 'destroy'])->name('localvehicle.destroy');
+    Route::patch('/local-vehicle/{id}/status', [LocalTourPriceController::class, 'updateStatus'])->name('localvehicle.updateStatus');
+
+    Route::get('/slider', [SliderController::class, 'index'])->name('slider');
+    Route::match(['get','post'],'/slider/create', [SliderController::class, 'create'])->name('slider.create');
+    Route::get('slider/{id}/edit', [SliderController::class, 'edit'])->name('slider.edit');
+    Route::put('slider/{id}', [SliderController::class, 'update'])->name('slider.update');
+    Route::delete('slider/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
+    Route::patch('/slider/{id}/status', [SliderController::class, 'updateStatus'])->name('slider.updateStatus');
 
 });
    

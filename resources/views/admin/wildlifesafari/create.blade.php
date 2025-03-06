@@ -120,7 +120,7 @@
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
                                         </div>
-
+{{-- 
                                         <div class="col-sm-4">
                                             <div class="form-floating">
                                                 <input class="form-control" type="date" value="" id="date" name="date" placeholder="Enter date" required>
@@ -129,7 +129,7 @@
                                             @error('date')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
 
                                     </div>
 

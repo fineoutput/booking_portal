@@ -57,7 +57,7 @@
 
                                     <div class="col-sm-6">
                                         <label for="start_date" class="form-label">Start Month &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="month" class="form-control" name="start_date"
+                                        <input type="date" class="form-control" name="start_date"
                                          value="{{ old('start_date', $package->start_date) }}" required>
                                         @error('start_date')
                                             <div style="color:red;">{{ $message }}</div>
@@ -66,7 +66,7 @@
 
                                     <div class="col-sm-6">
                                         <label for="end_date" class="form-label">End Month &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="month" class="form-control" name="end_date" 
+                                        <input type="date" class="form-control" name="end_date" 
                                         value="{{ old('end_date', $package->end_date) }}" required>
                                         @error('end_date')
                                             <div style="color:red;">{{ $message }}</div>

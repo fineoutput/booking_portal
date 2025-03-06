@@ -1,6 +1,18 @@
 @extends('admin.base_template')
 @section('main')
 <!-- Start content -->
+
+<style>
+  
+    form {
+      margin-top: 20px;
+    }
+    
+    select {
+      width: 400px;
+    }
+    </style>
+
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -44,7 +56,7 @@
                                 @method('PUT')
                                 <div class="form-group row">
                             
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <select class="form-control" name="type" id="type" required>
                                             <option value="">Select Tour Type</option>
                                             <option value="Airport/Railway station" {{ $VehiclePrice->type == 'Airport/Railway station' ? 'selected' : '' }}>
@@ -57,10 +69,31 @@
                                         @error('type')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
+                                    </div> --}}
+
+                                    <div class="col-sm-12">
+                                        <label class="form-label" style="margin-left: 10px" for="power">Select Vehicle Multipal</label>
+                                        <div id="output"></div>
+                                        <select data-placeholder="" name="vehicle_id[]" multiple class="chosen-select">
+                                            @foreach($vehicleselect as $value)
+                                                <option value="{{ $value->id }}" 
+                                                    {{ in_array($value->id, is_array($VehiclePrice->vehicle_id) ? $VehiclePrice->vehicle_id : explode(',', old('vehicle_id', $VehiclePrice->vehicle_id))) ? 'selected' : '' }}>
+                                                    {{ $value->vehicle_type }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('vehicle_id')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
                                     </div>
                             
-                                    <input type="hidden" value="{{ $VehiclePrice->vehicle_id }}" name="vehicle_id">
+                                    <input type="hidden" value="{{ $VehiclePrice->airport_id ?? '' }}" name="airport_id">
                             
+                                  
+                            
+                                </div>
+                            
+                                <div class="form-group row">
                                     <div class="col-sm-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" value="{{ old('price', $VehiclePrice->price) }}" id="price" name="price" placeholder="Enter Vehicle Price" required>
@@ -71,11 +104,7 @@
                                         @enderror
                                     </div>
                             
-                                </div>
-                            
-                                <div class="form-group row">
-                            
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" value="{{ old('city', $VehiclePrice->city) }}" id="city" name="city" placeholder="Enter City" required>
                                             <label for="city">Enter City &nbsp;<span style="color:red;">*</span></label>
@@ -83,7 +112,7 @@
                                         @error('city')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                             
                                 </div>
                             
@@ -115,6 +144,15 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+
+<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+<script>
+    document.getElementById('output').innerHTML = location.search;
+    $(".chosen-select").chosen();
+</script>
 
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>

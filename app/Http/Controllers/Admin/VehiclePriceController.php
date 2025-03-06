@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Airport;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
 use App\Models\VehiclePrice;
@@ -11,32 +12,43 @@ use App\Models\VehiclePrice;
 class VehiclePriceController extends Controller
 {
     function vehicleprice($id) {
-        $data['agent'] = Vehicle::orderBy('id','DESC')->where('id',$id)->first();
-        $data['VehiclePrice'] = VehiclePrice::orderBy('id','DESC')->where('vehicle_id',$id)->get();
+        $data['agent'] = Airport::orderBy('id','DESC')->where('id',$id)->first();
+        $data['VehiclePrice'] = VehiclePrice::orderBy('id','DESC')->where('airport_id',$id)->get();
         return view('admin/vehicleprice/index',$data);
     }
 
     function vehiclepricecreate(Request $request,$id) {
         if($request->method()=='POST'){
             $validated = $request->validate([           
-                'type' => 'required',
+                'price' => 'required',
                 // 'description' => 'required',
             ]);
 
             $agentCall = new VehiclePrice();
             $agentCall->type = $request->type;
+            $agentCall->airport_id = $request->airport_id;
             $agentCall->price = $request->price;
             $agentCall->city = $request->city;
-            $agentCall->vehicle_id = $request->vehicle_id;
+            $agentCall->vehicle_id = implode(',', $request->vehicle_id);
             $agentCall->description = $request->description;
             // $agentCall->status = '1';
 
             $agentCall->save(); 
 
-            return redirect()->route('vehicleprice',$request->vehicle_id)->with('success', 'Vehicle price added successfully!');
+            return redirect()->route('vehicleprice',$request->airport_id)->with('success', 'Vehicle price added successfully!');
         }
-        $data['vehicle'] = Vehicle::orderBy('id','DESC')->where('id',$id)->first();
-        $data['vehicleselect'] = Vehicle::orderBy('id','DESC')->get();
+
+        $airport = Airport::where('id', $id)->first();
+        if ($airport) {
+            $data['vehicle'] = $airport;
+            $vehicleIds = explode(',', $airport->vehicle_id);
+            $data['vehicleselect'] = Vehicle::whereIn('id', $vehicleIds)->orderBy('id', 'DESC')->get();
+        } else {
+            // Handle case where the airport record doesn't exist
+            $data['vehicleselect'] = collect(); // Return an empty collection or handle error accordingly
+        }
+
+
         return view('admin/vehicleprice/create',$data);
     }
 
@@ -52,7 +64,8 @@ class VehiclePriceController extends Controller
 
     public function vehiclepriceedit($id)
     {
-        $data['vehicle'] = Vehicle::orderBy('id','DESC')->where('id',$id)->first();
+        $data['vehicle'] = Airport::orderBy('id','DESC')->where('id',$id)->first();
+        $data['vehicleselect'] = Vehicle::orderBy('id','DESC')->get();
         $data['VehiclePrice'] = VehiclePrice::orderBy('id','DESC')->where('id',$id)->first();
 
         return view('admin/vehicleprice/edit',$data);
@@ -62,9 +75,9 @@ class VehiclePriceController extends Controller
     public function vehiclepriceupdate(Request $request, $id)
     {
         $request->validate([
-            'type' => 'required',
+            // 'type' => 'required',
             'price' => 'required|numeric',   
-            'city' => 'required',
+            // 'city' => 'required',
             'description' => 'required',  
         ]);
 
@@ -73,14 +86,15 @@ class VehiclePriceController extends Controller
         $vehicle = Vehicle::orderBy('id','DESC')->where('id',$vehiclePrice->vehicle_id)->first();
 
         $vehiclePrice->type = $request->type;
+        $vehiclePrice->airport_id = $request->airport_id;
         $vehiclePrice->price = $request->price;
         $vehiclePrice->city = $request->city;
-        // $vehiclePrice->vehicle_id = $vehicle->id;
+        $vehiclePrice->vehicle_id = implode(',', $request->vehicle_id);
         $vehiclePrice->description = $request->description;
 
         $vehiclePrice->save();
 
-        return redirect()->route('vehicleprice',$vehiclePrice->vehicle_id)->with('success', 'Vehicle price updated successfully!');
+        return redirect()->route('vehicleprice',$vehiclePrice->airport_id)->with('success', 'Vehicle price updated successfully!');
     }
 
     public function updateStatus($id)

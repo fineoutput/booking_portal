@@ -52,7 +52,7 @@
                         <th data-priority="1">State</th>
                         <th data-priority="1">City</th>
                         <th data-priority="1">National Park</th>
-                        <th data-priority="1">Date</th>
+                        {{-- <th data-priority="1">Date</th> --}}
                         <th data-priority="1">Timings</th>
                         <th data-priority="1">Vehicle</th>
                         <th data-priority="1">Cost</th>
@@ -67,7 +67,7 @@
                         <td>{{ $hotel->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->national_park ?? '' }}</td>
-                        <td>{{ $hotel->date ?? '' }}</td>
+                        {{-- <td>{{ $hotel->date ?? '' }}</td> --}}
                         <td>{{ $hotel->timings ?? '' }}</td>
                         <td>{{ $hotel->vehicle ?? '' }}</td>
                         <td>{{ $hotel->cost ?? '' }}</td>

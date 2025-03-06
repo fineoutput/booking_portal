@@ -281,7 +281,7 @@
             <div class="col-lg-3 mt-5">
                 <div class="price_tabs">
                     <div class="pr_lft">
-                        <p>Starts from <span class="dus_ghd"><b>₹32,000</b></span></p>
+                        {{-- <p>Starts from <span class="dus_ghd"><b>₹32,000</b></span></p> --}}
                         <span>per person on twin sharing</span>
                     </div>
                 </div>

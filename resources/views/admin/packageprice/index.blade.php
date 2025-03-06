@@ -75,6 +75,7 @@
                         <th data-priority="3">Vehicle (Premium traveller (10-16 pass)) Cost</th>
                         <th data-priority="3">Vehicle (AC Coach (18-30 pass)) Cost</th>
                         <th data-priority="3">Extra Bed Cost</th>
+                        <th data-priority="3">Display Cost</th>
                         
                         <th data-priority="6">Action</th>
                       </tr>
@@ -109,6 +110,7 @@
                                 <td>₹{{ $pkg->premium_traveller_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->ac_coach_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->extra_bed_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->display_cost ?? '0' }}</td>
                                 <td>
                                     <!-- Edit Button -->
                                     <a href="{{ route('package_price.edit', $pkg->id) }}" class="btn btn-warning">Edit</a>

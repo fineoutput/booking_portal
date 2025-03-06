@@ -37,6 +37,7 @@ class PackagePrice extends Model
         'extra_bed_cost',
         'start_date',
         'end_date',
+        'display_cost',
     ];
 
     

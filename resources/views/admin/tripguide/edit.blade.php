@@ -55,7 +55,7 @@
                                 @method('PUT') <!-- Since it's a PUT request for update -->
                             
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <label for="state">State</label>
                                         <select class="form-control" id="state" name="state_id">
                                             @foreach ($states as $state)
@@ -70,7 +70,7 @@
                                         @enderror
                                     </div>
                             
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <label for="city">City</label>
                                         <div id="output"></div>
                                         <select data-placeholder="" class="form-control" id="city" name="city_id">
@@ -87,7 +87,7 @@
                                 </div>
                             
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" value="{{ old('location', $wildlifeSafari->location) }}" id="name" name="location" placeholder="Enter National Park" required>
                                             <label for="location">Enter location &nbsp;<span style="color:red;">*</span></label>
@@ -95,9 +95,19 @@
                                         @error('location')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
+                                    </div> --}}
+
+                                    <div class="col-sm-6">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="number" value="{{ old('cost', $wildlifeSafari->cost) }}" id="cost" name="cost" placeholder="Enter cost" required>
+                                            <label for="cost">Cost &nbsp;<span style="color:red;">*</span></label>
+                                        </div>
+                                        @error('cost')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
                                     </div>
                             
-                                    {{-- <div class="col-sm-4">
+                                    {{-- <div class="col-sm-6">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="{{ old('language', $wildlifeSafari->language) }}" id="language" name="language" placeholder="Enter language" required>
                                             <label for="language">language &nbsp;<span style="color:red;">*</span></label>
@@ -107,7 +117,7 @@
                                         @enderror
                                     </div> --}}
 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <label for="languages">Language</label>
                                         <select class="form-control" id="languages" name="languages_id">
                                             @foreach($languages as $value)
@@ -123,7 +133,7 @@
                                     </div>
 
                                     <div class="form-group row">
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <label for="guide_type">Guide Type</label>
         <div id="output"></div>
         @php
@@ -140,7 +150,7 @@
     </div>
 </div>
 
-                                    {{-- <div class="col-sm-4">
+                                    {{-- <div class="col-sm-6">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="{{ old('local_guide', $wildlifeSafari->local_guide) }}" id="local_guide" name="local_guide" placeholder="Enter local_guide" required>
                                             <label for="local_guide">Local Guide &nbsp;<span style="color:red;">*</span></label>
@@ -154,17 +164,9 @@
                                 </div>
                             
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
-                                        <div class="form-floating">
-                                            <input class="form-control" type="number" value="{{ old('cost', $wildlifeSafari->cost) }}" id="cost" name="cost" placeholder="Enter cost" required>
-                                            <label for="cost">Cost &nbsp;<span style="color:red;">*</span></label>
-                                        </div>
-                                        @error('cost')
-                                            <div style="color:red">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                    
                             
-                                    {{-- <div class="col-sm-4">
+                                    {{-- <div class="col-sm-6">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" value="{{ old('out_station_guide', $wildlifeSafari->out_station_guide) }}" id="out_station_guide" name="out_station_guide" placeholder="Enter out_station_guide" required>
                                             <label for="out_station_guide">Out Station Guide &nbsp;<span style="color:red;">*</span></label>

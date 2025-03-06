@@ -18,10 +18,10 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Add Vehicle Price</h4>
+                    <h4 class="page-title">Add Vehicle Price Edit</h4>
                     <ol class="breadcrumb" style="display:none">
                         <!-- <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li> -->
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Vehicle Price </a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Vehicle Price Edit </a></li>
                         <li class="breadcrumb-item active">Add Vehicle</li>
                     </ol>
                 </div>
@@ -51,83 +51,41 @@
                             <!-- End show success and error messages -->
                             <h4 class="mt-0 header-title">Add Vehicle Price Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                            <form action="{{route('vehiclepricecreate',$vehicle->id ?? '')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('slider.update', $slider->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT') <!-- Specify the form method as PUT to update the data -->
+                                
                                 <div class="form-group row">
-
-                                    {{-- <div class="col-sm-6">
+                                    <div class="col-sm-6">
                                         <select class="form-control" name="type" id="type" required>
-                                            <option value="">Select Tour Type</option>
-                                            <option value="Airport/Railway station">Airport/Railway station</option>
-                                            <option value="Local Tour">Local Tour</option>
+                                            <option value="">Select Type</option>
+                                            <option value="package" {{ $slider->type == 'package' ? 'selected' : '' }}>Package</option>
+                                            <option value="guide" {{ $slider->type == 'guide' ? 'selected' : '' }}>Guide</option>
+                                            <option value="hotel" {{ $slider->type == 'hotel' ? 'selected' : '' }}>Hotel</option>
+                                            <option value="safari" {{ $slider->type == 'safari' ? 'selected' : '' }}>Safari</option>
                                         </select>
                                         @error('type')
-                                        <div style="color:red">{{$message}}</div>
-                                        @enderror
-                                    </div> --}}
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-12"><br>
-                                            <label class="form-label" style="margin-left: 10px" for="power">Select Vehicle Multipal</label>
-                                            <div id="output"></div>
-                                            <select data-placeholder="" name="vehicle_id[]" multiple class="chosen-select">
-                                                @foreach($vehicleselect as $value)
-                                                <option value="{{ $value->id ?? ''}}">
-                                                    {{$value->vehicle_type ?? ''}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('vehicle_id')
-                                                <div style="color:red;">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    
-
-
-                                    <input type="hidden" value="{{$vehicle->id ?? ''}}" name="airport_id">
-
-                                    <div class="col-sm-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" type="text" value="" id="price" name="price" placeholder="Enter Vehicle type" required>
-                                            <label for="name">Enter Price &nbsp;<span style="color:red;">*</span></label>
-                                        </div>
-                                        @error('price')
-                                        <div style="color:red">{{$message}}</div>
-                                        @enderror
-                                    </div>
-
-                                </div>
-
-                                {{-- <div class="form-group row">
-
-                                    <div class="col-sm-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" type="text" value="" id="city" name="city" placeholder="Enter Vehicle type" required>
-                                            <label for="name">Enter City &nbsp;<span style="color:red;">*</span></label>
-                                        </div>
-                                        @error('city')
-                                        <div style="color:red">{{$message}}</div>
-                                        @enderror
-                                    </div>
-                                </div> --}}
-
-                                <div class="form-group row">
-                                    <div class="col-sm-12 mt-3">
-                                        <div class="form-floating">
-                                            <textarea class="form-control" id="description" name="description" placeholder="Enter long description" rows="4" required></textarea>
-                                            <label for="description">Description &nbsp;<span style="color:red;">*</span></label>
-                                        </div>
-                                        @error('description')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
+                            
+                                    <div class="col-sm-4">
+                                        <label for="state">Select City</label>
+                                        <input class="form-control" type="file" name="image">
+                                        @error('image')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                        <img src="{{ asset($slider->image) }}" width="50" height="50" alt="">
+                                    </div>
                                 </div>
+                            
                                 <div class="form-group row">
                                     <div class="form-group">
                                         <div class="w-100 text-center">
                                             <button type="submit" style="margin-top: 10px;" class="btn btn-danger"><i class="fa fa-user"></i> Submit</button>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -146,7 +104,6 @@
     document.getElementById('output').innerHTML = location.search;
     $(".chosen-select").chosen();
 </script>
-
 
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>

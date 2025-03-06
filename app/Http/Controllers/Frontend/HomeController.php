@@ -84,7 +84,7 @@ class HomeController extends Controller
 {
     $data['packages'] = Package::get();
 
-    $formatted_date = Carbon::now()->format('Y-m'); 
+    $formatted_date = Carbon::now()->format('Y-m-d'); 
 
     foreach ($data['packages'] as $package) {
         $package_price = PackagePrice::where('package_id', $package->id)
@@ -497,7 +497,7 @@ public function getVehiclesByAirport(Request $request)
     
         $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
     
-        $formatted_date = Carbon::now()->format('Y-m');
+        $formatted_date = Carbon::now()->format('Y-m-d');
     
         foreach ($data['packages'] as $package) {
             $package_price = PackagePrice::where('package_id', $package->id)

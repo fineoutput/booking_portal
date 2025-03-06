@@ -50,8 +50,8 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">airport</th>
-                        <th data-priority="1">railway</th>
-                        <th data-priority="1">vehicle_id</th>
+                        <th data-priority="1">City</th>
+                        <th data-priority="1">Vehicle</th>
                         <th data-priority="1">description</th>
                         <th data-priority="1">Action</th>
                       </tr>
@@ -61,7 +61,7 @@
                     <tr>
                         <td>{{ $key+1 }}</td> <!-- Loop index -->
                         <td>{{ $hotel->airport ?? '' }}</td>
-                        <td>{{ $hotel->railway ?? '' }}</td>
+                        <td>{{ $hotel->city->city_name ?? '' }}</td>
                         <td>
     @php
         $vehicleIds = explode(',', $hotel->vehicle_id);
@@ -83,6 +83,9 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
                             </form>
+                            <a href="{{ route('vehicleprice', $hotel->id) }}" class="btn btn-primary">
+                              Add Price
+                          </a>
                         </td>
                     </tr>
                 @endforeach

@@ -57,7 +57,7 @@
 
                                     <div class="col-sm-6">
                                         <label for="start_date" class="form-label">Start Month &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="month" class="form-control" name="start_date"
+                                        <input type="date" class="form-control" name="start_date"
                                          value="{{ old('start_date', $package->start_date) }}" required>
                                         @error('start_date')
                                             <div style="color:red;">{{ $message }}</div>
@@ -66,7 +66,7 @@
 
                                     <div class="col-sm-6">
                                         <label for="end_date" class="form-label">End Month &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="month" class="form-control" name="end_date" 
+                                        <input type="date" class="form-control" name="end_date" 
                                         value="{{ old('end_date', $package->end_date) }}" required>
                                         @error('end_date')
                                             <div style="color:red;">{{ $message }}</div>
@@ -300,6 +300,13 @@
                                         <label for="extra_bed_cost" class="form-label">Extra Bed Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="extra_bed_cost" value="{{ old('extra_bed_cost', $package->extra_bed_cost) }}" required>
                                         @error('extra_bed_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="display_cost" class="form-label">Display Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="display_cost" value="{{ old('display_cost', $package->display_cost) }}" required>
+                                        @error('display_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>

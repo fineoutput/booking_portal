@@ -58,6 +58,24 @@
     </div>
 
     <div class="form-group row">
+
+        <div class="col-sm-4">
+            <label for="state">Select City</label>
+            <select class="form-control" id="city_id" name="city_id">
+                <option value="">Select</option>
+                @foreach($city as $value)
+                    <option value="{{ $value->id }}" {{ $value->id == $wildlifeSafari->city_id ? 'selected' : '' }}>
+                        {{ $value->city_name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('city_id')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
+        </div>
+        
+
+
         <div class="col-sm-4">
             <div class="form-floating">
                 <input type="text" class="form-control" value="{{ old('airport', $wildlifeSafari->airport) }}" id="airport" name="airport" placeholder="airport" required>
@@ -68,15 +86,6 @@
             @enderror
         </div>
 
-        <div class="col-sm-4">
-            <div class="form-floating">
-                <input class="form-control" type="text" value="{{ old('railway', $wildlifeSafari->railway) }}" id="railway" name="railway" placeholder="Enter Railway" required>
-                <label for="railway">Enter Railway &nbsp;<span style="color:red;">*</span></label>
-            </div>
-            @error('railway')
-                <div style="color:red">{{$message}}</div>
-            @enderror
-        </div>
     </div>
 
     <div class="form-group row">

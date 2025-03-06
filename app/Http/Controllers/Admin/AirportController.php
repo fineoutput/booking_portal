@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminCity;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
 use App\Models\VehiclePrice;
@@ -45,10 +46,9 @@ class AirportController extends Controller
 
             $agentCall = new Airport();
             $agentCall->airport = $request->airport;
-            $agentCall->railway = $request->railway;
+            $agentCall->city_id = $request->city_id;
             $agentCall->vehicle_id = $request->vehicle_id;
             $agentCall->description = $request->description;
-
             $agentCall->vehicle_id = implode(',', $request->vehicle_id); 
             $agentCall->save(); 
 
@@ -58,6 +58,7 @@ class AirportController extends Controller
         $data['vehicleselect'] = Vehicle::orderBy('id','DESC')->get();
         $data['states'] = State::all();
         $data['languages'] = Languages::all();
+        $data['city'] = AdminCity::all();
         return view('admin/airport/create',$data);
     }
 
@@ -76,6 +77,7 @@ class AirportController extends Controller
         $data['wildlifeSafari'] = Airport::findOrFail($id);
         $data['states'] = State::all(); 
         $data['languages'] = Languages::all();
+        $data['city'] = AdminCity::all();
         $data['cities'] = City::where('state_id', $data['wildlifeSafari']->state_id)->get(); 
         $data['vehicle'] = Vehicle::orderBy('id','DESC')->get();
         return view('admin/airport/edit',$data);
@@ -94,6 +96,7 @@ class AirportController extends Controller
         $agentCall = Airport::findOrFail($id);
 
         $agentCall->airport = $request->airport;
+        $agentCall->city_id = $request->city_id;
         $agentCall->railway = $request->railway;
         $agentCall->vehicle_id = $request->vehicle_id;
         $agentCall->description = $request->description;
