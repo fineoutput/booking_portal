@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminCity;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UnverifyUser;
@@ -351,8 +352,20 @@ public function getVehiclesByAirport(Request $request)
         $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
         $data['route'] = Route::get();
         $data['outstation'] = Outstation::get();
+        $data['admincity'] = AdminCity::get();
         return view('front/taxi_booking',$data);
     }
+
+    public function getAirports($cityId)
+{
+    // Fetch the airports that belong to the selected city
+    $airports = Airport::where('city_id', $cityId)->get();
+
+    // Return the airports as JSON
+    return response()->json([
+        'airports' => $airports
+    ]);
+}
 
 
     
@@ -396,6 +409,7 @@ public function getVehiclesByAirport(Request $request)
         $taxibooking->tour_type = 'Airport/Railway station';
         $taxibooking->user_id = Auth::guard('agent')->id();
         $taxibooking->trip = $request->trip;
+        $taxibooking->city_id = $request->city_id;
         $taxibooking->location = $request->location;
         $taxibooking->airport_id = $request->airport_id;
         $taxibooking->vehicle_id = $request->vehicle_id;
@@ -413,6 +427,7 @@ public function getVehiclesByAirport(Request $request)
         // $taxibooking->drop_location = $request->drop_location;
         $taxibooking->drop_pickup_address = $request->drop_pickup_address;
         $taxibooking->location = $request->location;
+        $taxibooking->city_id = $request->city_id;
         $taxibooking->airport_id = $request->airport_id;
         $taxibooking->vehicle_id = $request->vehicle_id;
         $taxibooking->start_date = $request->start_date;

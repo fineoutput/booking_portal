@@ -56,6 +56,7 @@ Route::group(['prefix' => '/'], function () {
     
     Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
 
+    Route::get('/get-airports/{city_id}', [HomeController::class, 'getAirports']);
 
     Route::get('user_profile', [HomeController::class, 'user_profile'])->name('user_profile');
 

@@ -23,6 +23,7 @@ class TaxiBooking extends Model
         'airport_id',
         'state',
         'city',
+        'city_id',
         'one_way',
         'description',
         'trip',

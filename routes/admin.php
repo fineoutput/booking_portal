@@ -308,6 +308,8 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::delete('slider/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
     Route::patch('/slider/{id}/status', [SliderController::class, 'updateStatus'])->name('slider.updateStatus');
 
+    
+
 });
    
 });

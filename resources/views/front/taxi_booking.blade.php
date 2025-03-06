@@ -72,6 +72,49 @@
 
         <div>
           <div class="row">
+
+            <div class="col-lg-6">
+              <div class="mb-3 loc_stl">
+                <div class="select_sect">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                  <label for="pickup-airport" class="form-label">Select City</label>
+                </div>
+                <select name="city_id" class="form-select no-form-select" id="city-dropdown" onchange="fetchAirports()">
+                  <option value="">Select a City</option>
+                  @foreach($admincity as $value)
+                      <option value="{{$value->id ?? ''}}">{{$value->city_name ?? ''}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            
+            <div class="col-lg-6">
+              <div class="mb-3 loc_stl">
+                <div class="select_sect" id="pickup-inputs">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                  <label for="pickup-airport" class="form-label">Pickup from</label>
+                </div>
+                <select name="airport_id" class="form-select no-form-select" id="pickup-airport" onchange="updateVehicles()">
+                  <option value="">Select an Airport</option>
+                </select>
+              </div>
+            </div>
+            
+            
+            {{-- <div class="col-lg-6">
+              <div class="mb-3 loc_stl">
+                <div class="select_sect" >
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                  <label for="pickup-airport" class="form-label">Select City</label>
+                </div>
+                <select name="city_id" class="form-select no-form-select" id="pickup-airport" onchange="">
+                  <option value="">Select an Airport</option>
+                  @foreach($admincity as $value)
+                      <option value="{{$value->id ?? ''}}">{{$value->city_name ?? ''}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
             <div class="col-lg-6">
               <div class="mb-3 loc_stl">
                 <div class="select_sect" id="pickup-inputs">
@@ -85,7 +128,8 @@
                   @endforeach
                 </select>
               </div>
-            </div>
+            </div> --}}
+
             <div class="col-lg-6">
               <div class="mb-3">
                 <div class="select_sect" id="drop-inputs">
@@ -506,6 +550,41 @@ width: 20px;
 
 
 <!-- /* //////////////Cards Starts///////////// */ -->
+
+
+
+
+<script>
+  // Function to fetch airports based on selected city
+  function fetchAirports() {
+    const cityId = document.getElementById("city-dropdown").value; // Get the selected city ID
+    const airportDropdown = document.getElementById("pickup-airport");
+
+    if(cityId) {
+      // Make an AJAX request to get airports for the selected city
+      fetch(`/get-airports/${cityId}`)
+        .then(response => response.json())
+        .then(data => {
+          // Clear existing options
+          airportDropdown.innerHTML = "<option value=''>Select an Airport</option>";
+
+          // Populate the airport dropdown with the fetched airports
+          data.airports.forEach(airport => {
+            const option = document.createElement("option");
+            option.value = airport.id;
+            option.textContent = airport.airport;
+            airportDropdown.appendChild(option);
+          });
+        })
+        .catch(error => console.error("Error fetching airports:", error));
+    } else {
+      // Clear the dropdown if no city is selected
+      airportDropdown.innerHTML = "<option value=''>Select an Airport</option>";
+    }
+  }
+</script>
+
+
 
 <script>
 
