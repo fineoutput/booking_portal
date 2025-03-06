@@ -112,7 +112,33 @@
     </div>
   </div>
 
-
+  <div id="responsive-slider" class="splide" style="background: #ffd600">
+    <div class="layie">
+      <h1>Plan Your Travel Now!</h1>
+                        <p>650+ Travel Agents serving 65+ Destinations worldwide</p></div>  
+  <div class="splide__track">
+      
+        <ul class="splide__list">
+            <li class="splide__slide">
+                <picture>
+                    <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+                    <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+                    <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
+                    <img style="border-radius: 0;" src="{{ asset('frontend/images/banner/banne.png') }}" alt="Responsive Banner">
+                </picture>
+            </li>
+            <li class="splide__slide"> 
+                <picture>
+                    <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+                    <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+                    <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
+                    <img style="border-radius: 0;" src="{{ asset('frontend/images/banner/fallback_.png') }}" alt="Responsive Banner 2">
+                </picture>
+            </li>
+            <!-- Add more slides as needed -->
+        </ul>
+    </div>
+</div>
   <section class="_hotels_filters">
   <div class="container">
     <div class="row" >
@@ -254,6 +280,21 @@
   const container = document.getElementById("hotel-cards-container");
   container.innerHTML = hotels.map(createHotelCard).join("");
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Splide('#responsive-slider', {
+        type      : 'loop', // Makes the slider loop
+        perPage   : 1,      // One slide per view
+        autoplay  : true,   // Auto-slide
+        interval  : 3000,   // Interval for autoplay
+        breakpoints: {
+            768: {
+                perPage: 1,
+            },
+        },
+    }).mount();
+});
 
+</script>
 
 @endsection
