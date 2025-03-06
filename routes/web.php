@@ -69,6 +69,7 @@ Route::group(['prefix' => '/'], function () {
     Route::post('book-local-tour', [HomeController::class, 'book_local_tour'])->name('book_local_tour');
     Route::post('book-outstation', [HomeController::class, 'outstation'])->name('outstationbooked');
     Route::post('book-guide', [HomeController::class, 'bookguide'])->name('bookguide');
+    Route::post('state_detail', [HomeController::class, 'state_detail'])->name('state_detail');
 
 
     Route::POST('add_confirmation/{id}', [HomeController::class, 'add_confirmation'])->name('add_confirmation');

@@ -181,6 +181,10 @@ class HomeController extends Controller
     {
         return view('front/all_images');
     }
+    public function state_detail()
+    {
+        return view('front/state_detail');
+    }
 
 
     // public function user_profile()
