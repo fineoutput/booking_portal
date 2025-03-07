@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Vehicle Price</h4>
+          <h4 class="page-title">View Slider</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Vehicle Price</a></li>
-            <li class="breadcrumb-item active">View Vehicle Price</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Slider</a></li>
+            <li class="breadcrumb-item active">View Slider</li>
           </ol>
         </div>
       </div>
@@ -38,9 +38,9 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Vehicle Price List</h4>
+                  <h4 class="mt-0 header-title">View Slider List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('vehiclepricecreate',$agent->id ?? '')}}" role="button" style="margin-left: 20px;"> Add Vehicle Price</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('slider.create')}}" role="button" style="margin-left: 20px;"> Add Slider</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -50,10 +50,8 @@
 
                       <tr>
                         <th>#</th>
-                        <th data-priority="1">Price</th>
-                        <th data-priority="3">Vehicle</th>
-                        {{-- <th data-priority="3">Tour Type</th> --}}
-                        <th data-priority="3">Description</th>
+                        <th data-priority="1">Type</th>
+                        <th data-priority="1">Image</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -61,22 +59,22 @@
                        @foreach($VehiclePrice as $key => $value)
                         <tr>
                           <td>{{$key+1}}</td>
-                          <td>{{$value->price ?? ''}}</td>
+                          <td>{{$value->type ?? ''}}</td>
                           <td>
-                            @php
-                                $vehicleIds = explode(',', $value->vehicle_id);
-                                $vehicleNames = \App\Models\Vehicle::whereIn('id', $vehicleIds)->pluck('vehicle_type')->toArray();
-                                echo implode(', ', $vehicleNames);
-                            @endphp
-                        </td>
-                          {{--<td>{{$value->vehicle->vehicle_type ?? ''}}</td> --}}
-                        <td>{!! $value->description !!}</td>
+                              @if($value->image)
+                                  <img src="{{ asset($value->image) }}" alt="Image" style="max-width: 100px; height: auto;">
+                              @else
+                                  No image available
+                              @endif
+                          </td>
+                          
+
                         <td>
-                          <a href="{{ route('vehiclepriceedit', $value->id) }}" class="btn btn-primary">
+                          <a href="{{ route('slider.edit', $value->id) }}" class="btn btn-primary">
                             Edit
                         </a>
                             <!-- Delete Form -->
-                          <form action="{{ route('vehiclepricedelete', $value->id) }}" method="POST" style="display:inline-block;">
+                          <form action="{{ route('slider.destroy', $value->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this vehicle price?')">Delete</button>

@@ -5,21 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VehiclePrice extends Model
+class LocalVehiclePrice extends Model
 {
     use HasFactory;
-    protected $table = 'vehicleprice';
+    protected $table = 'local_vehicleprice';
     protected $fillable = [
         'vehicle_id',
-        'airport_id',
+        'city_id',
         'price',
-        'city',
         'description',
-        'type',
         'status',
     ];
 
-    public function airport()
+    public function local()
     {
         return $this->belongsTo(Airport::class, 'airport_id'); 
     }
@@ -27,5 +25,11 @@ class VehiclePrice extends Model
     {
         return $this->belongsTo(Vehicle::class, 'vehicle_id'); 
     }
+
+    public function city()
+    {
+        return $this->belongsTo(AdminCity::class, 'city_id'); 
+    }
+
 
 }

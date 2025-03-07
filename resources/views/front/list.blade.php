@@ -176,7 +176,7 @@
             $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
             $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
                           @endphp
-                          <p>Price: ₹{{ number_format($total, 2) }}</p>
+                          <p>Price: ₹{{$value->prices->display_cost}}</p>
                       @else
                           <p>No price available for this package.</p>
                       @endif

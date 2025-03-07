@@ -127,7 +127,7 @@
                                         @enderror
                                     </div>
                             
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="date" value="{{ old('date', $wildlifeSafari->date) }}" id="date" name="date" placeholder="Enter date" required>
                                             <label for="date">Date &nbsp;<span style="color:red;">*</span></label>
@@ -135,7 +135,7 @@
                                         @error('date')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                 </div>
                             
                                 <div class="form-group row">

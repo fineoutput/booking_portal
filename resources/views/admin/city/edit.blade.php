@@ -16,11 +16,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Add Hotel Price</h4>
+                    <h4 class="page-title">Add City</h4>
                     <ol class="breadcrumb" style="display:none">
                         <!-- <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li> -->
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Hotel</a></li>
-                        <li class="breadcrumb-item active">Add Hotel Price</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">City</a></li>
+                        <li class="breadcrumb-item active">Add City</li>
                     </ol>
                 </div>
             </div>
@@ -47,48 +47,45 @@
                             </div>
                             @endif
                             <!-- End show success and error messages -->
-                            <h4 class="mt-0 header-title">Add Hotel Price Form</h4>
+                            <h4 class="mt-0 header-title">Add City Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                            <form action="{{ route('hotel_price_create', $package->id ?? '') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('city.update', $city->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-group row">                            
-                                    <!-- Multiple Costs -->
-
-                                    <div class="col-sm-6">
-                                        <label for="start_date" class="form-label">Start Month &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="date" class="form-control" name="start_date" value="" required>
-                                        @error('start_date')
-                                            <div style="color:red;">{{ $message }}</div>
+                                @method('PUT') <!-- Use PUT or PATCH for update -->
+                                
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <label for="state">State</label>
+                                        <select class="form-control" id="state_id" name="state_id">
+                                            <option value="">Select</option>
+                                            @foreach($state as $value)
+                                                <option value="{{ $value->id }}" {{ $value->id == $city->state_id ? 'selected' : '' }}>
+                                                    {{ $value->state_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('state_id')
+                                            <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
-
+                            
                                     <div class="col-sm-6">
-                                        <label for="end_date" class="form-label">End Month &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="date" class="form-control" name="end_date" value="" required>
-                                        @error('end_date')
+                                        <label for="city_name" class="form-label">City Name &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="text" class="form-control" name="city_name" value="{{ old('city_name', $city->city_name) }}" required>
+                                        @error('city_name')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
-
-                                <div class="form-group row">     
-                                    <div class="col-sm-6">
-                                        <label for="night_cost" class="form-label">Hotel Night Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="night_cost" value="" required>
-                                        @error('night_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    </div>
-
-
                             
                                 <div class="form-group">
                                     <div class="w-100 text-center">
-                                        <button type="submit" class="btn btn-danger"><i class="fa fa-user"></i> Submit</button>
+                                        <button type="submit" class="btn btn-danger"><i class="fa fa-user"></i> Update</button>
                                     </div>
                                 </div>
                             </form>
+                            
+                            
                         </div>
                     </div>
                 </div> <!-- end col -->

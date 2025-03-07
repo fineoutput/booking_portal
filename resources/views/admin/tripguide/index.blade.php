@@ -51,7 +51,7 @@
                         <th>#</th>
                         <th data-priority="1">State</th>
                         <th data-priority="1">City</th>
-                        <th data-priority="1">Location</th>
+                        {{-- <th data-priority="1">Location</th> --}}
                         <th data-priority="1">Language</th>
                         <th data-priority="1">Guide Type</th>
                         <!-- <th data-priority="1">Local Guide</th>
@@ -67,7 +67,7 @@
                         <td>{{ $key+1 }}</td> <!-- Loop index -->
                         <td>{{ $hotel->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->cities->city_name ?? '' }}</td>
-                        <td>{{ $hotel->location ?? '' }}</td>
+                        {{-- <td>{{ $hotel->location ?? '' }}</td> --}}
                         <td>{{ $hotel->languages->language_name ?? '' }}</td>
                         <td>
             @if($hotel->guide_type)

@@ -92,9 +92,9 @@
                                         </button>
                                     </form>
 
-                                    <a href="{{ route('vehicleprice', $value->id) }}" class="btn btn-primary">
+                                    {{-- <a href="{{ route('vehicleprice', $value->id) }}" class="btn btn-primary">
                                       Add Price
-                                  </a>
+                                  </a> --}}
 
                                 </td>
                             </tr>

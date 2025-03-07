@@ -51,7 +51,7 @@
                             <!-- End show success and error messages -->
                             <h4 class="mt-0 header-title">Add Vehicle Price Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                            <form action="{{route('vehiclepricecreate',$vehicle->id ?? '')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{route('localvehicle.create')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
 
@@ -65,6 +65,19 @@
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div> --}}
+
+                                    <div class="col-sm-4">
+                                        <label for="state">Select City</label>
+                                        <select class="form-control" id="city_id" name="city_id">
+                                            <option value="">Select</option>
+                                            @foreach($city as $value)
+                                           <option value="{{$value->id ?? ''}}">{{$value->city_name ?? ''}}</option>
+                                           @endforeach
+                                        </select>
+                                        @error('city_id')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                                     <div class="form-group row">
                                         <div class="col-sm-12"><br>
@@ -81,10 +94,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    
-
-
-                                    <input type="hidden" value="{{$vehicle->id ?? ''}}" name="airport_id">
+                                
 
                                     <div class="col-sm-6">
                                         <div class="form-floating">

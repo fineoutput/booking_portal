@@ -52,32 +52,32 @@
                             <form action="{{route('airport_create')}}" method="post" enctype="multipart/form-data">
                                 @csrf
 
-                                <div class="form-group row">
-                               
-                                    </div>
-
                                     <div class="form-group row">
+
+                                        <div class="col-sm-4">
+                                            <label for="state">Select City</label>
+                                            <select class="form-control" id="city_id" name="city_id">
+                                                <option value="">Select</option>
+                                                @foreach($city as $value)
+                                               <option value="{{$value->id ?? ''}}">{{$value->city_name ?? ''}}</option>
+                                               @endforeach
+                                            </select>
+                                            @error('city_id')
+                                                <div style="color:red">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
                                         <div class="col-sm-4">
                                             <div class="form-floating">
                                                 <input type="text" class="form-control" type="text" value="" id="airport" name="airport" placeholder="airport" required>
-                                                <label for="location">Enter Airport &nbsp;<span style="color:red;">*</span></label>
+                                                <label for="location">Enter Airport/Railway Station &nbsp;<span style="color:red;">*</span></label>
                                             </div>
                                             @error('airport')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
                                         </div>
 
-                                  
 
-                                        <div class="col-sm-4">
-                                            <div class="form-floating">
-                                                <input class="form-control" type="railway" value="" id="railway" name="railway" placeholder="Enter Enter Railway" required>
-                                                <label for="local_guide">Enter Railway &nbsp;<span style="color:red;">*</span></label>
-                                            </div>
-                                            @error('railway')
-                                            <div style="color:red">{{$message}}</div>
-                                            @enderror
-                                        </div>
 
                                     </div>
 

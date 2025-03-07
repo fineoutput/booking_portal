@@ -40,7 +40,7 @@
                 <div class="col-md-10">
                   <h4 class="mt-0 header-title">View Vehicle Price List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('vehiclepricecreate',$agent->id ?? '')}}" role="button" style="margin-left: 20px;"> Add Vehicle Price</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('localvehicle.create')}}" role="button" style="margin-left: 20px;"> Add Vehicle Price</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -50,6 +50,7 @@
 
                       <tr>
                         <th>#</th>
+                        <th data-priority="1">City Name</th>
                         <th data-priority="1">Price</th>
                         <th data-priority="3">Vehicle</th>
                         {{-- <th data-priority="3">Tour Type</th> --}}
@@ -61,6 +62,7 @@
                        @foreach($VehiclePrice as $key => $value)
                         <tr>
                           <td>{{$key+1}}</td>
+                          <td>{{$value->city->city_name ?? ''}}</td>
                           <td>{{$value->price ?? ''}}</td>
                           <td>
                             @php
@@ -72,11 +74,11 @@
                           {{--<td>{{$value->vehicle->vehicle_type ?? ''}}</td> --}}
                         <td>{!! $value->description !!}</td>
                         <td>
-                          <a href="{{ route('vehiclepriceedit', $value->id) }}" class="btn btn-primary">
+                          <a href="{{ route('localvehicle.edit', $value->id) }}" class="btn btn-primary">
                             Edit
                         </a>
                             <!-- Delete Form -->
-                          <form action="{{ route('vehiclepricedelete', $value->id) }}" method="POST" style="display:inline-block;">
+                          <form action="{{ route('localvehicle.destroy', $value->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this vehicle price?')">Delete</button>

@@ -10,6 +10,7 @@ class Airport extends Model
     use HasFactory;
     protected $table = 'airport';
     protected $fillable = [
+        'city_id',
         'airport',
         'railway',
         'description',
@@ -24,10 +25,14 @@ class Airport extends Model
     {
         return $this->belongsTo(Languages::class, 'languages_id'); 
     }
-
-    public function cities()
+    public function city()
     {
-        return $this->belongsTo(City::class, 'city_id');
+        return $this->belongsTo(AdminCity::class, 'city_id'); 
     }
+
+    // public function cities()
+    // {
+    //     return $this->belongsTo(City::class, 'city_id');
+    // }
 
 }

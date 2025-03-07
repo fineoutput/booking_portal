@@ -72,6 +72,22 @@
 
         <div>
           <div class="row">
+
+            <div class="col-lg-6">
+              <div class="mb-3 loc_stl">
+                <div class="select_sect">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                  <label for="pickup-airport" class="form-label">Select City</label>
+                </div>
+                <select name="city_id" class="form-select no-form-select" id="city-dropdown" onchange="fetchAirports()">
+                  <option value="">Select a City</option>
+                  @foreach($admincity as $value)
+                      <option value="{{$value->id ?? ''}}">{{$value->city_name ?? ''}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            
             <div class="col-lg-6">
               <div class="mb-3 loc_stl">
                 <div class="select_sect" id="pickup-inputs">
@@ -80,12 +96,10 @@
                 </div>
                 <select name="airport_id" class="form-select no-form-select" id="pickup-airport" onchange="updateVehicles()">
                   <option value="">Select an Airport</option>
-                  @foreach($airport as $value)
-                      <option value="{{$value->id ?? ''}}">{{$value->airport ?? ''}}</option>
-                  @endforeach
                 </select>
               </div>
             </div>
+
             <div class="col-lg-6">
               <div class="mb-3">
                 <div class="select_sect" id="drop-inputs">
@@ -98,68 +112,20 @@
           </div>
         </div>
 
-        {{-- <div >
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="mb-3 loc_stl">
-                <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
-    width: 20px;
-">
-                  <label for="drop-airport" class="form-label">Drop to</label>
-                </div>
-
-                <select name="airport_id" class="form-select no-form-select" id="drop-airport" onchange="updateVehicless()">
-                  <option value="">Select an Airport</option>
-                  @foreach($airport as $value)
-                      <option value="{{$value->id ?? ''}}">{{$value->airport ?? ''}}</option>
-                  @endforeach
-              </select>
-
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
-    width: 20px;
-">
-                  <label for="drop-address" class="form-label">Pickup Address</label>
-                </div>
-                <input name="drop_pickup_address" type="text" class="form-control no-form" id="drop-address" placeholder="Enter drop address" >
-              </div>
-            </div>
-          </div>
-        </div> --}}
-
         <div class="row">
           <div class="col-lg-6">
             <div class="mb-3 loc_stl">
             <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="
-    width: 20px;
-">
-
+                  <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" 
+                  style="width: 20px;">
                   <label for="vehicle2" class="form-label">Select Vehicle</label>
                 </div>
-
-              
-                {{-- <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()" >
-                  <option value="">Select a Vehicle</option>
-                  @foreach($vehicle as $value)
-                    <option value="{{ $value->id }}" data-price="{{ $vehicleprice->where('vehicle_id', $value->id)->first()->price ?? '' }}">
-                      {{ $value->vehicle_type }}
-                    </option>
-                  @endforeach
-                </select> --}}
 
                 <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()">
                   <option value="">Select a Vehicle</option>
                   <!-- Options will be populated dynamically based on the selected airport -->
               </select>
                 
-                
-
               {{-- <input name="vehicle_id" type="text" id="car-input1" class="form-control car-input no-form" placeholder="Select a vehicle" readonly data-bs-toggle="modal" data-bs-target="#carmodal1"> --}}
 
 
@@ -507,7 +473,34 @@ width: 20px;
 
 <!-- /* //////////////Cards Starts///////////// */ -->
 
+
+
+
 <script>
+
+function fetchAirports() {
+    const cityId = document.getElementById('city-dropdown').value;
+    
+    if (cityId) {
+        // Make a request to the backend to fetch airports for the selected city
+        fetch(`/get-airports/${cityId}`)
+            .then(response => response.json())
+            .then(data => {
+                const airportSelect = document.getElementById('pickup-airport');
+                airportSelect.innerHTML = '<option value="">Select an Airport</option>'; // Clear previous options
+                // Populate the airport options dynamically
+                data.airports.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.airport;  // or whatever property represents the airport name
+                    airportSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching airports:', error);
+            });
+    }
+}
 
 function updateVehicles() {
     var airportId = document.getElementById("pickup-airport").value;
@@ -529,15 +522,78 @@ function updateVehicles() {
                     option.text = vehicle.vehicle_type;
 
                     // Set the price in the data-price attribute
-                    option.setAttribute("data-price", vehicle.price); // Now we're getting the price from the AJAX response
-
+                    option.setAttribute("data-price", vehicle.price); // Set price from the backend response
+                    console.log(vehicle.price,'akshduhgsauih');
+                    
                     // Append the option to the select element
                     vehicleSelect.appendChild(option);
                 });
+
+                // Optionally, if the first option should be selected and its price displayed:
+                if (data.length > 0) {
+                    displayVehiclePrice(data[0].price);  // Display the price of the first vehicle (if any)
+                }
             })
             .catch(error => console.error('Error fetching vehicle data:', error));
     }
 }
+
+// Function to display the price of the selected vehicle
+function displayVehiclePrice() {
+    var vehicleSelect = document.getElementById("vehicle-select");
+    var selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+
+    // Get the price from the data-price attribute
+    var price = selectedOption.getAttribute("data-price");
+
+    // Display the price (assuming there's an element with id 'vehicle-price' to show the price)
+    var priceDisplay = document.getElementById("vehicle-price");
+
+    if (price) {
+        priceDisplay.innerHTML = `Price: $${price}`;  // Adjust this based on your currency format
+    } else {
+        priceDisplay.innerHTML = 'Price not available';  // If no price is available
+    }
+}
+
+// Event listener for when the vehicle is selected
+document.getElementById("vehicle-select").addEventListener("change", displayVehiclePrice)
+
+</script>
+
+
+
+<script>
+
+// function updateVehicles() {
+//     var airportId = document.getElementById("pickup-airport").value;
+
+//     // Clear previous vehicle options
+//     var vehicleSelect = document.getElementById("vehicle-select");
+//     vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+
+//     // Check if airport is selected
+//     if (airportId) {
+//         // Send AJAX request to get vehicles for the selected airport
+//         fetch(`/get-vehicles-by-airport?airport_id=${airportId}`)
+//             .then(response => response.json())
+//             .then(data => {
+//                 // Populate vehicle options
+//                 data.forEach(vehicle => {
+//                     var option = document.createElement("option");
+//                     option.value = vehicle.id;
+//                     option.text = vehicle.vehicle_type;
+
+//                     // Set the price in the data-price attribute
+//                     option.setAttribute("data-price", vehicle.price); // Now we're getting the price from the AJAX response
+
+//                     // Append the option to the select element
+//                     vehicleSelect.appendChild(option);
+//                 });
+//             })
+//             .catch(error => console.error('Error fetching vehicle data:', error));
+//     }
+// }
 
 function updateVehicless() {
     var airportId = document.getElementById("drop-airport").value;
