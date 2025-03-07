@@ -2154,3 +2154,6 @@ textarea.form-control {
   object-fit: cover;
   border-radius: 20px;
 }
+.chats {
+  height: 80vh !important;
+}
