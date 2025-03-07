@@ -547,6 +547,7 @@ public function getVehiclesByAirport(Request $request)
         $city['city'] = City::where('id', $id)->first();
     
         $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
+        $data['slider'] = Slider::orderBy('id','DESC')->where('type','package')->get();
     
         $formatted_date = Carbon::now()->format('Y-m-d');
     
@@ -888,6 +889,7 @@ public function getVehiclesByAirport(Request $request)
     public function guide()
     {
         $data['tripguide'] = TripGuide::latest()->first();
+        $data['slider'] = Slider::orderBy('id','DESC')->where('type','guide')->get();
         $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
         return view('front/guide',$data);
     }
