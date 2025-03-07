@@ -29,6 +29,7 @@ use App\Models\Route;
 use App\Models\PackageBooking;
 use App\Models\City;
 use App\Models\Package;
+use App\Models\Slider;
 use App\Models\Vehicle;
 use App\Models\Tourist;
 use App\Models\WildlifeSafari;
@@ -318,23 +319,55 @@ public function saveTouristDetails(Request $request)
 }
 
 
+// public function getVehiclesByAirport(Request $request)
+// {
+//     $airportId = $request->input('airport_id');
+//     $airport = Airport::find($airportId);
+
+//     $vehicleIds = explode(',', $airport->vehicle_id);
+
+//     $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
+//     $vehiclePrices = VehiclePrice::all();
+
+//     $data = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
+//         $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first()->price ?? null;
+
+//         return [
+//             'id' => $vehicle->id,
+//             'vehicle_type' => $vehicle->vehicle_type,
+//             'price' => $price 
+//         ];
+//     });
+
+//     return response()->json($data);
+// }
+
+
 public function getVehiclesByAirport(Request $request)
 {
     $airportId = $request->input('airport_id');
     $airport = Airport::find($airportId);
 
-    $vehicleIds = explode(',', $airport->vehicle_id);
+    if (!$airport) {
+        return response()->json(['message' => 'Airport not found'], 404);
+    }
 
+    $vehicleIds = explode(',', $airport->vehicle_id); // assuming vehicle_id contains a comma-separated list of vehicle ids.
+
+    // Fetch vehicles and their prices for the selected airport
     $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
-    $vehiclePrices = VehiclePrice::all();
+    
+    // Get prices for these vehicles
+    $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)->get();
 
     $data = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
-        $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first()->price ?? null;
+        // Find the price for the current vehicle at the selected airport
+        $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first();
 
         return [
             'id' => $vehicle->id,
             'vehicle_type' => $vehicle->vehicle_type,
-            'price' => $price 
+            'price' => $price ? $price->price : null, // Ensure price is fetched correctly
         ];
     });
 
@@ -342,13 +375,12 @@ public function getVehiclesByAirport(Request $request)
 }
 
 
-
     public function taxi_booking()
     {
         $data['user'] = Auth::guard('agent')->user();
         $data['airport'] = Airport::all();
         $data['vehicle'] = Vehicle::where('status',1)->get();
-        $data['vehicleprice'] = VehiclePrice::where('type','Airport/Railway station')->get();
+        // $data['vehicleprice'] = VehiclePrice::get();
         $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
         $data['route'] = Route::get();
         $data['outstation'] = Outstation::get();
@@ -549,6 +581,7 @@ public function getVehiclesByAirport(Request $request)
     public function hotelsbooking()
     {
         $data['hotel'] = Hotels::all();
+        $data['slider'] = Slider::orderBy('id','DESC')->where('type','hotel')->get();
         return view('front/hotelsbooking',$data);
     }
 
