@@ -28,6 +28,7 @@ use App\Models\TripGuide;
 use App\Models\Route;
 use App\Models\PackageBooking;
 use App\Models\City;
+use App\Models\LocalVehiclePrice;
 use App\Models\Package;
 use App\Models\Slider;
 use App\Models\Vehicle;
@@ -358,7 +359,45 @@ public function getVehiclesByAirport(Request $request)
     $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
     
     // Get prices for these vehicles
-    $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)->get();
+    $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)
+    ->whereIn('airport_id', (array) $airportId)  // Ensures airport_id is always treated as an array
+    ->get();
+
+
+    $data = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
+        // Find the price for the current vehicle at the selected airport
+        $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first();
+
+        return [
+            'id' => $vehicle->id,
+            'vehicle_type' => $vehicle->vehicle_type,
+            'price' => $price ? $price->price : null, // Ensure price is fetched correctly
+        ];
+    });
+
+    return response()->json($data);
+}
+
+
+public function getVehicles(Request $request)
+{
+    $airportId = $request->input('vehicle_id');
+    $airport = LocalVehiclePrice::find($airportId);
+
+    if (!$airport) {
+        return response()->json(['message' => 'Vehicle not found'], 404);
+    }
+
+    $vehicleIds = explode(',', $airport->vehicle_id); // assuming vehicle_id contains a comma-separated list of vehicle ids.
+
+    // Fetch vehicles and their prices for the selected airport
+    $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
+    
+    // Get prices for these vehicles
+    $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)
+    ->whereIn('airport_id', (array) $airportId)  // Ensures airport_id is always treated as an array
+    ->get();
+
 
     $data = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
         // Find the price for the current vehicle at the selected airport
@@ -380,6 +419,7 @@ public function getVehiclesByAirport(Request $request)
         $data['user'] = Auth::guard('agent')->user();
         $data['airport'] = Airport::all();
         $data['vehicle'] = Vehicle::where('status',1)->get();
+        $data['localVehiclePrices'] = LocalVehiclePrice::all();
         // $data['vehicleprice'] = VehiclePrice::get();
         $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
         $data['route'] = Route::get();

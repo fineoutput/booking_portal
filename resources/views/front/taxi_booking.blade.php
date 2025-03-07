@@ -161,13 +161,14 @@
               <div class="final_amy_see">
                 <input type="text" name="cost" class="form-control no-form" id="local-cost" placeholder="Calculated automatically" readonly>
                 <div class="site_price">
-                  <span>2 days</span>
-                  <span>₹300/km</span>
+                  {{-- <span>2 days</span>
+                  <span>₹300/km</span> --}}
                 </div>
               </div>
             </div>
           </div>
-        </div>        
+        </div>
+            
         
         @if(Auth::guard('agent')->check())
         <button type="submit" class="btn btn-primary">Send Request to Admin</button>
@@ -186,17 +187,32 @@
       <form action="{{route('book_local_tour')}}" method="POST">
         @csrf
         <div class="row">
-          <div class="col-lg-3">
+
+          {{-- <div class="col-lg-3">
             <div class="mb-3">
               <div class="loc_stl">
                 <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="
-    width: 20px;
-">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt=""
+                   style="width: 20px;">
                   <label for="local-location" class="form-label">Select Location</label>
                 </div>
                 <input type="text" name="location" class="form-control no-form" id="local-location" placeholder="Enter location" required>
               </div>
+            </div>
+          </div> --}}
+
+          <div class="col-lg-3">
+            <div class="mb-3 loc_stl">
+              <div class="select_sect">
+                <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                <label for="pickup-airport" class="form-label">Select City</label>
+              </div>
+              <select name="city_id" class="form-select no-form-select" id="city-dropdown-2" onchange="fetchvehicle()">
+                <option value="">Select a City</option>
+                @foreach($admincity as $value)
+                    <option value="{{$value->id ?? ''}}">{{$value->city_name ?? ''}}</option>
+                @endforeach
+              </select>
             </div>
           </div>
 
@@ -470,6 +486,32 @@ width: 20px;
 
 <!-- /* //////////////form ends///////////// */ -->
 
+<script>
+  function fetchvehicle() {
+    const cityId = document.getElementById('city-dropdown-2').value;
+    
+    if (cityId) {
+        // Make a request to the backend to fetch airports for the selected city
+        fetch(`/get-vehicle/${cityId}`)
+            .then(response => response.json())
+            .then(data => {
+                const airportSelect = document.getElementById('vehicle-selects');
+                airportSelect.innerHTML = '<option value="">Select an Airport</option>'; // Clear previous options
+                // Populate the airport options dynamically
+                data.airports.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.airport;  // or whatever property represents the airport name
+                    airportSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching airports:', error);
+            });
+    }
+}
+
+</script>
 
 <!-- /* //////////////Cards Starts///////////// */ -->
 
@@ -546,15 +588,17 @@ function displayVehiclePrice() {
     // Get the price from the data-price attribute
     var price = selectedOption.getAttribute("data-price");
 
-    // Display the price (assuming there's an element with id 'vehicle-price' to show the price)
-    var priceDisplay = document.getElementById("vehicle-price");
+    // Get the input field where the price should be displayed
+    var costInputField = document.getElementById("local-cost");
 
     if (price) {
-        priceDisplay.innerHTML = `Price: $${price}`;  // Adjust this based on your currency format
+        // Set the price as the value of the input field
+        costInputField.value = `₹${price}`; // Assuming the price is in INR, adjust accordingly
     } else {
-        priceDisplay.innerHTML = 'Price not available';  // If no price is available
+        costInputField.value = 'Price not available';  // Display message if no price is available
     }
 }
+
 
 // Event listener for when the vehicle is selected
 document.getElementById("vehicle-select").addEventListener("change", displayVehiclePrice)
