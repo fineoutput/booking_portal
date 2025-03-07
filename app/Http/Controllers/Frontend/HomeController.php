@@ -824,6 +824,7 @@ public function getVehiclesByAirport(Request $request)
     public function wildlife()
     {
         $data['wildlife'] = WildlifeSafari::all();
+        $data['slider'] = Slider::orderBy('id','DESC')->where('type','safari')->get();
         return view('front/wildlife',$data);
     }
 

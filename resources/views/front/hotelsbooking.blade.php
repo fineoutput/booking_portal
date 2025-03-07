@@ -288,6 +288,7 @@
   const container = document.getElementById("hotel-cards-container");
   container.innerHTML = hotels.map(createHotelCard).join("");
 </script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     new Splide('#responsive-slider', {
