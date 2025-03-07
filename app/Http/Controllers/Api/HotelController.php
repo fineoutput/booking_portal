@@ -242,7 +242,7 @@ class HotelController extends Controller
                     $stateNames = $this->getNamesByIds($package->state_id, $states);
                     $cityNames = $this->getNamesByIds($package->city_id, $cities);
 
-                    $today = Carbon::today()->format('Y-m');
+                    $today = Carbon::today()->format('Y-m-d');
 
                     $packagePrice = PackagePrice::where('package_id', $package->id)
                         ->where('start_date', '<=',$today)  
@@ -257,6 +257,7 @@ class HotelController extends Controller
                             'id' => $price->id,
                             'start_date' => Carbon::parse($price->start_date)->format('F Y'),
                             'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                            'display_price' => $price->display_cost,
                             // 'standard_cost' => $price->standard_cost,
                             // 'deluxe_cost' => $price->deluxe_cost,
                             // 'premium_cost' => $price->premium_cost,
