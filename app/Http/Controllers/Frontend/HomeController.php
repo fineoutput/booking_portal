@@ -379,34 +379,46 @@ public function getVehiclesByAirport(Request $request)
 }
 
 
-public function getVehicles(Request $request)
+public function getVehiclesByCity($cityId)
 {
-    $airportId = $request->input('vehicle_id');
-    $airport = LocalVehiclePrice::find($airportId);
+    // Fetch all vehicle prices associated with the given city_id
+    $localVehiclePrices = LocalVehiclePrice::where('city_id', $cityId)->get();
 
-    if (!$airport) {
-        return response()->json(['message' => 'Vehicle not found'], 404);
+    if ($localVehiclePrices->isEmpty()) {
+        return response()->json(['message' => 'No vehicles found for this city'], 404);
     }
 
-    $vehicleIds = explode(',', $airport->vehicle_id); // assuming vehicle_id contains a comma-separated list of vehicle ids.
+    // Initialize an array to collect all vehicle_ids
+    $vehicleIds = [];
 
-    // Fetch vehicles and their prices for the selected airport
+    // Explode the vehicle_id field if it's a comma-separated string
+    foreach ($localVehiclePrices as $localPrice) {
+        $vehicleIds = array_merge($vehicleIds, explode(',', $localPrice->vehicle_id));  // Merge all vehicle_ids
+    }
+
+    // Remove duplicate vehicle_ids if any
+    $vehicleIds = array_unique($vehicleIds);
+
+    // Fetch vehicles associated with the given vehicle_ids
     $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
-    
-    // Get prices for these vehicles
-    $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)
-    ->whereIn('airport_id', (array) $airportId)  // Ensures airport_id is always treated as an array
-    ->get();
 
+    // Map the vehicle data with the associated prices
+    $data = $vehicles->map(function ($vehicle) use ($localVehiclePrices) {
+        // Find the first matching price record for this vehicle
+        $price = null;
 
-    $data = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
-        // Find the price for the current vehicle at the selected airport
-        $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first();
+        foreach ($localVehiclePrices as $localPrice) {
+            // Check if vehicle_id is in the comma-separated list of vehicle_ids in local_vehicleprice
+            if (in_array($vehicle->id, explode(',', $localPrice->vehicle_id))) {
+                $price = $localPrice->price;
+                break; // Exit loop after finding the first match
+            }
+        }
 
         return [
             'id' => $vehicle->id,
             'vehicle_type' => $vehicle->vehicle_type,
-            'price' => $price ? $price->price : null, // Ensure price is fetched correctly
+            'price' => $price ?? null, // Return price if found, otherwise null
         ];
     });
 
@@ -414,14 +426,15 @@ public function getVehicles(Request $request)
 }
 
 
+
     public function taxi_booking()
     {
         $data['user'] = Auth::guard('agent')->user();
         $data['airport'] = Airport::all();
         $data['vehicle'] = Vehicle::where('status',1)->get();
-        $data['localVehiclePrices'] = LocalVehiclePrice::all();
+        // $data['localVehiclePrices'] = LocalVehiclePrice::all();
         // $data['vehicleprice'] = VehiclePrice::get();
-        $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
+        $data['vehiclepricetour'] = LocalVehiclePrice::get();
         $data['route'] = Route::get();
         $data['outstation'] = Outstation::get();
         $data['admincity'] = AdminCity::get();
@@ -525,6 +538,7 @@ public function getVehicles(Request $request)
         $taxibooking->tour_type = 'Local Tour';
         $taxibooking->user_id = Auth::guard('agent')->id();
         $taxibooking->location = $request->location;
+        $taxibooking->city_id = $request->city_id;
         $taxibooking->vehicle_id = $request->vehicle_id;
         $taxibooking->pickup_date = $request->pickup_date;
         $taxibooking->pickup_time = $request->pickup_time;

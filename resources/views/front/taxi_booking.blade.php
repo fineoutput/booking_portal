@@ -188,18 +188,7 @@
         @csrf
         <div class="row">
 
-          {{-- <div class="col-lg-3">
-            <div class="mb-3">
-              <div class="loc_stl">
-                <div class="select_sect">
-                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt=""
-                   style="width: 20px;">
-                  <label for="local-location" class="form-label">Select Location</label>
-                </div>
-                <input type="text" name="location" class="form-control no-form" id="local-location" placeholder="Enter location" required>
-              </div>
-            </div>
-          </div> --}}
+         
 
           <div class="col-lg-3">
             <div class="mb-3 loc_stl">
@@ -210,31 +199,35 @@
               <select name="city_id" class="form-select no-form-select" id="city-dropdown-2" onchange="fetchvehicle()">
                 <option value="">Select a City</option>
                 @foreach($admincity as $value)
-                    <option value="{{$value->id ?? ''}}">{{$value->city_name ?? ''}}</option>
+                  <option value="{{$value->id ?? ''}}">{{$value->city_name ?? ''}}</option>
                 @endforeach
               </select>
             </div>
           </div>
 
           <div class="col-lg-3">
+            <div class="mb-3">
+              <div class="loc_stl">
+                <div class="select_sect">
+                  <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt=""
+                   style="width: 20px;">
+                  <label for="local-location" class="form-label">Select Location</label>
+                </div>
+                <input type="text" name="location" class="form-control no-form" id="local-location" placeholder="Enter location" required>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-3">
             <div class="select_sect">
-              <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="
-width: 20px;
-">
-
+              <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
               <label for="vehicle2" class="form-label">Select Vehicle</label>
             </div>
-
             <select name="vehicle_id" class="form-select no-form-select" id="vehicle-selects" onchange="updateEstimatedCosts()" required>
               <option value="">Select a Vehicle</option>
-              @foreach($vehicle as $value)
-                <option value="{{ $value->id }}" data-price="{{ $vehiclepricetour->where('vehicle_id', $value->id)->first()->price ?? '' }}">
-                  {{ $value->vehicle_type }}
-                </option>
-              @endforeach
             </select>
-
           </div>
+
 
           <div class="col-lg-3">
             <div class="start_time">
@@ -292,7 +285,7 @@ width: 20px;
               </div>
             </div>
           </div>
-        </div>   
+        </div>
 
         @if(Auth::guard('agent')->check())
         <button type="submit" class="btn btn-primary">Send Request to Admin</button>
@@ -491,26 +484,46 @@ width: 20px;
     const cityId = document.getElementById('city-dropdown-2').value;
     
     if (cityId) {
-        // Make a request to the backend to fetch airports for the selected city
-        fetch(`/get-vehicle/${cityId}`)
+        fetch(`/booking_portal/public/get-vehicle/${cityId}`)
             .then(response => response.json())
             .then(data => {
-                const airportSelect = document.getElementById('vehicle-selects');
-                airportSelect.innerHTML = '<option value="">Select an Airport</option>'; // Clear previous options
-                // Populate the airport options dynamically
-                data.airports.forEach(item => {
+                const vehicleSelect = document.getElementById('vehicle-selects');
+                vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>'; 
+
+                data.forEach(item => {
                     const option = document.createElement('option');
                     option.value = item.id;
-                    option.textContent = item.airport;  // or whatever property represents the airport name
-                    airportSelect.appendChild(option);
+                    option.textContent = item.vehicle_type;
+                    option.dataset.price = item.price ?? '';
+                    vehicleSelect.appendChild(option);
                 });
             })
             .catch(error => {
-                console.error('Error fetching airports:', error);
+                console.error('Error fetching vehicles:', error);
             });
     }
-}
+  }
 
+  function updateEstimatedCosts() {
+    const vehicleSelect = document.getElementById('vehicle-selects');
+    const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+
+    const vehicleId = selectedOption.value;
+
+    if (vehicleId) {
+      const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
+
+      console.log("Price: ₹" + pricePerKm);
+
+      if (!isNaN(pricePerKm)) {
+        document.getElementById('local-costs').value = "₹" + pricePerKm.toFixed(2);
+      } else {
+        document.getElementById('local-costs').value = "Invalid price"; 
+      }
+    } else {
+      document.getElementById('local-costs').value = "Calculated automatically";
+    }
+  }
 </script>
 
 <!-- /* //////////////Cards Starts///////////// */ -->
@@ -525,7 +538,7 @@ function fetchAirports() {
     
     if (cityId) {
         // Make a request to the backend to fetch airports for the selected city
-        fetch(`/get-airports/${cityId}`)
+        fetch(`/booking_portal/public/get-airports/${cityId}`)
             .then(response => response.json())
             .then(data => {
                 const airportSelect = document.getElementById('pickup-airport');
@@ -554,7 +567,7 @@ function updateVehicles() {
     // Check if airport is selected
     if (airportId) {
         // Send AJAX request to get vehicles for the selected airport
-        fetch(`/get-vehicles-by-airport?airport_id=${airportId}`)
+        fetch(`/booking_portal/public/get-vehicles-by-airport?airport_id=${airportId}`)
             .then(response => response.json())
             .then(data => {
                 // Populate vehicle options
@@ -649,7 +662,7 @@ function updateVehicless() {
     // Check if airport is selected
     if (airportId) {
         // Send AJAX request to get vehicles for the selected airport
-        fetch(`/get-vehicles-by-airport?airport_id=${airportId}`)
+        fetch(`/booking_portal/public/get-vehicles-by-airport?airport_id=${airportId}`)
             .then(response => response.json())
             .then(data => {
                 // Populate vehicle options
@@ -776,25 +789,6 @@ function updateVehicless() {
   }
 </script>
 
-<script>
-  function updateEstimatedCosts() {
-    const vehicleSelect = document.getElementById('vehicle-selects');
-    const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
-
-    const vehicleId = selectedOption.value;
-
-    if (vehicleId) {
-      const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
-
-      console.log("Price per km: ₹" + pricePerKm);
-
-      document.getElementById('local-costs').value = "₹" + pricePerKm.toFixed(2);
-
-    } else {
-      document.getElementById('local-costs').value = "Calculated automatically";
-    }
-  }
-</script>
 
 <script>
   function updateEstimatedCostss() {
