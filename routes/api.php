@@ -43,6 +43,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::get('/user-wallet', [HotelController::class, 'get_user_transactions']);
     Route::get('/admin-city', [HotelController::class, 'admin_city']);
     Route::post('/airport-vehicle', [HotelController::class, 'airport_vehicle']);
+    Route::post('/local-vehicle', [HotelController::class, 'local_vehicle']);
 
     Route::post('/taxi-booking', [HotelController::class, 'taxibooking']);
 

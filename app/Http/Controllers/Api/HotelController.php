@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Mail\OtpMail;
 use App\Models\AdminCity;
+use App\Models\LocalVehiclePrice;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -2716,13 +2717,11 @@ return response()->json([
 
 
 
-    
+
     public function airport_vehicle(Request $request)
     {
-        // Get the bearer token from the request
         $token = $request->bearerToken();
-    
-        // Check if the token is provided
+
         if (!$token) {
             return response()->json([
                 'message' => 'Unauthenticated.',
@@ -2730,15 +2729,12 @@ return response()->json([
                 'status' => 401,
             ]);
         }
-    
-        // Decode the token
+
         $decodedToken = base64_decode($token); 
         list($email, $password) = explode(',', $decodedToken);
     
-        // Check if the user exists in the Agent model
         $user = Agent::where('email', $email)->first();
     
-        // Validate user credentials
         if (!$user || $password != $user->password) {
             return response()->json([
                 'message' => 'Invalid credentials.',
@@ -2746,11 +2742,9 @@ return response()->json([
                 'status' => 401,
             ]);
         }
-    
-        // Retrieve the city_id from the request
+
         $cityId = $request->input('city_id');
-    
-        // Check if the city_id is provided
+
         if (!$cityId) {
             return response()->json([
                 'message' => 'City ID is required.',
@@ -2758,11 +2752,9 @@ return response()->json([
                 'status' => 400,
             ]);
         }
-    
-        // Fetch airports associated with the city_id
+
         $airports = Airport::where('city_id', $cityId)->get();
-    
-        // Check if any airports are found
+
         if ($airports->isEmpty()) {
             return response()->json([
                 'message' => 'No airports found for this city.',
@@ -2774,30 +2766,25 @@ return response()->json([
         $airportDetails = [];
     
         foreach ($airports as $airport) {
-            // Exploding the vehicle_id field to get individual vehicle IDs
+
             $vehicleIds = explode(',', $airport->vehicle_id);
-    
-            // Fetching vehicles based on the exploded IDs
+
             $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
-    
-            // Fetching vehicle prices associated with these vehicle IDs
+
             $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)
                                           ->where('airport_id', $airport->id)
                                           ->get();
     
-            // Prepare data to return
             $vehiclesWithPrice = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
-                // Find the price for the specific vehicle
                 $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first();
     
                 return [
                     'id' => $vehicle->id,
                     'vehicle_type' => $vehicle->vehicle_type,
-                    'price' => $price ? $price->price : null,  // Show price if available
+                    'price' => $price ? $price->price : null,
                 ];
             });
     
-            // Add the airport and associated vehicles with prices to the response data
             $airportDetails[] = [
                 'airport_id' => $airport->id,
                 'airport_name' => $airport->airport,
@@ -2808,6 +2795,87 @@ return response()->json([
         return response()->json([
             'message' => 'Airports and their vehicles fetched successfully.',
             'data' => $airportDetails,
+            'status' => 200,
+        ]);
+    }
+
+
+    public function local_vehicle(Request $request)
+    {
+        $token = $request->bearerToken();
+    
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+    
+        $decodedToken = base64_decode($token); 
+        list($email, $password) = explode(',', $decodedToken);
+    
+        $user = Agent::where('email', $email)->first();
+    
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+    
+        $cityId = $request->input('city_id');
+    
+        if (!$cityId) {
+            return response()->json([
+                'message' => 'City ID is required.',
+                'data' => [],
+                'status' => 400,
+            ]);
+        }
+    
+        $airports = LocalVehiclePrice::where('city_id', $cityId)->get();
+
+        if ($airports->isEmpty()) {
+            return response()->json([
+                'message' => 'No Local Vehicle found for this city.',
+                'data' => [],
+                'status' => 404,
+            ]);
+        }
+    
+        $airportDetails = [];
+    
+        foreach ($airports as $airport) {
+            $vehicleIds = explode(',', $airport->vehicle_id);
+
+            $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
+    
+            $vehiclePrices = LocalVehiclePrice::whereIn('vehicle_id', $vehicleIds)
+                                          ->get();
+
+            $vehiclesWithPrice = $vehicles->map(function ($vehicle) use ($vehiclePrices,$airport) {
+                $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first();
+    
+                return [
+                    'id' => $vehicle->id,
+                    'vehicle_type' => $vehicle->vehicle_type,
+                    'price' => $airport->price,
+                    'description' => strip_tags($airport->description),
+                ];
+            });
+    
+            // $airportDetails[] = [
+            //     'id' => $airport->id,
+            //     'airport_name' => $airport->airport,
+            //     'vehicles' => $vehiclesWithPrice
+            // ];
+        }
+    
+        return response()->json([
+            'message' => 'Loacl Tour vehicles fetched successfully.',
+            'data' => $vehiclesWithPrice,
             'status' => 200,
         ]);
     }
