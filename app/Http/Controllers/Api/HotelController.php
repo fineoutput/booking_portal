@@ -2888,28 +2888,7 @@ return response()->json([
 
     public function constant(Request $request)
     {
-        $token = $request->bearerToken();
-    
-        if (!$token) {
-            return response()->json([
-                'message' => 'Unauthenticated.',
-                'data' => [],
-                'status' => 401,
-            ]);
-        }
-    
-        $decodedToken = base64_decode($token); 
-        list($email, $password) = explode(',', $decodedToken);
-    
-        $user = Agent::where('email', $email)->first();
-    
-        if (!$user || $password != $user->password) {
-            return response()->json([
-                'message' => 'Invalid credentials.',
-                'data' => [],
-                'status' => 401,
-            ]);
-        }
+       
     
         $constant = Constants::first(); 
 
