@@ -1149,6 +1149,7 @@ public function taxibooking(Request $request)
         if($request->trip == 'pickup'){
         $data = [
             'location' => $request->location,
+            'city_id' => $request->city_id,
             'user_id' => $user->id, 
             'vehicle_id' => $request->vehicle_id,
             'airport_id' => $request->airport_id,
@@ -1163,6 +1164,7 @@ public function taxibooking(Request $request)
         $data = [
             'location' => $request->location,
             'user_id' => $user->id, 
+            'city_id' => $request->city_id, 
             'vehicle_id' => $request->vehicle_id,
             'airport_id' => $request->airport_id,
             'trip' => $request->trip,
@@ -1181,6 +1183,7 @@ public function taxibooking(Request $request)
             'location' => $request->location,
             'pickup_date' => $request->pickup_date,
             'pickup_time' => $request->pickup_time,
+            'city_id' => $request->city_id, 
             'vehicle_id' => $request->vehicle_id,
             'user_id' => $user->id,
             'drop_time' => $request->drop_time,

@@ -186,9 +186,31 @@ class HomeController extends Controller
     {
         return view('front/all_images');
     }
-    public function state_detail()
+    public function state_detail($id)
     {
-        return view('front/state_detail');
+        $id = base64_decode($id);
+        
+        $city['city'] = State::where('id', $id)->first();
+    
+        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id])->get();
+        $data['slider'] = Slider::orderBy('id','DESC')->where('type','package')->get();
+    
+        $formatted_date = Carbon::now()->format('Y-m-d');
+    
+        foreach ($data['packages'] as $package) {
+            $package_price = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '<=', $formatted_date)
+                ->where('end_date', '>=', $formatted_date)
+                ->first();
+    
+            $package->prices = $package_price;
+    
+            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+            
+            $package->hotels = $hotels;
+        }
+
+        return view('front/state_detail',$data);
     }
 
 
