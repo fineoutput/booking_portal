@@ -72,6 +72,10 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::match(['put', 'patch'], '/hotels-booking/{id}/status', [HotelBookingController::class, 'updateStatus'])->name('hotelsbooking.updateStatus');
 
 
+  //  Route::get('/constants', [ConstantsController::class, 'index'])->name('constants.index');
+  //  Route::Post('/constants', [ConstantsController::class, 'create'])->name('constants.create');
+
+
    //  Hotels  ------------------------
    Route::get('/hotels', [HotelsController::class, 'index'])->name('hotels');
    Route::match(['get','post'],'/hotels/create', [HotelsController::class, 'create'])->name('add_hotels');

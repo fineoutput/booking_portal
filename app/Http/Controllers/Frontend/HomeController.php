@@ -28,6 +28,7 @@ use App\Models\TripGuide;
 use App\Models\Route;
 use App\Models\PackageBooking;
 use App\Models\City;
+use App\Models\Constants;
 use App\Models\LocalVehiclePrice;
 use App\Models\Package;
 use App\Models\Slider;
@@ -173,6 +174,7 @@ class HomeController extends Controller
     public function login()
     {
         $data['states'] = State::all();
+        $data['Constants'] = Constants::orderBy('id','DESC')->first();
         return view('front/login',$data);
     }
     public function options()
