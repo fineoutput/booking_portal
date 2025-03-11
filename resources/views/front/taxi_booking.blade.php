@@ -152,9 +152,9 @@
               </div>
             </div>
           </div>
-        
+        </div>
 
-        <div class="mb-3 col-lg-6">
+        <div class="mb-3 col-lg-12">
           <div class="subbs">
             <div class="insidee">
               <label for="local-cost" class="form-label">Estimated Cost</label>
@@ -169,13 +169,12 @@
           </div>
         </div>
 
-        <div class="mb-3 col-lg-6">
+        <div class="mb-3 col-lg-12">
           <div class="subbs">
             <div class="insidee">
               <label for="local-cost" class="form-label">Description</label>
               <div class="final_amy_see">
-                <p id="price-description"></p>
-               {{-- <textarea name=""  cols="30" rows="10"></textarea> --}}
+               <textarea name="" id="price-description" cols="30" rows="10" readonly></textarea>
                 <div class="site_price">
                   {{-- <span>2 days</span>
                   <span>₹300/km</span> --}}
@@ -184,7 +183,7 @@
             </div>
           </div>
         </div>
-      </div>
+    
         
         @if(Auth::guard('agent')->check())
         <button type="submit" class="btn btn-primary">Send Request to Admin</button>
@@ -308,7 +307,7 @@
             <div class="insidee">
               <label for="local-cost" class="form-label">Description</label>
               <div class="final_amy_see">
-                <textarea name="" id="local-description" cols="30" rows="10"></textarea>
+                <textarea name="" id="local-description" cols="30" rows="10" readonly></textarea>
               </div>
             </div>
           </div>
