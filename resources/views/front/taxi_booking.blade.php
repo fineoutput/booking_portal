@@ -152,9 +152,9 @@
               </div>
             </div>
           </div>
-        </div>
+        
 
-        <div class="mb-3">
+        <div class="mb-3 col-lg-6">
           <div class="subbs">
             <div class="insidee">
               <label for="local-cost" class="form-label">Estimated Cost</label>
@@ -168,7 +168,23 @@
             </div>
           </div>
         </div>
-            
+
+        <div class="mb-3 col-lg-6">
+          <div class="subbs">
+            <div class="insidee">
+              <label for="local-cost" class="form-label">Description</label>
+              <div class="final_amy_see">
+                <p id="price-description"></p>
+               {{-- <textarea name=""  cols="30" rows="10"></textarea> --}}
+                <div class="site_price">
+                  {{-- <span>2 days</span>
+                  <span>₹300/km</span> --}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
         
         @if(Auth::guard('agent')->check())
         <button type="submit" class="btn btn-primary">Send Request to Admin</button>
@@ -279,9 +295,20 @@
               <div class="final_amy_see">
                 <input type="text" name="cost" class="form-control no-form" id="local-costs" placeholder="Calculated automatically" readonly>
                 <div class="site_price">
-                  <span>2 days</span>
-                  <span>₹300/km</span>
+                  {{-- <span>2 days</span>
+                  <span>₹300/km</span> --}}
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3 mt-3">
+          <div class="subbs">
+            <div class="insidee">
+              <label for="local-cost" class="form-label">Description</label>
+              <div class="final_amy_see">
+                <textarea name="" id="local-description" cols="30" rows="10"></textarea>
               </div>
             </div>
           </div>
@@ -495,6 +522,7 @@
                     option.value = item.id;
                     option.textContent = item.vehicle_type;
                     option.dataset.price = item.price ?? '';
+                    option.dataset.description = item.description ?? '';
                     vehicleSelect.appendChild(option);
                 });
             })
@@ -504,6 +532,7 @@
     }
   }
 
+
   function updateEstimatedCosts() {
     const vehicleSelect = document.getElementById('vehicle-selects');
     const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
@@ -511,19 +540,37 @@
     const vehicleId = selectedOption.value;
 
     if (vehicleId) {
-      const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
+        const pricePerKm = parseFloat(selectedOption.getAttribute('data-price'));
+        let vehicleDescription = selectedOption.getAttribute('data-description'); // Get the description from data-description
 
-      console.log("Price: ₹" + pricePerKm);
+        // Remove HTML tags from the description
+        vehicleDescription = removeHtmlTags(vehicleDescription);
 
-      if (!isNaN(pricePerKm)) {
-        document.getElementById('local-costs').value = "₹" + pricePerKm.toFixed(2);
-      } else {
-        document.getElementById('local-costs').value = "Invalid price"; 
-      }
+        console.log("Price: ₹" + pricePerKm);
+        console.log("Description: " + vehicleDescription);  // Log the description for debugging
+
+        // Set price in the local-costs field
+        if (!isNaN(pricePerKm)) {
+            document.getElementById('local-costs').value = "₹" + pricePerKm.toFixed(2);
+        } else {
+            document.getElementById('local-costs').value = "Invalid price"; 
+        }
+
+        // Set the description in the local-description field
+        if (vehicleDescription && vehicleDescription !== "") {
+            document.getElementById('local-description').value = vehicleDescription;
+        } else {
+            document.getElementById('local-description').value = "No description available"; // Handle empty description
+        }
     } else {
-      document.getElementById('local-costs').value = "Calculated automatically";
+        // Reset if no vehicle is selected
+        document.getElementById('local-costs').value = "Calculated automatically";
+        document.getElementById('local-description').value = ""; // Clear description if no vehicle is selected
     }
-  }
+}
+
+
+
 </script>
 
 <!-- /* //////////////Cards Starts///////////// */ -->
@@ -557,6 +604,7 @@ function fetchAirports() {
     }
 }
 
+
 function updateVehicles() {
     var airportId = document.getElementById("pickup-airport").value;
 
@@ -576,9 +624,9 @@ function updateVehicles() {
                     option.value = vehicle.id;
                     option.text = vehicle.vehicle_type;
 
-                    // Set the price in the data-price attribute
-                    option.setAttribute("data-price", vehicle.price); // Set price from the backend response
-                    console.log(vehicle.price,'akshduhgsauih');
+                    // Set the price and description in data attributes
+                    option.setAttribute("data-price", vehicle.price);
+                    option.setAttribute("data-description", vehicle.description);
                     
                     // Append the option to the select element
                     vehicleSelect.appendChild(option);
@@ -587,11 +635,66 @@ function updateVehicles() {
                 // Optionally, if the first option should be selected and its price displayed:
                 if (data.length > 0) {
                     displayVehiclePrice(data[0].price);  // Display the price of the first vehicle (if any)
+                    // Set the description of the first vehicle in the textarea
+                    document.getElementById("price-description").value = removeHtmlTags(data[0].description);
                 }
             })
             .catch(error => console.error('Error fetching vehicle data:', error));
     }
 }
+
+// Add event listener for vehicle selection
+document.getElementById("vehicle-select").addEventListener("change", function() {
+    var selectedOption = this.options[this.selectedIndex];
+    var description = selectedOption.getAttribute("data-description");
+
+    // Remove HTML tags and set the description in the textarea
+    document.getElementById("price-description").value = removeHtmlTags(description);
+});
+
+// Function to remove HTML tags from a string
+function removeHtmlTags(str) {
+    var doc = new DOMParser().parseFromString(str, 'text/html');
+    return doc.body.textContent || "";
+}
+
+
+// function updateVehicles() {
+//     var airportId = document.getElementById("pickup-airport").value;
+
+//     // Clear previous vehicle options
+//     var vehicleSelect = document.getElementById("vehicle-select");
+//     vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+
+//     // Check if airport is selected
+//     if (airportId) {
+//         // Send AJAX request to get vehicles for the selected airport
+//         fetch(`/get-vehicles-by-airport?airport_id=${airportId}`)
+//             .then(response => response.json())
+//             .then(data => {
+//                 // Populate vehicle options
+//                 data.forEach(vehicle => {
+//                     var option = document.createElement("option");
+//                     option.value = vehicle.id;
+//                     option.text = vehicle.vehicle_type;
+
+//                     // Set the price in the data-price attribute
+//                     option.setAttribute("data-price", vehicle.price);
+//                     option.setAttribute("price-description", vehicle.description);
+//                     // console.log(vehicle.price,'akshduhgsauih');
+                    
+//                     // Append the option to the select element
+//                     vehicleSelect.appendChild(option);
+//                 });
+
+//                 // Optionally, if the first option should be selected and its price displayed:
+//                 if (data.length > 0) {
+//                     displayVehiclePrice(data[0].price);  // Display the price of the first vehicle (if any)
+//                 }
+//             })
+//             .catch(error => console.error('Error fetching vehicle data:', error));
+//     }
+// }
 
 // Function to display the price of the selected vehicle
 function displayVehiclePrice() {

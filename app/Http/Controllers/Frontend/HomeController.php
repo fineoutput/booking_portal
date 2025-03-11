@@ -395,7 +395,8 @@ public function getVehiclesByAirport(Request $request)
         return [
             'id' => $vehicle->id,
             'vehicle_type' => $vehicle->vehicle_type,
-            'price' => $price ? $price->price : null, // Ensure price is fetched correctly
+            'price' => $price ? $price->price : null,
+            'description' => $price ? $price->description : null,
         ];
     });
 
@@ -405,19 +406,16 @@ public function getVehiclesByAirport(Request $request)
 
 public function getVehiclesByCity($cityId)
 {
-    // Fetch all vehicle prices associated with the given city_id
     $localVehiclePrices = LocalVehiclePrice::where('city_id', $cityId)->get();
 
     if ($localVehiclePrices->isEmpty()) {
         return response()->json(['message' => 'No vehicles found for this city'], 404);
     }
 
-    // Initialize an array to collect all vehicle_ids
     $vehicleIds = [];
 
-    // Explode the vehicle_id field if it's a comma-separated string
     foreach ($localVehiclePrices as $localPrice) {
-        $vehicleIds = array_merge($vehicleIds, explode(',', $localPrice->vehicle_id));  // Merge all vehicle_ids
+        $vehicleIds = array_merge($vehicleIds, explode(',', $localPrice->vehicle_id));  
     }
 
     // Remove duplicate vehicle_ids if any
@@ -430,19 +428,25 @@ public function getVehiclesByCity($cityId)
     $data = $vehicles->map(function ($vehicle) use ($localVehiclePrices) {
         // Find the first matching price record for this vehicle
         $price = null;
+        $description = null; // Add description here
 
         foreach ($localVehiclePrices as $localPrice) {
             // Check if vehicle_id is in the comma-separated list of vehicle_ids in local_vehicleprice
             if (in_array($vehicle->id, explode(',', $localPrice->vehicle_id))) {
                 $price = $localPrice->price;
+                $description = $localPrice->description; // Ensure description is assigned
                 break; // Exit loop after finding the first match
             }
         }
 
+        // Debugging statement to check the value of description
+        \Log::debug("Vehicle ID: {$vehicle->id}, Description: {$description}");
+
         return [
             'id' => $vehicle->id,
             'vehicle_type' => $vehicle->vehicle_type,
-            'price' => $price ?? null, // Return price if found, otherwise null
+            'price' => $price ?? null,
+            'description' => $description ?? null, // Ensure description is returned correctly
         ];
     });
 
