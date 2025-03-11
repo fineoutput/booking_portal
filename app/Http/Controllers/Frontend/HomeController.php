@@ -103,6 +103,40 @@ class HomeController extends Controller
         $package->hotels = $hotels;
     }
 
+    // $popularCities = DB::table('package_booking')
+    // ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
+    // ->join('package', 'package_booking.package_id', '=', 'package.id')
+    // ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
+    // ->join('package_booking_temp', 'package_booking.package_temp_id', '=', 'package_booking_temp.id')
+    // ->groupBy('package.city_id', 'package_booking.package_temp_id')
+    // ->orderByDesc('bookings_count')
+    // ->get();
+
+    // if ($popularCities->isEmpty()) {
+    //     $data['popularCities'] = [];
+    // } else {
+    //     $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
+    //         return $cities->sum('bookings_count');
+    //     });
+
+    //     $sortedCities = $groupedCities->sortDesc();
+
+    //     $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
+    //         $city = $popularCities->firstWhere('city_id', $cityId);
+
+    //         $adultCount = \DB::table('package_booking_temp')
+    //             ->where('id', $city->package_temp_id)
+    //             ->value('adults_count'); 
+
+    //         $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
+    //         return [
+    //             'city_name' => $cityName,
+    //             'bookings_count' => $bookingsCount,
+    //             'adults_count' => $adultCount,
+    //         ];
+    //     })->values();
+    // }
+
     $popularCities = DB::table('package_booking')
     ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
     ->join('package', 'package_booking.package_id', '=', 'package.id')
@@ -112,30 +146,42 @@ class HomeController extends Controller
     ->orderByDesc('bookings_count')
     ->get();
 
-    if ($popularCities->isEmpty()) {
-        $data['popularCities'] = [];
-    } else {
-        $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
-            return $cities->sum('bookings_count');
-        });
+if ($popularCities->isEmpty()) {
+    $data['popularCities'] = [];
+} else {
+    $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
+        return $cities->sum('bookings_count');
+    });
 
-        $sortedCities = $groupedCities->sortDesc();
+    $sortedCities = $groupedCities->sortDesc();
 
-        $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
-            $city = $popularCities->firstWhere('city_id', $cityId);
+    $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
+        $city = $popularCities->firstWhere('city_id', $cityId);
 
-            $adultCount = \DB::table('package_booking_temp')
-                ->where('id', $city->package_temp_id)
-                ->value('adults_count'); 
+        $adultCount = \DB::table('package_booking_temp')
+            ->where('id', $city->package_temp_id)
+            ->value('adults_count'); 
 
-            $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
-            return [
-                'city_name' => $cityName,
-                'bookings_count' => $bookingsCount,
-                'adults_count' => $adultCount,
-            ];
-        })->values();
-    }
+        $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
+
+        // Decode the image field, assuming it's returned as an escaped JSON string
+        $image = \DB::table('package')->where('city_id', $cityId)->value('image');
+        
+        // Decode the HTML entities and JSON string
+        $decodedImage = json_decode(html_entity_decode($image), true);
+        
+        // Get the image URL from the decoded array (assuming it's the first element)
+        $imageUrl = $decodedImage['1'] ?? '';
+
+        return [
+            'city_name' => $cityName,
+            'bookings_count' => $bookingsCount,
+            'adults_count' => $adultCount,
+            'image' => $imageUrl, // Use the decoded image URL
+        ];
+    })->values();
+}
+
 
 
     return view('front/index', $data)->withTitle('home');
