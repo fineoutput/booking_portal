@@ -50,7 +50,7 @@
                             <p>No additional images available.</p>
                         @endif
 
-                        <a href="{{route('all_images')}}">View All Images</a>
+                        <a href="{{ route('all_images', ['id' => base64_encode($hotel->id)]) }}">View All Images</a>
                     </div>
 
           

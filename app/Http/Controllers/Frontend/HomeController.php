@@ -234,9 +234,11 @@ if ($popularCities->isEmpty()) {
         return view('front/options');
     }
    
-    public function all_images()
+    public function all_images($id)
     {
-        return view('front/all_images');
+        $id = base64_decode($id);
+        $data['hotels'] = Hotels::where('id',$id)->first();
+        return view('front/all_images',$data);
     }
     public function state_detail($id)
     {

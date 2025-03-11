@@ -79,7 +79,7 @@ Route::group(['prefix' => '/'], function () {
     Route::POST('add_confirmation/{id}', [HomeController::class, 'add_confirmation'])->name('add_confirmation');
     Route::POST('add-confirm-guide-booking/{id}', [HomeController::class, 'add_confirm_guide_booking'])->name('add_confirm_guide_booking');
 
-    Route::get('all_images', [HomeController::class, 'all_images'])->name('all_images');
+    Route::get('all_images/{id}', [HomeController::class, 'all_images'])->name('all_images');
     Route::get('detail/{id}', [HomeController::class, 'detail'])->name('detail');
     Route::get('hotelsbooking', [HomeController::class, 'hotelsbooking'])->name('hotelsbooking');
     Route::get('hotel_details/{id}', [HomeController::class, 'hotel_details'])->name('hotel_details');
