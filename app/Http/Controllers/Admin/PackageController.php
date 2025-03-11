@@ -310,20 +310,24 @@ class PackageController extends Controller
     //     // 'pdf' => 'nullable|mimes:pdf|max:5000',
     // ]);
 
-    // Find the existing package by ID
     $package = Package::findOrFail($id);
 
-    // Update the basic fields
-    
-    $package->package_name = $request->package_name;
-    $stateIds = $request->state_id;
-    $cityIds = $request->city_id ?? $package->city_id;
-    $package->state_id = implode(',', $stateIds);
+    if ($request->has('state_id') && !empty($request->state_id)) {
+        $stateIds = $request->state_id;
+        $package->state_id = implode(',', $stateIds);
+    }
+
+    $cityIds = $request->has('city_id') ? $request->city_id : explode(',', $package->city_id);
     $package->city_id = implode(',', $cityIds);
+
+    $package->package_name = $request->package_name;
+    // $stateIds = $request->state_id;
+    // $cityIds = $request->city_id ?? $package->city_id;
+    // $package->state_id = implode(',', $stateIds);
+    // $package->city_id = implode(',', $cityIds);
     $package->text_description = $request->text_description;
     $package->text_description_2 = $request->text_description_2;
 
-    // Handle image uploads and removal of old images
     // if ($request->hasFile('image')) {
     //     $existingImages = json_decode($package->image, true) ?? [];
     //     $newImages = [];
@@ -368,37 +372,30 @@ class PackageController extends Controller
     if ($request->hasFile('image')) {
         $existingImages = json_decode($package->image, true) ?? [];
         $newImages = [];
-        $destinationPath = public_path('packages/images');  // Define the destination directory for images
-    
-        // Ensure the destination directory exists
+        $destinationPath = public_path('packages/images');  
         if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+            mkdir($destinationPath, 0777, true);  
         }
     
         foreach ($request->file('image') as $image) {
-            // Generate a unique filename (you can modify this as needed)
+        
             $filename = time() . '_' . $image->getClientOriginalName();
-            
-            // Move the image to the public directory
+
             $image->move($destinationPath, $filename);
-            
-            // Add the relative path of the image to the array
+
             $newImages[] = 'packages/images/' . $filename;
         }
-    
-        // Merge new images with existing ones
-        $package->image = json_encode(array_merge($existingImages, $newImages));  // Merge new images with the existing ones
+
+        $package->image = json_encode(array_merge($existingImages, $newImages));  
     }
-    
-    // Handle the deletion of images
+
     if ($request->has('deleted_images')) {
-        $deletedImages = explode(',', $request->deleted_images);  // Get deleted image paths from the form
-        $this->deleteFiles($deletedImages);  // Delete the specified images
-    
-        // Update the package images after removal
+        $deletedImages = explode(',', $request->deleted_images); 
+        $this->deleteFiles($deletedImages);  
+   
         $existingImages = json_decode($package->image, true);
-        $updatedImages = array_diff($existingImages, $deletedImages);  // Remove the deleted images
-        $package->image = json_encode($updatedImages);  // Update image paths
+        $updatedImages = array_diff($existingImages, $deletedImages); 
+        $package->image = json_encode($updatedImages);
     }
     
     // Handle video upload and update
@@ -433,87 +430,68 @@ class PackageController extends Controller
     // }
     
     if ($request->has('deleted_videos')) {
-        $deletedVideos = explode(',', $request->deleted_videos);  // Get deleted video paths
-    
-        // Decode the existing video paths from the database
+        $deletedVideos = explode(',', $request->deleted_videos);  
         $existingVideos = json_decode($package->video, true);
     
-        // Filter out the deleted videos from the existing ones
         $updatedVideos = array_filter($existingVideos, function ($video) use ($deletedVideos) {
-            return !in_array($video, $deletedVideos);  // Compare the full path, not just the basename
+            return !in_array($video, $deletedVideos); 
         });
-    
-        // Delete the video files from the server
+
         foreach ($deletedVideos as $video) {
-            $videoPath = public_path($video);  // Use the full path from the database
+            $videoPath = public_path($video); 
             if (file_exists($videoPath) && is_file($videoPath)) {
-                unlink($videoPath);  // Delete the video file from the server
+                unlink($videoPath); 
             }
         }
-    
-        // Update the package's video paths in the database
+
         $package->video = json_encode(array_values($updatedVideos));
     }
     
-    // Handle new video uploads (if any)
     if ($request->hasFile('video')) {
         $videoPaths = [];
-        $destinationPath = public_path('packages/videos');  // Define the destination directory
-    
-        // Ensure the destination directory exists
+        $destinationPath = public_path('packages/videos');  
+
         if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0777, true);  // Create the directory if it doesn't exist
+            mkdir($destinationPath, 0777, true); 
         }
     
         foreach ($request->file('video') as $video) {
-            // Generate a unique filename
+
             $filename = time() . '_' . $video->getClientOriginalName();
-    
-            // Move the video to the destination directory
+
             $video->move($destinationPath, $filename);
-    
-            // Add the video path to the array
+
             $videoPaths[] = 'packages/videos/' . $filename;
         }
-    
-        // Merge the new videos with the existing ones
+
         $existingVideos = json_decode($package->video, true) ?? [];
         $package->video = json_encode(array_merge($existingVideos, $videoPaths));
     }
 
-    // Handle PDF upload and update
     if ($request->hasFile('pdf')) {
         if ($package->pdf) {
-            $oldPdfPath = public_path('packages/pdf/' . $package->pdf);  // Get the old PDF path
+            $oldPdfPath = public_path('packages/pdf/' . $package->pdf); 
             if (file_exists($oldPdfPath)) {
-                unlink($oldPdfPath);  // Delete the old PDF if it exists
+                unlink($oldPdfPath);  
             }
         }
     
-        $destinationPath = public_path('packages/pdf');  // Define the destination directory for PDFs
-    
-        // Ensure the destination directory exists
+        $destinationPath = public_path('packages/pdf');  
         if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+            mkdir($destinationPath, 0777, true);  
         }
-    
-        // Generate a unique filename (you can modify this as needed)
+
         $filename = time() . '_' . $request->file('pdf')->getClientOriginalName();
-        
-        // Move the PDF to the public directory
+
         $request->file('pdf')->move($destinationPath, $filename);
-        
-        // Add the relative path of the PDF
+
         $pdfPath = 'packages/pdf/' . $filename;
     
-        $package->pdf = $pdfPath;  // Store the new PDF path
+        $package->pdf = $pdfPath;
     }
-    
 
-    // Save the updated package record to the database
     $package->save();
 
-    // Redirect back with a success message
     return redirect()->route('package')->with('success', 'Package updated successfully.');
 }
 
@@ -521,26 +499,24 @@ class PackageController extends Controller
 
 protected function deleteFiles($files)
 {
-    // Define the base directory where files are stored (e.g., public/packages/images)
-    $basePath = public_path();  // You can adjust this if files are stored in a specific folder within public
+    
+    $basePath = public_path();
 
     if (is_array($files)) {
-        // Iterate through the array of files to delete
+ 
         foreach ($files as $file) {
-            $filePath = $basePath . '/' . $file;  // Construct the full path of the file
+            $filePath = $basePath . '/' . $file; 
 
-            // Check if the file exists and is not a directory
             if (file_exists($filePath) && !is_dir($filePath)) {
-                unlink($filePath);  // Delete the file
+                unlink($filePath);  
             }
         }
     } elseif ($files) {
-        // Handle the case where only a single file is passed
-        $filePath = $basePath . '/' . $files;  // Construct the full path of the file
 
-        // Check if the file exists and is not a directory
+        $filePath = $basePath . '/' . $files; 
+
         if (file_exists($filePath) && !is_dir($filePath)) {
-            unlink($filePath);  // Delete the file
+            unlink($filePath);  
         }
     }
 }
