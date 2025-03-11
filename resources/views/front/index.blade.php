@@ -229,8 +229,11 @@
         <div class="col-lg-3">
             <div class="gallery_loc">
                 <div class="inner_gallery_loc">
-                    {{-- <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt=""> --}}
-                    <img src="{{ asset($value['image']) }}" alt="">
+                  @if($value['image'])
+                  <img src="{{ asset($value['image']) }}" alt="">
+                  @else
+                    <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
+                    @endif
                 </div>
                 <div class="inner_gallery_loc_txt">
                     <div class="type_gallery">
@@ -263,7 +266,11 @@
               @foreach($popularCities as $value)
                 <div class="outer_loc_dd">
                     <div class="inner_car_ig">
+                      @if($value['image'])
                         <img src="{{ asset($value['image']) }}" alt="">
+                        @else
+                        <img src="{{ asset('frontend/images/gallery/rjwm-rjwp-1522023.avif') }}" alt="">
+                        @endif
                     </div>
                     <div class="outer_car_txt justify-content-center">
                         <p>{{ $value['bookings_count'] }} tours |

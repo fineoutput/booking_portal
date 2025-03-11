@@ -149,28 +149,34 @@ class HomeController extends Controller
 if ($popularCities->isEmpty()) {
     $data['popularCities'] = [];
 } else {
+    // Group by city_id and sum the bookings count for each city
     $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
+        // Sum the bookings count across all packages for each city
         return $cities->sum('bookings_count');
     });
 
+    // Sort cities by the summed bookings count in descending order
     $sortedCities = $groupedCities->sortDesc();
 
     $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
+        // Get the first entry for each city (after grouping) for details
         $city = $popularCities->firstWhere('city_id', $cityId);
 
+        // Get the adult count for this city's package
         $adultCount = \DB::table('package_booking_temp')
             ->where('id', $city->package_temp_id)
             ->value('adults_count'); 
 
+        // Get the city name
         $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
 
-        // Decode the image field, assuming it's returned as an escaped JSON string
+        // Decode the image field (assuming it was stored as an escaped JSON string)
         $image = \DB::table('package')->where('city_id', $cityId)->value('image');
         
         // Decode the HTML entities and JSON string
         $decodedImage = json_decode(html_entity_decode($image), true);
         
-        // Get the image URL from the decoded array (assuming it's the first element)
+        // Extract the image URL from the decoded array (assuming it's the first element)
         $imageUrl = $decodedImage['1'] ?? '';
 
         return [
