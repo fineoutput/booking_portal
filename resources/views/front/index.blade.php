@@ -229,7 +229,8 @@
         <div class="col-lg-3">
             <div class="gallery_loc">
                 <div class="inner_gallery_loc">
-                    <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
+                    {{-- <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt=""> --}}
+                    <img src="{{ asset($value['image']) }}" alt="">
                 </div>
                 <div class="inner_gallery_loc_txt">
                     <div class="type_gallery">
