@@ -70,8 +70,8 @@
                         <td>{{ $hotel->user->name ?? '' }}</td>
                         <td>{{ $hotel->salesman_name ?? '' }}</td>
                         <td>{{ $hotel->salesman_mobile ?? '' }}</td>
-                        <td>{{ $hotel->guide_se->state->state_name ?? '' }}</td>
-                        <td>{{ $hotel->guide_se->cities->city_name ?? '' }}</td>
+                        <td>{{ $hotel->guide->state->state_name ?? '' }}</td>
+                        <td>{{ $hotel->guide->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->guide_se->languages->language_name ?? '' }}</td>
                         <td>
             @if($hotel->guide_se->guide_type ?? '')

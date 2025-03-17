@@ -184,15 +184,17 @@ asset('frontend/images/hotel_main.avif')
                                 @csrf
                             <div class="inner_box">
                                 <div class="inner_price">
-                                    <span style="color: rgb(106, 106, 106);"><del>₹
+                                    <span style="color: rgb(106, 106, 106);"><del>
                                         {{-- {{$tripguide->cost + 100}} --}}
                                     </del></span>
                                     {{-- <span>₹{{$tripguide->cost}} --}}
+                                        <p id="price-display">Price : ₹</p> 
                                     </span>
                                     <span></span>
                                 </div>
-                                <input type="hidden" value="" name="tour_guide_id">
-                                <input type="hidden" value="" name="cost">
+                                <input type="hidden" value="" name="tour_guide_id" id="tour_guide_id">
+                                <input type="hidden" value="" name="cost" id="cost">
+
                                 <div class="checks">
                                     <div class="bors">
                                         {{-- <div class="caranke">
@@ -208,9 +210,9 @@ asset('frontend/images/hotel_main.avif')
                                         </div> --}}
 
                                         <div class="caranke">
-                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('location')">
+                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('city_id')">
                                                 <div class="filter-label_hotels">City</div>
-                                                <select class="form-control" id="city" name="location">
+                                                <select class="form-control" id="city" name="city_id">
                                                     <option value="" selected disabled>Select</option>
                                                     @foreach ($city as $city)
                                                         <option value="{{ $city->id }}">{{ $city->city_name }}</option>
@@ -235,12 +237,12 @@ asset('frontend/images/hotel_main.avif')
                                     <hr>
                                     <div class="guide-selection">
                                         <label class="guide-option">
-                                            <input name="guide_type" type="radio" value="local" checked>
+                                            <input name="guide_type" type="radio" value="Local" checked>
                                             <span class="custom-radio"></span>
                                             Local Guide
                                         </label>
                                         <label class="guide-option">
-                                            <input name="guide_type" type="radio" value="outstation">
+                                            <input name="guide_type" type="radio" value="Outstation">
                                             <span class="custom-radio"></span>
                                             Outstation Guide
                                         </label>
@@ -277,42 +279,68 @@ asset('frontend/images/hotel_main.avif')
 
 
 <script>
-    $(document).ready(function() {
-        // Listen for changes on the city dropdown
-        $('#city').change(function() {
-            let cityId = $(this).val();  // Get the selected city ID
+  $(document).ready(function() {
+    // Fetch languages when the city is selected
+    $('#city').change(function() {
+        var cityId = $(this).val();
 
-            if (cityId) {
-                // Call function to load languages based on the selected city
-                loadLanguages(cityId);
-            } else {
-                // Clear the language dropdown if no city is selected
-                $('#language').empty().append('<option value="" selected disabled>Select</option>');
-            }
-        });
-
-        // Function to fetch and populate the language dropdown based on selected city
-        function loadLanguages(cityId) {
+        if (cityId) {
+            // Call AJAX to get languages based on the selected city
             $.ajax({
-                url: '/get-languages/' + cityId,  // Ensure this URL matches your route
+                url: '/booking_portal/public/get-languages/' + cityId,
                 method: 'GET',
                 success: function(response) {
-                    if (response.languages) {
-                        // Clear current options in the language dropdown
-                        $('#language').empty().append('<option value="" selected disabled>Select</option>');
-                        
-                        // Populate the language dropdown with options
-                        $.each(response.languages, function(languageId, languageName) {
-                            $('#language').append('<option value="' + languageId + '">' + languageName + '</option>');
-                        });
-                    }
+                    var languages = response.languages;
+                    var languageSelect = $('#language');
+                    languageSelect.empty().append('<option value="" selected disabled>Select Language</option>');
+
+                    // Populate the language dropdown with options
+                    $.each(languages, function(id, name) {
+                        languageSelect.append('<option value="' + id + '">' + name + '</option>');
+                    });
                 },
                 error: function() {
-                    alert('Error fetching languages');
+                    alert('Error fetching languages.');
                 }
             });
         }
     });
+
+    $('#language').change(function() {
+        var cityId = $('#city').val();  // Get selected city
+        var languageId = $(this).val();  // Get selected language
+
+        if (cityId && languageId) {
+            $.ajax({
+                url: '/booking_portal/public/get-tour-guide-details',  // Your backend route
+                method: 'GET',
+                data: {
+                    city_id: cityId,
+                    language_id: languageId
+                },
+                success: function(response) {
+                    // Assuming the response has `tour_guide_id` and `cost`
+                    if (response.cost) {
+                        // Update the hidden input values
+                        $('#tour_guide_id').val(response.tour_guide_id);
+                        $('#cost').val(response.cost);
+                        
+                        // Update the price display
+                        $('#price-display').text('Price: ₹' + response.cost);
+                    } else {
+                        alert('No trip guide found for the selected city and language');
+                    }
+                },
+                error: function() {
+                    alert('Error fetching tour guide details.');
+                }
+            });
+        }
+    });
+
+});
+
+
 </script>
 
 <script>
