@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Mail\OtpMail;
 use App\Models\AdminCity;
+use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -1885,12 +1886,12 @@ public function bookGuide(Request $request)
 
     // If authentication is successful, proceed with the booking process
     $validator = Validator::make($request->all(), [
-        'state_id' => 'required',
-        'location' => 'required',
+        // 'state_id' => 'required',
+        'city_id' => 'required',
         'languages_id' => 'required',
-        'tour_guide_id' => 'required',
+        // 'tour_guide_id' => 'required',
         'guide_type' => 'required',
-        'cost' => 'required|numeric',
+        // 'cost' => 'required|numeric',
     ]);
 
     if ($validator->fails()) {
@@ -1903,16 +1904,35 @@ public function bookGuide(Request $request)
 
     try {
 
+        $cityId = $request->city_id;
+        $languageId = $request->languages_id;
+    
+        // Query the TripGuide model based on city and language
+        $tripguide = TripGuide::where('city_id', $cityId)
+                              ->where('languages_id', $languageId)
+                              ->first();
+    
+    
+        if ($tripguide) {
+            $guideTypes = explode(',', $tripguide->guide_type);
+
         $tripGuide = new TripGuideBook();
 
         $tripGuide->user_id = $user->id;
-        $tripGuide->tour_guide_id = $request->tour_guide_id;
+        $tripGuide->tour_guide_id = $tripguide->id;
         $tripGuide->languages_id = $request->languages_id;
         $tripGuide->state_id = $request->state_id;
         $tripGuide->location = $request->location;
         $tripGuide->guide_type = $request->guide_type;
-        $tripGuide->cost = $request->cost;
+        $tripGuide->cost = $tripguide->cost;
         $tripGuide->status = 0; 
+        }else{
+            return response()->json([
+            'status' => 200,
+            'message' => 'The selected guide type is not valid for this tour guide!',
+            'data' => []
+        ], 201);
+        }
 
         $tripGuide->save();
         $tripGuide->makeHidden('updated_at','created_at');
@@ -1937,6 +1957,52 @@ return response()->json([
     'status' => 201,
 ], 401);
 }
+
+
+public function guideCity(Request $request)
+{
+    $tripguides = TripGuide::latest()->get();
+
+    $cities = City::whereIn('id', $tripguides->pluck('city_id'))->get(['id', 'city_name']);
+
+    return response()->json([
+        'message' => 'Guide Cities Fetched Successfully.',
+        'data' => $cities,
+        'status' => 200,
+    ]);
+}
+
+
+
+public function getLanguages(Request $request)
+{
+    $validated = $request->validate([
+        'city_id' => 'required|integer',
+    ]);
+
+    $tripGuides = TripGuide::where('city_id', $request->city_id)->get();
+
+    $languages = $tripGuides->map(function ($guide) {
+        return $guide->languages_id; 
+    })->unique();
+
+    $languageNames = Languages::whereIn('id', $languages)->get(['id', 'language_name']);
+
+    $formattedLanguages = $languageNames->map(function($language) {
+        return [
+            'id' => $language->id,
+            'language_name' => $language->language_name,
+        ];
+    });
+
+    return response()->json([
+        'message' => 'Languages fetched successfully.',
+        'data' => $formattedLanguages,
+        'status' => 200
+    ], 200);
+}
+
+
 
 
     public function airport()

@@ -34,7 +34,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::get('/routes', [SafariController::class, 'routes']);
     Route::post('/tripguide', [SafariController::class, 'tripguide']);
     Route::post('/wild-life-safari-book', [SafariController::class, 'wildsafaribooked']);
-    Route::get('/languages', [SafariController::class, 'getLanguages']);
+    Route::post('/languages', [HotelController::class, 'getLanguages']);
     Route::get('/filter-state-city', [SafariController::class, 'filterStateCity']);
     Route::post('/hotel-state-city', [HotelController::class, 'statecityhotel']);
     Route::post('/hotel-booking', [HotelController::class, 'hotelbooking']);
@@ -54,6 +54,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/all-bookings', [HotelController::class, 'allbookings']);
     Route::get('/user-profile', [HotelController::class, 'profile']);
     Route::get('/popular-city', [HotelController::class, 'popularCity']);
+    Route::get('/guide-city', [HotelController::class, 'guideCity']);
 
 
 

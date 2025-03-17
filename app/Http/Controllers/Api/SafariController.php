@@ -447,28 +447,7 @@ class SafariController extends Controller
     // }
 
 
-    public function getLanguages()
-    {
-        $languages = Languages::all();
-
-        $languagesData = $languages->map(function($language) {
-            return [
-                'language_name' => $language->language_name,
-                'iso_code' => $language->iso_code,
-                'native_name' => $language->native_name,
-                'status' => $language->status
-            ];
-        });
-
-        return response()->json([
-            'message' => 'Languages fetched successfully.',
-            'data' => $languagesData
-        ], 200);
-    }
-
-
-
-
+   
 
     
     // public function filterStateCity(Request $request)
