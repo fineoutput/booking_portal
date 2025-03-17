@@ -127,11 +127,9 @@ class PackageController extends Controller
 
         if ($request->hasFile('image')) {
             $imagePaths = [];
-            $destinationPath = public_path('packages/images');  // Define the destination directory for images
-        
-            // Ensure the destination directory exists
+            $destinationPath = public_path('packages/images');  
             if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
+                mkdir($destinationPath, 0777, true);  
             }
         
             foreach ($request->file('image') as $image) {
@@ -237,62 +235,6 @@ class PackageController extends Controller
         }
 
 
-        // public function update(Request $request, $id)
-        // {
-        //     $validated = $request->validate([
-        //         'package_name' => 'required',
-        //         'state_id' => 'required',
-        //         // 'city_id' => 'required',
-        //         'image' => 'nullable|array', // Images can be null or an array
-        //         'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        //         'video' => 'nullable|array', // Videos can be null or an array
-        //         'video.*' => 'nullable|mimes:mp4,mkv,avi,webm|max:50000',
-        //         'text_description' => 'required',
-        //         'text_description_2' => 'required',
-        //     ]);
-        //     $package = Package::findOrFail($id);
-        //     if ($request->hasFile('image')) {
-        //         $this->deleteFiles($package->image);
-        //         $imagePaths = [];
-        //         foreach ($request->file('image') as $image) {
-        //             $imagePaths[] = $image->store('packages/images', 'public');
-        //         }
-        //         $package->image = json_encode($imagePaths);
-        //     }
-        //     if ($request->has('deleted_images')) {
-        //         $deletedImages = explode(',', $request->deleted_images); 
-        //         $this->deleteFiles($deletedImages);
-        //         $existingImages = json_decode($package->image, true);
-        //         $updatedImages = array_diff($existingImages, $deletedImages); 
-        //         $package->image = json_encode($updatedImages);  
-        //     }
-
-        //     if ($request->hasFile('video')) {
-        //         $videoPaths = [];
-        //         foreach ($request->file('video') as $video) {
-        //             $videoPaths[] = $video->store('packages/videos', 'public');
-        //         }
-        //         $package->video = json_encode($videoPaths); 
-        //     }
-        
-        //     if ($request->hasFile('pdf')) {
-        //         if ($package->pdf) {
-        //             Storage::disk('public')->delete($package->pdf);
-        //         }
-        //         $pdfPath = $request->file('pdf')->store('pdf', 'public');
-        //         $package->pdf = $pdfPath;
-        //     }
-
-        //     $package->package_name = $request->package_name;
-        //     $package->state_id = $request->state_id;
-        //     $package->city_id = $request->city_id ?? $package->city_id ;
-        //     $package->text_description = $request->text_description;
-        //     $package->text_description_2 = $request->text_description_2;
-        //     $package->save();
-        
-        //     return redirect()->route('package')->with('success', 'Package updated successfully.');
-        // }
-
 
         public function update(Request $request, $id)
 {
@@ -321,53 +263,10 @@ class PackageController extends Controller
     $package->city_id = implode(',', $cityIds);
 
     $package->package_name = $request->package_name;
-    // $stateIds = $request->state_id;
-    // $cityIds = $request->city_id ?? $package->city_id;
-    // $package->state_id = implode(',', $stateIds);
-    // $package->city_id = implode(',', $cityIds);
+
     $package->text_description = $request->text_description;
     $package->text_description_2 = $request->text_description_2;
 
-    // if ($request->hasFile('image')) {
-    //     $existingImages = json_decode($package->image, true) ?? [];
-    //     $newImages = [];
-    //     foreach ($request->file('image') as $image) {
-    //         $newImages[] = $image->store('packages/images', 'public');
-    //     }
-    //     $package->image = json_encode(array_merge($existingImages, $newImages));  // Merge new images with the existing ones
-    // }
-
-    // // Handle the deletion of images
-    // if ($request->has('deleted_images')) {
-    //     $deletedImages = explode(',', $request->deleted_images);  // Get deleted image paths from the form
-    //     $this->deleteFiles($deletedImages);  // Delete the specified images
-
-    //     // Update the package images after removal
-    //     $existingImages = json_decode($package->image, true);
-    //     $updatedImages = array_diff($existingImages, $deletedImages);  // Remove the deleted images
-    //     $package->image = json_encode($updatedImages);  // Update image paths
-    // }
-
-    // // Handle video upload and update
-    // if ($request->hasFile('video')) {
-    //     if ($package->video) {
-    //         Storage::delete('public/' . $package->video);  // Delete the old video if any
-    //     }
-    //     $videoPaths = [];
-    //     foreach ($request->file('video') as $video) {
-    //         $videoPaths[] = $video->store('packages/videos', 'public');
-    //     }
-    //     $package->video = json_encode($videoPaths);  // Store the new video paths
-    // }
-
-    // // Handle PDF upload and update
-    // if ($request->hasFile('pdf')) {
-    //     if ($package->pdf) {
-    //         Storage::disk('public')->delete($package->pdf);  // Delete the old PDF if any
-    //     }
-    //     $pdfPath = $request->file('pdf')->store('packages/pdf', 'public');
-    //     $package->pdf = $pdfPath;  // Store the new PDF path
-    // }
 
     if ($request->hasFile('image')) {
         $existingImages = json_decode($package->image, true) ?? [];
@@ -398,37 +297,7 @@ class PackageController extends Controller
         $package->image = json_encode($updatedImages);
     }
     
-    // Handle video upload and update
-    // if ($request->hasFile('video')) {
-    //     if ($package->video) {
-    //         $oldVideoPath = public_path('packages/videos/' . $package->video);  // Get the old video path
-    //         if (file_exists($oldVideoPath)) {
-    //             unlink($oldVideoPath);  // Delete the old video if it exists
-    //         }
-    //     }
-    
-    //     $videoPaths = [];
-    //     $destinationPath = public_path('packages/videos');  // Define the destination directory for videos
-    
-    //     // Ensure the destination directory exists
-    //     if (!file_exists($destinationPath)) {
-    //         mkdir($destinationPath, 0777, true);  // Create the directory with full permissions
-    //     }
-    
-    //     foreach ($request->file('video') as $video) {
-    //         // Generate a unique filename (you can modify this as needed)
-    //         $filename = time() . '_' . $video->getClientOriginalName();
-            
-    //         // Move the video to the public directory
-    //         $video->move($destinationPath, $filename);
-            
-    //         // Add the relative path of the video to the array
-    //         $videoPaths[] = 'packages/videos/' . $filename;
-    //     }
-    
-    //     $package->video = json_encode($videoPaths);  // Store the new video paths
-    // }
-    
+   
     if ($request->has('deleted_videos')) {
         $deletedVideos = explode(',', $request->deleted_videos);  
         $existingVideos = json_decode($package->video, true);

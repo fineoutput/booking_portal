@@ -92,7 +92,7 @@
                                         </div> --}}
                                         <div class="col-sm-6">
                                             <div class="form-floating">
-                                                <input class="form-control" type="cost" value="" id="cost" name="cost" placeholder="Enter cost" required>
+                                                <input class="form-control" type="number" value="" id="cost" name="cost" placeholder="Enter cost" required>
                                                 <label for="cost"> Cost &nbsp;<span style="color:red;">*</span></label>
                                             </div>
                                             @error('cost')

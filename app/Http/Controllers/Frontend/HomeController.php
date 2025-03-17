@@ -29,6 +29,7 @@ use App\Models\Route;
 use App\Models\PackageBooking;
 use App\Models\City;
 use App\Models\Constants;
+use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
 use App\Models\Package;
 use App\Models\Slider;
@@ -1024,11 +1025,33 @@ public function getVehiclesByCity($cityId)
 
     public function guide()
     {
-        $data['tripguide'] = TripGuide::latest()->first();
-        $data['slider'] = Slider::orderBy('id','DESC')->where('type','guide')->get();
-        $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
-        return view('front/guide',$data);
+        // $data['tripguide'] = TripGuide::latest()->first();
+        // $data['slider'] = Slider::orderBy('id','DESC')->where('type','guide')->get();
+        // $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
+        // return view('front/guide',$data);
+        
+        $data['tripguide'] = TripGuide::latest()->get(); 
+        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'guide')->get();
+        $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get(); 
+        $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get(); 
+        return view('front/guide', $data);
+
     }
+
+    public function getLanguagesByCity($cityId)
+    {
+        $tripGuides = TripGuide::where('city_id', $cityId)->get();
+
+        $languages = $tripGuides->map(function ($guide) {
+            return $guide->languages_id;
+        })->unique();
+
+        $languageNames = Languages::whereIn('id', $languages)->pluck('language_name', 'id');
+
+        return response()->json(['languages' => $languageNames]);
+    }
+
+    
 
 
     public function guideconfirmation(Request $request, $id)

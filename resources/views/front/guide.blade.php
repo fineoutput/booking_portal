@@ -72,19 +72,19 @@ asset('frontend/images/hotel_main.avif')
     <div class="row mt-5">
         <div class="col-lg-7 nive d-none d-lg-block">
             <div class="mirror_maxe">
-                @php
+                {{-- @php
                     $images = json_decode($tripguide->image);
                 @endphp
                 
                 @if (!empty($images))
                     <img src="{{ asset($images[0]) }}" alt="Trip Image">
-                @endif
+                @endif --}}
             </div>
         </div>
         
         <div class="col-lg-5 d-none d-lg-block">
             <div class="row">
-                @foreach ($images as $key => $image)
+                {{-- @foreach ($images as $key => $image)
                     @if ($key > 0)  <!-- Skip the first image -->
                         <div class="col-lg-6 mb-2">
                             <div class="side_masic">
@@ -92,7 +92,7 @@ asset('frontend/images/hotel_main.avif')
                             </div>
                         </div>
                     @endif
-                @endforeach
+                @endforeach --}}
             </div>
         </div>
     </div>
@@ -108,7 +108,7 @@ asset('frontend/images/hotel_main.avif')
                             <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style=" 
     padding-left: 0 !important;
 ">
-                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">{{$tripguide->guide_type ?? ''}}</li>
+                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">Local,Outstation</li>
                            
                             </ol>
                         </span>
@@ -171,7 +171,7 @@ asset('frontend/images/hotel_main.avif')
 
                     <div class="ho_bhe">
                         <span>
-                         {!!$tripguide->description!!}
+                         {{-- {!!$tripguide->description!!} --}}
                         </span>
                     </div>
                 </div>
@@ -184,45 +184,54 @@ asset('frontend/images/hotel_main.avif')
                                 @csrf
                             <div class="inner_box">
                                 <div class="inner_price">
-                                    <span style="color: rgb(106, 106, 106);"><del>₹{{$tripguide->cost + 100}}</del></span>
-                                    <span>₹{{$tripguide->cost}}
+                                    <span style="color: rgb(106, 106, 106);"><del>₹
+                                        {{-- {{$tripguide->cost + 100}} --}}
+                                    </del></span>
+                                    {{-- <span>₹{{$tripguide->cost}} --}}
                                     </span>
                                     <span></span>
                                 </div>
-                                <input type="hidden" value="{{ $tripguide->id ?? '' }}" name="tour_guide_id">
-                                <input type="hidden" value="{{ $tripguide->id ?? '' }}" name="tour_guide_id">
-                                <input type="hidden" value="{{ $tripguide->cost ?? '' }}" name="cost">
+                                <input type="hidden" value="" name="tour_guide_id">
+                                <input type="hidden" value="" name="cost">
                                 <div class="checks">
                                     <div class="bors">
-                                        <div class="caranke">
+                                        {{-- <div class="caranke">
                                             <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
                                                 <div class="filter-label_hotels">State</div>
-                                                <select class="form-control" name="state_id" id="">
+                                                <select class="form-control" name="state_id" id="state">
                                                     <option value="" selected disabled>Select</option>
+                                                    @foreach ($state as $state)
                                                     <option value="{{$state->id ?? ''}}">{{$state->state_name ?? ''}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div> --}}
+
+                                        <div class="caranke">
+                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('location')">
+                                                <div class="filter-label_hotels">City</div>
+                                                <select class="form-control" id="city" name="location">
+                                                    <option value="" selected disabled>Select</option>
+                                                    @foreach ($city as $city)
+                                                        <option value="{{ $city->id }}">{{ $city->city_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="caranke">
+                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('language')">
+                                                <div class="filter-label_hotels">Language</div>
+                                                <select class="form-control" name="languages_id" id="language">
+                                                    <option value="" selected disabled>Select</option>
+                                                    <!-- Languages will be populated based on city selection -->
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="caranke">
-                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('location')">
-                                                <div class="filter-label_hotels">Location</div>
-                                                <select class="form-control" name="location" id="">
-                                                    <option value="" selected disabled>Select</option>
-                                                    <option value="{{$tripguide->location ?? ''}}">{{$tripguide->location ?? ''}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
+
                                     </div>
-                                    <div class="rivvsa">
-                                    <div class="filter-item_hotels sachi" onclick="toggleDropdown('language')">
-                                        <div class="filter-label_hotels">Language</div>
-                                        <select class="form-control" name="languages_id" id="">
-                                            <option value="" selected disabled>Select</option>
-                                            <option value="{{$tripguide->languages_id ?? ''}}">{{$tripguide->languages->language_name ?? ''}}</option>
-                                        </select>
-                                    </div>
-                                    </div>
+                                 
                                     <hr>
                                     <div class="guide-selection">
                                         <label class="guide-option">
@@ -264,6 +273,47 @@ asset('frontend/images/hotel_main.avif')
         </div>
     </div>
 </div>
+
+
+
+<script>
+    $(document).ready(function() {
+        // Listen for changes on the city dropdown
+        $('#city').change(function() {
+            let cityId = $(this).val();  // Get the selected city ID
+
+            if (cityId) {
+                // Call function to load languages based on the selected city
+                loadLanguages(cityId);
+            } else {
+                // Clear the language dropdown if no city is selected
+                $('#language').empty().append('<option value="" selected disabled>Select</option>');
+            }
+        });
+
+        // Function to fetch and populate the language dropdown based on selected city
+        function loadLanguages(cityId) {
+            $.ajax({
+                url: '/get-languages/' + cityId,  // Ensure this URL matches your route
+                method: 'GET',
+                success: function(response) {
+                    if (response.languages) {
+                        // Clear current options in the language dropdown
+                        $('#language').empty().append('<option value="" selected disabled>Select</option>');
+                        
+                        // Populate the language dropdown with options
+                        $.each(response.languages, function(languageId, languageName) {
+                            $('#language').append('<option value="' + languageId + '">' + languageName + '</option>');
+                        });
+                    }
+                },
+                error: function() {
+                    alert('Error fetching languages');
+                }
+            });
+        }
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

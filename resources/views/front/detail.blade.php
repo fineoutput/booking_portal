@@ -276,7 +276,7 @@
                         <!-- Meal Plan -->
                         
 
-                       
+
                         <!-- Booking Source -->
 
                         <div class="form-check mb-3">
@@ -308,47 +308,24 @@
                 </div>
 
                 @php
-    // Decode the JSON string to an array
-    $images = json_decode($packages->image, true);
-@endphp
+                // Decode the JSON string to an array
+                $images = json_decode($packages->image, true);
+            @endphp
 
 <div class="galsant_set">
     <div class="reviews-img-wrapper justify-content-xl-between d-flex flex-wrap ng-star-inserted">
 
-        <!-- Display the first image -->
-        @if($images && is_array($images) && array_key_exists(4, $images)) <!-- Check if the 4th key exists -->
-        <div class="image-col mob-d-none ng-star-inserted">
-            <img class="background-image" src="{{ asset($images[4]) }}" alt="First Image">
-            <img class="display-image" src="{{ asset($images[4]) }}" alt="First Image">
-        </div>
-    @endif
+
+        @foreach (json_decode($packages->image) as $image)
+    <div class="image-col mob-d-none ng-star-inserted">
+        {{-- <img class="background-image" src="{{ asset($image) }}" alt="First Image"> --}}
+        <td><img class="display-image" src="{{ asset($image) }}" alt="First Image"><br></td>
+    </div>
+    @endforeach
 
 
         <!-- Display the second image (if exists) -->
-      
-    
-    @if($images && is_array($images) && array_key_exists(5, $images)) <!-- Check if the 5th key exists -->
-        <div class="image-col mob-d-none ng-star-inserted">
-            <img class="background-image" src="{{ asset($images[5]) }}" alt="Second Image">
-            <img class="display-image" src="{{ asset($images[5]) }}" alt="Second Image">
-        </div>
-    @endif
-    
-    @if($images && is_array($images) && array_key_exists(6, $images)) <!-- Check if the 6th key exists -->
-        <div class="image-col mob-d-none ng-star-inserted">
-            <img class="background-image" src="{{ asset($images[6]) }}" alt="Third Image">
-            <img class="display-image" src="{{ asset($images[6]) }}" alt="Third Image">
-        </div>
-    @endif
-    
-    @if($images && is_array($images) && array_key_exists(7, $images)) <!-- Check if the 7th key exists -->
-        <div class="image-col mob-d-none ng-star-inserted mod-sd" data-bs-toggle="modal" data-bs-target="#imageModal">
-            <img class="background-image" src="{{ asset($images[7]) }}" alt="Last Image">
-            <img class="display-image" src="{{ asset($images[7]) }}" alt="Last Image">
-        </div>
-    @endif
-    
-
+   
 
     </div>
 </div>

@@ -97,6 +97,9 @@ Route::group(['prefix' => '/'], function () {
     Route::post('wallet/store', [HomeController::class, 'add_wallet'])->name('wallet.store');
 
     Route::get('guide', [HomeController::class, 'guide'])->name('guide');
+    Route::get('guide-cities/{stateId}', [HomeController::class, 'guide_cities'])->name('guide_cities');
+    Route::get('/get-languages/{cityId}', [HomeController::class, 'getLanguagesByCity']);
+
 });
 
 Route::post('signup', [AuthController::class, 'signup'])->name('signup_agent');
