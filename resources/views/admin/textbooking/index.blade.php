@@ -50,6 +50,7 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Trip</th>
+                        <th data-priority="1">City Name</th>
                         <th data-priority="1">User Name</th>
                         <th data-priority="1">Salesman Name</th>
                         <th data-priority="1">Salesman Mobile</th>
@@ -69,9 +70,6 @@
                         @foreach($agent as $key=> $value)
                             <tr>
                                 <td>{{$key+1}}</td>
-                                <td>{{$value->user->name}}</td>
-                                <td>{{$value->salesman_name}}</td>
-                                <td>{{$value->salesman_mobile}}</td>
                                 <td>
                                   @if($value->taxi_se->trip == 'drop')
                                   Drop to Airport/Railway station
@@ -79,6 +77,11 @@
                                   Pickup from Airport/Railway station
                                   @endif
                                 </td>
+                                <td>{{$value->taxi_se->admincity->city_name ?? ''}}</td>
+                                <td>{{$value->user->name}}</td>
+                                <td>{{$value->salesman_name}}</td>
+                                <td>{{$value->salesman_mobile}}</td>
+                               
                                 <td>{{$value->taxi_se->vehicle->vehicle_type ?? ''}}</td>
                                 <td>{{$value->taxi_se->airport->airport ?? ''}}</td>
                                 <td>{{$value->taxi_se->location ?? ''}}</td>

@@ -32,10 +32,71 @@ asset('frontend/images/hotel_main.avif')
     </div>
 </div>
 
+@if($slider)
+    <div id="responsive-slider" class="splide" style="background: #ffd600">
+      <div class="layie">
+        {{-- <h1>Plan Your Travel Now!</h1>
+                          <p>650+ Travel Agents serving 65+ Destinations worldwide</p> --}}
+                        </div>  
+    <div class="splide__track">
+        
+          <ul class="splide__list">
+            @foreach ($slider as $value)
+            <li class="splide__slide">
+              <picture>
+                  <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
+                  <source media="(min-width: 768px)" srcset="{{ asset($value->image) }}">
+                  <source media="(max-width: 767px)" srcset="{{ asset($value->image) }}">
+                  <img class="chats" style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner">
+              </picture>
+          </li>
+            @endforeach
+           
+              
+              {{-- <li class="splide__slide"> 
+                  <picture>
+                      <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+                      <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+                      <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
+                      <img style="border-radius: 0;" src="{{ asset('frontend/images/banner/fallback_.png') }}" alt="Responsive Banner 2">
+                  </picture>
+              </li> --}}
+              <!-- Add more slides as needed -->
+          </ul>
+      </div>
+    </div>
+    @endif
+
 <div class="comp-container">
-    
+
     <div class="row mt-5">
-        <div class="col-lg-7 nive d-none d-lg-block">
+
+        <div class="col-lg-12 d-none d-lg-block">
+            <div class="row">
+                @foreach ($tripguide as $key => $value)
+                    <div class="col-lg-4 mb-2">
+                        <div class="side_masic">
+                            @php
+                                // Decode the JSON string and ensure it's a string, not an array
+                                $imagePath = json_decode($value->image);
+                                // If it's an array or object, use the first element or key
+                                $imagePath = is_array($imagePath) ? reset($imagePath) : $imagePath;
+                            @endphp
+                            @if ($imagePath)
+                                <img src="{{ asset($imagePath) }}" alt="Trip Guide Image">
+                            @else
+                                <p>No image available</p>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+
+            
+            </div>
+        </div>
+
+
+        {{-- <div class="col-lg-7 nive d-none d-lg-block">
             <div class="mirror_maxe">
                 @php
                     $images = json_decode($tripguide->image);
@@ -45,21 +106,9 @@ asset('frontend/images/hotel_main.avif')
                     <img src="{{ asset($images[0]) }}" alt="Trip Image">
                 @endif
             </div>
-        </div>
+        </div> --}}
         
-        <div class="col-lg-5 d-none d-lg-block">
-            <div class="row">
-                @foreach ($images as $key => $image)
-                    @if ($key > 0)  <!-- Skip the first image -->
-                        <div class="col-lg-6 mb-2">
-                            <div class="side_masic">
-                                <img src="{{ asset($image) }}" alt="">
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-        </div>
+
     </div>
     
     <div class="other_dets mt-5">
@@ -73,48 +122,14 @@ asset('frontend/images/hotel_main.avif')
                             <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style=" 
     padding-left: 0 !important;
 ">
-                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">{{$tripguide->guide_type ?? ''}}</li>
+                                <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">Local,Outstation</li>
                            
                             </ol>
                         </span>
                     </div>
                 </div>
 
-                @if($slider)
-<div id="responsive-slider" class="splide" style="background: #ffd600">
-  <div class="layie">
-    {{-- <h1>Plan Your Travel Now!</h1>
-                      <p>650+ Travel Agents serving 65+ Destinations worldwide</p> --}}
-                    </div>  
-<div class="splide__track">
-    
-      <ul class="splide__list">
-        @foreach ($slider as $value)
-        <li class="splide__slide">
-          <picture>
-              <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
-              <source media="(min-width: 768px)" srcset="{{ asset($value->image) }}">
-              <source media="(max-width: 767px)" srcset="{{ asset($value->image) }}">
-              <img style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner">
-          </picture>
-      </li>
-        @endforeach
-       
-          
-          {{-- <li class="splide__slide"> 
-              <picture>
-                  <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
-                  <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
-                  <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
-                  <img style="border-radius: 0;" src="{{ asset('frontend/images/banner/fallback_.png') }}" alt="Responsive Banner 2">
-              </picture>
-          </li> --}}
-          <!-- Add more slides as needed -->
-      </ul>
-  </div>
-</div>
-@endif
-                
+              
 
                 <!-- <div class="htt_facili">
                     <div class="sangeetam">
@@ -170,7 +185,7 @@ asset('frontend/images/hotel_main.avif')
 
                     <div class="ho_bhe">
                         <span>
-                         {!!$tripguide->description!!}
+                         {{-- {!!$tripguide->description!!} --}}
                         </span>
                     </div>
                 </div>
@@ -183,54 +198,65 @@ asset('frontend/images/hotel_main.avif')
                                 @csrf
                             <div class="inner_box">
                                 <div class="inner_price">
-                                    <span style="color: rgb(106, 106, 106);"><del>₹{{$tripguide->cost + 100}}</del></span>
-                                    <span>₹{{$tripguide->cost}}
+                                    <span style="color: rgb(106, 106, 106);"><del>
+                                        {{-- {{$tripguide->cost + 100}} --}}
+                                    </del></span>
+                                    {{-- <span>₹{{$tripguide->cost}} --}}
+                                        <p id="price-display">Price : ₹</p> 
                                     </span>
                                     <span></span>
                                 </div>
-                                <input type="hidden" value="{{ $tripguide->id ?? '' }}" name="tour_guide_id">
-                                <input type="hidden" value="{{ $tripguide->id ?? '' }}" name="tour_guide_id">
-                                <input type="hidden" value="{{ $tripguide->cost ?? '' }}" name="cost">
+                                <input type="hidden" value="" name="tour_guide_id" id="tour_guide_id">
+                                <input type="hidden" value="" name="cost" id="cost">
+
                                 <div class="checks">
                                     <div class="bors">
-                                        <div class="caranke">
+                                        {{-- <div class="caranke">
                                             <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
                                                 <div class="filter-label_hotels">State</div>
-                                                <select class="form-control" name="state_id" id="">
+                                                <select class="form-control" name="state_id" id="state">
                                                     <option value="" selected disabled>Select</option>
+                                                    @foreach ($state as $state)
                                                     <option value="{{$state->id ?? ''}}">{{$state->state_name ?? ''}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div> --}}
+
+                                        <div class="caranke">
+                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('city_id')">
+                                                <div class="filter-label_hotels">City</div>
+                                                <select class="form-control" id="city" name="city_id">
+                                                    <option value="" selected disabled>Select</option>
+                                                    @foreach ($city as $city)
+                                                        <option value="{{ $city->id }}">{{ $city->city_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="caranke">
+                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('language')">
+                                                <div class="filter-label_hotels">Language</div>
+                                                <select class="form-control" name="languages_id" id="language">
+                                                    <option value="" selected disabled>Select</option>
+                                                    <!-- Languages will be populated based on city selection -->
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="caranke">
-                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('location')">
-                                                <div class="filter-label_hotels">Location</div>
-                                                <select class="form-control" name="location" id="">
-                                                    <option value="" selected disabled>Select</option>
-                                                    <option value="{{$tripguide->location ?? ''}}">{{$tripguide->location ?? ''}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
+
                                     </div>
-                                    <div class="rivvsa">
-                                    <div class="filter-item_hotels sachi" onclick="toggleDropdown('language')">
-                                        <div class="filter-label_hotels">Language</div>
-                                        <select class="form-control" name="languages_id" id="">
-                                            <option value="" selected disabled>Select</option>
-                                            <option value="{{$tripguide->languages_id ?? ''}}">{{$tripguide->languages->language_name ?? ''}}</option>
-                                        </select>
-                                    </div>
-                                    </div>
+                                 
                                     <hr>
                                     <div class="guide-selection">
                                         <label class="guide-option">
-                                            <input name="guide_type" type="radio" value="local" checked>
+                                            <input name="guide_type" type="radio" value="Local" checked>
                                             <span class="custom-radio"></span>
                                             Local Guide
                                         </label>
                                         <label class="guide-option">
-                                            <input name="guide_type" type="radio" value="outstation">
+                                            <input name="guide_type" type="radio" value="Outstation">
                                             <span class="custom-radio"></span>
                                             Outstation Guide
                                         </label>
@@ -263,4 +289,90 @@ asset('frontend/images/hotel_main.avif')
         </div>
     </div>
 </div>
+
+
+
+<script>
+  $(document).ready(function() {
+    // Fetch languages when the city is selected
+    $('#city').change(function() {
+        var cityId = $(this).val();
+
+        if (cityId) {
+            // Call AJAX to get languages based on the selected city
+            $.ajax({
+                url: '/booking_portal/public/get-languages/' + cityId,
+                method: 'GET',
+                success: function(response) {
+                    var languages = response.languages;
+                    var languageSelect = $('#language');
+                    languageSelect.empty().append('<option value="" selected disabled>Select Language</option>');
+
+                    // Populate the language dropdown with options
+                    $.each(languages, function(id, name) {
+                        languageSelect.append('<option value="' + id + '">' + name + '</option>');
+                    });
+                },
+                error: function() {
+                    alert('Error fetching languages.');
+                }
+            });
+        }
+    });
+
+    $('#language').change(function() {
+        var cityId = $('#city').val();  // Get selected city
+        var languageId = $(this).val();  // Get selected language
+
+        if (cityId && languageId) {
+            $.ajax({
+                url: '/booking_portal/public/get-tour-guide-details',  // Your backend route
+                method: 'GET',
+                data: {
+                    city_id: cityId,
+                    language_id: languageId
+                },
+                success: function(response) {
+                    // Assuming the response has `tour_guide_id` and `cost`
+                    if (response.cost) {
+                        // Update the hidden input values
+                        $('#tour_guide_id').val(response.tour_guide_id);
+                        $('#cost').val(response.cost);
+                        
+                        // Update the price display
+                        $('#price-display').text('Price: ₹' + response.cost);
+                    } else {
+                        alert('No trip guide found for the selected city and language');
+                    }
+                },
+                error: function() {
+                    alert('Error fetching tour guide details.');
+                }
+            });
+        }
+    });
+
+});
+
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      new Splide('#responsive-slider', {
+          type      : 'loop', // Makes the slider loop
+          perPage   : 1,      // One slide per view
+          autoplay  : true,   // Auto-slide
+          interval  : 3000,   // Interval for autoplay
+          breakpoints: {
+              768: {
+                  perPage: 1,
+              },
+          },
+      }).mount();
+  });
+  
+  </script>
+
+
 @endsection

@@ -58,6 +58,8 @@ Route::group(['prefix' => '/'], function () {
 
     Route::get('/get-airports/{city_id}', [HomeController::class, 'getAirports']);
     Route::get('/get-vehicles-by-airport', [HomeController::class, 'getVehiclesByAirport']);
+    Route::get('/get-vehicle/{cityId}', [HomeController::class, 'getVehiclesByCity']);
+ 
 
     Route::get('user_profile', [HomeController::class, 'user_profile'])->name('user_profile');
 
@@ -71,13 +73,13 @@ Route::group(['prefix' => '/'], function () {
     Route::post('book-local-tour', [HomeController::class, 'book_local_tour'])->name('book_local_tour');
     Route::post('book-outstation', [HomeController::class, 'outstation'])->name('outstationbooked');
     Route::post('book-guide', [HomeController::class, 'bookguide'])->name('bookguide');
-    Route::get('state_detail', [HomeController::class, 'state_detail'])->name('state_detail');
+    Route::get('state_detail/{state_id}', [HomeController::class, 'state_detail'])->name('state_detail');
 
 
     Route::POST('add_confirmation/{id}', [HomeController::class, 'add_confirmation'])->name('add_confirmation');
     Route::POST('add-confirm-guide-booking/{id}', [HomeController::class, 'add_confirm_guide_booking'])->name('add_confirm_guide_booking');
 
-    Route::get('all_images', [HomeController::class, 'all_images'])->name('all_images');
+    Route::get('all_images/{id}', [HomeController::class, 'all_images'])->name('all_images');
     Route::get('detail/{id}', [HomeController::class, 'detail'])->name('detail');
     Route::get('hotelsbooking', [HomeController::class, 'hotelsbooking'])->name('hotelsbooking');
     Route::get('hotel_details/{id}', [HomeController::class, 'hotel_details'])->name('hotel_details');
@@ -95,6 +97,10 @@ Route::group(['prefix' => '/'], function () {
     Route::post('wallet/store', [HomeController::class, 'add_wallet'])->name('wallet.store');
 
     Route::get('guide', [HomeController::class, 'guide'])->name('guide');
+    Route::get('guide-cities/{stateId}', [HomeController::class, 'guide_cities'])->name('guide_cities');
+    Route::get('/get-languages/{cityId}', [HomeController::class, 'getLanguagesByCity']);
+    Route::get('/get-tour-guide-details', [HomeController::class, 'getTourGuideDetails']);
+
 });
 
 Route::post('signup', [AuthController::class, 'signup'])->name('signup_agent');

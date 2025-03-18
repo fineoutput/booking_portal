@@ -28,6 +28,9 @@ use App\Models\TripGuide;
 use App\Models\Route;
 use App\Models\PackageBooking;
 use App\Models\City;
+use App\Models\Constants;
+use App\Models\Languages;
+use App\Models\LocalVehiclePrice;
 use App\Models\Package;
 use App\Models\Slider;
 use App\Models\Vehicle;
@@ -101,6 +104,40 @@ class HomeController extends Controller
         $package->hotels = $hotels;
     }
 
+    // $popularCities = DB::table('package_booking')
+    // ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
+    // ->join('package', 'package_booking.package_id', '=', 'package.id')
+    // ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
+    // ->join('package_booking_temp', 'package_booking.package_temp_id', '=', 'package_booking_temp.id')
+    // ->groupBy('package.city_id', 'package_booking.package_temp_id')
+    // ->orderByDesc('bookings_count')
+    // ->get();
+
+    // if ($popularCities->isEmpty()) {
+    //     $data['popularCities'] = [];
+    // } else {
+    //     $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
+    //         return $cities->sum('bookings_count');
+    //     });
+
+    //     $sortedCities = $groupedCities->sortDesc();
+
+    //     $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
+    //         $city = $popularCities->firstWhere('city_id', $cityId);
+
+    //         $adultCount = \DB::table('package_booking_temp')
+    //             ->where('id', $city->package_temp_id)
+    //             ->value('adults_count'); 
+
+    //         $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
+    //         return [
+    //             'city_name' => $cityName,
+    //             'bookings_count' => $bookingsCount,
+    //             'adults_count' => $adultCount,
+    //         ];
+    //     })->values();
+    // }
+
     $popularCities = DB::table('package_booking')
     ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
     ->join('package', 'package_booking.package_id', '=', 'package.id')
@@ -110,30 +147,48 @@ class HomeController extends Controller
     ->orderByDesc('bookings_count')
     ->get();
 
-    if ($popularCities->isEmpty()) {
-        $data['popularCities'] = [];
-    } else {
-        $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
-            return $cities->sum('bookings_count');
-        });
+if ($popularCities->isEmpty()) {
+    $data['popularCities'] = [];
+} else {
+    // Group by city_id and sum the bookings count for each city
+    $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
+        // Sum the bookings count across all packages for each city
+        return $cities->sum('bookings_count');
+    });
 
-        $sortedCities = $groupedCities->sortDesc();
+    // Sort cities by the summed bookings count in descending order
+    $sortedCities = $groupedCities->sortDesc();
 
-        $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
-            $city = $popularCities->firstWhere('city_id', $cityId);
+    $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
+        // Get the first entry for each city (after grouping) for details
+        $city = $popularCities->firstWhere('city_id', $cityId);
 
-            $adultCount = \DB::table('package_booking_temp')
-                ->where('id', $city->package_temp_id)
-                ->value('adults_count'); 
+        // Get the adult count for this city's package
+        $adultCount = \DB::table('package_booking_temp')
+            ->where('id', $city->package_temp_id)
+            ->value('adults_count'); 
 
-            $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
-            return [
-                'city_name' => $cityName,
-                'bookings_count' => $bookingsCount,
-                'adults_count' => $adultCount,
-            ];
-        })->values();
-    }
+        // Get the city name
+        $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
+
+        // Decode the image field (assuming it was stored as an escaped JSON string)
+        $image = \DB::table('package')->where('city_id', $cityId)->value('image');
+        
+        // Decode the HTML entities and JSON string
+        $decodedImage = json_decode(html_entity_decode($image), true);
+        
+        // Extract the image URL from the decoded array (assuming it's the first element)
+        $imageUrl = $decodedImage['1'] ?? '';
+
+        return [
+            'city_name' => $cityName,
+            'bookings_count' => $bookingsCount,
+            'adults_count' => $adultCount,
+            'image' => $imageUrl, // Use the decoded image URL
+        ];
+    })->values();
+}
+
 
 
     return view('front/index', $data)->withTitle('home');
@@ -172,6 +227,7 @@ class HomeController extends Controller
     public function login()
     {
         $data['states'] = State::all();
+        $data['Constants'] = Constants::orderBy('id','DESC')->first();
         return view('front/login',$data);
     }
     public function options()
@@ -179,13 +235,37 @@ class HomeController extends Controller
         return view('front/options');
     }
    
-    public function all_images()
+    public function all_images($id)
     {
-        return view('front/all_images');
+        $id = base64_decode($id);
+        $data['hotels'] = Hotels::where('id',$id)->first();
+        return view('front/all_images',$data);
     }
-    public function state_detail()
+    public function state_detail($id)
     {
-        return view('front/state_detail');
+        $id = base64_decode($id);
+        
+        $city['city'] = State::where('id', $id)->first();
+    
+        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id])->get();
+        $data['slider'] = Slider::orderBy('id','DESC')->where('type','package')->get();
+    
+        $formatted_date = Carbon::now()->format('Y-m-d');
+    
+        foreach ($data['packages'] as $package) {
+            $package_price = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '<=', $formatted_date)
+                ->where('end_date', '>=', $formatted_date)
+                ->first();
+    
+            $package->prices = $package_price;
+    
+            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+            
+            $package->hotels = $hotels;
+        }
+
+        return view('front/state_detail',$data);
     }
 
 
@@ -358,7 +438,10 @@ public function getVehiclesByAirport(Request $request)
     $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
     
     // Get prices for these vehicles
-    $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)->get();
+    $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)
+    ->whereIn('airport_id', (array) $airportId)  // Ensures airport_id is always treated as an array
+    ->get();
+
 
     $data = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
         // Find the price for the current vehicle at the selected airport
@@ -367,7 +450,8 @@ public function getVehiclesByAirport(Request $request)
         return [
             'id' => $vehicle->id,
             'vehicle_type' => $vehicle->vehicle_type,
-            'price' => $price ? $price->price : null, // Ensure price is fetched correctly
+            'price' => $price ? $price->price : null,
+            'description' => $price ? $price->description : null,
         ];
     });
 
@@ -375,13 +459,65 @@ public function getVehiclesByAirport(Request $request)
 }
 
 
+public function getVehiclesByCity($cityId)
+{
+    $localVehiclePrices = LocalVehiclePrice::where('city_id', $cityId)->get();
+
+    if ($localVehiclePrices->isEmpty()) {
+        return response()->json(['message' => 'No vehicles found for this city'], 404);
+    }
+
+    $vehicleIds = [];
+
+    foreach ($localVehiclePrices as $localPrice) {
+        $vehicleIds = array_merge($vehicleIds, explode(',', $localPrice->vehicle_id));  
+    }
+
+    // Remove duplicate vehicle_ids if any
+    $vehicleIds = array_unique($vehicleIds);
+
+    // Fetch vehicles associated with the given vehicle_ids
+    $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
+
+    // Map the vehicle data with the associated prices
+    $data = $vehicles->map(function ($vehicle) use ($localVehiclePrices) {
+        // Find the first matching price record for this vehicle
+        $price = null;
+        $description = null; // Add description here
+
+        foreach ($localVehiclePrices as $localPrice) {
+            // Check if vehicle_id is in the comma-separated list of vehicle_ids in local_vehicleprice
+            if (in_array($vehicle->id, explode(',', $localPrice->vehicle_id))) {
+                $price = $localPrice->price;
+                $description = $localPrice->description; // Ensure description is assigned
+                break; // Exit loop after finding the first match
+            }
+        }
+
+        // Debugging statement to check the value of description
+        \Log::debug("Vehicle ID: {$vehicle->id}, Description: {$description}");
+
+        return [
+            'id' => $vehicle->id,
+            'vehicle_type' => $vehicle->vehicle_type,
+            'price' => $price ?? null,
+            'description' => $description ?? null, // Ensure description is returned correctly
+        ];
+    });
+
+    return response()->json($data);
+}
+
+
+
     public function taxi_booking()
     {
         $data['user'] = Auth::guard('agent')->user();
         $data['airport'] = Airport::all();
         $data['vehicle'] = Vehicle::where('status',1)->get();
+        // $data['localVehiclePrices'] = LocalVehiclePrice::all();
         // $data['vehicleprice'] = VehiclePrice::get();
-        $data['vehiclepricetour'] = VehiclePrice::where('type','Local Tour')->get();
+        $data['vehiclepricetour'] = LocalVehiclePrice::get();
         $data['route'] = Route::get();
         $data['outstation'] = Outstation::get();
         $data['admincity'] = AdminCity::get();
@@ -485,6 +621,7 @@ public function getVehiclesByAirport(Request $request)
         $taxibooking->tour_type = 'Local Tour';
         $taxibooking->user_id = Auth::guard('agent')->id();
         $taxibooking->location = $request->location;
+        $taxibooking->city_id = $request->city_id;
         $taxibooking->vehicle_id = $request->vehicle_id;
         $taxibooking->pickup_date = $request->pickup_date;
         $taxibooking->pickup_time = $request->pickup_time;
@@ -547,6 +684,7 @@ public function getVehiclesByAirport(Request $request)
         $city['city'] = City::where('id', $id)->first();
     
         $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
+        $data['slider'] = Slider::orderBy('id','DESC')->where('type','package')->get();
     
         $formatted_date = Carbon::now()->format('Y-m-d');
     
@@ -887,10 +1025,53 @@ public function getVehiclesByAirport(Request $request)
 
     public function guide()
     {
-        $data['tripguide'] = TripGuide::latest()->first();
-        $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
-        return view('front/guide',$data);
+        // $data['tripguide'] = TripGuide::latest()->first();
+        // $data['slider'] = Slider::orderBy('id','DESC')->where('type','guide')->get();
+        // $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
+        // return view('front/guide',$data);
+        
+        $data['tripguide'] = TripGuide::latest()->get(); 
+        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'guide')->get();
+        $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get(); 
+        $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get(); 
+        return view('front/guide', $data);
+
     }
+
+    public function getLanguagesByCity($cityId)
+    {
+        $tripGuides = TripGuide::where('city_id', $cityId)->get();
+
+        $languages = $tripGuides->map(function ($guide) {
+            return $guide->languages_id;
+        })->unique();
+
+        $languageNames = Languages::whereIn('id', $languages)->pluck('language_name', 'id');
+
+        return response()->json(['languages' => $languageNames]);
+    }
+
+    public function getTourGuideDetails(Request $request)
+    {
+        $cityId = $request->city_id;
+        $languageId = $request->language_id;
+    
+        // Query the TripGuide model based on city and language
+        $tripguide = TripGuide::where('city_id', $cityId)
+                              ->where('languages_id', $languageId)
+                              ->first();
+    
+        if ($tripguide) {
+            // Return the tour guide ID and cost
+            return response()->json([
+                'tour_guide_id' => $tripguide->id,
+                'cost' => $tripguide->cost
+            ]);
+        }
+    
+        return response()->json(['error' => 'No trip guide found'], 404);
+    }
+    
 
 
     public function guideconfirmation(Request $request, $id)
@@ -924,31 +1105,48 @@ public function getVehiclesByAirport(Request $request)
 
 
 
-    public function bookguide(Request $request){
-
+    public function bookguide(Request $request)
+    {
+        // Validate the request data
         $validated = $request->validate([
-            'state_id' => 'required',
-            'location' => 'required',
+            'city_id' => 'required',
             'languages_id' => 'required',
         ]);
+ 
+        $trip = TripGuide::where('id', $request->tour_guide_id)->first();
+    
+        if ($trip) {
+            $guideTypes = explode(',', $trip->guide_type);
+            // return $request->guide_type;
 
-        $TripGuide = new TripGuideBook();
+            if (in_array($request->guide_type, $guideTypes)) {
 
-        $TripGuide->user_id = Auth::guard('agent')->id();
-        $TripGuide->tour_guide_id = $request->tour_guide_id;
-        $TripGuide->languages_id = $request->languages_id;
-        $TripGuide->state_id = $request->state_id;
-        $TripGuide->location = $request->location;
-        $TripGuide->guide_type = $request->guide_type;
-        $TripGuide->cost = $request->cost;
-        $TripGuide->status = 0;
-
-        $TripGuide->save();
-
-        return redirect()->route('guide_confirmation', ['id' => base64_encode($TripGuide->id)]);
-        // return redirect()->back()->with('message','Tour Guide Booked Succesfully!');
-        
+                $TripGuide = new TripGuideBook();
+                $TripGuide->user_id = Auth::guard('agent')->id();
+                $TripGuide->tour_guide_id = $request->tour_guide_id;
+                $TripGuide->languages_id = $request->languages_id;
+                $TripGuide->state_id = $request->state_id;
+                $TripGuide->location = $request->location;
+                $TripGuide->guide_type = $request->guide_type;  // Store the guide_type
+                $TripGuide->cost = $request->cost;
+                $TripGuide->status = 0;
+    
+                // Save the TripGuideBook record
+                $TripGuide->save();
+    
+                // Redirect to confirmation page with the TripGuide ID
+                return redirect()->route('guide_confirmation', ['id' => base64_encode($TripGuide->id)])
+                    ->with('success', 'Tour Guide booked successfully!');
+            } else {
+                // If the guide_type does not match, flash an error message to the session
+                return redirect()->back()->with('message', 'The selected guide type is not valid for this tour guide.');
+            }
+        } else {
+            // Handle the case where the TripGuide is not found
+            return redirect()->back()->with('message', 'Tour guide not found.');
+        }
     }
+    
 
 
     public function successResponse($message, $status = true, $statusCode = 201)

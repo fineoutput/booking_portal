@@ -16,11 +16,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Add Package Price</h4>
+                    <h4 class="page-title">Add Constants</h4>
                     <ol class="breadcrumb" style="display:none">
                         <!-- <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li> -->
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Package</a></li>
-                        <li class="breadcrumb-item active">Add Package Price</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Constants</a></li>
+                        <li class="breadcrumb-item active">Add Constants</li>
                     </ol>
                 </div>
             </div>
@@ -47,14 +47,14 @@
                             </div>
                             @endif
                             <!-- End show success and error messages -->
-                            <h4 class="mt-0 header-title">Add Package Price Form</h4>
+                            <h4 class="mt-0 header-title">Add Constants Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
                             <form action="{{ route('set_constants') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">                            
                                     <!-- Multiple Costs -->
                                     <div class="col-sm-6">
-                                        <label for="agent_fees" class="form-label">Standard (2 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="agent_fees" class="form-label">Agent Register Fees &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="agent_fees" value="{{ old('agent_fees', $constants->agent_fees ?? '') }}" required>
                                         @error('agent_fees')
                                             <div style="color:red;">{{ $message }}</div>

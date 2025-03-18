@@ -53,7 +53,7 @@
                         <th data-priority="1">Salesman Name</th>
                         <th data-priority="1">Salesman Mobile</th>
                         <th data-priority="1">State</th>
-                        <th data-priority="1">Location</th>
+                        <th data-priority="1">City</th>
                         <th data-priority="1">Language</th>
                         <th data-priority="1">Guide Type</th>
                         <!-- <th data-priority="1">Local Guide</th>
@@ -61,7 +61,6 @@
                         <th data-priority="1">Agent Margin</th>
                         <th data-priority="1">Final Cost</th>
                         <th data-priority="1">Action</th>
-
                       </tr>
                     </thead>
                    <tbody>
@@ -71,11 +70,11 @@
                         <td>{{ $hotel->user->name ?? '' }}</td>
                         <td>{{ $hotel->salesman_name ?? '' }}</td>
                         <td>{{ $hotel->salesman_mobile ?? '' }}</td>
-                        <td>{{ $hotel->guide_se->state->state_name ?? '' }}</td>
-                        <td>{{ $hotel->guide_se->location ?? '' }}</td>
+                        <td>{{ $hotel->guide->state->state_name ?? '' }}</td>
+                        <td>{{ $hotel->guide->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->guide_se->languages->language_name ?? '' }}</td>
                         <td>
-            @if($hotel->guide_se->guide_type)
+            @if($hotel->guide_se->guide_type ?? '')
                 @php
                     $guideTypes = explode(',', $hotel->guide_se->guide_type);
                 @endphp

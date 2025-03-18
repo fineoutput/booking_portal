@@ -140,7 +140,7 @@
 
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Video</label>
-                                            <input required class="form-control" style="margin-left: 10px" type="file" name="video[]" multiple>
+                                            <input  class="form-control" style="margin-left: 10px" type="file" name="video[]" multiple>
                                             @error('video')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror

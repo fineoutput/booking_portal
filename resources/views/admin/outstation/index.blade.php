@@ -69,7 +69,7 @@
                                 <td>{{$value->drop_point ?? ''}}</td>
                                 <td>{{$value->available_km ?? ''}}</td>
                                 <td>{{$value->extra_km_charge ?? ''}}</td>
-                                <td>{{$value->cost ?? ''}}</td>
+                                <td>₹{{$value->cost ?? ''}}</td>
                                 <td>{!!$value->description!!}</td>
                                 <td>
                                     <a href="{{ route('outstation.edit', $value->id) }}" class="btn btn-warning">Edit</a>

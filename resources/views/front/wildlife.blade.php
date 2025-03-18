@@ -147,7 +147,7 @@
               <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
               <source media="(min-width: 768px)" srcset="{{ asset($value->image) }}">
               <source media="(max-width: 767px)" srcset="{{ asset($value->image) }}">
-              <img style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner">
+              <img class="chats" style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner">
           </picture>
       </li>
         @endforeach

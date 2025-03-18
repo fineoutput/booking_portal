@@ -34,15 +34,19 @@ use App\Http\Controllers\Api\SafariController;
     Route::get('/routes', [SafariController::class, 'routes']);
     Route::post('/tripguide', [SafariController::class, 'tripguide']);
     Route::post('/wild-life-safari-book', [SafariController::class, 'wildsafaribooked']);
-    Route::get('/languages', [SafariController::class, 'getLanguages']);
+    Route::post('/languages', [HotelController::class, 'getLanguages']);
     Route::get('/filter-state-city', [SafariController::class, 'filterStateCity']);
     Route::post('/hotel-state-city', [HotelController::class, 'statecityhotel']);
     Route::post('/hotel-booking', [HotelController::class, 'hotelbooking']);
     Route::post('/package-search', [HotelController::class, 'packagesearch']);
     Route::post('/add-wallet', [HotelController::class, 'add_wallet']);
     Route::get('/user-wallet', [HotelController::class, 'get_user_transactions']);
+    Route::get('/admin-city', [HotelController::class, 'admin_city']);
+    Route::post('/airport-vehicle', [HotelController::class, 'airport_vehicle']);
+    Route::post('/local-vehicle', [HotelController::class, 'local_vehicle']);
 
     Route::post('/taxi-booking', [HotelController::class, 'taxibooking']);
+    Route::get('/constant', [HotelController::class, 'constant']);
 
     Route::get('/city', [HotelController::class, 'city']);
     Route::post('/book-guide', [HotelController::class, 'bookGuide']);
@@ -50,6 +54,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/all-bookings', [HotelController::class, 'allbookings']);
     Route::get('/user-profile', [HotelController::class, 'profile']);
     Route::get('/popular-city', [HotelController::class, 'popularCity']);
+    Route::get('/guide-city', [HotelController::class, 'guideCity']);
 
 
 

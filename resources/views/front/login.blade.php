@@ -329,7 +329,7 @@
                                         <div class="col-lg-6">
                                         <div class="mb-3">
                                         <label for="charge" class="form-label">Registration Charge</label>
-                                        <input type="number" class="form-control" id="charge" name="registration_charge" placeholder="Enter registration charge">
+                                        <input type="number" name="registration_charge" value="{{$Constants->agent_fees ?? ''}}" class="form-control" id="charge" name="registration_charge" placeholder="Enter registration charge" readonly>
                                     </div>
                                         </div>
                                     </div>

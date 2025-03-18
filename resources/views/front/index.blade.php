@@ -229,7 +229,11 @@
         <div class="col-lg-3">
             <div class="gallery_loc">
                 <div class="inner_gallery_loc">
+                  @if($value['image'])
+                  <img src="{{ asset($value['image']) }}" alt="">
+                  @else
                     <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
+                    @endif
                 </div>
                 <div class="inner_gallery_loc_txt">
                     <div class="type_gallery">
@@ -251,26 +255,32 @@
             <!-- /////smaller screeen tab///// -->
             <div class="tab-container d-lg-none mt-5">
             <div class="button-container">
-                <button class="tab-button" id="tab1-btn">India</button>
-                <button class="tab-button" id="tab2-btn">Europe</button>
+                {{-- <button class="tab-button" id="tab1-btn">India</button>
+                <button class="tab-button" id="tab2-btn">Europe</button> --}}
             </div>
 
             <div class="content-container">
     <div class="tab-content" id="tab1-content">
         <div class="scrollable-slider">
             <div class="row flex-nowrap">
+              @foreach($popularCities as $value)
                 <div class="outer_loc_dd">
                     <div class="inner_car_ig">
-                        <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
+                      @if($value['image'])
+                        <img src="{{ asset($value['image']) }}" alt="">
+                        @else
+                        <img src="{{ asset('frontend/images/gallery/rjwm-rjwp-1522023.avif') }}" alt="">
+                        @endif
                     </div>
                     <div class="outer_car_txt justify-content-center">
-                        <p>33 tours | 72 Departures
-                            61,838 guest Travelled</p>
-                        <h2>Jammu</h2>
+                        <p>{{ $value['bookings_count'] }} tours |
+                          {{ $value['adults_count'] }} guest Travelled</p>
+                        <h2>{{ $value['city_name'] }}</h2>
                     </div>
                 </div>
+                @endforeach
                 <!-- Repeat more cards -->
-                <div class="outer_loc_dd">
+                {{-- <div class="outer_loc_dd">
                     <div class="inner_car_ig">
                         <img src="{{ asset('frontend/images/gallery/rjwm-rjwp-1522023.avif') }}" alt="">
                     </div>
@@ -289,12 +299,12 @@
                             61,838 guest Travelled</p>
                         <h2>Gujrat</h2>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
 
-    <div class="tab-content" id="tab2-content" style="display: none;">
+    {{-- <div class="tab-content" id="tab2-content" style="display: none;">
         <div class="scrollable-slider">
             <div class="row flex-nowrap">
                 <div class="outer_loc_dd">
@@ -330,7 +340,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 
             </div>
@@ -564,7 +574,7 @@
             $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
             $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
                           @endphp
-                          <p>Price: ₹{{ number_format($total, 2) }}</p>
+                          <p>Price: ₹{{ number_format($value->prices->display_cost, 2) }}</p>
                       @else
                           <p>No price available.</p>
                       @endif

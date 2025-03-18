@@ -112,7 +112,7 @@
                                     <div class="form-group">
                                         <label for="city">State</label>
                                         <br>
-                                        <select required class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
+                                        <select class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
                                             @foreach ($states as $state)
                                                 <option value="{{ $state->id }}" 
                                                     {{ in_array($state->id, old('state_id', isset($user) ? $user->state->pluck('id')->toArray() : [])) ? 'selected' : '' }}>
@@ -132,7 +132,7 @@
                                     <div class="form-group">
                                     <label for="city">City</label>
                                     <div id="output"></div>
-                                    <select required class="chosen-select" id="city" name="city_id[]" multiple >
+                                    <select class="chosen-select" id="city" name="city_id[]" multiple >
                                         <!-- Cities will be populated dynamically here -->
                                     </select>
                                     

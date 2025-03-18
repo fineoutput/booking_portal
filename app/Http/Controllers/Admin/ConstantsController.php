@@ -39,8 +39,7 @@ class ConstantsController extends Controller
             }
             
             $agentCall->agent_fees = $request->agent_fees;
-            
-            // Save the record (it will either create or update)
+
             $agentCall->save();
             
             return redirect()->back()->with('success', 'Set Constants successfully!');

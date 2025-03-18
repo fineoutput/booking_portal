@@ -62,7 +62,7 @@
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$value->Vehicle->vehicle_type ?? ''}}</td>
-                                <td>{{$value->per_km_charge	 ?? ''}}</td>
+                                <td>₹{{$value->per_km_charge	 ?? ''}}</td>
                                 {{-- <td>{{$value->cost ?? ''}}</td> --}}
                                 <td>{!!$value->description!!}</td>
                                 <td>

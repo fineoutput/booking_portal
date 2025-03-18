@@ -169,7 +169,7 @@
 
               @foreach($states as $state)
         <div class="col-md-4">
-            <h6>{{ $state->state_name }}</h6>
+            <h6> <a href="{{ route('state_detail', ['state_id' => base64_encode($state->id)]) }}">{{ $state->state_name }}</a></h6>
             <ul class="list-unstyled">
                 @foreach($state->cities as $city)
                     <li><a class="dropdown-item" href="{{ route('list', ['city_id' => base64_encode($city->id)]) }}">{{ $city->city_name }}</a></li>

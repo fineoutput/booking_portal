@@ -28,6 +28,7 @@ use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Route;
 use App\Models\PackagePrice;
+use App\Models\Constants;
 use App\Models\PackageBooking;
 use App\Models\TripGuideBook2;
 use App\Models\PackageBookingTemp;
@@ -38,6 +39,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Mail\OtpMail;
+use App\Models\AdminCity;
+use App\Models\Languages;
+use App\Models\LocalVehiclePrice;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -1147,6 +1151,7 @@ public function taxibooking(Request $request)
         if($request->trip == 'pickup'){
         $data = [
             'location' => $request->location,
+            'city_id' => $request->city_id,
             'user_id' => $user->id, 
             'vehicle_id' => $request->vehicle_id,
             'airport_id' => $request->airport_id,
@@ -1161,6 +1166,7 @@ public function taxibooking(Request $request)
         $data = [
             'location' => $request->location,
             'user_id' => $user->id, 
+            'city_id' => $request->city_id, 
             'vehicle_id' => $request->vehicle_id,
             'airport_id' => $request->airport_id,
             'trip' => $request->trip,
@@ -1179,6 +1185,7 @@ public function taxibooking(Request $request)
             'location' => $request->location,
             'pickup_date' => $request->pickup_date,
             'pickup_time' => $request->pickup_time,
+            'city_id' => $request->city_id, 
             'vehicle_id' => $request->vehicle_id,
             'user_id' => $user->id,
             'drop_time' => $request->drop_time,
@@ -1879,12 +1886,12 @@ public function bookGuide(Request $request)
 
     // If authentication is successful, proceed with the booking process
     $validator = Validator::make($request->all(), [
-        'state_id' => 'required',
-        'location' => 'required',
+        // 'state_id' => 'required',
+        'city_id' => 'required',
         'languages_id' => 'required',
-        'tour_guide_id' => 'required',
+        // 'tour_guide_id' => 'required',
         'guide_type' => 'required',
-        'cost' => 'required|numeric',
+        // 'cost' => 'required|numeric',
     ]);
 
     if ($validator->fails()) {
@@ -1897,16 +1904,35 @@ public function bookGuide(Request $request)
 
     try {
 
+        $cityId = $request->city_id;
+        $languageId = $request->languages_id;
+    
+        // Query the TripGuide model based on city and language
+        $tripguide = TripGuide::where('city_id', $cityId)
+                              ->where('languages_id', $languageId)
+                              ->first();
+    
+    
+        if ($tripguide) {
+            $guideTypes = explode(',', $tripguide->guide_type);
+
         $tripGuide = new TripGuideBook();
 
         $tripGuide->user_id = $user->id;
-        $tripGuide->tour_guide_id = $request->tour_guide_id;
+        $tripGuide->tour_guide_id = $tripguide->id;
         $tripGuide->languages_id = $request->languages_id;
         $tripGuide->state_id = $request->state_id;
         $tripGuide->location = $request->location;
         $tripGuide->guide_type = $request->guide_type;
-        $tripGuide->cost = $request->cost;
+        $tripGuide->cost = $tripguide->cost;
         $tripGuide->status = 0; 
+        }else{
+            return response()->json([
+            'status' => 200,
+            'message' => 'The selected guide type is not valid for this tour guide!',
+            'data' => []
+        ], 201);
+        }
 
         $tripGuide->save();
         $tripGuide->makeHidden('updated_at','created_at');
@@ -1931,6 +1957,52 @@ return response()->json([
     'status' => 201,
 ], 401);
 }
+
+
+public function guideCity(Request $request)
+{
+    $tripguides = TripGuide::latest()->get();
+
+    $cities = City::whereIn('id', $tripguides->pluck('city_id'))->get(['id', 'city_name']);
+
+    return response()->json([
+        'message' => 'Guide Cities Fetched Successfully.',
+        'data' => $cities,
+        'status' => 200,
+    ]);
+}
+
+
+
+public function getLanguages(Request $request)
+{
+    $validated = $request->validate([
+        'city_id' => 'required|integer',
+    ]);
+
+    $tripGuides = TripGuide::where('city_id', $request->city_id)->get();
+
+    $languages = $tripGuides->map(function ($guide) {
+        return $guide->languages_id; 
+    })->unique();
+
+    $languageNames = Languages::whereIn('id', $languages)->get(['id', 'language_name']);
+
+    $formattedLanguages = $languageNames->map(function($language) {
+        return [
+            'id' => $language->id,
+            'language_name' => $language->language_name,
+        ];
+    });
+
+    return response()->json([
+        'message' => 'Languages fetched successfully.',
+        'data' => $formattedLanguages,
+        'status' => 200
+    ], 200);
+}
+
+
 
 
     public function airport()
@@ -2668,6 +2740,248 @@ return response()->json([
             'status' => 200,
         ]);
     }
+
+
+    public function admin_city(Request $request)
+    {
+        // Get the bearer token from the request
+        $token = $request->bearerToken();
+        
+        // Check if the token is provided
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 201,
+            ]);
+        }
+    
+        $decodedToken = base64_decode($token); 
+        list($email, $password) = explode(',', $decodedToken);
+
+        $user = Agent::where('email', $email)->first();
+    
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+
+        $data = AdminCity::all();
+
+        return response()->json([
+            'message' => 'Cities fetched successfully.',
+            'data' => $data->map(function ($city) {
+                return [
+                    'id' => $city->id,
+                    'state_id' => $city->state_id,
+                    'city_name' => $city->city_name,
+                    'status' => $city->status,
+                ];
+            }),
+            'status' => 200,
+        ]);
+    }
+
+
+
+
+    public function airport_vehicle(Request $request)
+    {
+        $token = $request->bearerToken();
+
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+
+        $decodedToken = base64_decode($token); 
+        list($email, $password) = explode(',', $decodedToken);
+    
+        $user = Agent::where('email', $email)->first();
+    
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+
+        $cityId = $request->input('city_id');
+
+        if (!$cityId) {
+            return response()->json([
+                'message' => 'City ID is required.',
+                'data' => [],
+                'status' => 400,
+            ]);
+        }
+
+        $airports = Airport::where('city_id', $cityId)->get();
+
+        if ($airports->isEmpty()) {
+            return response()->json([
+                'message' => 'No airports found for this city.',
+                'data' => [],
+                'status' => 404,
+            ]);
+        }
+    
+        $airportDetails = [];
+    
+        foreach ($airports as $airport) {
+
+            $vehicleIds = explode(',', $airport->vehicle_id);
+
+            $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
+
+            $vehiclePrices = VehiclePrice::whereIn('vehicle_id', $vehicleIds)
+                                          ->where('airport_id', $airport->id)
+                                          ->get();
+    
+            $vehiclesWithPrice = $vehicles->map(function ($vehicle) use ($vehiclePrices) {
+                $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first();
+    
+                return [
+                    'id' => $vehicle->id,
+                    'vehicle_type' => $vehicle->vehicle_type,
+                    'price' => $price ? $price->price : null,
+                ];
+            });
+    
+            $airportDetails[] = [
+                'airport_id' => $airport->id,
+                'airport_name' => $airport->airport,
+                'vehicles' => $vehiclesWithPrice
+            ];
+        }
+    
+        return response()->json([
+            'message' => 'Airports and their vehicles fetched successfully.',
+            'data' => $airportDetails,
+            'status' => 200,
+        ]);
+    }
+
+
+    public function local_vehicle(Request $request)
+    {
+        $token = $request->bearerToken();
+    
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+    
+        $decodedToken = base64_decode($token); 
+        list($email, $password) = explode(',', $decodedToken);
+    
+        $user = Agent::where('email', $email)->first();
+    
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+    
+        $cityId = $request->input('city_id');
+    
+        if (!$cityId) {
+            return response()->json([
+                'message' => 'City ID is required.',
+                'data' => [],
+                'status' => 400,
+            ]);
+        }
+    
+        $airports = LocalVehiclePrice::where('city_id', $cityId)->get();
+
+        if ($airports->isEmpty()) {
+            return response()->json([
+                'message' => 'No Local Vehicle found for this city.',
+                'data' => [],
+                'status' => 404,
+            ]);
+        }
+    
+        $airportDetails = [];
+    
+        foreach ($airports as $airport) {
+            $vehicleIds = explode(',', $airport->vehicle_id);
+
+            $vehicles = Vehicle::whereIn('id', $vehicleIds)->get();
+    
+            $vehiclePrices = LocalVehiclePrice::whereIn('vehicle_id', $vehicleIds)
+                                          ->get();
+
+            $vehiclesWithPrice = $vehicles->map(function ($vehicle) use ($vehiclePrices,$airport) {
+                $price = $vehiclePrices->where('vehicle_id', $vehicle->id)->first();
+    
+                return [
+                    'id' => $vehicle->id,
+                    'vehicle_type' => $vehicle->vehicle_type,
+                    'price' => $airport->price,
+                    'description' => strip_tags($airport->description),
+                ];
+            });
+    
+            // $airportDetails[] = [
+            //     'id' => $airport->id,
+            //     'airport_name' => $airport->airport,
+            //     'vehicles' => $vehiclesWithPrice
+            // ];
+        }
+    
+        return response()->json([
+            'message' => 'Loacl Tour vehicles fetched successfully.',
+            'data' => $vehiclesWithPrice,
+            'status' => 200,
+        ]);
+    }
+    
+
+
+    public function constant(Request $request)
+    {
+       
+    
+        $constant = Constants::first(); 
+
+        if (!$constant) {
+            return response()->json([
+                'message' => 'No constant found.',
+                'data' => [],
+                'status' => 404,
+            ]);
+        }
+
+        $Constants[] = [
+            'id' => $constant->id,
+            'agent_fees' => $constant->agent_fees,
+        ];
+    
+        // Return the constants data
+        return response()->json([
+            'message' => 'Constant data retrieved successfully.',
+            'data' => $Constants,
+            'status' => 200,
+        ]);
+    }
+
+
+    
+
 
     
  
