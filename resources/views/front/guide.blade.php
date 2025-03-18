@@ -84,15 +84,25 @@ asset('frontend/images/hotel_main.avif')
         
         <div class="col-lg-5 d-none d-lg-block">
             <div class="row">
-                {{-- @foreach ($images as $key => $image)
-                    @if ($key > 0)  <!-- Skip the first image -->
-                        <div class="col-lg-6 mb-2">
-                            <div class="side_masic">
-                                <img src="{{ asset($image) }}" alt="">
-                            </div>
+                @foreach ($tripguide as $key => $value)
+                    <div class="col-lg-6 mb-2">
+                        <div class="side_masic">
+                            @php
+                                // Decode the JSON string and ensure it's a string, not an array
+                                $imagePath = json_decode($value->image);
+                                // If it's an array or object, use the first element or key
+                                $imagePath = is_array($imagePath) ? reset($imagePath) : $imagePath;
+                            @endphp
+                            @if ($imagePath)
+                                <img src="{{ asset($imagePath) }}" alt="Trip Guide Image">
+                            @else
+                                <p>No image available</p>
+                            @endif
                         </div>
-                    @endif
-                @endforeach --}}
+                    </div>
+                @endforeach
+
+            
             </div>
         </div>
     </div>
