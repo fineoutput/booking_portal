@@ -67,7 +67,8 @@
                         <div class="tab-container mt-5">
                             <div class="button-container">
                                 <button class="tab-button" id="tab1-btn">Overview</button>
-                                <button class="tab-button" id="tab2-btn">Itenary 
+                                <button class="tab-button" id="tab2-btn"> Itinerary 
+ 
                                 </button>
                             </div>
                 
