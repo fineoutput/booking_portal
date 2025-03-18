@@ -123,12 +123,16 @@
                   
                           <!-- Display Videos -->
                           <td>
+                            @if($pkg->video)
                               @foreach (json_decode($pkg->video) as $video)
                                   <video width="150" controls>
                                       <source src="{{ asset($video) }}" type="video/mp4">
                                       Your browser does not support the video tag.
                                   </video>
                               @endforeach
+                              @else
+                              No Video Available
+                              @endif
                           </td>
                   
                           <td>{!! \Str::words($pkg->text_description, 20) !!}</td>
