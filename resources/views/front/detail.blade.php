@@ -66,8 +66,9 @@
                         </div>
                         <div class="tab-container mt-5">
                             <div class="button-container">
-                                <button class="tab-button" id="tab1-btn">About 1</button>
-                                <button class="tab-button" id="tab2-btn">About 2</button>
+                                <button class="tab-button" id="tab1-btn">Overview</button>
+                                <button class="tab-button" id="tab2-btn">Geography and Climate 
+                                </button>
                             </div>
                 
                             <div class="content-container">
