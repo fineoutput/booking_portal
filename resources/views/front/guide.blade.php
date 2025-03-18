@@ -70,22 +70,11 @@ asset('frontend/images/hotel_main.avif')
 <div class="comp-container">
 
     <div class="row mt-5">
-        <div class="col-lg-7 nive d-none d-lg-block">
-            <div class="mirror_maxe">
-                {{-- @php
-                    $images = json_decode($tripguide->image);
-                @endphp
-                
-                @if (!empty($images))
-                    <img src="{{ asset($images[0]) }}" alt="Trip Image">
-                @endif --}}
-            </div>
-        </div>
-        
-        <div class="col-lg-5 d-none d-lg-block">
+
+        <div class="col-lg-12 d-none d-lg-block">
             <div class="row">
                 @foreach ($tripguide as $key => $value)
-                    <div class="col-lg-6 mb-2">
+                    <div class="col-lg-4 mb-2">
                         <div class="side_masic">
                             @php
                                 // Decode the JSON string and ensure it's a string, not an array
@@ -105,6 +94,21 @@ asset('frontend/images/hotel_main.avif')
             
             </div>
         </div>
+
+
+        {{-- <div class="col-lg-7 nive d-none d-lg-block">
+            <div class="mirror_maxe">
+                @php
+                    $images = json_decode($tripguide->image);
+                @endphp
+                
+                @if (!empty($images))
+                    <img src="{{ asset($images[0]) }}" alt="Trip Image">
+                @endif
+            </div>
+        </div> --}}
+        
+
     </div>
     
     <div class="other_dets mt-5">
