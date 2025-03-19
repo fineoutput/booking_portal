@@ -88,6 +88,7 @@ class HomeController extends Controller
     public function index(Request $req)
 {
     $data['packages'] = Package::get();
+    $data['slider'] = Slider::where('type','home_slider')->get();
 
     $formatted_date = Carbon::now()->format('Y-m-d'); 
 
