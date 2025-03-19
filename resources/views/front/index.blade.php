@@ -18,22 +18,25 @@
   <div class="splide__track">
       
         <ul class="splide__list">
-            <li class="splide__slide">
-                <picture>
-                    <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
-                    <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
-                    <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
-                    <img style="border-radius: 0;" src="{{ asset('frontend/images/banner/banne.png') }}" alt="Responsive Banner">
-                </picture>
-            </li>
-            <li class="splide__slide"> 
+          @foreach ($slider as $value)
+          <li class="splide__slide">
+            <picture>
+                <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
+                {{-- <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+                <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}"> --}}
+                <img style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner">
+            </picture>
+        </li>
+          @endforeach
+            
+            {{-- <li class="splide__slide"> 
                 <picture>
                     <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
                     <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
                     <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
                     <img style="border-radius: 0;" src="{{ asset('frontend/images/banner/fallback_.png') }}" alt="Responsive Banner 2">
                 </picture>
-            </li>
+            </li> --}}
             <!-- Add more slides as needed -->
         </ul>
     </div>

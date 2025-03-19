@@ -2589,6 +2589,22 @@ public function getLanguages(Request $request)
                 });
             }
     
+            // return [
+            //     'id' => $package->id,
+            //     'package_name' => $package->package_name,
+            //     'state_names' => $stateNames,
+            //     'city_names' => $cityNames,
+            //     'image' => array_map(function($image) {
+            //         return url('') . '/' . $image;
+            //     }, $imageUrls),
+            //     'video' => array_map(function($video) {
+            //         return url('') . '/' . $video;
+            //     }, json_decode($package->video, true)),
+            //     'pdf' => url('') . '/' . $package->pdf,
+            //     'text_description' => strip_tags($package->text_description),
+            //     'text_description_2' => strip_tags($package->text_description_2),
+            //     'prices' => $prices,
+            // ];
             return [
                 'id' => $package->id,
                 'package_name' => $package->package_name,
@@ -2597,9 +2613,9 @@ public function getLanguages(Request $request)
                 'image' => array_map(function($image) {
                     return url('') . '/' . $image;
                 }, $imageUrls),
-                'video' => array_map(function($video) {
+                'video' => is_array($videoArray = json_decode($package->video, true)) ? array_map(function($video) {
                     return url('') . '/' . $video;
-                }, json_decode($package->video, true)),
+                }, $videoArray) : [], // If it's not an array or invalid JSON, return an empty array
                 'pdf' => url('') . '/' . $package->pdf,
                 'text_description' => strip_tags($package->text_description),
                 'text_description_2' => strip_tags($package->text_description_2),

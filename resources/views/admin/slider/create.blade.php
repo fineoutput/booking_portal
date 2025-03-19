@@ -58,6 +58,7 @@
                                     <div class="col-sm-6">
                                         <select class="form-control" name="type" id="type" required>
                                             <option value="">Select Type</option>
+                                            <option value="home_slider">Home Slider</option>
                                             <option value="package">Package</option>
                                             <option value="guide">Guide</option>
                                             <option value="hotel">Hotel</option>
