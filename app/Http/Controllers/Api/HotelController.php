@@ -325,8 +325,9 @@ class HotelController extends Controller
                             return url('') . '/' . $image;
                         }, $imageUrls),
                         'video' => array_map(function($video) {
-                            return url('') . '/' . $video;
-                        }, json_decode($package->video, true)),
+                        return url('') . '/' . $video;
+                        }, is_array($videos = json_decode($package->video, true)) ? $videos : []),
+
                         'pdf' => url('') . '/' . $package->pdf,
                         'text_description' => strip_tags($package->text_description),
                         'text_description_2' => strip_tags($package->text_description_2),
