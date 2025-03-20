@@ -302,9 +302,14 @@ class PackageController extends Controller
         $deletedVideos = explode(',', $request->deleted_videos);  
         $existingVideos = json_decode($package->video, true);
     
-        $updatedVideos = array_filter($existingVideos, function ($video) use ($deletedVideos) {
-            return !in_array($video, $deletedVideos); 
-        });
+        // $updatedVideos = array_filter($existingVideos, function ($video) use ($deletedVideos) {
+        //     return !in_array($video, $deletedVideos); 
+        // });
+        $updatedVideos = is_array($existingVideos) 
+    ? array_filter($existingVideos, function ($video) use ($deletedVideos) {
+        return !in_array($video, $deletedVideos);
+    }) 
+    : [];
 
         foreach ($deletedVideos as $video) {
             $videoPath = public_path($video); 
