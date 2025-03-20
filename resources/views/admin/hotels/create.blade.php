@@ -120,7 +120,7 @@
                                         <div class="col-sm-12"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Package Multipal</label>
                                             <div id="output"></div>
-                                            <select data-placeholder="" name="package_id[]" multiple class="chosen-select" required>
+                                            <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
                                                 @foreach($package as $value)
                                                 <option value="{{ $value->id ?? ''}}">
                                                     {{$value->package_name ?? ''}}</option>
