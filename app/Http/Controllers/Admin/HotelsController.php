@@ -135,7 +135,8 @@ public function update(Request $request, $id)
 {
     // Validate the incoming request data
     $validated = $request->validate([
-        'package_id' => 'required',
+        // 'package_id' => 'required',
+        'name' => 'required',
     ]);
 
     $hotel = Hotels::findOrFail($id);
