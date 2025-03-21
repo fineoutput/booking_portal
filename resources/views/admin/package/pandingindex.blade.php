@@ -49,6 +49,7 @@
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th data-priority="1">PNR number</th>
                         <th data-priority="1">User Name</th>
                         <th data-priority="1">Package Name</th>
                         <th data-priority="1">City</th>
@@ -68,6 +69,7 @@
                     @foreach($package as $key=> $hotel)
                     <tr>
                         <td>{{ $key+1 }}</td>
+                        <td>#{{ $hotel->user->id ?? '' }}</td>
                         <td>{{ $hotel->user->name ?? '' }}</td>
                         <td>{{ $hotel->package->package_name ?? '' }}</td>
                         <td>{{ $hotel->package->cities->city_name ?? '' }}</td>
