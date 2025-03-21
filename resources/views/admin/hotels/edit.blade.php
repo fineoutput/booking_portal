@@ -139,17 +139,9 @@
                                     </div>
 
 
-                                    <div class="col-sm-12"><br>
+                                    <div class="col-sm-6"><br>
                                         <label class="form-label" style="margin-left: 10px" for="power">Please Select Package</label>
                                         <div id="output"></div>
-                                        {{-- <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
-                                            @foreach($packages as $value)
-                                                <option value="{{ $value->id ?? '' }}" 
-                                                    {{ in_array($value->id, explode(',', old('package_id', $hotel->package_id ?? ''))) ? 'selected' : '' }}>
-                                                    {{ $value->package_name ?? '' }}
-                                                </option>
-                                            @endforeach
-                                        </select> --}}
                                         <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
                                             @foreach($packages as $value)
                                                 <option value="{{ $value->id ?? '' }}" 
@@ -158,12 +150,41 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        
-                                        
-                                        @error('property_id')
+                                        @error('package_id')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
+
+                                    <div class="col-sm-6"><br>
+                                        <label class="form-label" style="margin-left: 10px" for="meal_plan">Select Meal Multipal</label>
+                                        <div id="output"></div>
+                                        <select data-placeholder="" name="meal_plan[]" multiple class="chosen-select">
+                                            <option value="meal_plan_only_room" 
+                                                {{ in_array('meal_plan_only_room', explode(',', (is_array(old('meal_plan', $hotel->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel->meal_plan ?? '')) : (string) old('meal_plan', $hotel->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                                Meal Plan (Only Room)
+                                            </option>
+                                            <option value="meal_plan_breakfast" 
+                                                {{ in_array('meal_plan_breakfast', explode(',', (is_array(old('meal_plan', $hotel->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel->meal_plan ?? '')) : (string) old('meal_plan', $hotel->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                                Meal Plan (Breakfast)
+                                            </option>
+                                            <option value="meal_plan_breakfast_lunch_dinner" 
+                                                {{ in_array('meal_plan_breakfast_lunch_dinner', explode(',', (is_array(old('meal_plan', $hotel->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel->meal_plan ?? '')) : (string) old('meal_plan', $hotel->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                                Meal Plan (Breakfast + lunch/dinner)
+                                            </option>
+                                            <option value="meal_plan_all_meals" 
+                                                {{ in_array('meal_plan_all_meals', explode(',', (is_array(old('meal_plan', $hotel->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel->meal_plan ?? '')) : (string) old('meal_plan', $hotel->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                                Meal Plan (All meals)
+                                            </option>
+                                        </select>
+                                        @error('meal_plan')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+
                                 </div>
                             
                                 <!-- Image Selection (for Editing) -->
