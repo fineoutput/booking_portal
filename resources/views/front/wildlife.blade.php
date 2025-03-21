@@ -121,7 +121,7 @@
       <div class="search_sba">
         <div class="sba_center_Sarch">
         <a href="#">  
-        <img src="http://127.0.0.1:8000/frontend/images/searchblue.png" alt="" style="
+        <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="
     width: 80%;
 ">
         </a>  
