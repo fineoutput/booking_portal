@@ -120,6 +120,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/panding-package-booking', [PackageController::class, 'pandingindex'])->name('pandingpackagebooking');
    Route::get('/complete-package-booking', [PackageController::class, 'completeorders'])->name('completepackagebooking');
    Route::get('/reject-package-booking', [PackageController::class, 'rejectorders'])->name('rejectpackagebooking');
+   Route::get('/accept-package-booking', [PackageController::class, 'acceptorders'])->name('acceptpackagebooking');
    Route::match(['put', 'patch'], '/package-booking/{id}/status', [PackageController::class, 'updateStatus'])->name('packagebooking.updateStatus');
 
 
