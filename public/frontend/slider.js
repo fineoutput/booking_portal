@@ -58,3 +58,24 @@
           }
       }).mount();
   });
+
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    new Splide('#tourSlider', {
+        type: 'loop',  // Enables continuous loop scrolling
+        perPage: 1,  // Shows 1 slide at a time
+        perMove: 1,  // Moves 1 slide at a time
+        autoplay: true,  // Enables auto sliding
+        interval: 3000,  // 3 seconds interval
+        speed: 800, // Transition speed
+        arrows: true, // Enable navigation arrows
+        pagination: true, // Enable dot indicators
+        pauseOnHover: true, // Pause on hover
+        lazyLoad: 'nearby', // Lazy load images
+        breakpoints: {
+            1024: { perPage: 1 },
+            768: { perPage: 1 }
+        }
+    }).mount();
+});

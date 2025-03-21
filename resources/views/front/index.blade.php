@@ -476,74 +476,74 @@
   <!-- /* //////////////Travel starts///////////// */ -->
   <section class="euro_sect mt-5" id="name">
     <div class="container">
-        <div class="splide">
+        <div class="splide" id="tourSlider" >
             <div class="splide__track">
-                <ul class="splide__list">
+                <ul class="splide__list" style="height: 50vh">
                     <!-- Slide 1 -->
+                    @foreach ($bottom as $value)
                     <li class="splide__slide">
-                        <div class="responsive-image-wrapper">
-                            <picture>
-                                <source media="(min-width: 1200px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
-                                <source media="(min-width: 768px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
-                                <source media="(max-width: 767px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
-                                <img src="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg" alt="Europe Banner" class="responsive-image">
-                            </picture>
+                        <div class="responsive-image-wrapper" style="height: 100%">
+                            <img src="{{asset($value->image)}}" alt="Europe Banner" class="responsive-image">
                         </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                    <div class="travel_upper">
-                                        <div class="travel_upper_txt">
-                                            <p class="abb">Dubai Egypt Israel</p>
-                                            <h2>Best of Dubai Abu Dhabi</h2>
-                                        </div>
-                                        <div class="world_upper_txt_btns">
-                                            <p class="abb">Dubai . Abu Dhabi</p>
-                                            <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
-                                        </div>
-                                        <div class="world_upper_txt_btns travel_btn">
-                                            <a class="_btn" href="">Book Now</a>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="travel_upper">
+                            <div class="travel_upper_txt">
+                                <p class="abb">Dubai Egypt Israel</p>
+                                <h2>Best of Dubai Abu Dhabi</h2>
+                            </div>
+                            <div class="world_upper_txt_btns">
+                                <p class="abb">Dubai . Abu Dhabi</p>
+                                <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
+                            </div>
+                            <div class="world_upper_txt_btns travel_btn">
+                                <a class="_btn" href="">Book Now</a>
                             </div>
                         </div>
                     </li>
+                    @endforeach
                     <!-- Slide 2 -->
-                    <li class="splide__slide">
+                    {{-- <li class="splide__slide">
                         <div class="responsive-image-wrapper">
-                          <picture>
-                            <source media="(min-width: 1200px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
-                            <source media="(min-width: 768px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
-                            <source media="(max-width: 767px)" srcset="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg">
                             <img src="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg" alt="Europe Banner" class="responsive-image">
-                        </picture>
                         </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                    <div class="travel_upper">
-                                        <div class="travel_upper_txt">
-                                            <p class="abb">Dubai Egypt Israel</p>
-                                            <h2>Best of Dubai Abu Dhabi</h2>
-                                        </div>
-                                        <div class="world_upper_txt_btns">
-                                            <p class="abb">Dubai . Abu Dhabi</p>
-                                            <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
-                                        </div>
-                                        <div class="world_upper_txt_btns travel_btn">
-                                            <a class="_btn" href="">Book Now</a>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="travel_upper">
+                            <div class="travel_upper_txt">
+                                <p class="abb">Dubai Egypt Israel</p>
+                                <h2>Best of Dubai Abu Dhabi</h2>
+                            </div>
+                            <div class="world_upper_txt_btns">
+                                <p class="abb">Dubai . Abu Dhabi</p>
+                                <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
+                            </div>
+                            <div class="world_upper_txt_btns travel_btn">
+                                <a class="_btn" href="">Book Now</a>
                             </div>
                         </div>
                     </li>
+                    <!-- Slide 3 -->
+                    <li class="splide__slide">
+                        <div class="responsive-image-wrapper">
+                            <img src="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg" alt="Europe Banner" class="responsive-image">
+                        </div>
+                        <div class="travel_upper">
+                            <div class="travel_upper_txt">
+                                <p class="abb">Dubai Egypt Israel</p>
+                                <h2>Best of Dubai Abu Dhabi</h2>
+                            </div>
+                            <div class="world_upper_txt_btns">
+                                <p class="abb">Dubai . Abu Dhabi</p>
+                                <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
+                            </div>
+                            <div class="world_upper_txt_btns travel_btn">
+                                <a class="_btn" href="">Book Now</a>
+                            </div>
+                        </div>
+                    </li> --}}
                 </ul>
             </div>
         </div>
     </div>
 </section>
+
 
   <!-- /* //////////////Travel Ends///////////// */ -->
 
@@ -914,5 +914,6 @@
       </div>
     </div>
   </section>
-
+ 
+  
 @endsection

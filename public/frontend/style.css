@@ -15,12 +15,19 @@ img{
   --brand-black-rgb: 33, 34, 33;
   --brand-blue-main: #29499A;
 }
-.header {
+/* .header {
   background-color: #0d1b2a;
   color: #fff;
   padding: 10px 20px;
+} */
+ .dotts{
+  color: #000;
+ }
+.header {
+  background-color: #fff;
+  color: #0d1b2a;
+  padding: 10px 20px;
 }
-
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -37,6 +44,7 @@ img{
   border-radius: 20px;
   border: none;
   outline: none;
+  background: #009ee321;
 }
 
 .search-btn {
@@ -62,8 +70,10 @@ img{
 }
 
 .nave_color {
-  background-color: #132738;
+  /* background-color: #132738; */
+  background-color: #009ee3;
 }
+
 .insider_drop{
   display: flex;
 }
