@@ -16,7 +16,7 @@
 }
 </style>
  <!-- /* //////////////Banner Starts///////////// */ -->
- <div id="responsive-slider" class="splide" style="background: #ffd600">
+ <div id="responsive-slider" class="splide" style="background: #ffd600;" >
     <div class="layie">
       <h1>Plan Your Travel Now</h1>
                         <p>650+ Travel Agents serving 65+ Destinations worldwide</p></div>  
@@ -25,11 +25,11 @@
         <ul class="splide__list">
           @foreach ($slider as $value)
           <li class="splide__slide">
-            <picture>
+            <picture style="  height: 50vh">
                 <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
                 {{-- <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
                 <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}"> --}}
-                <img style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner">
+                <img style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner" >
             </picture>
         </li>
           @endforeach
