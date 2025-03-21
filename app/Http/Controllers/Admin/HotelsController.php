@@ -77,7 +77,7 @@ class HotelsController extends Controller
             $hotel->state_id = $request->state_id;
             $hotel->city_id = $request->city_id;
             $hotel->hotel_category = $request->hotel_category;
-            $hotel->package_id = implode(',', $request->package_id);
+            $hotel->package_id = !empty($request->package_id) ? implode(',', $request->package_id) : null;
     
             $hotel->save();
 
@@ -135,7 +135,8 @@ public function update(Request $request, $id)
 {
     // Validate the incoming request data
     $validated = $request->validate([
-        'package_id' => 'required',
+        // 'package_id' => 'required',
+        'name' => 'required',
     ]);
 
     $hotel = Hotels::findOrFail($id);
@@ -173,7 +174,8 @@ public function update(Request $request, $id)
     $hotel->state_id = $request->state_id;
     $hotel->city_id = $request->city_id ?? $hotel->city_id;  
     $hotel->hotel_category = $request->hotel_category;
-    $hotel->package_id = implode(',', $request->package_id); 
+    $hotel->package_id = is_array($request->package_id) ? implode(',', $request->package_id) : null;
+
     $hotel->images = json_encode(array_values($imagePaths)); 
     $hotel->save();
 
