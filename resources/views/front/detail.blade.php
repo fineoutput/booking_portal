@@ -101,9 +101,9 @@
                         </div> --}}
 
                         <!-- Button to trigger modal -->
-                        <a type="button" class=" mt-3" data-bs-toggle="modal" data-bs-target="#cityModal">
+                        {{-- <a type="button" class=" mt-3" data-bs-toggle="modal" data-bs-target="#cityModal">
                             View More Cities
-                        </a>
+                        </a> --}}
                     </div>
 
                     <!-- Modal Structure -->
