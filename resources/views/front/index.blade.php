@@ -483,7 +483,7 @@
                     <!-- Slide 1 -->
                     @foreach ($bottom as $value)
                     <li class="splide__slide">
-                        <div class="responsive-image-wrapper">
+                        <div class="responsive-image-wrapper" style="height: 100%">
                             <img src="{{asset($value->image)}}" alt="Europe Banner" class="responsive-image">
                         </div>
                         <div class="travel_upper">
