@@ -212,7 +212,7 @@
         <div class="container">
         <div class="row">
             <!-- Slider Section -->
-            <div class="col-lg-4">
+            <div class="col-lg-5">
             <div class="side_slide">
                 <section id="image-slider" class="splide" aria-label="Image Slider">
                 <div class="splide__track">
@@ -231,30 +231,71 @@
             </div>
 
             <!-- /////large screeen tab///// -->
-            <div class="col-lg-8 setts d-lg-block d-none">
-    <div class="row">
-      @foreach($popularCities as $value)
-        <div class="col-lg-3">
-            <div class="gallery_loc">
-                <div class="inner_gallery_loc">
-                  @if($value['image'])
-                  <img src="{{ asset($value['image']) }}" alt="">
-                  @else
-                    <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
-                    @endif
-                </div>
-                <div class="inner_gallery_loc_txt">
-                    <div class="type_gallery">
-                        <p><b>{{ $value['bookings_count'] }}</b> tours |</p>
-                        <p><b>{{ $value['adults_count'] }}</b> guest Travelled</p>
-                    </div>
-                    <div class="gall_place">
-                        <h4>{{ $value['city_name'] }}</h4>
-                    </div>
-                </div>
-            </div>
+            <div class="col-lg-7 setts d-lg-block d-none">
+      <div class="splide" id="popularCitiesSlider">
+        <div class="splide__track">
+            <ul class="splide__list">
+                @foreach($popularCities as $value)
+                    <li class="splide__slide">
+                      <div class="row">
+                        <div class="col">
+                            <div class="gallery_loc">
+                                <div class="inner_gallery_loc">
+                                    @if($value['image'])
+                                        <img src="{{ asset($value['image']) }}" alt="">
+                                    @else
+                                        <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
+                                    @endif
+                                </div>
+                                <div class="inner_gallery_loc_txt">
+                                    <div class="type_gallery">
+                                        <p><b>{{ $value['bookings_count'] }}</b> tours |</p>
+                                        <p><b>{{ $value['adults_count'] }}</b> guest Travelled</p>
+                                    </div>
+                                    <div class="gall_place">
+                                        <h4>{{ $value['city_name'] }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </li>
+                @endforeach
+            </ul>
         </div>
-        @endforeach
+    </div>
+    <hr>
+      <div class="splide" id="popularCitiesSlider2">
+        <div class="splide__track">
+            <ul class="splide__list">
+                @foreach($popularCities as $value)
+                    <li class="splide__slide">
+                      <div class="row">
+                        <div class="col">
+                            <div class="gallery_loc">
+                                <div class="inner_gallery_loc">
+                                    @if($value['image'])
+                                        <img src="{{ asset($value['image']) }}" alt="">
+                                    @else
+                                        <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
+                                    @endif
+                                </div>
+                                <div class="inner_gallery_loc_txt">
+                                    <div class="type_gallery">
+                                        <p><b>{{ $value['bookings_count'] }}</b> tours |</p>
+                                        <p><b>{{ $value['adults_count'] }}</b> guest Travelled</p>
+                                    </div>
+                                    <div class="gall_place">
+                                        <h4>{{ $value['city_name'] }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </div>
 
 </div>
@@ -874,20 +915,5 @@
       </div>
     </div>
   </section>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    new Splide('#responsive-slider', {
-        type      : 'loop', // Makes the slider loop
-        perPage   : 1,      // One slide per view
-        autoplay  : true,   // Auto-slide
-        interval  : 3000,   // Interval for autoplay
-        breakpoints: {
-            768: {
-                perPage: 1,
-            },
-        },
-    }).mount();
-});
 
-</script>
 @endsection
