@@ -5,21 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\adminmodel\Team;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\AgentCalls;
-use App\Models\RemarkAgentCalls;
+use App\Models\HotelCalls;
+use App\Models\RemarkHotelCalls;
 use App\Models\State;
 use App\Models\City;
-use App\Models\TransferAgentCalls;
+use App\Models\TransferHotelCalls;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
-class TransferAgentCallesController extends Controller
+class TransferHotelCallesController extends Controller
 {
     public function index(Request $request)
     {
-        $agentCalls = TransferAgentCalls::orderBy('id','DESC')->get();
-        return view('admin.transferagentcalls.index', compact('agentCalls'));
+        $agentCalls = TransferHotelCalls::orderBy('id','DESC')->get();
+        return view('admin.transferhotelcalls.index', compact('agentCalls'));
     }
 
 
@@ -37,36 +37,36 @@ class TransferAgentCallesController extends Controller
                 // 'agentcalls_id' => 'required',
             ]);
 
-            $agentCall = new TransferAgentCalls();
+            $agentCall = new TransferHotelCalls();
             $agentCall->agentcalls_id = $id;
             // $agentCall->agentcalls_id = implode(',', $request->agentcalls_id);
             $agentCall->caller_id = $request->caller_id;
             $agentCall->save();  
 
-            return redirect()->route('AgentCalls')->with('success', 'Agent Call Transfer successfully!');
+            return redirect()->route('hotelsCalls')->with('success', 'Hotel Call Transfer successfully!');
         }
         $data['states'] = State::all();
-        $data['agentCalls'] = AgentCalls::where('id',$id)->first();
-        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['agentCalls'] = HotelCalls::where('id',$id)->first();
+        // $data['agentCalls'] = HotelCalls::whereNotIn('id', TransferHotelCalls::pluck('agentcalls_id'))->get();
         $data['team'] = Team::where('power',4)->get();
-        return view('admin/transferagentcalls/create',$data);
+        return view('admin/transferhotelcalls/create',$data);
     }
 
 
     public function destroy($id)
     {
-        $agentCall = TransferAgentCalls::findOrFail($id); // Find the agent call by ID
+        $agentCall = TransferHotelCalls::findOrFail($id); // Find the agent call by ID
         $agentCall->delete();  // Delete the record
 
-        return redirect()->route('transferagentcalls')->with('success', 'Agent call deleted successfully!');
+        return redirect()->route('transferhotelcalls')->with('success', 'Agent call deleted successfully!');
     }
 
 
     public function edit($id)
     {
-        $agent = TransferAgentCalls::findOrFail($id);  // Find the agent call by ID
+        $agent = TransferHotelCalls::findOrFail($id);  // Find the agent call by ID
         $states = State::all();
-        return view('admin/agentcalls/edit', compact('agent','states'));  // Pass the data to the edit view
+        return view('admin/transferhotelcalls/edit', compact('agent','states'));  // Pass the data to the edit view
     }
 
     // Update the specified resource in storage
@@ -80,7 +80,7 @@ class TransferAgentCallesController extends Controller
             'remarks' => 'nullable',
         ]);
 
-        $agentCall = TransferAgentCalls::findOrFail($id);  // Find the agent call by ID
+        $agentCall = TransferHotelCalls::findOrFail($id);  // Find the agent call by ID
 
         // Update the agent call with the new data
         $agentCall->name = $request->name;
@@ -91,7 +91,7 @@ class TransferAgentCallesController extends Controller
 
         $agentCall->save();  // Save the updated record
 
-        return redirect()->route('AgentCalls')->with('success', 'Agent call updated successfully!');
+        return redirect()->route('hotelsCalls')->with('success', 'Remark add successfully!');
     }
 
 
@@ -102,25 +102,25 @@ class TransferAgentCallesController extends Controller
                 // 'agentcalls_id' => 'required',
             ]);
 
-            $agentCall = new RemarkAgentCalls();
+            $agentCall = new RemarkHotelCalls();
             $agentCall->agentcalls_id = $id;
             $agentCall->remark = $request->remark;
             $agentCall->caller_id = Auth::id();
             $agentCall->save();  
 
-            return redirect()->route('AgentCalls')->with('success', 'Agent Call Transfer successfully!');
+            return redirect()->route('hotelsCalls')->with('success', 'Remark add successfully!');
         }
         $data['states'] = State::all();
-        $data['agentCalls'] = AgentCalls::where('id',$id)->first();
-        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['agentCalls'] = HotelCalls::where('id',$id)->first();
+        // $data['agentCalls'] = HotelCalls::whereNotIn('id', TransferHotelCalls::pluck('agentcalls_id'))->get();
         $data['team'] = Team::where('power',4)->get();
-        return view('admin/transferagentcalls/remarkcreate',$data);
+        return view('admin/transferhotelcalls/remarkcreate',$data);
     }
 
     public function viewremark(Request $request,$id)
     {
-        $agentCalls = RemarkAgentCalls::where('agentcalls_id',$id)->get();
-        return view('admin.transferagentcalls.viewremark', compact('agentCalls'));
+        $agentCalls = RemarkHotelCalls::where('agentcalls_id',$id)->get();
+        return view('admin.transferhotelcalls.viewremark', compact('agentCalls'));
     }
 
 

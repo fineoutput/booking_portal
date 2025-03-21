@@ -31,6 +31,8 @@ use App\Http\Controllers\Admin\VehicleController;
 use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Admin\AirportController;
 use App\Http\Controllers\Admin\PushNotificationController;
+use App\Http\Controllers\Admin\TransferHotelCallesController;
+use App\Http\Controllers\Admin\TransferCustomerCallesController;
 use App\Http\Controllers\Admin\OutstationController;
 use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\RoundTripController;
@@ -332,6 +334,24 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/view-agentcalls/remark/{id}', [TransferAgentCallesController::class, 'viewremark'])->name('view.remark');
     
 
+
+    Route::get('/transfer-hotelcalls', [TransferHotelCallesController::class, 'index'])->name('transferhotelcalls');
+    Route::match(['get','post'],'/transfer-hotelcalls/create/{id}', [TransferHotelCallesController::class, 'create'])->name('transferhotelcalls.create');
+    Route::get('transfer-hotelcalls/{id}/edit', [TransferHotelCallesController::class, 'edit'])->name('transferhotelcalls.edit');
+    Route::put('transfer-hotelcalls/{id}', [TransferHotelCallesController::class, 'update'])->name('transferhotelcalls.update');
+    Route::delete('transfer-hotelcalls/{id}', [TransferHotelCallesController::class, 'destroy'])->name('transferhotelcalls.destroy');
+
+    Route::match(['get','post'],'/remark-hotelcalls/create/{id}', [TransferHotelCallesController::class, 'remarkcreate'])->name('remarkhotelcalls.create');
+
+    Route::get('/view-hotelcalls/remark/{id}', [TransferHotelCallesController::class, 'viewremark'])->name('hotelview.remark');
+
+
+    Route::match(['get','post'],'/transfer-customercalls/create/{id}', [TransferCustomerCallesController::class, 'create'])->name('transfercustomercalls.create');
+
+    Route::match(['get','post'],'/remark-customercalls/create/{id}', [TransferCustomerCallesController::class, 'remarkcreate'])->name('remarkcustomercalls.create');
+
+    Route::get('/view-customercalls/remark/{id}', [TransferCustomerCallesController::class, 'viewremark'])->name('customerview.remark');
+    
 });
    
 });

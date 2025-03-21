@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CustomerCalls;
 use App\Models\State;
+use App\Models\TransferCustomerCalls;
 use Carbon\Carbon;
 use App\Models\City;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class CustomerCallsController extends Controller
     
         $user = Auth::user();
         if($user->power == 4){
-            $agentCallIds = explode(',', $user->customer_calles_id);
+            $agentCallIds = TransferCustomerCalls::where('caller_id', $user->id)->pluck('agentcalls_id');
         $query = CustomerCalls::orderBy('id', 'DESC')->whereIn('id',$agentCallIds);
         }else{
             $query = CustomerCalls::orderBy('id', 'DESC');
@@ -57,8 +58,9 @@ class CustomerCallsController extends Controller
 
         if($user->power == 4){
 
-            $agentCallIds = explode(',', $user->customer_calles_id);
-
+            // $agentCallIds = explode(',', $user->customer_calles_id);
+            
+            $agentCallIds = TransferCustomerCalls::where('caller_id', $user->id)->pluck('agentcalls_id');
          $data['agent'] = CustomerCalls::orderBy('id','DESC')->whereIn('id',$agentCallIds)->where('mark_lead','1')->get();
 
         }else{
@@ -77,7 +79,8 @@ class CustomerCallsController extends Controller
 
         if($user->power == 4){
 
-            $agentCallIds = explode(',', $user->customer_calles_id);
+            // $agentCallIds = explode(',', $user->customer_calles_id);
+            $agentCallIds = TransferCustomerCalls::where('caller_id', $user->id)->pluck('agentcalls_id');
 
          $data['agent'] = CustomerCalls::orderBy('id','DESC')->whereIn('id',$agentCallIds)->where('mark_lead','2')->get();
 
@@ -96,7 +99,8 @@ class CustomerCallsController extends Controller
 
         if($user->power == 4){
 
-            $agentCallIds = explode(',', $user->customer_calles_id);
+            // $agentCallIds = explode(',', $user->customer_calles_id);
+            $agentCallIds = TransferCustomerCalls::where('caller_id', $user->id)->pluck('agentcalls_id');
 
          $data['agent'] = CustomerCalls::orderBy('id','DESC')->whereIn('id',$agentCallIds)->where('mark_lead','3')->get();
 

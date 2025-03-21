@@ -57,6 +57,7 @@
                         <th data-priority="6">City</th>
                         <th data-priority="6">Mark Lead</th>
                         <th data-priority="6">Date</th>
+                        <th data-priority="6">Transfer User</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -80,7 +81,16 @@
                                 <td>
                                   {{ \Carbon\Carbon::parse($value->created_at)->format('Y M j') ?? '' }}
                                 </td>
+                                <td>{{$value->transfer->team->name ?? ''}}</td>
                                 <td>
+                                  @if(Auth::user()->power == 4)
+                                  <a href="{{ route('remarkcustomercalls.create', $value->id) }}" class="btn btn-primary">
+                                    Remark
+                                </a>
+                                <a href="{{ route('customerview.remark', ['id' => $value->id]) }}" class="btn btn-primary">
+                                  View Remark
+                              </a>
+                                   @else 
                                     <a href="{{ route('customer.edit', $value->id) }}" class="btn btn-primary">
                                         Edit
                                     </a>
@@ -92,6 +102,16 @@
                                             Delete
                                         </button>
                                     </form>
+                                    @if(empty($value->transfer->caller_id))
+                                    <a href="{{ route('transfercustomercalls.create', ['id' => $value->id]) }}" class="btn btn-primary">
+                                      Transfer
+                                  </a>
+                                  @endif
+                                  <a href="{{ route('customerview.remark', ['id' => $value->id]) }}" class="btn btn-primary">
+                                    View Remark
+                                </a>
+                                  @endif
+
                                 </td>
                             </tr>
                         @endforeach
