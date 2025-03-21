@@ -109,19 +109,21 @@
           <p>Showing 1-10 packages from 18 packages</p>
         </div>
         <div class="navi_full_list">
-          <div class="price-filter-container">
-            <div class="price-inputs">
-                <input type="number" class="price-input" id="minPrice" placeholder="Min price">
-                <input type="number" class="price-input" id="maxPrice" placeholder="Max price">
-            </div>
-            <div class="slider-container">
-                <div class="slider-track"></div>
-                <div class="slider-range"></div>
-                <div class="slider-thumb" id="minThumb"></div>
-                <div class="slider-thumb" id="maxThumb"></div>
-            </div>
-            <div class="price-label">Selected price range: ₹<span id="minValue">0</span> - ₹<span id="maxValue">1000</span></div>
-        </div>
+          <form action="">
+            <div class="price-filter-container">
+              <div class="price-inputs">
+                  <input type="number" class="price-input" id="minPrice" placeholder="Min price">
+                  <input type="number" class="price-input" id="maxPrice" placeholder="Max price">
+              </div>
+              <div class="slider-container">
+                  <div class="slider-track"></div>
+                  <div class="slider-range"></div>
+                  <div class="slider-thumb" id="minThumb"></div>
+                  <div class="slider-thumb" id="maxThumb"></div>
+              </div>
+              <div class="price-label">Selected price range: ₹<span id="minValue">0</span> - ₹<span id="maxValue">1000</span></div>
+          </div>
+          </form>
           <hr>
           <div class="date_range">
             <div class="reange_btns d-flex justify-content-between">
