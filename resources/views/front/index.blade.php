@@ -477,13 +477,14 @@
   <!-- /* //////////////Travel starts///////////// */ -->
   <section class="euro_sect mt-5" id="name">
     <div class="container">
-        <div class="splide" id="tourSlider">
+        <div class="splide" id="tourSlider" >
             <div class="splide__track">
-                <ul class="splide__list">
+                <ul class="splide__list" style="height: 50vh">
                     <!-- Slide 1 -->
+                    @foreach ($bottom as $value)
                     <li class="splide__slide">
                         <div class="responsive-image-wrapper">
-                            <img src="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg" alt="Europe Banner" class="responsive-image">
+                            <img src="{{asset($value->image)}}" alt="Europe Banner" class="responsive-image">
                         </div>
                         <div class="travel_upper">
                             <div class="travel_upper_txt">
@@ -499,8 +500,9 @@
                             </div>
                         </div>
                     </li>
+                    @endforeach
                     <!-- Slide 2 -->
-                    <li class="splide__slide">
+                    {{-- <li class="splide__slide">
                         <div class="responsive-image-wrapper">
                             <img src="https://img.veenaworld.com/group-tours/india/sikkim-darjeeling/sdgl/shsd5-bnn-1.jpg" alt="Europe Banner" class="responsive-image">
                         </div>
@@ -536,7 +538,7 @@
                                 <a class="_btn" href="">Book Now</a>
                             </div>
                         </div>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
