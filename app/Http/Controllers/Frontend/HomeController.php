@@ -29,6 +29,7 @@ use App\Models\Route;
 use App\Models\PackageBooking;
 use App\Models\City;
 use App\Models\Constants;
+use App\Models\HomeSlider;
 use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
 use App\Models\Package;
@@ -89,6 +90,9 @@ class HomeController extends Controller
 {
     $data['packages'] = Package::get();
     $data['slider'] = Slider::where('type','home_slider')->get();
+    $data['offer'] = HomeSlider::where('type','Offer')->get();
+    $data['bottom'] = HomeSlider::where('type','Bottom')->get();
+    $data['banner'] = HomeSlider::where('type','Banner')->get();
 
     $formatted_date = Carbon::now()->format('Y-m-d'); 
 
