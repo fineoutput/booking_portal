@@ -109,21 +109,26 @@
           <p>Showing 1-10 packages from 18 packages</p>
         </div>
         <div class="navi_full_list">
-          <form action="">
+
+          <form action="{{ route('state_detail', ['state_id' => base64_encode($city)]) }}" method="GET">
             <div class="price-filter-container">
-              <div class="price-inputs">
-                  <input type="number" class="price-input" id="minPrice" placeholder="Min price">
-                  <input type="number" class="price-input" id="maxPrice" placeholder="Max price">
-              </div>
-              <div class="slider-container">
-                  <div class="slider-track"></div>
-                  <div class="slider-range"></div>
-                  <div class="slider-thumb" id="minThumb"></div>
-                  <div class="slider-thumb" id="maxThumb"></div>
-              </div>
-              <div class="price-label">Selected price range: ₹<span id="minValue">0</span> - ₹<span id="maxValue">1000</span></div>
-          </div>
-          </form>
+                <div class="price-inputs">
+                    <input name="min_price" type="number" class="price-input" id="minPrice" placeholder="Min price" value="{{ request()->input('min_price') }}">
+                    <input name="max_price" type="number" class="price-input" id="maxPrice" placeholder="Max price" value="{{ request()->input('max_price') }}">
+                </div>
+                <div class="slider-container">
+                    <div class="slider-track"></div>
+                    <div class="slider-range"></div>
+                    <div class="slider-thumb" id="minThumb"></div>
+                    <div class="slider-thumb" id="maxThumb"></div>
+                </div>
+                <div class="price-label">
+                    Selected price range: ₹<span id="minValue">{{ request()->input('min_price', 0) }}</span> - ₹<span id="maxValue">{{ request()->input('max_price', 1000) }}</span>
+                </div>
+                <button type="submit">Apply Filter</button>
+            </div>
+        </form>
+
           <hr>
           <div class="date_range">
             <div class="reange_btns d-flex justify-content-between">

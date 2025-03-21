@@ -37,5 +37,11 @@ class Package extends Model
         return $this->belongsTo(City::class, 'city_id'); // City's foreign key is 'city_id'
     }
 
+    public function packagePrices()
+{
+    return $this->hasMany(PackagePrice::class);
+}
+
+
 
 }

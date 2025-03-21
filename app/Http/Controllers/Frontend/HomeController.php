@@ -246,18 +246,73 @@ if ($popularCities->isEmpty()) {
         $data['hotels'] = Hotels::where('id',$id)->first();
         return view('front/all_images',$data);
     }
-    public function state_detail($id)
+
+    
+    // public function state_detail($id)
+    // {
+    //     $id = base64_decode($id);
+        
+    //     $city['city'] = State::where('id', $id)->first();
+    
+    //     $data['packages'] = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id])->get();
+    //     $data['slider'] = Slider::orderBy('id','DESC')->where('type','package')->get();
+    
+    //     $formatted_date = Carbon::now()->format('Y-m-d');
+    
+    //     foreach ($data['packages'] as $package) {
+    //         $package_price = PackagePrice::where('package_id', $package->id)
+    //             ->where('start_date', '<=', $formatted_date)
+    //             ->where('end_date', '>=', $formatted_date)
+    //             ->first();
+    
+    //         $package->prices = $package_price;
+    
+    //         $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+            
+    //         $package->hotels = $hotels;
+    //     }
+
+    //     return view('front/state_detail',$data);
+    // }
+
+    public function state_detail($id, Request $request)
     {
+        // Decode the base64 encoded ID
         $id = base64_decode($id);
         
-        $city['city'] = State::where('id', $id)->first();
+        // Get the selected minimum and maximum price from the request, if provided
+        $min_price = $request->input('min_price', 0); // Default to 0 if not provided
+        $max_price = $request->input('max_price', 1000); // Default to 1000 if not provided
+        
+        // Make sure $id is valid
+        if (!is_numeric($id)) {
+            abort(404, 'Invalid State ID');
+        }
     
-        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id])->get();
-        $data['slider'] = Slider::orderBy('id','DESC')->where('type','package')->get();
-    
+        $data['city'] = $id;
+        
+        // Apply price filter to the package query if the min/max price is provided
+        $query = Package::where('state_id', $id);  // Assuming state_id is a single value
+        
+        // If min and max price are provided, add a condition for package prices
+        if ($min_price > 0 || $max_price < 1000) {
+            $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price) {
+                $query->where('display_cost', '>=', $min_price)
+                      ->where('display_cost', '<=', $max_price);
+            });
+        }
+        
+        // Get the filtered packages
+        $data['packages'] = $query->get();
+        
+        // Fetch sliders
+        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
+        
+        // Get the current date for price filtering
         $formatted_date = Carbon::now()->format('Y-m-d');
-    
+        
         foreach ($data['packages'] as $package) {
+            // Get the price for the current package within the date range
             $package_price = PackagePrice::where('package_id', $package->id)
                 ->where('start_date', '<=', $formatted_date)
                 ->where('end_date', '>=', $formatted_date)
@@ -265,13 +320,16 @@ if ($popularCities->isEmpty()) {
     
             $package->prices = $package_price;
     
+            // Get the hotels associated with the package
             $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
             
             $package->hotels = $hotels;
         }
-
-        return view('front/state_detail',$data);
+    
+        // Return the filtered data to the view
+        return view('front/state_detail', $data);
     }
+    
 
 
     // public function user_profile()
