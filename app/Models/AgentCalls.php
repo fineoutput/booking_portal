@@ -22,10 +22,12 @@ class AgentCalls extends Model
     {
         return $this->belongsTo(State::class, 'state_id'); 
     }
-    // public function state()
-    // {
-    //     return $this->hasOne(State::class, 'id', 'state');
-    // }
+
+    public function transfer()
+    {
+        return $this->hasOne(TransferAgentCalls::class, 'agentcalls_id', 'id');
+    }
+
 
     public function cities()
     {

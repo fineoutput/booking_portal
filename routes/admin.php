@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\OutstationController;
 use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\RoundTripController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\TransferAgentCallesController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\LocalTourPriceController;
 use App\Http\Controllers\Auth\adminlogincontroller;
@@ -320,6 +321,15 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::delete('home-slider/{id}', [HomeSliderController::class, 'destroy'])->name('home_slider.destroy');
     Route::patch('/home-slider/{id}/status', [HomeSliderController::class, 'updateStatus'])->name('home_slider.updateStatus');
 
+    Route::get('/transfer-agentcalls', [TransferAgentCallesController::class, 'index'])->name('transferagentcalls');
+    Route::match(['get','post'],'/transfer-agentcalls/create/{id}', [TransferAgentCallesController::class, 'create'])->name('transferagentcalls.create');
+    Route::get('transfer-agentcalls/{id}/edit', [TransferAgentCallesController::class, 'edit'])->name('transferagentcalls.edit');
+    Route::put('transfer-agentcalls/{id}', [TransferAgentCallesController::class, 'update'])->name('transferagentcalls.update');
+    Route::delete('transfer-agentcalls/{id}', [TransferAgentCallesController::class, 'destroy'])->name('transferagentcalls.destroy');
+
+    Route::match(['get','post'],'/remark-agentcalls/create/{id}', [TransferAgentCallesController::class, 'remarkcreate'])->name('remarkagentcalls.create');
+
+    Route::get('/view-agentcalls/remark/{id}', [TransferAgentCallesController::class, 'viewremark'])->name('view.remark');
     
 
 });

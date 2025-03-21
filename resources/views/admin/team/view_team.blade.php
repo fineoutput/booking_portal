@@ -80,7 +80,7 @@
                         <td>{{ 'Manager' }}</td>
                         @endif
                         @if($pow == "4")
-                        <td>{{ 'Caller' }}</td>
+                        <td>{{ 'Caller/Sales Employee' }}</td>
                         @endif
                         <td>
                           <?php

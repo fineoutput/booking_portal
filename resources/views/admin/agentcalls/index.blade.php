@@ -40,7 +40,12 @@
                 <div class="col-md-10">
                   <h4 class="mt-0 header-title">View Package Agent Calls List</h4>
                 </div>
+                {{-- <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('transferagentcalls.create')}}" role="button" style="margin-left: 20px;"> Transfer Calls</a></div> --}}
+                @if(Auth::user()->power == 4)
+                
+                @else
                 <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('add_AgentCalls')}}" role="button" style="margin-left: 20px;"> Add Agent Calls</a></div>
+                @endif
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -72,6 +77,7 @@
                         <th data-priority="3">City</th>
                         <th data-priority="3">Remarks</th>
                         <th data-priority="3">Date</th>
+                        <th data-priority="3">Transfer User</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -87,20 +93,37 @@
                                 <td>
                                   {{ \Carbon\Carbon::parse($value->created_at)->format('Y M j') ?? '' }}
                                 </td>
+                                <td>{{$value->transfer->team->name ?? ''}}</td>
+                              
+                                @if(Auth::user()->power == 4)
                                 <td>
-
-                                    <a href="{{ route('AgentCalls.edit', $value->id) }}" class="btn btn-primary">
-                                        Edit
-                                    </a>
-                                    <!-- Delete Form -->
-                                    <form action="{{ route('AgentCalls.destroy', $value->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE') <!-- This generates a DELETE request -->
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?')">
-                                            Delete
-                                        </button>
-                                    </form>
+                                  <a href="{{ route('remarkagentcalls.create', $value->id) }}" class="btn btn-primary">
+                                    Remark
+                                </a>
                                 </td>
+                                @else
+                                <td>
+                                  <a href="{{ route('AgentCalls.edit', $value->id) }}" class="btn btn-primary">
+                                      Edit
+                                  </a>
+                                  <!-- Delete Form -->
+                                  <form action="{{ route('AgentCalls.destroy', $value->id) }}" method="POST" style="display:inline;">
+                                      @csrf
+                                      @method('DELETE') <!-- This generates a DELETE request -->
+                                      <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?')">
+                                          Delete
+                                      </button>
+                                  </form>
+                                  @if(empty($value->transfer->caller_id))
+                                  <a href="{{ route('transferagentcalls.create', ['id' => $value->id]) }}" class="btn btn-primary">
+                                      Transfer
+                                  </a>
+                              @endif
+                              <a href="{{ route('view.remark', ['id' => $value->id]) }}" class="btn btn-primary">
+                                View Remark
+                            </a>
+                              </td>
+                                @endif
                             </tr>
 
                         @endforeach

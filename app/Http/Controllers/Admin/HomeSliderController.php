@@ -82,7 +82,7 @@ class HomeSliderController extends Controller
         // Validate input
         $request->validate([
             'type' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048', 
+            'image' => 'nullable', 
         ]);
 
         $slider->type = $request->type;

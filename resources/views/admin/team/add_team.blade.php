@@ -101,7 +101,7 @@
                                             <option value="1">Super Admin</option>
                                             <option value="2">Admin</option>
                                             <option value="3">Manager</option>
-                                            <option value="4">Caller</option>
+                                            <option value="4">Caller/Sales Employee</option>
                                         </select>
                                         <div class="form-floating">
                                             @error('power')
@@ -135,7 +135,7 @@
 
 
                                     
-                                    <div class="form-group col-md-6">
+                                    {{-- <div class="form-group col-md-6">
                                         <div class="col-sm-12"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Agent Calles</label>
                                         <div id="output"></div>
@@ -148,9 +148,9 @@
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="form-group col-md-6">
+                                    {{-- <div class="form-group col-md-6">
                                         <div class="col-sm-12"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Hotel Calles</label>
                                         <div id="output"></div>
@@ -178,7 +178,7 @@
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
 
 
 

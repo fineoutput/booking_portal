@@ -217,13 +217,12 @@
                 <section id="image-slider" class="splide" aria-label="Image Slider">
                 <div class="splide__track">
                     <ul class="splide__list">
-                    <li class="splide__slide long_slide">
-                        <img src=
-                        {{ asset('frontend/images/gallery/flat.avif') }} alt="Image 1">
-                    </li>
-                    <li class="splide__slide long_slide">
-                        <img src="{{ asset('frontend/images/gallery/traveler-infographics-with-basic-travel-elements_23-2147647525.avif') }}" alt="Image 2">
-                    </li>
+                      @foreach ($offer as $value)
+                      <li class="splide__slide long_slide">
+                          <img src=
+                          {{ asset($value->image) }} alt="Image 1">
+                      </li>
+                      @endforeach
                     </ul>
                 </div>
                 </section>

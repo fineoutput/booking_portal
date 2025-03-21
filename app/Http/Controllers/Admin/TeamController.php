@@ -43,11 +43,13 @@ class TeamController extends Controller
 			$data['customercalls'] = CustomerCalls::get();
 			return view('admin/team/add_team',$data);
 	}
+
 	public function view_team(Request $req)
 	{
 			$Team_data = Team::wherenull('deleted_at')->orderBy('id', 'desc')->get();
 			return view('admin/team/view_team', ['teamdetails' => $Team_data]);
 	}
+
 	public function UpdateTeamStatus($status, $idd, Request $req)
 	{
 			$id = base64_decode($idd);
@@ -105,7 +107,7 @@ class TeamController extends Controller
 			$admin_id = $req->session()->get('admin_id');
 			$req->validate([
 				'name' => 'required',
-				'email' => 'required|unique:admin_teams|email',
+				'email' => 'required|email|unique:admin_teams,email,NULL,id,deleted_at,NULL',
 				'password' => 'required',
 				'power' => 'required '
 			]);
@@ -144,9 +146,9 @@ class TeamController extends Controller
 				'image' => $fullimagepath,
 				'ip' => $req->ip(),
 				'added_by' => $req->input('admin_id'),
-				'customer_calles_id' => implode(',', $req->customer_calles_id),
-				'hotels_calles_id' => implode(',', $req->hotels_calles_id),
-				'agent_calles_id' => implode(',', $req->agent_calles_id),
+				// 'customer_calles_id' => implode(',', $req->customer_calles_id),
+				// 'hotels_calles_id' => implode(',', $req->hotels_calles_id),
+				// 'agent_calles_id' => implode(',', $req->agent_calles_id),
 				'is_active' => 1,
 				'added_by' => 1,
 			];

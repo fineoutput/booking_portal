@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\AgentCalls;
 use App\Models\State;
 use App\Models\City;
+use App\Models\TransferAgentCalls;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
@@ -17,33 +18,43 @@ class AgentCallsController extends Controller
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-
+    
         Log::debug('Start Date:', ['start_date' => $startDate]);
         Log::debug('End Date:', ['end_date' => $endDate]);
-
+    
         $user = Auth::user();
-        if($user->power == 4){
-            $agentCallIds = explode(',', $user->agent_calles_id);
-        $query = AgentCalls::orderBy('id', 'DESC')->whereIn('id',$agentCallIds);
-        }else{
-            $query = AgentCalls::orderBy('id', 'DESC');
+        $query = AgentCalls::orderBy('id', 'DESC');
+    
+        if ($user->power == 4) {
+            // Get the IDs of the agent calls related to the current user
+            $agentCallIds = TransferAgentCalls::where('caller_id', $user->id)->pluck('agentcalls_id');
+            
+            // Check if there are any agent call IDs to apply the whereIn filter
+            if ($agentCallIds->isNotEmpty()) {
+                // Apply the whereIn filter with the retrieved IDs
+                $query->whereIn('id', $agentCallIds);
+            }
         }
+    
+        // Apply date filters if present
         if ($startDate && $endDate) {
             Log::debug('Filtering with both start_date and end_date');
             $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
-        elseif ($startDate) {
+        } elseif ($startDate) {
             Log::debug('Filtering with start_date only');
             $query->where('created_at', '>=', $startDate);
-        }
-        elseif ($endDate) {
+        } elseif ($endDate) {
             Log::debug('Filtering with end_date only');
             $query->where('created_at', '<=', $endDate);
         }
+    
+        // Execute the query to get the agent calls data
         $agentCalls = $query->get();
-
+    
+        // Return the data to the view
         return view('admin.agentcalls.index', compact('agentCalls'));
     }
+    
 
 
     public function getCitiesByStateagent($stateId)
