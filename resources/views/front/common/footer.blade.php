@@ -1,9 +1,11 @@
-<footer class="bg-dark text-light pt-5 mt-5">
+<footer class="cater text-light pt-5 mt-5">
   <div class="container px-5">
-    <div class="row">
+    <div class="row" style="
+    color: #009ee3;
+">
       <div class="col-6 col-lg-4">
       <div class="logo">
-          <a style="text-decoration: none;" href="{{ route('index') }}"><img class="bawe" style="width: 350px;" src="{{asset('frontend/images/white_logo.png')}}" alt=""></a>
+          <a style="text-decoration: none;" href="{{ route('index') }}"><img class="bawe" style="width: 350px;" src="{{ asset('frontend/images/tripp.png') }}" alt=""></a>
             
           </div>
         <p class="mb-2">0987654321</p>
@@ -46,10 +48,16 @@
     </div>
     <hr>
     <div class="d-sm-flex justify-content-between py-1">
-      <p>2023 © Trip Dekho. All Rights Reserved. </p>
+      <p style="
+    color: #009ee3;
+">2023 © Trip Dekho. All Rights Reserved. </p>
       <p>
-        <a href="#" class="text-light text-decoration-none pe-4">Terms of use</a>
-        <a href="#" class="text-light text-decoration-none"> Privacy policy</a>
+        <a href="#" class=" text-decoration-none pe-4" style="
+        color: #009ee3;
+    ">Terms of use</a>
+        <a href="#" class=" text-decoration-none" style="
+    color: #009ee3;
+"> Privacy policy</a>
       </p>
     </div>
   </div>
