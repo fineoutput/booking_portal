@@ -63,6 +63,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
   <script src="{{ asset('frontend/script.js') }}"></script>
   <script src="{{ asset('frontend/hotel.js') }}"></script>
+  <script src="{{ asset('frontend/slider.js') }}"></script>
   </body>
 
 </html>
