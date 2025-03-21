@@ -164,10 +164,21 @@
                     @else
                         @foreach($value->tourists as $tourist)
                             <div class="mb-3 suther">
-                                <p><strong>Tourist:</strong></p>
-                                <p>Name: {{ $tourist->name }}</p>
-                                <p>Age: {{ $tourist->age }}</p>
-                                <p>Phone: {{ $tourist->phone }}</p>
+                                <p class="text-center"><strong>Tourist: {{ $value->id }}</strong></p>
+                                <div class="d-flex justify-content-between">
+                                    <div class="udahas d-flex flex-column justify-content-center text-center">
+                                        <p class="fw-bold">Name: </p>
+                                        <p>{{ $tourist->name }}</p>
+                                    </div>
+                                    <div class="udahas d-flex flex-column justify-content-center text-center">
+                                        <p class="fw-bold">Age: </p>
+                                        <p>{{ $tourist->age }}</p>
+                                    </div>
+                                    <div class="udahas d-flex flex-column justify-content-center text-center">
+                                        <p class="fw-bold">Phone:</p>
+                                        <p> {{ $tourist->phone }}</p>
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     @endif
