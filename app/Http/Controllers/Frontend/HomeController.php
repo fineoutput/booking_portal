@@ -724,8 +724,15 @@ public function getVehiclesByCity($cityId)
     public function hotelsbooking()
     {
         $data['hotel'] = Hotels::all();
-        $data['slider'] = Slider::orderBy('id','DESC')->where('type','hotel')->get();
-        return view('front/hotelsbooking',$data);
+        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+
+        // Fetch prices for each hotel using a map
+        $formatted_date = Carbon::now()->format('Y-m-d');
+
+        $data['hotel_prices'] = HotelPrice::where('start_date', '<=', $formatted_date)
+                    ->where('end_date', '>=', $formatted_date)->whereIn('hotel_id', $data['hotel']->pluck('id'))->get()->keyBy('hotel_id');
+        
+        return view('front/hotelsbooking', $data);
     }
 
 
@@ -795,7 +802,7 @@ public function getVehiclesByCity($cityId)
         
         $night_count = $start_date->diffInDays($end_date); 
 
-        $formatted_date = Carbon::now()->format('Y-m');
+        $formatted_date = Carbon::now()->format('Y-m-d');
 
         $package_price = PackagePrice::where('package_id', $id)
                 ->where('start_date', '<=', $formatted_date)
