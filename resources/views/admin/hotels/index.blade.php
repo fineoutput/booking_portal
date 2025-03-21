@@ -55,6 +55,7 @@
                         <th data-priority="3">Location</th>
                         <th data-priority="1">Hotel Category</th>
                         <th data-priority="3">Package</th>
+                        <th data-priority="3">Meal Plan</th>
                         <th data-priority="3">Image</th>
                         <th data-priority="6">Action</th>
                       </tr>
@@ -94,6 +95,30 @@
 
                         </td>
                         <td>
+                          @php
+                              $mealPlans = explode(',', $hotel->meal_plan);  // Exploding the comma-separated meal plans
+                          @endphp
+                      
+                          @if(count($mealPlans) > 0)
+                              @foreach($mealPlans as $plan)
+                                  @if($plan == 'meal_plan_only_room')
+                                      Meal Plan (Only Room)
+                                  @elseif($plan == 'meal_plan_breakfast')
+                                      Meal Plan (Breakfast)
+                                  @elseif($plan == 'meal_plan_all_meals')
+                                      Meal Plan (All Meals)
+                                  @elseif($plan == 'meal_plan_breakfast_lunch_dinner')
+                                      Meal Plan (Breakfast + Lunch/Dinner)
+                                  @else
+                                      No Meals Selected
+                                  @endif
+                                  <br>  <!-- Line break for each meal plan -->
+                              @endforeach
+                          @else
+                              No Meals Selected
+                          @endif
+                      </td>
+                                              <td>
                           @foreach (json_decode($hotel->images) as $image)
                               <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
                           @endforeach

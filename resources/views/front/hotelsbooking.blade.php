@@ -180,7 +180,18 @@
                         <h4 class="path key">{{ $value->name ?? '' }}</h4>
                           <h4 class="size">{{ $value->hotel_category	 ?? '' }}</h4>
                           <h4 class="key">{{ $value->location ?? '' }}</h4>
-                          <h4 class="key">{{ $value->price ?? '' }}₹</h4>
+                          @php
+                          // Fetch price for the current hotel
+                          $hotelPrice = $hotel_prices[$value->id] ?? null;
+                      @endphp
+
+                      <h4 class="key">
+                          @if($hotelPrice)
+                              ₹{{ $hotelPrice->night_cost ?? '0' }}
+                          @else
+                              Price Not Available
+                          @endif
+                      </h4>
                           {{-- <h4 class="seeve size">₹{{ $value->cost ?? '0' }}</h4> --}}
                       </div>
                   </div>

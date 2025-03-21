@@ -74,6 +74,7 @@
                         <th data-priority="6">City</th>
                         <th data-priority="6">Location</th>
                         <th data-priority="6">Date</th>
+                        <th data-priority="6">Transfer User</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -92,18 +93,38 @@
                                 <td>
                                   {{ \Carbon\Carbon::parse($value->created_at)->format('Y M j') ?? '' }}
                                 </td>
+                                <td>{{$value->transfer->team->name ?? ''}}</td>
                                 <td>
-                                    <a href="{{ route('hotelsCalls.edit', $value->id) }}" class="btn btn-primary">
-                                        Edit
-                                    </a>
-                                    <!-- Delete Form -->
-                                    <form action="{{ route('hotelsCalls.destroy', $value->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE') <!-- This generates a DELETE request -->
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?')">
-                                            Delete
-                                        </button>
-                                    </form>
+                                  @if(Auth::user()->power == 4)
+                                  <a href="{{ route('remarkhotelcalls.create', ['id' => $value->id]) }}" class="btn btn-primary">
+                                    Remark
+                                </a>
+                                <a href="{{ route('hotelview.remark', ['id' => $value->id]) }}" class="btn btn-primary">
+                                  View Remark
+                              </a>
+                                  @else
+                                  <a href="{{ route('hotelsCalls.edit', $value->id) }}" class="btn btn-primary">
+                                    Edit
+                                </a>
+                                <!-- Delete Form -->
+                                <form action="{{ route('hotelsCalls.destroy', $value->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE') <!-- This generates a DELETE request -->
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?')">
+                                        Delete
+                                    </button>
+                                </form>
+
+                                @if(empty($value->transfer->caller_id))
+                                <a href="{{ route('transferhotelcalls.create', ['id' => $value->id]) }}" class="btn btn-primary">
+                                  Transfer
+                              </a>
+                              @endif
+                              <a href="{{ route('hotelview.remark', ['id' => $value->id]) }}" class="btn btn-primary">
+                                View Remark
+                            </a>
+                                  @endif
+                                   
                                 </td>
                             </tr>
 

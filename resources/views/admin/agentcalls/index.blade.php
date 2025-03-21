@@ -100,12 +100,16 @@
                                   <a href="{{ route('remarkagentcalls.create', $value->id) }}" class="btn btn-primary">
                                     Remark
                                 </a>
+                                <a href="{{ route('view.remark', ['id' => $value->id]) }}" class="btn btn-primary">
+                                  View Remark
+                              </a>
                                 </td>
                                 @else
                                 <td>
                                   <a href="{{ route('AgentCalls.edit', $value->id) }}" class="btn btn-primary">
                                       Edit
                                   </a>
+                                  
                                   <!-- Delete Form -->
                                   <form action="{{ route('AgentCalls.destroy', $value->id) }}" method="POST" style="display:inline;">
                                       @csrf

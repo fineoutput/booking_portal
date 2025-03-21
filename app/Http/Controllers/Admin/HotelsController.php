@@ -78,6 +78,7 @@ class HotelsController extends Controller
             $hotel->city_id = $request->city_id;
             $hotel->hotel_category = $request->hotel_category;
             $hotel->package_id = !empty($request->package_id) ? implode(',', $request->package_id) : null;
+            $hotel->meal_plan = !empty($request->meal_plan) ? implode(',', $request->meal_plan) : null;
     
             $hotel->save();
 
@@ -175,6 +176,7 @@ public function update(Request $request, $id)
     $hotel->city_id = $request->city_id ?? $hotel->city_id;  
     $hotel->hotel_category = $request->hotel_category;
     $hotel->package_id = is_array($request->package_id) ? implode(',', $request->package_id) : null;
+    $hotel->meal_plan = is_array($request->meal_plan) ? implode(',', $request->meal_plan) : null;
 
     $hotel->images = json_encode(array_values($imagePaths)); 
     $hotel->save();

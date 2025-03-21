@@ -52,6 +52,7 @@
                         <th>#</th>
                         <th data-priority="1">Remark</th>
                         <th data-priority="1">User</th>
+                        {{-- <th data-priority="1">Status</th> --}}
                         {{-- <th data-priority="6">Action</th>
                         <th data-priority="6">Action</th> --}}
                       </tr>
@@ -62,6 +63,7 @@
                           <td>{{$key+1}}</td>
                           <td>{{$value->remark ?? ''}}</td>
                           <td>{{$value->team->name ?? ''}}</td>
+      
 
 
                         {{-- <td>

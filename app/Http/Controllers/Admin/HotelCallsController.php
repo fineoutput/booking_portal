@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\HotelCalls;
+use App\Models\TransferHotelCalls;
 use App\Models\City;
 use App\Models\State;
 use Illuminate\Support\Facades\Auth;
@@ -23,8 +24,11 @@ class HotelCallsController extends Controller
         
         $user = Auth::user();
         if($user->power == 4){
-            $agentCallIds = explode(',', $user->hotels_calles_id);
-        $query = HotelCalls::orderBy('id', 'DESC')->whereIn('id',$agentCallIds);
+
+            $agentCallIds = TransferHotelCalls::where('caller_id', $user->id)->pluck('agentcalls_id');
+
+            $query = HotelCalls::orderBy('id', 'DESC')->whereIn('id',$agentCallIds);
+
         }else{
             $query = HotelCalls::orderBy('id', 'DESC');
         }
