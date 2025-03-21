@@ -51,17 +51,16 @@
                             <!-- End show success and error messages -->
                             <h4 class="mt-0 header-title">Add Slider Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                            <form action="{{route('slider.create')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{route('home_slider.create')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
 
                                     <div class="col-sm-6">
                                         <select class="form-control" name="type" id="type" required>
                                             <option value="">Select Type</option>
-                                            <option value="package">Package</option>
-                                            <option value="guide">Guide</option>
-                                            <option value="hotel">Hotel</option>
-                                            <option value="safari">Safari</option>
+                                            <option value="Banner">Banner</option>
+                                            <option value="Offer">Offer</option>
+                                            <option value="Bottom">Bottom</option>
                                         </select>
                                         @error('type')
                                         <div style="color:red">{{$message}}</div>
@@ -69,7 +68,7 @@
                                     </div>
 
                                     <div class="col-sm-4">
-                                        <label for="state">Select City</label>
+                                        <label for="state">Select Image</label>
                                             <input class="form-control" type="file" name="image">
                                         @error('image')
                                             <div style="color:red">{{ $message }}</div>

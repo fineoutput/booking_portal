@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Admin\AirportController;
 use App\Http\Controllers\Admin\PushNotificationController;
 use App\Http\Controllers\Admin\OutstationController;
+use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\RoundTripController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\WalletController;
@@ -311,6 +312,13 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::put('slider/{id}', [SliderController::class, 'update'])->name('slider.update');
     Route::delete('slider/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
     Route::patch('/slider/{id}/status', [SliderController::class, 'updateStatus'])->name('slider.updateStatus');
+
+    Route::get('/home-slider', [HomeSliderController::class, 'index'])->name('home_slider');
+    Route::match(['get','post'],'/home-slider/create', [HomeSliderController::class, 'create'])->name('home_slider.create');
+    Route::get('home-slider/{id}/edit', [HomeSliderController::class, 'edit'])->name('home_slider.edit');
+    Route::put('home-slider/{id}', [HomeSliderController::class, 'update'])->name('home_slider.update');
+    Route::delete('home-slider/{id}', [HomeSliderController::class, 'destroy'])->name('home_slider.destroy');
+    Route::patch('/home-slider/{id}/status', [HomeSliderController::class, 'updateStatus'])->name('home_slider.updateStatus');
 
     
 
