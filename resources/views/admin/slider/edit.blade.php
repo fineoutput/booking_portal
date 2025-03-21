@@ -59,7 +59,6 @@
                                     <div class="col-sm-6">
                                         <select class="form-control" name="type" id="type" required>
                                             <option value="">Select Type</option>
-                                            <option value="home_slider" {{ $slider->type == 'home_slider' ? 'selected' : '' }}>Home Slider</option>
                                             <option value="package" {{ $slider->type == 'package' ? 'selected' : '' }}>Package</option>
                                             <option value="guide" {{ $slider->type == 'guide' ? 'selected' : '' }}>Guide</option>
                                             <option value="hotel" {{ $slider->type == 'hotel' ? 'selected' : '' }}>Hotel</option>

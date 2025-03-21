@@ -18,11 +18,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Add Slider</h4>
+                    <h4 class="page-title">Add Vehicle Price Edit</h4>
                     <ol class="breadcrumb" style="display:none">
                         <!-- <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li> -->
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Slider </a></li>
-                        <li class="breadcrumb-item active">Add Slider</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Vehicle Price Edit </a></li>
+                        <li class="breadcrumb-item active">Add Vehicle</li>
                     </ol>
                 </div>
             </div>
@@ -49,40 +49,44 @@
                             </div>
                             @endif
                             <!-- End show success and error messages -->
-                            <h4 class="mt-0 header-title">Add Slider Form</h4>
+                            <h4 class="mt-0 header-title">Add Vehicle Price Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                            <form action="{{route('slider.create')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('slider.update', $slider->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT') <!-- Specify the form method as PUT to update the data -->
+                                
                                 <div class="form-group row">
-
                                     <div class="col-sm-6">
                                         <select class="form-control" name="type" id="type" required>
                                             <option value="">Select Type</option>
-                                            <option value="package">Package</option>
-                                            <option value="guide">Guide</option>
-                                            <option value="hotel">Hotel</option>
-                                            <option value="safari">Safari</option>
+                                            <option value="home_slider" {{ $slider->type == 'home_slider' ? 'selected' : '' }}>Home Slider</option>
+                                            <option value="package" {{ $slider->type == 'package' ? 'selected' : '' }}>Package</option>
+                                            <option value="guide" {{ $slider->type == 'guide' ? 'selected' : '' }}>Guide</option>
+                                            <option value="hotel" {{ $slider->type == 'hotel' ? 'selected' : '' }}>Hotel</option>
+                                            <option value="safari" {{ $slider->type == 'safari' ? 'selected' : '' }}>Safari</option>
                                         </select>
                                         @error('type')
-                                        <div style="color:red">{{$message}}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <label for="state">Select City</label>
-                                            <input class="form-control" type="file" name="image">
-                                        @error('image')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
+                            
+                                    <div class="col-sm-4">
+                                        <label for="state">Select City</label>
+                                        <input class="form-control" type="file" name="image">
+                                        @error('image')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                        <img src="{{ asset($slider->image) }}" width="50" height="50" alt="">
+                                    </div>
                                 </div>
-
+                            
                                 <div class="form-group row">
                                     <div class="form-group">
                                         <div class="w-100 text-center">
                                             <button type="submit" style="margin-top: 10px;" class="btn btn-danger"><i class="fa fa-user"></i> Submit</button>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -101,7 +105,6 @@
     document.getElementById('output').innerHTML = location.search;
     $(".chosen-select").chosen();
 </script>
-
 
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>
