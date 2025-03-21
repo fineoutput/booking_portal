@@ -100,7 +100,7 @@
       <div class="row align-items-center">
         <div class="col-12 col-md-3">
           <div class="logo">
-          <a style="text-decoration: none;" href="{{ route('index') }}"><img style="width: 220px;" src="{{asset('frontend/images/white_logo.png')}}" alt=""></a>
+          <a style="text-decoration: none;" href="{{ route('index') }}"><img style="width: 220px;" src="{{asset('frontend/images/tripp.png')}}" alt=""></a>
             
           </div>
         </div>
@@ -117,7 +117,7 @@
           <div class="sign-in dropdown">
     👤 
     @if(Auth::guard('agent')->check())
-        <a href="#" class="text-white dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <a href="#" class="dropdown-toggle dotts" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             {{ Auth::guard('agent')->user()->name }}
         </a>
         <ul class="dropdown-menu dropdown-menu-end whatis" aria-labelledby="userDropdown">
@@ -132,7 +132,7 @@
             </li>
         </ul>
     @else
-        <a href="{{ route('login') }}" class="text-white">Sign In</a>
+        <a href="{{ route('login') }}" class="dotts">Sign In</a>
     @endif
 </div>
 
