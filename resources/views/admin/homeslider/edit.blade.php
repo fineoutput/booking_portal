@@ -51,7 +51,7 @@
                             <!-- End show success and error messages -->
                             <h4 class="mt-0 header-title">Add Vehicle Price Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                            <form action="{{ route('slider.update', $slider->id) }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('home_slider.update', $slider->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT') <!-- Specify the form method as PUT to update the data -->
                                 
@@ -59,11 +59,14 @@
                                     <div class="col-sm-6">
                                         <select class="form-control" name="type" id="type" required>
                                             <option value="">Select Type</option>
-                                            <option value="home_slider" {{ $slider->type == 'home_slider' ? 'selected' : '' }}>Home Slider</option>
-                                            <option value="package" {{ $slider->type == 'package' ? 'selected' : '' }}>Package</option>
-                                            <option value="guide" {{ $slider->type == 'guide' ? 'selected' : '' }}>Guide</option>
-                                            <option value="hotel" {{ $slider->type == 'hotel' ? 'selected' : '' }}>Hotel</option>
-                                            <option value="safari" {{ $slider->type == 'safari' ? 'selected' : '' }}>Safari</option>
+
+                                            <option value="Banner" {{ $slider->type == 'Banner' ? 'selected' : '' }}>Banner</option>
+
+                                            <option value="Offer" {{ $slider->type == 'Offer' ? 'selected' : '' }}>Offer</option>
+
+                                            <option value="Bottom" {{ $slider->type == 'Bottom' ? 'selected' : '' }}>Bottom</option>
+
+
                                         </select>
                                         @error('type')
                                             <div style="color:red">{{ $message }}</div>

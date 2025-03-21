@@ -23,7 +23,7 @@
   <div class="splide__track">
       
         <ul class="splide__list">
-          @foreach ($slider as $value)
+          @foreach ($banner as $value)
           <li class="splide__slide">
             <picture style="  height: 50vh">
                 <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">

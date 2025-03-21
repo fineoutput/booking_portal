@@ -35,7 +35,7 @@ class HomeSliderController extends Controller
                 $imageName = Str::random(20) . '.' . $image->getClientOriginalExtension();
     
                 // Move the uploaded image to the 'public/uploads/slider' directory
-                $image->move(public_path('uploads/slider'), $imageName);
+                $image->move(public_path('uploads/homeslider'), $imageName);
             } else {
                 // Handle cases where no image is provided or invalid
                 return back()->with('error', 'Invalid image file');
@@ -90,8 +90,8 @@ class HomeSliderController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = Str::random(20) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/slider'), $imageName);
-            $slider->image = 'uploads/slider/' . $imageName;
+            $image->move(public_path('uploads/homeslider'), $imageName);
+            $slider->image = 'uploads/homeslider/' . $imageName;
         }
         
     
