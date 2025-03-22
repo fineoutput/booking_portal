@@ -62,6 +62,7 @@
                         <th data-priority="1">Agent Cost</th>
                         <th data-priority="1">Final Cost</th>
                         <th data-priority="1">Date</th>
+                        <th data-priority="1">Transfer User</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -81,6 +82,7 @@
                         <td>{{ $hotel->agent_margin ?? '' }}</td>
                         <td>{{ $hotel->final_price ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($hotel->created_at)->format('d F Y') ?? '' }}</td>
+                        <td>{{ $hotel->transfer->team->name ?? '' }}</td>
                         {{-- <td>{{ $hotel->cost ?? '' }}</td> --}}
                         {{-- <td>
                           @if($hotel->status == 0)
@@ -92,6 +94,71 @@
                         </td> --}}
                         {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
  
+                      @if(Auth::user()->power == 4)
+                      <td>
+                        <a href="{{ route('remark_hotels_booking', ['id' =>    $hotel->id]) }}" class="btn btn-success mb-2">
+                          Remark
+                        </a>
+
+                        <a href="{{ route('viewremarkhotelsbooking', ['id' =>    $hotel->id]) }}" class="btn btn-success mb-2">
+                          View Remark
+                        </a>
+                        <!-- Update Status Button -->
+                        <form action="{{ route('hotelsbooking.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
+                          @csrf
+                          @method('PATCH') <!-- Change from PUT to PATCH -->
+                      
+                          <!-- Show "Complete" or "Cancel" buttons based on the current status -->
+                          @if($hotel->status == 0)
+                              <!-- Pending, show Complete and Cancel buttons -->
+
+                              <button type="submit" class="btn btn-info" 
+                                      name="status_action" value="accept" 
+                                      onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                  Accept
+                              </button>
+                      
+                              <button type="submit" class="btn btn-danger mt-2" 
+                                      name="status_action" value="cancel" 
+                                      onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                  Reject
+                              </button>
+                          @elseif($hotel->status == 3)
+
+                          <button type="submit" class="btn btn-info" 
+                                  name="status_action" value="complete" 
+                                  onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                              Complete
+                          </button>
+
+                          <button type="submit" class="btn btn-danger mt-2" 
+                                  name="status_action" value="cancel" 
+                                  onclick="return confirm('Are you sure you want to cancel this booking?')">
+                              Reject
+                          </button>
+
+                          @elseif($hotel->status == 1)
+                          <p class="text-success">Completed</p>
+                              <!-- Confirmed, show Cancel button -->
+                              {{-- <button type="submit" class="btn btn-danger mt-3" 
+                                      name="status_action" value="cancel" 
+                                      onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                  Cancel
+                              </button> --}}
+                          @else
+                          @if($hotel->status == 1)
+                              <p class="text-success">Completed</p>
+                              @elseif($hotel->status == 3)
+                              <p class="text-success">Accepted</p>
+                              @else
+                              <p class="text-danger">Rejected</p>
+                              @endif
+                              
+                          @endif
+                      </form>
+                      
+                </td>
+                      @else
                         <td>
                                 <!-- Update Status Button -->
                                 <form action="{{ route('hotelsbooking.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
@@ -101,6 +168,7 @@
                                   <!-- Show "Complete" or "Cancel" buttons based on the current status -->
                                   @if($hotel->status == 0)
                                       <!-- Pending, show Complete and Cancel buttons -->
+
                                       <button type="submit" class="btn btn-info" 
                                               name="status_action" value="accept" 
                                               onclick="return confirm('Are you sure you want to change the status to Complete?')">
@@ -112,6 +180,11 @@
                                               onclick="return confirm('Are you sure you want to cancel this booking?')">
                                           Reject
                                       </button>
+                                      @if(empty($hotel->transfer->team->name))
+                                        <a href="{{ route('transfer_hotels_booking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                                          Transfer
+                                        </a>
+                                        @endif
                                   @elseif($hotel->status == 3)
 
                                   <button type="submit" class="btn btn-info" 
@@ -142,9 +215,16 @@
                                       @else
                                       <p class="text-danger">Rejected</p>
                                       @endif
+                                      
                                   @endif
                               </form>
+
+                              <a href="{{ route('viewremarkhotelsbooking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                                View Remark
+                              </a>
+                              
                         </td>
+                        @endif
                     </tr>
                 @endforeach
                    </tbody>

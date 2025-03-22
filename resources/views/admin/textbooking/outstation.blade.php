@@ -64,6 +64,7 @@
                         <th data-priority="3">Agent Margin</th>
                         <th data-priority="3">Final Cost</th>
                         <th data-priority="3">Per KM Charge</th>
+                        <th data-priority="3">Transfer User</th>
                         <th data-priority="3">Action</th>
 
                       </tr>
@@ -101,63 +102,146 @@
                                 <td>₹{{$value->agent_margin ?? '₹0'}}</td>
                                 <td>₹{{$value->final_price ?? '₹0'}}</td>
                                 <td>₹{{$value->taxi_se->vehicle_1->roundtrip->per_km_charge ?? '0'}}</td>
-                              <td>
-                                <form action="{{ route('taxi.updateStatus', $value->id) }}" method="POST" style="display:inline;">
-                                  @csrf
-                                  @method('PUT') <!-- Change from PUT to PATCH -->
-                              
-                                  <!-- Show "Complete" or "Cancel" buttons based on the current status -->
-                                  @if($value->status == 0)
-                                      <!-- Pending, show Complete and Cancel buttons -->
-                                      <button type="submit" class="btn btn-info" 
-                                              name="status_action" value="accept" 
-                                              onclick="return confirm('Are you sure you want to change the status to Complete?')">
-                                              Accept
-                                      </button>
-                                      {{-- <button type="submit" class="btn btn-info" 
-                                              name="status_action" value="complete" 
-                                              onclick="return confirm('Are you sure you want to change the status to Complete?')">
-                                          Complete
-                                      </button> --}}
-                              
-                                      <button type="submit" class="btn btn-danger" 
-                                              name="status_action" value="cancel" 
-                                              onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                          Reject
-                                      </button>
-                                  @elseif($value->status == 3)
+                                <td>{{$value->transfer->team->name ?? ''}}</td>
 
-                                  <button type="submit" class="btn btn-info" 
-                                              name="status_action" value="complete" 
-                                              onclick="return confirm('Are you sure you want to change the status to Complete?')">
-                                          Complete
-                                      </button>
-                              
-                                      <button type="submit" class="btn btn-danger" 
-                                              name="status_action" value="cancel" 
-                                              onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                          Reject
-                                      </button>
+                             @if(Auth::user()->power == 4)
+                             <td>
 
-                                  @elseif($value->status == 1)
-                                  <p class="text-success">Completed</p>
-                                      <!-- Confirmed, show Cancel button -->
-                                      {{-- <button type="submit" class="btn btn-danger mt-3" 
-                                              name="status_action" value="cancel" 
-                                              onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                          Cancel
-                                      </button> --}}
-                                  @else
-                                  @if($value->status == 1)
-                                      <p class="text-success">Completed</p>
-                                      @elseif($hotel->status == 3)
-                                      <p class="text-success">Accepted</p>
-                                      @else
-                                      <p class="text-danger">Rejected</p>
-                                      @endif
-                                  @endif
-                              </form>
-                              </td>
+                              <a href="{{ route('remark_taxi_booking', ['id' =>    $value->id]) }}" class="btn btn-success mb-2">
+                                Remark
+                              </a>
+
+                              <a href="{{ route('viewremark_taxi_booking', ['id' =>    $value->id]) }}" class="btn btn-success mb-2">
+                                View Remark
+                              </a>
+
+                              <form action="{{ route('taxi.updateStatus', $value->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PUT') <!-- Change from PUT to PATCH -->
+                            
+                                <!-- Show "Complete" or "Cancel" buttons based on the current status -->
+                                @if($value->status == 0)
+                                    <!-- Pending, show Complete and Cancel buttons -->
+                                    <button type="submit" class="btn btn-info" 
+                                            name="status_action" value="accept" 
+                                            onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                            Accept
+                                    </button>
+                                    {{-- <button type="submit" class="btn btn-info" 
+                                            name="status_action" value="complete" 
+                                            onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                        Complete
+                                    </button> --}}
+                            
+                                    <button type="submit" class="btn btn-danger" 
+                                            name="status_action" value="cancel" 
+                                            onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                        Reject
+                                    </button>
+                                @elseif($value->status == 3)
+
+                                <button type="submit" class="btn btn-info" 
+                                            name="status_action" value="complete" 
+                                            onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                        Complete
+                                    </button>
+                            
+                                    <button type="submit" class="btn btn-danger" 
+                                            name="status_action" value="cancel" 
+                                            onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                        Reject
+                                    </button>
+
+                                @elseif($value->status == 1)
+                                <p class="text-success">Completed</p>
+                                    <!-- Confirmed, show Cancel button -->
+                                    {{-- <button type="submit" class="btn btn-danger mt-3" 
+                                            name="status_action" value="cancel" 
+                                            onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                        Cancel
+                                    </button> --}}
+                                @else
+                                @if($value->status == 1)
+                                    <p class="text-success">Completed</p>
+                                    @elseif($hotel->status == 3)
+                                    <p class="text-success">Accepted</p>
+                                    @else
+                                    <p class="text-danger">Rejected</p>
+                                    @endif
+                                @endif
+                            </form>
+                            </td>
+                             @else
+                             <td>
+                              <form action="{{ route('taxi.updateStatus', $value->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PUT') <!-- Change from PUT to PATCH -->
+                            
+                                <!-- Show "Complete" or "Cancel" buttons based on the current status -->
+                                @if($value->status == 0)
+                                    <!-- Pending, show Complete and Cancel buttons -->
+                                    <button type="submit" class="btn btn-info mb-2" 
+                                            name="status_action" value="accept" 
+                                            onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                            Accept
+                                    </button>
+                                    {{-- <button type="submit" class="btn btn-info" 
+                                            name="status_action" value="complete" 
+                                            onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                        Complete
+                                    </button> --}}
+                            
+                                    <button type="submit" class="btn btn-danger" 
+                                            name="status_action" value="cancel" 
+                                            onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                        Reject
+                                    </button>
+                                    @if(empty($value->transfer->team->name))
+                                    <a href="{{ route('transfer_taxi_booking', ['id' => $value->id]) }}" class="btn btn-success mt-2">
+                                      Transfer
+                                    </a>
+                                     @endif
+                                @elseif($value->status == 3)
+
+                                <button type="submit" class="btn btn-info mb-2" 
+                                            name="status_action" value="complete" 
+                                            onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                        Complete
+                                    </button>
+                            
+                                    <button type="submit" class="btn btn-danger mb-2" 
+                                            name="status_action" value="cancel" 
+                                            onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                        Reject
+                                    </button>
+
+                                    
+
+                                @elseif($value->status == 1)
+                                <p class="text-success">Completed</p>
+                                    <!-- Confirmed, show Cancel button -->
+                                    {{-- <button type="submit" class="btn btn-danger mt-3" 
+                                            name="status_action" value="cancel" 
+                                            onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                        Cancel
+                                    </button> --}}
+                                @else
+                                @if($value->status == 1)
+                                    <p class="text-success">Completed</p>
+                                    @elseif($hotel->status == 3)
+                                    <p class="text-success">Accepted</p>
+                                    @else
+                                    <p class="text-danger">Rejected</p>
+                                    @endif
+                                @endif
+                            </form>
+
+                            <a href="{{ route('viewremark_taxi_booking', ['id' =>    $value->id]) }}" class="btn btn-success mt-2">
+                              View Remark
+                            </a>
+
+                            </td>
+                             @endif
                                 
                             </tr>
                         @endforeach

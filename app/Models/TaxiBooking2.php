@@ -45,5 +45,11 @@ class TaxiBooking2 extends Model
         return $this->belongsTo(City::class, 'city_id');
     }
 
+    public function transfer()
+    {
+        return $this->hasOne(TransferTaxiOrder::class, 'order_id', 'id');
+    }
+
+
 
 }

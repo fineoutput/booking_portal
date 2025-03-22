@@ -60,6 +60,7 @@
                         <th data-priority="1">Out Station Guide</th> -->
                         <th data-priority="1">Agent Margin</th>
                         <th data-priority="1">Final Cost</th>
+                        <th data-priority="1">Transfer User</th>
                         <th data-priority="1">Action</th>
                       </tr>
                     </thead>
@@ -85,28 +86,22 @@
         </td>
                         <td>₹{{ $hotel->agent_margin ?? '0' }}</td>
                         <td>₹{{ $hotel->final_price ?? '0' }}</td>
+                        <td>{{ $hotel->transfer->team->name ?? '' }}</td>
 
+                        @if(Auth::user()->power == 4)
+                      <td>
+                        <a href="{{ route('remark_trip_guide_booking', ['id' =>    $hotel->id]) }}" class="btn btn-success mb-2">
+                          Remark
+                        </a>
+                        <a href="{{ route('viewremark_trip_guide_booking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                          View Remark
+                        </a>
+                      </td>
+                        @else
                         <td>
-
-                            {{-- <form action="{{ route('trip_guide_booking.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('PUT') <!-- Use PUT method for updating status -->
-                                
-                                @if($hotel->status == 0)
-                                <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure you want to change the status?')" 
-                                        {{ $hotel->status == 1 ? 'disabled title=Status is already Complete' : '' }}>
-                                    {{ $hotel->status == 1 ? 'Complete' : 'Complete' }}
-                                </button>
-                                @else
-                                <p class="text-success">Completed</p>
-                                @endif
-                            </form> --}}
-
                             <form action="{{ route('trip_guide_booking.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
                               @csrf
-                              @method('PUT') <!-- Change from PUT to PATCH -->
-                          
-                              <!-- Show "Complete" or "Cancel" buttons based on the current status -->
+                              @method('PUT') 
                               @if($hotel->status == 0)
                                   <!-- Pending, show Complete and Cancel buttons -->
                                   <button type="submit" class="btn btn-info" 
@@ -114,18 +109,17 @@
                                           onclick="return confirm('Are you sure you want to change the status to Complete?')">
                                       Accept
                                   </button>
-
-                                  {{-- <button type="submit" class="btn btn-info" 
-                                          name="status_action" value="complete" 
-                                          onclick="return confirm('Are you sure you want to change the status to Complete?')">
-                                      Complete
-                                  </button> --}}
                           
                                   <button type="submit" class="btn btn-danger mt-2" 
                                           name="status_action" value="cancel" 
                                           onclick="return confirm('Are you sure you want to cancel this booking?')">
                                       Reject
                                   </button>
+                                  @if(empty($hotel->transfer->team->name))
+                                  <a href="{{ route('transfer_trip_guide_booking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                                    Transfer
+                                  </a>
+                                  @endif
                               @elseif($hotel->status == 3)
 
                               <button type="submit" class="btn btn-info " 
@@ -160,7 +154,11 @@
                               @endif
                           </form>
 
+                          <a href="{{ route('viewremark_trip_guide_booking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                            View Remark
+                          </a>
                         </td>
+                        @endif
                     </tr>
                 @endforeach
                    </tbody>

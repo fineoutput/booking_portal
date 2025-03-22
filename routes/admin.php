@@ -72,6 +72,13 @@ Route::group(['middleware'=>'admin.auth'],function(){
 
    Route::get('/panding-hotels-booking', [HotelBookingController::class, 'index'])->name('pandinghotelsbooking');
 
+   
+   Route::match(['get','post'],'/transfer-hotels-booking/{id}', [HotelBookingController::class, 'transfercreate'])->name('transfer_hotels_booking');
+
+   Route::match(['get','post'],'/remark-hotels-booking/{id}', [HotelBookingController::class, 'remarkcreate'])->name('remark_hotels_booking');
+
+   Route::get('/view-remark-hotels-booking/{id}', [HotelBookingController::class, 'viewremark'])->name('viewremarkhotelsbooking');
+
    Route::get('/complete-hotels-booking', [HotelBookingController::class, 'completeorders'])->name('completehotelsbooking');
 
    Route::get('/accept-hotels-booking', [HotelBookingController::class, 'acceptorders'])->name('accepthotelsbooking');
@@ -213,6 +220,13 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi-booking');
 
+    
+    Route::match(['get','post'],'/transfer-taxi-booking/{id}', [TaxiBookingController::class, 'transfercreate'])->name('transfer_taxi_booking');
+
+   Route::match(['get','post'],'/remark-taxi-booking/{id}', [TaxiBookingController::class, 'remarkcreate'])->name('remark_taxi_booking');
+
+   Route::get('/view-remark-taxi-booking/{id}', [TaxiBookingController::class, 'viewremark'])->name('viewremark_taxi_booking');
+
     Route::get('/complete-taxi-booking', [TaxiBookingController::class, 'completeindex'])->name('completetaxi-booking');
 
     Route::get('/accept-taxi-booking', [TaxiBookingController::class, 'acceptindex'])->name('accepttaxi-booking');
@@ -261,6 +275,14 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/wild-life-safari-order', [WildlifeSafariOrderController::class, 'index'])->name('wild_life_safari_orders');
 
+    Route::match(['get','post'],'/transfer-safari-order/{id}', [WildlifeSafariOrderController::class, 'transfercreate'])->name('wild_life_safari_orders_transfer');
+
+    Route::match(['get','post'],'/remark-create-safari-order/{id}', [WildlifeSafariOrderController::class, 'remarkcreate'])->name('wild_life_safari_orders_remarkcreate');
+
+    Route::get('/view-remark-safari-order/{id}', [WildlifeSafariOrderController::class, 'viewremark'])->name('wild_life_safari_orders_view');
+
+
+
     Route::get('/complete-wild-life-safari-order', [WildlifeSafariOrderController::class, 'completeorders'])->name('wild_life_safari_orders_complete');
 
     Route::get('/accept-wild-life-safari-order', [WildlifeSafariOrderController::class, 'acceptorders'])->name('wild_life_safari_orders_accept');
@@ -290,6 +312,12 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/trip-guide/cities/{stateId}', [TripGuideController::class, 'getCitiesByStatetripguide']);
   
     Route::get('/trip-guide-booking', [TripGuideController::class, 'tripguidebooking'])->name('tripguidebooking');
+
+    Route::match(['get','post'],'/transfer-trip-guide-booking/{id}', [TripGuideController::class, 'transfercreate'])->name('transfer_trip_guide_booking');
+
+   Route::match(['get','post'],'/remark-trip-guide-booking/{id}', [TripGuideController::class, 'remarkcreate'])->name('remark_trip_guide_booking');
+
+   Route::get('/view-remark-trip-guide-booking/{id}', [TripGuideController::class, 'viewremark'])->name('viewremark_trip_guide_booking');
 
     Route::get('/complete-trip-guide-booking', [TripGuideController::class, 'completetripguidebooking'])->name('completetripguidebooking');
 

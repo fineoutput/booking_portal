@@ -83,7 +83,7 @@ class TransferCustomerCallesController extends Controller
 
     public function viewremark(Request $request,$id)
     {
-        $agentCalls = RemarkHotelCalls::where('agentcalls_id',$id)->get();
+        $agentCalls = RemarkHotelCalls::where('agentcalls_id',$id)->orderBy('id','DESC')->get();
         return view('admin.transfercustomercalls.viewremark', compact('agentCalls'));
     }
 

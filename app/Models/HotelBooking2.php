@@ -46,5 +46,11 @@ class HotelBooking2 extends Model
         return $this->belongsTo(City::class, 'city_id');
     }
 
+    public function transfer()
+    {
+        return $this->hasOne(TransferHotelOrder::class, 'order_id', 'id');
+    }
+
+
 
 }

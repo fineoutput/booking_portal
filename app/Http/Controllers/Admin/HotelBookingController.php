@@ -14,27 +14,108 @@ use App\Models\WildlifeSafariOrder;
 use App\Models\State;
 use App\Models\City;
 use App\Models\HotelBooking2;
+use App\Models\RemarkHotelOrder;
+use App\Models\TransferHotelOrder;
+use App\adminmodel\Team;
+
+use Illuminate\Support\Facades\Auth;
 
 
 class HotelBookingController extends Controller
 {
+    
+
+    function transfercreate(Request $request,$id) {
+        if($request->method()=='POST'){
+            $validated = $request->validate([
+                'caller_id' => 'required',
+            ]);
+
+            $agentCall = new TransferHotelOrder();
+            $agentCall->order_id = $id;
+            $agentCall->caller_id = $request->caller_id;
+            $agentCall->save();  
+
+            return redirect()->route('pandinghotelsbooking')->with('success', 'Order Transfer successfully!');
+        }
+        $data['states'] = State::all();
+        $data['agentCalls'] = HotelBooking2::where('id',$id)->first();
+        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['team'] = Team::where('power',4)->get();
+        return view('admin/hotelbooking/transfercreate',$data);
+    }
+
+
+    function remarkcreate(Request $request,$id) {
+        if($request->method()=='POST'){
+            $validated = $request->validate([
+                'remark' => 'required',
+                // 'agentcalls_id' => 'required',
+            ]);
+
+            $agentCall = new RemarkHotelOrder();
+            $agentCall->order_id = $id;
+            $agentCall->remark = $request->remark;
+            $agentCall->caller_id = Auth::id();
+            $agentCall->save();  
+
+            return redirect()->route('pandinghotelsbooking')->with('success', 'Agent Call Transfer successfully!');
+        }
+        $data['states'] = State::all();
+        $data['agentCalls'] = HotelBooking2::where('id',$id)->first();
+        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['team'] = Team::where('power',4)->get();
+        return view('admin/hotelbooking/remarkcreate',$data);
+    }
+
+    public function viewremark(Request $request,$id)
+    {
+        $agentCalls = RemarkHotelOrder::where('order_id',$id)->orderBy('id','DESC')->get();
+        return view('admin.hotelbooking.viewremark', compact('agentCalls'));
+    }
+
+
     function index() {
-        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',0)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferHotelOrder::where('caller_id', $user->id)->pluck('order_id');
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',0)->get();
+        }else{
+            $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',0)->get();
+        }
         return view('admin/hotelbooking/index',$data);
     }
 
     function completeorders() {
-        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',1)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferHotelOrder::where('caller_id', $user->id)->pluck('order_id');
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',1)->get();
+        }else{
+            $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',1)->get();
+        }
         return view('admin/hotelbooking/index',$data);
     }
 
     function acceptorders() {
-        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',3)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferHotelOrder::where('caller_id', $user->id)->pluck('order_id');
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',3)->get();
+        }else{
+            $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',3)->get();
+        }
         return view('admin/hotelbooking/index',$data);
     }
 
     function rejectorders() {
-        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',2)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferHotelOrder::where('caller_id', $user->id)->pluck('order_id');
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',2)->get();
+        }else{
+            $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',2)->get();
+        }
         return view('admin/hotelbooking/index',$data);
     }
 

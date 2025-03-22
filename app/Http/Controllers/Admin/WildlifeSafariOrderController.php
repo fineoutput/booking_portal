@@ -13,17 +13,85 @@ use App\Models\WildlifeSafariOrder;
 use App\Models\State;
 use App\Models\City;
 use App\Models\WildlifeSafariOrder2;
-
+use App\adminmodel\Team;
+use App\Models\RemarkSafariOrder;
+use App\Models\TransferSafariOrder;
+use Illuminate\Support\Facades\Auth;
 
 class WildlifeSafariOrderController extends Controller
 {
+
+    function transfercreate(Request $request,$id) {
+        if($request->method()=='POST'){
+            $validated = $request->validate([
+                'caller_id' => 'required',
+            ]);
+
+            $agentCall = new TransferSafariOrder();
+            $agentCall->order_id = $id;
+            $agentCall->caller_id = $request->caller_id;
+            $agentCall->save();  
+
+            return redirect()->route('wild_life_safari_orders')->with('success', 'Order Transfer successfully!');
+        }
+        $data['states'] = State::all();
+        $data['agentCalls'] = WildlifeSafariOrder2::where('id',$id)->first();
+        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['team'] = Team::where('power',4)->get();
+        return view('admin/wildlifesafariorders/transfercreate',$data);
+    }
+
+
+    function remarkcreate(Request $request,$id) {
+        if($request->method()=='POST'){
+            $validated = $request->validate([
+                'remark' => 'required',
+                // 'agentcalls_id' => 'required',
+            ]);
+
+            $agentCall = new RemarkSafariOrder();
+            $agentCall->order_id = $id;
+            $agentCall->remark = $request->remark;
+            $agentCall->caller_id = Auth::id();
+            $agentCall->save();  
+
+            return redirect()->route('wild_life_safari_orders')->with('success', 'Agent Call Transfer successfully!');
+        }
+        $data['states'] = State::all();
+        $data['agentCalls'] = WildlifeSafariOrder2::where('id',$id)->first();
+        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['team'] = Team::where('power',4)->get();
+        return view('admin/wildlifesafariorders/remarkcreate',$data);
+    }
+
+    public function viewremark(Request $request,$id)
+    {
+        $agentCalls = RemarkSafariOrder::where('order_id',$id)->orderBy('id','DESC')->get();
+        return view('admin.wildlifesafariorders.viewremark', compact('agentCalls'));
+    }
+
+
+
+
     function index() {
+
+        $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferSafariOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',0)->get();
+    }else{
         $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',0)->get();
+    }
         return view('admin/wildlifesafariorders/index',$data);
     }
 
     function completeorders() {
-        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',1)->get();
+        $user = Auth::user();
+
+        $data['order_id'] = TransferSafariOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('id',$data['order_id'])->where('status',1)->get();
         return view('admin/wildlifesafariorders/index',$data);
     }
     function acceptorders() {

@@ -63,6 +63,7 @@
                         <th data-priority="1">Kids</th>
                         <th data-priority="1">Agent Margin</th>
                         <th data-priority="1">Final Cost</th>
+                        <th data-priority="1">Transfer User</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -84,33 +85,76 @@
                         <td>{{ $hotel->safari_se->no_kids ?? '' }}</td>
                         <td>₹{{ $hotel->agent_margin ?? '' }}</td>
                         <td>₹{{ $hotel->final_price ?? '' }}</td>
-                        {{-- <td>
+                        <td>{{ $hotel->transfer->team->name ?? '' }}</td>
+
+                        @if(Auth::user()->power == 4)
+                      <td>
+                        <a href="{{ route('wild_life_safari_orders_remarkcreate', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                          Remark
+                        </a>
+                        <a href="{{ route('wild_life_safari_orders_view', ['id' =>    $hotel->id]) }}" class="btn btn-danger mt-2">
+                          View Remark
+                        </a>
+
+                        <form action="{{ route('wild_life_safari_order.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
+                          @csrf
+                          @method('PUT') <!-- Change from PUT to PATCH -->
+                      
+                          <!-- Show "Complete" or "Cancel" buttons based on the current status -->
                           @if($hotel->status == 0)
-                          <p class="text-danger">Pending</p>
+                              <!-- Pending, show Complete and Cancel buttons -->
+                              <button type="submit" class="btn btn-info mt-2" 
+                                      name="status_action" value="accept" 
+                                      onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                  Accept
+                              </button>
+                      
+                              <button type="submit" class="btn btn-danger mt-2" 
+                                      name="status_action" value="cancel" 
+                                      onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                  Reject
+                              </button>
+
+                          @elseif($hotel->status == 3)
+
+                            <button type="submit" class="btn btn-info mt-2" 
+                              name="status_action" value="complete" 
+                              onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                              Complete
+                            </button>
+
+                            <button type="submit" class="btn btn-danger mt-2" 
+                                      name="status_action" value="cancel" 
+                                      onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                  Reject
+                              </button>
+                            
+                          @elseif($hotel->status == 1)
+
+                          <p class="text-success">Completed</p>
+                              <!-- Confirmed, show Cancel button -->
+                              {{-- <button type="submit" class="btn btn-danger mt-3" 
+                                      name="status_action" value="cancel" 
+                                      onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                  Cancel
+                              </button> --}}
                           @else
-                            <p class="text-success">Complete</p>
+                          @if($hotel->status == 1)
+                              <p class="text-success">Completed</p>
+                              @elseif($hotel->status == 3)
+                              <p class="text-success">Accepted</p>
+                              @else
+                              <p class="text-danger">Rejected</p>
+                              @endif
                           @endif
-                        </td> --}}
-                        {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
+                      </form>
 
+                      </td>
+                        @else
                         <td>
-                                <!-- Update Status Button -->
-
-                                {{-- <form action="{{ route('wild_life_safari_order.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('PUT') <!-- Use PUT method for updating status -->
-                                    
-                                    @if($hotel->status == 0)
-                                    <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure you want to change the status?')" 
-                                            {{ $hotel->status == 1 ? 'disabled title=Status is already Complete' : '' }}>
-                                        {{ $hotel->status == 1 ? 'Complete' : 'Complete' }}
-                                    </button>
-                                    @else
-                                    <p class="text-success">Completed</p>
-                                    @endif
-                                </form> --}}
-
-
+                          <a href="{{ route('wild_life_safari_orders_view', ['id' =>    $hotel->id]) }}" class="btn btn-danger mb-2">
+                            View Remark
+                          </a>
                                 <form action="{{ route('wild_life_safari_order.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
                                   @csrf
                                   @method('PUT') <!-- Change from PUT to PATCH -->
@@ -129,6 +173,13 @@
                                               onclick="return confirm('Are you sure you want to cancel this booking?')">
                                           Reject
                                       </button>
+
+                                      @if(empty($hotel->transfer->team->name))
+                                      <a href="{{ route('wild_life_safari_orders_transfer', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                                        Transfer
+                                      </a>
+                                      @endif
+
                                   @elseif($hotel->status == 3)
 
                                     <button type="submit" class="btn btn-info" 
@@ -162,9 +213,9 @@
                                       @endif
                                   @endif
                               </form>
-
-
                         </td>
+                        @endif
+
                     </tr>
                 @endforeach
                    </tbody>

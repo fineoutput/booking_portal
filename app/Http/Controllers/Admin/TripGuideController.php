@@ -15,32 +15,113 @@ use App\Models\State;
 use App\Models\TripGuideBook;
 use App\Models\City;
 use App\Models\TripGuideBook2;
+use App\Models\TransferGuideOrder;
+use App\Models\RemarkGuideOrder;
+use App\adminmodel\Team;
+
+use Illuminate\Support\Facades\Auth;
 
 
 class TripGuideController extends Controller
 {
+
+
+    function transfercreate(Request $request,$id) {
+        if($request->method()=='POST'){
+            $validated = $request->validate([
+                'caller_id' => 'required',
+            ]);
+
+            $agentCall = new TransferGuideOrder();
+            $agentCall->order_id = $id;
+            $agentCall->caller_id = $request->caller_id;
+            $agentCall->save();  
+
+            return redirect()->route('tripguidebooking')->with('success', 'Order Transfer successfully!');
+        }
+        $data['states'] = State::all();
+        $data['agentCalls'] = TripGuideBook2::where('id',$id)->first();
+        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['team'] = Team::where('power',4)->get();
+        return view('admin/tripguide/transfercreate',$data);
+    }
+
+
+    function remarkcreate(Request $request,$id) {
+        if($request->method()=='POST'){
+            $validated = $request->validate([
+                'remark' => 'required',
+                // 'agentcalls_id' => 'required',
+            ]);
+
+            $agentCall = new RemarkGuideOrder();
+            $agentCall->order_id = $id;
+            $agentCall->remark = $request->remark;
+            $agentCall->caller_id = Auth::id();
+            $agentCall->save();  
+
+            return redirect()->route('tripguidebooking')->with('success', 'Agent Call Transfer successfully!');
+        }
+        $data['states'] = State::all();
+        $data['agentCalls'] = TripGuideBook2::where('id',$id)->first();
+        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['team'] = Team::where('power',4)->get();
+        return view('admin/tripguide/remarkcreate',$data);
+    }
+
+    public function viewremark(Request $request,$id)
+    {
+        $agentCalls = RemarkGuideOrder::where('order_id',$id)->orderBy('id','DESC')->get();
+        return view('admin.tripguide.viewremark', compact('agentCalls'));
+    }
+
+
     function index() {
         $data['WildlifeSafari'] = TripGuide::orderBy('id','DESC')->get();
         return view('admin/tripguide/index',$data);
     }
     
     function tripguidebooking() {
-        $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',0)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferGuideOrder::where('caller_id', $user->id)->pluck('order_id');
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',0)->get();
+        }else{
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',0)->get();
+        }
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
     function completetripguidebooking() {
-        $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',1)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferGuideOrder::where('caller_id', $user->id)->pluck('order_id');
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',1)->get();
+        }else{
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',1)->get();
+        }
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
     function accepttripguidebooking() {
-        $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',3)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferGuideOrder::where('caller_id', $user->id)->pluck('order_id');
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',3)->get();
+        }else{
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',3)->get();
+        }
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
     function rejecttripguidebooking() {
-        $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',2)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferGuideOrder::where('caller_id', $user->id)->pluck('order_id');
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',2)->get();
+        }else{
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',2)->get();
+        }
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
