@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Mail\OtpMail;
 use App\Models\AdminCity;
+use App\Models\HomeSlider;
 use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
 use Illuminate\Support\Facades\DB;
@@ -2972,6 +2973,7 @@ public function getLanguages(Request $request)
     {
         try {
             $token = $request->bearerToken();
+    
             if (!$token) {
                 return response()->json([
                     'message' => 'Unauthenticated.',
@@ -2979,20 +2981,13 @@ public function getLanguages(Request $request)
                     'status' => 401,
                 ]);
             }
-    
-            $decodedToken = base64_decode($token, true);
-            if (!$decodedToken || !str_contains($decodedToken, ',')) {
-                return response()->json([
-                    'message' => 'Invalid token format.',
-                    'data' => [],
-                    'status' => 401,
-                ]);
-            }
-    
-            list($email, $password) = explode(',', $decodedToken, 2);
+        
+            $decodedToken = base64_decode($token); 
+            list($email, $password) = explode(',', $decodedToken);
+        
             $user = Agent::where('email', $email)->first();
-    
-            if (!$user || !Hash::check($password, $user->password)) {
+        
+            if (!$user || $password != $user->password) {
                 return response()->json([
                     'message' => 'Invalid credentials.',
                     'data' => [],
@@ -3021,8 +3016,7 @@ public function getLanguages(Request $request)
                     'id' => $slider->id,
                     'type' => $slider->type,
                     'app_image_url' => $slider->Appimage ? asset($slider->Appimage) : null,
-                    'created_at' => $slider->created_at->toDateTimeString(),
-                    'updated_at' => $slider->updated_at->toDateTimeString(),
+
                 ];
             });
     
