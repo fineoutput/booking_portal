@@ -44,6 +44,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::get('/admin-city', [HotelController::class, 'admin_city']);
     Route::post('/airport-vehicle', [HotelController::class, 'airport_vehicle']);
     Route::post('/local-vehicle', [HotelController::class, 'local_vehicle']);
+    Route::get('/Appimage', [HotelController::class, 'Appimage']);
 
     Route::post('/taxi-booking', [HotelController::class, 'taxibooking']);
     Route::get('/constant', [HotelController::class, 'constant']);

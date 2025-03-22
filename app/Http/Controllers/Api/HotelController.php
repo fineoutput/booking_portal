@@ -2968,6 +2968,71 @@ public function getLanguages(Request $request)
     }
     
 
+    public function Appimage(Request $request)
+    {
+        // Check for bearer token
+        $token = $request->bearerToken();
+    
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+    
+        // Decode token and verify credentials
+        $decodedToken = base64_decode($token); 
+        list($email, $password) = explode(',', $decodedToken);
+    
+        $user = Agent::where('email', $email)->first();
+    
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+
+        // Optional: Get type parameter if provided
+        $type = $request->input('type');
+
+        // Query sliders
+        $query = HomeSlider::orderBy('id', 'DESC');
+        
+        if ($type) {
+            $query->where('type', $type);
+        }
+
+        $sliders = $query->get();
+
+        if ($sliders->isEmpty()) {
+            return response()->json([
+                'message' => 'No sliders found.',
+                'data' => [],
+                'status' => 404,
+            ]);
+        }
+
+        // Prepare slider details
+        $sliderDetails = $sliders->map(function ($slider) {
+            return [
+                'id' => $slider->id,
+                'type' => $slider->type,
+                'app_image_url' => url($slider->Appimage),
+                'created_at' => $slider->created_at->toDateTimeString(),
+                'updated_at' => $slider->updated_at->toDateTimeString(),
+            ];
+        });
+
+        return response()->json([
+            'message' => 'Home sliders fetched successfully.',
+            'data' => $sliderDetails,
+            'status' => 200,
+        ]);
+    }
+
 
     public function constant(Request $request)
     {
