@@ -152,9 +152,7 @@
                       </td>
                         @else
                         <td>
-                          <a href="{{ route('wild_life_safari_orders_view', ['id' =>    $hotel->id]) }}" class="btn btn-danger mb-2">
-                            View Remark
-                          </a>
+                          
                                 <form action="{{ route('wild_life_safari_order.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
                                   @csrf
                                   @method('PUT') <!-- Change from PUT to PATCH -->
@@ -174,18 +172,40 @@
                                           Reject
                                       </button>
 
+                                     
+
+                                  @elseif($hotel->status == 3)
+
+                                    <button type="submit" class="btn btn-info" 
+                                    name="status_action" value="process" 
+                                    onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                    In Process
+                            </button>
+
+                                    <button type="submit" class="btn btn-danger mt-2" 
+                                              name="status_action" value="cancel" 
+                                              onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                          Reject
+                                      </button>
+
                                       @if(empty($hotel->transfer->team->name))
                                       <a href="{{ route('wild_life_safari_orders_transfer', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
                                         Transfer
                                       </a>
                                       @endif
+                                      <a href="{{ route('wild_life_safari_orders_remarkcreate', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                                        Remark
+                                      </a>
+                                      <a href="{{ route('wild_life_safari_orders_view', ['id' =>    $hotel->id]) }}" class="btn btn-danger mt-2">
+                                        View Remark
+                                      </a>
 
-                                  @elseif($hotel->status == 3)
+                                  @elseif($hotel->status == 4)
 
                                     <button type="submit" class="btn btn-info" 
-                                      name="status_action" value="complete" 
-                                      onclick="return confirm('Are you sure you want to change the status to Complete?')">
-                                      Complete
+                                            name="status_action" value="complete" 
+                                            onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                        Complete
                                     </button>
 
                                     <button type="submit" class="btn btn-danger mt-2" 
@@ -193,6 +213,18 @@
                                               onclick="return confirm('Are you sure you want to cancel this booking?')">
                                           Reject
                                       </button>
+
+                                      @if(empty($hotel->transfer->team->name))
+                                      <a href="{{ route('wild_life_safari_orders_transfer', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                                        Transfer
+                                      </a>
+                                      @endif
+                                      <a href="{{ route('wild_life_safari_orders_remarkcreate', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
+                                        Remark
+                                      </a>
+                                      <a href="{{ route('wild_life_safari_orders_view', ['id' =>    $hotel->id]) }}" class="btn btn-danger mt-2">
+                                        View Remark
+                                      </a>
                                     
                                   @elseif($hotel->status == 1)
 
@@ -203,6 +235,9 @@
                                               onclick="return confirm('Are you sure you want to cancel this booking?')">
                                           Cancel
                                       </button> --}}
+                                      <a href="{{ route('wild_life_safari_orders_view', ['id' =>    $hotel->id]) }}" class="btn btn-danger mt-2">
+                                        View Remark
+                                      </a>
                                   @else
                                   @if($hotel->status == 1)
                                       <p class="text-success">Completed</p>
@@ -210,6 +245,9 @@
                                       <p class="text-success">Accepted</p>
                                       @else
                                       <p class="text-danger">Rejected</p>
+                                      <a href="{{ route('wild_life_safari_orders_view', ['id' =>    $hotel->id]) }}" class="btn btn-danger mt-2">
+                                        View Remark
+                                      </a>
                                       @endif
                                   @endif
                               </form>

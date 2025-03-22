@@ -59,7 +59,8 @@ class HotelBookingController extends Controller
             $agentCall->caller_id = Auth::id();
             $agentCall->save();  
 
-            return redirect()->route('pandinghotelsbooking')->with('success', 'Agent Call Transfer successfully!');
+            return redirect()->back()->with('success', 'Remark add successfully!')->with('javascript', 'window.history.go(-2);');
+
         }
         $data['states'] = State::all();
         $data['agentCalls'] = HotelBooking2::where('id',$id)->first();
@@ -93,6 +94,17 @@ class HotelBookingController extends Controller
         $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',1)->get();
         }else{
             $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',1)->get();
+        }
+        return view('admin/hotelbooking/index',$data);
+    }
+
+    function processorders() {
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferHotelOrder::where('caller_id', $user->id)->pluck('order_id');
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',4)->get();
+        }else{
+            $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',4)->get();
         }
         return view('admin/hotelbooking/index',$data);
     }
@@ -221,11 +233,11 @@ class HotelBookingController extends Controller
             // Change status to 1 (Confirmed)
             $vehicle->status = 1;
         } elseif ($action == 'cancel') {
-            // Change status to 2 (Canceled)
             $vehicle->status = 2;
         } elseif ($action == 'accept') {
-            // Change status to 2 (Canceled)
             $vehicle->status = 3;
+        } elseif ($action == 'process') {
+            $vehicle->status = 4;
         } else {
             // Default case, no action (status might not change)
             return redirect()->back()->with('error', 'Invalid status update action.');

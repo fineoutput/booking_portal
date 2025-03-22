@@ -81,6 +81,8 @@ Route::group(['middleware'=>'admin.auth'],function(){
 
    Route::get('/complete-hotels-booking', [HotelBookingController::class, 'completeorders'])->name('completehotelsbooking');
 
+   Route::get('/under-process-hotels-booking', [HotelBookingController::class, 'processorders'])->name('processhotelsbooking');
+
    Route::get('/accept-hotels-booking', [HotelBookingController::class, 'acceptorders'])->name('accepthotelsbooking');
 
    Route::get('/reject-hotels-booking', [HotelBookingController::class, 'rejectorders'])->name('rejecthotelsbooking');
@@ -228,6 +230,7 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
    Route::get('/view-remark-taxi-booking/{id}', [TaxiBookingController::class, 'viewremark'])->name('viewremark_taxi_booking');
 
     Route::get('/complete-taxi-booking', [TaxiBookingController::class, 'completeindex'])->name('completetaxi-booking');
+    Route::get('/process-taxi-booking', [TaxiBookingController::class, 'processindex'])->name('processtaxi-booking');
 
     Route::get('/accept-taxi-booking', [TaxiBookingController::class, 'acceptindex'])->name('accepttaxi-booking');
 
@@ -241,12 +244,17 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/accept-outstation-taxi-booking', [TaxiBookingController::class, 'acceptoutstationindex'])->name('accept_outstation_taxi_booking');
 
+    Route::get('/process-outstation-taxi-booking', [TaxiBookingController::class, 'processoutstationindex'])->name('process_outstation_taxi_booking');
+
     Route::get('/reject-outstation-taxi-booking', [TaxiBookingController::class, 'rejectoutstationindex'])->name('reject_outstation_taxi_booking');
 
 
     Route::get('/localtour-taxi-booking', [TaxiBookingController::class, 'localtourindex'])->name('localtour_taxi_booking');
 
     Route::get('/complete-localtour-taxi-booking', [TaxiBookingController::class, 'completelocaltourindex'])->name('complete_localtour_taxi_booking');
+
+    Route::get('/process-localtour-taxi-booking', [TaxiBookingController::class, 'processlocaltourindex'])->name('process_localtour_taxi_booking');
+
     Route::get('/accept-localtour-taxi-booking', [TaxiBookingController::class, 'acceptlocaltourindex'])->name('accept_localtour_taxi_booking');
 
     Route::get('/reject-localtour-taxi-booking', [TaxiBookingController::class, 'rejectlocaltourindex'])->name('reject_localtour_taxi_booking');
@@ -287,6 +295,8 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/accept-wild-life-safari-order', [WildlifeSafariOrderController::class, 'acceptorders'])->name('wild_life_safari_orders_accept');
 
+    Route::get('/process-wild-life-safari-order', [WildlifeSafariOrderController::class, 'processorders'])->name('wild_life_safari_orders_process');
+
     Route::get('/reject-wild-life-safari-order', [WildlifeSafariOrderController::class, 'rejectorders'])->name('wild_life_safari_orders_reject');
 
     Route::match(['get','post'],'/wild-life-safari-order/create', [WildlifeSafariOrderController::class, 'create'])->name('wild_life_safari_create_order');
@@ -320,6 +330,8 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
    Route::get('/view-remark-trip-guide-booking/{id}', [TripGuideController::class, 'viewremark'])->name('viewremark_trip_guide_booking');
 
     Route::get('/complete-trip-guide-booking', [TripGuideController::class, 'completetripguidebooking'])->name('completetripguidebooking');
+
+    Route::get('/process-trip-guide-booking', [TripGuideController::class, 'processtripguidebooking'])->name('processtripguidebooking');
 
     Route::get('/accept-trip-guide-booking', [TripGuideController::class, 'accepttripguidebooking'])->name('accepttripguidebooking');
 

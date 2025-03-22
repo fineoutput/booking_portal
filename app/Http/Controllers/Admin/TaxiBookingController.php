@@ -89,6 +89,16 @@ class TaxiBookingController extends Controller
         }
         return view('admin/textbooking/index',$data);
     }
+    function processindex(){
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferTaxiOrder::where('caller_id', $user->id)->pluck('order_id');
+            $data['agent'] = TaxiBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',4)->where('tour_type','Airport/Railway station')->get();
+        }else{
+            $data['agent'] = TaxiBooking2::orderBy('id','DESC')->where('status',4)->where('tour_type','Airport/Railway station')->get();
+        }
+        return view('admin/textbooking/index',$data);
+    }
 
     function acceptindex(){
         $user = Auth::user();
@@ -128,6 +138,9 @@ class TaxiBookingController extends Controller
         } elseif ($action == 'accept') {
             // Change status to 2 (Canceled)
             $vehicle->status = 3;
+        } elseif ($action == 'process') {
+            // Change status to 2 (Canceled)
+            $vehicle->status = 4;
         } else {
             // Default case, no action (status might not change)
             return redirect()->back()->with('error', 'Invalid status update action.');
@@ -158,6 +171,17 @@ class TaxiBookingController extends Controller
             $data['agent'] = TaxiBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',1)->where('tour_type','Local Tour')->get();
         }else{
             $data['agent'] = TaxiBooking2::orderBy('id','DESC')->where('status',1)->where('tour_type','Local Tour')->get();
+        }
+        return view('admin/textbooking/localtour',$data);
+    }
+
+    function processlocaltourindex(){
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferTaxiOrder::where('caller_id', $user->id)->pluck('order_id');
+            $data['agent'] = TaxiBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',4)->where('tour_type','Local Tour')->get();
+        }else{
+            $data['agent'] = TaxiBooking2::orderBy('id','DESC')->where('status',4)->where('tour_type','Local Tour')->get();
         }
         return view('admin/textbooking/localtour',$data);
     }
@@ -215,6 +239,17 @@ class TaxiBookingController extends Controller
             $data['agent'] = TaxiBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',3)->where('tour_type','Outstation')->get();
         }else{
             $data['agent'] = TaxiBooking2::orderBy('id','DESC')->where('status',3)->where('tour_type','Outstation')->get();
+        }
+        return view('admin/textbooking/outstation',$data);
+    }
+
+    function processoutstationindex(){
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferTaxiOrder::where('caller_id', $user->id)->pluck('order_id');
+            $data['agent'] = TaxiBooking2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',4)->where('tour_type','Outstation')->get();
+        }else{
+            $data['agent'] = TaxiBooking2::orderBy('id','DESC')->where('status',4)->where('tour_type','Outstation')->get();
         }
         return view('admin/textbooking/outstation',$data);
     }
