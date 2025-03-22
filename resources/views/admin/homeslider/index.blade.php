@@ -52,6 +52,7 @@
                         <th>#</th>
                         <th data-priority="1">Type</th>
                         <th data-priority="1">Image</th>
+                        <th data-priority="1">App Image</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -63,6 +64,13 @@
                           <td>
                               @if($value->image)
                                   <img src="{{ asset($value->image) }}" alt="Image" style="max-width: 100px; height: auto;">
+                              @else
+                                  No image available
+                              @endif
+                          </td>
+                          <td>
+                              @if($value->Appimage)
+                                  <img src="{{ asset($value->Appimage) }}" alt="Image" style="max-width: 100px; height: auto;">
                               @else
                                   No image available
                               @endif

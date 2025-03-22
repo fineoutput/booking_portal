@@ -66,11 +66,18 @@
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
-
+                                    
                                     <div class="col-sm-4">
                                         <label for="state">Select Image</label>
                                             <input class="form-control" type="file" name="image">
                                         @error('image')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="state">Select App Image</label>
+                                            <input class="form-control" type="file" name="Appimage">
+                                        @error('Appimage')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
