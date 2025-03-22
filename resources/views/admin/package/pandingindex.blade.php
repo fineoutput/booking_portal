@@ -121,13 +121,13 @@
                                               onclick="return confirm('Are you sure you want to change the status to Complete?')">
                                           Accept
                                       </button>
-                                      <button type="submit" class="btn btn-info" 
+                                      {{-- <button type="submit" class="btn btn-info" 
                                               name="status_action" value="complete" 
                                               onclick="return confirm('Are you sure you want to change the status to Complete?')">
                                           Complete
-                                      </button>
+                                      </button> --}}
                               
-                                      <button type="submit" class="btn btn-danger" 
+                                      <button type="submit" class="btn btn-danger mt-2" 
                                               name="status_action" value="cancel" 
                                               onclick="return confirm('Are you sure you want to cancel this booking?')">
                                           Reject
@@ -139,7 +139,7 @@
                                           Complete
                                       </button>
                               
-                                      <button type="submit" class="btn btn-danger" 
+                                      <button type="submit" class="btn btn-danger mt-2" 
                                               name="status_action" value="cancel" 
                                               onclick="return confirm('Are you sure you want to cancel this booking?')">
                                           Reject

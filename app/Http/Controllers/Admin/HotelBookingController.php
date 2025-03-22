@@ -28,6 +28,11 @@ class HotelBookingController extends Controller
         return view('admin/hotelbooking/index',$data);
     }
 
+    function acceptorders() {
+        $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',3)->get();
+        return view('admin/hotelbooking/index',$data);
+    }
+
     function rejectorders() {
         $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',2)->get();
         return view('admin/hotelbooking/index',$data);
@@ -137,6 +142,9 @@ class HotelBookingController extends Controller
         } elseif ($action == 'cancel') {
             // Change status to 2 (Canceled)
             $vehicle->status = 2;
+        } elseif ($action == 'accept') {
+            // Change status to 2 (Canceled)
+            $vehicle->status = 3;
         } else {
             // Default case, no action (status might not change)
             return redirect()->back()->with('error', 'Invalid status update action.');
