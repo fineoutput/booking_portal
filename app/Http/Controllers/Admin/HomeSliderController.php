@@ -27,6 +27,7 @@ class HomeSliderController extends Controller
             $validated = $request->validate([
                 'type' => 'required',
                 'image' => 'required',
+                'Appimage' => 'required',
             ]);
 
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -41,11 +42,24 @@ class HomeSliderController extends Controller
                 return back()->with('error', 'Invalid image file');
             }
             
+            if ($request->hasFile('Appimage') && $request->file('Appimage')->isValid()) {
+                $appImage = $request->file('Appimage');
+                // Generate a unique filename for the image to avoid conflicts
+                $appImageName = Str::random(20) . '.' . $appImage->getClientOriginalExtension();
+    
+                // Move the uploaded image to the 'public/uploads/slider' directory
+                $appImage->move(public_path('uploads/homeslider'), $appImageName);
+            } else {
+                // Handle cases where no image is provided or invalid
+                return back()->with('error', 'Invalid image file');
+            }
+            
     
             // Create a new Slider entry
             $agentCall = new HomeSlider();
             $agentCall->type = $request->type;
             $agentCall->image = 'uploads/homeslider/' . $imageName;
+            $agentCall->Appimage = 'uploads/homeslider/' . $appImageName;
             $agentCall->save();
     
             return redirect()->route('home_slider')->with('success', 'Slider added successfully!');
@@ -83,6 +97,7 @@ class HomeSliderController extends Controller
         $request->validate([
             'type' => 'required',
             'image' => 'nullable', 
+            'Appimage' => 'nullable', 
         ]);
 
         $slider->type = $request->type;
@@ -92,6 +107,13 @@ class HomeSliderController extends Controller
             $imageName = Str::random(20) . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/homeslider'), $imageName);
             $slider->image = 'uploads/homeslider/' . $imageName;
+        }
+        
+        if ($request->hasFile('Appimage')) {
+            $appImage = $request->file('Appimage');
+            $appImageName = Str::random(20) . '.' . $appImage->getClientOriginalExtension();
+            $appImage->move(public_path('uploads/homeslider'), $appImageName);
+            $slider->appImage = 'uploads/homeslider/' . $appImageName;
         }
         
     

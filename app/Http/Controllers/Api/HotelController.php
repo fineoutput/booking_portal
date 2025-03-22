@@ -2968,6 +2968,80 @@ public function getLanguages(Request $request)
     }
     
 
+    public function Appimage(Request $request)
+    {
+        try {
+            $token = $request->bearerToken();
+            if (!$token) {
+                return response()->json([
+                    'message' => 'Unauthenticated.',
+                    'data' => [],
+                    'status' => 401,
+                ]);
+            }
+    
+            $decodedToken = base64_decode($token, true);
+            if (!$decodedToken || !str_contains($decodedToken, ',')) {
+                return response()->json([
+                    'message' => 'Invalid token format.',
+                    'data' => [],
+                    'status' => 401,
+                ]);
+            }
+    
+            list($email, $password) = explode(',', $decodedToken, 2);
+            $user = Agent::where('email', $email)->first();
+    
+            if (!$user || !Hash::check($password, $user->password)) {
+                return response()->json([
+                    'message' => 'Invalid credentials.',
+                    'data' => [],
+                    'status' => 401,
+                ]);
+            }
+    
+            $type = $request->input('type');
+    
+            $query = HomeSlider::orderBy('id', 'DESC');
+            if (!empty($type) && in_array($type, ['homeslider', 'bottomslider', 'offerslider'])) {
+                $query->where('type', $type);
+            }
+    
+            $sliders = $query->get();
+            if ($sliders->isEmpty()) {
+                return response()->json([
+                    'message' => 'No sliders found.',
+                    'data' => [],
+                    'status' => 404,
+                ]);
+            }
+    
+            $sliderDetails = $sliders->map(function ($slider) {
+                return [
+                    'id' => $slider->id,
+                    'type' => $slider->type,
+                    'app_image_url' => $slider->Appimage ? asset($slider->Appimage) : null,
+                    'created_at' => $slider->created_at->toDateTimeString(),
+                    'updated_at' => $slider->updated_at->toDateTimeString(),
+                ];
+            });
+    
+            return response()->json([
+                'message' => 'Home sliders fetched successfully.',
+                'data' => $sliderDetails,
+                'status' => 200,
+            ]);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Internal Server Error.',
+                'error' => $e->getMessage(),
+                'status' => 500,
+            ]);
+        }
+    }
+    
+
 
     public function constant(Request $request)
     {

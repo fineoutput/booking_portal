@@ -12,6 +12,7 @@ class HomeSlider extends Model
     protected $fillable = [
         'type',
         'image',
+        'Appimage',
         'status',
     ];
 
