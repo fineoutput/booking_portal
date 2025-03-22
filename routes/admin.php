@@ -132,6 +132,16 @@ Route::group(['middleware'=>'admin.auth'],function(){
 
    Route::get('/panding-package-booking', [PackageController::class, 'pandingindex'])->name('pandingpackagebooking');
    Route::get('/complete-package-booking', [PackageController::class, 'completeorders'])->name('completepackagebooking');
+   Route::get('/process-package-booking', [PackageController::class, 'processorders'])->name('processpackagebooking');
+
+       
+   Route::match(['get','post'],'/transfer-package-booking/{id}', [PackageController::class, 'transfercreate'])->name('transfer_package_booking');
+
+   Route::match(['get','post'],'/remark-package-booking/{id}', [PackageController::class, 'remarkcreate'])->name('remark_package_booking');
+
+   Route::get('/view-remark-package-booking/{id}', [PackageController::class, 'viewremark'])->name('viewremark_package_booking');
+
+
    Route::get('/reject-package-booking', [PackageController::class, 'rejectorders'])->name('rejectpackagebooking');
    Route::get('/accept-package-booking', [PackageController::class, 'acceptorders'])->name('acceptpackagebooking');
    Route::match(['put', 'patch'], '/package-booking/{id}/status', [PackageController::class, 'updateStatus'])->name('packagebooking.updateStatus');
