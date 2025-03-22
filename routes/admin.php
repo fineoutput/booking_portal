@@ -71,7 +71,11 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/deletesetting/{id}', [CrmController::class, 'deletesetting'])->name('deletesetting');
 
    Route::get('/panding-hotels-booking', [HotelBookingController::class, 'index'])->name('pandinghotelsbooking');
+
    Route::get('/complete-hotels-booking', [HotelBookingController::class, 'completeorders'])->name('completehotelsbooking');
+
+   Route::get('/accept-hotels-booking', [HotelBookingController::class, 'acceptorders'])->name('accepthotelsbooking');
+
    Route::get('/reject-hotels-booking', [HotelBookingController::class, 'rejectorders'])->name('rejecthotelsbooking');
    Route::match(['put', 'patch'], '/hotels-booking/{id}/status', [HotelBookingController::class, 'updateStatus'])->name('hotelsbooking.updateStatus');
 
@@ -120,6 +124,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/panding-package-booking', [PackageController::class, 'pandingindex'])->name('pandingpackagebooking');
    Route::get('/complete-package-booking', [PackageController::class, 'completeorders'])->name('completepackagebooking');
    Route::get('/reject-package-booking', [PackageController::class, 'rejectorders'])->name('rejectpackagebooking');
+   Route::get('/accept-package-booking', [PackageController::class, 'acceptorders'])->name('acceptpackagebooking');
    Route::match(['put', 'patch'], '/package-booking/{id}/status', [PackageController::class, 'updateStatus'])->name('packagebooking.updateStatus');
 
 
@@ -207,7 +212,11 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::match(['put', 'patch'], '/agent/{id}/status', [AgentController::class, 'updateStatus'])->name('agent.updateStatus');
 
     Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi-booking');
+
     Route::get('/complete-taxi-booking', [TaxiBookingController::class, 'completeindex'])->name('completetaxi-booking');
+
+    Route::get('/accept-taxi-booking', [TaxiBookingController::class, 'acceptindex'])->name('accepttaxi-booking');
+
     Route::get('/reject-taxi-booking', [TaxiBookingController::class, 'rejectindex'])->name('rejecttaxi-booking');
     Route::match(['put', 'patch'], '/taxi/{id}/status', [TaxiBookingController::class, 'updateStatus'])->name('taxi.updateStatus');
 
@@ -216,12 +225,15 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/complete-outstation-taxi-booking', [TaxiBookingController::class, 'completeoutstationindex'])->name('complete_outstation_taxi_booking');
 
+    Route::get('/accept-outstation-taxi-booking', [TaxiBookingController::class, 'acceptoutstationindex'])->name('accept_outstation_taxi_booking');
+
     Route::get('/reject-outstation-taxi-booking', [TaxiBookingController::class, 'rejectoutstationindex'])->name('reject_outstation_taxi_booking');
 
 
     Route::get('/localtour-taxi-booking', [TaxiBookingController::class, 'localtourindex'])->name('localtour_taxi_booking');
 
     Route::get('/complete-localtour-taxi-booking', [TaxiBookingController::class, 'completelocaltourindex'])->name('complete_localtour_taxi_booking');
+    Route::get('/accept-localtour-taxi-booking', [TaxiBookingController::class, 'acceptlocaltourindex'])->name('accept_localtour_taxi_booking');
 
     Route::get('/reject-localtour-taxi-booking', [TaxiBookingController::class, 'rejectlocaltourindex'])->name('reject_localtour_taxi_booking');
 
@@ -251,6 +263,8 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/complete-wild-life-safari-order', [WildlifeSafariOrderController::class, 'completeorders'])->name('wild_life_safari_orders_complete');
 
+    Route::get('/accept-wild-life-safari-order', [WildlifeSafariOrderController::class, 'acceptorders'])->name('wild_life_safari_orders_accept');
+
     Route::get('/reject-wild-life-safari-order', [WildlifeSafariOrderController::class, 'rejectorders'])->name('wild_life_safari_orders_reject');
 
     Route::match(['get','post'],'/wild-life-safari-order/create', [WildlifeSafariOrderController::class, 'create'])->name('wild_life_safari_create_order');
@@ -278,6 +292,8 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/trip-guide-booking', [TripGuideController::class, 'tripguidebooking'])->name('tripguidebooking');
 
     Route::get('/complete-trip-guide-booking', [TripGuideController::class, 'completetripguidebooking'])->name('completetripguidebooking');
+
+    Route::get('/accept-trip-guide-booking', [TripGuideController::class, 'accepttripguidebooking'])->name('accepttripguidebooking');
 
     Route::get('/reject-trip-guide-booking', [TripGuideController::class, 'rejecttripguidebooking'])->name('rejecttripguidebooking');
     

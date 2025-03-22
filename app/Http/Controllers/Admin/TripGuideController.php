@@ -34,6 +34,11 @@ class TripGuideController extends Controller
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
+    function accepttripguidebooking() {
+        $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',3)->get();
+        return view('admin/tripguide/tripguidebooking',$data);
+    }
+
     function rejecttripguidebooking() {
         $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',2)->get();
         return view('admin/tripguide/tripguidebooking',$data);
@@ -62,6 +67,9 @@ class TripGuideController extends Controller
         } elseif ($action == 'cancel') {
 
             $vehicle->status = 2;
+        } elseif ($action == 'accept') {
+
+            $vehicle->status = 3;
 
         } else {
 

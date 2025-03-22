@@ -32,6 +32,10 @@ class PackageController extends Controller
         $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',2)->get();
         return view('admin/package/pandingindex',$data);
     }
+    function acceptorders() {
+        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',3)->get();
+        return view('admin/package/pandingindex',$data);
+    }
 
 
     // public function updateStatus($id)
@@ -56,6 +60,9 @@ class PackageController extends Controller
         } elseif ($action == 'cancel') {
 
             $vehicle->status = 2;
+        } elseif ($action == 'accept') {
+
+            $vehicle->status = 3;
 
         } else {
 

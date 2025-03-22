@@ -26,6 +26,10 @@ class WildlifeSafariOrderController extends Controller
         $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',1)->get();
         return view('admin/wildlifesafariorders/index',$data);
     }
+    function acceptorders() {
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',3)->get();
+        return view('admin/wildlifesafariorders/index',$data);
+    }
 
     function rejectorders() {
         $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',2)->get();
@@ -145,6 +149,9 @@ class WildlifeSafariOrderController extends Controller
         } elseif ($action == 'cancel') {
             // Change status to 2 (Canceled)
             $vehicle->status = 2;
+        } elseif ($action == 'accept') {
+            // Change status to 2 (Canceled)
+            $vehicle->status = 3;
         } else {
             // Default case, no action (status might not change)
             return redirect()->back()->with('error', 'Invalid status update action.');

@@ -52,6 +52,7 @@
                         <th>#</th>
                         <th data-priority="1">Remark</th>
                         <th data-priority="1">User</th>
+                        <th data-priority="1">Date</th>
                         {{-- <th data-priority="6">Action</th>
                         <th data-priority="6">Action</th> --}}
                       </tr>
@@ -62,6 +63,8 @@
                           <td>{{$key+1}}</td>
                           <td>{{$value->remark ?? ''}}</td>
                           <td>{{$value->team->name ?? ''}}</td>
+                          <td>{{ \Carbon\Carbon::parse($value->created_at)->format('d F Y') ?? '' }}</td>
+
 
 
                         {{-- <td>

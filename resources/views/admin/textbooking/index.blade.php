@@ -100,16 +100,35 @@
                                     @if($value->status == 0)
                                         <!-- Pending, show Complete and Cancel buttons -->
                                         <button type="submit" class="btn btn-info" 
+                                                name="status_action" value="accept" 
+                                                onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                            Accept
+                                        </button>
+                                        {{-- <button type="submit" class="btn btn-info" 
                                                 name="status_action" value="complete" 
                                                 onclick="return confirm('Are you sure you want to change the status to Complete?')">
                                             Complete
-                                        </button>
+                                        </button> --}}
                                 
-                                        <button type="submit" class="btn btn-danger" 
+                                        <button type="submit" class="btn btn-danger mt-2" 
                                                 name="status_action" value="cancel" 
                                                 onclick="return confirm('Are you sure you want to cancel this booking?')">
                                             Reject
                                         </button>
+                                    @elseif($value->status == 3)
+                                    
+                                    <button type="submit" class="btn btn-info" 
+                                              name="status_action" value="complete" 
+                                              onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                              Complete
+                                      </button>
+
+                                      <button type="submit" class="btn btn-danger mt-2" 
+                                                name="status_action" value="cancel" 
+                                                onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                            Reject
+                                        </button>
+
                                     @elseif($value->status == 1)
                                     <p class="text-success">Completed</p>
                                         <!-- Confirmed, show Cancel button -->
@@ -121,7 +140,9 @@
                                     @else
                                     @if($value->status == 1)
                                         <p class="text-success">Completed</p>
-                                        @else
+                                        @elseif($hotel->status == 3)
+                                      <p class="text-success">Accepted</p>
+                                      @else
                                         <p class="text-danger">Rejected</p>
                                         @endif
                                     @endif
