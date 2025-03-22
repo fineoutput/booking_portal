@@ -137,14 +137,32 @@
     </td>
     <td class="suther">
         <!-- Open the modal with the corresponding Booking ID -->
+        @if($value->status == 0)
+       
+        @elseif($value->status == 2)
+
+        @else
         <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#packageDetailsModal{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
+        @endif
 
     </td>
     <td class="suther">
+        @if($value->status == 0)
+       
+        @elseif($value->status == 2)
+
+        @else
         <button class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#touristListModal{{ $value->id }}" onclick="showTouristList(1)">View List</button>
+        @endif
     </td>
     <td class="suther">
+        @if($value->status == 0)
+       
+        @elseif($value->status == 2)
+
+        @else
         <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#upgradeRequestModal">Request Upgrade</button>
+        @endif
     </td>
 </tr>
 
