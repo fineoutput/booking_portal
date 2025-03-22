@@ -10,6 +10,7 @@ use App\Models\City;
 use App\Models\TransferPackageOrder;
 use App\Models\RemarkPackageOrder;
 use App\Models\State;
+use App\Models\Tourist;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\adminmodel\Team;
@@ -17,6 +18,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PackageController extends Controller
 {
+
+    function customer(Request $request ,$id){
+        $data['tourist'] = Tourist::where('booking_id', $id)->get();
+
+       return view('admin.package.customer', $data);
+    }
 
     function transfercreate(Request $request,$id) {
         if($request->method()=='POST'){

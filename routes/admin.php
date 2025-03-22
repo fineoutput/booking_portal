@@ -134,6 +134,8 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/complete-package-booking', [PackageController::class, 'completeorders'])->name('completepackagebooking');
    Route::get('/process-package-booking', [PackageController::class, 'processorders'])->name('processpackagebooking');
 
+   Route::get('/customer-detailes/{id}', [PackageController::class, 'customer'])->name('customer_package');
+
        
    Route::match(['get','post'],'/transfer-package-booking/{id}', [PackageController::class, 'transfercreate'])->name('transfer_package_booking');
 
