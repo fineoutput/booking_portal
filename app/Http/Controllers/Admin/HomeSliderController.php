@@ -109,8 +109,8 @@ class HomeSliderController extends Controller
             $slider->image = 'uploads/homeslider/' . $imageName;
         }
         
-        if ($request->hasFile('appImage')) {
-            $appImage = $request->file('appImage');
+        if ($request->hasFile('Appimage')) {
+            $appImage = $request->file('Appimage');
             $appImageName = Str::random(20) . '.' . $appImage->getClientOriginalExtension();
             $appImage->move(public_path('uploads/homeslider'), $appImageName);
             $slider->appImage = 'uploads/homeslider/' . $appImageName;
