@@ -326,69 +326,69 @@ if ($popularCities->isEmpty()) {
 
 
     public function state_detail($id, Request $request)
-    {
-        $id = base64_decode($id);
+{
+    $id = base64_decode($id);
     
-        $min_price = $request->input('min_price', 0); 
-        $max_price = $request->input('max_price', 10000000); 
+    // Get min and max price from request
+    $min_price = $request->input('min_price', 0); 
+    $max_price = $request->input('max_price', 10000000); 
     
-        if (!is_numeric($id)) {
-            abort(404, 'Invalid State ID');
-        }
-    
-        $data['city'] = $id;
-    
-        // Start building the query for the packages
-        $query = Package::where('state_id', $id);
-    
-        // Check if any cities were selected in the form
-        $selectedCities = $request->input('cities', []);
-        
-        // If cities were selected, filter the packages by those cities
-        if (!empty($selectedCities)) {
-            $query->whereHas('cities', function ($query) use ($selectedCities) {
-                $query->whereIn('city_name', $selectedCities);
-            });
-        }
-    
-        // Apply price filter to the package query if the min/max price is provided
-        if ($min_price > 0 || $max_price < 10000000) {
-            $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price) {
-                $query
-                // ->where('display_cost', '>=', $min_price)
-                //       ->where('display_cost', '<=', $max_price)
-                      ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', $min_price)
-                      ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', $max_price);
-            });
-        }
-    
-        // Get the filtered packages
-        $data['packages'] = $query->get();
-    
-        // Fetch sliders
-        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
-    
-        // Get the current date for price filtering
-        $formatted_date = Carbon::now()->format('Y-m-d');
-    
-        foreach ($data['packages'] as $package) {
-            // Get the price for the current package within the date range
-            $package_price = PackagePrice::where('package_id', $package->id)
-                ->where('start_date', '<=', $formatted_date)
-                ->where('end_date', '>=', $formatted_date)
-                ->first();
-    
-            $package->prices = $package_price;
-    
-            // Get the hotels associated with the package
-            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
-            
-            $package->hotels = $hotels;
-        }
-    
-        // Return the filtered data to the view
-        return view('front/state_detail', $data);
+    if (!is_numeric($id)) {
+        abort(404, 'Invalid State ID');
     }
+    
+    $data['city'] = $id;
+    
+    // Start building the query for the packages
+    $query = Package::where('state_id', $id);
+    
+    // Check if any cities were selected in the form
+    $selectedCities = $request->input('cities', []);
+    
+    // If cities were selected, filter the packages by those cities
+    if (!empty($selectedCities)) {
+        $query->whereHas('cities', function ($query) use ($selectedCities) {
+            $query->whereIn('city_name', $selectedCities);
+        });
+    }
+    
+    // Apply price filter to the package query if the min/max price is provided
+    if ($min_price > 0 || $max_price < 10000000) {
+        $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price) {
+            // Apply price filters using WHERE clauses
+            $query->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+                  ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
+        });
+    }
+    
+    // Get the filtered packages
+    $data['packages'] = $query->get();
+    
+    // Fetch sliders
+    $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
+    
+    // Get the current date for price filtering
+    $formatted_date = Carbon::now()->format('Y-m-d');
+    
+    foreach ($data['packages'] as $package) {
+        // Get the price for the current package within the date range
+        $package_price = PackagePrice::where('package_id', $package->id)
+            ->where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)
+            ->first();
+        
+        $package->prices = $package_price;
+        
+        // Get the hotels associated with the package
+        $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+        
+        $package->hotels = $hotels;
+    }
+    
+    // Return the filtered data to the view
+    return view('front.state_detail', $data);
+}
+
     
     
 
