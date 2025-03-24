@@ -253,7 +253,7 @@
                                 </div>
                                 <div class="inner_gallery_loc_txt">
                                     <div class="type_gallery">
-                                        <p><b>{{ $value->package_name ?? '' }}</b> tours |</p>
+                                        <p><b>{{ $value->package_name ?? '' }}</b></p>
                                     </div>
                                     <div class="gall_place">
                                         <h4>{{ $value->cities->city_name ?? '' }}</h4>
