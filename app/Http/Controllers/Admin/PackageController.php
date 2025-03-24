@@ -361,6 +361,30 @@ class PackageController extends Controller
         return view('admin/package/create',$data);
     }
 
+
+    public function showFront($id, Request $request)
+    {
+        // Validate input
+        $validated = $request->validate([
+            'show_front_value' => 'required|in:0,1',  // Ensure it's either 0 or 1
+        ]);
+    
+        // Find the package by ID
+        $pkg = Package::findOrFail($id);
+    
+        // Update the 'show_front' field based on the request
+        $pkg->show_front = $request->input('show_front_value'); // Store 0 or 1
+        $pkg->save(); // Save the updated value to the database
+    
+        // Return a JSON response (success message)
+        return response()->json([
+            'success' => true,
+            'message' => 'Package visibility updated successfully!',
+            'show_front_value' => $pkg->show_front // Return updated show_front value
+        ]);
+    }
+
+
     public function destroy($id)
     {
         $package = Package::findOrFail($id);

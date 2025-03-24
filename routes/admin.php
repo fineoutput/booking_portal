@@ -124,6 +124,10 @@ Route::group(['middleware'=>'admin.auth'],function(){
    
    // Package --------------------------
    Route::get('/package', [PackageController::class, 'index'])->name('package');
+
+   Route::post('/show_front/{id}', [PackageController::class, 'showFront'])->name('show_front');
+
+
    Route::match(['get','post'],'/package/create', [PackageController::class, 'create'])->name('add_package');
    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('packages.destroy');
    Route::get('packages/{id}/edit', [PackageController::class, 'edit'])->name('packages.edit');

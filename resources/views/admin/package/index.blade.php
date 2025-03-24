@@ -58,6 +58,7 @@
                         <th data-priority="3">Videos</th>
                         <th data-priority="6">Text Description</th>
                         <th data-priority="6">Text Description 2</th>
+                        <th data-priority="6">Show on the Frontend.</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -138,6 +139,22 @@
                           <td>{!! \Str::words($pkg->text_description, 20) !!}</td>
                           <td>{!! \Str::words($pkg->text_description_2, 20) !!}</td>
 
+                          <td>
+                            <form id="form_{{ $pkg->id }}" action="{{ route('show_front', ['id' => $pkg->id]) }}" method="POST">
+                                @csrf <!-- CSRF token for security -->
+                                <input 
+                                    type="checkbox" 
+                                    name="show_front" 
+                                    id="show_front_{{ $pkg->id }}" 
+                                    data-pkg-id="{{ $pkg->id }}"
+                                    value="1" 
+                                    {{ $pkg->show_front ? 'checked' : '' }}>
+                                <label for="show_front_{{ $pkg->id }}">Show on Frontend</label>
+                                <input type="hidden" name="show_front_value" id="show_front_value_{{ $pkg->id }}" value="{{ $pkg->show_front ? '1' : '0' }}">
+                            </form>
+                        </td>
+                        
+
                   
                           <td>
                               <!-- Edit Button -->
@@ -167,5 +184,40 @@
     <!-- end page content-->
   </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+      // Add event listener to the checkbox
+      $('input[type="checkbox"]').on('change', function() {
+          const pkgId = $(this).data('pkg-id'); // Get the package ID from data attribute
+          const hiddenInput = $('#show_front_value_' + pkgId); // Get the hidden input for the checkbox
+          
+          // Set the hidden input value based on the checkbox state (checked = 1, unchecked = 0)
+          hiddenInput.val(this.checked ? '1' : '0');
+          
+          // Send the AJAX request to update the database
+          $.ajax({
+              url: '{{ route('show_front', ['id' => '__pkg_id__']) }}'.replace('__pkg_id__', pkgId), // Dynamic route with the package ID
+              method: 'POST',
+              data: {
+                  _token: '{{ csrf_token() }}',  // CSRF token
+                  show_front_value: hiddenInput.val()  // Send the hidden value (1 or 0)
+              },
+              success: function(response) {
+                  if (response.success) {
+                      // Optionally, show a success message
+                      alert(response.message);
+                  }
+              },
+              error: function(xhr, status, error) {
+                  // Handle errors if any
+                  alert('There was an error while updating the data. Please try again.');
+              }
+          });
+      });
+  });
+</script>
 
 @endsection

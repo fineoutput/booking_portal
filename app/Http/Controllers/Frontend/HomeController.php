@@ -110,6 +110,7 @@ class HomeController extends Controller
         $package->hotels = $hotels;
     }
 
+
     // $popularCities = DB::table('package_booking')
     // ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
     // ->join('package', 'package_booking.package_id', '=', 'package.id')
@@ -118,82 +119,48 @@ class HomeController extends Controller
     // ->groupBy('package.city_id', 'package_booking.package_temp_id')
     // ->orderByDesc('bookings_count')
     // ->get();
+    $data['popularCities'] = Package::where('show_front',1)->get();
+// if ($popularCities->isEmpty()) {
+//     $data['popularCities'] = [];
+// } else {
+//     // Group by city_id and sum the bookings count for each city
+//     $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
+//         // Sum the bookings count across all packages for each city
+//         return $cities->sum('bookings_count');
+//     });
 
-    // if ($popularCities->isEmpty()) {
-    //     $data['popularCities'] = [];
-    // } else {
-    //     $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
-    //         return $cities->sum('bookings_count');
-    //     });
+//     // Sort cities by the summed bookings count in descending order
+//     $sortedCities = $groupedCities->sortDesc();
 
-    //     $sortedCities = $groupedCities->sortDesc();
+//     $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
+//         // Get the first entry for each city (after grouping) for details
+//         $city = $popularCities->firstWhere('city_id', $cityId);
 
-    //     $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
-    //         $city = $popularCities->firstWhere('city_id', $cityId);
+//         // Get the adult count for this city's package
+//         $adultCount = \DB::table('package_booking_temp')
+//             ->where('id', $city->package_temp_id)
+//             ->value('adults_count'); 
 
-    //         $adultCount = \DB::table('package_booking_temp')
-    //             ->where('id', $city->package_temp_id)
-    //             ->value('adults_count'); 
+//         // Get the city name
+//         $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
 
-    //         $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
-    //         return [
-    //             'city_name' => $cityName,
-    //             'bookings_count' => $bookingsCount,
-    //             'adults_count' => $adultCount,
-    //         ];
-    //     })->values();
-    // }
-
-    $popularCities = DB::table('package_booking')
-    ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
-    ->join('package', 'package_booking.package_id', '=', 'package.id')
-    ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
-    ->join('package_booking_temp', 'package_booking.package_temp_id', '=', 'package_booking_temp.id')
-    ->groupBy('package.city_id', 'package_booking.package_temp_id')
-    ->orderByDesc('bookings_count')
-    ->get();
-
-if ($popularCities->isEmpty()) {
-    $data['popularCities'] = [];
-} else {
-    // Group by city_id and sum the bookings count for each city
-    $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
-        // Sum the bookings count across all packages for each city
-        return $cities->sum('bookings_count');
-    });
-
-    // Sort cities by the summed bookings count in descending order
-    $sortedCities = $groupedCities->sortDesc();
-
-    $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
-        // Get the first entry for each city (after grouping) for details
-        $city = $popularCities->firstWhere('city_id', $cityId);
-
-        // Get the adult count for this city's package
-        $adultCount = \DB::table('package_booking_temp')
-            ->where('id', $city->package_temp_id)
-            ->value('adults_count'); 
-
-        // Get the city name
-        $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
-
-        // Decode the image field (assuming it was stored as an escaped JSON string)
-        $image = \DB::table('package')->where('city_id', $cityId)->value('image');
+//         // Decode the image field (assuming it was stored as an escaped JSON string)
+//         $image = \DB::table('package')->where('city_id', $cityId)->value('image');
         
-        // Decode the HTML entities and JSON string
-        $decodedImage = json_decode(html_entity_decode($image), true);
+//         // Decode the HTML entities and JSON string
+//         $decodedImage = json_decode(html_entity_decode($image), true);
         
-        // Extract the image URL from the decoded array (assuming it's the first element)
-        $imageUrl = $decodedImage['1'] ?? '';
+//         // Extract the image URL from the decoded array (assuming it's the first element)
+//         $imageUrl = $decodedImage['1'] ?? '';
 
-        return [
-            'city_name' => $cityName,
-            'bookings_count' => $bookingsCount,
-            'adults_count' => $adultCount,
-            'image' => $imageUrl, // Use the decoded image URL
-        ];
-    })->values();
-}
+//         return [
+//             'city_name' => $cityName,
+//             'bookings_count' => $bookingsCount,
+//             'adults_count' => $adultCount,
+//             'image' => $imageUrl, // Use the decoded image URL
+//         ];
+//     })->values();
+// }
 
 
 

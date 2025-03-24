@@ -240,19 +240,23 @@
                         <div class="col">
                             <div class="gallery_loc">
                                 <div class="inner_gallery_loc">
-                                    @if($value['image'])
-                                        <img src="{{ asset($value['image']) }}" alt="">
-                                    @else
-                                        <img src="{{ asset('frontend/images/gallery/jkec-i-ftr.avif') }}" alt="">
-                                    @endif
+                                  @php
+                                    // Assuming 'image' contains a JSON array of images
+                                    $images = json_decode($value->image, true); // Decode the JSON to an array (true for associative array)
+                                @endphp
+                                    @if($images && is_array($images) && count($images) > 0)
+                                    <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
+                                    <img src="{{ asset(reset($images)) }}" alt="First Image">
+                                @else
+                                    <p>No image available.</p>
+                                @endif
                                 </div>
                                 <div class="inner_gallery_loc_txt">
                                     <div class="type_gallery">
-                                        <p><b>{{ $value['bookings_count'] }}</b> tours |</p>
-                                        <p><b>{{ $value['adults_count'] }}</b> guest Travelled</p>
+                                        <p><b>{{ $value->package_name ?? '' }}</b> tours |</p>
                                     </div>
                                     <div class="gall_place">
-                                        <h4>{{ $value['city_name'] }}</h4>
+                                        <h4>{{ $value->cities->city_name ?? '' }}</h4>
                                     </div>
                                 </div>
                             </div>
