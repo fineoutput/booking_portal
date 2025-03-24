@@ -10,47 +10,20 @@
         <div class="filter-label_hotels">State</div>
         <div class="filter-value_hotels" id="destination-value">Choose the state?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+
+          @foreach($cities as $value)
           <div class="city_list_htotle">
               <div class="sizemaze">
                 <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="">
               </div>
               <div class="hotel_place">
 
-                <div class="destination-option_hotels" onclick="selectDestination('Rajasthan')">Rajasthan</div>
-                <span class="hotels_spn">Paradise in Rajasthan</span>
+                <div class="destination-option_hotels" onclick="selectDestination('{{$value->id}}')">{{$value->city_name ?? ''}}</div>
+                <span class="hotels_spn"></span>
               </div>
           </div>
-          <div class="city_list_htotle">
-          <div class="sizemaze">
-                <img src="{{ asset('frontend/images/sdds.webp') }}" alt="">
-          </div>
-          <div class="hotel_place">
-            
-            <div class="destination-option_hotels" onclick="selectDestination('Gujrat')">Gujrat</div>
-            <span class="hotels_spn">Great Infrastructure</span>
-          </div>
-          </div>
-          <div class="city_list_htotle">
-          <div class="sizemaze">
-                <img src="{{ asset('frontend/images/amem.webp') }}" alt="">
-          </div>
-          <div class="hotel_place">
-            <div class="destination-option_hotels" onclick="selectDestination('Delhi')">Delhi</div>
-            <span class="hotels_spn">The most Beautifull</span>
-          </div>
-          </div>
-          <div class="city_list_htotle">
-          <div class="sizemaze">
-                <img src="{{ asset('frontend/images/dd61b8e6-7fa1-46d7-9284-7f3977e5da31.webp') }}" alt="">
-          </div>
-          <div class="hotel_place">
-          <div class="destination-option_hotels" onclick="selectDestination('U.P')">U.P</div>
-            <span class="hotels_spn">Heaven in Desert</span>
-          </div>
-          </div>
-
-          
-          
+          @endforeach
+ 
         </div>
       </div>
 

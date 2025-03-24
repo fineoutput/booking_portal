@@ -124,7 +124,7 @@
                     <div class="slider-thumb" id="maxThumb"></div>
                 </div>
                 <div class="price-label">
-                    Selected price range: ₹<span id="minValue">{{ request()->input('min_price', 0) }}</span> - ₹<span id="maxValue">{{ request()->input('max_price', 1000) }}</span>
+                    Selected price range: ₹<span id="minValue">{{ request()->input('min_price', 0) }}</span> - ₹<span id="maxValue">{{ request()->input('max_price', 100000000) }}</span>
                 </div>
             </div>
             
@@ -293,7 +293,7 @@
   const maxValue = document.getElementById('maxValue');
 
   const minPrice = 0;
-  const maxPrice = 1000;
+  const maxPrice = 100000000;
   let isDragging = false;
   let currentThumb = null;
 
