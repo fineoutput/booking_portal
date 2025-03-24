@@ -57,6 +57,7 @@
                         <th data-priority="3">Package</th>
                         <th data-priority="3">Meal Plan</th>
                         <th data-priority="3">Image</th>
+                        <th data-priority="3">Show on the Frontend</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -123,6 +124,23 @@
                               <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
                           @endforeach
                       </td>
+
+                      <td>
+                        <form id="form_{{ $hotel->id }}" action="{{ route('show_front_hotels', ['id' => $hotel->id]) }}" method="POST">
+                            @csrf <!-- CSRF token for security -->
+                            <input 
+                                type="checkbox" 
+                                name="show_front" 
+                                id="show_front_{{ $hotel->id }}" 
+                                data-hotel-id="{{ $hotel->id }}"
+                                value="1" 
+                                {{ $hotel->show_front ? 'checked' : '' }}>
+                            <label for="show_front_{{ $hotel->id }}">Show on Frontend</label>
+                            <input type="hidden" name="show_front_value" id="show_front_value_{{ $hotel->id }}" value="{{ $hotel->show_front ? '1' : '0' }}">
+                        </form>
+                    </td>
+
+
                         <td>
                             <a href="{{ route('hotels.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST" style="display:inline;">
@@ -146,5 +164,42 @@
     <!-- end page content-->
   </div> <!-- container-fluid -->
 </div> <!-- content -->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+      // Add event listener to the checkbox
+      $('input[type="checkbox"]').on('change', function() {
+          const hotelId = $(this).data('hotel-id'); // Get the hotel ID from data attribute
+          const hiddenInput = $('#show_front_value_' + hotelId); // Get the hidden input for the checkbox
+          
+          // Set the hidden input value based on the checkbox state (checked = 1, unchecked = 0)
+          hiddenInput.val(this.checked ? '1' : '0');
+          
+          // Send the AJAX request to update the database
+          $.ajax({
+              url: '{{ route('show_front_hotels', ['id' => '__hotel_id__']) }}'.replace('__hotel_id__', hotelId), // Dynamic route with the hotel ID
+              method: 'POST',
+              data: {
+                  _token: '{{ csrf_token() }}',  // CSRF token
+                  show_front_value: hiddenInput.val()  // Send the hidden value (1 or 0)
+              },
+              success: function(response) {
+                  if (response.success) {
+                      // Optionally, show a success message
+                      alert(response.message);
+                  }
+              },
+              error: function(xhr, status, error) {
+                  // Handle errors if any
+                  alert('There was an error while updating the data. Please try again.');
+              }
+          });
+      });
+  });
+</script>
+
 
 @endsection

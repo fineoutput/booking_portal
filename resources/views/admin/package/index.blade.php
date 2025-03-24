@@ -58,7 +58,7 @@
                         <th data-priority="3">Videos</th>
                         <th data-priority="6">Text Description</th>
                         <th data-priority="6">Text Description 2</th>
-                        <th data-priority="6">Show on the Frontend.</th>
+                        <th data-priority="6">Show on the Frontend</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>

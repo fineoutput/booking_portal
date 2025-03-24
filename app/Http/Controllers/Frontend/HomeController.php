@@ -120,6 +120,7 @@ class HomeController extends Controller
     // ->orderByDesc('bookings_count')
     // ->get();
     $data['popularCities'] = Package::where('show_front',1)->get();
+    $data['popularhotels'] = Hotels::where('show_front',1)->get();
 // if ($popularCities->isEmpty()) {
 //     $data['popularCities'] = [];
 // } else {
