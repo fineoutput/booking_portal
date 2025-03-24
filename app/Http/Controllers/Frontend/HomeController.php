@@ -354,8 +354,11 @@ if ($popularCities->isEmpty()) {
         // Apply price filter to the package query if the min/max price is provided
         if ($min_price > 0 || $max_price < 10000000) {
             $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price) {
-                $query->where('display_cost', '>=', $min_price)
-                      ->where('display_cost', '<=', $max_price);
+                $query
+                // ->where('display_cost', '>=', $min_price)
+                //       ->where('display_cost', '<=', $max_price)
+                      ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+                      ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
             });
         }
     
