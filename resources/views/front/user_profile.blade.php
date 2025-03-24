@@ -131,8 +131,14 @@
     <td class="suther">
         @if($value->status == 0)
         Pending
-        @else
+        @elseif($value->status == 1)
         Complete
+        @elseif($value->status == 2)
+        Reject
+        @elseif($value->status == 3)
+        Under Inquiry
+        @else
+        Under Process
         @endif
     </td>
     <td class="suther">
@@ -140,6 +146,8 @@
         @if($value->status == 0)
        
         @elseif($value->status == 2)
+
+        @elseif($value->status == 1)
 
         @else
         <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#packageDetailsModal{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
@@ -159,12 +167,47 @@
         @if($value->status == 0)
        
         @elseif($value->status == 2)
+        @elseif($value->status == 1)
 
         @else
-        <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#upgradeRequestModal">Request Upgrade</button>
+        <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#upgradeRequestModal{{ $value->id ?? '' }}">Request Upgrade</button>
         @endif
     </td>
 </tr>
+
+
+{{-- modal for upgrade request --}}
+
+
+<div class="modal fade suther" id="upgradeRequestModal{{ $value->id ?? '' }}" tabindex="-1" aria-labelledby="upgradeRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg suther">
+        <div class="modal-content suther">
+            <div class="modal-header suther">
+                <h5 class="modal-title suther" id="upgradeRequestModalLabel">Request Upgrade</h5>
+                <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body suther">
+                <form action="{{route('upgrade_request')}}" class="suther" method="POST">
+                    @csrf
+                    <h6 class="fw-bold suther">Upgrade Request Details</h6>
+                    <div class="mb-3 suther">
+                        <label for="bookingId" class="form-label suther">Booking ID</label>
+                        <input name="booking_id" value="{{ $value->id ?? '' }}" type="text" class="form-control suther" readonly id="bookingId" placeholder="Enter Booking ID">
+                    </div>
+                    <div class="mb-3 suther">
+                        <label for="upgradeDetails" class="form-label suther">Upgrade Details</label>
+                        <textarea name="upgrade_details" class="form-control suther" id="upgradeDetails" rows="3" placeholder="Enter Upgrade Details"></textarea>
+                    </div>
+                    <div class="mb-3 suther">
+                        <label for="upgradeNotes" class="form-label suther">Notes</label>
+                        <textarea name="notes" class="form-control suther" id="upgradeNotes" rows="3" placeholder="Enter Notes (Optional)"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success suther">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal for Tourist Details -->
 
@@ -370,34 +413,6 @@
 <!-- Package Details Modal -->
 
 
-<div class="modal fade suther" id="upgradeRequestModal" tabindex="-1" aria-labelledby="upgradeRequestModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg suther">
-        <div class="modal-content suther">
-            <div class="modal-header suther">
-                <h5 class="modal-title suther" id="upgradeRequestModalLabel">Request Upgrade</h5>
-                <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body suther">
-                <form class="suther">
-                    <h6 class="fw-bold suther">Upgrade Request Details</h6>
-                    <div class="mb-3 suther">
-                        <label for="bookingId" class="form-label suther">Booking ID</label>
-                        <input type="text" class="form-control suther" id="bookingId" placeholder="Enter Booking ID">
-                    </div>
-                    <div class="mb-3 suther">
-                        <label for="upgradeDetails" class="form-label suther">Upgrade Details</label>
-                        <textarea class="form-control suther" id="upgradeDetails" rows="3" placeholder="Enter Upgrade Details"></textarea>
-                    </div>
-                    <div class="mb-3 suther">
-                        <label for="upgradeNotes" class="form-label suther">Notes</label>
-                        <textarea class="form-control suther" id="upgradeNotes" rows="3" placeholder="Enter Notes (Optional)"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-success suther">Submit Request</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
 

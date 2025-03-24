@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Package Customer</h4>
+          <h4 class="page-title">View Package Upgrade Request</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Package Customer</a></li>
-            <li class="breadcrumb-item active">View Package </li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Package Upgrade Request</a></li>
+            <li class="breadcrumb-item active">View Package Upgrade Request</li>
           </ol>
         </div>
       </div>
@@ -38,7 +38,7 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Package Customer List</h4>
+                  <h4 class="mt-0 header-title">View Package List Upgrade Request</h4>
                 </div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
@@ -51,34 +51,45 @@
                         <th>#</th>
                         <th data-priority="1">User Name</th>
                         <th data-priority="3">Booking id</th>
-                        {{-- <th data-priority="1">City</th> --}}
-                        <th data-priority="1">Name</th>
-                        <th data-priority="3">Age</th>
-                        <th data-priority="3">Phone</th>
-                        <th data-priority="6">Aadhar Front Image</th>
-                        <th data-priority="6">Aadhar Back Image</th>
-                        <th data-priority="6">Additional information	</th>
+                        <th data-priority="1">Upgrade Details</th>
+                        <th data-priority="3">Notes</th>
+                        <th data-priority="6">Action</th>
 
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach ($tourist as $key => $value)
+                      @foreach ($UpgradeRequest as $key => $value)
                       <tr>
                          <td>{{$key+1}}</td>
                          <td>{{$value->user->name ?? ''}}</td>
                          <td>#{{$value->booking_id ?? ''}}</td>
-                         <td>{{$value->name ?? ''}}</td>
-                         <td>{{$value->age ?? ''}}</td>
-                         <td>{{$value->phone ?? ''}}</td>
+                         <td>{{$value->upgrade_details ?? ''}}</td>
+                         <td>{{$value->notes ?? ''}}</td>
                          <td>
-                            <img src="{{ asset($value->aadhar_front) }}" alt="No Image">
+                            <form action="{{ route('upgraderequest.updateStatus', $value->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PATCH')
+                                @if($value->status == 0)
+                                    <button type="submit" class="btn btn-info" 
+                                            name="status_action" value="accept" 
+                                            onclick="return confirm('Are you sure you want to change the status to Complete?')">
+                                        Accept
+                                    </button>
+                                  
+                                    <button type="submit" class="btn btn-danger" 
+                                            name="status_action" value="cancel" 
+                                            onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                        Reject
+                                    </button>
+                                    @elseif($value->status == 1)
+                                    <p class="text-danger">Rejected</p>
+                                    @else
+                                    <p class="text-success">Accepted</p>
+                                    @endif
+
+                            </form>
                          </td>
-                         <td>
-                            <img src="{{ asset($value->aadhar_back) }}" alt="No Image">
-                         </td>
-                         <td>
-                            {{ $value->additional_info	 ?? ''}}
-                         </td>
+
                       </tr>
                   @endforeach
                     </tbody>

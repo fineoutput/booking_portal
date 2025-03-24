@@ -10,6 +10,7 @@ use App\Models\City;
 use App\Models\TransferPackageOrder;
 use App\Models\RemarkPackageOrder;
 use App\Models\State;
+use App\Models\UpgradeRequest;
 use App\Models\Tourist;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -146,6 +147,11 @@ class PackageController extends Controller
         return view('admin/package/pandingindex',$data);
     }
 
+    function upgradeorders($id) {
+            $data['UpgradeRequest'] = UpgradeRequest::orderBy('id','DESC')->where('booking_id',$id)->get();
+            return view('admin/package/upgrade',$data);
+    }
+
 
     // public function updateStatus($id)
     // {
@@ -185,6 +191,32 @@ class PackageController extends Controller
         $vehicle->save();
     
         return redirect()->back()->with('success', 'Package Booking status updated successfully!');
+    }
+
+    public function upgradeupdateStatus($id)
+    {
+        $vehicle = UpgradeRequest::findOrFail($id);
+
+        $action = request()->input('status_action');
+
+      if ($action == 'cancel') {
+            $vehicle->status = 1;
+        } elseif ($action == 'accept') {
+
+            $vehicle->status = 2;
+        } elseif ($action == 'process') {
+
+            $vehicle->status = 2;
+
+        } else {
+
+            return redirect()->back()->with('error', 'Invalid status update action.');
+            
+        }
+    
+        $vehicle->save();
+    
+        return redirect()->back()->with('success', 'status updated successfully!');
     }
     
 

@@ -177,6 +177,9 @@
                               <a href="{{ route('customer_package', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
                                 View Customer
                               </a>
+                              <a href="{{ route('upgradepackagerequest', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
+                                View Request
+                              </a>
                         </td>
                     </tr>
                 @endforeach

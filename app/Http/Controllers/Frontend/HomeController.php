@@ -34,6 +34,7 @@ use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
 use App\Models\Package;
 use App\Models\Slider;
+use App\Models\UpgradeRequest;
 use App\Models\Vehicle;
 use App\Models\Tourist;
 use App\Models\WildlifeSafari;
@@ -517,6 +518,30 @@ public function saveTouristDetails(Request $request)
 }
 
 
+public function upgrade_request(Request $request)
+{
+    $validated = $request->validate([
+        'booking_id' => 'required',
+        'upgrade_details' => 'required',
+        'notes' => 'required',
+    ]);
+    
+        $UpgradeRequest = new UpgradeRequest([
+            'user_id' => Auth::guard('agent')->id(),
+            'upgrade_details' => $request->upgrade_details,
+            'notes' => $request->notes,
+            'booking_id' => $request->booking_id,
+            'status' => 0,
+        ]);
+
+        $UpgradeRequest->save();
+
+
+    return redirect()->back()->with([
+        'message' => 'Upgrade Request send successfully!']);
+}
+
+
 // public function getVehiclesByAirport(Request $request)
 // {
 //     $airportId = $request->input('airport_id');
@@ -834,19 +859,51 @@ public function getVehiclesByCity($cityId)
     }
 
 
+    // public function hotelsbooking()
+    // {
+    //     $data['hotel'] = Hotels::all();
+    //     $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+
+    //     // Fetch prices for each hotel using a map
+    //     $formatted_date = Carbon::now()->format('Y-m-d');
+
+    //     $data['hotel_prices'] = HotelPrice::where('start_date', '<=', $formatted_date)
+    //                 ->where('end_date', '>=', $formatted_date)->whereIn('hotel_id', $data['hotel']->pluck('id'))->get()->keyBy('hotel_id');
+        
+    //     return view('front/hotelsbooking', $data);
+    // }
+
+
+
     public function hotelsbooking()
     {
+        // Get all hotels
         $data['hotel'] = Hotels::all();
+    
+        // Get all sliders for hotels
         $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
-
-        // Fetch prices for each hotel using a map
+    
+        // Get today's date in the required format
         $formatted_date = Carbon::now()->format('Y-m-d');
-
+    
+        // Get hotel prices that are valid for today
         $data['hotel_prices'] = HotelPrice::where('start_date', '<=', $formatted_date)
-                    ->where('end_date', '>=', $formatted_date)->whereIn('hotel_id', $data['hotel']->pluck('id'))->get()->keyBy('hotel_id');
+                        ->where('end_date', '>=', $formatted_date)
+                        ->whereIn('hotel_id', $data['hotel']->pluck('id'))
+                        ->get()
+                        ->keyBy('hotel_id');
         
+        // Get unique city_ids from hotels
+        $cityIds = $data['hotel']->pluck('city_id')->unique();
+    
+        // Fetch city names by using the city_ids from the Cities table
+        $data['cities'] = City::whereIn('id', $cityIds)->get();
+    
+        // Pass the data to the view
         return view('front/hotelsbooking', $data);
     }
+    
+
 
 
     public function hotel_details(Request $request, $id)
