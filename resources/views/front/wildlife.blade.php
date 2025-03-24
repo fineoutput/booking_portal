@@ -11,15 +11,20 @@
         <div class="filter-value_hotels" id="destination-value">Choose the state?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
 
+          <form action="" method="POST" id="filter-form">
+            @csrf
+        
           @foreach($cities as $value)
           <div class="city_list_htotle">
               <div class="sizemaze">
-                <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="">
+                  <!-- Image representing the city -->
+                  <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
               </div>
               <div class="hotel_place">
-
-                <div class="destination-option_hotels" onclick="selectDestination('{{$value->id}}')">{{$value->city_name ?? ''}}</div>
-                <span class="hotels_spn"></span>
+                  <!-- Input field for the city selection -->
+                  <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+                  <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
+                  <span class="hotels_spn"></span>
               </div>
           </div>
           @endforeach
@@ -28,35 +33,38 @@
       </div>
 
       <!-- Check-in Date -->
-      <div class="filter-item_hotels sachi">
+      {{-- <div class="filter-item_hotels sachi">
         <div class="filter-label_hotels">Date</div>
         <input type="date" class="filter-value_hotels">
-      </div>
+      </div> --}}
 
       <!-- Check-out Date -->
       
       <!-- Timing Dropdown -->
-<div class="filter-item_hotels sachi" onclick="toggleDropdown('timing')">
-    <div class="filter-label_hotels">Time</div>
-    <div class="filter-value_hotels" id="timing-value">Select Time</div>
-    <div class="dropdown_hotels timing-dropdown_hotels w-100" id="timing-dropdown">
-        <div class="time_list_hotels">
-          <div class="brit_life">
-            <div class="ujale">
-              <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
+      <div class="filter-item_hotels sachi" onclick="toggleDropdown('timing')">
+        <div class="filter-label_hotels">Time</div>
+        <div class="filter-value_hotels" id="timing-value">Select Time</div>
+        <div class="dropdown_hotels timing-dropdown_hotels w-100" id="timing-dropdown">
+            <div class="time_list_hotels">
+              <div class="brit_life">
+                <div class="ujale">
+                  <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
+                </div>
+                <div class="time-option_hotels" onclick="selectTimingss('morning')">Morning</div>
+              </div>
+              <div class="brit_life mt-3">
+                <div class="ujale">
+                  <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
+                </div>
+                <div class="time-option_hotels" onclick="selectTimingss('evening')">Evening</div>
+              </div>
             </div>
-            <div class="time-option_hotels" onclick="selectTiming('Morning')">Morning</div>
-          </div>
-          <div class="brit_life mt-3">
-            <div class="ujale">
-              <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
-            </div>
-            <div class="time-option_hotels" onclick="selectTiming('Evening')">Evening</div>
-          </div>
-          </div>
+        </div>
+        <!-- Hidden input field to store the selected time -->
+        <input type="hidden" name="time" id="time-input">
     </div>
-</div>
-
+    
+    
       <!-- Guests Dropdown -->
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
         <div class="filter-label_hotels">Guests</div>
@@ -67,39 +75,41 @@
           <div class="guest-option_hotels">
             <label>Adults</label>
             <div class="counter_hotels">
-              <button onclick="updateGuests('adults', -1)">-</button>
+              <button type="button" onclick="updateGuests('adults', -1)">-</button>
               <input type="number" id="adults-count" value="1" min="1">
-              <button onclick="updateGuests('adults', 1)">+</button>
+              <button type="button" onclick="updateGuests('adults', 1)">+</button>
             </div>
           </div>
           <div class="guest-option_hotels">
             <label>Children</label>
             <div class="counter_hotels">
-              <button onclick="updateGuests('children', -1)">-</button>
+              <button type="button" onclick="updateGuests('children', -1)">-</button>
               <input type="number" id="children-count" value="1" min="1">
-              <button onclick="updateGuests('children', 1)">+</button>
+              <button type="button" onclick="updateGuests('children', 1)">+</button>
             </div>
           </div>
           <div class="guest-option_hotels">
             <label>No. of Rooms</label>
             <div class="counter_hotels">
-              <button onclick="updateGuests('infants', -1)">-</button>
+              <button type="button" onclick="updateGuests('infants', -1)">-</button>
               <input type="number" id="infants-count" value="1" min="1">
-              <button onclick="updateGuests('infants', 1)">+</button>
+              <button type="button" onclick="updateGuests('infants', 1)">+</button>
             </div>
           </div>
         </div>
       </div>
 
+      <button type="submit">
       <div class="search_sba">
         <div class="sba_center_Sarch">
         <a href="#">  
-        <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="
-    width: 80%;
-">
+        <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;">
         </a>  
       </div>
       </div>
+    </button>
+
+      </form>
     </div>
   </div>
 </section>
@@ -191,6 +201,7 @@
   </div>
 </section>
 
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     new Splide('#responsive-slider', {
@@ -207,5 +218,51 @@
 });
 
 </script>
+
+
+<script>
+function selectTimingss(time) {
+    // Update the timing value in the div
+    document.getElementById('timing-value').innerText = time;
+    
+    // Update the value in the hidden input field
+    document.getElementById('time-input').value = time;
+
+    // Optionally, close the dropdown after selection
+    // toggleDropdown('timing');  // Uncomment if you want to close the dropdown after selection
+}
+
+document.getElementById('filter-form').onsubmit = function(event) {
+    event.preventDefault(); // Prevents the form from submitting the default way
+
+    // Get the selected city_id (radio button)
+    const city_id = document.querySelector('input[name="city_id"]:checked'); // Get selected radio button
+
+    if (city_id) {
+        // If a city is selected, get the value
+        const cityValue = city_id.value;
+    
+        // Get the selected time value from the hidden input
+        const timing_value = document.getElementById('time-input').value;
+    
+        if (timing_value) {
+            // Construct the URL with the selected city and time parameters
+            const actionUrl = '{{ route("filtersafari") }}'; // The URL where you want to send the request (using GET method)
+            const finalUrl = `${actionUrl}?city_id=${cityValue}&time=${timing_value}`; // Final URL with parameters
+    
+            // Redirect to the new URL with parameters
+            window.location.href = finalUrl;
+        } else {
+            // If no time is selected, show a prompt
+            alert("Please select a time.");
+        }
+    } else {
+        // If no city is selected, show a prompt or error message
+        alert("Please select a city.");
+    }
+};
+
+</script>
+
 
 @endsection
