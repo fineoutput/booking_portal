@@ -111,9 +111,7 @@
           </div>
         </div>
         <div class="col-12 col-md-3 d-flex justify-content-end press_header">
-          <div class="contact me-3">
-            📞 1800 22 7979
-          </div>
+          
           <div class="sign-in dropdown">
     👤 
     @if(Auth::guard('agent')->check())
