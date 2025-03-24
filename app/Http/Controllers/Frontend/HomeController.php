@@ -240,6 +240,11 @@ if ($popularCities->isEmpty()) {
     {
         return view('front/options');
     }
+    
+    public function hotel_list()
+    {
+        return view('front/hotel_list');
+    }
    
     public function all_images($id)
     {
