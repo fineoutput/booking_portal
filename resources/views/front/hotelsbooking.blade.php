@@ -77,7 +77,7 @@
           </div>
         </div>
       </div>
-      <button type="submit">
+      <button type="submit" style="border: none">
       <div class="search_sba">
         <div class="sba_center_Sarch">
         <a href="#">  
