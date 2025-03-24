@@ -145,23 +145,22 @@
       <div class="col-lg-9 col-sm-12 col-md-12">
         <div class="row">
 
-          @if($packages)
-          @foreach ($packages as $key => $value)
+          @if($hotels)
+          @foreach ($hotels as $key => $value)
           <div class="col-lg-6">
             <div class="plan_outer w-100">
               <div class="outer_plan_upper">
                 <div class="outer_plan_img">
                   @php
-                  // Assuming 'image' contains a JSON array of images
-                  $images = json_decode($value->image, true); // Decode the JSON to an array (true for associative array)
+                  $images = json_decode($value->images); 
               @endphp
               
               @if($images && is_array($images) && count($images) > 0)
-                  <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
                   <img src="{{ asset(reset($images)) }}" alt="First Image">
               @else
-                  <p>No image available.</p>
+                  <p>No images available.</p>
               @endif
+              
               
                 </div>
                 <div class="inner_outer_txt">
@@ -186,11 +185,8 @@
               <div class="">
                 
                 <div class="destination">
-                  <p style="margin: 0;">{{$value->package_name ?? ''}}</p>
-                  
-                  @foreach($value->hotels as $hotel)
-                    <span>{{ $hotel->name }}</span>,
-                  @endforeach
+                  <p style="margin: 0;">{{$value->name ?? ''}}</p>
+
                 </div>
                 
               </div>
@@ -204,19 +200,18 @@
                     <div class="manags">
                       <p>Starts from
                         <b style="color: #000;">
-                          @if($value->prices)
                           @php
-                            $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
-            $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
-            $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
-            $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
-            $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
-            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
-                          @endphp
-                          <p>Price: ₹{{$value->prices->display_cost}}</p>
-                      @else
-                          <p>No price available for this package.</p>
-                      @endif
+                          // Fetch price for the current hotel
+                          $hotelPrice = $hotel_prices[$value->id] ?? null;
+                      @endphp
+                          <p>
+                            @if($hotelPrice)
+                            Price:  ₹{{ $hotelPrice->night_cost ?? '0' }}
+                        @else
+                            Price Not Available
+                        @endif
+                          </p>
+
                         </b>
                       </p>
                       <span style="font-size: 10px;">per person on twin sharing</span>

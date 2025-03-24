@@ -241,10 +241,7 @@ if ($popularCities->isEmpty()) {
         return view('front/options');
     }
     
-    public function hotel_list()
-    {
-        return view('front/hotel_list');
-    }
+
    
     public function all_images($id)
     {
@@ -907,8 +904,49 @@ public function getVehiclesByCity($cityId)
         // Pass the data to the view
         return view('front/hotelsbooking', $data);
     }
-    
 
+    public function filterHotels(Request $request)
+    {
+        $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+        
+        $city_id = $request->input('city_id');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $query = Hotels::query();
+
+        if ($city_id) {
+            $query = $query->where('city_id', $city_id);
+        }
+
+        $hotels = $query->get();
+
+        $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
+        $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
+
+        $hotel_ids = $hotels->pluck('id');
+
+        $hotel_prices = HotelPrice::whereIn('hotel_id', $hotel_ids)
+                                    ->where('start_date', '<=', $formatted_start_date)
+                                    ->where('end_date', '>=', $formatted_end_date)
+                                    ->get()
+                                    ->keyBy('hotel_id'); 
+        $data = [
+            'hotels' => $hotels,
+            'hotel_prices' => $hotel_prices,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'slider' => $slider
+        ];
+
+        return view('front.hotel_list', $data);
+    }
+
+    // public function hotel_list()
+    // {
+    //     return view('front/hotel_list');
+    // }
+    
 
 
     public function hotel_details(Request $request, $id)

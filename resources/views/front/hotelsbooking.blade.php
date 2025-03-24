@@ -11,35 +11,36 @@
         <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
 
-          <form action="">
-
+          <form action="" method="POST" id="filter-form">
+            @csrf
+        
             @foreach($cities as $value)
-          <div class="city_list_htotle">
-              <div class="sizemaze">
-                <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="">
-              </div>
-              <div class="hotel_place">
-                <div class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">{{ $value->city_name ?? '' }}</div>
-                <span class="hotels_spn"></span>
-              </div>
-          </div>
-          @endforeach
-
-          
-          
+    <div class="city_list_htotle">
+        <div class="sizemaze">
+            <!-- Image representing the city -->
+            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+        </div>
+        <div class="hotel_place">
+            <!-- Input field for the city selection -->
+            <input type="radio" id="city_id" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+            <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
+            <span class="hotels_spn"></span>
+        </div>
+    </div>
+@endforeach
         </div>
       </div>
 
       <!-- Check-in Date -->
       <div class="filter-item_hotels sachi">
         <div class="filter-label_hotels">Check in</div>
-        <input type="date" class="filter-value_hotels">
+        <input type="date" name="start_date" id="start_date" class="filter-value_hotels">
       </div>
 
       <!-- Check-out Date -->
       <div class="filter-item_hotels sachi">
         <div class="filter-label_hotels">Check out</div>
-        <input type="date" class="filter-value_hotels">
+        <input type="date" name="end_date" id="end_date" class="filter-value_hotels">
       </div>
 
       <!-- Guests Dropdown -->
@@ -75,17 +76,17 @@
           </div>
         </div>
       </div>
-    </form>
-
+      <button type="submit">
       <div class="search_sba">
         <div class="sba_center_Sarch">
         <a href="#">  
-        <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="
-    width: 80%;
-">
+        <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;">
         </a>  
       </div>
       </div>
+    </button>
+    </form>
+
     </div>
   </div>
 
@@ -293,6 +294,29 @@
     }).mount();
 });
 
+</script>
+
+<script>
+  // Update form action when form is submitted with dynamic parameters
+  document.getElementById('filter-form').onsubmit = function(event) {
+      event.preventDefault();
+      
+      // Get form values
+      const city_id = document.getElementById('city_id').value;
+      const start_date = document.getElementById('start_date').value;
+      const end_date = document.getElementById('end_date').value;
+
+      // Set form action with parameters
+      const actionUrl = '{{ route("filterHotels", ["city_id" => "__city_id__", "start_date" => "__start_date__", "end_date" => "__end_date__"]) }}';
+      const finalUrl = actionUrl
+          .replace('__city_id__', city_id)
+          .replace('__start_date__', start_date)
+          .replace('__end_date__', end_date);
+
+      // Set the new form action and submit
+      document.getElementById('filter-form').action = finalUrl;
+      document.getElementById('filter-form').submit();
+  };
 </script>
 
 @endsection

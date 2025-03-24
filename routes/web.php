@@ -56,7 +56,7 @@ Route::group(['prefix' => '/'], function () {
     Route::get('taxi-confirmation/{id}', [HomeController::class, 'taxiconfirmation'])->name('taxi_confirmation');
     
     Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
-    
+
     Route::post('/upgrade-request', [HomeController::class, 'upgrade_request'])->name('upgrade_request');
 
     Route::get('/get-airports/{city_id}', [HomeController::class, 'getAirports']);
@@ -84,7 +84,12 @@ Route::group(['prefix' => '/'], function () {
 
     Route::get('all_images/{id}', [HomeController::class, 'all_images'])->name('all_images');
     Route::get('detail/{id}', [HomeController::class, 'detail'])->name('detail');
+
     Route::get('hotelsbooking', [HomeController::class, 'hotelsbooking'])->name('hotelsbooking');
+
+Route::match(['get','post'],'/filter-hotels/{city_id}/{start_date}/{end_date}', [HomeController::class, 'filterHotels'])->name('filterHotels');
+
+
     Route::get('hotel_details/{id}', [HomeController::class, 'hotel_details'])->name('hotel_details');
     Route::POST('add_hotel_booking/{id}', [HomeController::class, 'add_hotel_booking'])->name('add_hotel_booking');
 
