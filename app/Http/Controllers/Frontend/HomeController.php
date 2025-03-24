@@ -905,42 +905,95 @@ public function getVehiclesByCity($cityId)
         return view('front/hotelsbooking', $data);
     }
 
+    // public function filterHotels(Request $request)
+    // {
+    //     $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+        
+    //     $city_id = $request->input('city_id');
+    //     $start_date = $request->input('start_date');
+    //     $end_date = $request->input('end_date');
+
+    //     $query = Hotels::query();
+
+    //     if ($city_id) {
+    //         $query = $query->where('city_id', $city_id);
+    //     }
+
+    //     $hotels = $query->get();
+
+    //     $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
+    //     $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
+
+    //     $hotel_ids = $hotels->pluck('id');
+
+    //     $hotel_prices = HotelPrice::whereIn('hotel_id', $hotel_ids)
+    //                                 ->where('start_date', '<=', $formatted_start_date)
+    //                                 ->where('end_date', '>=', $formatted_end_date)
+    //                                 ->get()
+    //                                 ->keyBy('hotel_id'); 
+    //     $data = [
+    //         'hotels' => $hotels,
+    //         'hotel_prices' => $hotel_prices,
+    //         'start_date' => $start_date,
+    //         'end_date' => $end_date,
+    //         'slider' => $slider
+    //     ];
+
+    //     return view('front.hotel_list', $data);
+    // }
+
+
     public function filterHotels(Request $request)
     {
-        $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
-        
-        $city_id = $request->input('city_id');
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
-
+        // Retrieve the parameters from the URL query string
+        $city_id = $request->query('city_id');
+        $start_date = $request->query('start_date');
+        $end_date = $request->query('end_date');
+    
+        // Query to get all hotels
         $query = Hotels::query();
-
+    
+        // If a city_id is provided, filter by city
         if ($city_id) {
             $query = $query->where('city_id', $city_id);
         }
-
+    
+        // Fetch all hotels based on the query filters
         $hotels = $query->get();
-
+    
+        // Format the dates into 'Y-m-d' format
         $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
         $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
-
+    
+        // Get the hotel IDs of the filtered hotels
         $hotel_ids = $hotels->pluck('id');
-
+    
+        // Get hotel prices for the selected date range
         $hotel_prices = HotelPrice::whereIn('hotel_id', $hotel_ids)
                                     ->where('start_date', '<=', $formatted_start_date)
                                     ->where('end_date', '>=', $formatted_end_date)
                                     ->get()
                                     ->keyBy('hotel_id'); 
+    
+        // Retrieve all sliders of type 'hotel' for the filter page
+        $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+    
+        // Prepare data for the view
         $data = [
             'hotels' => $hotels,
             'hotel_prices' => $hotel_prices,
             'start_date' => $start_date,
             'end_date' => $end_date,
-            'slider' => $slider
+            'slider' => $slider,
+            'city_id' => $city_id,  // Include city_id for re-populating the filter form
         ];
-
-        return view('front.hotel_list', $data);
+    
+        // Return the updated filtered hotel list view with the necessary data
+        return view('front.hotel_list', $data)->render();  // Render only the HTML content
     }
+    
+
+
 
     // public function hotel_list()
     // {

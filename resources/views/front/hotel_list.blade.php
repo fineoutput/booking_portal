@@ -62,7 +62,7 @@
             </div>
           </div>
           <hr>
-          <div class="date_range">
+          {{-- <div class="date_range">
             <div class="reange_btns d-flex justify-content-between">
               <h6 class="accordion-header"><b>Tour Duration</b></h6>
               <!-- <i id="accordion-icon" class="fa-solid fa-angle-down" ></i> -->
@@ -78,66 +78,7 @@
               <button>14 - 15 days</button>
             </div>
           </div>
-          <hr>
-          <!-- <div class="arriv_dept">
-            <h6 class="accordion-header"><b>Depart Between</b></h6>
-            <div class="calends">
-              <div class="cal_size">
-                <label for="start">Start Date</label>
-                <input type="date" id="startDate" class="form-control w-80" style="
-    width: 80%;" required>
-              </div>
-
-              <div class="cal_size">
-                <label for="start">End Date</label>
-                <input type="date" id="endDate" class="form-control w-80" style="
-    width: 80%;" required>
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="departure_city">
-            <h6 class="accordion-header"><b>Departure city</b></h6>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Kolkata</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Delhi</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Amritsar</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Jaisalmer</p>
-            </div>
-            <div class="ravet">
-
-              <h4>Joining & Leaving</h4>
-              <p>Can’t find tours from your city? Check our Joining & leaving option. Book your own flights and join directly at the first destination of the tour.</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Kota</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Ajmer</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Udaipur</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Jaipur</p>
-            </div>
-          </div> -->
-
-
+          <hr> --}}
 
         </div>
       </div>

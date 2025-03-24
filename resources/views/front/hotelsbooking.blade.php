@@ -15,19 +15,20 @@
             @csrf
         
             @foreach($cities as $value)
-    <div class="city_list_htotle">
-        <div class="sizemaze">
-            <!-- Image representing the city -->
-            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
-        </div>
-        <div class="hotel_place">
-            <!-- Input field for the city selection -->
-            <input type="radio" id="city_id" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
-            <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
-            <span class="hotels_spn"></span>
-        </div>
-    </div>
-@endforeach
+            <div class="city_list_htotle">
+                <div class="sizemaze">
+                    <!-- Image representing the city -->
+                    <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+                </div>
+                <div class="hotel_place">
+                    <!-- Input field for the city selection -->
+                    <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+                    <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
+                    <span class="hotels_spn"></span>
+                </div>
+            </div>
+            @endforeach
+            
         </div>
       </div>
 
@@ -296,7 +297,7 @@
 
 </script>
 
-<script>
+{{-- <script>
   // Update form action when form is submitted with dynamic parameters
   document.getElementById('filter-form').onsubmit = function(event) {
       event.preventDefault();
@@ -317,6 +318,34 @@
       document.getElementById('filter-form').action = finalUrl;
       document.getElementById('filter-form').submit();
   };
+</script> --}}
+
+<script>
+document.getElementById('filter-form').onsubmit = function(event) {
+    event.preventDefault();
+
+    // Get the selected city_id
+    const city_id = document.querySelector('input[name="city_id"]:checked'); // Get selected radio button
+
+    if (city_id) {
+        // If a city is selected, get the value
+        const cityValue = city_id.value;
+        const start_date = document.getElementById('start_date').value;
+        const end_date = document.getElementById('end_date').value;
+
+        // Construct the URL with parameters
+        const actionUrl = '{{ route("filterHotels") }}'; // Using GET method
+        const finalUrl = `${actionUrl}?city_id=${cityValue}&start_date=${start_date}&end_date=${end_date}`;
+
+        // Redirect to the new URL with parameters (trigger a GET request)
+        window.location.href = finalUrl;
+    } else {
+        // If no city is selected, you might want to show an error or prompt the user to select a city
+        alert("Please select a city.");
+    }
+};
+
 </script>
+
 
 @endsection

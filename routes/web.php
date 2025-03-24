@@ -87,7 +87,10 @@ Route::group(['prefix' => '/'], function () {
 
     Route::get('hotelsbooking', [HomeController::class, 'hotelsbooking'])->name('hotelsbooking');
 
-Route::match(['get','post'],'/filter-hotels/{city_id}/{start_date}/{end_date}', [HomeController::class, 'filterHotels'])->name('filterHotels');
+    Route::get('/filter-hotels', [HomeController::class, 'filterHotels'])->name('filterHotels');
+
+
+
 
 
     Route::get('hotel_details/{id}', [HomeController::class, 'hotel_details'])->name('hotel_details');
