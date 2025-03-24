@@ -50,7 +50,7 @@
     <div class="d-sm-flex justify-content-between py-1">
       <p style="
     color: #009ee3;
-">2023 © Trip Dekho. All Rights Reserved. </p>
+">2025 © Trip Dekho. All Rights Reserved. </p>
       <p>
         <a href="#" class=" text-decoration-none pe-4" style="
         color: #009ee3;
