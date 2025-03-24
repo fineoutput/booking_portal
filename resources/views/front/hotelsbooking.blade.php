@@ -54,25 +54,25 @@
           <div class="guest-option_hotels">
             <label>Adults</label>
             <div class="counter_hotels">
-              <button onclick="updateGuests('adults', -1)">-</button>
+              <button type="button" onclick="updateGuests('adults', -1)">-</button>
               <input type="number" id="adults-count" value="1" min="1">
-              <button onclick="updateGuests('adults', 1)">+</button>
+              <button type="button" onclick="updateGuests('adults', 1)">+</button>
             </div>
           </div>
           <div class="guest-option_hotels">
             <label>Children</label>
             <div class="counter_hotels">
-              <button onclick="updateGuests('children', -1)">-</button>
+              <button type="button" onclick="updateGuests('children', -1)">-</button>
               <input type="number" id="children-count" value="1" min="1">
-              <button onclick="updateGuests('children', 1)">+</button>
+              <button type="button" onclick="updateGuests('children', 1)">+</button>
             </div>
           </div>
           <div class="guest-option_hotels">
             <label>No. of Rooms</label>
             <div class="counter_hotels">
-              <button onclick="updateGuests('infants', -1)">-</button>
+              <button type="button" onclick="updateGuests('infants', -1)">-</button>
               <input type="number" id="infants-count" value="1" min="1">
-              <button onclick="updateGuests('infants', 1)">+</button>
+              <button type="button" onclick="updateGuests('infants', 1)">+</button>
             </div>
           </div>
         </div>
