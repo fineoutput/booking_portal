@@ -2473,10 +2473,10 @@ public function getLanguages(Request $request)
             $cities = $item->cities->city_name ?? ''; 
     
             // Check if it's a hotel or package and handle image accordingly
-            if ($item instanceof Package) {
+            if ($item->package_name) {
                 // Handle Package image field (single image)
                 $images = json_decode($item->image, true); 
-            } elseif ($item instanceof Hotels) {
+            } elseif ($item->name) {
                 // Handle Hotels images field (multiple images)
                 $images = json_decode($item->images, true); 
             }
