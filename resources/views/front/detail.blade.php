@@ -145,81 +145,82 @@
                 <div class="hazars">
                     <form method="POST" action="{{route('add_package_booking', ['id' => $packages->id])}}" class="needs-validation" novalidate>
                         @csrf
-                        <!-- Location Selection -->
-
+                    
                         <!-- Date Range -->
                         <div class="row g-3 mb-3">
                             <div class="col-md-6 loc_stl">
                                 <div class="rj_vk">
-                            <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
-                                <label for="startDate" class="form-label">Start Date</label>
+                                    <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
+                                    <label for="startDate" class="form-label">Start Date</label>
                                 </div>
                                 <input name="start_date" type="date" id="startDate" class="form-control no-form" required>
                             </div>
                             <div class="col-md-6">
                                 <div class="rj_vk">
-                            <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
-                                <label for="startDate" class="form-label">End Date</label>
+                                    <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
+                                    <label for="endDate" class="form-label">End Date</label>
                                 </div>
                                 <input name="end_date" type="date" id="endDate" class="form-control no-form" required>
                             </div>
                         </div>
-                        
-                        <div class="row g-3 mb-3 chin_up">
-                            <div class="col-md-4 loc_stl">
-                            <div class="rj_vk">
-                            <img style="width: 20px;" src="{{asset('frontend/images/couple.png')}}" alt="">
-                                <label for="adults" class="form-label">No. of Adults</label>
-                            </div>
+                    
+                        <!-- Everything else in a single column -->
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="rj_vk">
+                                    <img style="width: 20px;" src="{{asset('frontend/images/couple.png')}}" alt="">
+                                    <label for="adults" class="form-label">No. of Adults</label>
+                                </div>
                                 <input name="adults_count" type="number" id="adults" class="form-control no-form" min="1" required placeholder="Adults">
                             </div>
-                            <div class="col-md-4 loc_stl">
-                            <div class="rj_vk">
-                            <img style="width: 20px;" src="{{asset('frontend/images/cot.png')}}" alt="">
-                                <label for="kidsWithBed" class="form-label">Kids with Bed</label>
-                            </div>
+                    
+                            <div class="col-12">
+                                <div class="rj_vk">
+                                    <img style="width: 20px;" src="{{asset('frontend/images/cot.png')}}" alt="">
+                                    <label for="kidsWithBed" class="form-label">Kids with Bed</label>
+                                </div>
                                 <input name="child_with_bed_count" type="number" id="kidsWithBed" class="form-control no-form" min="0" required placeholder="Kids with bed">
                             </div>
-                            <div class="col-md-4">
-                            <div class="rj_vk">
-                            <img style="width: 20px;" src="{{asset('frontend/images/children.png')}}" alt="">
-                                <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
+                    
+                            <div class="col-12">
+                                <div class="rj_vk">
+                                    <img style="width: 20px;" src="{{asset('frontend/images/children.png')}}" alt="">
+                                    <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
+                                </div>
+                                <input name="child_no_bed_child_count" type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required placeholder="Kids without bed">
                             </div>
-                                <input name="child_no_bed_child_count" type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required placeholder="kids without bed">
+                    
+                            <div class="col-12">
+                                <div class="rj_vk">
+                                    <img style="width: 20px;" src="{{asset('frontend/images/extra-bed.png')}}" alt="">
+                                    <label for="extraBed" class="form-label">Extra Bed</label>
+                                </div>
+                                <select id="extraBed" name="extra_bed" class="form-select no-form-select" required>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
                             </div>
-                        </div>
-
-                        <!-- Extra Bed -->
-                        <div class="mb-3 row chin_up">
-                        <div class="col-md-4 loc_stl">
-                        <div class="rj_vk">
-                        <img style="width: 20px;" src="{{asset('frontend/images/extra-bed.png')}}" alt="">
-                            <label for="extraBed" class="form-label">Extra Bed</label>
-                        </div>
-                            <select id="extraBed" name="extra_bed" class="form-select no-form-select" required>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 loc_stl">
-                        <div class="rj_vk">
-                        <img style="width: 20px;" src="{{asset('frontend/images/breakfast.png')}}" alt="">
-                            <label for="mealPlan" class="form-label">Meal Plan</label>
-                        </div>
-                            <select id="mealPlan" name="meal" class="form-select no-form-select" required>
-                                <option value="" disabled selected>Select meal plan</option>
-                                <option value="only_room">Only Room</option>
-                                <option value="breakfast">Breakfast</option>
-                                <option value="breakfast_lunch">Breakfast + lunch</option>
-                                <option value="breakfast_dinner">Breakfast + dinner</option>
-                                <option value="all_meals">All meals</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                        <div class="rj_vk">
-                        <img style="width: 20px;" src="{{asset('frontend/images/hotel.png')}}" alt="">
-                                <label for="hotelPreference" class="form-label">Hotel Preference</label>
-                        </div>
+                    
+                            <div class="col-12">
+                                <div class="rj_vk">
+                                    <img style="width: 20px;" src="{{asset('frontend/images/breakfast.png')}}" alt="">
+                                    <label for="mealPlan" class="form-label">Meal Plan</label>
+                                </div>
+                                <select id="mealPlan" name="meal" class="form-select no-form-select" required>
+                                    <option value="" disabled selected>Select meal plan</option>
+                                    <option value="only_room">Only Room</option>
+                                    <option value="breakfast">Breakfast</option>
+                                    <option value="breakfast_lunch">Breakfast + lunch</option>
+                                    <option value="breakfast_dinner">Breakfast + dinner</option>
+                                    <option value="all_meals">All meals</option>
+                                </select>
+                            </div>
+                    
+                            <div class="col-12">
+                                <div class="rj_vk">
+                                    <img style="width: 20px;" src="{{asset('frontend/images/hotel.png')}}" alt="">
+                                    <label for="hotelPreference" class="form-label">Hotel Preference</label>
+                                </div>
                                 <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select preference</option>
                                     <option value="standard">Standard (1 Star)</option>
@@ -229,43 +230,30 @@
                                     <option value="premium">Premium (5 Star)</option>
                                 </select>
                             </div>
-                        </div>
-                        <!-- Hotel & Room Preferences -->
-                        <div class="mb-3 row chin_up">
-                            
-                            {{-- <div class="col-md-4 loc_stl">
-                            <div class="rj_vk">
-                        <img style="width: 20px;" src="{{asset('frontend/images/interior-design.png')}}" alt="">
-                                <label for="roomPreference" class="form-label">Room Preference</label>
-                            </div>
-                                <select id="roomPreference" class="form-select no-form-select" required>
-                                    <option value="" disabled selected>Select room</option>
-                                    <option value="room1">Room 1</option>
-                                    <option value="room2">Room 2</option>
-                                </select>
-                            </div> --}}
-                            <div class="col-md-4 loc_stl">
-                            <div class="rj_vk">
-                        <img style="width: 20px;" src="{{asset('frontend/images/sport-car.png')}}" alt="">
-                                <label for="vehicleOptions" class="form-label">Vehicle Options</label>
-                            </div>
+                    
+                            <div class="col-12">
+                                <div class="rj_vk">
+                                    <img style="width: 20px;" src="{{asset('frontend/images/sport-car.png')}}" alt="">
+                                    <label for="vehicleOptions" class="form-label">Vehicle Options</label>
+                                </div>
                                 <select id="vehicleOptions" name="vehicle_options" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select vehicle</option>
                                     <option value="hatchback_cost">Hatchback</option>
                                     <option value="sedan_cost">Sedan</option>
                                     <option value="economy_suv_cost">Economy SUV</option>
                                     <option value="luxury_suv_cost">Luxury SUV</option>
-                                    <option value="	traveller_mini_cost">Traveller (7-12 pass)</option>
+                                    <option value="traveller_mini_cost">Traveller (7-12 pass)</option>
                                     <option value="traveller_big_cost">Traveller (12-21 pass)</option>
                                     <option value="premium_traveller_cost">Premium traveller (10-16 pass)</option>
                                     <option value="ac_coach_cost">AC Coach (18-30 pass)</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                            <div class="rj_vk">
-                        <img style="width: 20px;" src="{{asset('frontend/images/booking.png')}}" alt="">
-                                <label for="bookingSource" class="form-label">Booking Source</label>
-                            </div>
+                    
+                            <div class="col-12">
+                                <div class="rj_vk">
+                                    <img style="width: 20px;" src="{{asset('frontend/images/booking.png')}}" alt="">
+                                    <label for="bookingSource" class="form-label">Booking Source</label>
+                                </div>
                                 <select id="bookingSource" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select source</option>
                                     <option value="direct">Direct Booking</option>
@@ -273,31 +261,28 @@
                                     <option value="online">Online</option>
                                 </select>
                             </div>
+                    
+                            <div class="col-12 form-check">
+                                <input class="form-check-input" name="travelinsurance" type="checkbox" id="travelInsurance">
+                                <label class="form-check-label" for="travelInsurance">Add Travel Insurance</label>
+                            </div>
+                    
+                            <div class="col-12 mb-3">
+                                <label for="specialRemarks" class="form-label">Special Remarks</label>
+                                <textarea name="specialremarks" id="specialRemarks" class="form-control" rows="3"></textarea>
+                            </div>
+                    
+                            <!-- Submit Button -->
+                            <div class="col-12">
+                                @if(Auth::guard('agent')->check())
+                                    <button class="btn btn-primary w-100" type="submit">Submit</button>
+                                @else
+                                    <a class="btn btn-primary w-100" href="{{ route('login') }}">Submit</a>
+                                @endif
+                            </div>
                         </div>
-
-                        <!-- Meal Plan -->
-                        
-
-
-                        <!-- Booking Source -->
-
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" name="travelinsurance" type="checkbox" id="travelInsurance">
-                            <label class="form-check-label" for="travelInsurance">Add Travel Insurance</label>
-                        </div>
-                        <div class="mb-3">
-                            <label for="specialRemarks" class="form-label">Special Remarks</label>
-                            <textarea name="specialremarks" id="specialRemarks" class="form-control" rows="3"></textarea>
-                        </div>
-
-                        <!-- Submit Button -->
-                        @if(Auth::guard('agent')->check())
-                        <button style="text-decoration: none; color: #fff;" class="btn btn-primary w-80 d-flex justify-content-center" type="submit">Submit</button>
-                        @else
-                            <a class="btn btn-primary w-80 d-flex justify-content-center" style="text-decoration: none; color: #fff; " href="{{ route('login') }}">Submit</a> 
-                        @endif
-                       
                     </form>
+                    
                 </div>
 
             </div>
