@@ -186,9 +186,7 @@
                 
                 <div class="destination">
                   <p style="margin: 0;">{{$value->name ?? ''}}</p>
-
                 </div>
-                
               </div>
               <div class="options_tav night">
                 <div class="outer_car_txt justify-content-center justify-content-center">
@@ -219,7 +217,7 @@
                   </div>
                 </div>
                 <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="{{route('detail',['id' => base64_encode($value->id)])}}">Book Now</a>
+                  <a class="_btn" href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">Book Now</a>
                 </div>
                 
               </div>
