@@ -89,5 +89,11 @@ class PackageBooking extends Model
         return $this->belongsTo(Agent::class, 'user_id'); 
     }
 
+    public function transfer()
+    {
+        return $this->hasOne(TransferPackageOrder::class, 'order_id', 'id');
+    }
+
+
 
 }

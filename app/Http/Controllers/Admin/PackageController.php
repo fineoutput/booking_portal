@@ -7,33 +7,142 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\PackageBooking;
 use App\Models\City;
+use App\Models\TransferPackageOrder;
+use App\Models\RemarkPackageOrder;
 use App\Models\State;
+use App\Models\Tourist;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use App\adminmodel\Team;
+use Illuminate\Support\Facades\Auth;
 
 class PackageController extends Controller
 {
+
+    function customer(Request $request ,$id){
+        $data['tourist'] = Tourist::where('booking_id', $id)->get();
+
+       return view('admin.package.customer', $data);
+    }
+
+    function transfercreate(Request $request,$id) {
+        if($request->method()=='POST'){
+            $validated = $request->validate([
+                'caller_id' => 'required',
+            ]);
+
+            $agentCall = new TransferPackageOrder();
+            $agentCall->order_id = $id;
+            $agentCall->caller_id = $request->caller_id;
+            $agentCall->save();  
+
+            return redirect()->route('acceptpackagebooking')->with('success', 'Order Transfer successfully!');
+        }
+        $data['states'] = State::all();
+        $data['agentCalls'] = PackageBooking::where('id',$id)->first();
+        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['team'] = Team::where('power',4)->get();
+        return view('admin/package/transfercreate',$data);
+    }
+
+
+    function remarkcreate(Request $request,$id) {
+        if($request->method()=='POST'){
+            $validated = $request->validate([
+                'remark' => 'required',
+                // 'agentcalls_id' => 'required',
+            ]);
+
+            $agentCall = new RemarkPackageOrder();
+            $agentCall->order_id = $id;
+            $agentCall->remark = $request->remark;
+            $agentCall->caller_id = Auth::id();
+            $agentCall->save();  
+
+            return redirect()->back()->with('success', 'Remark add successfully!')->with('javascript', 'window.history.go(-2);');
+
+        }
+        $data['states'] = State::all();
+        $data['agentCalls'] = PackageBooking::where('id',$id)->first();
+        // $data['agentCalls'] = AgentCalls::whereNotIn('id', TransferAgentCalls::pluck('agentcalls_id'))->get();
+        $data['team'] = Team::where('power',4)->get();
+        return view('admin/package/remarkcreate',$data);
+    }
+
+    public function viewremark(Request $request,$id)
+    {
+        $agentCalls = RemarkPackageOrder::where('order_id',$id)->orderBy('id','DESC')->get();
+        return view('admin.package.viewremark', compact('agentCalls'));
+    }
+
     function index() {
         $data['package'] = Package::orderBy('id','DESC')->get();
         return view('admin/package/index',$data);
     }
 
     function pandingindex() {
-        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',0)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferPackageOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['package'] = PackageBooking::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',0)->get();
+
+        }else{
+            $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',0)->get();
+        }
+
         return view('admin/package/pandingindex',$data);
     }
 
     function completeorders() {
-        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',1)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferPackageOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['package'] = PackageBooking::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',1)->get();
+
+        }else{
+            $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',1)->get();
+        }
+        return view('admin/package/pandingindex',$data);
+    }
+
+    function processorders() {
+        $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferPackageOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['package'] = PackageBooking::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',4)->get();
+
+        }else{
+            $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',4)->get();
+        }
         return view('admin/package/pandingindex',$data);
     }
 
     function rejectorders() {
-        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',2)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferPackageOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['package'] = PackageBooking::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',2)->get();
+
+        }else{
+            $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',2)->get();
+        }
         return view('admin/package/pandingindex',$data);
     }
+
     function acceptorders() {
-        $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',3)->get();
+       $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferPackageOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['package'] = PackageBooking::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',3)->get();
+
+        }else{
+            $data['package'] = PackageBooking::orderBy('id','DESC')->where('status',3)->get();
+        }
         return view('admin/package/pandingindex',$data);
     }
 
@@ -63,6 +172,9 @@ class PackageController extends Controller
         } elseif ($action == 'accept') {
 
             $vehicle->status = 3;
+        } elseif ($action == 'process') {
+
+            $vehicle->status = 4;
 
         } else {
 

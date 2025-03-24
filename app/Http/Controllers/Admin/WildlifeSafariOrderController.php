@@ -88,19 +88,49 @@ class WildlifeSafariOrderController extends Controller
 
     function completeorders() {
         $user = Auth::user();
-
+        if($user->power == 4){
         $data['order_id'] = TransferSafariOrder::where('caller_id', $user->id)->pluck('order_id');
 
-        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('id',$data['order_id'])->where('status',1)->get();
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',1)->get();
+        }else{
+            $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',1)->get();
+        }
         return view('admin/wildlifesafariorders/index',$data);
     }
+
     function acceptorders() {
+       $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferSafariOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',3)->get();
+    }else{
         $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',3)->get();
+    }
         return view('admin/wildlifesafariorders/index',$data);
     }
 
     function rejectorders() {
-        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',2)->get();
+        $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferSafariOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',2)->get();
+        }else{
+            $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',2)->get();
+        }
+        return view('admin/wildlifesafariorders/index',$data);
+    }
+
+    function processorders() {
+        $user = Auth::user();
+        if($user->power == 4){
+        $data['order_id'] = TransferSafariOrder::where('caller_id', $user->id)->pluck('order_id');
+
+        $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',4)->get();
+        }else{
+            $data['WildlifeSafari'] = WildlifeSafariOrder2::orderBy('id','DESC')->where('status',4)->get();
+        }
         return view('admin/wildlifesafariorders/index',$data);
     }
 
@@ -215,11 +245,17 @@ class WildlifeSafariOrderController extends Controller
             // Change status to 1 (Confirmed)
             $vehicle->status = 1;
         } elseif ($action == 'cancel') {
-            // Change status to 2 (Canceled)
+
             $vehicle->status = 2;
+
         } elseif ($action == 'accept') {
-            // Change status to 2 (Canceled)
+
             $vehicle->status = 3;
+
+        } elseif ($action == 'process') {
+
+            $vehicle->status = 4;
+
         } else {
             // Default case, no action (status might not change)
             return redirect()->back()->with('error', 'Invalid status update action.');

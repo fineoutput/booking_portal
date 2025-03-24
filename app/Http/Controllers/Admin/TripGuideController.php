@@ -103,6 +103,17 @@ class TripGuideController extends Controller
         return view('admin/tripguide/tripguidebooking',$data);
     }
 
+    function processtripguidebooking() {
+        $user = Auth::user();
+        if($user->power == 4){
+            $data['order_id'] = TransferGuideOrder::where('caller_id', $user->id)->pluck('order_id');
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->whereIn('id',$data['order_id'])->where('status',4)->get();
+        }else{
+            $data['TripGuideBook'] = TripGuideBook2::orderBy('id','DESC')->where('status',4)->get();
+        }
+        return view('admin/tripguide/tripguidebooking',$data);
+    }
+
     function accepttripguidebooking() {
         $user = Auth::user();
         if($user->power == 4){
@@ -151,6 +162,9 @@ class TripGuideController extends Controller
         } elseif ($action == 'accept') {
 
             $vehicle->status = 3;
+        } elseif ($action == 'process') {
+
+            $vehicle->status = 4;
 
         } else {
 
