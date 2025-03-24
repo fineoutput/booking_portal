@@ -2469,21 +2469,29 @@ public function getLanguages(Request $request)
         }
     
         $responseData = $data->map(function ($item) {
-            // return $item;
-            // $city_ids = $item->city_id->implode(', ');
+            // Handle cities (comma-separated names)
             $cities = $item->cities->city_name ?? ''; 
-            $images = json_decode($item->image, true); 
-        $imageUrl = null;
-        if ($images && is_array($images) && count($images) > 0) {
-            // Use the first image from the array
-            $imageUrl = asset(reset($images));  // Get the URL for the first image
-        }
-
+    
+            // Check if it's a hotel or package and handle image accordingly
+            if ($item instanceof Package) {
+                // Handle Package image field (single image)
+                $images = json_decode($item->image, true); 
+            } elseif ($item instanceof Hotels) {
+                // Handle Hotels images field (multiple images)
+                $images = json_decode($item->images, true); 
+            }
+    
+            $imageUrl = null;
+            if ($images && is_array($images) && count($images) > 0) {
+                // Use the first image from the array
+                $imageUrl = asset(reset($images));  // Get the URL for the first image
+            }
+    
             return [
                 'id' => $item->id,
                 'name' => $item->package_name ?? $item->name,
                 'cities' => $cities,
-                'image_url' => $imageUrl,
+                'image_url' => $imageUrl,  // URL of the first image
                 'show_front' => $item->show_front,
             ];
         });
