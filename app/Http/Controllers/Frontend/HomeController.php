@@ -357,8 +357,8 @@ if ($popularCities->isEmpty()) {
                 $query
                 // ->where('display_cost', '>=', $min_price)
                 //       ->where('display_cost', '<=', $max_price)
-                      ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
-                      ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
+                      ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', $min_price)
+                      ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', $max_price);
             });
         }
     
