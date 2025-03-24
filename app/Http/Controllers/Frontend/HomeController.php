@@ -351,12 +351,13 @@ if ($popularCities->isEmpty()) {
             $query->whereIn('city_name', $selectedCities);
         });
     }
-    
-    // Apply price filter to the package query if the min/max price is provided
+    $formatted_date = Carbon::now()->format('Y-m-d');
     if ($min_price > 0 || $max_price < 10000000) {
-        $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price) {
+        $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price, $formatted_date) {
             // Apply price filters using WHERE clauses
-            $query->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+            $query->where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)->
+            whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
                   ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
         });
     }
