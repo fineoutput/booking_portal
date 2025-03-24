@@ -2446,62 +2446,116 @@ public function getLanguages(Request $request)
     //     }
     // }
 
-
     public function popularCity(Request $request)
     {
-
-        $popularCities = DB::table('package_booking')
-            ->selectRaw('count(*) as bookings_count, package.city_id')
-            ->join('package', 'package_booking.package_id', '=', 'package.id')
-            ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
-            ->groupBy('package.city_id')
-            ->orderByDesc('bookings_count')
-            ->get(); 
-
-        $hotelBookings = DB::table('hotel_booking_2') 
-            ->selectRaw('count(*) as bookings_count, hotels.city_id')
-            ->join('hotels', 'hotel_booking_2.hotel_id', '=', 'hotels.id')
-            ->join('all_cities', 'hotels.city_id', '=', 'all_cities.id')
-            ->groupBy('hotels.city_id')
-            ->get(); 
+        $request->validate([
+            'type' => 'required',
+        ]);
     
-        $safariBookings = DB::table('wildlife_safari_order_2')
-            ->selectRaw('count(*) as bookings_count, wildlife_safari.city_id')
-            ->join('wildlife_safari', 'wildlife_safari_order_2.safari_id', '=', 'wildlife_safari.id')
-            ->join('all_cities', 'wildlife_safari.city_id', '=', 'all_cities.id')
-            ->groupBy('wildlife_safari.city_id')
-            ->get();
-
-        $allCities = $popularCities->merge($hotelBookings)->merge($safariBookings);
+        $type = $request->input('type'); 
     
-        if ($allCities->isEmpty()) {
-            return response()->json([
-                'message' => 'No bookings found.',
-                'data' => [],
-                'status' => 404,
-            ]);
+        if ($type == 'package') {
+            // Eager load cities with the package
+            $data = Package::where('show_front', 1)
+                ->with('cities')  // Eager load cities
+                ->get();
+        } elseif ($type == 'hotel') {
+            // Eager load cities with the hotel
+            $data = Hotels::where('show_front', 1)
+                ->with('cities')  // Eager load cities
+                ->get();
+        } else {
+            return response()->json(['error' => 'Invalid type'], 400);
         }
     
-        $groupedCities = $allCities->groupBy('city_id')->map(function ($cities) {
-            return $cities->sum('bookings_count');
-        });
-    
-        $sortedCities = $groupedCities->sortDesc();
-    
-        $responseCities = $sortedCities->map(function ($bookingsCount, $cityId) {
-            $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
+        $responseData = $data->map(function ($item) {
+            // return $item;
+            // $city_ids = $item->city_id->implode(', ');
+            $cities = $item->cities->city_name ?? ''; 
+            $images = json_decode($item->image, true); 
+        $imageUrl = null;
+        if ($images && is_array($images) && count($images) > 0) {
+            // Use the first image from the array
+            $imageUrl = asset(reset($images));  // Get the URL for the first image
+        }
+
             return [
-                'city_name' => $cityName,
-                'bookings_count' => $bookingsCount,
+                'id' => $item->id,
+                'name' => $item->package_name ?? $item->name,
+                'cities' => $cities,
+                'image_url' => $imageUrl,
+                'show_front' => $item->show_front,
             ];
         });
     
         return response()->json([
-            'message' => 'Most popular cities fetched successfully.',
-            'data' => $responseCities->values(),
-            'status' => 200,
+            'message' => 'Data fetched successfully',
+            'success' => 200,
+            'data' => $responseData
         ]);
     }
+    
+    
+
+
+
+
+
+    // public function popularCity(Request $request)
+    // {
+
+    //     $popularCities = DB::table('package_booking')
+    //         ->selectRaw('count(*) as bookings_count, package.city_id')
+    //         ->join('package', 'package_booking.package_id', '=', 'package.id')
+    //         ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
+    //         ->groupBy('package.city_id')
+    //         ->orderByDesc('bookings_count')
+    //         ->get(); 
+
+    //     $hotelBookings = DB::table('hotel_booking_2') 
+    //         ->selectRaw('count(*) as bookings_count, hotels.city_id')
+    //         ->join('hotels', 'hotel_booking_2.hotel_id', '=', 'hotels.id')
+    //         ->join('all_cities', 'hotels.city_id', '=', 'all_cities.id')
+    //         ->groupBy('hotels.city_id')
+    //         ->get(); 
+    
+    //     $safariBookings = DB::table('wildlife_safari_order_2')
+    //         ->selectRaw('count(*) as bookings_count, wildlife_safari.city_id')
+    //         ->join('wildlife_safari', 'wildlife_safari_order_2.safari_id', '=', 'wildlife_safari.id')
+    //         ->join('all_cities', 'wildlife_safari.city_id', '=', 'all_cities.id')
+    //         ->groupBy('wildlife_safari.city_id')
+    //         ->get();
+
+    //     $allCities = $popularCities->merge($hotelBookings)->merge($safariBookings);
+    
+    //     if ($allCities->isEmpty()) {
+    //         return response()->json([
+    //             'message' => 'No bookings found.',
+    //             'data' => [],
+    //             'status' => 404,
+    //         ]);
+    //     }
+    
+    //     $groupedCities = $allCities->groupBy('city_id')->map(function ($cities) {
+    //         return $cities->sum('bookings_count');
+    //     });
+    
+    //     $sortedCities = $groupedCities->sortDesc();
+    
+    //     $responseCities = $sortedCities->map(function ($bookingsCount, $cityId) {
+    //         $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
+    //         return [
+    //             'city_name' => $cityName,
+    //             'bookings_count' => $bookingsCount,
+    //         ];
+    //     });
+    
+    //     return response()->json([
+    //         'message' => 'Most popular cities fetched successfully.',
+    //         'data' => $responseCities->values(),
+    //         'status' => 200,
+    //     ]);
+    // }
     
     
 
