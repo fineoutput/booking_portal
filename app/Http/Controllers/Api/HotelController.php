@@ -877,6 +877,99 @@ public function vehicle(Request $request)
 
 
 
+// public function statecityhotel(Request $request)
+// {
+//     $token = $request->bearerToken();
+
+//     if (!$token) {
+//         return response()->json([
+//             'message' => 'Unauthenticated.',
+//             'data' => [],
+//             'status' => 201,
+//         ], 401);
+//     }
+
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
+
+//     $user = Agent::where('email', $email)->first();
+
+//     if ($user && $password == $user->password) {
+//         // Get state_id and city_id from the request
+//         $stateId = $request->input('state_id');
+//         $cityId = $request->input('city_id');
+//         $start_date = $request->input('start_date');
+//         $end_date = $request->input('end_date');
+
+        
+//         $hotelsQuery = Hotels::query();
+
+//         // Filter by state_id if provided
+//         if ($stateId) {
+//             $hotelsQuery->where('state_id', $stateId);
+//         }
+
+//         // Filter by city_id if provided
+//         if ($cityId) {
+//             $hotelsQuery->where('city_id', $cityId);
+//         }
+
+//         $hotels = $hotelsQuery->get();
+
+//         $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
+//         $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
+
+//         $hotel_ids = $hotels->pluck('id');
+
+//         $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+//                                 ->where('start_date', '<=', $formatted_start_date)
+//                                 ->where('end_date', '>=', $formatted_end_date);
+
+//         $hotelsData = $hotels->map(function($hotel) {
+//             $baseUrl = url('');
+            
+//             $stateName = $hotel->state ? $hotel->state->state_name : null;
+//             $cityName = $hotel->cities ? $hotel->cities->city_name : null;
+
+//             $hotelPrices = $hotel->prices;
+
+//             $pricesData = $hotelPrices->map(function($price) {
+//                 return [
+//                     'id' => $price->id,
+//                     'night_cost' => $price->night_cost,
+//                     'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+//                     'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+//                 ];
+//             });
+
+//             return [
+//                 'id' => $hotel->id,
+//                 'name' => $hotel->name,
+//                 'state' => $stateName, 
+//                 'city' => $cityName, 
+//                 'images' => $this->generateImageUrls($hotel->images, $baseUrl),
+//                 'location' => $hotel->location,
+//                 'hotel_category' => $hotel->hotel_category,
+//                 'package_id' => $hotel->package_id,
+//                 'prices' => $pricesData,  
+//             ];
+//         });
+
+//         return response()->json([
+//             'message' => 'Hotels fetched successfully.',
+//             'data' => $hotelsData,
+//             'status' => 200
+//         ], 200);
+//     }
+
+//     return response()->json([
+//         'message' => 'Unauthenticated',
+//         'data' => [],
+//         'status' => 201,
+//     ], 401);
+// }
+
+
 public function statecityhotel(Request $request)
 {
     $token = $request->bearerToken();
@@ -885,7 +978,7 @@ public function statecityhotel(Request $request)
         return response()->json([
             'message' => 'Unauthenticated.',
             'data' => [],
-            'status' => 201,
+            'status' => 401,
         ], 401);
     }
 
@@ -898,8 +991,9 @@ public function statecityhotel(Request $request)
         // Get state_id and city_id from the request
         $stateId = $request->input('state_id');
         $cityId = $request->input('city_id');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
 
-        // Query the hotels based on state_id and city_id
         $hotelsQuery = Hotels::query();
 
         // Filter by state_id if provided
@@ -914,35 +1008,54 @@ public function statecityhotel(Request $request)
 
         $hotels = $hotelsQuery->get();
 
-        $hotelsData = $hotels->map(function($hotel) {
-            $baseUrl = url('');
-            
-            $stateName = $hotel->state ? $hotel->state->state_name : null;
-            $cityName = $hotel->cities ? $hotel->cities->city_name : null;
+        $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
+        $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
 
-            $hotelPrices = $hotel->prices;
+        // Get hotel ids for price querying
+        $hotel_ids = $hotels->pluck('id');
 
-            $pricesData = $hotelPrices->map(function($price) {
+        // Fetch hotel prices within the given date range
+        $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+                                        ->where('start_date', '<=', $formatted_start_date)
+                                        ->where('end_date', '>=', $formatted_end_date)
+                                        ->get();
+
+        // If no hotel prices are found, set hotels data to null
+        $hotelsData = [];
+
+        // If there are hotels and prices found, proceed to map data
+        if ($hotel_prices_query->isNotEmpty()) {
+            $hotelsData = $hotels->map(function ($hotel) use ($hotel_prices_query) {
+                $baseUrl = url('');
+                
+                $stateName = $hotel->state ? $hotel->state->state_name : null;
+                $cityName = $hotel->cities ? $hotel->cities->city_name : null;
+
+                // Filter the prices related to the current hotel
+                $hotelPrices = $hotel_prices_query->where('hotel_id', $hotel->id);
+
+                $pricesData = $hotelPrices->map(function($price) {
+                    return [
+                        'id' => $price->id,
+                        'night_cost' => $price->night_cost,
+                        'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+                        'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                    ];
+                });
+
                 return [
-                    'id' => $price->id,
-                    'night_cost' => $price->night_cost,
-                    'start_date' => Carbon::parse($price->start_date)->format('F Y'),
-                    'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                    'id' => $hotel->id,
+                    'name' => $hotel->name,
+                    'state' => $stateName, 
+                    'city' => $cityName, 
+                    'images' => $this->generateImageUrls($hotel->images, $baseUrl),
+                    'location' => $hotel->location,
+                    'hotel_category' => $hotel->hotel_category,
+                    'package_id' => $hotel->package_id,
+                    'prices' => $pricesData,
                 ];
             });
-
-            return [
-                'id' => $hotel->id,
-                'name' => $hotel->name,
-                'state' => $stateName, 
-                'city' => $cityName, 
-                'images' => $this->generateImageUrls($hotel->images, $baseUrl),
-                'location' => $hotel->location,
-                'hotel_category' => $hotel->hotel_category,
-                'package_id' => $hotel->package_id,
-                'prices' => $pricesData,  
-            ];
-        });
+        }
 
         return response()->json([
             'message' => 'Hotels fetched successfully.',
@@ -954,10 +1067,32 @@ public function statecityhotel(Request $request)
     return response()->json([
         'message' => 'Unauthenticated',
         'data' => [],
-        'status' => 201,
+        'status' => 401,
     ], 401);
 }
 
+
+public function hotelcitys(Request $request)
+{
+    // Get the current date in the required format
+    $formatted_date = Carbon::now()->format('Y-m-d');
+    
+    // Get hotels that have valid prices for today
+    $hotels = Hotels::get();
+
+    // Get unique city_ids from the hotels that have valid prices for today
+    $cityIds = $hotels->pluck('city_id')->unique();
+
+    // Fetch city names based on the unique city_ids from the Cities table
+    $cities = City::whereIn('id', $cityIds)->get();
+
+    // Return response with city data
+    return response()->json([
+        'message' => 'Cities fetched successfully.',
+        'data' => $cities,
+        'status' => 200,
+    ]);
+}
 
  
 // public function hotelBooking(Request $request) {

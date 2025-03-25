@@ -37,6 +37,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/languages', [HotelController::class, 'getLanguages']);
     Route::get('/filter-state-city', [SafariController::class, 'filterStateCity']);
     Route::post('/hotel-state-city', [HotelController::class, 'statecityhotel']);
+    Route::get('/hotel-city', [HotelController::class, 'hotelcitys']);
     Route::post('/hotel-booking', [HotelController::class, 'hotelbooking']);
     Route::post('/package-search', [HotelController::class, 'packagesearch']);
     Route::post('/add-wallet', [HotelController::class, 'add_wallet']);
