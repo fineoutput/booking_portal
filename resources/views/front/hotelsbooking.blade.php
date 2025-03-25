@@ -10,27 +10,37 @@
         <div class="filter-label_hotels">Destination</div>
         <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
-
-          <form action="" method="POST" id="filter-form">
-            @csrf
-        
-            @foreach($cities as $value)
-            <div class="city_list_htotle">
-                <div class="sizemaze">
-                    <!-- Image representing the city -->
-                    <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+            <form action="" method="POST" id="filter-form">
+                @csrf
+                
+                <!-- Add search input -->
+                <div class="search-container" style="padding: 10px;">
+                    <input type="text" id="city-search" placeholder="Search cities..." style="width: 100%; padding: 5px;">
                 </div>
-                <div class="hotel_place">
-                    <!-- Input field for the city selection -->
-                    <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
-                    <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
-                    <span class="hotels_spn"></span>
+    
+                <!-- Container for city list -->
+                <div id="city-list-container">
+                    @foreach($cities as $value)
+                    <div class="city_list_htotle" data-city-name="{{ strtolower($value->city_name ?? '') }}">
+                        <div class="sizemaze">
+                            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+                        </div>
+                        <div class="hotel_place">
+                            <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+                            <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
+                            <span class="hotels_spn"></span>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
-            </div>
-            @endforeach
-            
+                
+                <!-- No results message -->
+                <div id="no-results" style="display: none; padding: 10px; text-align: center;">
+                    No city found
+                </div>
+            </form>
         </div>
-      </div>
+    </div>
 
       <!-- Check-in Date -->
       <div class="filter-item_hotels sachi">
@@ -77,7 +87,7 @@
           </div>
         </div>
       </div>
-      <button type="submit" style="border: none">
+      <button type="submit" style="border: none; background: none;">
       <div class="search_sba">
         <div class="sba_center_Sarch">
         <a href="#">  

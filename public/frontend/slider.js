@@ -79,3 +79,43 @@
         }
     }).mount();
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('city-search');
+    const cityListContainer = document.getElementById('city-list-container');
+    const cityItems = cityListContainer.getElementsByClassName('city_list_htotle');
+    const noResults = document.getElementById('no-results');
+
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        let hasVisibleItems = false;
+
+        // Loop through all city items
+        Array.from(cityItems).forEach(item => {
+            const cityName = item.getAttribute('data-city-name');
+            const isMatch = cityName.includes(searchTerm);
+            
+            item.style.display = isMatch ? 'block' : 'none';
+            if (isMatch) hasVisibleItems = true;
+        });
+
+        // Show/hide no results message
+        noResults.style.display = hasVisibleItems ? 'none' : 'block';
+    });
+
+    // Prevent form submission on enter key in search input
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+        }
+    });
+});
+
+// Assuming you already have this function or similar
+function selectDestination(cityId) {
+    // Your existing destination selection logic
+    const selectedCity = document.querySelector(`#city_${cityId} + .city-label`).textContent;
+    document.getElementById('destination-value').textContent = selectedCity;
+    // Add any other logic you need when a city is selected
+}
