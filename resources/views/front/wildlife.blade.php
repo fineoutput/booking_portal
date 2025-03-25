@@ -15,8 +15,7 @@
                 @csrf
                 
                 <!-- Add search input -->
-                <div class="search-container" style="padding: 10px;">
-                </div>
+
     
                 <!-- Container for city list -->
                 <div id="city-list-container">
@@ -33,12 +32,7 @@
                     </div>
                     @endforeach
                 </div>
-                
-                <!-- Noo results message -->
-                <div id="no-results" style="display: none; padding: 10px; text-align: center;">
-                    No city found
-                </div>
-            </form>
+
         </div>
       </div>
 
@@ -120,6 +114,7 @@
     </button>
 
       </form>
+
     </div>
   </div>
 </section>
