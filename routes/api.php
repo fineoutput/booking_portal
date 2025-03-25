@@ -42,6 +42,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/add-wallet', [HotelController::class, 'add_wallet']);
 
     Route::post('/add-tourist', [HotelController::class, 'add_tourist']);
+    Route::post('/tourist-list', [HotelController::class, 'tourist_list']);
 
     Route::get('/user-wallet', [HotelController::class, 'get_user_transactions']);
     Route::get('/admin-city', [HotelController::class, 'admin_city']);
