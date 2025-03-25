@@ -153,8 +153,9 @@
                     <p>Can’t find tours from your city? Check our Joining & leaving option. Book your own flights and join directly at the first destination of the tour.</p>
                 </div>
             </div>
-            
+            <div class="d-flex justify-content-center ">
             <button class="_btn" type="submit ">Apply Filter</button>
+          </div>
         </form>
         
         
@@ -377,7 +378,9 @@
 
   // Initialize values
   minThumb.style.left = '0%';
+  minThumb.style.top = '0%';
   maxThumb.style.left = '100%';
+  maxThumb.style.top = '0%';
   updateValues();
 </script>
 @endsection
