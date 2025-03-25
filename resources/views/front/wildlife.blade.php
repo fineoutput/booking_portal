@@ -7,8 +7,8 @@
     <div class="search-header_hotels">
       <!-- Destination Dropdown -->
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-        <div class="filter-label_hotels">State</div>
-        <div class="filter-value_hotels" id="destination-value">Choose the state?</div>
+        <div class="filter-label_hotels">Destination</div>
+        <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
 
           <form action="" method="POST" id="filter-form">
@@ -30,7 +30,7 @@
           @endforeach
  
         </div>
-      </div>
+    </div>
 
       <!-- Check-in Date -->
       {{-- <div class="filter-item_hotels sachi">

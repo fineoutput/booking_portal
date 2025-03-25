@@ -185,9 +185,9 @@
         @if(Auth::guard('agent')->check())
 
         @else
-        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li> --}}
         @endif
-        <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li>
+        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li> --}}
         <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('hotelsbooking') }}">Hotels</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('wildlife') }}">Safari</a></li>
