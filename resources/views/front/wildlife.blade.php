@@ -15,7 +15,7 @@
                 
                 <!-- Add search input -->
                 <div class="search-container" style="padding: 10px;">
-                    <input type="text" id="city-search" placeholder="Search cities..." style="width: 100%; padding: 5px;">
+                    {{-- <input type="text" id="city-search" placeholder="Search cities..." style="width: 100%; padding: 5px;"> --}}
                 </div>
     
                 <!-- Container for city list -->
