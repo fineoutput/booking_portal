@@ -1274,7 +1274,7 @@ if ($max_price) {
         $safari_data = $safari_query->get();
 
         // Prepare data for the view
-        $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+        $slider = Slider::orderBy('id', 'DESC')->where('type', 'safari')->get();
 
         // Prepare data for the view
         $data = [
