@@ -110,6 +110,7 @@ class HomeController extends Controller
         $package->hotels = $hotels;
     }
 
+
     // $popularCities = DB::table('package_booking')
     // ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
     // ->join('package', 'package_booking.package_id', '=', 'package.id')
@@ -118,82 +119,49 @@ class HomeController extends Controller
     // ->groupBy('package.city_id', 'package_booking.package_temp_id')
     // ->orderByDesc('bookings_count')
     // ->get();
+    $data['popularCities'] = Package::where('show_front',1)->get();
+    $data['popularhotels'] = Hotels::where('show_front',1)->get();
+// if ($popularCities->isEmpty()) {
+//     $data['popularCities'] = [];
+// } else {
+//     // Group by city_id and sum the bookings count for each city
+//     $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
+//         // Sum the bookings count across all packages for each city
+//         return $cities->sum('bookings_count');
+//     });
 
-    // if ($popularCities->isEmpty()) {
-    //     $data['popularCities'] = [];
-    // } else {
-    //     $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
-    //         return $cities->sum('bookings_count');
-    //     });
+//     // Sort cities by the summed bookings count in descending order
+//     $sortedCities = $groupedCities->sortDesc();
 
-    //     $sortedCities = $groupedCities->sortDesc();
+//     $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
+//         // Get the first entry for each city (after grouping) for details
+//         $city = $popularCities->firstWhere('city_id', $cityId);
 
-    //     $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
-    //         $city = $popularCities->firstWhere('city_id', $cityId);
+//         // Get the adult count for this city's package
+//         $adultCount = \DB::table('package_booking_temp')
+//             ->where('id', $city->package_temp_id)
+//             ->value('adults_count'); 
 
-    //         $adultCount = \DB::table('package_booking_temp')
-    //             ->where('id', $city->package_temp_id)
-    //             ->value('adults_count'); 
+//         // Get the city name
+//         $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
 
-    //         $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
-    //         return [
-    //             'city_name' => $cityName,
-    //             'bookings_count' => $bookingsCount,
-    //             'adults_count' => $adultCount,
-    //         ];
-    //     })->values();
-    // }
-
-    $popularCities = DB::table('package_booking')
-    ->selectRaw('count(*) as bookings_count, package.city_id, package_booking.package_temp_id')
-    ->join('package', 'package_booking.package_id', '=', 'package.id')
-    ->join('all_cities', 'package.city_id', '=', 'all_cities.id')
-    ->join('package_booking_temp', 'package_booking.package_temp_id', '=', 'package_booking_temp.id')
-    ->groupBy('package.city_id', 'package_booking.package_temp_id')
-    ->orderByDesc('bookings_count')
-    ->get();
-
-if ($popularCities->isEmpty()) {
-    $data['popularCities'] = [];
-} else {
-    // Group by city_id and sum the bookings count for each city
-    $groupedCities = $popularCities->groupBy('city_id')->map(function ($cities) {
-        // Sum the bookings count across all packages for each city
-        return $cities->sum('bookings_count');
-    });
-
-    // Sort cities by the summed bookings count in descending order
-    $sortedCities = $groupedCities->sortDesc();
-
-    $data['popularCities'] = $sortedCities->map(function ($bookingsCount, $cityId) use ($popularCities) {
-        // Get the first entry for each city (after grouping) for details
-        $city = $popularCities->firstWhere('city_id', $cityId);
-
-        // Get the adult count for this city's package
-        $adultCount = \DB::table('package_booking_temp')
-            ->where('id', $city->package_temp_id)
-            ->value('adults_count'); 
-
-        // Get the city name
-        $cityName = \DB::table('all_cities')->where('id', $cityId)->value('city_name');
-
-        // Decode the image field (assuming it was stored as an escaped JSON string)
-        $image = \DB::table('package')->where('city_id', $cityId)->value('image');
+//         // Decode the image field (assuming it was stored as an escaped JSON string)
+//         $image = \DB::table('package')->where('city_id', $cityId)->value('image');
         
-        // Decode the HTML entities and JSON string
-        $decodedImage = json_decode(html_entity_decode($image), true);
+//         // Decode the HTML entities and JSON string
+//         $decodedImage = json_decode(html_entity_decode($image), true);
         
-        // Extract the image URL from the decoded array (assuming it's the first element)
-        $imageUrl = $decodedImage['1'] ?? '';
+//         // Extract the image URL from the decoded array (assuming it's the first element)
+//         $imageUrl = $decodedImage['1'] ?? '';
 
-        return [
-            'city_name' => $cityName,
-            'bookings_count' => $bookingsCount,
-            'adults_count' => $adultCount,
-            'image' => $imageUrl, // Use the decoded image URL
-        ];
-    })->values();
-}
+//         return [
+//             'city_name' => $cityName,
+//             'bookings_count' => $bookingsCount,
+//             'adults_count' => $adultCount,
+//             'image' => $imageUrl, // Use the decoded image URL
+//         ];
+//     })->values();
+// }
 
 
 
@@ -326,66 +294,70 @@ if ($popularCities->isEmpty()) {
 
 
     public function state_detail($id, Request $request)
-    {
-        $id = base64_decode($id);
+{
+    $id = base64_decode($id);
     
-        $min_price = $request->input('min_price', 0); 
-        $max_price = $request->input('max_price', 10000000); 
+    // Get min and max price from request
+    $min_price = $request->input('min_price', 0); 
+    $max_price = $request->input('max_price', 10000000); 
     
-        if (!is_numeric($id)) {
-            abort(404, 'Invalid State ID');
-        }
-    
-        $data['city'] = $id;
-    
-        // Start building the query for the packages
-        $query = Package::where('state_id', $id);
-    
-        // Check if any cities were selected in the form
-        $selectedCities = $request->input('cities', []);
-        
-        // If cities were selected, filter the packages by those cities
-        if (!empty($selectedCities)) {
-            $query->whereHas('cities', function ($query) use ($selectedCities) {
-                $query->whereIn('city_name', $selectedCities);
-            });
-        }
-    
-        // Apply price filter to the package query if the min/max price is provided
-        if ($min_price > 0 || $max_price < 10000000) {
-            $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price) {
-                $query->where('display_cost', '>=', $min_price)
-                      ->where('display_cost', '<=', $max_price);
-            });
-        }
-    
-        // Get the filtered packages
-        $data['packages'] = $query->get();
-    
-        // Fetch sliders
-        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
-    
-        // Get the current date for price filtering
-        $formatted_date = Carbon::now()->format('Y-m-d');
-    
-        foreach ($data['packages'] as $package) {
-            // Get the price for the current package within the date range
-            $package_price = PackagePrice::where('package_id', $package->id)
-                ->where('start_date', '<=', $formatted_date)
-                ->where('end_date', '>=', $formatted_date)
-                ->first();
-    
-            $package->prices = $package_price;
-    
-            // Get the hotels associated with the package
-            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
-            
-            $package->hotels = $hotels;
-        }
-    
-        // Return the filtered data to the view
-        return view('front/state_detail', $data);
+    if (!is_numeric($id)) {
+        abort(404, 'Invalid State ID');
     }
+    
+    $data['city'] = $id;
+    
+    // Start building the query for the packages
+    $query = Package::where('state_id', $id);
+    
+    // Check if any cities were selected in the form
+    $selectedCities = $request->input('cities', []);
+    
+    // If cities were selected, filter the packages by those cities
+    if (!empty($selectedCities)) {
+        $query->whereHas('cities', function ($query) use ($selectedCities) {
+            $query->whereIn('city_name', $selectedCities);
+        });
+    }
+    $formatted_date = Carbon::now()->format('Y-m-d');
+    if ($min_price > 0 || $max_price < 10000000) {
+        $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price, $formatted_date) {
+            // Apply price filters using WHERE clauses
+            $query->where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)->
+            whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+                  ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
+        });
+    }
+    
+    // Get the filtered packages
+    $data['packages'] = $query->get();
+    
+    // Fetch sliders
+    $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
+    
+    // Get the current date for price filtering
+    $formatted_date = Carbon::now()->format('Y-m-d');
+    
+    foreach ($data['packages'] as $package) {
+        // Get the price for the current package within the date range
+        $package_price = PackagePrice::where('package_id', $package->id)
+            ->where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)
+            ->first();
+        
+        $package->prices = $package_price;
+        
+        // Get the hotels associated with the package
+        $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+        
+        $package->hotels = $hotels;
+    }
+    
+    // Return the filtered data to the view
+    return view('front.state_detail', $data);
+}
+
     
     
 
@@ -409,6 +381,7 @@ if ($popularCities->isEmpty()) {
 
             $data['user']->load('cities', 'state');
 
+            $data['booking'] = PackageBooking::with('tourists')->where('user_id', $data['user']->id)->get();
             $data['booking'] = PackageBooking::with('tourists')->where('user_id', $data['user']->id)->get();
             
             $user_id = Auth::guard('agent')->id();
@@ -822,31 +795,86 @@ public function getVehiclesByCity($cityId)
     }
 
 
+    // public function list($id)
+    // {
+    //     $id = base64_decode($id);
+        
+    //     $city['city'] = City::where('id', $id)->first();
+    
+    //     $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
+    //     $data['slider'] = Slider::orderBy('id','DESC')->where('type','package')->get();
+    
+    //     $formatted_date = Carbon::now()->format('Y-m-d');
+    
+    //     foreach ($data['packages'] as $package) {
+    //         $package_price = PackagePrice::where('package_id', $package->id)
+    //             ->where('start_date', '<=', $formatted_date)
+    //             ->where('end_date', '>=', $formatted_date)
+    //             ->first();
+    
+    //         $package->prices = $package_price;
+    
+    //         $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+            
+    //         $package->hotels = $hotels;
+    //     }
+    //     return view('front.list', $data);
+    // }
+
     public function list($id)
     {
         $id = base64_decode($id);
         
+        // Fetch the city
         $city['city'] = City::where('id', $id)->first();
-    
-        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])->get();
-        $data['slider'] = Slider::orderBy('id','DESC')->where('type','package')->get();
-    
+        
+        // Capture the min and max price from the request
+        $min_price = request()->input('min_price', 0); // Default to 0 if not provided
+        $max_price = request()->input('max_price', 100000); // Default to a high value if not provided
+        
+        // Fetch the packages based on the city and price range
+        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])
+            ->whereHas('packagePrices', function($query) use ($min_price, $max_price) {
+                $query->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])  
+                      ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]); 
+            })
+            ->get();
+        
+        // Fetch the slider
+        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
+        
+        // Get the current date
         $formatted_date = Carbon::now()->format('Y-m-d');
-    
+        
+        // Loop through each package to get the prices and hotels
         foreach ($data['packages'] as $package) {
+            // Fetch the package price within the date range
             $package_price = PackagePrice::where('package_id', $package->id)
                 ->where('start_date', '<=', $formatted_date)
                 ->where('end_date', '>=', $formatted_date)
+                ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])  
+                ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price])  // Apply max price filter
                 ->first();
-    
-            $package->prices = $package_price;
-    
+            
+            // If there is a price, add it to the package
+            if ($package_price) {
+                $package->prices = $package_price;
+            } else {
+                $package->prices = null; // No price found
+            }
+            
+            // Fetch hotels related to this package
             $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
             
+            // Add hotels to the package
             $package->hotels = $hotels;
         }
+        
+        // Return the view with the filtered data
         return view('front.list', $data);
     }
+    
+    
     
 
 
@@ -907,150 +935,74 @@ public function getVehiclesByCity($cityId)
 
    
 
-public function filterHotels(Request $request)
-{
-    // Retrieve the parameters from the URL query string
-    $city_id = $request->query('city_id');
-    $start_date = $request->query('start_date');
-    $end_date = $request->query('end_date');
-    $min_price = $request->query('min_price');  // Min price from the form
-    $max_price = $request->query('max_price');  // Max price from the form
+  public function filterHotels(Request $request)
+    {
+        // Retrieve the parameters from the URL query string
+        $city_id = $request->query('city_id');
+        $start_date = $request->query('start_date');
+        $end_date = $request->query('end_date');
+        $min_price = $request->query('min_price');  // Min price from the form
+        $max_price = $request->query('max_price');  // Max price from the form
 
-    // Query to get all hotels
-    $query = Hotels::query();
+        // Query to get all hotels
+        $query = Hotels::query();
 
-    // If a city_id is provided, filter by city
-    if ($city_id) {
-        $query = $query->where('city_id', $city_id);
+        // If a city_id is provided, filter by city
+        if ($city_id) {
+            $query = $query->where('city_id', $city_id);
+        }
+
+        $hotels = $query->get();
+
+        $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
+        $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
+
+        $hotel_ids = $hotels->pluck('id');
+
+        $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+                                ->where('start_date', '<=', $formatted_start_date)
+                                ->where('end_date', '>=', $formatted_end_date);
+
+// If min_price is provided, filter by min price
+if ($min_price) {
+    $hotel_prices_query = $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
+}
+
+// If max_price is provided, filter by max price
+if ($max_price) {
+    $hotel_prices_query = $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
+}
+
+        $hotel_prices = $hotel_prices_query->get()->keyBy('hotel_id');
+
+        $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices) {
+            return isset($hotel_prices[$hotel->id]) && $hotel_prices[$hotel->id]->night_cost >= request()->query('min_price', 0) && $hotel_prices[$hotel->id]->night_cost <= request()->query('max_price', 1000000);
+        });
+
+
+        $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+
+        // Prepare data for the view
+        $data = [
+            'hotels' => $filtered_hotels, // Only pass the filtered hotels
+            'hotel_prices' => $hotel_prices,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'slider' => $slider,
+            'city_id' => $city_id,  // Include city_id for re-populating the filter form
+            'min_price' => $min_price,  // Pass min_price to the view
+            'max_price' => $max_price,  // Pass max_price to the view
+        ];
+
+        // Return the updated filtered hotel list view with the necessary data
+        return view('front.hotel_list', $data);
     }
 
-    // Fetch all hotels based on the query filters
-    $hotels = $query->get();
 
-    // Format the dates into 'Y-m-d' format
-    $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
-    $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
-
-    // Get the hotel IDs of the filtered hotels
-    $hotel_ids = $hotels->pluck('id');
-
-    // $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
-    //                                 ->where('start_date', '<=', $formatted_start_date)
-    //                                 ->where('end_date', '>=', $formatted_end_date);
-
-    //                                 // return $hotel_prices_query;
-
-    // if (!empty($min_price)) {
-    //     $hotel_prices_query = $hotel_prices_query->where('night_cost', '>=', $min_price);
-    // }
-
-    // if (!empty($max_price)) {
-    //     $hotel_prices_query = $hotel_prices_query->where('night_cost', '<=', $max_price);
-    // }
-    $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
-                                ->where('start_date', '<=', $formatted_start_date)
-                                ->where('end_date', '>=', $formatted_end_date)
-                                ->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price])
-                                ->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
-
-    $hotel_prices = $hotel_prices_query->get()->keyBy('hotel_id');
-
-    $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices) {
-        return isset($hotel_prices[$hotel->id]) && $hotel_prices[$hotel->id]->night_cost >= request()->query('min_price', 0) && $hotel_prices[$hotel->id]->night_cost <= request()->query('max_price', 1000000);
-    });
-
-
-    $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
-
-    // Prepare data for the view
-    $data = [
-        'hotels' => $filtered_hotels, // Only pass the filtered hotels
-        'hotel_prices' => $hotel_prices,
-        'start_date' => $start_date,
-        'end_date' => $end_date,
-        'slider' => $slider,
-        'city_id' => $city_id,  // Include city_id for re-populating the filter form
-        'min_price' => $min_price,  // Pass min_price to the view
-        'max_price' => $max_price,  // Pass max_price to the view
-    ];
-
-    // Return the updated filtered hotel list view with the necessary data
-    return view('front.hotel_list', $data);
-}
+  
     
     
 
-//     public function filterHotels(Request $request)
-// {
-//     // Retrieve the parameters from the URL query string
-//     $city_id = $request->query('city_id');
-//     $start_date = $request->query('start_date');
-//     $end_date = $request->query('end_date');
-//     $min_price = $request->query('min_price');  // Min price from the form
-//     $max_price = $request->query('max_price');  // Max price from the form
-
-//     // Query to get all hotels
-//     $query = Hotels::query();
-    
-//     // If a city_id is provided, filter by city
-//     if ($city_id) {
-//         $query = $query->where('city_id', $city_id);
-//     }
-
-//     // Fetch all hotels based on the query filters
-//     $hotels = $query->get();
-
-//     // Format the dates into 'Y-m-d' format
-//     $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
-//     $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
-
-//     // Get the hotel IDs of the filtered hotels
-//     $hotel_ids = $hotels->pluck('id');
-
-//     // Initialize the hotel prices query
-//     $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
-//                                     ->where('start_date', '<=', $formatted_start_date)
-//                                     ->where('end_date', '>=', $formatted_end_date);
-
-//     // If min_price is provided, filter by min price
-//     if ($min_price) {
-//         $hotel_prices_query = $hotel_prices_query->where('night_cost', '>=', $min_price);
-//     }
-
-//     // If max_price is provided, filter by max price
-//     if ($max_price) {
-//         $hotel_prices_query = $hotel_prices_query->where('night_cost', '<=', $max_price);
-//     }
-
-//     // Get the hotel prices after applying price filters
-//     $hotel_prices = $hotel_prices_query->get()->keyBy('hotel_id');
-
-//     // Retrieve all sliders of type 'hotel' for the filter page
-//     $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
-
-    
-//     $data = [
-//         'hotels' => $hotels,
-//         'hotel_prices' => $hotel_prices,
-//         'start_date' => $start_date,
-//         'end_date' => $end_date,
-//         'slider' => $slider,
-//         'city_id' => $city_id,  // Include city_id for re-populating the filter form
-//         'min_price' => $min_price,  // Pass min_price to the view
-//         'max_price' => $max_price,  // Pass max_price to the view
-//     ];
-
-//     // Return the updated filtered hotel list view with the necessary data
-//     return view('front.hotel_list', $data);
-// }
-
-
-
-    // public function hotel_list()
-    // {
-    //     return view('front/hotel_list');
-    // }
-    
 
 
     public function hotel_details(Request $request, $id)
@@ -1298,6 +1250,56 @@ public function filterHotels(Request $request)
         $data['slider'] = Slider::orderBy('id','DESC')->where('type','safari')->get();
         return view('front/wildlife',$data);
     }
+
+    public function filtersafari(Request $request)
+    {
+
+        $city_id = $request->query('city_id');
+        $timing_value = $request->query('time');
+        // return $timing_value;
+
+        $min_price = $request->query('min_price');  // Min price from the form
+        $max_price = $request->query('max_price');  // Max price from the form
+
+        // Initialize the query for WildlifeSafari
+        $safari_query = WildlifeSafari::where('city_id', $city_id)
+        ->where('timings', 'LIKE', "%{$timing_value}%");
+
+        if ($min_price) {
+            $safari_query = $safari_query->whereRaw('CAST(cost AS UNSIGNED) >= ?', [$min_price]);
+        }
+
+        // If max_price is provided, filter by max price
+        if ($max_price) {
+            $safari_query = $safari_query->whereRaw('CAST(cost AS UNSIGNED) <= ?', [$max_price]);
+        }
+
+        // If timing_value is provided, filter by timing
+        if ($timing_value) {
+            // Assuming there's a 'timing' field in the WildlifeSafari model to filter by timing
+            $safari_query = $safari_query->where('timings', $timing_value);
+        }
+
+        // Fetch the filtered safari records
+        $safari_data = $safari_query->get();
+
+        // Prepare data for the view
+        $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+
+        // Prepare data for the view
+        $data = [
+            'safari' => $safari_data,  // Only pass the filtered safari data
+            'slider' => $slider,
+            'city_id' => $city_id,  // Include city_id for re-populating the filter form
+            'min_price' => $min_price,  // Pass min_price to the view
+            'max_price' => $max_price,  // Pass max_price to the view
+            'timing_value' => $timing_value, // Pass the selected timing_value to the view
+        ];
+
+        // Return the updated filtered safari list view with the necessary data
+        return view('front.safari_list', $data);
+    }
+
 
     public function wildlife_detail(Request $request,$id)
     {

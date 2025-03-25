@@ -20,6 +20,7 @@ class Tourist extends Model
         'aadhar_front',
         'aadhar_back',
         'additional_info',
+        'type',
         'status',
     ];
 
@@ -28,6 +29,7 @@ class Tourist extends Model
     // {
     //     return $this->belongsTo(State::class);
     // }
+    
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id'); // State's foreign key is 'state_id'

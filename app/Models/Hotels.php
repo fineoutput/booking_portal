@@ -19,6 +19,7 @@ class Hotels extends Model
         'location',
         'hotel_category',
         'package_id',
+        'show_front',
         'meal_plan',
     ];
 
@@ -36,6 +37,8 @@ class Hotels extends Model
     {
         return $this->belongsTo(City::class, 'city_id');
     }
+
+    
     // Hotel model
     public function prices()
     {

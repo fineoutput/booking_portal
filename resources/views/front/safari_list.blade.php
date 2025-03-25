@@ -110,103 +110,27 @@
         </div>
         <div class="navi_full_list">
 
-            <form id="filter-form" action="" method="GET">
-              <!-- Price Filter Section -->
-              <div class="price-filter-container">
-                  <div class="price-inputs">
-                      <input name="min_price" type="number" class="price-input" id="minPrice" placeholder="Min price" value="{{ request()->input('min_price') }}">
-                      <input name="max_price" type="number" class="price-input" id="maxPrice" placeholder="Max price" value="{{ request()->input('max_price') }}">
-                  </div>
-                  <div class="slider-container">
-                      <div class="slider-track"></div>
-                      <div class="slider-range"></div>
-                      <div class="slider-thumb" id="minThumb"></div>
-                      <div class="slider-thumb" id="maxThumb"></div>
-                  </div>
-                  <div class="price-label">
-                      Selected price range: ₹<span id="minValue">{{ request()->input('min_price', 0) }}</span> - ₹<span id="maxValue">{{ request()->input('max_price', 100000) }}</span>
-                  </div>
-              </div>
-          
-              <button class="_btn" type="submit">Apply Filter</button>
-          </form>
-        {{-- </div> --}}
-
-          <hr>
-          {{-- <div class="date_range">
-            <div class="reange_btns d-flex justify-content-between">
-              <h6 class="accordion-header"><b>Tour Duration</b></h6>
-              <!-- <i id="accordion-icon" class="fa-solid fa-angle-down" ></i> -->
+          <form id="filter-form" action="" method="GET">
+            <!-- Price Filter Section -->
+            <div class="price-filter-container">
+                <div class="price-inputs">
+                    <input name="min_price" type="number" class="price-input" id="minPrice" placeholder="Min price" value="{{ request()->input('min_price') }}">
+                    <input name="max_price" type="number" class="price-input" id="maxPrice" placeholder="Max price" value="{{ request()->input('max_price') }}">
+                </div>
+                <div class="slider-container">
+                    <div class="slider-track"></div>
+                    <div class="slider-range"></div>
+                    <div class="slider-thumb" id="minThumb"></div>
+                    <div class="slider-thumb" id="maxThumb"></div>
+                </div>
+                <div class="price-label">
+                    Selected price range: ₹<span id="minValue">{{ request()->input('min_price', 0) }}</span> - ₹<span id="maxValue">{{ request()->input('max_price', 100000) }}</span>
+                </div>
             </div>
-            <div class="min_max d-flex justify-content-between align-items-center" style="font-size: 12px;">
-              <p>Min. <b>8 days</b></p>
-              <p>Max. <b>12 days</b></p>
-            </div>
-            <div class="filter_price d-flex flex-wrap accordion-content open" style="gap: 10px; display: none;">
-              <button>5 - 8 days</button>
-              <button>8 - 11 days</button>
-              <button>11 - 14 days</button>
-              <button>14 - 15 days</button>
-            </div>
-          </div> --}}
-          {{-- <hr> --}}
-          <!-- <div class="arriv_dept">
-            <h6 class="accordion-header"><b>Depart Between</b></h6>
-            <div class="calends">
-              <div class="cal_size">
-                <label for="start">Start Date</label>
-                <input type="date" id="startDate" class="form-control w-80" style="
-    width: 80%;" required>
-              </div>
-
-              <div class="cal_size">
-                <label for="start">End Date</label>
-                <input type="date" id="endDate" class="form-control w-80" style="
-    width: 80%;" required>
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="departure_city">
-            <h6 class="accordion-header"><b>Departure city</b></h6>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Kolkata</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Delhi</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Amritsar</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Jaisalmer</p>
-            </div>
-            <div class="ravet">
-
-              <h4>Joining & Leaving</h4>
-              <p>Can’t find tours from your city? Check our Joining & leaving option. Book your own flights and join directly at the first destination of the tour.</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Kota</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Ajmer</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Udaipur</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Jaipur</p>
-            </div>
-          </div> -->
+        
+            <button class="_btn" type="submit">Apply Filter</button>
+        </form>
+        
 
 
 
@@ -216,23 +140,22 @@
       <div class="col-lg-9 col-sm-12 col-md-12">
         <div class="row">
 
-          @if($packages)
-          @foreach ($packages as $key => $value)
+          @if($safari)
+          @foreach ($safari as $key => $value)
           <div class="col-lg-6">
             <div class="plan_outer w-100">
               <div class="outer_plan_upper">
                 <div class="outer_plan_img">
                   @php
-                  // Assuming 'image' contains a JSON array of images
-                  $images = json_decode($value->image, true); // Decode the JSON to an array (true for associative array)
+                  $images = json_decode($value->images); 
               @endphp
               
               @if($images && is_array($images) && count($images) > 0)
-                  <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
                   <img src="{{ asset(reset($images)) }}" alt="First Image">
               @else
-                  <p>No image available.</p>
+                  <p>No images available.</p>
               @endif
+              
               
                 </div>
                 <div class="inner_outer_txt">
@@ -257,13 +180,8 @@
               <div class="">
                 
                 <div class="destination">
-                  <p style="margin: 0;">{{$value->package_name ?? ''}}</p>
-                  
-                  @foreach($value->hotels as $hotel)
-                    <span>{{ $hotel->name }}</span>,
-                  @endforeach
+                  <p style="margin: 0;">{{$value->national_park ?? ''}}</p>
                 </div>
-                
               </div>
               <div class="options_tav night">
                 <div class="outer_car_txt justify-content-center justify-content-center">
@@ -275,19 +193,12 @@
                     <div class="manags">
                       <p>Starts from
                         <b style="color: #000;">
-                          @if($value->prices)
-                          @php
-                            $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
-            $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
-            $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
-            $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
-            $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
-            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
-                          @endphp
-                          <p>Price: ₹{{$value->prices->display_cost}}</p>
-                      @else
-                          <p>No price available for this package.</p>
-                      @endif
+
+                          <p>
+                            Price:  ₹{{ $value->cost ?? '0' }}
+
+                          </p>
+
                         </b>
                       </p>
                       <span style="font-size: 10px;">per person on twin sharing</span>
@@ -295,7 +206,7 @@
                   </div>
                 </div>
                 <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="{{route('detail',['id' => base64_encode($value->id)])}}">Book Now</a>
+                  <a class="_btn" href="{{ route('wildlife_detail', ['id' => base64_encode($value->id)]) }}">Book Now</a>
                 </div>
                 
               </div>
@@ -330,7 +241,6 @@
 });
 
 </script>
-
 
 
 
@@ -432,7 +342,6 @@
   maxThumb.style.left = '100%';
   updateValues();
 </script>
-
 
 <script>
   document.getElementById('filter-form').onsubmit = function(event) {

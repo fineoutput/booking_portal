@@ -19,6 +19,7 @@ class Package extends Model
         'video',
         'text_description',
         'text_description_2',
+        'show_front',
     ];
 
     

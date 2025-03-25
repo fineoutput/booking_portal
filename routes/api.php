@@ -40,6 +40,9 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/hotel-booking', [HotelController::class, 'hotelbooking']);
     Route::post('/package-search', [HotelController::class, 'packagesearch']);
     Route::post('/add-wallet', [HotelController::class, 'add_wallet']);
+
+    Route::post('/add-tourist', [HotelController::class, 'add_tourist']);
+
     Route::get('/user-wallet', [HotelController::class, 'get_user_transactions']);
     Route::get('/admin-city', [HotelController::class, 'admin_city']);
     Route::post('/airport-vehicle', [HotelController::class, 'airport_vehicle']);
@@ -54,7 +57,7 @@ use App\Http\Controllers\Api\SafariController;
     Route::get('/airport', [HotelController::class, 'airport']);
     Route::post('/all-bookings', [HotelController::class, 'allbookings']);
     Route::get('/user-profile', [HotelController::class, 'profile']);
-    Route::get('/popular-city', [HotelController::class, 'popularCity']);
+    Route::post('/popular-city', [HotelController::class, 'popularCity']);
     Route::get('/guide-city', [HotelController::class, 'guideCity']);
 
 

@@ -132,6 +132,30 @@ public function edit($id)
 // }
 
 
+
+public function showFronthotel($id, Request $request)
+{
+    // Validate input
+    $validated = $request->validate([
+        'show_front_value' => 'required|in:0,1',  // Ensure it's either 0 or 1
+    ]);
+
+    // Find the hotel by ID
+    $hotel = Hotels::findOrFail($id); // Use 'Hotel' model (not 'Hotels') unless that's a typo
+
+    // Update the 'show_front' field based on the request
+    $hotel->show_front = $request->input('show_front_value'); // Store 0 or 1
+    $hotel->save(); // Save the updated value to the database
+
+    // Return a JSON response (success message)
+    return response()->json([
+        'success' => true,
+        'message' => 'Hotel visibility updated successfully!',
+        'show_front_value' => $hotel->show_front // Return updated show_front value
+    ]);
+}
+
+
 public function update(Request $request, $id)
 {
     // Validate the incoming request data

@@ -95,6 +95,8 @@ Route::group(['middleware'=>'admin.auth'],function(){
 
    //  Hotels  ------------------------
    Route::get('/hotels', [HotelsController::class, 'index'])->name('hotels');
+   Route::post('/show_front_hotel/{id}', [HotelsController::class, 'showFronthotel'])->name('show_front_hotels');
+
    Route::match(['get','post'],'/hotels/create', [HotelsController::class, 'create'])->name('add_hotels');
    Route::get('hotels/{hotel}/edit', [HotelsController::class, 'edit'])->name('hotels.edit');
     Route::put('hotels/{hotel}', [HotelsController::class, 'update'])->name('hotels.update');
@@ -124,6 +126,10 @@ Route::group(['middleware'=>'admin.auth'],function(){
    
    // Package --------------------------
    Route::get('/package', [PackageController::class, 'index'])->name('package');
+
+   Route::post('/show_front/{id}', [PackageController::class, 'showFront'])->name('show_front');
+
+
    Route::match(['get','post'],'/package/create', [PackageController::class, 'create'])->name('add_package');
    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('packages.destroy');
    Route::get('packages/{id}/edit', [PackageController::class, 'edit'])->name('packages.edit');

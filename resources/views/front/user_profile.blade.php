@@ -1,6 +1,45 @@
 @extends('front.common.app')
 @section('title','Agent Profile')
 @section('content')
+
+
+<style>
+    /* General styling for the table */
+.tourist-table {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    margin-top: 15px;
+}
+
+.tourist-table-header, .tourist-table-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.tourist-table-cell {
+    flex: 1;
+    padding: 5px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.tourist-table-header {
+    background-color: #f7f7f7;
+    font-weight: bold;
+}
+
+.tourist-table-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.tourist-table-row:last-child .tourist-table-cell {
+    border-bottom: none;
+}
+</style>
+
+
 <div class="container mt-5">
     <h2 class="text-center mb-4 suther">Agent Profile</h2>
     
@@ -218,7 +257,32 @@
                 <h5 class="modal-title suther" id="touristListModalLabel">Tourist List for Booking #{{ $value->id }}</h5>
                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body suther">
+                <div class="suther">
+                    @if($value->tourists->isEmpty())
+                        <p>No tourists added for this booking.</p>
+                    @else
+                        <div class="tourist-table">
+                            <div class="tourist-table-header">
+                                <div class="tourist-table-cell fw-bold">Name</div>
+                                <div class="tourist-table-cell fw-bold">Age</div>
+                                <div class="tourist-table-cell fw-bold">Phone</div>
+                            </div>
+                            
+                            @foreach($value->tourists as $tourist)
+                                <div class="tourist-table-row">
+                                    <div class="tourist-table-cell">{{ $tourist->name }}</div>
+                                    <div class="tourist-table-cell">{{ $tourist->age }}</div>
+                                    <div class="tourist-table-cell">{{ $tourist->phone }}</div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            {{-- <div class="modal-body suther">
                 <div class="suther">
                     @if($value->tourists->isEmpty())
                         <p>No tourists added for this booking.</p>
@@ -244,7 +308,7 @@
                         @endforeach
                     @endif
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

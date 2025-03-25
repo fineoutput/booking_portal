@@ -23,5 +23,7 @@ class City extends Model
     {
         return $this->hasMany(Package::class, 'city_id', 'id');
     }
+
+    
 }
 
