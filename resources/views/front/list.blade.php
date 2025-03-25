@@ -110,7 +110,7 @@
         </div>
         <div class="navi_full_list">
 
-            <form id="filter-form" action="" method="GET">
+            {{-- <form id="filter-form" action="" method="GET">
               <!-- Price Filter Section -->
               <div class="price-filter-container">
                   <div class="price-inputs">
@@ -128,88 +128,60 @@
                   </div>
               </div>
           
-              <div class="d-flex justify-content-center ">
+              <button class="_btn" type="submit">Apply Filter</button>
+          </form> --}}
+
+
+         <form action="{{ route('state_detail', ['state_id' => base64_encode($city->state->id)]) }}" method="GET">
+            <!-- Price Filter Section -->
+            <div class="price-filter-container">
+                <div class="price-inputs">
+                    <input name="min_price" type="number" class="price-input" id="minPrice" placeholder="Min price" value="{{ request()->input('min_price') }}">
+                    <input name="max_price" type="number" class="price-input" id="maxPrice" placeholder="Max price" value="{{ request()->input('max_price') }}">
+                </div>
+                <div class="slider-container">
+                    <div class="slider-track"></div>
+                    <div class="slider-range"></div>
+                    <div class="slider-thumb" id="minThumb"></div>
+                    <div class="slider-thumb" id="maxThumb"></div>
+                </div>
+                <div class="price-label">
+                    Selected price range: ₹<span id="minValue">{{ request()->input('min_price', 0) }}</span> - ₹<span id="maxValue">{{ request()->input('max_price', 100000000) }}</span>
+                </div>
+            </div>
+            
+            <hr>
+        
+            <!-- City Filter Section -->
+            <div class="departure_city">
+                <h6 class="accordion-header"><b>Select City</b></h6>
+        
+                @php
+                    // Get unique cities by city_name
+                    $uniqueCities = $allpackages->pluck('cities.city_name')->unique();
+                @endphp
+        
+                @foreach($uniqueCities as $citys)
+                    <div class="city_box">
+                        <!-- Add a checkbox for each unique city -->
+                        <input type="checkbox" name="cities[]" value="{{ $citys }}" 
+                            {{ in_array($citys, request()->input('cities', [])) ? 'checked' : '' }}>
+                        <p>{{ $citys }}</p>
+                    </div>
+                @endforeach
+        
+                <div class="ravet">
+                    <h4>Joining & Leaving</h4>
+                    <p>Can’t find tours from your city? Check our Joining & leaving option. Book your own flights and join directly at the first destination of the tour.</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center ">
             <button class="_btn" type="submit ">Apply Filter</button>
           </div>
-          </form>
-        {{-- </div> --}}
+        </form>
 
           <hr>
-          {{-- <div class="date_range">
-            <div class="reange_btns d-flex justify-content-between">
-              <h6 class="accordion-header"><b>Tour Duration</b></h6>
-              <!-- <i id="accordion-icon" class="fa-solid fa-angle-down" ></i> -->
-            </div>
-            <div class="min_max d-flex justify-content-between align-items-center" style="font-size: 12px;">
-              <p>Min. <b>8 days</b></p>
-              <p>Max. <b>12 days</b></p>
-            </div>
-            <div class="filter_price d-flex flex-wrap accordion-content open" style="gap: 10px; display: none;">
-              <button>5 - 8 days</button>
-              <button>8 - 11 days</button>
-              <button>11 - 14 days</button>
-              <button>14 - 15 days</button>
-            </div>
-          </div> --}}
-          {{-- <hr> --}}
-          <!-- <div class="arriv_dept">
-            <h6 class="accordion-header"><b>Depart Between</b></h6>
-            <div class="calends">
-              <div class="cal_size">
-                <label for="start">Start Date</label>
-                <input type="date" id="startDate" class="form-control w-80" style="
-    width: 80%;" required>
-              </div>
-
-              <div class="cal_size">
-                <label for="start">End Date</label>
-                <input type="date" id="endDate" class="form-control w-80" style="
-    width: 80%;" required>
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="departure_city">
-            <h6 class="accordion-header"><b>Departure city</b></h6>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Kolkata</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Delhi</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Amritsar</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Jaisalmer</p>
-            </div>
-            <div class="ravet">
-
-              <h4>Joining & Leaving</h4>
-              <p>Can’t find tours from your city? Check our Joining & leaving option. Book your own flights and join directly at the first destination of the tour.</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Kota</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Ajmer</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Udaipur</p>
-            </div>
-            <div class="city_box">
-              <input type="checkbox">
-              <p>Jaipur</p>
-            </div>
-          </div> -->
-
+   
 
 
         </div>
@@ -240,7 +212,8 @@
                 <div class="inner_outer_txt">
                   
                   <div class="outer_type_price">
-                    <h6 class="type_xtxt"> {{$value->cities->city_name ?? ''}} </h6>
+                    <h6 class="type_xtxt">{{ $city->city_name ?? 'City not available' }}</h6>
+                    {{-- <h6 class="type_xtxt"> {{$value->cities->city_name ?? ''}} </h6> --}}
                   </div>
                   <div class="plan_type_date">
                     <i class="fa-solid fa-star"></i>
@@ -431,9 +404,7 @@
 
   // Initialize values
   minThumb.style.left = '0%';
-  minThumb.style.top = '0%';
   maxThumb.style.left = '100%';
-  maxThumb.style.top = '0%';
   updateValues();
 </script>
 
