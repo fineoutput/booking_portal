@@ -10,12 +10,12 @@
         <div class="filter-label_hotels">Destination</div>
         <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+
             <form action="" method="POST" id="filter-form">
                 @csrf
                 
                 <!-- Add search input -->
                 <div class="search-container" style="padding: 10px;">
-                    {{-- <input type="text" id="city-search" placeholder="Search cities..." style="width: 100%; padding: 5px;"> --}}
                 </div>
     
                 <!-- Container for city list -->
@@ -112,9 +112,9 @@
       <button type="submit">
       <div class="search_sba">
         <div class="sba_center_Sarch">
-        <a href="#">  
+        {{-- <a href="#">   --}}
         <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;">
-        </a>  
+        {{-- </a>      --}}
       </div>
       </div>
     </button>
