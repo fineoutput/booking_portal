@@ -3169,7 +3169,7 @@ public function getLanguages(Request $request)
         ]);
 
         $tourist = new Tourist();
-        $tourist->user_id = $request->user_id;
+        $tourist->user_id = $user->id;
         $tourist->booking_id = $request->booking_id;
         $tourist->name = $request->name;
         $tourist->age = $request->age;
@@ -3200,6 +3200,66 @@ public function getLanguages(Request $request)
             'status' => 200, // Success status code
         ]);
     }
+
+
+
+
+    public function tourist_list(Request $request)
+{
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 401,
+        ]);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $password != $user->password) {
+        return response()->json([
+            'message' => 'Invalid credentials.',
+            'data' => [],
+            'status' => 401, 
+        ]);
+    }
+
+    $validatedData = $request->validate([
+        'type' => 'required',
+    ]);
+
+    $tourists = Tourist::where('type', $request->type)
+                        ->where('user_id', $user->id)
+                        ->get();
+
+    if ($tourists->isEmpty()) {
+        return response()->json([
+            'message' => 'No tourists found for this user and type.',
+            'data' => [],
+            'status' => 404, 
+        ]);
+    }
+
+    $touristsData = $tourists->map(function ($tourist) {
+        return [
+            'name' => $tourist->name,
+            'age' => $tourist->age,
+            'phone' => $tourist->phone,
+        ];
+    });
+
+    return response()->json([
+        'message' => 'Tourists retrieved successfully.',
+        'data' => $touristsData, 
+        'status' => 200, 
+    ]);
+}
+
     
 
     
