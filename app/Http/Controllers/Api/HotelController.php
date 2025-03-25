@@ -43,6 +43,7 @@ use App\Models\AdminCity;
 use App\Models\HomeSlider;
 use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
+use App\Models\Tourist;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -3128,7 +3129,78 @@ public function getLanguages(Request $request)
 
 
     
+    public function add_tourist(Request $request)
+    {
+        $token = $request->bearerToken();
+    
+        // Check if the token exists
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401, // Use 401 for unauthenticated
+            ]);
+        }
+    
+        // Decode the token
+        $decodedToken = base64_decode($token);
+        list($email, $password) = explode(',', $decodedToken);
+    
+        // Find user by email and validate password
+        $user = Agent::where('email', $email)->first();
+    
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+                'data' => [],
+                'status' => 401, 
+            ]);
+        }
+    
+        $request->validate([
+            'booking_id' => 'required',
+            'name' => 'required',
+            'age' => 'required',
+            'phone' => 'required',
+            'aadhar_front' => 'required|file',
+            'aadhar_back' => 'required|file',
+            'additional_info' => 'nullable',
+            'type' => 'required',
+        ]);
 
+        $tourist = new Tourist();
+        $tourist->user_id = $request->user_id;
+        $tourist->booking_id = $request->booking_id;
+        $tourist->name = $request->name;
+        $tourist->age = $request->age;
+        $tourist->phone = $request->phone;
+    
+        // Handle Aadhar front file upload
+        if ($request->hasFile('aadhar_front') && $request->file('aadhar_front')->isValid()) {
+            $tourist->aadhar_front = $request->file('aadhar_front')->store('aadhar_fronts');
+        }
+    
+        // Handle Aadhar back file upload
+        if ($request->hasFile('aadhar_back') && $request->file('aadhar_back')->isValid()) {
+            $tourist->aadhar_back = $request->file('aadhar_back')->store('aadhar_backs');
+        }
+    
+        // Store optional additional info
+        $tourist->additional_info = $request->additional_info ?? null;
+    
+        // Store tourist type
+        $tourist->type = $request->type;
+    
+        // Save the tourist record to the database
+        $tourist->save();
+    
+        return response()->json([
+            'message' => 'Tourist added successfully.',
+            'data' => $tourist,
+            'status' => 200, // Success status code
+        ]);
+    }
+    
 
     
  
