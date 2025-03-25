@@ -34,7 +34,7 @@
                     @endforeach
                 </div>
                 
-                <!-- No results message -->
+                <!-- Noo results message -->
                 <div id="no-results" style="display: none; padding: 10px; text-align: center;">
                     No city found
                 </div>
