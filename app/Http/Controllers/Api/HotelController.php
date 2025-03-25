@@ -1077,22 +1077,31 @@ public function hotelcitys(Request $request)
     // Get the current date in the required format
     $formatted_date = Carbon::now()->format('Y-m-d');
     
-    // Get hotels that have valid prices for today
+    // Get hotels
     $hotels = Hotels::get();
 
-    // Get unique city_ids from the hotels that have valid prices for today
+    // Get unique city_ids from the hotels
     $cityIds = $hotels->pluck('city_id')->unique();
 
     // Fetch city names based on the unique city_ids from the Cities table
     $cities = City::whereIn('id', $cityIds)->get();
 
-    // Return response with city data
+    // Create an array of city data
+    $citiesArray = $cities->map(function($city) {
+        return [
+            'id' => $city->id,
+            'city_name' => $city->city_name
+        ];
+    });
+
+    // Return response with city data in array format
     return response()->json([
         'message' => 'Cities fetched successfully.',
-        'data' => $cities,
+        'data' => $citiesArray,
         'status' => 200,
     ]);
 }
+
 
  
 // public function hotelBooking(Request $request) {
