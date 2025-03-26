@@ -11,7 +11,13 @@
     border: 1px solid #ddd;
     margin-top: 15px;
 }
-
+.form-check-input {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #00000052 !important;
+    background-color: white;
+    cursor: pointer;
+}
 .tourist-table-header, .tourist-table-row {
     display: flex;
     justify-content: space-between;
@@ -400,13 +406,23 @@
             <div class="modal-body">
                 <ul class="list-group">
                     <!-- Hotel List Item -->
-                    <li class="list-group-item d-flex align-items-center">
-                        <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 1">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-0">Grand Palace</h6>
-                            <small>⭐⭐⭐ (3 Star)</small>
+                    <li class="list-group-item d-flex align-items-center row">
+                        <div class="col-2">
+
+                            <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 1">
                         </div>
-                        <input type="checkbox" class="form-check-input ms-auto">
+                        <div class="col-8">
+
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">Grand Palace</h6>
+                                <small>⭐⭐⭐ (3 Star)</small>
+                            </div>
+                        </div>
+                        <div class="col-2">
+
+                            <input type="checkbox" class="form-check-input ms-auto">
+                        </div>
+                       
                     </li>
                     <li class="list-group-item d-flex align-items-center">
                         <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 2">
