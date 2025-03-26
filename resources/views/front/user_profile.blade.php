@@ -411,14 +411,18 @@
 
                             <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 1">
                         </div>
-                        <div class="col-8">
+                        <div class="col-8" style="
+                        text-align: center;
+                        justify-content: center;
+                    ">
 
                             <div class="flex-grow-1">
                                 <h6 class="mb-0">Grand Palace</h6>
                                 <small>⭐⭐⭐ (3 Star)</small>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-2" style="
+    text-align: right; ">
 
                             <input type="checkbox" class="form-check-input ms-auto">
                         </div>
