@@ -157,6 +157,7 @@
                         <th class="suther">Status</th>
                         <th class="suther">Action</th>
                         <th class="suther">Tourist List</th>
+                        <th class="suther">Hotel Prefrense</th>
                         <th class="suther">Request Upgrade</th>
                     </tr>
                 </thead>
@@ -202,6 +203,11 @@
         <button class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#touristListModal{{ $value->id }}" onclick="showTouristList(1)">View List</button>
         @endif
     </td>
+    <th class="suther">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#hotelModal">
+            Hotel Preference
+        </button>
+    </th>
     <td class="suther">
         @if($value->status == 0)
        
@@ -383,6 +389,51 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="hotelModal" tabindex="-1" aria-labelledby="hotelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hotelModalLabel">Select Hotels</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <!-- Hotel List Item -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 1">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">Grand Palace</h6>
+                            <small>⭐⭐⭐ (3 Star)</small>
+                        </div>
+                        <input type="checkbox" class="form-check-input ms-auto">
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 2">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">Sunset Resort</h6>
+                            <small>⭐⭐⭐⭐ (4 Star)</small>
+                        </div>
+                        <input type="checkbox" class="form-check-input ms-auto">
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 3">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">Ocean View</h6>
+                            <small>⭐⭐ (2 Star)</small>
+                        </div>
+                        <input type="checkbox" class="form-check-input ms-auto">
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endforeach
 
                 </tbody>
