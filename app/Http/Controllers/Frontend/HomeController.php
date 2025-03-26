@@ -516,6 +516,29 @@ public function upgrade_request(Request $request)
         'message' => 'Upgrade Request send successfully!']);
 }
 
+public function hotel_prefrence(Request $request)
+{
+    $validated = $request->validate([
+        'booking_id' => 'required',
+        'upgrade_details' => 'required',
+        'notes' => 'required',
+    ]);
+    
+        $UpgradeRequest = new UpgradeRequest([
+            'user_id' => Auth::guard('agent')->id(),
+            'upgrade_details' => $request->upgrade_details,
+            'notes' => $request->notes,
+            'booking_id' => $request->booking_id,
+            'status' => 0,
+        ]);
+
+        $UpgradeRequest->save();
+
+
+    return redirect()->back()->with([
+        'message' => 'Upgrade Request send successfully!']);
+}
+
 
 // public function getVehiclesByAirport(Request $request)
 // {

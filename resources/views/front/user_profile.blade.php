@@ -210,7 +210,7 @@
         @endif
     </td>
     <th class="suther">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#hotelModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#hotelModal{{ $value->id }}">
             Hotel Preference
         </button>
     </th>
@@ -396,7 +396,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="hotelModal" tabindex="-1" aria-labelledby="hotelModalLabel" aria-hidden="true">
+<div class="modal fade" id="hotelModal{{ $value->id }}" tabindex="-1" aria-labelledby="hotelModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

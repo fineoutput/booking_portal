@@ -58,6 +58,7 @@ Route::group(['prefix' => '/'], function () {
     Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
 
     Route::post('/upgrade-request', [HomeController::class, 'upgrade_request'])->name('upgrade_request');
+    Route::post('/hotel-prefrence', [HomeController::class, 'hotel_prefrence'])->name('hotel_prefrence');
 
     Route::get('/get-airports/{city_id}', [HomeController::class, 'getAirports']);
     Route::get('/get-vehicles-by-airport', [HomeController::class, 'getVehiclesByAirport']);
