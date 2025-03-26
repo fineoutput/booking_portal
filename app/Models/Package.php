@@ -22,7 +22,10 @@ class Package extends Model
         'show_front',
     ];
 
-    
+    public function hotels()
+    {
+        return $this->hasMany(Hotels::class, 'package_id', 'id');
+    }
     // public function state()
     // {
     //     return $this->belongsTo(State::class);

@@ -381,9 +381,16 @@ class HomeController extends Controller
 
             $data['user']->load('cities', 'state');
 
-            $data['booking'] = PackageBooking::with('tourists')->where('user_id', $data['user']->id)->get();
-            $data['booking'] = PackageBooking::with('tourists')->where('user_id', $data['user']->id)->get();
-            
+            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->get();
+
+            $packageIds = $data['booking']->pluck('package_id')->map(function($id) {
+                return (int)$id;
+            })->toArray();
+            return $packageIds;
+
+            $data['hotels'] = Hotels::whereIn('package_id', $packageIds)->get();
+            // return $data['hotels'];
+
             $user_id = Auth::guard('agent')->id();
 
             $data['wallet'] = Wallet::where('user_id', $user_id)

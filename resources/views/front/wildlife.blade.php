@@ -2,13 +2,67 @@
 @section('title','home')
 @section('content')
 
+
+<style>
+  .search-container {
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .city_list_htotle {
+    display: block;
+  }
+</style>
+
 <section class="wildlife_tallimala">
 <div class="header-container_hotels">
     <div class="search-header_hotels">
       <!-- Destination Dropdown -->
+    
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-        <div class="filter-label_hotels">State</div>
-        <div class="filter-value_hotels" id="destination-value">Choose the state?</div>
+        <div class="filter-label_hotels">Destination</div>
+        <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
+        <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+    
+            <form action="" method="POST" id="filter-form">
+                @csrf
+                
+                <!-- Search input field for filtering cities -->
+                <div class="search-container">
+                    <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..." class="search-input">
+                </div>
+    
+                <!-- Container for city list -->
+                <div id="city-list-container">
+                    @foreach($cities as $value)
+                    <div class="city_list_htotle" data-city-name="{{ strtolower($value->city_name ?? '') }}">
+                        <div class="sizemaze">
+                            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+                        </div>
+                        <div class="hotel_place">
+                            <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+                            <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
+                            <span class="hotels_spn"></span>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+        </div>
+    </div>
+
+    
+      {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+        <div class="filter-label_hotels">Destination</div>
+        <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
 
             <form action="" method="POST" id="filter-form">
@@ -34,7 +88,7 @@
                 </div>
 
         </div>
-      </div>
+      </div> --}}
 
       <!-- Check-in Date -->
       {{-- <div class="filter-item_hotels sachi">
@@ -269,5 +323,25 @@ document.getElementById('filter-form').onsubmit = function(event) {
 
 </script>
 
+
+<script>
+  function filterCities() {
+    // Get the search query and convert it to lowercase
+    var searchQuery = document.getElementById('city-search').value.toLowerCase();
+    
+    // Get all the city items
+    var cityItems = document.querySelectorAll('.city_list_htotle');
+    
+    // Loop through the city items and hide those that don't match the search query
+    cityItems.forEach(function(item) {
+      var cityName = item.querySelector('.city-label').textContent.toLowerCase();
+      if (cityName.includes(searchQuery)) {
+        item.style.display = 'block'; // Show the city
+      } else {
+        item.style.display = 'none'; // Hide the city
+      }
+    });
+  }
+</script>
 
 @endsection

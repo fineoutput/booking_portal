@@ -403,49 +403,35 @@
                 <h5 class="modal-title" id="hotelModalLabel">Select Hotels</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form action="{{route('hotel_prefrence')}}">
+                @csrf
             <div class="modal-body">
                 <ul class="list-group">
                     <!-- Hotel List Item -->
+
+                    @foreach ($hotels as $value)
                     <li class="list-group-item d-flex align-items-center row">
                         <div class="col-2">
-
                             <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 1">
                         </div>
                         <div class="col-8" style="
                         text-align: center;
-                        justify-content: center;
-                    ">
-
+                        justify-content: center;">
                             <div class="flex-grow-1">
-                                <h6 class="mb-0">Grand Palace</h6>
+                                <h6 class="mb-0">{{$value->name ?? ''}}</h6>
                                 <small>⭐⭐⭐ (3 Star)</small>
                             </div>
                         </div>
                         <div class="col-2" style="
-    text-align: right; ">
+                             text-align: right; ">
 
                             <input type="checkbox" class="form-check-input ms-auto">
                         </div>
-                       
                     </li>
-                    <li class="list-group-item d-flex align-items-center">
-                        <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 2">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-0">Sunset Resort</h6>
-                            <small>⭐⭐⭐⭐ (4 Star)</small>
-                        </div>
-                        <input type="checkbox" class="form-check-input ms-auto">
-                    </li>
-                    <li class="list-group-item d-flex align-items-center">
-                        <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 3">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-0">Ocean View</h6>
-                            <small>⭐⭐ (2 Star)</small>
-                        </div>
-                        <input type="checkbox" class="form-check-input ms-auto">
-                    </li>
+                    @endforeach
                 </ul>
             </div>
+        </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success">Submit</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
