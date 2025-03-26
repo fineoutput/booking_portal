@@ -12,11 +12,21 @@ use App\Models\RemarkTaxiOrder;
 use App\adminmodel\Team;
 use App\Models\State;
 use App\Models\City;
+use App\Models\Tourist;
+
 
 use Illuminate\Support\Facades\Auth;
 
 class TaxiBookingController extends Controller
 {
+
+      
+    function customer(Request $request ,$id){
+
+        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','taxi')->get();
+
+       return view('admin.textbooking.customer', $data);
+    }
 
     function transfercreate(Request $request,$id) {
         if($request->method()=='POST'){

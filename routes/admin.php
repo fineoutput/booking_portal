@@ -73,6 +73,8 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/panding-hotels-booking', [HotelBookingController::class, 'index'])->name('pandinghotelsbooking');
 
    
+   Route::get('/hotel-customer-detailes/{id}', [HotelBookingController::class, 'customer'])->name('customer_hotel');
+   
    Route::match(['get','post'],'/transfer-hotels-booking/{id}', [HotelBookingController::class, 'transfercreate'])->name('transfer_hotels_booking');
 
    Route::match(['get','post'],'/remark-hotels-booking/{id}', [HotelBookingController::class, 'remarkcreate'])->name('remark_hotels_booking');
@@ -271,6 +273,9 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/localtour-taxi-booking', [TaxiBookingController::class, 'localtourindex'])->name('localtour_taxi_booking');
 
+    Route::get('/taxi-customer-detailes/{id}', [TaxiBookingController::class, 'customer'])->name('customer_taxi');
+   
+
     Route::get('/complete-localtour-taxi-booking', [TaxiBookingController::class, 'completelocaltourindex'])->name('complete_localtour_taxi_booking');
 
     Route::get('/process-localtour-taxi-booking', [TaxiBookingController::class, 'processlocaltourindex'])->name('process_localtour_taxi_booking');
@@ -302,6 +307,9 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
 
     Route::get('/wild-life-safari-order', [WildlifeSafariOrderController::class, 'index'])->name('wild_life_safari_orders');
+
+   Route::get('/safari-customer-detailes/{id}', [WildlifeSafariOrderController::class, 'customer'])->name('customer_safari');
+
 
     Route::match(['get','post'],'/transfer-safari-order/{id}', [WildlifeSafariOrderController::class, 'transfercreate'])->name('wild_life_safari_orders_transfer');
 
@@ -350,6 +358,9 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
    Route::get('/view-remark-trip-guide-booking/{id}', [TripGuideController::class, 'viewremark'])->name('viewremark_trip_guide_booking');
 
     Route::get('/complete-trip-guide-booking', [TripGuideController::class, 'completetripguidebooking'])->name('completetripguidebooking');
+
+    Route::get('/guide-customer-detailes/{id}', [TripGuideController::class, 'customer'])->name('customer_guide');
+   
 
     Route::get('/process-trip-guide-booking', [TripGuideController::class, 'processtripguidebooking'])->name('processtripguidebooking');
 

@@ -18,6 +18,7 @@ use App\Models\TripGuideBook2;
 use App\Models\TransferGuideOrder;
 use App\Models\RemarkGuideOrder;
 use App\adminmodel\Team;
+use App\Models\Tourist;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,13 @@ use Illuminate\Support\Facades\Auth;
 class TripGuideController extends Controller
 {
 
+    
+    function customer(Request $request ,$id){
+
+        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','guide')->get();
+
+       return view('admin.tripguide.customer', $data);
+    }
 
     function transfercreate(Request $request,$id) {
         if($request->method()=='POST'){

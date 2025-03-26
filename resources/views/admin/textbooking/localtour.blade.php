@@ -158,7 +158,7 @@
                                     @else
                                     @if($value->status == 1)
                                         <p class="text-success">Completed</p>
-                                        @elseif($hotel->status == 3)
+                                        @elseif($value->status == 3)
                                       <p class="text-success">Accepted</p>
                                       @else
                                         <p class="text-danger">Rejected</p>
@@ -261,7 +261,7 @@
                                     @else
                                     @if($value->status == 1)
                                         <p class="text-success">Completed</p>
-                                        @elseif($hotel->status == 3)
+                                        @elseif($value->status == 3)
                                       <p class="text-success">Accepted</p>
                                       @else
                                         <p class="text-danger">Rejected</p>
@@ -271,6 +271,10 @@
                                         @endif
                                     @endif
                                 </form>
+                                
+                          <a href="{{ route('customer_taxi', ['id' => $value->id]) }}" class="btn btn-danger mt-2">
+                            View Customer
+                          </a>
                                 
                                 </td>
                                 @endif

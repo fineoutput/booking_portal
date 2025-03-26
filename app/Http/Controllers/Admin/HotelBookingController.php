@@ -17,6 +17,7 @@ use App\Models\HotelBooking2;
 use App\Models\RemarkHotelOrder;
 use App\Models\TransferHotelOrder;
 use App\adminmodel\Team;
+use App\Models\Tourist;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +25,13 @@ use Illuminate\Support\Facades\Auth;
 class HotelBookingController extends Controller
 {
     
+
+    function customer(Request $request ,$id){
+
+        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','hotel')->get();
+
+       return view('admin.hotelbooking.customer', $data);
+    }
 
     function transfercreate(Request $request,$id) {
         if($request->method()=='POST'){

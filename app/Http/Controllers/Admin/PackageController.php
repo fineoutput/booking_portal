@@ -21,7 +21,8 @@ class PackageController extends Controller
 {
 
     function customer(Request $request ,$id){
-        $data['tourist'] = Tourist::where('booking_id', $id)->get();
+
+        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','package')->get();
 
        return view('admin.package.customer', $data);
     }
