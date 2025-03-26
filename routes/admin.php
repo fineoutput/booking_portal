@@ -155,6 +155,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/reject-package-booking', [PackageController::class, 'rejectorders'])->name('rejectpackagebooking');
    Route::get('/accept-package-booking', [PackageController::class, 'acceptorders'])->name('acceptpackagebooking');
    Route::get('/upgrade-package-request/{id}', [PackageController::class, 'upgradeorders'])->name('upgradepackagerequest');
+   Route::get('/hotel-prefrence-request/{id}', [PackageController::class, 'hotelprefrenceorders'])->name('hotelprefrencerequest');
    Route::match(['put', 'patch'], '/package-booking/{id}/status', [PackageController::class, 'updateStatus'])->name('packagebooking.updateStatus');
    Route::match(['put', 'patch'], '/upgraderequest-booking/{id}/status', [PackageController::class, 'upgradeupdateStatus'])->name('upgraderequest.updateStatus');
 
