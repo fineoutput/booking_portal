@@ -16,10 +16,19 @@ use App\Models\WildlifeSafariOrder2;
 use App\adminmodel\Team;
 use App\Models\RemarkSafariOrder;
 use App\Models\TransferSafariOrder;
+use App\Models\Tourist;
+
 use Illuminate\Support\Facades\Auth;
 
 class WildlifeSafariOrderController extends Controller
 {
+
+    function customer(Request $request ,$id){
+
+        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','safari')->get();
+
+       return view('admin.wildlifesafariorders.customer', $data);
+    }
 
     function transfercreate(Request $request,$id) {
         if($request->method()=='POST'){

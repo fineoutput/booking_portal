@@ -295,7 +295,9 @@
                                       
                                   @endif
                               </form>
-
+                              <a href="{{ route('customer_hotel', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
+                                View Customer
+                              </a>
                              
                               
                         </td>
