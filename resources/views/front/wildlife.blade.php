@@ -43,13 +43,13 @@
                 <!-- Container for city list -->
                 <div id="city-list-container">
                     @foreach($cities as $value)
-                    <div class="city_list_htotle" data-city-name="{{ strtolower($value->city_name ?? '') }}">
+                    <div class="city_list_htotle" data-city-name="{{ strtolower($value->state_name ?? '') }}">
                         <div class="sizemaze">
                             <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
                         </div>
                         <div class="hotel_place">
                             <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
-                            <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
+                            <label for="city_{{ $value->id }}" class="city-label">{{ $value->state_name ?? 'City name not available' }}</label>
                             <span class="hotels_spn"></span>
                         </div>
                     </div>

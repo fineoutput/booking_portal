@@ -1270,9 +1270,9 @@ if ($max_price) {
     public function wildlife()
     {
         $data['wildlife'] = WildlifeSafari::all();
-        $cityIds = $data['wildlife']->pluck('city_id')->unique();
+        $cityIds = $data['wildlife']->pluck('state_id')->unique();
 
-        $data['cities'] = City::whereIn('id', $cityIds)->get();
+        $data['cities'] = State::whereIn('id', $cityIds)->get();
 
         $data['slider'] = Slider::orderBy('id','DESC')->where('type','safari')->get();
         return view('front/wildlife',$data);
@@ -1289,7 +1289,7 @@ if ($max_price) {
         $max_price = $request->query('max_price');  // Max price from the form
 
         // Initialize the query for WildlifeSafari
-        $safari_query = WildlifeSafari::where('city_id', $city_id)
+        $safari_query = WildlifeSafari::where('state_id', $city_id)
         ->where('timings', 'LIKE', "%{$timing_value}%");
 
         if ($min_price) {
