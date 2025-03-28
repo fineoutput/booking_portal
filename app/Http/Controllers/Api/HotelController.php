@@ -213,143 +213,270 @@ class HotelController extends Controller
 
 
 
-    public function package(Request $request)
-    {
-        $token = $request->bearerToken();
-        
-        if (!$token) {
-            return response()->json([
-                'message' => 'Unauthenticated.',
-                'data' => [],
-                'status' => 201,
-            ], 401);
-        }
 
-        $decodedToken = base64_decode($token);
-        list($email, $password) = explode(',', $decodedToken);
+public function package(Request $request)
+{
+    $token = $request->bearerToken();
 
-        $user = Agent::where('email', $email)->first();
-
-        if ($user && $password == $user->password) {
-            
-            $hotels = Hotels::all();
-            $packages = Package::get();
-
-            $states = State::all()->pluck('state_name', 'id');
-            $cities = City::all()->pluck('city_name', 'id');
-
-            $hotelData = 
-                $packages->map(function($package) use ($states, $cities) {
-        
-                    // Get the images
-                    $imageUrls = array_values(json_decode($package->image, true));
-        
-                    // Get state and city names
-                    $stateNames = $this->getNamesByIds($package->state_id, $states);
-                    $cityNames = $this->getNamesByIds($package->city_id, $cities);
-
-                    $today = Carbon::today()->format('Y-m-d');
-
-                    $packagePrice = PackagePrice::where('package_id', $package->id)
-                        ->where('start_date', '<=',$today)  
-                        ->where('end_date', '>=',$today) 
-                        ->get();
-
-                    // $packagePrice = PackagePrice::where('package_id', $package->id)->get();
-                    $prices = null;
-                    if($packagePrice){
-                    $prices = $packagePrice->map(function($price) {
-                        return [
-                            'id' => $price->id,
-                            'start_date' => Carbon::parse($price->start_date)->format('F Y'),
-                            'end_date' => Carbon::parse($price->end_date)->format('F Y'),
-                            'display_price' => $price->display_cost,
-                            // 'standard_cost' => $price->standard_cost,
-                            // 'deluxe_cost' => $price->deluxe_cost,
-                            // 'premium_cost' => $price->premium_cost,
-                            // 'super_deluxe_cost' => $price->super_deluxe_cost,
-                            // 'luxury_cost' => $price->luxury_cost,
-                            // 'nights_cost' => $price->nights_cost,
-                            // 'adults_cost' => $price->adults_cost,
-                            // 'child_with_bed_cost' => $price->child_with_bed_cost,
-                            // 'child_no_bed_infant_cost' => $price->child_no_bed_infant_cost,
-                            // 'child_no_bed_child_cost' => $price->child_no_bed_child_cost,
-                            // 'meal_plan_only_room_cost' => $price->meal_plan_only_room_cost,
-                            // 'meal_plan_breakfast_cost' => $price->meal_plan_breakfast_cost,
-                            // 'meal_plan_breakfast_lunch_dinner_cost' => $price->meal_plan_breakfast_lunch_dinner_cost,
-                            // 'meal_plan_all_meals_cost' => $price->meal_plan_all_meals_cost,
-                            // 'hatchback_cost' => $price->hatchback_cost,
-                            // 'sedan_cost' => $price->sedan_cost,
-                            // 'economy_suv_cost' => $price->economy_suv_cost,
-                            // 'luxury_suv_cost' => $price->luxury_suv_cost,
-                            // 'traveller_mini_cost' => $price->traveller_mini_cost,
-                            // 'traveller_big_cost' => $price->traveller_big_cost,
-                            // 'premium_traveller_cost' => $price->premium_traveller_cost,
-                            // 'ac_coach_cost' => $price->ac_coach_cost,
-                            // 'extra_bed_cost' => $price->extra_bed_cost,
-                            
-                            // // Calculate total cost by summing all the costs
-                            'total_cost' => 
-                            $price->standard_cost ?? 0 +
-                            $price->deluxe_cost ?? 0 +
-                            $price->premium_cost ?? 0 +
-                            $price->super_deluxe_cost ?? 0 +
-                            $price->luxury_cost ?? 0 +
-                            $price->nights_cost ?? 0 +
-                            $price->adults_cost ?? 0 +
-                            $price->child_with_bed_cost ?? 0 +
-                            $price->child_no_bed_infant_cost ?? 0 +
-                            $price->child_no_bed_child_cost ?? 0 +
-                            $price->meal_plan_only_room_cost ?? 0 +
-                            $price->meal_plan_breakfast_cost ?? 0 +
-                            $price->meal_plan_breakfast_lunch_dinner_cost ?? 0 +
-                            $price->meal_plan_all_meals_cost ?? 0 +
-                            $price->hatchback_cost ?? 0 +
-                            $price->sedan_cost ?? 0 +
-                            $price->economy_suv_cost ?? 0 +
-                            $price->luxury_suv_cost ?? 0 +
-                            $price->traveller_mini_cost ?? 0 +
-                            $price->traveller_big_cost ?? 0 +
-                            $price->premium_traveller_cost ?? 0 +
-                            $price->ac_coach_cost ?? 0 +
-                            $price->extra_bed_cost ?? 0
-                        ];
-                        
-                    });
-                }
-        
-                    return [
-                        'id' => $package->id,
-                        'package_name' => $package->package_name,
-                        'state_names' => $stateNames, 
-                        'city_names' => $cityNames,
-                        'image' => array_map(function($image) {
-                            return url('') . '/' . $image;
-                        }, $imageUrls),
-                        'video' => array_map(function($video) {
-                        return url('') . '/' . $video;
-                        }, is_array($videos = json_decode($package->video, true)) ? $videos : []),
-
-                        'pdf' => url('') . '/' . $package->pdf,
-                        'text_description' => strip_tags($package->text_description),
-                        'text_description_2' => strip_tags($package->text_description_2),
-                        'prices' => $prices,  // Added prices to the response
-                    ];
-                });
-            // ];
-
-            return response()->json([
-                'message' => 'Package fetched successfully.',
-                'data' => $hotelData,
-                'status' => 200
-            ], 200);
-        }
-
+    if (!$token) {
         return response()->json([
-            'message' => 'Unauthenticated',
+            'message' => 'Unauthenticated.',
             'data' => [],
             'status' => 201,
         ], 401);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if ($user && $password == $user->password) {
+
+        $stateId = $request->input('state_id');
+        $cityId = $request->input('city_id');
+
+        $query = Package::query();
+
+        if ($stateId) {
+            $query->where('state_id', $stateId);
+        }
+
+        if ($cityId) {
+            $query->where('city_id', $cityId);
+        }
+
+        $packages = $query->get();
+
+        $states = State::all()->pluck('state_name', 'id');
+        $cities = City::all()->pluck('city_name', 'id');
+
+        $hotelData = $packages->map(function($package) use ($states, $cities) {
+
+            $imageUrls = array_values(json_decode($package->image, true));
+
+            $stateNames = $this->getNamesByIds($package->state_id, $states);
+            $cityNames = $this->getNamesByIds($package->city_id, $cities);
+
+            $today = Carbon::today()->format('Y-m-d');
+
+            $packagePrice = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '<=',$today)  
+                ->where('end_date', '>=',$today) 
+                ->get();
+
+            $prices = null;
+            if($packagePrice) {
+                $prices = $packagePrice->map(function($price) {
+                    return [
+                        'id' => $price->id,
+                        'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+                        'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                        'display_price' => $price->display_cost,
+                        'total_cost' => 
+                        $price->standard_cost ?? 0 +
+                        $price->deluxe_cost ?? 0 +
+                        $price->premium_cost ?? 0 +
+                        $price->super_deluxe_cost ?? 0 +
+                        $price->luxury_cost ?? 0 +
+                        $price->nights_cost ?? 0 +
+                        $price->adults_cost ?? 0 +
+                        $price->child_with_bed_cost ?? 0 +
+                        $price->child_no_bed_infant_cost ?? 0 +
+                        $price->child_no_bed_child_cost ?? 0 +
+                        $price->meal_plan_only_room_cost ?? 0 +
+                        $price->meal_plan_breakfast_cost ?? 0 +
+                        $price->meal_plan_breakfast_lunch_dinner_cost ?? 0 +
+                        $price->meal_plan_all_meals_cost ?? 0 +
+                        $price->hatchback_cost ?? 0 +
+                        $price->sedan_cost ?? 0 +
+                        $price->economy_suv_cost ?? 0 +
+                        $price->luxury_suv_cost ?? 0 +
+                        $price->traveller_mini_cost ?? 0 +
+                        $price->traveller_big_cost ?? 0 +
+                        $price->premium_traveller_cost ?? 0 +
+                        $price->ac_coach_cost ?? 0 +
+                        $price->extra_bed_cost ?? 0
+                    ];
+                });
+            }
+
+            return [
+                'id' => $package->id,
+                'package_name' => $package->package_name,
+                'state_names' => $stateNames, 
+                'city_names' => $cityNames,
+                'image' => array_map(function($image) {
+                    return url('') . '/' . $image;
+                }, $imageUrls),
+                'video' => array_map(function($video) {
+                    return url('') . '/' . $video;
+                }, is_array($videos = json_decode($package->video, true)) ? $videos : []),
+                'pdf' => url('') . '/' . $package->pdf,
+                'text_description' => strip_tags($package->text_description),
+                'text_description_2' => strip_tags($package->text_description_2),
+                'prices' => $prices,
+            ];
+        });
+
+        return response()->json([
+            'message' => 'Package fetched successfully.',
+            'data' => $hotelData,
+            'status' => 200
+        ], 200);
+    }
+
+    return response()->json([
+        'message' => 'Unauthenticated',
+        'data' => [],
+        'status' => 201,
+    ], 401);
+}
+
+    // public function package(Request $request)
+    // {
+    //     $token = $request->bearerToken();
+        
+    //     if (!$token) {
+    //         return response()->json([
+    //             'message' => 'Unauthenticated.',
+    //             'data' => [],
+    //             'status' => 201,
+    //         ], 401);
+    //     }
+
+    //     $decodedToken = base64_decode($token);
+    //     list($email, $password) = explode(',', $decodedToken);
+
+    //     $user = Agent::where('email', $email)->first();
+
+    //     if ($user && $password == $user->password) {
+            
+    //         $hotels = Hotels::all();
+    //         $packages = Package::get();
+
+    //         $states = State::all()->pluck('state_name', 'id');
+    //         $cities = City::all()->pluck('city_name', 'id');
+
+    //         $hotelData = 
+    //             $packages->map(function($package) use ($states, $cities) {
+        
+    //                 // Get the images
+    //                 $imageUrls = array_values(json_decode($package->image, true));
+        
+    //                 // Get state and city names
+    //                 $stateNames = $this->getNamesByIds($package->state_id, $states);
+    //                 $cityNames = $this->getNamesByIds($package->city_id, $cities);
+
+    //                 $today = Carbon::today()->format('Y-m-d');
+
+    //                 $packagePrice = PackagePrice::where('package_id', $package->id)
+    //                     ->where('start_date', '<=',$today)  
+    //                     ->where('end_date', '>=',$today) 
+    //                     ->get();
+
+    //                 // $packagePrice = PackagePrice::where('package_id', $package->id)->get();
+    //                 $prices = null;
+    //                 if($packagePrice){
+    //                 $prices = $packagePrice->map(function($price) {
+    //                     return [
+    //                         'id' => $price->id,
+    //                         'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+    //                         'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+    //                         'display_price' => $price->display_cost,
+    //                         'total_cost' => 
+    //                         $price->standard_cost ?? 0 +
+    //                         $price->deluxe_cost ?? 0 +
+    //                         $price->premium_cost ?? 0 +
+    //                         $price->super_deluxe_cost ?? 0 +
+    //                         $price->luxury_cost ?? 0 +
+    //                         $price->nights_cost ?? 0 +
+    //                         $price->adults_cost ?? 0 +
+    //                         $price->child_with_bed_cost ?? 0 +
+    //                         $price->child_no_bed_infant_cost ?? 0 +
+    //                         $price->child_no_bed_child_cost ?? 0 +
+    //                         $price->meal_plan_only_room_cost ?? 0 +
+    //                         $price->meal_plan_breakfast_cost ?? 0 +
+    //                         $price->meal_plan_breakfast_lunch_dinner_cost ?? 0 +
+    //                         $price->meal_plan_all_meals_cost ?? 0 +
+    //                         $price->hatchback_cost ?? 0 +
+    //                         $price->sedan_cost ?? 0 +
+    //                         $price->economy_suv_cost ?? 0 +
+    //                         $price->luxury_suv_cost ?? 0 +
+    //                         $price->traveller_mini_cost ?? 0 +
+    //                         $price->traveller_big_cost ?? 0 +
+    //                         $price->premium_traveller_cost ?? 0 +
+    //                         $price->ac_coach_cost ?? 0 +
+    //                         $price->extra_bed_cost ?? 0
+    //                     ];
+                        
+    //                 });
+    //             }
+        
+    //                 return [
+    //                     'id' => $package->id,
+    //                     'package_name' => $package->package_name,
+    //                     'state_names' => $stateNames, 
+    //                     'city_names' => $cityNames,
+    //                     'image' => array_map(function($image) {
+    //                         return url('') . '/' . $image;
+    //                     }, $imageUrls),
+    //                     'video' => array_map(function($video) {
+    //                     return url('') . '/' . $video;
+    //                     }, is_array($videos = json_decode($package->video, true)) ? $videos : []),
+
+    //                     'pdf' => url('') . '/' . $package->pdf,
+    //                     'text_description' => strip_tags($package->text_description),
+    //                     'text_description_2' => strip_tags($package->text_description_2),
+    //                     'prices' => $prices,  // Added prices to the response
+    //                 ];
+    //             });
+    //         // ];
+
+    //         return response()->json([
+    //             'message' => 'Package fetched successfully.',
+    //             'data' => $hotelData,
+    //             'status' => 200
+    //         ], 200);
+    //     }
+
+    //     return response()->json([
+    //         'message' => 'Unauthenticated',
+    //         'data' => [],
+    //         'status' => 201,
+    //     ], 401);
+    // }
+
+
+
+
+    public function package_state_city(Request $request)
+    {
+        $stateIds = Package::distinct()->pluck('state_id'); 
+        $states = State::whereIn('id', $stateIds)->get(['id', 'state_name']);
+
+        $response = [];
+    
+        foreach ($states as $state) {
+
+            $cityIds = Package::where('state_id', $state->id)->distinct()->pluck('city_id');
+
+            $cities = City::whereIn('id', $cityIds)->get(['id', 'city_name']);
+
+            $response[] = [
+                'state' => [
+                    'id' => $state->id,
+                    'state_name' => $state->state_name,
+                    'cities' => $cities 
+                ]
+            ];
+        }
+    
+        return response()->json([
+            'message' => 'States and cities fetched successfully.',
+            'data' => $response,
+            'status' => 200
+        ]);
     }
 
 

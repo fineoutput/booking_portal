@@ -22,7 +22,8 @@ use App\Http\Controllers\Api\SafariController;
 
     Route::get('hotel', [HotelController::class, 'hotel']);
     Route::post('filter-hotel', [HotelController::class, 'filterHotels']);
-    Route::get('packages', [HotelController::class, 'package']);
+    Route::post('packages', [HotelController::class, 'package']);
+    Route::post('packages-state-city', [HotelController::class, 'package_state_city']);
     Route::post('package-detailes', [HotelController::class, 'packagedetailes']);
     Route::post('package-booking', [HotelController::class, 'packagebooking']);
 
