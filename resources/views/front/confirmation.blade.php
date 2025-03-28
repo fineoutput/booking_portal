@@ -37,13 +37,23 @@
             </div>
         
             <button type="submit" class="btn btn-primary w-100 mt-3">Confirm Booking</button>
-            <button type="button" class="btn btn-primary w-50 mt-3" onclick="downloadDetails()">Download PDF</button>
+            <button type="button" class="btn btn-primary w-50 mt-3" onclick="downloadPDF('{{ asset($package->pdf) }}')">
+                Download PDF
+            </button>
         </form>
 
 
     </div>
 </section>
 
+<script>
+    function downloadPDF(pdfUrl) {
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = pdfUrl.split('/').pop();  // Extract file name from URL
+        link.click();
+    }
+</script>
 <script>
     // Initialize values
     const fetchedPriceInput = document.getElementById('fetchedPrice');

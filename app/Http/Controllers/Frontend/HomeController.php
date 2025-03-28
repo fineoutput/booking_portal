@@ -1235,8 +1235,10 @@ if ($max_price) {
 
     public function confirmation(Request $request, $id)
     {
-        $id = base64_decode($id);  // Decode the ID
+        $id = base64_decode($id); 
         $data['packagebookingtemp'] = PackageBookingTemp::where('id', $id)->first();
+        $data['package'] = Package::where('id', $data['packagebookingtemp']->package_id)->first();
+        $data['agent'] = Agent::where('id', $data['packagebookingtemp']->user_id)->first();
         return view('front/confirmation', $data);
     }
     
