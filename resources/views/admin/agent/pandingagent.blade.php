@@ -61,6 +61,7 @@
                         <th data-priority="3">Aadhar Image Back</th>
                         <th data-priority="3">Pancard Image</th>
                         <th data-priority="3">Logo</th>
+                        <th data-priority="3">Status</th>
                         <th data-priority="3">Action</th>
                       </tr>
                     </thead>
@@ -113,6 +114,13 @@
                 N/A
             @endif
         </td>
+        <td>
+          @if($value->status == 0)
+              <p class="text-danger">Inactive</p>
+          @else
+          <p class="text-success">Active</p>
+          @endif
+        </td>
 
         <td>
             <form action="{{ route('agent.updateStatus', $value->id) }}" method="POST" style="display:inline;">
@@ -128,6 +136,20 @@
            <p class="text-success">Approved</p>
            @endif
        </form>
+
+       <form action="{{ route('agent.changeStatus', $value->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('PATCH')
+    
+        @if($value->approved == 1)
+            <button type="submit" class="btn btn-info" 
+                    onclick="return confirm('Are you sure you want to change the status?')">
+                {{ $value->status == 1 ? 'Inactive' : 'Active' }}
+            </button>
+        @endif
+    </form>
+    
+    
        </td>
     </tr>
 

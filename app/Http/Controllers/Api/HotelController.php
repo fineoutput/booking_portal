@@ -3531,6 +3531,50 @@ public function getLanguages(Request $request)
     ]);
 }
 
+
+public function updateStatus(Request $request)
+{
+    $request->validate([
+        'fcm_token' => 'required|string',
+    ]);
+
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 401,
+        ]);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $password != $user->password) {
+        return response()->json([
+            'message' => 'Invalid credentials.',
+            'data' => [],
+            'status' => 401, 
+        ]);
+    }
+
+    $user->fcm_token = $request->fcm_token;
+    $user->save();
+
+    // Check status
+    $status = $user->status == 1 ? 'Active' : 'Inactive';
+
+    return response()->json([
+        'message' => 'FCM token updated successfully!',
+        'status' => 200,
+        'data' => [
+            'status' => $status
+        ],
+    ]);
+}
     
 
     

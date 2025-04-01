@@ -64,6 +64,8 @@ use App\Http\Controllers\Api\SafariController;
     Route::post('/popular-city', [HotelController::class, 'popularCity']);
     Route::get('/guide-city', [HotelController::class, 'guideCity']);
 
+    Route::post('/update-status', [HotelController::class, 'updateStatus']);
+
 
 
 

@@ -242,6 +242,7 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/panding-agent', [AgentController::class, 'pandingagent'])->name('pandingagent');
     Route::get('/complete-agent', [AgentController::class, 'completeagent'])->name('completegagent');
     Route::match(['put', 'patch'], '/agent/{id}/status', [AgentController::class, 'updateStatus'])->name('agent.updateStatus');
+    Route::match(['put', 'patch'], '/agent/{id}/changeStatus', [AgentController::class, 'changeStatus'])->name('agent.changeStatus');
 
     Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi-booking');
 
