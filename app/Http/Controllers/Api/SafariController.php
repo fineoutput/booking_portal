@@ -114,8 +114,20 @@ class SafariController extends Controller
         $user = Agent::where('email', $email)->first();
     
         if ($user && $password == $user->password) {
-    
-            $wildlifeSafaris = WildlifeSafari::orderBy('id', 'DESC')->get();
+
+            $state_id = $request->input('state_id');
+            $timing_value = $request->input('time');
+
+            $wildlifeSafaris = WildlifeSafari::orderBy('id', 'DESC')
+                ->when($state_id, function($query) use ($state_id) {
+                    return $query->where('state_id', $state_id);
+                })
+                ->when($timing_value, function($query) use ($timing_value) {
+                    return $query->where('timings', 'LIKE', "%{$timing_value}%");
+                })
+                ->get();
+
+            
     
             $wildlifeSafarisData = $wildlifeSafaris->map(function($safari) {
         
@@ -160,6 +172,28 @@ class SafariController extends Controller
             'data' => [],
             'status' => 201,
         ], 401);
+    }
+
+    public function wildsafaristate(){
+        $wildlifeSafaris = WildlifeSafari::get();
+
+    $stateIds = $wildlifeSafaris->pluck('state_id')->unique();
+
+    $state = State::whereIn('id', $stateIds)->get();
+
+    $citiesArray = $state->map(function($state) {
+        return [
+            'id' => $state->id,
+            'state_name' => $state->state_name
+        ];
+    });
+
+    return response()->json([
+        'message' => 'State fetched successfully.',
+        'data' => $citiesArray,
+        'status' => 200,
+    ]);
+
     }
     
     

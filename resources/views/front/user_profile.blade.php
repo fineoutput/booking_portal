@@ -403,53 +403,74 @@
                 <h5 class="modal-title" id="hotelModalLabel">Select Hotels</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <ul class="list-group">
-                    <!-- Hotel List Item -->
-                    <li class="list-group-item d-flex align-items-center row">
-                        <div class="col-2">
+            <form action="{{ route('hotel_prefrence') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <!-- Hotel List Item -->
+                        @foreach ($hotels as $valuess)
+                        <li class="list-group-item d-flex align-items-center row">
+                            <div class="col-2">
+                                @php
+                                $images = json_decode($valuess->images); 
+                            @endphp
+                                @if($images && is_array($images) && count($images) > 0)
+                                <img src="{{ asset(reset($images)) }}" class="rounded me-3" alt="Hotel 1">
+                            @else
+                                <p>No images available.</p>
+                            @endif
 
-                            <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 1">
-                        </div>
-                        <div class="col-8" style="
-                        text-align: center;
-                        justify-content: center;
-                    ">
-
-                            <div class="flex-grow-1">
-                                <h6 class="mb-0">Grand Palace</h6>
-                                <small>⭐⭐⭐ (3 Star)</small>
                             </div>
-                        </div>
-                        <div class="col-2" style="
-    text-align: right; ">
+                            <div class="col-8" style="text-align: center; justify-content: center;">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0">{{ $valuess->name ?? '' }}</h6>
+                                    @if($valuess->hotel_category == 'Standard')
+                                    <small value="Standard">⭐ (1 star)</small>
 
-                            <input type="checkbox" class="form-check-input ms-auto">
-                        </div>
-                       
-                    </li>
-                    <li class="list-group-item d-flex align-items-center">
-                        <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 2">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-0">Sunset Resort</h6>
-                            <small>⭐⭐⭐⭐ (4 Star)</small>
-                        </div>
-                        <input type="checkbox" class="form-check-input ms-auto">
-                    </li>
-                    <li class="list-group-item d-flex align-items-center">
-                        <img src="https://via.placeholder.com/50" class="rounded me-3" alt="Hotel 3">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-0">Ocean View</h6>
-                            <small>⭐⭐ (2 Star)</small>
-                        </div>
-                        <input type="checkbox" class="form-check-input ms-auto">
-                    </li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success">Submit</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+                                    @elseif($valuess->hotel_category == 'Deluxe')
+                                    <small value="Deluxe">⭐⭐ (2 star)</small>
+
+                                    @elseif($valuess->hotel_category == 'Super deluxe')
+                                    <small value="Super deluxe">⭐⭐⭐ (3 star)</small>
+
+                                    @elseif($valuess->hotel_category == 'Premium')
+                                    <small value="Premium">⭐⭐⭐⭐ (4 star)</small>
+
+                                    @else
+                                    <small>⭐⭐⭐⭐⭐ (5 Star)</small>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-2" style="text-align: right;">
+                                @php
+                                $alreadyAdded = isset($selected_hotels[$valuess->id]) ? true : false;
+                            @endphp
+                            <label>
+                                @if($alreadyAdded)
+                                    <!-- Show the hotel as already added -->
+                                    <input type="checkbox" disabled class="form-check-input ms-auto" />
+                                    <span class="text-muted">Already Added</span>
+                                @else
+                                    <!-- Enable checkbox for hotels not added yet -->
+                                    <input type="checkbox" name="hotel_id[]" value="{{ $valuess->id }}" class="form-check-input ms-auto">
+                                @endif
+                                <!-- Use checkbox input and hotel_id inside a form group -->
+                                {{-- <label>
+                                    <input type="checkbox" name="hotel_id[]" value="{{ $valuess->id }}" class="form-check-input ms-auto"> --}}
+                                    <input type="hidden" name="booking_id" value="{{ $value->id }}">
+                                </label>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+            
         </div>
     </div>
 </div>

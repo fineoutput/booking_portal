@@ -30,7 +30,20 @@ class AgentController extends Controller
         $vehicle->approved = ($vehicle->status == 0) ? 1 : 0;
         $vehicle->save();
 
-        return redirect()->back()->with('success', 'Hotel Booking status updated successfully!');
+        return redirect()->back()->with('success', 'Agent status updated successfully!');
+    }
+
+    public function changeStatus($id)
+    {
+        $agent = Agent::findOrFail($id);
+    
+ 
+            $agent->status = $agent->status == 1 ? 0 : 1; // Toggle status
+            $agent->save();
+    
+            return redirect()->back()->with('success', 'Agent status updated successfully!');
+
+    
     }
 
 }

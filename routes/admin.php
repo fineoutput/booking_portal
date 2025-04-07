@@ -155,6 +155,7 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/reject-package-booking', [PackageController::class, 'rejectorders'])->name('rejectpackagebooking');
    Route::get('/accept-package-booking', [PackageController::class, 'acceptorders'])->name('acceptpackagebooking');
    Route::get('/upgrade-package-request/{id}', [PackageController::class, 'upgradeorders'])->name('upgradepackagerequest');
+   Route::get('/hotel-prefrence-request/{id}', [PackageController::class, 'hotelprefrenceorders'])->name('hotelprefrencerequest');
    Route::match(['put', 'patch'], '/package-booking/{id}/status', [PackageController::class, 'updateStatus'])->name('packagebooking.updateStatus');
    Route::match(['put', 'patch'], '/upgraderequest-booking/{id}/status', [PackageController::class, 'upgradeupdateStatus'])->name('upgraderequest.updateStatus');
 
@@ -241,6 +242,7 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/panding-agent', [AgentController::class, 'pandingagent'])->name('pandingagent');
     Route::get('/complete-agent', [AgentController::class, 'completeagent'])->name('completegagent');
     Route::match(['put', 'patch'], '/agent/{id}/status', [AgentController::class, 'updateStatus'])->name('agent.updateStatus');
+    Route::match(['put', 'patch'], '/agent/{id}/changeStatus', [AgentController::class, 'changeStatus'])->name('agent.changeStatus');
 
     Route::get('/taxi-booking', [TaxiBookingController::class, 'index'])->name('taxi-booking');
 

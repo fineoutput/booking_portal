@@ -40,6 +40,7 @@ use App\Models\Tourist;
 use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
 use App\Models\Wallet;
+use App\Models\HotelPrefrence;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Redirect;
@@ -389,9 +390,19 @@ class HomeController extends Controller
 
             $data['user']->load('cities', 'state');
 
-            $data['booking'] = PackageBooking::with('tourists')->where('user_id', $data['user']->id)->get();
-            $data['booking'] = PackageBooking::with('tourists')->where('user_id', $data['user']->id)->get();
+            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->get();
+
+            $data['selected_hotels'] = HotelPrefrence::where('user_id', $data['user']->id)
+            ->pluck('hotel_id', 'booking_id')->toArray(); 
             
+            $packageIds = $data['booking']->pluck('package_id')->map(function($id) {
+                return (int)$id;
+            })->toArray();
+            // return $packageIds;
+
+            $data['hotels'] = Hotels::whereIn('package_id', $packageIds)->get();
+            // return $data['hotels'];
+
             $user_id = Auth::guard('agent')->id();
 
             $data['wallet'] = Wallet::where('user_id', $user_id)
@@ -527,24 +538,27 @@ public function upgrade_request(Request $request)
 public function hotel_prefrence(Request $request)
 {
     $validated = $request->validate([
-        'booking_id' => 'required',
-        'upgrade_details' => 'required',
-        'notes' => 'required',
+        'hotel_id' => 'required',  
+        'hotel_id.*' => 'integer|exists:hotels,id', 
+        'booking_id' => 'required|integer', 
     ]);
-    
-        $UpgradeRequest = new UpgradeRequest([
+
+    $hotelIds = $request->input('hotel_id');
+    $booking_id = $request->input('booking_id');
+
+    foreach ($hotelIds as $hotelId) {
+        $UpgradeRequest = new HotelPrefrence([
             'user_id' => Auth::guard('agent')->id(),
-            'upgrade_details' => $request->upgrade_details,
-            'notes' => $request->notes,
-            'booking_id' => $request->booking_id,
-            'status' => 0,
+            'hotel_id' => $hotelId,
+            'booking_id' => $booking_id, 
         ]);
-
-        $UpgradeRequest->save();
-
+        
+        $UpgradeRequest->save(); 
+    }
 
     return redirect()->back()->with([
-        'message' => 'Upgrade Request send successfully!']);
+        'message' => 'Hotel preferences have been saved successfully!',
+    ]);
 }
 
 
@@ -1229,8 +1243,10 @@ if ($max_price) {
 
     public function confirmation(Request $request, $id)
     {
-        $id = base64_decode($id);  // Decode the ID
+        $id = base64_decode($id); 
         $data['packagebookingtemp'] = PackageBookingTemp::where('id', $id)->first();
+        $data['package'] = Package::where('id', $data['packagebookingtemp']->package_id)->first();
+        $data['agent'] = Agent::where('id', $data['packagebookingtemp']->user_id)->first();
         return view('front/confirmation', $data);
     }
     
@@ -1264,9 +1280,9 @@ if ($max_price) {
     public function wildlife()
     {
         $data['wildlife'] = WildlifeSafari::all();
-        $cityIds = $data['wildlife']->pluck('city_id')->unique();
+        $cityIds = $data['wildlife']->pluck('state_id')->unique();
 
-        $data['cities'] = City::whereIn('id', $cityIds)->get();
+        $data['cities'] = State::whereIn('id', $cityIds)->get();
 
         $data['slider'] = Slider::orderBy('id','DESC')->where('type','safari')->get();
         return view('front/wildlife',$data);
@@ -1283,7 +1299,7 @@ if ($max_price) {
         $max_price = $request->query('max_price');  // Max price from the form
 
         // Initialize the query for WildlifeSafari
-        $safari_query = WildlifeSafari::where('city_id', $city_id)
+        $safari_query = WildlifeSafari::where('state_id', $city_id)
         ->where('timings', 'LIKE', "%{$timing_value}%");
 
         if ($min_price) {

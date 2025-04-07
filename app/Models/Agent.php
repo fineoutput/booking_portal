@@ -28,6 +28,8 @@ class Agent extends Authenticatable
         'logo',
         'registration_charge',
         'approved',
+        'status',
+        'fcm_token',
     ];
 
     public function state()

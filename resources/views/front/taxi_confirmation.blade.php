@@ -37,7 +37,7 @@
             </div>
         
             <button type="submit" class="btn btn-primary w-100 mt-3">Confirm Booking</button>
-            <button type="button" class="btn btn-primary w-50 mt-3" onclick="downloadDetails()">Download PDF</button>
+         
         </form>
 
 

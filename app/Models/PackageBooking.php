@@ -94,6 +94,11 @@ class PackageBooking extends Model
         return $this->hasOne(TransferPackageOrder::class, 'order_id', 'id');
     }
 
+    public function hotels()
+    {
+        return $this->hasMany(Hotels::class, 'package_id', 'package_id');
+    }
+
 
 
 }

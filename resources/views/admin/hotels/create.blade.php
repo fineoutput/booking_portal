@@ -74,9 +74,9 @@
                                     <div class="col-sm-4 mt-2">
                                         <select class="form-control" name="hotel_category" id="hotel_category" required>
                                             <option value="">Select Hotel Category</option>
-                                            <option value="Standard">Standard (2 star)</option>
-                                            <option value="Deluxe">Deluxe (3 star)</option>
-                                            <option value="Super deluxe">Super deluxe (premium 3 star)</option>
+                                            <option value="Standard">Standard (1 star)</option>
+                                            <option value="Deluxe">Deluxe (2 star)</option>
+                                            <option value="Super deluxe">Super deluxe (3 star)</option>
                                             <option value="Premium">Premium (4 star)</option>
                                             <option value="Luxury">Luxury  (5 star)</option>
                                             

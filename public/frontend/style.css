@@ -2172,3 +2172,7 @@ textarea.form-control {
 .mage_vin {
   height: 50vh;
 } 
+
+.counter_hotels input {
+  text-align: center;
+}

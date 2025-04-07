@@ -10,6 +10,7 @@ use App\Models\City;
 use App\Models\TransferPackageOrder;
 use App\Models\RemarkPackageOrder;
 use App\Models\State;
+use App\Models\HotelPrefrence;
 use App\Models\UpgradeRequest;
 use App\Models\Tourist;
 use Illuminate\Support\Facades\Storage;
@@ -151,6 +152,10 @@ class PackageController extends Controller
     function upgradeorders($id) {
             $data['UpgradeRequest'] = UpgradeRequest::orderBy('id','DESC')->where('booking_id',$id)->get();
             return view('admin/package/upgrade',$data);
+    }
+    function hotelprefrenceorders($id) {
+            $data['UpgradeRequest'] = HotelPrefrence::orderBy('id','DESC')->where('booking_id',$id)->get();
+            return view('admin/package/hotelprefrence',$data);
     }
 
 

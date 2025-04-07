@@ -70,7 +70,7 @@
                     @foreach($package as $key=> $hotel)
                     <tr>
                         <td>{{ $key+1 }}</td>
-                        <td>#{{ $hotel->user->id ?? '' }}</td>
+                        <td>#{{ $hotel->id ?? '' }}</td>
                         <td>{{ $hotel->user->name ?? '' }}</td>
                         <td>{{ $hotel->package->package_name ?? '' }}</td>
                         <td>{{ $hotel->package->cities->city_name ?? '' }}</td>
@@ -179,6 +179,9 @@
                               </a>
                               <a href="{{ route('upgradepackagerequest', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
                                 View Request
+                              </a>
+                              <a href="{{ route('hotelprefrencerequest', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
+                                View Hotel Prefrense
                               </a>
                         </td>
                     </tr>
