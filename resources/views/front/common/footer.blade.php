@@ -3,40 +3,57 @@
     <div class="row" style="
     color: #009ee3;
 ">
-      <div class="col-6 col-lg-4">
+      <div class="col-md-4 col-lg-4 col-sm-12">
       <div class="logo">
           <a style="text-decoration: none;" href="{{ route('index') }}"><img class="bawe" style="width: 350px;" src="{{ asset('frontend/images/tripp.png') }}" alt=""></a>
             
           </div>
-        <p class="mb-2">0987654321</p>
-        <p>1234567890</p>
+        <p class="mb-2">Colors Of India Hospitality</p>
+        {{-- <p>1234567890</p> --}}
       </div>
-      <div class="col">
-        <h4>Menu</h4>
-        <ul class="list-unstyled pt-2">
-          <li class="py-1">Home</li>
-          <li class="py-1">Policies</li>
-          <li class="py-1">About</li>
-          <li class="py-1">Contact</li>
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <ul class="pt-2" style="list-style: none">
+          <h4 class="font-weight-bold" style="font-weight: bold">Contact Us</h4>
+          <li class="py-1">
+            <strong>Phone:</strong> 9782324798
+          </li>
+          <li class="py-1">
+            <strong>Email:</strong> <a href="mailto:coih.praveensharma@gmail.com" style="
+            color: #009ee3;
+        " class="text-decoration-none ">coih.praveensharma@gmail.com</a>
+          </li>
+          <li class="py-1">
+            <strong>Address:</strong><br>
+            T7, 3rd Floor, Jagdamba Tower,<br>
+            Amrapali Circle, Vaishali Nagar,<br>
+            Jaipur, Rajasthan 302021
+          </li>
         </ul>
       </div>
-      <div class="col">
-        <h4>More</h4>
-        <ul class="list-unstyled pt-2">
-          <li class="py-1">Privacy policy</li>
-          <li class="py-1">FAQs</li>
+      
+      <div class="col-md-2 col-lg-2 col-sm-12">
+        <ul class="pt-2" style="
+        list-style: none;">
+        <h4 class="font-weight-bold" style="font-weight: bold">Policies</h4>
+          <li class="py-1"><a style="
+            color: #009ee3;
+        " href="{{ route('shipping_policy') }}">Shipping Policy</a></li>
+          <li class="py-1"><a style="
+            color: #009ee3;
+        " href="{{ route('terms_condition') }}">Terms and Conditions</a></li>
         </ul>
       </div>
-      <div class="col">
-        <h4>Categories</h4>
-        <ul class="list-unstyled pt-2">
+      <div class="col-md-2 col-lg-2 col-sm-12">
+        <ul class="pt-2" style="
+        list-style: none;">
+        <h4 class="font-weight-bold" style="font-weight: bold">Categories</h4>
           <li class="py-1">Login</li>
           <li class="py-1">Register</li>
           <li class="py-1">Property</li>
           <li class="py-1">Cab</li>
         </ul>
       </div>
-      <div class="col-6 col-lg-3 text-lg-end">
+      {{-- <div class="col-6 col-lg-3 text-lg-end">
         <h4>Social Media Links</h4>
         <div class="social-media pt-2">
           <a href="#" class="text-light fs-2 me-3"><i class="bi bi-facebook"></i></a>
@@ -44,7 +61,7 @@
           <a href="#" class="text-light fs-2 me-3"><i class="bi bi-instagram"></i></a>
           <a href="#" class="text-light fs-2"><i class="bi bi-linkedin"></i></a>
         </div>
-      </div>
+      </div> --}}
     </div>
     <hr>
     <div class="d-sm-flex justify-content-between py-1">
@@ -54,10 +71,10 @@
       <p>
         <a href="#" class=" text-decoration-none pe-4" style="
         color: #009ee3;
-    ">Terms of use</a>
+    ">Designed and Developed by</a>
         <a href="#" class=" text-decoration-none" style="
     color: #009ee3;
-"> Privacy policy</a>
+"> <b>Fineoutput Technologies</b></a>
       </p>
     </div>
   </div>

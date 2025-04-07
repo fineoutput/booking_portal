@@ -48,6 +48,8 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('login', [HomeController::class, 'login'])->name('login');
     Route::get('options', [HomeController::class, 'options'])->name('options');
+    Route::get('shipping_policy', [HomeController::class, 'shipping_policy'])->name('shipping_policy');
+    Route::get('terms_condition', [HomeController::class, 'terms_condition'])->name('terms_condition');
     Route::get('hotel_list', [HomeController::class, 'hotel_list'])->name('hotel_list');
     Route::get('confirmation/{id}', [HomeController::class, 'confirmation'])->name('confirmation');
     Route::get('safari-confirmation/{id}', [HomeController::class, 'safariconfirmation'])->name('safari_confirmation');

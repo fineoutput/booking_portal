@@ -208,6 +208,14 @@ class HomeController extends Controller
     {
         return view('front/options');
     }
+    public function shipping_policy()
+    {
+        return view('front/shipping_policy');
+    }
+    public function terms_condition()
+    {
+        return view('front/terms_condition');
+    }
     
 
    
