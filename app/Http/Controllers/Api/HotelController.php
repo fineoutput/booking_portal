@@ -814,14 +814,36 @@ private function getNamesByIds($ids, $list)
     
 
 
+// private function generateImageUrls($images, $baseUrl)
+// {
+//     $imagePaths = json_decode($images);
+
+//     return array_map(function($image) use ($baseUrl) {
+//         return url($baseUrl . '/' . $image); 
+//     }, $imagePaths);
+// }
+
 private function generateImageUrls($images, $baseUrl)
 {
+    // Check if the images are empty or null
+    if (is_null($images) || empty($images)) {
+        return [];  // Return an empty array if images is null or empty
+    }
+
+    // Decode the JSON string into an array
     $imagePaths = json_decode($images);
 
+    // Check if decoding returns an array, if not return an empty array
+    if (!is_array($imagePaths)) {
+        return [];
+    }
+
+    // Map over the image paths to generate full URLs
     return array_map(function($image) use ($baseUrl) {
         return url($baseUrl . '/' . $image); 
     }, $imagePaths);
 }
+
 
 public function vehicle(Request $request)
 {
