@@ -8,7 +8,14 @@
           <a style="text-decoration: none;" href="{{ route('index') }}"><img class="bawe" style="width: 350px;" src="{{ asset('frontend/images/tripp.png') }}" alt=""></a>
             
           </div>
-        <p class="mb-2">Colors Of India Hospitality</p>
+          <div style="
+          display: flex;
+          /* justify-content: space-evenly; */
+          gap: 20px;
+      ">
+            <p>Legal Name:</p>
+            <p class="mb-2">Colors Of India Hospitality</p>
+          </div>
         {{-- <p>1234567890</p> --}}
       </div>
       <div class="col-md-4 col-lg-4 col-sm-12">
