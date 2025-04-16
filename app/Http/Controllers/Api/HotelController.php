@@ -3530,7 +3530,7 @@ public function getLanguages(Request $request)
     ]);
 
     $tourists = Tourist::where('type', $request->type)
-                        ->where('user_id', $user->id)
+                        ->where('user_id', $user->id)->where('booking_id',$request->booking_id)
                         ->get();
 
     if ($tourists->isEmpty()) {
