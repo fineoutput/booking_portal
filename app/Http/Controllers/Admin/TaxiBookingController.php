@@ -140,16 +140,17 @@ class TaxiBookingController extends Controller
         $action = request()->input('status_action');
     
         if ($action == 'complete') {
-            // Change status to 1 (Confirmed)
+
             $vehicle->status = 1;
         } elseif ($action == 'cancel') {
-            // Change status to 2 (Canceled)
+            
+
             $vehicle->status = 2;
         } elseif ($action == 'accept') {
-            // Change status to 2 (Canceled)
+
             $vehicle->status = 3;
         } elseif ($action == 'process') {
-            // Change status to 2 (Canceled)
+
             $vehicle->status = 4;
         } else {
             // Default case, no action (status might not change)

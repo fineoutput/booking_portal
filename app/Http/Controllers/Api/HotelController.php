@@ -2331,11 +2331,14 @@ public function getLanguages(Request $request)
             0 => 'pending',  
             1 => 'complete', 
             2 => 'reject',   
+            3 => 'accept',   
+            4 => 'process',   
         ];
     
-        return $statusLabels[$status] ?? 'unknown';  // Default to 'unknown' if status doesn't match any of the values
+        return $statusLabels[$status] ?? 'unknown';  
     }
-    
+
+
 
     public function allbookings(Request $request) {
         $token = $request->bearerToken();
