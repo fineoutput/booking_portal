@@ -119,11 +119,16 @@
                               No Meals Selected
                           @endif
                       </td>
-                                              <td>
-                          @foreach (json_decode($hotel->images) as $image)
-                              <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
-                          @endforeach
-                      </td>
+                      <td>
+                        @if (!empty($hotel->images) && json_decode($hotel->images))
+                            @foreach (json_decode($hotel->images) as $image)
+                                <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
+                            @endforeach
+                        @else
+                            <span>No images available</span>
+                        @endif
+                    </td>
+                    
 
                       <td>
                         <form id="form_{{ $hotel->id }}" action="{{ route('show_front_hotels', ['id' => $hotel->id]) }}" method="POST">
