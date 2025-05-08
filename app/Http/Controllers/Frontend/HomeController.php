@@ -390,7 +390,7 @@ class HomeController extends Controller
 
             $data['user']->load('cities', 'state');
 
-            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->get();
+            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
 
             $data['selected_hotels'] = HotelPrefrence::where('user_id', $data['user']->id)
             ->pluck('hotel_id', 'booking_id')->toArray(); 
