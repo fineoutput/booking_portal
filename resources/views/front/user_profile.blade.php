@@ -424,21 +424,35 @@
                             <div class="col-8" style="text-align: center; justify-content: center;">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0">{{ $valuess->name ?? '' }}</h6>
-                                    @if($valuess->hotel_category == 'Standard')
-                                    <small value="Standard">⭐ (1 star)</small>
-
-                                    @elseif($valuess->hotel_category == 'Deluxe')
-                                    <small value="Deluxe">⭐⭐ (2 star)</small>
-
-                                    @elseif($valuess->hotel_category == 'Super deluxe')
-                                    <small value="Super deluxe">⭐⭐⭐ (3 star)</small>
-
-                                    @elseif($valuess->hotel_category == 'Premium')
-                                    <small value="Premium">⭐⭐⭐⭐ (4 star)</small>
-
-                                    @else
-                                    <small>⭐⭐⭐⭐⭐ (5 Star)</small>
-                                    @endif
+                                
+                                    @switch($valuess->hotel_category)
+                                        @case('Standard')
+                                            <small>Standard ⭐ (1 star)</small>
+                                            @break
+                                
+                                        @case('Deluxe')
+                                            <small>Deluxe ⭐⭐⭐ (3 star)</small>
+                                            @break
+                                
+                                        @case('Premium_3')
+                                            <small>Premium ⭐⭐⭐ (3 star)</small>
+                                            @break
+                                
+                                        @case('Super deluxe')
+                                            <small>Deluxe ⭐⭐⭐⭐ (4 star)</small>
+                                            @break
+                                
+                                        @case('Premium')
+                                            <small>Premium ⭐⭐⭐⭐ (4 star)</small>
+                                            @break
+                                
+                                        @case('Luxury')
+                                            <small>Deluxe ⭐⭐⭐⭐⭐ (5 star)</small>
+                                            @break
+                                
+                                        @default
+                                            <small>{{ $valuess->hotel_category }}</small>
+                                    @endswitch
                                 </div>
                             </div>
                             <div class="col-2" style="text-align: right;">
