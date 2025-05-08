@@ -25,6 +25,7 @@ class PackageBooking extends Model
         'start_date',
         'standard_count',
         'premium_count',
+        'premium_3_cost',
         'deluxe_count',
         'super_deluxe_count',
         'luxury_count',

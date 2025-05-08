@@ -69,7 +69,38 @@
                         <td>{{ $hotel->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->location }}</td>
-                        <td>{{ $hotel->hotel_category }}</td>
+                        {{-- <td>{{ $hotel->hotel_category }}</td> --}}
+                        <td>
+                          @switch($hotel->hotel_category)
+                              @case('Standard')
+                                  Standard (1 star)
+                                  @break
+                      
+                              @case('Deluxe')
+                                  Deluxe (3 star)
+                                  @break
+                      
+                              @case('Premium_3')
+                                  Premium (3 star)
+                                  @break
+                      
+                              @case('Super deluxe')
+                                  Deluxe (4 star)
+                                  @break
+                      
+                              @case('Premium')
+                                  Premium (4 star)
+                                  @break
+                      
+                              @case('Luxury')
+                                  Deluxe (5 star)
+                                  @break
+                      
+                              @default
+                                  {{ $hotel->hotel_category }} (Unknown category)
+                          @endswitch
+                      </td>
+                      
                         <td>
                           @php
                           $propertyIds = explode(',', $hotel->package_id);  

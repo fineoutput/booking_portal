@@ -286,6 +286,7 @@ class HotelController extends Controller
                             $price->standard_cost ?? 0 +
                             $price->deluxe_cost ?? 0 +
                             $price->premium_cost ?? 0 +
+                            $price->premium_3_cost ?? 0 +
                             $price->super_deluxe_cost ?? 0 +
                             $price->luxury_cost ?? 0 +
                             $price->nights_cost ?? 0 +
@@ -663,7 +664,7 @@ class HotelController extends Controller
 
             // Prepare the price data
             $prices = $packagePrices->map(function($price) {
-                $totalprice = $price->standard_cost + $price->deluxe_cost + $price->premium_cost + $price->super_deluxe_cost + $price->luxury_cost + $price->nights_cost + $price->adults_cost + $price->child_with_bed_cost + $price->child_no_bed_infant_cost + $price->child_no_bed_child_cost + $price->meal_plan_only_room_cost + $price->meal_plan_breakfast_cost + $price->meal_plan_breakfast_lunch_dinner_cost + $price->meal_plan_all_meals_cost + $price->hatchback_cost + $price->sedan_cost + $price->economy_suv_cost + $price->luxury_suv_cost + $price->traveller_mini_cost
+                $totalprice = $price->standard_cost + $price->deluxe_cost + $price->premium_cost +$price->premium_3_cost + $price->super_deluxe_cost + $price->luxury_cost + $price->nights_cost + $price->adults_cost + $price->child_with_bed_cost + $price->child_no_bed_infant_cost + $price->child_no_bed_child_cost + $price->meal_plan_only_room_cost + $price->meal_plan_breakfast_cost + $price->meal_plan_breakfast_lunch_dinner_cost + $price->meal_plan_all_meals_cost + $price->hatchback_cost + $price->sedan_cost + $price->economy_suv_cost + $price->luxury_suv_cost + $price->traveller_mini_cost
                 + $price->traveller_big_cost + $price->premium_traveller_cost + $price->ac_coach_cost + $price->extra_bed_cost;
                 return [
                     'id' => $price->id,
@@ -672,6 +673,7 @@ class HotelController extends Controller
                     'standard_cost' => $price->standard_cost,
                     'deluxe_cost' => $price->deluxe_cost,
                     'premium_cost' => $price->premium_cost,
+                    'premium_3_cost' => $price->premium_3_cost,
                     'super_deluxe_cost' => $price->super_deluxe_cost,
                     'luxury_cost' => $price->luxury_cost,
                     'nights_cost' => $price->nights_cost,
@@ -862,6 +864,7 @@ public function getHotelWithPackages(Request $request)
                     'standard_cost' => $price->standard_cost,
                     'deluxe_cost' => $price->deluxe_cost,
                     'premium_cost' => $price->premium_cost,
+                    'premium_3_cost' => $price->premium_3_cost,
                     'super_deluxe_cost' => $price->super_deluxe_cost,
                     'luxury_cost' => $price->luxury_cost,
                     'nights_cost' => $price->nights_cost,
@@ -1877,7 +1880,7 @@ public function packagebooking(Request $request)
         'child_no_bed_child_count' => 'nullable|integer|min:0',
         'extra_bed' => 'nullable|in:yes,no',
         'meal' => 'nullable|in:only_room,breakfast,breakfast_lunch,breakfast_dinner,all_meals',
-        'hotel_preference' => 'nullable|in:standard,deluxe,super_deluxe,luxury,premium',
+        'hotel_preference' => 'nullable|in:standard,deluxe,super_deluxe,luxury,premium_3,premium',
         'vehicle_options' => 'nullable|in:hatchback_cost,sedan_cost,economy_suv_cost,luxury_suv_cost,traveller_mini_cost,traveller_big_cost,premium_traveller_cost,ac_coach_cost',
         // 'travelinsurance' => 'nullable|boolean',
         'specialremarks' => 'nullable|string',
@@ -1957,6 +1960,9 @@ public function packagebooking(Request $request)
             break;
         case 'luxury':
             $hotel_preference_cost = $package_price->luxury_cost;
+            break;
+        case 'premium_3':
+            $hotel_preference_cost = $package_price->premium_3_cost;
             break;
         default:
             $hotel_preference_cost = $package_price->premium_cost;
@@ -3061,6 +3067,7 @@ public function getLanguages(Request $request)
                             $price->standard_cost ?? 0 +
                             $price->deluxe_cost ?? 0 +
                             $price->premium_cost ?? 0 +
+                            $price->premium_3_cost ?? 0 +
                             $price->super_deluxe_cost ?? 0 +
                             $price->luxury_cost ?? 0 +
                             $price->nights_cost ?? 0 +

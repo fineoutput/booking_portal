@@ -1177,6 +1177,10 @@ if ($max_price) {
 
             $hotel_preference_cost = $package_price->luxury_cost;
 
+        }elseif($request->hotel_preference == 'premium_3'){
+
+            $hotel_preference_cost = $package_price->premium_3_cost;
+
         }else{
 
             $hotel_preference_cost = $package_price->premium_cost;

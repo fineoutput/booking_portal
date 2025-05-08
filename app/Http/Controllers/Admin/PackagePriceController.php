@@ -36,6 +36,7 @@ class PackagePriceController extends Controller
                 'premium_cost' => 'required|numeric',
                 'super_deluxe_cost' => 'required|numeric',
                 'luxury_cost' => 'required|numeric',
+                'premium_3_cost' => 'required|numeric',
                 'nights_cost' => 'required|numeric',
                 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
@@ -98,6 +99,7 @@ class PackagePriceController extends Controller
                 $packagePrice->premium_cost = $request->premium_cost;
                 $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
                 $packagePrice->luxury_cost = $request->luxury_cost;
+                $packagePrice->premium_3_cost = $request->premium_3_cost;
                 $packagePrice->nights_cost = $request->nights_cost;
                 $packagePrice->adults_cost = $request->adults_cost;
                 $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
@@ -161,6 +163,7 @@ class PackagePriceController extends Controller
                 'premium_cost' => 'required|numeric',
                 'super_deluxe_cost' => 'required|numeric',
                 'luxury_cost' => 'required|numeric',
+                'premium_3_cost' => 'required|numeric',
                 'nights_cost' => 'required|numeric',
                 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
@@ -192,6 +195,7 @@ class PackagePriceController extends Controller
                 $packagePrice->premium_cost = $request->premium_cost;
                 $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
                 $packagePrice->luxury_cost = $request->luxury_cost;
+                $packagePrice->premium_3_cost = $request->premium_3_cost;
                 $packagePrice->nights_cost = $request->nights_cost;
                 $packagePrice->adults_cost = $request->adults_cost;
                 $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
