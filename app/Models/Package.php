@@ -20,6 +20,7 @@ class Package extends Model
         'text_description',
         'text_description_2',
         'show_front',
+        'night_count',
     ];
 
     public function hotels()

@@ -55,12 +55,21 @@
                             <form action="{{route('add_package')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" type="text" value="" id="package_name" name="package_name" placeholder="Enter name" required>
                                             <label for="package_name">Enter Package Name &nbsp;<span style="color:red;">*</span></label>
                                         </div>
                                         @error('package_name')
+                                        <div style="color:red">{{$message}}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" type="text" value="" id="night_count" name="night_count" placeholder="Enter name" required>
+                                            <label for="night_count">Night Count &nbsp;<span style="color:red;">*</span></label>
+                                        </div>
+                                        @error('night_count')
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>

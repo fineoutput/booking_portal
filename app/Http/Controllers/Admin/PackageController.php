@@ -353,6 +353,7 @@ class PackageController extends Controller
         $package->image = $imagePaths ? json_encode($imagePaths) : null; 
         $package->video = $videoPaths ? json_encode($videoPaths) : null; 
         $package->text_description = $request->text_description;
+        $package->night_count = $request->night_count;
         $package->pdf = $pdfPath;
         $package->text_description_2 = $request->text_description_2;
 
@@ -446,6 +447,7 @@ class PackageController extends Controller
     $package->package_name = $request->package_name;
 
     $package->text_description = $request->text_description;
+    $package->night_count = $request->night_count;
     $package->text_description_2 = $request->text_description_2;
 
 

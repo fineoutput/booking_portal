@@ -1101,10 +1101,17 @@ if ($max_price) {
     public function add_package_booking(Request $request, $id)
     {
         
+       
         $start_date = Carbon::parse($request->start_date);
         $end_date = Carbon::parse($request->end_date);
         
         $night_count = $start_date->diffInDays($end_date); 
+
+        $package_data = Package::where('id',$id)->first();
+
+        if($package_data->night_count < $night_count){
+            return redirect()->back()->with('message', "You can only book for {$package_data->night_count} nights.");
+        }
 
         $formatted_date = Carbon::now()->format('Y-m-d');
 
