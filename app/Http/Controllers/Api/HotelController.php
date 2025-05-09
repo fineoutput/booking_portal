@@ -1897,7 +1897,7 @@ public function packagebooking(Request $request)
         return redirect()->back()->with('message', "You can only book for {$package_data->night_count} nights.");
     }
 
-    $formatted_date = Carbon::now()->format('Y-m');
+    $formatted_date = Carbon::now()->format('Y-m-d');
 
     // Get package price for the specific package
     $package_price = PackagePrice::where('package_id', $request->package_id)
