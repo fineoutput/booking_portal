@@ -43,9 +43,9 @@
 
             @if ($package->pdf)
     <button type="button" class="btn btn-primary w-50 mt-3"
-        onclick="downloadPDF('{{ route('pdf.download', ['user_id' => Auth::id(), 'pdf_name' => urlencode(basename($package->pdf))]) }}')">
-        Download PDF with Logo
-    </button>
+    onclick="window.open('{{ route('pdf.download', ['user_id' => Auth::id(), 'pdf_name' => urlencode(basename($package->pdf))]) }}', '_blank')">
+    Download PDF with Logo
+</button>
 @else
     <p>No PDF available for download.</p>
 @endif
@@ -58,15 +58,21 @@
 
 <script>
     function downloadPDF(pdfUrl) {
-        console.log("Download function triggered with URL:", pdfUrl); // Debugging
+    window.open(pdfUrl, '_blank');
+}
 
-        // Create a temporary link element to trigger the download
-        const link = document.createElement('a');
-        link.href = pdfUrl;
-        link.download = pdfUrl.split('/').pop(); // Extract the file name from URL
-        link.click(); // Trigger the download
-    }
+    // function downloadPDF(pdfUrl) {
+    //     console.log("Download function triggered with URL:", pdfUrl); // Debugging
+
+    //     // Create a temporary link element to trigger the download
+    //     const link = document.createElement('a');
+    //     link.href = pdfUrl;
+    //     link.download = pdfUrl.split('/').pop(); // Extract the file name from URL
+    //     link.click(); // Trigger the download
+    // }
+
 </script>
+
 {{-- 
 <script>
     function downloadPDF(pdfUrl) {
