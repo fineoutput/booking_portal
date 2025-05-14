@@ -67,7 +67,7 @@ use App\Http\Controllers\Admin\PDFController;
 
     Route::post('/update-status', [HotelController::class, 'updateStatus']);
 
-    Route::get('/download-pdf-with-logo/{user_id}/{pdf_name}', [PDFController::class, 'downloadWithLogo'])->name('pdf.download');
+    // Route::get('/download-pdf-with-logo/{user_id}/{pdf_name}', [PDFController::class, 'downloadWithLogo'])->name('pdf.download');
 
 
 

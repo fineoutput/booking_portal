@@ -41,14 +41,15 @@
                 Download PDF
             </button> --}}
 
-            @if ($package->pdf)
+        @if ($package->pdf)
     <button type="button" class="btn btn-primary w-50 mt-3"
-    onclick="window.open('{{ route('pdf.download', ['user_id' => Auth::id(), 'pdf_name' => urlencode(basename($package->pdf))]) }}', '_blank')">
-    Download PDF
-</button>
+        onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'pdf_name' => urlencode(basename($package->pdf))]) }}'">
+        Download PDF
+    </button>
 @else
     <p>No PDF available for download.</p>
 @endif
+
             
         </form>
 
