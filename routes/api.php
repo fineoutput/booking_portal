@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\SafariController;
+use App\Http\Controllers\Admin\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +67,7 @@ use App\Http\Controllers\Api\SafariController;
 
     Route::post('/update-status', [HotelController::class, 'updateStatus']);
 
-
+    Route::get('/download-pdf-with-logo/{user_id}/{pdf_name}', [PDFController::class, 'downloadWithLogo'])->name('pdf.download');
 
 
 
