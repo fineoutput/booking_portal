@@ -69,7 +69,38 @@
                         <td>{{ $hotel->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->location }}</td>
-                        <td>{{ $hotel->hotel_category }}</td>
+                        {{-- <td>{{ $hotel->hotel_category }}</td> --}}
+                        <td>
+                          @switch($hotel->hotel_category)
+                              @case('Standard')
+                                  Standard (1 star)
+                                  @break
+                      
+                              @case('Deluxe')
+                                  Deluxe (3 star)
+                                  @break
+                      
+                              @case('Premium_3')
+                                  Premium (3 star)
+                                  @break
+                      
+                              @case('Super deluxe')
+                                  Deluxe (4 star)
+                                  @break
+                      
+                              @case('Premium')
+                                  Premium (4 star)
+                                  @break
+                      
+                              @case('Luxury')
+                                  Deluxe (5 star)
+                                  @break
+                      
+                              @default
+                                  {{ $hotel->hotel_category }} (Unknown category)
+                          @endswitch
+                      </td>
+                      
                         <td>
                           @php
                           $propertyIds = explode(',', $hotel->package_id);  
@@ -119,11 +150,16 @@
                               No Meals Selected
                           @endif
                       </td>
-                                              <td>
-                          @foreach (json_decode($hotel->images) as $image)
-                              <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
-                          @endforeach
-                      </td>
+                      <td>
+                        @if (!empty($hotel->images) && json_decode($hotel->images))
+                            @foreach (json_decode($hotel->images) as $image)
+                                <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
+                            @endforeach
+                        @else
+                            <span>No images available</span>
+                        @endif
+                    </td>
+                    
 
                       <td>
                         <form id="form_{{ $hotel->id }}" action="{{ route('show_front_hotels', ['id' => $hotel->id]) }}" method="POST">

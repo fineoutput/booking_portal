@@ -23,6 +23,10 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\VehicleController;
 use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Admin\PushNotificationController;
+use App\Http\Controllers\Admin\PDFController;
+use setasign\Fpdi\Fpdi;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +62,11 @@ Route::group(['prefix' => '/'], function () {
     Route::get('taxi-confirmation/{id}', [HomeController::class, 'taxiconfirmation'])->name('taxi_confirmation');
     
     Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
+
+    // Route for downloading PDF with logo
+    Route::get('/download-pdf-with-logo/{user_id}/{pdf_name}', [PDFController::class, 'downloadWithLogo'])->name('pdf.download');
+    
+
 
     Route::post('/upgrade-request', [HomeController::class, 'upgrade_request'])->name('upgrade_request');
     Route::post('/hotel-prefrence', [HomeController::class, 'hotel_prefrence'])->name('hotel_prefrence');

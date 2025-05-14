@@ -16,10 +16,12 @@ class Package extends Model
         'pdf',
         'city_id',
         'image',
+        'service_charge',
         'video',
         'text_description',
         'text_description_2',
         'show_front',
+        'night_count',
     ];
 
     public function hotels()

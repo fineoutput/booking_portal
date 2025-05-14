@@ -51,10 +51,32 @@
                                 @method('PUT') <!-- Use PUT method to indicate it's an update request -->
                                 
                                <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="package_name">Package Name</label>
                                         <input type="text" name="package_name" value="{{ old('package_name', $package->package_name) }}" class="form-control">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="service_charge" 
+                                            name="service_charge" 
+                                            value="{{ old('service_charge', $package->service_charge ?? '') }}" placeholder="Enter Service Charge" required>
+                                        <label for="service_charge">Enter Service Charge &nbsp;<span style="color:red;">*</span></label>
+                                    </div>
+                                    @error('service_charge')
+                                    <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+
+
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="night_count">Night Count</label>
+                                        <input type="text" name="night_count" value="{{ old('night_count', $package->night_count) }}" class="form-control">
                                     </div>
                                 </div>
                                 

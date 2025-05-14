@@ -390,7 +390,7 @@ class HomeController extends Controller
 
             $data['user']->load('cities', 'state');
 
-            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->get();
+            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
 
             $data['selected_hotels'] = HotelPrefrence::where('user_id', $data['user']->id)
             ->pluck('hotel_id', 'booking_id')->toArray(); 
@@ -1101,10 +1101,17 @@ if ($max_price) {
     public function add_package_booking(Request $request, $id)
     {
         
+       
         $start_date = Carbon::parse($request->start_date);
         $end_date = Carbon::parse($request->end_date);
         
         $night_count = $start_date->diffInDays($end_date); 
+
+        $package_data = Package::where('id',$id)->first();
+
+        if($package_data->night_count < $night_count){
+            return redirect()->back()->with('message', "You can only book for {$package_data->night_count} nights.");
+        }
 
         $formatted_date = Carbon::now()->format('Y-m-d');
 
@@ -1169,6 +1176,10 @@ if ($max_price) {
         }elseif($request->hotel_preference == 'luxury'){
 
             $hotel_preference_cost = $package_price->luxury_cost;
+
+        }elseif($request->hotel_preference == 'premium_3'){
+
+            $hotel_preference_cost = $package_price->premium_3_cost;
 
         }else{
 

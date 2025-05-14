@@ -53,10 +53,11 @@
                         <th data-priority="1">Start Month</th>
                         <th data-priority="1">End Month</th>
                         <th data-priority="3">Standard Cost</th>
-                        <th data-priority="3">Premium Cost</th>
-                        <th data-priority="3">Deluxe Cost</th>
-                        <th data-priority="3">Super Deluxe Cost</th>
-                        <th data-priority="3">Luxury Cost</th>
+                        <th data-priority="3">Premium 5 star Cost</th>
+                        <th data-priority="3">Premium 3 star Cost</th>
+                        <th data-priority="3">Deluxe 3 Cost</th>
+                        <th data-priority="3">Deluxe 4 Cost</th>
+                        <th data-priority="3">Deluxe 5 Cost</th>
                         <th data-priority="3">Nights Cost</th>
                         <th data-priority="3">Adults Cost</th>
                         <th data-priority="3">Child With Bed Cost</th>
@@ -89,6 +90,7 @@
                                 <td>{{ $pkg->end_date ?? '' }}</td>
                                 <td>₹{{ $pkg->standard_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->premium_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->premium_3_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->deluxe_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->super_deluxe_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->luxury_cost ?? '0' }}</td>

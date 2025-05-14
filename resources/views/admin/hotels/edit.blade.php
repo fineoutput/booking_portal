@@ -81,9 +81,10 @@
                                         <select class="form-control" name="hotel_category" id="hotel_category" required>
                                             <option value="Standard" {{ old('hotel_category', $hotel->category) == 'Standard' ? 'selected' : '' }}>Standard (2 star)</option>
                                             <option value="Deluxe" {{ old('hotel_category', $hotel->category) == 'Deluxe' ? 'selected' : '' }}>Deluxe (3 star)</option>
-                                            <option value="Super deluxe" {{ old('hotel_category', $hotel->category) == 'Super deluxe' ? 'selected' : '' }}>Super deluxe (premium 3 star)</option>
+                                            <option value="Premium_3" {{ old('hotel_category', $hotel->category) == 'Premium_3' ? 'selected' : '' }}>Premium (3 star)</option>
+                                            <option value="Super deluxe" {{ old('hotel_category', $hotel->category) == 'Super deluxe' ? 'selected' : '' }}>Deluxe (4 star)</option>
                                             <option value="Premium" {{ old('hotel_category', $hotel->category) == 'Premium' ? 'selected' : '' }}>Premium (4 star)</option>
-                                            <option value="Luxury" {{ old('hotel_category', $hotel->category) == 'Luxury' ? 'selected' : '' }}>Luxury (5 star)</option>
+                                            <option value="Luxury" {{ old('hotel_category', $hotel->category) == 'Luxury' ? 'selected' : '' }}>Deluxe  (5 star)</option>
                                             
                                         </select>
                                         <div class="form-floating">
