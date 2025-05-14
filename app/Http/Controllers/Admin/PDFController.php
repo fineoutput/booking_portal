@@ -15,7 +15,7 @@ class PDFController extends Controller
             $user = Agent::findOrFail($user_id);
 
             $pdf_name = urldecode(basename($pdf_name)); 
-            $logoPath = public_path('uploads/logos/' . $user->logo); 
+            $logoPath = public_path($user->logo); 
             $pdfPath = public_path('packages/pdf/' . $pdf_name); 
 
             if (!file_exists($pdfPath)) {

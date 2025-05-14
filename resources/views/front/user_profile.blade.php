@@ -108,7 +108,7 @@
                     <label class="fw-bold suther">Aadhar Image Front:</label>
                     <p class="suther">
                         @if($user->aadhar_image)
-                            <img src="{{ asset('storage/' . $user->aadhar_image) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
+                            <img src="{{ asset($user->aadhar_image) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             N/A
                         @endif
@@ -118,7 +118,7 @@
                     <label class="fw-bold suther">Aadhar Image Back:</label>
                     <p class="suther">
                         @if($user->aadhar_image_back)
-                            <img src="{{ asset('storage/' . $user->aadhar_image_back) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
+                            <img src="{{ asset($user->aadhar_image_back) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             N/A
                         @endif
@@ -128,7 +128,7 @@
                     <label class="fw-bold suther">Pancard Image:</label>
                     <p class="suther">
                         @if($user->pan_image)
-                            <img src="{{ asset('storage/' . $user->pan_image) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
+                            <img src="{{ asset($user->pan_image) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             N/A
                         @endif
@@ -138,7 +138,7 @@
                     <label class="fw-bold suther">Logo:</label>
                     <p class="suther">
                         @if($user->logo)
-                            <img src="{{ asset('storage/' . $user->logo) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
+                            <img src="{{ asset($user->logo) }}" alt="Aadhar Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             N/A
                         @endif
