@@ -64,6 +64,18 @@
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" type="text" value="" id="service_charge" name="service_charge" placeholder="Enter name" required>
+                                            <label for="service_charge">Enter Services Charge &nbsp;<span style="color:red;">*</span></label>
+                                        </div>
+                                        @error('service_charge')
+                                        <div style="color:red">{{$message}}</div>
+                                        @enderror
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
                                     <div class="col-sm-6 mb-2">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" type="text" value="" id="night_count" name="night_count" placeholder="Enter name" required>
@@ -73,39 +85,10 @@
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
-                                    {{-- <div class="col-sm-4">
-                                        <div class="form-floating">
-                                            <input class="form-control" type="state_id" value="" id="state_id" name="state_id" placeholder="Enter state_id" required>
-                                            <label for="state_id"> State &nbsp;<span style="color:red;">*</span></label>
-                                        </div>
-                                        @error('state_id')
-                                        <div style="color:red">{{$message}}</div>
-                                        @enderror
-                                    </div> --}}
 
-
-                                    {{-- <div class="col-sm-4">
-                                        <div class="form-floating">
-                                            <input class="form-control" type="text" value="" id="city_id" name="city_id" placeholder="ciyt" >
-                                            <label for="city_id">City </label>
-                                        </div>
-                                        @error('city_id')
-                                        <div style="color:red">{{$message}}</div>
-                                        @enderror
-                                    </div> --}}
-
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         <label for="state">State</label>
                                         <br>
-                                        {{-- <div id="output"></div>
-                                        <select class="chosen-select state" onchange="getSelectedValues()"  id="state" name="state_id[]" multiple >
-                                            <select class="selectpicker" multiple data-live-search="true">
-                                            @foreach ($states as $state)
-                                                <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
-                                                    {{ $state->state_name }}
-                                                </option>
-                                            @endforeach
-                                        </select> --}}
 
                                         <select required class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
                                             @foreach ($states as $state)
