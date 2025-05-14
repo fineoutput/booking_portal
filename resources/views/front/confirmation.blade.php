@@ -44,7 +44,7 @@
             @if ($package->pdf)
     <button type="button" class="btn btn-primary w-50 mt-3"
     onclick="window.open('{{ route('pdf.download', ['user_id' => Auth::id(), 'pdf_name' => urlencode(basename($package->pdf))]) }}', '_blank')">
-    Download PDF with Logo
+    Download PDF
 </button>
 @else
     <p>No PDF available for download.</p>
