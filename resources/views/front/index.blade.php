@@ -233,6 +233,7 @@
             <div class="col-lg-7 setts d-lg-block d-none">
       <div class="splide" id="popularCitiesSlider">
         <div class="splide__track">
+          <h2 class="text-center">Holiday Packages</h2>
             <ul class="splide__list">
                 @foreach($popularCities as $value)
                     <li class="splide__slide">
@@ -270,6 +271,7 @@
     <hr>
       <div class="splide" id="popularCitiesSlider2">
         <div class="splide__track">
+          <h2 class="text-center">Travel Places</h2>
             <ul class="splide__list">
                 @foreach($popularhotels as $value)
                     <li class="splide__slide">
@@ -584,7 +586,7 @@
                 <div class="inner_outer_txt">
                   
                   <div class="outer_type_price">
-                    <h6 class="type_xtxt"> {{$value->cities->city_name ?? ''}} </h6>
+                    <h6 class="type_xtxt"> {{ \Illuminate\Support\Str::limit($value->cities->city_name ?? '', 20) }} </h6>
                   </div>
                   <div class="plan_type_date">
                     <i class="fa-solid fa-star"></i>
@@ -606,7 +608,8 @@
                   <p style="margin: 0;">{{$value->package_name ?? ''}}</p>
                   
                   @foreach($value->hotels as $hotel)
-                    <span>{{ $hotel->name }}</span>,
+                   
+                    <span>{{ \Illuminate\Support\Str::limit($hotel->name ?? '', 10) }}</span>,
                   @endforeach
                 </div>
                 
