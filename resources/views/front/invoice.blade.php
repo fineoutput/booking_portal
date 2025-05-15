@@ -31,7 +31,7 @@
       E-mail: <a href="mailto:praveen.sharma@coih.in">praveen.sharma@coih.in</a>
       </p>
     </div>
-    <img src="https://i.ibb.co/mC4hGdv/logo.png" class="company-logo" alt="Colors of India Logo"/>
+    <img src="{{public_path($user->logo)}}" class="company-logo" alt="Colors of India Logo"/>
   </div>
 
   <hr/>
@@ -41,7 +41,7 @@
       <strong>Guest Name:</strong> 5TH APR PURI - INTIMATE CARES
     </div>
     <div style="float: right;">
-      <strong>Date:</strong> 06/04/2025
+      <strong>Date:</strong> {{ $booking->created_at->format('d/m/Y') }}
     </div>
   </div>
 
@@ -53,6 +53,7 @@
     <thead>
       <tr>
         <th>Sr.</th>
+        <th>Package Name</th>
         <th>Description</th>
         <th>PER PAX COST</th>
         <th>PAX</th>
@@ -62,43 +63,16 @@
     <tbody>
       <tr>
         <td>1</td>
+        <td>{{ $booking->package->package_name ?? ''}}</td>
         <td class="text-left">
-          <strong>HSN CODE 998596<br/>PURI PACKAGE</strong><br/>
-          CHECK IN - 05-APRIL-2025<br/>
-          CHECK OUT - 06-APRIL-2025<br/>
-          PAX - 41 Adults
+          {{-- <strong>HSN CODE 998596<br/>PURI PACKAGE</strong><br/> --}}
+          CHECK IN - {{ optional($booking->packagetemp)->start_date ? \Carbon\Carbon::parse($booking->packagetemp->start_date)->format('d-F-Y') : '' }}<br/>
+          CHECK OUT - {{ optional($booking->packagetemp)->end_date ? \Carbon\Carbon::parse($booking->packagetemp->end_date)->format('d-F-Y') : '' }}<br/>
+          PAX - {{ $booking->packagetemp->adults_count ?? ''}} Adults
         </td>
-        <td>8496.07</td>
-        <td>41</td>
-        <td>348338.87</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td class="text-left">WELCOME KIT</td>
-        <td>2000</td>
-        <td>41</td>
-        <td>82000</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td class="text-left">+2 SNACKS</td>
-        <td>850</td>
-        <td>41</td>
-        <td>34850</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td class="text-left">EXTRA LUNCH</td>
-        <td>1200</td>
-        <td>41</td>
-        <td>49200</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td class="text-left">AV PACKAGE</td>
-        <td>30000</td>
-        <td>1</td>
-        <td>30000</td>
+        <td>{{$booking->fetched_price ?? ''}}</td>
+        <td>18%</td>
+        <td>{{$booking->final_price ?? ''}}</td>
       </tr>
     </tbody>
   </table>
@@ -106,19 +80,19 @@
   <table class="no-border">
     <tr>
       <td class="text-right bold" colspan="4">Gross Total</td>
-      <td>544388.87</td>
+      <td>{{$booking->fetched_price ?? ''}}</td>
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">Service Charge</td>
-      <td>82413</td>
+      <td>{{$booking->agent_margin ?? ''}}</td>
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">18% IGST (ON SERVICE)</td>
-      <td>14834.34</td>
+      <td>{{ $booking->final_price ? number_format($booking->final_price * 0.18, 2) : '' }}</td>
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">TOTAL AMOUNT</td>
-      <td><strong>641636.21</strong></td>
+      <td><strong>{{$booking->final_price ?? ''}}</strong></td>
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">RECEIVED</td>
@@ -126,7 +100,7 @@
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">BALANCE AMOUNT</td>
-      <td><strong>641636.21</strong></td>
+      <td><strong>{{$booking->final_price ?? ''}}</strong></td>
     </tr>
   </table>
 

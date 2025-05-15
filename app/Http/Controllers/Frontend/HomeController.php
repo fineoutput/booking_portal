@@ -512,6 +512,14 @@ public function saveTouristDetails(Request $request)
 }
 
 
+    public function invoice(Request $request, $id){
+
+        $data['user'] = Agent::where('id',Auth::id())->first();
+        $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('id', $id)->first();
+        return view('front.invoice',$data);
+
+    }
+
 public function upgrade_request(Request $request)
 {
     $validated = $request->validate([

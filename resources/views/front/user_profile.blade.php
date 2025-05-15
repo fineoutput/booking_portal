@@ -165,6 +165,7 @@
                         <th class="suther">Tourist List</th>
                         <th class="suther">Hotel Prefrense</th>
                         <th class="suther">Request Upgrade</th>
+                        <th class="suther">Download PDF</th>
                     </tr>
                 </thead>
                 <tbody class="suther">
@@ -222,6 +223,26 @@
 
         @else
         <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#upgradeRequestModal{{ $value->id ?? '' }}">Request Upgrade</button>
+        @endif
+    </td>
+
+    <td class="suther">
+        @if ($value->package->pdf)
+        <button type="button" class="btn btn-primary mt-3"
+    onclick="window.location.href='{{ route('pdf.download', [
+        'user_id' => Auth::id(),
+        'booking_id' => $value->id, // assuming $value is a booking
+        'pdf_name' => urlencode(basename($value->package->pdf))
+    ]) }}'">
+    Download PDF
+</button>
+        {{-- <a href="{{ route('invoice.download', ['id' =>$value->id])}}">Invoice</a> --}}
+            {{-- <button type="button" class="btn btn-primary mt-3"
+                onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'pdf_name' => urlencode(basename($value->package->pdf))]) }}'">
+                Download PDF
+            </button> --}}
+        @else
+            <p>No PDF available for download.</p>
         @endif
     </td>
 </tr>
@@ -584,6 +605,12 @@
 
 
 
+
+<script>
+    function downloadPDF(pdfUrl) {
+        window.open(pdfUrl, '_blank');
+    }
+</script>
 <script>
 
 function setBookingId(bookingId) {

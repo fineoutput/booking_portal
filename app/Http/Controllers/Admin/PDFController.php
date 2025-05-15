@@ -5,17 +5,23 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
+use App\Models\PackageBooking;
 use setasign\Fpdi\Fpdi;
+use Illuminate\Support\Facades\Auth;
 use PDF; 
 
 
 class PDFController extends Controller
 {
 
-    public function downloadWithLogo($user_id, $pdf_name)
+    public function downloadWithLogo($user_id, $booking_id, $pdf_name)
     {
+          set_time_limit(300);
+
         try {
-            $user = Agent::findOrFail($user_id);
+            $user = Agent::where('id',Auth::id())->first();
+            $booking = PackageBooking::with('tourists', 'hotels')->where('id', $booking_id)->first();
+            // $user = Agent::where('id',Auth::id())->first();
 
             $pdf_name = urldecode(basename($pdf_name));
             $pdfPath = public_path('packages/pdf/' . $pdf_name);
@@ -25,9 +31,9 @@ class PDFController extends Controller
             }
 
             $pdf = new Fpdi();
-
-            // Import existing PDF pages
+           
             $pageCount = $pdf->setSourceFile($pdfPath);
+
             for ($i = 1; $i <= $pageCount; $i++) {
                 $template = $pdf->importPage($i);
                 $size = $pdf->getTemplateSize($template);
@@ -35,15 +41,11 @@ class PDFController extends Controller
                 $pdf->useTemplate($template);
             }
 
-            // Render the invoice view and convert to PDF
-            $invoiceHtml = view('front.invoice', compact('user'))->render();
-            
-            // Use Laravel's PDF facade to generate a temporary PDF from the view
+            $invoiceHtml = view('front.invoice', compact('user', 'booking'))->render();
             $tempPdf = PDF::loadHTML($invoiceHtml);
             $tempPdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
             $tempPdf->save($tempPdfPath);
 
-            // Import the invoice PDF and append its pages
             $invoicePageCount = $pdf->setSourceFile($tempPdfPath);
             for ($i = 1; $i <= $invoicePageCount; $i++) {
                 $template = $pdf->importPage($i);
@@ -52,7 +54,6 @@ class PDFController extends Controller
                 $pdf->useTemplate($template);
             }
 
-            // Clean up temporary file
             unlink($tempPdfPath);
 
             return response()->stream(function () use ($pdf) {
@@ -67,6 +68,63 @@ class PDFController extends Controller
             return abort(500, 'Something went wrong generating the PDF.');
         }
     }
+
+
+    // public function downloadWithLogo($user_id, $pdf_name)
+    // {
+    //     try {
+    //         $user = Agent::findOrFail($user_id);
+
+    //         $pdf_name = urldecode(basename($pdf_name));
+    //         $pdfPath = public_path('packages/pdf/' . $pdf_name);
+
+    //         if (!file_exists($pdfPath)) {
+    //             return abort(404, 'PDF not found.');
+    //         }
+
+    //         $pdf = new Fpdi();
+
+    //         // Import existing PDF pages
+    //         $pageCount = $pdf->setSourceFile($pdfPath);
+    //         for ($i = 1; $i <= $pageCount; $i++) {
+    //             $template = $pdf->importPage($i);
+    //             $size = $pdf->getTemplateSize($template);
+    //             $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+    //             $pdf->useTemplate($template);
+    //         }
+
+    //         // Render the invoice view and convert to PDF
+    //         $invoiceHtml = view('front.invoice', compact('user'))->render();
+            
+    //         // Use Laravel's PDF facade to generate a temporary PDF from the view
+    //         $tempPdf = PDF::loadHTML($invoiceHtml);
+    //         $tempPdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
+    //         $tempPdf->save($tempPdfPath);
+
+    //         // Import the invoice PDF and append its pages
+    //         $invoicePageCount = $pdf->setSourceFile($tempPdfPath);
+    //         for ($i = 1; $i <= $invoicePageCount; $i++) {
+    //             $template = $pdf->importPage($i);
+    //             $size = $pdf->getTemplateSize($template);
+    //             $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+    //             $pdf->useTemplate($template);
+    //         }
+
+    //         // Clean up temporary file
+    //         unlink($tempPdfPath);
+
+    //         return response()->stream(function () use ($pdf) {
+    //             $pdf->Output('D', 'customized_with_invoice.pdf');
+    //         }, 200, [
+    //             'Content-Type' => 'application/pdf',
+    //             'Content-Disposition' => 'attachment; filename="customized_with_invoice.pdf"'
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         \Log::error('PDF generation failed: ' . $e->getMessage());
+    //         return abort(500, 'Something went wrong generating the PDF.');
+    //     }
+    // }
 
     // public function downloadWithLogo($user_id, $pdf_name)
     // {

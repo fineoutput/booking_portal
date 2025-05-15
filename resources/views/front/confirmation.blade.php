@@ -40,7 +40,7 @@
             {{-- <button type="button" class="btn btn-primary w-50 mt-3" onclick="downloadPDF('{{ asset($package->pdf) }}')">
                 Download PDF
             </button> --}}
-
+{{-- 
         @if ($package->pdf)
     <button type="button" class="btn btn-primary w-50 mt-3"
         onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'pdf_name' => urlencode(basename($package->pdf))]) }}'">
@@ -48,7 +48,7 @@
     </button>
 @else
     <p>No PDF available for download.</p>
-@endif
+@endif --}}
 
             
         </form>
@@ -58,9 +58,9 @@
 </section>
 
 <script>
-    function downloadPDF(pdfUrl) {
-    window.open(pdfUrl, '_blank');
-}
+//     function downloadPDF(pdfUrl) {
+//     window.open(pdfUrl, '_blank');
+// }
 
     // function downloadPDF(pdfUrl) {
     //     console.log("Download function triggered with URL:", pdfUrl); // Debugging

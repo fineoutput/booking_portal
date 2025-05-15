@@ -80,9 +80,13 @@ class PackageBooking extends Model
     }
 
    
+    // public function packagetemp()
+    // {
+    //     return $this->belongsTo(PackageBookingTemp::class,'id' ,'package_temp_id'); 
+    // }
     public function packagetemp()
     {
-        return $this->belongsTo(PackageBookingTemp::class,'id' ,'package_temp_id'); 
+        return $this->hasOne(PackageBookingTemp::class,'id','package_temp_id');
     }
     
     public function user()
