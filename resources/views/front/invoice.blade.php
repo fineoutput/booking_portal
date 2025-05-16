@@ -24,11 +24,13 @@
   <div class="clearfix">
     <div style="float: left;">
       <p><strong>Original-for Recipient</strong><br/>
-      <strong>COLORS OF INDIA HOSPITALITY PRIVATE LIMITED</strong><br/>
-      Registered Office: KN 22/2, MANSAROVAR, Jaipur, Rajasthan, 302020<br/>
-      GSTIN: 08AACKC0624R1Z9<br/>
-      PAN: AACKC0624R<br/>
-      E-mail: <a href="mailto:praveen.sharma@coih.in">praveen.sharma@coih.in</a>
+      <strong>{{$user->business_name ?? ''}}</strong><br/>
+      {{-- Registered Office: KN 22/2, MANSAROVAR, Jaipur, Rajasthan, 302020 --}}
+        {{$user->cities->city_name ?? ''}}, {{$user->state->state_name ?? ''}}
+      <br/>
+      GSTIN: {{$user->GST_number ?? ''}}<br/>
+      {{-- PAN: AACKC0624R<br/> --}}
+      E-mail: <a href="mailto:{{$user->email  ?? ''}}">{{$user->email  ?? ''}}</a>
       </p>
     </div>
     <img src="{{public_path($user->logo)}}" class="company-logo" alt="Colors of India Logo"/>
@@ -37,17 +39,17 @@
   <hr/>
 
   <div class="clearfix">
-    <div style="float: left;">
+    {{-- <div style="float: left;">
       <strong>Guest Name:</strong> 5TH APR PURI - INTIMATE CARES
-    </div>
+    </div> --}}
     <div style="float: right;">
       <strong>Date:</strong> {{ $booking->created_at->format('d/m/Y') }}
     </div>
   </div>
-
+{{-- 
   <p><strong>Agency Name:</strong> INTIMATE CARES<br/>
   <strong>Address:</strong> SAKET VIHAR, MITRA MANDAL COLONY, ANISABAD, PATNA, BIHAR-800002<br/>
-  <strong>GSTIN:</strong> 10AAKFI4972K1ZT</p>
+  <strong>GSTIN:</strong> 10AAKFI4972K1ZT</p> --}}
 
   <table>
     <thead>
