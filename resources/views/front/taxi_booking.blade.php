@@ -607,34 +607,28 @@ function fetchAirports() {
 function updateVehicles() {
     var airportId = document.getElementById("pickup-airport").value;
 
-    // Clear previous vehicle options
     var vehicleSelect = document.getElementById("vehicle-select");
     vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
 
-    // Check if airport is selected
     if (airportId) {
-        // Send AJAX request to get vehicles for the selected airport
+
         fetch(`/booking_portal/public/get-vehicles-by-airport?airport_id=${airportId}`)
             .then(response => response.json())
             .then(data => {
-                // Populate vehicle options
+  
                 data.forEach(vehicle => {
                     var option = document.createElement("option");
                     option.value = vehicle.id;
                     option.text = vehicle.vehicle_type;
 
-                    // Set the price and description in data attributes
                     option.setAttribute("data-price", vehicle.price);
                     option.setAttribute("data-description", vehicle.description);
-                    
-                    // Append the option to the select element
+
                     vehicleSelect.appendChild(option);
                 });
 
-                // Optionally, if the first option should be selected and its price displayed:
                 if (data.length > 0) {
-                    displayVehiclePrice(data[0].price);  // Display the price of the first vehicle (if any)
-                    // Set the description of the first vehicle in the textarea
+                    displayVehiclePrice(data[0].price); 
                     document.getElementById("price-description").value = removeHtmlTags(data[0].description);
                 }
             })
@@ -642,12 +636,10 @@ function updateVehicles() {
     }
 }
 
-// Add event listener for vehicle selection
 document.getElementById("vehicle-select").addEventListener("change", function() {
     var selectedOption = this.options[this.selectedIndex];
     var description = selectedOption.getAttribute("data-description");
 
-    // Remove HTML tags and set the description in the textarea
     document.getElementById("price-description").value = removeHtmlTags(description);
 });
 
