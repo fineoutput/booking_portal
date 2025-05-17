@@ -71,10 +71,10 @@
                          <td>{{$value->age ?? ''}}</td>
                          <td>{{$value->phone ?? ''}}</td>
                          <td>
-                            <img src="{{ asset($value->aadhar_front) }}" alt="No Image">
+                            <img width="100" src="{{ asset($value->aadhar_front) }}" alt="No Image">
                          </td>
                          <td>
-                            <img src="{{ asset($value->aadhar_back) }}" alt="No Image">
+                            <img width="100" src="{{ asset($value->aadhar_back) }}" alt="No Image">
                          </td>
                          <td>
                             {{ $value->additional_info	 ?? ''}}
