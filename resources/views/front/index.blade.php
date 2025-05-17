@@ -607,7 +607,7 @@
                 <div class="destination">
                   <p style="margin: 0;">{{\Illuminate\Support\Str::limit($value->package_name ?? '', 15) }}</p>
                   
-                  @foreach($value->hotels as $hotel)
+                  @foreach($value->hotels->take(5) as $hotel)
                    
                     <span>{{ \Illuminate\Support\Str::limit($hotel->name ?? '', 10) }}</span>,
                   @endforeach
