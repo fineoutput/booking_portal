@@ -609,7 +609,7 @@
                   
                   @foreach($value->hotels->take(5) as $hotel)
                    
-                    <span>{{ \Illuminate\Support\Str::limit($hotel->name ?? '', 10) }}</span>,
+                    <span>{{ \Illuminate\Support\Str::limit($hotel->name ?? '', 20) }}</span>,
                   @endforeach
                 </div>
                 
