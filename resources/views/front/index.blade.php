@@ -605,7 +605,7 @@
               <div class="">
                 
                 <div class="destination">
-                  <p style="margin: 0;">{{$value->package_name ?? ''}}</p>
+                  <p style="margin: 0;">{{\Illuminate\Support\Str::limit($value->package_name ?? '', 5) }}</p>
                   
                   @foreach($value->hotels as $hotel)
                    
