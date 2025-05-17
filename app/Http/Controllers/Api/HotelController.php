@@ -3615,14 +3615,29 @@ public function getLanguages(Request $request)
         $tourist->phone = $request->phone;
     
         // Handle Aadhar front file upload
-        if ($request->hasFile('aadhar_front') && $request->file('aadhar_front')->isValid()) {
-            $tourist->aadhar_front = $request->file('aadhar_front')->store('aadhar_fronts');
-        }
+        // if ($request->hasFile('aadhar_front') && $request->file('aadhar_front')->isValid()) {
+        //     $tourist->aadhar_front = $request->file('aadhar_front')->store('aadhar_fronts');
+        // }
     
-        // Handle Aadhar back file upload
-        if ($request->hasFile('aadhar_back') && $request->file('aadhar_back')->isValid()) {
-            $tourist->aadhar_back = $request->file('aadhar_back')->store('aadhar_backs');
+        // // Handle Aadhar back file upload
+        // if ($request->hasFile('aadhar_back') && $request->file('aadhar_back')->isValid()) {
+        //     $tourist->aadhar_back = $request->file('aadhar_back')->store('aadhar_backs');
+        // }
+
+        if ($request->hasFile('aadhar_front') && $request->file('aadhar_front')->isValid()) {
+            $file = $request->file('aadhar_front');
+            $filename = time().'_aadhar_front.'.$file->getClientOriginalExtension();
+            $file->move(public_path('aadhar_fronts'), $filename); // public/aadhar_fronts/
+            $tourist->aadhar_front = 'aadhar_fronts/' . $filename; // Save relative path in DB
         }
+
+        if ($request->hasFile('aadhar_back') && $request->file('aadhar_back')->isValid()) {
+            $file = $request->file('aadhar_back');
+            $filename = time().'_aadhar_back.'.$file->getClientOriginalExtension();
+            $file->move(public_path('aadhar_backs'), $filename); // public/aadhar_backs/
+            $tourist->aadhar_back = 'aadhar_backs/' . $filename;
+        }
+
     
         // Store optional additional info
         $tourist->additional_info = $request->additional_info ?? null;

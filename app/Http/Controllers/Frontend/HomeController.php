@@ -485,13 +485,40 @@ public function saveTouristDetails(Request $request)
         $aadharFrontPath = null;
         $aadharBackPath = null;
 
+        // if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
+        //     $aadharFrontPath = $touristData['aadhar_front']->store('uploads/tourist');
+        // }
+
+        // if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
+        //     $aadharBackPath = $touristData['aadhar_back']->store('uploads/tourist');
+        // }
+
         if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
-            $aadharFrontPath = $touristData['aadhar_front']->store('uploads/tourist');
+            $file = $touristData['aadhar_front'];
+            $filename = time().'_aadhar_front.'.$file->getClientOriginalExtension();
+            $destination = public_path('uploads/tourist');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0777, true); // Folder create if not exists
+            }
+
+            $file->move($destination, $filename);
+            $aadharFrontPath = 'uploads/tourist/' . $filename; // Save this to DB
         }
 
         if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
-            $aadharBackPath = $touristData['aadhar_back']->store('uploads/tourist');
+            $file = $touristData['aadhar_back'];
+            $filename = time().'_aadhar_back.'.$file->getClientOriginalExtension();
+            $destination = public_path('uploads/tourist');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0777, true); // No need to repeat if already done
+            }
+
+            $file->move($destination, $filename);
+            $aadharBackPath = 'uploads/tourist/' . $filename; // Save this to DB
         }
+
 
         $tourist = new Tourist([
             'user_id' => Auth::guard('agent')->id(),
