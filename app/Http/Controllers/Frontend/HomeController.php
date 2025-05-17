@@ -502,6 +502,7 @@ public function saveTouristDetails(Request $request)
             'aadhar_back' => $aadharBackPath,
             'additional_info' => $request->additional_info,
             'booking_id' => $request->booking_id,
+            'type' => 'package',
         ]);
 
         $tourist->save();
