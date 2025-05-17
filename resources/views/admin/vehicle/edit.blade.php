@@ -57,7 +57,7 @@
 
                                     <div class="col-sm-12 mt-3">
                                         <label class="form-label" for="power">Image &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="file" class="form-control" type="text" value="" id="image" name="image" placeholder="Enter Vehicle type" required>
+                                        <input type="file" class="form-control" type="text" value="" id="image" name="image" placeholder="Enter Vehicle type">
 
                                         <img height="50px"  width="50px" src="{{asset($agent->image)}}" alt="">
 
