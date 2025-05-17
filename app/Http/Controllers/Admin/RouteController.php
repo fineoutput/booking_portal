@@ -32,7 +32,7 @@ class RouteController extends Controller
             $validated = $request->validate([
                 'from_destination' => 'required',
                 'to_destination' => 'required', 
-                'city_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'city_image' => 'nullable',
             ]);
     
             $hotel = new Route();
@@ -112,7 +112,7 @@ public function update(Request $request, $id)
     $validated = $request->validate([
         'from_destination' => 'required',
         'to_destination' => 'required',
-        'city_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'city_image' => 'nullable',
     ]);
 
     $hotel = Route::findOrFail($id);

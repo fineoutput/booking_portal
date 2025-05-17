@@ -580,6 +580,7 @@ public function hotel_prefrence(Request $request)
     ]);
 
     $hotelIds = $request->input('hotel_id');
+    // return $hotelIds;
     $booking_id = $request->input('booking_id');
 
     foreach ($hotelIds as $hotelId) {
