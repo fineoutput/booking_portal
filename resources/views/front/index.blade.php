@@ -678,7 +678,7 @@
                   @endphp
  
               @endif
-
+        <a href="{{route('detail',['id' => base64_encode($value->id)])}}">
          <div class="cardashEs" style="background: url('{{ $add ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
            @if($value->prices)
                           @php
@@ -698,9 +698,9 @@
         
         <div class="gradient-overlayashEs"></div>
         <div class="contentashEs">
-          <a href="{{route('detail',['id' => base64_encode($value->id)])}}">
+          
             <h3>{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
-            </a>
+            
             <div class="itineraryashEs">
                 <span>Leh</span>
                 <span>Nubra Valley</span>
@@ -719,6 +719,7 @@
             </div>
         </div>
     </div>
+        </a>
 
       </div>
        @endforeach
