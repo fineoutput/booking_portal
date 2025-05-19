@@ -14,96 +14,7 @@
     opacity: 1 !important;
     visibility: visible !important;
 }
-  .cardashEs {
-            width: 100%;
-            height: 450px;
-            /* background: url('https://fineoutput.co.in/booking_portal/public/packages/images/1747469828_1742301772_aerial-shot-pin-valley-seen-from-mudh-village_11zon.jpg') no-repeat center/cover; */
-            border-radius: 15px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .gradient-overlayashEs {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-        }
-        .price-tagashEs {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #ffd700;
-            color: #000;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .signboardashEs {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #008080;
-            color: white;
-            width: 80%;
-            text-align: center;
-            padding: 10px;
-            border: 2px solid #000;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .signboardashEs h2 {
-            margin: 0;
-            font-size: 18px;
-        }
-        .signboardashEs p {
-            margin: 5px 0 0;
-            font-size: 14px;
-        }
-        .contentashEs {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            color: white;
-        }
-        .contentashEs h3 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .itineraryashEs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin: 5px 0;
-        }
-        .itineraryashEs span {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-        .detailsashEs {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-        }
-        .detailsashEs .durationashEs {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .detailsashEs .locationashEs {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+
 </style>
  <!-- /* //////////////Banner Starts///////////// */ -->
  <div id="responsive-slider" class="splide" style="background: #ffd600;" >
@@ -702,16 +613,16 @@
             <h3>{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
             
             <div class="itineraryashEs">
-                <span>Leh</span>
-                <span>Nubra Valley</span>
+                <span>{{\Illuminate\Support\Str::limit($value->text_description ?? '', 30) }}</span>
+                {{-- <span>Nubra Valley</span>
                 <span>Pangong Tso</span>
                 <span>Marsimik La</span>
-                <span>+1 More</span>
+                <span>+1 More</span> --}}
             </div>
             <div class="detailsashEs">
                 <div class="durationashEs">
                     <span>🕒 5N/6D</span>
-                    <span>Any date of your choice</span>
+                    <span>{{\Illuminate\Support\Str::limit($value->text_description ?? '', 30) }}</span>
                 </div>
                 <div class="locationashEs">
                     <span>📍 Leh-Leh</span>
@@ -734,9 +645,5 @@
     </div>
   </section>
  
-  <div class="container">
-    <div class="row">
-       
-    </div>
-  </div>
+  
 @endsection
