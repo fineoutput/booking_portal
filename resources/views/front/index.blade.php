@@ -600,16 +600,17 @@
                     <i class="fa-solid fa-infinity"></i>
                     <p class="m-0">All Inclusive</p>
                   </div> --}}
+                   <p style="margin: 0;">{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</p>
                 </div>
               </div>
               <div class="">
                 
                 <div class="destination">
-                  <p style="margin: 0;">{{\Illuminate\Support\Str::limit($value->package_name ?? '', 15) }}</p>
+                 
                   
                   {{-- @foreach($value->hotels as $hotel) --}}
                    
-                    <span>{!! \Illuminate\Support\Str::limit($value->text_description ?? '', 15) !!}</span>,
+                    <span>{!! \Illuminate\Support\Str::limit($value->text_description ?? '', 35) !!}</span>,
                   {{-- @endforeach --}}
                 </div>
                 
