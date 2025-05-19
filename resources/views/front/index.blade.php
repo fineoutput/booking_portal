@@ -764,13 +764,12 @@
            @php
                   $images = json_decode($value->image, true);
 
-                  $add = asset(reset($images));
-
               @endphp
               
               @if($images && is_array($images) && count($images) > 0)
-                  <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
-                  {{-- <img src="{{ asset(reset($images)) }}" alt="First Image"> --}}
+                    @php
+                         $add = asset(reset($images));
+                    @endphp
               @else
                   <p>No image available.</p>
               @endif
