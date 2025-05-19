@@ -279,7 +279,7 @@ img{
 /* Scrollable Slider */
 /* Wrapper for Scrollable Section */
 .scrollable-slider {
-  display: flex;
+  /* display: flex; */
   overflow-x: auto; /* Enable horizontal scrolling */
   gap: 10px; /* Adjust spacing between cards */
   padding: 10px;
