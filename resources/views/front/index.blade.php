@@ -15,7 +15,7 @@
     visibility: visible !important;
 }
   .cardashEs {
-            width: 300px;
+            width: 100%;
             height: 450px;
             /* background: url('https://fineoutput.co.in/booking_portal/public/packages/images/1747469828_1742301772_aerial-shot-pin-valley-seen-from-mudh-village_11zon.jpg') no-repeat center/cover; */
             border-radius: 15px;
@@ -662,7 +662,7 @@
 
           @if($packages)
           @foreach ($packages as $key => $value)
-      <div class="col-lg-4">
+      <div class="col-lg-3">
            @php
                   $images = json_decode($value->image, true);
 
