@@ -654,111 +654,13 @@
     <div class="container">
       <div class="scrollable-slider">
         <div class="row flex-nowrap">
-          @if($packages)
-          @foreach ($packages as $key => $value)
-          <div class="col-lg-3">
-            <div class="plan_outer w-100">
-              <div class="outer_plan_upper">
-                <div class="outer_plan_img">
-                  @php
-                  // Assuming 'image' contains a JSON array of images
-                  $images = json_decode($value->image, true); // Decode the JSON to an array (true for associative array)
-              @endphp
-              
-              @if($images && is_array($images) && count($images) > 0)
-                  <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
-                  <img src="{{ asset(reset($images)) }}" alt="First Image">
-              @else
-                  <p>No image available.</p>
-              @endif
-              
-                </div>
-                <div class="inner_outer_txt">
-                  
-                  <div class="outer_type_price">
-                    <h6 class="type_xtxt"> {{ \Illuminate\Support\Str::limit($value->cities->city_name ?? '', 20) }} </h6>
-                  </div>
-                  {{-- <div class="plan_type_date">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <p style="margin: 0;">2 reviews</p>
-                  </div> --}}
-                  {{-- <div class="inclusive">
-                    <i class="fa-solid fa-infinity"></i>
-                    <p class="m-0">All Inclusive</p>
-                  </div> --}}
-                   <p style="margin: 0;">{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</p>
-                </div>
-              </div>
-              <div class="">
-                
-                <div class="destination">
-                 
-                  
-                  {{-- @foreach($value->hotels as $hotel) --}}
-                   
-                    <span>{!! \Illuminate\Support\Str::limit($value->text_description ?? '', 35) !!}</span>,
-                  {{-- @endforeach --}}
-                </div>
-                
-              </div>
-              <div class="options_tav night">
-                <div class="outer_car_txt justify-content-center justify-content-center">
-                  <div class="night_ski skit">
-                    
-                    <span><a href="#"></a></span>
-                  </div>
-                  <div class="destination skit">
-                    <div class="manags">
-                      <p>Starts from
-                        <b style="color: #000;">
-                          @if($value->prices)
-                          @php
-                            $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->premium_3_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
-            $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
-            $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
-            $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
-            $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
-            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
-                          @endphp
-                          <p>Price: ₹{{ number_format($value->prices->display_cost, 2) }}</p>
-                      @else
-                          <p>No price available.</p>
-                      @endif
-                        </b>
-                      </p>
-                      <span style="font-size: 10px;"><b>Tour Dekho</b>  premium packages</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="{{route('detail',['id' => base64_encode($value->id)])}}">Book Now</a>
-                </div>
-                
-              </div>
-            </div>
-            </div>
-          @endforeach
-          @else
-            <div class="col-lg-6">
-              <h1>No Package Found</h1>
-            </div>
-          @endif
+         
           
-
+            
           <!-- Repeat more cards -->
 
-        </div>
-      </div>
-    </div>
-  </section>
- 
-  <div class="container">
-    <div class="row">
-       @if($packages)
+
+          @if($packages)
           @foreach ($packages as $key => $value)
       <div class="col-lg-3">
            @php
@@ -820,6 +722,15 @@
               <h1>No Package Found</h1>
             </div>
           @endif
+
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <div class="container">
+    <div class="row">
+       
     </div>
   </div>
 @endsection
