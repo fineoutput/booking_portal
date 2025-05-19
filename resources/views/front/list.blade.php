@@ -190,67 +190,27 @@
       <div class="col-lg-9 col-sm-12 col-md-12">
         <div class="row">
 
-          @if($packages)
+         @if($packages)
           @foreach ($packages as $key => $value)
-          <div class="col-lg-6">
-            <div class="plan_outer w-100">
-              <div class="outer_plan_upper">
-                <div class="outer_plan_img">
-                  @php
-                  // Assuming 'image' contains a JSON array of images
-                  $images = json_decode($value->image, true); // Decode the JSON to an array (true for associative array)
+      <div class="col-lg-6">
+           @php
+                  $images = json_decode($value->image, true);
+
               @endphp
               
               @if($images && is_array($images) && count($images) > 0)
-                  <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
-                  <img src="{{ asset(reset($images)) }}" alt="First Image">
+                    @php
+                         $add = asset(reset($images));
+                    @endphp
               @else
-                  <p>No image available.</p>
+                   @php
+                  $add = "No image available";
+                  @endphp
+ 
               @endif
-              
-                </div>
-                <div class="inner_outer_txt">
-                  
-                  <div class="outer_type_price">
-                    <h6 class="type_xtxt">{{ $city->city_name ?? 'City not available' }}</h6>
-                    {{-- <h6 class="type_xtxt"> {{$value->cities->city_name ?? ''}} </h6> --}}
-                  </div>
-                  <div class="plan_type_date">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <p style="margin: 0;">2 reviews</p>
-                  </div>
-                  <div class="inclusive">
-                    <i class="fa-solid fa-infinity"></i>
-                    <p class="m-0">All Inclusive</p>
-                  </div>
-                </div>
-              </div>
-              <div class="">
-                
-                <div class="destination">
-                  <p style="margin: 0;">{{$value->package_name ?? ''}}</p>
-                  
-                  @foreach($value->hotels as $hotel)
-                    <span>{{ $hotel->name }}</span>,
-                  @endforeach
-                </div>
-                
-              </div>
-              <div class="options_tav night">
-                <div class="outer_car_txt justify-content-center justify-content-center">
-                  <div class="night_ski skit">
-                    
-                    <span><a href="#"></a></span>
-                  </div>
-                  <div class="destination skit">
-                    <div class="manags">
-                      <p>Starts from
-                        <b style="color: #000;">
-                          @if($value->prices)
+        <a style="color: #fff" href="{{route('detail',['id' => base64_encode($value->id)])}}">
+         <div class="cardashEs" style="background: url('{{ $add ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
+           @if($value->prices)
                           @php
                             $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->premium_3_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
             $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
@@ -259,24 +219,40 @@
             $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
             $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
                           @endphp
-                          <p>Price: ₹{{$value->prices->display_cost}}</p>
-                      @else
-                          <p>No price available for this package.</p>
+                          {{-- <p>Price: ₹{{ number_format($value->prices->display_cost, 2) }}</p> --}}
+                        
+        <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>
+                          @else
+                          <p>No price available.</p>
                       @endif
-                        </b>
-                      </p>
-                      <span style="font-size: 10px;">per person on twin sharing</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="{{route('detail',['id' => base64_encode($value->id)])}}">Book Now</a>
-                </div>
-                
-              </div>
+        
+        <div class="gradient-overlayashEs"></div>
+        <div class="contentashEs">
+          
+            <h3>{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
+            
+            <div class="itineraryashEs">
+                <span>{{\Illuminate\Support\Str::limit($value->text_description ?? '', 30) }}</span>
+                {{-- <span>Nubra Valley</span>
+                <span>Pangong Tso</span>
+                <span>Marsimik La</span>
+                <span>+1 More</span> --}}
             </div>
+            <div class="detailsashEs">
+                <div class="durationashEs">
+                    <span>🕒 5N/6D</span>
+                    <span>{{\Illuminate\Support\Str::limit($value->text_description ?? '', 30) }}</span>
+                </div>
+                <div class="locationashEs">
+                    <span>📍 Leh-Leh</span>
+                </div>
             </div>
-          @endforeach
+        </div>
+    </div>
+        </a>
+
+      </div>
+       @endforeach
           @else
             <div class="col-lg-6">
               <h1>No Package Found</h1>
