@@ -678,7 +678,7 @@
                   @endphp
  
               @endif
-        <a href="{{route('detail',['id' => base64_encode($value->id)])}}">
+        <a style="color: #fff" href="{{route('detail',['id' => base64_encode($value->id)])}}">
          <div class="cardashEs" style="background: url('{{ $add ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
            @if($value->prices)
                           @php
