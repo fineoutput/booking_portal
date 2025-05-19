@@ -673,7 +673,10 @@
                          $add = asset(reset($images));
                     @endphp
               @else
-                  <p>No image available.</p>
+                   @php
+                  $add = "No image available";
+                  @endphp
+ 
               @endif
 
          <div class="cardashEs" style="background: url('{{ $add ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
