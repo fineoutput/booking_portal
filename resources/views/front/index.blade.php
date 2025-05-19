@@ -662,7 +662,7 @@
 
           @if($packages)
           @foreach ($packages as $key => $value)
-      <div class="col-lg-3">
+      <div class="col-lg-4">
            @php
                   $images = json_decode($value->image, true);
 
