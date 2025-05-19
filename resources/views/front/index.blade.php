@@ -588,18 +588,18 @@
                   <div class="outer_type_price">
                     <h6 class="type_xtxt"> {{ \Illuminate\Support\Str::limit($value->cities->city_name ?? '', 20) }} </h6>
                   </div>
-                  <div class="plan_type_date">
+                  {{-- <div class="plan_type_date">
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <p style="margin: 0;">2 reviews</p>
-                  </div>
-                  <div class="inclusive">
+                  </div> --}}
+                  {{-- <div class="inclusive">
                     <i class="fa-solid fa-infinity"></i>
                     <p class="m-0">All Inclusive</p>
-                  </div>
+                  </div> --}}
                 </div>
               </div>
               <div class="">
@@ -607,10 +607,10 @@
                 <div class="destination">
                   <p style="margin: 0;">{{\Illuminate\Support\Str::limit($value->package_name ?? '', 15) }}</p>
                   
-                  @foreach($value->hotels as $hotel)
+                  {{-- @foreach($value->hotels as $hotel) --}}
                    
-                    <span>{{ \Illuminate\Support\Str::limit($hotel->name ?? '', 10) }}</span>,
-                  @endforeach
+                    <span>{!! \Illuminate\Support\Str::limit($value->text_description ?? '', 15) !!}</span>,
+                  {{-- @endforeach --}}
                 </div>
                 
               </div>
