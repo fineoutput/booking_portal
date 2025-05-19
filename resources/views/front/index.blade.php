@@ -698,7 +698,9 @@
         
         <div class="gradient-overlayashEs"></div>
         <div class="contentashEs">
+          <a href="{{route('detail',['id' => base64_encode($value->id)])}}">
             <h3>{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
+            </a>
             <div class="itineraryashEs">
                 <span>Leh</span>
                 <span>Nubra Valley</span>
