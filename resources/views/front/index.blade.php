@@ -14,6 +14,96 @@
     opacity: 1 !important;
     visibility: visible !important;
 }
+  .cardashEs {
+            width: 300px;
+            height: 450px;
+            /* background: url('https://fineoutput.co.in/booking_portal/public/packages/images/1747469828_1742301772_aerial-shot-pin-valley-seen-from-mudh-village_11zon.jpg') no-repeat center/cover; */
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .gradient-overlayashEs {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        }
+        .price-tagashEs {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ffd700;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .signboardashEs {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #008080;
+            color: white;
+            width: 80%;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .signboardashEs h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .signboardashEs p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+        .contentashEs {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            color: white;
+        }
+        .contentashEs h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .itineraryashEs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 5px 0;
+        }
+        .itineraryashEs span {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        .detailsashEs {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .detailsashEs .durationashEs {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .detailsashEs .locationashEs {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 </style>
  <!-- /* //////////////Banner Starts///////////// */ -->
  <div id="responsive-slider" class="splide" style="background: #ffd600;" >
@@ -640,7 +730,7 @@
                       @endif
                         </b>
                       </p>
-                      <span style="font-size: 10px;">per person on twin sharing</span>
+                      <span style="font-size: 10px;"><b>Tour Dekho</b>  premium packages</span>
                     </div>
                   </div>
                 </div>
@@ -657,268 +747,7 @@
               <h1>No Package Found</h1>
             </div>
           @endif
-          {{-- <div class="plan_outer">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJaipur_2.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
-                
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jaipur </h6>
-                </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
-            </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center justify-content-center">
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
-                  </div>
-                </div>
-              </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="">Book Now</a>
-              </div>
-              
-            </div>
-          </div> --}}
-
-          {{-- <div class="plan_outer">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FUdaipur_1.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
-                
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jodhpur </h6>
-                </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
-            </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center justify-content-center">
-                <div class="night_ski skit">
-                  
-                  <span><a href="#"></a></span>
-                </div>
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
-                  </div>
-                </div>
-              </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="">Book Now</a>
-              </div>
-              
-            </div>
-          </div>
-          <div class="plan_outer">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FJodhpur_1.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
-                
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Jodhpur </h6>
-                </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
-            </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center ">
-                <div class="night_ski skit">
-                  
-                  <span><a href="#"></a></span>
-                </div>
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
-                  </div>
-                </div>
-              </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="">Book Now</a>
-              </div>
-              
-            </div>
-          </div>
-          <div class="plan_outer">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FDelhi.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
-                
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Delhi NCR </h6>
-                </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
-            </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center ">
-                <div class="night_ski skit">
-                  
-                  <span><a href="#"></a></span>
-                </div>
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
-                  </div>
-                </div>
-              </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="">Book Now</a>
-              </div>
-              
-            </div>
-          </div>
-          <div class="plan_outer">
-            <div class="outer_plan_upper">
-              <div class="outer_plan_img">
-              <img src="https://cabme.in/_next/image?url=https%3A%2F%2Fapi.cabme.in%2Fcity-image%2FBengaluru.png&w=128&q=75" alt="European Marvels">
-              </div>
-              <div class="inner_outer_txt">
-                
-                <div class="outer_type_price">
-                  <h6 class="type_xtxt"> Banglore </h6>
-                </div>
-                <div class="plan_type_date">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <p style="margin: 0;">2 reviews</p>
-                </div>
-                <div class="inclusive">
-                  <i class="fa-solid fa-infinity"></i>
-                  <p class="m-0">All Inclusive</p>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              
-              <div class="destination">
-                <p style="margin: 0;">Home Stay.Trip Dekho</p>
-                <span>Vrindavan launge and hotels</span>
-              </div>
-              
-            </div>
-            <div class="options_tav night">
-              <div class="outer_car_txt justify-content-center ">
-                <div class="night_ski skit">
-                  
-                  <span><a href="#"></a></span>
-                </div>
-                <div class="destination skit">
-                  <div class="manags">
-                    <p>Starts from
-                      <b style="color: #000;">₹4,20,000</b>
-                    </p>
-                    <span style="font-size: 10px;">per person on twin sharing</span>
-                  </div>
-                </div>
-              </div>
-              <div class="options_btns d-flex justify-content-center">
-                <a class="_btn" href="">Book Now</a>
-              </div>
-              
-            </div>
-          </div> --}}
+          
 
           <!-- Repeat more cards -->
 
@@ -927,5 +756,62 @@
     </div>
   </section>
  
-  
+  <div class="container">
+    <div class="row">
+       @if($packages)
+          @foreach ($packages as $key => $value)
+      <div class="col-lg-3">
+        @php
+    // Decode the JSON to an array
+    $images = json_decode($value->image, true);
+    $backgroundImage = ($images && is_array($images) && count($images) > 0) ? asset(reset($images)) : null;
+@endphp
+
+         <div class="cardashEs" style="background: url('{{ $backgroundImage ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
+           @if($value->prices)
+                          @php
+                            $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->premium_3_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
+            $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
+            $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
+            $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
+            $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
+            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
+                          @endphp
+                          {{-- <p>Price: ₹{{ number_format($value->prices->display_cost, 2) }}</p> --}}
+                        
+        <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>
+                          @else
+                          <p>No price available.</p>
+                      @endif
+        
+        <div class="gradient-overlayashEs"></div>
+        <div class="contentashEs">
+            <h3>{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
+            <div class="itineraryashEs">
+                <span>Leh</span>
+                <span>Nubra Valley</span>
+                <span>Pangong Tso</span>
+                <span>Marsimik La</span>
+                <span>+1 More</span>
+            </div>
+            <div class="detailsashEs">
+                <div class="durationashEs">
+                    <span>🕒 5N/6D</span>
+                    <span>Any date of your choice</span>
+                </div>
+                <div class="locationashEs">
+                    <span>📍 Leh-Leh</span>
+                </div>
+            </div>
+        </div>
+    </div>
+      </div>
+       @endforeach
+          @else
+            <div class="col-lg-6">
+              <h1>No Package Found</h1>
+            </div>
+          @endif
+    </div>
+  </div>
 @endsection
