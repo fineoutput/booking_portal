@@ -761,13 +761,21 @@
        @if($packages)
           @foreach ($packages as $key => $value)
       <div class="col-lg-3">
-        @php
-    // Decode the JSON to an array
-    $images = json_decode($value->image, true);
-    $backgroundImage = ($images && is_array($images) && count($images) > 0) ? asset(reset($images)) : null;
-@endphp
+           @php
+                  $images = json_decode($value->image, true);
 
-         <div class="cardashEs" style="background: url('{{ $backgroundImage ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
+                  $add = asset(reset($images));
+
+              @endphp
+              
+              @if($images && is_array($images) && count($images) > 0)
+                  <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
+                  {{-- <img src="{{ asset(reset($images)) }}" alt="First Image"> --}}
+              @else
+                  <p>No image available.</p>
+              @endif
+
+         <div class="cardashEs" style="background: url('{{ $add ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
            @if($value->prices)
                           @php
                             $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->premium_3_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
@@ -805,6 +813,7 @@
             </div>
         </div>
     </div>
+
       </div>
        @endforeach
           @else
