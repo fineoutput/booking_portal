@@ -80,7 +80,7 @@ class SliderController extends Controller
         // Validate input
         $request->validate([
             'type' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048', // Optional image validation
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048', // Optional image validation
         ]);
     
         // Update the slider's type
