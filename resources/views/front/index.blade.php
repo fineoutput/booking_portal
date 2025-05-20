@@ -621,8 +621,8 @@
             </div>
             <div class="detailsashEs">
                 <div class="durationashEs">
-                    <span>🕒 5N/6D</span>
-                    <span>{{\Illuminate\Support\Str::limit($value->text_description_2 ?? '', 30) }}</span>
+                    <span>🕒 {{($value->night_count)}} Nights</span>
+                    <span>{!!\Illuminate\Support\Str::limit($value->text_description_2 ?? '', 5) !!}</span>
                 </div>
                 <div class="locationashEs">
                     <span>📍 Leh-Leh</span>
