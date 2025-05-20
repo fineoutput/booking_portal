@@ -498,12 +498,12 @@
                         </div>
                         <div class="travel_upper">
                             <div class="travel_upper_txt">
-                                <p class="abb">Dubai Egypt Israel</p>
-                                <h2>Best of Dubai Abu Dhabi</h2>
+                                <p class="abb">Kashmir to Kanyakumari</p>
+                                <h2>Best Family Packages</h2>
                             </div>
                             <div class="world_upper_txt_btns">
-                                <p class="abb">Dubai . Abu Dhabi</p>
-                                <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹1,37,000</span></h4>
+                                <p class="abb">Himachal . Manali</p>
+                                <h4 class="abb">7 Days | 12 Jan | from <span style="color: #ffd801; font-weight: bold;">₹15000</span></h4>
                             </div>
                             <div class="world_upper_txt_btns travel_btn">
                                 <a class="_btn" href="">Book Now</a>
