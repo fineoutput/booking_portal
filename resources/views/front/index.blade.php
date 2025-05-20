@@ -562,88 +562,81 @@
 
   <!-- /* //////////////plans starts///////////// */ -->
   <section class="cards_Section mt-5">
-    <div class="container">
-      <div class="scrollable-slider">
-        <div class="row flex-nowrap">
-         
+  <div class="container">
+    <div id="common" class="splide">
+      <div class="splide__track">
+        <ul class="splide__list">
           
-            
-          <!-- Repeat more cards -->
-
-
           @if($packages)
-          @foreach ($packages as $key => $value)
-      <div class="col-lg-3">
-           @php
-                  $images = json_decode($value->image, true);
-
-              @endphp
-              
-              @if($images && is_array($images) && count($images) > 0)
-                    @php
-                         $add = asset(reset($images));
-                    @endphp
-              @else
-                   @php
-                  $add = "No image available";
+            @foreach ($packages as $key => $value)
+              <li class="splide__slide">
+                <div class="card-container">
+                  @php
+                      $images = json_decode($value->image, true);
+                      $add = ($images && is_array($images) && count($images) > 0) ? asset(reset($images)) : asset('frontend/images/hotel_main.avif');
                   @endphp
- 
-              @endif
-        <a style="color: #fff" href="{{route('detail',['id' => base64_encode($value->id)])}}">
-         <div class="cardashEs" style="background: url('{{ $add ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
-           @if($value->prices)
-                          @php
-                            $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->premium_3_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
-            $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
-            $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
-            $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
-            $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
-            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
-                          @endphp
-                          {{-- <p>Price: ₹{{ number_format($value->prices->display_cost, 2) }}</p> --}}
-                        
-        <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>
-                          @else
-                          <p>No price available.</p>
-                      @endif
-        
-        <div class="gradient-overlayashEs"></div>
-        <div class="contentashEs">
-          
-            <h3>{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
-            
-            <div class="itineraryashEs">
-                <span>{!!\Illuminate\Support\Str::limit($value->text_description ?? '', 30) !!}</span>
-                {{-- <span>Nubra Valley</span>
-                <span>Pangong Tso</span>
-                <span>Marsimik La</span>
-                <span>+1 More</span> --}}
-            </div>
-            <div class="detailsashEs">
-                <div class="durationashEs">
-                    <span>🕒 {{($value->night_count)}} Nights</span>
-                    <span>{!!\Illuminate\Support\Str::limit($value->text_description_2 ?? '', 5) !!}</span>
-                </div>
-                <div class="locationashEs">
-                    <span>📍 Leh-Leh</span>
-                </div>
-            </div>
-        </div>
-    </div>
-        </a>
 
-      </div>
-       @endforeach
+                  <a style="color: #fff" href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
+                    <div class="cardashEs" style="background: url('{{ $add }}') no-repeat center / cover;">
+                      @if($value->prices)
+                        <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>
+                      @else
+                        <p>No price available.</p>
+                      @endif
+
+                      <div class="gradient-overlayashEs"></div>
+                      <div class="contentashEs">
+                        <h3>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
+                        <div class="itineraryashEs">
+                          <span>{!! \Illuminate\Support\Str::limit($value->text_description ?? '', 30) !!}</span>
+                        </div>
+                        <div class="detailsashEs">
+                          <div class="durationashEs">
+                            <span>🕒 {{ $value->night_count }} Nights</span>
+                            <span>{!! \Illuminate\Support\Str::limit($value->text_description_2 ?? '', 5) !!}</span>
+                          </div>
+                          <div class="locationashEs">
+                            <span>📍 Leh-Leh</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </li>
+            @endforeach
           @else
-            <div class="col-lg-6">
-              <h1>No Package Found</h1>
-            </div>
+            <li class="splide__slide">
+              <div class="card-container">
+                <h1>No Package Found</h1>
+              </div>
+            </li>
           @endif
 
-        </div>
+        </ul>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
  
-  
+ <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Splide('#common', {
+      type       : 'slide',
+      loop       :  true,
+      perPage    : 4,
+      perMove    : 1,
+      gap        : '1rem',
+      arrows     : true,
+      pagination : false,
+      breakpoints: {
+        1200: { perPage: 3 },
+        992 : { perPage: 2 },
+        576 : { perPage: 1 }
+      }
+    }).mount();
+  });
+</script>
+ 
 @endsection
