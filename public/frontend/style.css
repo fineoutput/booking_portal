@@ -907,15 +907,15 @@ transform: scale(1.05); /* Optional: Slight zoom-in on hover */
 }
 
 .world_upper_txt h2 {
-  color: #ffd800;
-  font-size: 38px;
-  font-weight: 600;
+    color: #009ee3;
+    font-size: 38px;
+    font-weight: 600;
 }
 
 .world_upper_txt p {
-  color: #daf1f7;
-  font-size: 18px;
-  font-weight: 400;
+    color: #ef2538;
+    font-size: 18px;
+    font-weight: 400;
 }
 
 .sarj_anch {

@@ -179,10 +179,10 @@
   <!-- Picture outside container for smaller screens -->
   <div class="responsive-image-wrapper">
     <picture >
-      <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/sd.webp') }}">
-      <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/sd.webp') }}">
-      <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/sd.webp') }}">
-      <img style="border-radius: 20px" src="{{ asset('frontend/images/sd.webp') }}" alt="Responsive Banner" class="responsive-image">
+      <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/kbh.jpg') }}">
+      <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/kbh.jpg') }}">
+      <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/kbh.jpg') }}">
+      <img style="border-radius: 20px" src="{{ asset('frontend/images/kbh.jpg') }}" alt="Responsive Banner" class="responsive-image">
     </picture>
   </div>
 
@@ -192,13 +192,13 @@
       <div class="col-lg-12 col-sm-12 col-md-12">
         <div class="world_upper">
           <div class="world_upper_txt">
-            <h2>Europe & America</h2>
+            <h2>Plan Your Destination Now</h2>
             <p>Always the right choice! Proven & trusted by thousands!</p>
           </div>
-          <div class="world_upper_txt_btns">
+          {{-- <div class="world_upper_txt_btns">
             <a class="sarj_anch" href="#">Europe Tours</a>
             <a class="sarj_anch" href="#">America Tours</a>
-          </div>
+          </div> --}}
         </div>
       </div>
     </div>
