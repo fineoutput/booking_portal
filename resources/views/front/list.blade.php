@@ -65,7 +65,7 @@
 </style>
 
 @if($slider)
-    <div id="responsive-slider" class="splide mt-5" style="background: #ffd600">
+    <div id="responsive-slider" class="splide" style="background: #ffd600">
       <div class="layie">
         {{-- <h1>Plan Your Travel Now!</h1>
                           <p>650+ Travel Agents serving 65+ Destinations worldwide</p> --}}
