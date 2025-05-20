@@ -232,7 +232,7 @@
             <h3>{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
             
             <div class="itineraryashEs">
-                <span>{{\Illuminate\Support\Str::limit($value->text_description ?? '', 30) }}</span>
+                <span>{!!\Illuminate\Support\Str::limit($value->text_description ?? '', 30) !!}</span>
                 {{-- <span>Nubra Valley</span>
                 <span>Pangong Tso</span>
                 <span>Marsimik La</span>
@@ -241,7 +241,7 @@
             <div class="detailsashEs">
                 <div class="durationashEs">
                     <span>🕒 5N/6D</span>
-                    <span>{{\Illuminate\Support\Str::limit($value->text_description ?? '', 30) }}</span>
+                    <span>{!!\Illuminate\Support\Str::limit($value->text_description_2 ?? '', 30) !!}</span>
                 </div>
                 <div class="locationashEs">
                     <span>📍 Leh-Leh</span>
