@@ -2,6 +2,9 @@
 @section('title','home')
 @section('content')
 <style>
+    .stEEP{
+        display: none;
+    }
     .form-container {
         max-width: 400px;
         margin: auto;
@@ -48,7 +51,7 @@
 </style>
 
 <section class="login_regg fgRbqL">
-    <div class="container">
+    <div class="container d-flex justify-content-center align-items-center">
         <div class="row">
             <div class="col-lg-6">
                 <div class="adding_head cnppKe">

@@ -94,7 +94,7 @@
 				@endif --}}
 
 
-<div class="sticky-top">  
+<div class="sticky-top stEEP">  
 <header class="header ">
     <div class="container-fluid">
       <div class="row align-items-center">
