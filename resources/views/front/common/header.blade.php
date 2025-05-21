@@ -94,8 +94,8 @@
 				@endif --}}
 
 
-    
-<header class="header">
+<div class="sticky-top">  
+<header class="header ">
     <div class="container-fluid">
       <div class="row align-items-center">
         <div class="col-12 col-md-3">
@@ -139,7 +139,7 @@
     </div>
   </header>
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark nave_color">
+<nav class="navbar navbar-expand-lg navbar-dark nave_color ">
   <div class="container-fluid">
     <a class="navbar-brand" href="{{ route('index') }}">Tours Dekho</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -196,7 +196,7 @@
     </div>
   </div>
 </nav>
-
+</div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
   const megaMenu = document.querySelector(".mega-menu");
