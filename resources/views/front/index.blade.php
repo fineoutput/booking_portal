@@ -630,7 +630,7 @@
     new Splide('#common', {
       type       : 'slide',
       loop       :  true,
-      perPage    : 4,
+      perPage    : 3,
       perMove    : 1,
       gap        : '1rem',
       arrows     : true,
