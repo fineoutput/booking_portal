@@ -241,7 +241,7 @@
             <div class="detailsashEs">
                 <div class="durationashEs">
                     <span>🕒 5N/6D</span>
-                    <span>{!!\Illuminate\Support\Str::limit($value->text_description_2 ?? '', 30) !!}</span>
+                    {{-- <span>{!!\Illuminate\Support\Str::limit($value->text_description_2 ?? '', 30) !!}</span> --}}
                 </div>
                 <div class="locationashEs">
                     <span>📍 Leh-Leh</span>
@@ -254,9 +254,9 @@
       </div>
        @endforeach
           @else
-            <div class="col-lg-6">
+
               <h1>No Package Found</h1>
-            </div>
+           
           @endif
 
       </div>
