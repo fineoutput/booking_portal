@@ -1176,19 +1176,19 @@ if ($max_price) {
 
         if($request->meal == 'only_room'){
 
-           $meal_cost = $package_price->meal_plan_only_room_cost;
+           $meal_cost = $package_price->meal_plan_only_room_cost ?? 0;
 
         }elseif($request->meal == 'breakfast'){
 
-            $meal_cost = $package_price->meal_plan_breakfast_cost;
+            $meal_cost = $package_price->meal_plan_breakfast_cost ?? 0;
 
         }elseif($request->meal == 'breakfast_lunch'){
 
-            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost ?? 0;
 
         }elseif($request->meal == 'breakfast_dinner'){
 
-            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost ?? 0;
 
         }else{
 
