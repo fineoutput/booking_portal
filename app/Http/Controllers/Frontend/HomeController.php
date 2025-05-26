@@ -1176,23 +1176,23 @@ if ($max_price) {
 
         if($request->meal == 'only_room'){
 
-           $meal_cost = $package_price->meal_plan_only_room_cost;
+           $meal_cost = $package_price->meal_plan_only_room_cost ?? 0;
 
         }elseif($request->meal == 'breakfast'){
 
-            $meal_cost = $package_price->meal_plan_breakfast_cost;
+            $meal_cost = $package_price->meal_plan_breakfast_cost ?? 0;
 
         }elseif($request->meal == 'breakfast_lunch'){
 
-            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost ?? 0;
 
         }elseif($request->meal == 'breakfast_dinner'){
 
-            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost;
+            $meal_cost = $package_price->meal_plan_breakfast_lunch_dinner_cost ?? 0;
 
         }else{
 
-            $meal_cost = $package_price->meal_plan_all_meals_cost;
+            $meal_cost = $package_price->meal_plan_all_meals_cost ?? 0;
         }
 
 
@@ -1200,70 +1200,70 @@ if ($max_price) {
 
         if($request->hotel_preference == 'standard'){
 
-           $hotel_preference_cost = $package_price->standard_cost;
+           $hotel_preference_cost = $package_price->standard_cost ?? 0;
 
         }elseif($request->hotel_preference == 'deluxe'){
 
-            $hotel_preference_cost = $package_price->deluxe_cost;
+            $hotel_preference_cost = $package_price->deluxe_cost ?? 0;
 
         }elseif($request->hotel_preference == 'super_deluxe'){
 
-            $hotel_preference_cost = $package_price->super_deluxe_cost;
+            $hotel_preference_cost = $package_price->super_deluxe_cost ?? 0;
 
         }elseif($request->hotel_preference == 'luxury'){
 
-            $hotel_preference_cost = $package_price->luxury_cost;
+            $hotel_preference_cost = $package_price->luxury_cost ?? 0;
 
         }elseif($request->hotel_preference == 'premium_3'){
 
-            $hotel_preference_cost = $package_price->premium_3_cost;
+            $hotel_preference_cost = $package_price->premium_3_cost ?? 0;
 
         }else{
 
-            $hotel_preference_cost = $package_price->premium_cost;
+            $hotel_preference_cost = $package_price->premium_cost ?? 0;
         }
 
         // vehicle_options
 
         if($request->vehicle_options == 'hatchback_cost'){
 
-           $vehicle_options_cost = $package_price->hatchback_cost;
+           $vehicle_options_cost = $package_price->hatchback_cost ?? 0;
 
         }elseif($request->vehicle_options == 'sedan_cost'){
 
-            $vehicle_options_cost = $package_price->sedan_cost;
+            $vehicle_options_cost = $package_price->sedan_cost ?? 0;
 
         }elseif($request->vehicle_options == 'economy_suv_cost'){
 
-            $vehicle_options_cost = $package_price->economy_suv_cost;
+            $vehicle_options_cost = $package_price->economy_suv_cost ?? 0;
 
         }elseif($request->vehicle_options == 'luxury_suv_cost'){
 
-            $vehicle_options_cost = $package_price->luxury_suv_cost;
+            $vehicle_options_cost = $package_price->luxury_suv_cost ?? 0;
 
         }
         elseif($request->vehicle_options == 'traveller_mini_cost'){
 
-            $vehicle_options_cost = $package_price->traveller_mini_cost;
+            $vehicle_options_cost = $package_price->traveller_mini_cost ?? 0;
 
         }
         elseif($request->vehicle_options == 'traveller_big_cost'){
 
-            $vehicle_options_cost = $package_price->traveller_big_cost;
+            $vehicle_options_cost = $package_price->traveller_big_cost ?? 0;
 
         }
         elseif($request->vehicle_options == 'premium_traveller_cost'){
 
-            $vehicle_options_cost = $package_price->premium_traveller_cost;
+            $vehicle_options_cost = $package_price->premium_traveller_cost ?? 0;
 
         }
         else{
 
-            $vehicle_options_cost = $package_price->ac_coach_cost;
+            $vehicle_options_cost = $package_price->ac_coach_cost ?? 0;
         }
 
         if($request->extra_bed == 'yes'){
-            $extrabed_cost = $package_price->extra_bed_cost;
+            $extrabed_cost = $package_price->extra_bed_cost ?? 0;
         }
         else{
             $extrabed_cost = 0;
