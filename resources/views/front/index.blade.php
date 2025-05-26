@@ -563,6 +563,11 @@
   <!-- /* //////////////plans starts///////////// */ -->
   <section class="cards_Section mt-5">
   <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 class="text-center ">Our Packages</h2>
+      </div>
+    </div>
     <div id="common" class="splide">
       <div class="splide__track">
         <ul class="splide__list">
