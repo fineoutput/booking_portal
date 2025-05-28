@@ -1156,7 +1156,7 @@ if ($max_price) {
                 ->where('start_date', '<=', $formatted_date)
                 ->where('end_date', '>=', $formatted_date)
                 ->first();
-                
+
                 if(empty($package_price)){
                   return redirect()->back()->with('message', "Price not available for this hotel category.");
                   }
@@ -1199,8 +1199,6 @@ if ($max_price) {
             $meal_cost = $package_price->meal_plan_all_meals_cost ?? 0;
         }
 
-
-        // hotel_preference
 
         if($request->hotel_preference == 'standard_cost'){
             

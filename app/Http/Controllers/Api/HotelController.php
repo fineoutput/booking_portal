@@ -1900,7 +1900,7 @@ public function packagebooking(Request $request)
     $formatted_date = Carbon::now()->format('Y-m-d');
 
     // Get package price for the specific package
-    $package_price = PackagePrice::where('package_id', $request->package_id)
+    $package_price = PackagePrice::where('package_id', $request->package_id)->where('hotel_category',$request->hotel_preference)
         ->where('start_date', '<=', $formatted_date)
         ->where('end_date', '>=', $formatted_date)
         ->first();
@@ -1947,25 +1947,24 @@ public function packagebooking(Request $request)
             $meal_cost = $package_price->meal_plan_all_meals_cost;
     }
 
-    // Hotel preference cost calculation
     switch ($request->hotel_preference) {
-        case 'standard':
-            $hotel_preference_cost = $package_price->standard_cost;
+        case 'standard_cost':
+            $hotel_preference_cost = $package_price->category_cost;
             break;
-        case 'deluxe':
-            $hotel_preference_cost = $package_price->deluxe_cost;
+        case 'deluxe_cost':
+            $hotel_preference_cost = $package_price->category_cost;
             break;
-        case 'super_deluxe':
-            $hotel_preference_cost = $package_price->super_deluxe_cost;
+        case 'super_deluxe_cost':
+            $hotel_preference_cost = $package_price->category_cost;
             break;
-        case 'luxury':
-            $hotel_preference_cost = $package_price->luxury_cost;
+        case 'luxury_cost':
+            $hotel_preference_cost = $package_price->category_cost;
             break;
-        case 'premium_3':
-            $hotel_preference_cost = $package_price->premium_3_cost;
+        case 'premium_3_cost':
+            $hotel_preference_cost = $package_price->category_cost;
             break;
         default:
-            $hotel_preference_cost = $package_price->premium_cost;
+            $hotel_preference_cost = $package_price->category_cost;
     }
 
     // Vehicle options cost calculation
