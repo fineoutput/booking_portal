@@ -106,6 +106,10 @@
                                     Premium (4 star)
                                 @elseif ($pkg->hotel_category == 'luxury_cost')
                                     Deluxe (5 star)
+                                @elseif ($pkg->hotel_category == 'premium_5_cost')
+                                    Premium (5 star)
+                                @elseif ($pkg->hotel_category == 'hostels')
+                                    Hostels
                                 @else
                                     NO DATA
                                 @endif
