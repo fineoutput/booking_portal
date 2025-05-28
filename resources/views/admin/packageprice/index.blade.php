@@ -76,6 +76,10 @@
                         <th data-priority="3">Vehicle (Traveller (12-21 pass)) Cost</th>
                         <th data-priority="3">Vehicle (Premium traveller (10-16 pass)) Cost</th>
                         <th data-priority="3">Vehicle (AC Coach (18-30 pass)) Cost</th>
+                        <th data-priority="3">Luxury (Sedan) Cost</th>
+                        <th data-priority="3">SUV Cost</th>
+                        <th data-priority="3">MUV Cost</th>
+                        <th data-priority="3">Bus (Non AC) Cost</th>
                         <th data-priority="3">Extra Bed Cost</th>
                         <th data-priority="3">Display Cost</th>
                         
@@ -129,6 +133,10 @@
                                 <td>₹{{ $pkg->traveller_big_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->premium_traveller_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->ac_coach_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->luxury_sedan_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->suv_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->muv_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->bus_nonac_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->extra_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->display_cost ?? '0' }}</td>
                                 <td>

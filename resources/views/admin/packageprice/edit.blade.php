@@ -80,10 +80,19 @@
                                                 <option disabled value="">Select Hotel Category</option>
                                                 <option value="standard_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'standard_cost') ? 'selected' : '' }}>Standard (1 star)</option>
                                                 <option value="deluxe_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'deluxe_cost') ? 'selected' : '' }}>Deluxe (3 star)</option>
-                                                <option value="premium_3_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'premium_3_cost') ? 'selected' : '' }}>Premium (3 star)</option>
+
                                                 <option value="super_deluxe_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'super_deluxe_cost') ? 'selected' : '' }}>Deluxe (4 star)</option>
+                                                
+                                                 <option value="luxury_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'luxury_cost') ? 'selected' : '' }}>Deluxe (5 star)</option>
+
+                                                   <option value="premium_3_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'premium_3_cost') ? 'selected' : '' }}>Premium (3 star)</option>
+
                                                 <option value="premium_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'premium_cost') ? 'selected' : '' }}>Premium (4 star)</option>
-                                                <option value="luxury_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'luxury_cost') ? 'selected' : '' }}>Deluxe (5 star)</option>
+
+                                                <option value="premium_5_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'premium_5_cost') ? 'selected' : '' }}>Premium (5 star)</option>
+
+                                                <option value="hostels" {{ (old('hotel_category', $package->hotel_category ?? '') == 'hostels') ? 'selected' : '' }}>Hostels</option>
+                                               
                                             </select>
                                             <div class="form-floating">
                                                 @error('hotel_category')
@@ -271,9 +280,29 @@
                             
                                     <!-- Vehicle (Hatchback) Cost -->
                                     <div class="col-sm-6">
-                                        <label for="economy_suv_cost" class="form-label">Vehicle (Economy SUV) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="economy_suv_cost" class="form-label">Vehicle (Compact SUV) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="economy_suv_cost" value="{{ old('economy_suv_cost', $package->economy_suv_cost) }}" required>
                                         @error('economy_suv_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="luxury_sedan_cost" class="form-label">Luxury (Sedan) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="luxury_sedan_cost" id="luxury_sedan_cost"
+                                            value="{{ old('luxury_sedan_cost', $package->luxury_sedan_cost ?? '') }}" required>
+                                        @error('luxury_sedan_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="suv_cost" class="form-label">SUV Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="suv_cost" id="suv_cost"
+                                            value="{{ old('suv_cost', $package->suv_cost ?? '') }}" required>
+                                        @error('suv_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -300,6 +329,8 @@
                                     </div>
                                 </div>
 
+
+
                                 <div class="form-group row">
                                     <!-- Meal Plan (All Meals) Cost -->
                                     <div class="col-sm-6">
@@ -320,10 +351,31 @@
                                     </div>
                                 </div>
 
+                            <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="muv_cost" class="form-label">MUV Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="muv_cost" id="muv_cost"
+                                            value="{{ old('muv_cost', $package->muv_cost ?? '') }}" required>
+                                        @error('muv_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="bus_nonac_cost" class="form-label">Bus (Non AC) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="bus_nonac_cost" id="bus_nonac_cost"
+                                            value="{{ old('bus_nonac_cost', $package->bus_nonac_cost ?? '') }}" required>
+                                        @error('bus_nonac_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
                                 <div class="form-group row">
                                     <!-- Meal Plan (All Meals) Cost -->
                                     <div class="col-sm-6">
-                                        <label for="ac_coach_cost" class="form-label">Vehicle (AC Coach (18-30 pass)) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="ac_coach_cost" class="form-label">Bus (AC) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="ac_coach_cost" value="{{ old('ac_coach_cost', $package->ac_coach_cost) }}" required>
                                         @error('ac_coach_cost')
                                             <div style="color:red;">{{ $message }}</div>

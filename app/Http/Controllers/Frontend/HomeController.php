@@ -1201,33 +1201,29 @@ if ($max_price) {
 
 
         if($request->hotel_preference == 'standard_cost'){
-            
-            // $cost = $package_price->where('hotel_category','standard_cost')->first();
            $hotel_preference_cost = $package_price->category_cost ?? 0;
 
         }elseif($request->hotel_preference == 'deluxe_cost'){
-
-            //  $cost = $package_price->where('hotel_category','deluxe_cost')->first();
            $hotel_preference_cost = $package_price->category_cost ?? 0;
 
         }elseif($request->hotel_preference == 'super_deluxe_cost'){
 
-            //   $cost = $package_price->where('hotel_category','super_deluxe_cost')->first();
            $hotel_preference_cost = $package_price->category_cost ?? 0;
 
         }elseif($request->hotel_preference == 'luxury_cost'){
 
-            //    $cost = $package_price->where('hotel_category','luxury_cost')->first();
            $hotel_preference_cost = $package_price->category_cost ?? 0;
 
         }elseif($request->hotel_preference == 'premium_3_cost'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
-            //  $cost = $package_price->where('hotel_category','premium_3_cost')->first();
+        }elseif($request->hotel_preference == 'premium_5_cost'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
+
+        }elseif($request->hotel_preference == 'hostels'){
            $hotel_preference_cost = $package_price->category_cost ?? 0;
 
         }else{
-
-            //  $cost = $package_price->where('hotel_category','premium_cost')->first();
            $hotel_preference_cost = $package_price->category_cost ?? 0;
 
         }
@@ -1264,7 +1260,22 @@ if ($max_price) {
         elseif($request->vehicle_options == 'premium_traveller_cost'){
 
             $vehicle_options_cost = $package_price->premium_traveller_cost ?? 0;
+        }
+        elseif($request->vehicle_options == 'luxury_sedan_cost'){
 
+            $vehicle_options_cost = $package_price->luxury_sedan_cost ?? 0;
+        }
+        elseif($request->vehicle_options == 'suv_cost'){
+
+            $vehicle_options_cost = $package_price->suv_cost ?? 0;
+        }
+        elseif($request->vehicle_options == 'muv_cost'){
+
+            $vehicle_options_cost = $package_price->muv_cost ?? 0;
+        }
+        elseif($request->vehicle_options == 'bus_nonac_cost'){
+
+            $vehicle_options_cost = $package_price->bus_nonac_cost ?? 0;
         }
         else{
 

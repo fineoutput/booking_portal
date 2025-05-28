@@ -41,6 +41,11 @@ class PackagePrice extends Model
         'start_date',
         'end_date',
         'display_cost',
+
+        'luxury_sedan_cost',
+        'suv_cost',
+        'muv_cost',
+        'bus_nonac_cost',
     ];
 
     
