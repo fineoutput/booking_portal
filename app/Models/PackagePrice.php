@@ -12,6 +12,8 @@ class PackagePrice extends Model
     protected $table = 'package_price';
     protected $fillable = [
         'package_id',
+        'hotel_category',
+        'category_cost',
         'standard_cost',
         'deluxe_cost',
         'premium_cost',

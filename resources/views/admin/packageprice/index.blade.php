@@ -52,14 +52,15 @@
                         <th data-priority="1">Package Name</th>
                         <th data-priority="1">Start Month</th>
                         <th data-priority="1">End Month</th>
-                        <th data-priority="3">Standard Cost</th>
-                        <th data-priority="3">Premium 5 star Cost</th>
+                        <th data-priority="3">Hotel Category </th>
+                        <th data-priority="3">Hotel Category Cost</th>
+                        {{-- <th data-priority="3">Premium 5 star Cost</th>
                         <th data-priority="3">Premium 3 star Cost</th>
                         <th data-priority="3">Deluxe 3 Cost</th>
                         <th data-priority="3">Deluxe 4 Cost</th>
-                        <th data-priority="3">Deluxe 5 Cost</th>
+                        <th data-priority="3">Deluxe 5 Cost</th> --}}
                         <th data-priority="3">Nights Cost</th>
-                        <th data-priority="3">Adults Cost</th>
+                        {{-- <th data-priority="3">Adults Cost</th> --}}
                         <th data-priority="3">Child With Bed Cost</th>
                         <th data-priority="3">Child With No Bed (Infant) Cost</th>
                         <th data-priority="3">Child With No Bed (Child) Cost</th>
@@ -88,14 +89,31 @@
                                 <td>{{ $pkg->package->package_name ?? '' }}</td>
                                 <td>{{ $pkg->start_date ?? '' }}</td>
                                 <td>{{ $pkg->end_date ?? '' }}</td>
-                                <td>₹{{ $pkg->standard_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->premium_cost ?? '0' }}</td>
+                              <td>
+                                @if ($pkg->hotel_category == 'standard_cost')
+                                    Standard (1 star)
+                                @elseif ($pkg->hotel_category == 'deluxe_cost')
+                                    Deluxe (3 star)
+                                @elseif ($pkg->hotel_category == 'premium_3_cost')
+                                    Premium (3 star)
+                                @elseif ($pkg->hotel_category == 'super_deluxe_cost')
+                                    Deluxe (4 star)
+                                @elseif ($pkg->hotel_category == 'premium_cost')
+                                    Premium (4 star)
+                                @elseif ($pkg->hotel_category == 'luxury_cost')
+                                    Deluxe (5 star)
+                                @else
+                                    NO DATA
+                                @endif
+                            </td>
+                                <td>₹{{ $pkg->category_cost ?? '0' }}</td>
+                                {{-- <td>₹{{ $pkg->premium_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->premium_3_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->deluxe_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->super_deluxe_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->luxury_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->luxury_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->nights_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->adults_cost ?? '0' }}</td>
+                                {{-- <td>₹{{ $pkg->adults_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->child_with_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->child_no_bed_infant_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->child_no_bed_child_cost ?? '0' }}</td>

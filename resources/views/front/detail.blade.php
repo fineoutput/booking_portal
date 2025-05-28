@@ -223,12 +223,12 @@
                                 </div>
                                 <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select preference</option>
-                                    <option value="standard">Standard (1 Star)</option>
-                                    <option value="deluxe">Deluxe (3 Star)</option>
-                                    <option value="super_deluxe"> Deluxe (4 Star)</option>
-                                    <option value="luxury">Deluxe (5 Star)</option>
-                                    <option value="premium_3">Premium (3 Star)</option>
-                                    <option value="premium">Premium (5 Star)</option>
+                                    <option value="standard_cost">Standard (1 star)</option>
+                                            <option value="deluxe_cost">Deluxe (3 star)</option>
+                                            <option value="premium_3_cost">Premium (3 star)</option>
+                                            <option value="super_deluxe_cost">Deluxe (4 star)</option>
+                                            <option value="premium_cost">Premium (4 star)</option>
+                                            <option value="luxury_cost">Deluxe  (5 star)</option>
                                 </select>
                             </div>
                     

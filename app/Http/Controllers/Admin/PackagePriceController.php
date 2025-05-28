@@ -31,14 +31,15 @@ class PackagePriceController extends Controller
         if ($request->method() == 'POST') {
             // Validate the incoming request
             $request->validate([
-                'standard_cost' => 'required|numeric',
-                'deluxe_cost' => 'required|numeric',
-                'premium_cost' => 'required|numeric',
-                'super_deluxe_cost' => 'required|numeric',
-                'luxury_cost' => 'required|numeric',
-                'premium_3_cost' => 'required|numeric',
+                // 'standard_cost' => 'required|numeric',
+                // 'deluxe_cost' => 'required|numeric',
+                // 'premium_cost' => 'required|numeric',
+                // 'super_deluxe_cost' => 'required|numeric',
+                // 'luxury_cost' => 'required|numeric',
+                'category_cost' => 'required|numeric',
+                'hotel_category' => 'required',
                 'nights_cost' => 'required|numeric',
-                'adults_cost' => 'required|numeric',
+                // 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
                 'child_no_bed_child_cost' => 'required|numeric',
@@ -94,12 +95,14 @@ class PackagePriceController extends Controller
                 $packagePrice->package_id = $id;
                 $packagePrice->end_date = $request->end_date;
                 $packagePrice->start_date = $request->start_date;
-                $packagePrice->standard_cost = $request->standard_cost;
-                $packagePrice->deluxe_cost = $request->deluxe_cost;
-                $packagePrice->premium_cost = $request->premium_cost;
-                $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
-                $packagePrice->luxury_cost = $request->luxury_cost;
-                $packagePrice->premium_3_cost = $request->premium_3_cost;
+                $packagePrice->hotel_category = $request->hotel_category;
+                $packagePrice->category_cost = $request->category_cost;
+                // $packagePrice->standard_cost = $request->standard_cost;
+                // $packagePrice->deluxe_cost = $request->deluxe_cost;
+                // $packagePrice->premium_cost = $request->premium_cost;
+                // $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
+                // $packagePrice->luxury_cost = $request->luxury_cost;
+                // $packagePrice->premium_3_cost = $request->premium_3_cost;
                 $packagePrice->nights_cost = $request->nights_cost;
                 $packagePrice->adults_cost = $request->adults_cost;
                 $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
@@ -130,7 +133,6 @@ class PackagePriceController extends Controller
 
         }
     
-        // Fetch the package data for the form
         $data['package'] = Package::where('id', $id)->first();
         $data['packageprice'] = PackagePrice::where('package_id', $id)->first();
         return view('admin/packageprice/create', $data);
@@ -158,14 +160,16 @@ class PackagePriceController extends Controller
         public function update(Request $request, $id)
         {
             $request->validate([
-                'standard_cost' => 'required|numeric',
-                'deluxe_cost' => 'required|numeric',
-                'premium_cost' => 'required|numeric',
-                'super_deluxe_cost' => 'required|numeric',
-                'luxury_cost' => 'required|numeric',
-                'premium_3_cost' => 'required|numeric',
+                 'category_cost' => 'required|numeric',
+                'hotel_category' => 'required',
+                // 'standard_cost' => 'required|numeric',
+                // 'deluxe_cost' => 'required|numeric',
+                // 'premium_cost' => 'required|numeric',
+                // 'super_deluxe_cost' => 'required|numeric',
+                // 'luxury_cost' => 'required|numeric',
+                // 'premium_3_cost' => 'required|numeric',
                 'nights_cost' => 'required|numeric',
-                'adults_cost' => 'required|numeric',
+                // 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
                 'child_no_bed_child_cost' => 'required|numeric',
@@ -188,14 +192,16 @@ class PackagePriceController extends Controller
             // Find the existing package by ID
             $packagePrice = PackagePrice::findOrFail($id);
         
-                $packagePrice->standard_cost = $request->standard_cost;
+                // $packagePrice->standard_cost = $request->standard_cost;
                 $packagePrice->end_date = $request->end_date;
                 $packagePrice->start_date = $request->start_date;
-                $packagePrice->deluxe_cost = $request->deluxe_cost;
-                $packagePrice->premium_cost = $request->premium_cost;
-                $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
-                $packagePrice->luxury_cost = $request->luxury_cost;
-                $packagePrice->premium_3_cost = $request->premium_3_cost;
+                $packagePrice->hotel_category = $request->hotel_category;
+                $packagePrice->category_cost = $request->category_cost;
+                // $packagePrice->deluxe_cost = $request->deluxe_cost;
+                // $packagePrice->premium_cost = $request->premium_cost;
+                // $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
+                // $packagePrice->luxury_cost = $request->luxury_cost;
+                // $packagePrice->premium_3_cost = $request->premium_3_cost;
                 $packagePrice->nights_cost = $request->nights_cost;
                 $packagePrice->adults_cost = $request->adults_cost;
                 $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
