@@ -1963,6 +1963,12 @@ public function packagebooking(Request $request)
         case 'premium_3_cost':
             $hotel_preference_cost = $package_price->category_cost;
             break;
+        case 'premium_5_cost':
+            $hotel_preference_cost = $package_price->category_cost;
+            break;
+        case 'hostels':
+            $hotel_preference_cost = $package_price->category_cost;
+            break;
         default:
             $hotel_preference_cost = $package_price->category_cost;
     }
@@ -1989,6 +1995,18 @@ public function packagebooking(Request $request)
             break;
         case 'premium_traveller_cost':
             $vehicle_options_cost = $package_price->premium_traveller_cost;
+            break;
+        case 'luxury_sedan_cost':
+            $vehicle_options_cost = $package_price->luxury_sedan_cost;
+            break;
+        case 'suv_cost':
+            $vehicle_options_cost = $package_price->suv_cost;
+            break;
+        case 'muv_cost':
+            $vehicle_options_cost = $package_price->muv_cost;
+            break;
+        case 'bus_nonac_cost':
+            $vehicle_options_cost = $package_price->bus_nonac_cost;
             break;
         default:
             $vehicle_options_cost = $package_price->ac_coach_cost;
