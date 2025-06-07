@@ -12,6 +12,7 @@
           display: flex;
           /* justify-content: space-evenly; */
           gap: 20px;
+          align-items: center;
       ">
             <p>Legal Name:</p>
             <p class="mb-2" style="font-size: 14px">COLORS OF INDIA HOSPITALITY PVT LTD</p>
