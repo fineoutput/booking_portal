@@ -100,7 +100,7 @@
       <div class="row align-items-center">
         <div class="col-12 col-md-3">
           <div class="logo">
-          <a style="text-decoration: none;" href="{{ route('index') }}"><img style="width: 220px;" src="{{asset('frontend/images/tripp.png')}}" alt=""></a>
+          <a style="text-decoration: none;" href="{{ route('index') }}"><img style="width: 220px;" src="{{asset('frontend/images/black.png')}}" alt=""></a>
             
           </div>
         </div>
