@@ -31,14 +31,15 @@ class PackagePriceController extends Controller
         if ($request->method() == 'POST') {
             // Validate the incoming request
             $request->validate([
-                'standard_cost' => 'required|numeric',
-                'deluxe_cost' => 'required|numeric',
-                'premium_cost' => 'required|numeric',
-                'super_deluxe_cost' => 'required|numeric',
-                'luxury_cost' => 'required|numeric',
-                'premium_3_cost' => 'required|numeric',
+                // 'standard_cost' => 'required|numeric',
+                // 'deluxe_cost' => 'required|numeric',
+                // 'premium_cost' => 'required|numeric',
+                // 'super_deluxe_cost' => 'required|numeric',
+                // 'luxury_cost' => 'required|numeric',
+                'category_cost' => 'required|numeric',
+                'hotel_category' => 'required',
                 'nights_cost' => 'required|numeric',
-                'adults_cost' => 'required|numeric',
+                // 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
                 'child_no_bed_child_cost' => 'required|numeric',
@@ -56,50 +57,24 @@ class PackagePriceController extends Controller
                 'ac_coach_cost' => 'required|numeric',
                 'extra_bed_cost' => 'required|numeric',
                 'display_cost' => 'required|numeric',
+                'luxury_sedan_cost' => 'required|numeric',
+                'suv_cost' => 'required|numeric',
+                'muv_cost' => 'required|numeric',
+                'bus_nonac_cost' => 'required|numeric',
             ]);
-    
-            // Check if a PackagePrice entry already exists for this package
-            // $packagePrice = PackagePrice::where('package_id', $id)->first();
-    
-            // if ($packagePrice) {
-            //     // If the PackagePrice already exists, update it
-            //     $packagePrice->standard_cost = $request->standard_cost;
-            //     $packagePrice->deluxe_cost = $request->deluxe_cost;
-            //     $packagePrice->premium_cost = $request->premium_cost;
-            //     $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
-            //     $packagePrice->luxury_cost = $request->luxury_cost;
-            //     $packagePrice->nights_cost = $request->nights_cost;
-            //     $packagePrice->adults_cost = $request->adults_cost;
-            //     $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
-            //     $packagePrice->child_no_bed_infant_cost = $request->child_no_bed_infant_cost;
-            //     $packagePrice->child_no_bed_child_cost = $request->child_no_bed_child_cost;
-            //     $packagePrice->meal_plan_only_room_cost = $request->meal_plan_only_room_cost;
-            //     $packagePrice->meal_plan_breakfast_cost = $request->meal_plan_breakfast_cost;
-            //     $packagePrice->meal_plan_breakfast_lunch_dinner_cost = $request->meal_plan_breakfast_lunch_dinner_cost;
-            //     $packagePrice->meal_plan_all_meals_cost = $request->meal_plan_all_meals_cost;
-            //     $packagePrice->hatchback_cost = $request->hatchback_cost;
-            //     $packagePrice->sedan_cost = $request->sedan_cost;
-            //     $packagePrice->economy_suv_cost = $request->economy_suv_cost;
-            //     $packagePrice->luxury_suv_cost = $request->luxury_suv_cost;
-            //     $packagePrice->traveller_mini_cost = $request->traveller_mini_cost;
-            //     $packagePrice->traveller_big_cost = $request->traveller_big_cost;
-            //     $packagePrice->premium_traveller_cost = $request->premium_traveller_cost;
-            //     $packagePrice->ac_coach_cost = $request->ac_coach_cost;
-            //     $packagePrice->save();
-    
-            //     $message = 'Package price updated successfully.';
-            // } else {
-                // If the PackagePrice does not exist, create a new one
+       
                 $packagePrice = new PackagePrice();
                 $packagePrice->package_id = $id;
                 $packagePrice->end_date = $request->end_date;
                 $packagePrice->start_date = $request->start_date;
-                $packagePrice->standard_cost = $request->standard_cost;
-                $packagePrice->deluxe_cost = $request->deluxe_cost;
-                $packagePrice->premium_cost = $request->premium_cost;
-                $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
-                $packagePrice->luxury_cost = $request->luxury_cost;
-                $packagePrice->premium_3_cost = $request->premium_3_cost;
+                $packagePrice->hotel_category = $request->hotel_category;
+                $packagePrice->category_cost = $request->category_cost;
+                // $packagePrice->standard_cost = $request->standard_cost;
+                // $packagePrice->deluxe_cost = $request->deluxe_cost;
+                // $packagePrice->premium_cost = $request->premium_cost;
+                // $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
+                // $packagePrice->luxury_cost = $request->luxury_cost;
+                // $packagePrice->premium_3_cost = $request->premium_3_cost;
                 $packagePrice->nights_cost = $request->nights_cost;
                 $packagePrice->adults_cost = $request->adults_cost;
                 $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
@@ -117,20 +92,21 @@ class PackagePriceController extends Controller
                 $packagePrice->traveller_big_cost = $request->traveller_big_cost;
                 $packagePrice->premium_traveller_cost = $request->premium_traveller_cost;
                 $packagePrice->ac_coach_cost = $request->ac_coach_cost;
+                 $packagePrice->luxury_sedan_cost = $request->luxury_sedan_cost;
+                $packagePrice->suv_cost = $request->suv_cost;
+                $packagePrice->muv_cost = $request->muv_cost;
+                $packagePrice->bus_nonac_cost = $request->bus_nonac_cost;
                 $packagePrice->extra_bed_cost = $request->extra_bed_cost;
                 $packagePrice->display_cost = $request->display_cost;
                 $packagePrice->save();
     
                 $message = 'Package price added successfully.';
-            // }
-    
-            // Redirect with success message
+       
             return redirect()->route('package_price', ['id' => $id])
                  ->with('success', $message);
 
         }
     
-        // Fetch the package data for the form
         $data['package'] = Package::where('id', $id)->first();
         $data['packageprice'] = PackagePrice::where('package_id', $id)->first();
         return view('admin/packageprice/create', $data);
@@ -158,14 +134,16 @@ class PackagePriceController extends Controller
         public function update(Request $request, $id)
         {
             $request->validate([
-                'standard_cost' => 'required|numeric',
-                'deluxe_cost' => 'required|numeric',
-                'premium_cost' => 'required|numeric',
-                'super_deluxe_cost' => 'required|numeric',
-                'luxury_cost' => 'required|numeric',
-                'premium_3_cost' => 'required|numeric',
+                 'category_cost' => 'required|numeric',
+                'hotel_category' => 'required',
+                // 'standard_cost' => 'required|numeric',
+                // 'deluxe_cost' => 'required|numeric',
+                // 'premium_cost' => 'required|numeric',
+                // 'super_deluxe_cost' => 'required|numeric',
+                // 'luxury_cost' => 'required|numeric',
+                // 'premium_3_cost' => 'required|numeric',
                 'nights_cost' => 'required|numeric',
-                'adults_cost' => 'required|numeric',
+                // 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
                 'child_no_bed_child_cost' => 'required|numeric',
@@ -181,21 +159,26 @@ class PackagePriceController extends Controller
                 'traveller_big_cost' => 'required|numeric',
                 'premium_traveller_cost' => 'required|numeric',
                 'ac_coach_cost' => 'required|numeric',
+                'luxury_sedan_cost' => 'required|numeric',
+                'suv_cost' => 'required|numeric',
+                'muv_cost' => 'required|numeric',
+                'bus_nonac_cost' => 'required|numeric',
                 'extra_bed_cost' => 'required|numeric',
                 'display_cost' => 'required|numeric',
             ]);
         
-            // Find the existing package by ID
             $packagePrice = PackagePrice::findOrFail($id);
         
-                $packagePrice->standard_cost = $request->standard_cost;
+                // $packagePrice->standard_cost = $request->standard_cost;
                 $packagePrice->end_date = $request->end_date;
                 $packagePrice->start_date = $request->start_date;
-                $packagePrice->deluxe_cost = $request->deluxe_cost;
-                $packagePrice->premium_cost = $request->premium_cost;
-                $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
-                $packagePrice->luxury_cost = $request->luxury_cost;
-                $packagePrice->premium_3_cost = $request->premium_3_cost;
+                $packagePrice->hotel_category = $request->hotel_category;
+                $packagePrice->category_cost = $request->category_cost;
+                // $packagePrice->deluxe_cost = $request->deluxe_cost;
+                // $packagePrice->premium_cost = $request->premium_cost;
+                // $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
+                // $packagePrice->luxury_cost = $request->luxury_cost;
+                // $packagePrice->premium_3_cost = $request->premium_3_cost;
                 $packagePrice->nights_cost = $request->nights_cost;
                 $packagePrice->adults_cost = $request->adults_cost;
                 $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
@@ -213,6 +196,10 @@ class PackagePriceController extends Controller
                 $packagePrice->traveller_big_cost = $request->traveller_big_cost;
                 $packagePrice->premium_traveller_cost = $request->premium_traveller_cost;
                 $packagePrice->ac_coach_cost = $request->ac_coach_cost;
+                $packagePrice->luxury_sedan_cost = $request->luxury_sedan_cost;
+                $packagePrice->suv_cost = $request->suv_cost;
+                $packagePrice->muv_cost = $request->muv_cost;
+                $packagePrice->bus_nonac_cost = $request->bus_nonac_cost;
                 $packagePrice->extra_bed_cost = $request->extra_bed_cost;
                 $packagePrice->display_cost = $request->display_cost;
                 $packagePrice->save();

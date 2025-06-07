@@ -69,8 +69,40 @@
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    
+                                    <div class="form-group row mt-5"> 
+                                              <div class="col-sm-6">
+                                        <select class="form-control" name="hotel_category" id="hotel_category" required>
+                                            <option selected disabled value="">Select Hotel Category</option>
+                                            <option value="standard_cost">Standard (1 star)</option>
+                                            <option value="deluxe_cost">Deluxe (3 star)</option>
+                                            <option value="super_deluxe_cost">Deluxe (4 star)</option>
+                                            <option value="luxury_cost">Deluxe  (5 star)</option>
+                                            <option value="premium_3_cost">Premium (3 star)</option>
+                                            <option value="premium_cost">Premium (4 star)</option>
+                                            <option value="premium_5_cost">Premium (5 star)</option>
+                                            <option value="hostels">Hostels</option>
+                                        </select>
+                                        <div class="form-floating">
+                                            @error('hotel_category')
+                                            <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
 
                                     <div class="col-sm-6">
+                                        <label for="category_cost" class="form-label">Hotel Category Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="category_cost" value="" required>
+                                        @error('category_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    </div>
+
+                                 
+
+                                    {{-- <div class="col-sm-6">
                                         <label for="standard_cost" class="form-label">Standard (1 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="standard_cost" value="" required>
                                         @error('standard_cost')
@@ -124,26 +156,26 @@
                                         @error('premium_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                     
                                     </div>
                                     <div class="form-group row"> 
                             
                                     <div class="col-sm-6">
-                                        <label for="nights_cost" class="form-label">Per Night Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="nights_cost" class="form-label">Hotel Per Night Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="nights_cost" value="" required>
                                         @error('nights_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
                             
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="adults_cost" class="form-label">Adults Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="adults_cost" value="" required>
                                         @error('adults_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                     </div>
                                     <div class="form-group row"> 
                             
@@ -232,9 +264,28 @@
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <label for="economy_suv_cost" class="form-label">Vehicle (Economy SUV) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="economy_suv_cost" class="form-label">Vehicle (Compact SUV) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="economy_suv_cost" value="" required>
                                         @error('economy_suv_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                </div>
+
+                                 <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="luxury_sedan_cost" class="form-label">Luxury (Sedan) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="luxury_sedan_cost" value="" required>
+                                        @error('luxury_sedan_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="suv_cost" class="form-label">SUV Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="suv_cost" value="" required>
+                                        @error('suv_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -278,10 +329,29 @@
                                     </div>
 
                                 </div>
+
+                            <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="muv_cost" class="form-label">MUV Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="muv_cost" value="" required>
+                                        @error('muv_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="bus_nonac_cost" class="form-label">Bus (Non AC) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="bus_nonac_cost" value="" required>
+                                        @error('bus_nonac_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                </div>
                                 
                                  <div class="form-group row">
                                     <div class="col-sm-6">
-                                        <label for="ac_coach_cost" class="form-label">Vehicle (AC Coach (18-30 pass)) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="ac_coach_cost" class="form-label">Bus (AC) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="ac_coach_cost" value="" required>
                                         @error('ac_coach_cost')
                                             <div style="color:red;">{{ $message }}</div>

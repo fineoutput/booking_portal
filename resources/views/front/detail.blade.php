@@ -223,12 +223,14 @@
                                 </div>
                                 <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
                                     <option value="" disabled selected>Select preference</option>
-                                    <option value="standard">Standard (1 Star)</option>
-                                    <option value="deluxe">Deluxe (3 Star)</option>
-                                    <option value="super_deluxe"> Deluxe (4 Star)</option>
-                                    <option value="luxury">Deluxe (5 Star)</option>
-                                    <option value="premium_3">Premium (3 Star)</option>
-                                    <option value="premium">Premium (5 Star)</option>
+                                    <option value="standard_cost">Standard (1 star)</option>
+                                            <option value="deluxe_cost">Deluxe (3 star)</option>
+                                            <option value="super_deluxe_cost">Deluxe (4 star)</option>
+                                            <option value="luxury_cost">Deluxe  (5 star)</option>
+                                            <option value="premium_3_cost">Premium (3 star)</option>
+                                            <option value="premium_cost">Premium (4 star)</option>
+                                            <option value="premium_5_cost">Premium (5 star)</option>
+                                            <option value="hostels">Hostels</option>
                                 </select>
                             </div>
                     
@@ -241,12 +243,16 @@
                                     <option value="" disabled selected>Select vehicle</option>
                                     <option value="hatchback_cost">Hatchback</option>
                                     <option value="sedan_cost">Sedan</option>
-                                    <option value="economy_suv_cost">Economy SUV</option>
+                                    <option value="luxury_sedan_cost">Luxury Sedan</option>
+                                    <option value="economy_suv_cost">Compact SUV</option>
+                                    <option value="suv_cost">SUV</option>
+                                    <option value="muv_cost">MUV</option>
                                     <option value="luxury_suv_cost">Luxury SUV</option>
                                     <option value="traveller_mini_cost">Traveller (7-12 pass)</option>
                                     <option value="traveller_big_cost">Traveller (12-21 pass)</option>
                                     <option value="premium_traveller_cost">Premium traveller (10-16 pass)</option>
-                                    <option value="ac_coach_cost">AC Coach (18-30 pass)</option>
+                                    <option value="ac_coach_cost">Bus (AC) </option>
+                                    <option value="bus_nonac_cost">Bus ( Non AC ) </option>
                                 </select>
                             </div>
                     

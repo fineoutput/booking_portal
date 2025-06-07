@@ -1152,10 +1152,14 @@ if ($max_price) {
 
         $formatted_date = Carbon::now()->format('Y-m-d');
 
-        $package_price = PackagePrice::where('package_id', $id)
+        $package_price = PackagePrice::where('package_id', $id)->where('hotel_category',$request->hotel_preference)
                 ->where('start_date', '<=', $formatted_date)
                 ->where('end_date', '>=', $formatted_date)
                 ->first();
+
+                if(empty($package_price)){
+                  return redirect()->back()->with('message', "Price not available for this hotel category.");
+                  }
 
         $wildlife = new PackageBookingTemp();
         $wildlife->user_id = Auth::guard('agent')->id();
@@ -1196,31 +1200,32 @@ if ($max_price) {
         }
 
 
-        // hotel_preference
+        if($request->hotel_preference == 'standard_cost'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
-        if($request->hotel_preference == 'standard'){
+        }elseif($request->hotel_preference == 'deluxe_cost'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
-           $hotel_preference_cost = $package_price->standard_cost ?? 0;
+        }elseif($request->hotel_preference == 'super_deluxe_cost'){
 
-        }elseif($request->hotel_preference == 'deluxe'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
-            $hotel_preference_cost = $package_price->deluxe_cost ?? 0;
+        }elseif($request->hotel_preference == 'luxury_cost'){
 
-        }elseif($request->hotel_preference == 'super_deluxe'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
-            $hotel_preference_cost = $package_price->super_deluxe_cost ?? 0;
+        }elseif($request->hotel_preference == 'premium_3_cost'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
-        }elseif($request->hotel_preference == 'luxury'){
+        }elseif($request->hotel_preference == 'premium_5_cost'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
-            $hotel_preference_cost = $package_price->luxury_cost ?? 0;
-
-        }elseif($request->hotel_preference == 'premium_3'){
-
-            $hotel_preference_cost = $package_price->premium_3_cost ?? 0;
+        }elseif($request->hotel_preference == 'hostels'){
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
         }else{
+           $hotel_preference_cost = $package_price->category_cost ?? 0;
 
-            $hotel_preference_cost = $package_price->premium_cost ?? 0;
         }
 
         // vehicle_options
@@ -1255,7 +1260,22 @@ if ($max_price) {
         elseif($request->vehicle_options == 'premium_traveller_cost'){
 
             $vehicle_options_cost = $package_price->premium_traveller_cost ?? 0;
+        }
+        elseif($request->vehicle_options == 'luxury_sedan_cost'){
 
+            $vehicle_options_cost = $package_price->luxury_sedan_cost ?? 0;
+        }
+        elseif($request->vehicle_options == 'suv_cost'){
+
+            $vehicle_options_cost = $package_price->suv_cost ?? 0;
+        }
+        elseif($request->vehicle_options == 'muv_cost'){
+
+            $vehicle_options_cost = $package_price->muv_cost ?? 0;
+        }
+        elseif($request->vehicle_options == 'bus_nonac_cost'){
+
+            $vehicle_options_cost = $package_price->bus_nonac_cost ?? 0;
         }
         else{
 
@@ -1270,7 +1290,7 @@ if ($max_price) {
         }
 
         $total_night_cost = $package_price->nights_cost *  $night_count;
-        $adults_cost = $package_price->adults_cost *  $request->adults_count;
+        $adults_cost = $package_price->nights_cost *  $request->adults_count;
         $child_with_bed_cost = $package_price->child_with_bed_cost *  $request->child_with_bed_count;
         $child_no_bed_child_cost = $package_price->child_no_bed_child_cost *  $request->child_no_bed_child_count;
         $total_meal_cost = $meal_cost;
