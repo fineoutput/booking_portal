@@ -5,17 +5,26 @@
 ">
       <div class="col-md-4 col-lg-4 col-sm-12">
       <div class="logo">
-          <a style="text-decoration: none;" href="{{ route('index') }}"><img class="bawe" style="width: 350px;" src="{{ asset('frontend/images/tripp.png') }}" alt=""></a>
+          <a style="text-decoration: none;" href="{{ route('index') }}"><img class="bawe" style="width: 350px;" src="{{ asset('frontend/images/black.png') }}" alt=""></a>
             
           </div>
           <div style="
           display: flex;
           /* justify-content: space-evenly; */
           gap: 20px;
+          align-items: center;
       ">
             <p>Legal Name:</p>
-            <p class="mb-2">Colors Of India Hospitality</p>
+            <p class="mb-2" style="font-size: 14px">COLORS OF INDIA HOSPITALITY PVT LTD</p>
           </div>
+          <div style="
+          display: flex;  
+          /* justify-content: space-evenly; */
+          gap: 20px;
+      ">
+            <p>Affiliated by:</p>
+            <p class="mb-2" >Rajasthan Tourism</p>
+          </div>  
         {{-- <p>1234567890</p> --}}
       </div>
       <div class="col-md-4 col-lg-4 col-sm-12">
