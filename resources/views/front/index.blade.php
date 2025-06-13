@@ -14,7 +14,9 @@
     opacity: 1 !important;
     visibility: visible !important;
 }
-
+.chnaa p{
+  margin: 0;
+}
 </style>
  <!-- /* //////////////Banner Starts///////////// */ -->
  <div id="responsive-slider" class="splide" style="background: #ffd600;" >
@@ -598,7 +600,7 @@
                         <div class="detailsashEs">
                           <div class="durationashEs">
                             <span>🕒 {{ $value->night_count }} Nights</span>
-                            <span>{!! \Illuminate\Support\Str::limit($value->text_description_2 ?? '', 5) !!}</span>
+                            <span class="chnaa">{!! \Illuminate\Support\Str::limit($value->text_description_2 ?? '', 5) !!}</span>
                           </div>
                           <div class="locationashEs">
                             <span>📍 Leh-Leh</span>
