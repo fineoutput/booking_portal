@@ -90,7 +90,7 @@ class HomeController extends Controller
 
     public function index(Request $req)
 {
-    $data['packages'] = Package::where('show_front',1)->get();
+    $data['packages'] = Package::get();
     $data['slider'] = Slider::where('type','home_slider')->get();
     $data['offer'] = HomeSlider::orderBy('id','DESC')->where('type','Offer')->get();
     $data['bottom'] = HomeSlider::orderBy('id','DESC')->where('type','Bottom')->get();

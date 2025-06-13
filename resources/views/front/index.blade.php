@@ -572,7 +572,7 @@
       <div class="splide__track">
         <ul class="splide__list">
           
-          {{-- @if($packages)
+          @if($packages)
             @foreach ($packages as $key => $value)
               <li class="splide__slide">
                 <div class="card-container">
@@ -616,45 +616,7 @@
                 <h1>No Package Found</h1>
               </div>
             </li>
-          @endif --}}
-
-          @if($packages)  {{-- Check if packages exist --}}
-    @foreach ($packages as $value)
-        @php
-            // Decode image array from JSON and get the first image or fallback
-            $images = json_decode($value->image, true);
-            $add = ($images && is_array($images) && count($images) > 0)
-                   ? asset(reset($images))
-                   : asset('frontend/images/hotel_main.avif');
-        @endphp
-
-        <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
-            <div style="background: url('{{ $add }}') no-repeat center / cover;">
-                
-                {{-- Show price if available --}}
-                @if($value->prices)
-                    ₹{{ number_format($value->prices->display_cost, 2) }} onwards
-                @else
-                    No price available.
-                @endif
-
-                {{-- Package Name --}}
-                <h3>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
-
-                {{-- Short Description --}}
-                <span>{!! \Illuminate\Support\Str::limit($value->text_description ?? '', 30) !!}</span>
-
-                {{-- Duration and Location --}}
-                <span>🕒 {{ $value->night_count }} Nights</span>
-                <span>{!! \Illuminate\Support\Str::limit($value->text_description_2 ?? '', 5) !!}</span>
-                <span>📍 Leh-Leh</span>
-            </div>
-        </a>
-    @endforeach
-@else
-    <h1>No Package Found</h1>
-@endif
-
+          @endif
 
         </ul>
       </div>
