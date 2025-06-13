@@ -572,7 +572,7 @@
       <div class="splide__track">
         <ul class="splide__list">
           
-          {{-- @if($packages) --}}
+          @if($packages)
             @foreach ($packages as $key => $value)
               <li class="splide__slide">
                 <div class="card-container">
@@ -610,13 +610,13 @@
                 </div>
               </li>
             @endforeach
-          {{-- @else
+          @else
             <li class="splide__slide">
               <div class="card-container">
                 <h1>No Package Found</h1>
               </div>
             </li>
-          @endif --}}
+          @endif
 
         </ul>
       </div>
