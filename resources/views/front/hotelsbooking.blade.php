@@ -47,7 +47,7 @@
                 </div>
                 <div class="hotel_place">
                     <!-- Input field for the city selection -->
-                    <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+                    <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->city_name }}')">
                     <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
                     <span class="hotels_spn"></span>
                 </div>
