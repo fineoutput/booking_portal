@@ -186,7 +186,7 @@
                         @csrf
                     
                         <!-- Date Range -->
-                        <div class="row g-3 mb-3">
+                        {{-- <div class="row g-3 mb-3">
                             <div class="col-md-6 loc_stl">
                                 <div class="rj_vk">
                                     <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
@@ -202,7 +202,24 @@
                                 <input name="end_date" type="date" id="endDate" class="form-control no-form" required>
                             </div>
                         </div>
-                    
+                     --}}
+
+                     <div class="row g-3 mb-3">
+                        <div class="col-md-6 loc_stl">
+                            <div class="rj_vk">
+                                <img style="width: 20px;" src="{{ asset('frontend/images/schedule.png') }}" alt="">
+                                <label for="startDate" class="form-label">Start Date</label>
+                            </div>
+                            <input name="start_date" type="date" id="startDate" class="form-control no-form" required>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="rj_vk">
+                                <img style="width: 20px;" src="{{ asset('frontend/images/schedule.png') }}" alt="">
+                                <label for="endDate" class="form-label">End Date</label>
+                            </div>
+                            <input name="end_date" type="date" id="endDate" class="form-control no-form" required>
+                        </div>
+                    </div>
                         <!-- Everything else in a single column -->
                         <div class="row g-3">
                             <div class="col-12">
@@ -513,4 +530,36 @@ function closeZoom() {
     document.getElementById("zoomModal").style.display = "none";
 }
 </script>
+
+
+
+<script>
+    const nightCount = {{ $packages->night_count }};
+
+    document.getElementById('startDate').addEventListener('change', function () {
+        const startDateValue = this.value;
+        const startDate = new Date(startDateValue);
+
+        if (!isNaN(startDate)) {
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + nightCount);
+
+            const formattedEndDate = endDate.toISOString().split('T')[0];
+
+            // Only set end date if user hasn’t manually changed it yet
+            const endInput = document.getElementById('endDate');
+
+            // Optional: if you want to reset it every time regardless, remove this condition
+            if (!endInput.dataset.userEdited) {
+                endInput.value = formattedEndDate;
+            }
+        }
+    });
+
+    // Track manual changes by user
+    document.getElementById('endDate').addEventListener('input', function () {
+        this.dataset.userEdited = true;
+    });
+</script>
+
 @endsection
