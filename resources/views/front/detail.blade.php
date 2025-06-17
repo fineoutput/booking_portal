@@ -1,7 +1,46 @@
 @extends('front.common.app')
 @section('title','home')
 @section('content')
+<style>
+/* The Modal */
+.zoom-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+}
 
+/* Modal Content */
+.zoom-modal-content {
+    margin: auto;
+    display: block;
+    width: 100%;
+    max-width: 1000px;
+    transition: 0.3s ease-in-out;
+    height: 90%;
+}
+
+.zoom-modal-content:hover {
+    transform: scale(1.05);
+}
+
+/* Close Button */
+.zoom-close {
+    position: absolute;
+    top: 30px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
 <section class="dett_sect" style="background: #f3f3f3;">
     <div class="container">
         <div class="row">
@@ -297,7 +336,7 @@
                 <div class="price_tabs">
                     <div class="pr_lft">
                         {{-- <p>Starts from <span class="dus_ghd"><b>₹32,000</b></span></p> --}}
-                        <span>per person on twin sharing</span>
+                        <span>Package Images</span>
                     </div>
                 </div>
 
@@ -311,10 +350,19 @@
 
 
         @foreach (json_decode($packages->image) as $image)
-    <div class="image-col mob-d-none ng-star-inserted">
-        {{-- <img class="background-image" src="{{ asset($image) }}" alt="First Image"> --}}
-        <td><img class="display-image" src="{{ asset($image) }}" alt="First Image"><br></td>
-    </div>
+   <div class="image-col mob-d-none ng-star-inserted">
+    <td>
+        <img class="display-image" src="{{ asset($image) }}" alt="First Image" onclick="openZoom(this)">
+        <br>
+    </td>
+</div>
+
+<!-- Zoom Modal -->
+<div id="zoomModal" class="zoom-modal" onclick="closeZoom()">
+    <span class="zoom-close">&times;</span>
+    <img class="zoom-modal-content" id="zoomedImage">
+</div>
+
     @endforeach
 
 
@@ -452,4 +500,17 @@
         </div>
     </div>
 </section>
+
+<script>
+function openZoom(img) {
+    const modal = document.getElementById("zoomModal");
+    const modalImg = document.getElementById("zoomedImage");
+    modal.style.display = "block";
+    modalImg.src = img.src;
+}
+
+function closeZoom() {
+    document.getElementById("zoomModal").style.display = "none";
+}
+</script>
 @endsection
