@@ -58,7 +58,7 @@ img{
   color: #000;
 }
 .cater{
-  background-color: rgb(0 158 227 / 12%) !important;
+  background-color: rgba(180, 193, 199, 0.12)  !important;
 }
 .navbar-nav .nav-item {
   margin-right: 15px;
@@ -73,7 +73,7 @@ img{
 
 .nave_color {
   /* background-color: #132738; */
-  background-color: #009ee3;
+  background-color: #cb3502;
 }
 
 .insider_drop{
@@ -907,7 +907,7 @@ transform: scale(1.05); /* Optional: Slight zoom-in on hover */
 }
 
 .world_upper_txt h2 {
-    color: #009ee3;
+    color: #cb3502;
     font-size: 38px;
     font-weight: 600;
 }

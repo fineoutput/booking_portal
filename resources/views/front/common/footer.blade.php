@@ -1,7 +1,7 @@
 <footer class="cater text-light pt-5 mt-5">
   <div class="container px-5">
     <div class="row" style="
-    color: #009ee3;
+    color: #000;
 ">
       <div class="col-md-4 col-lg-4 col-sm-12">
       <div class="logo">
@@ -35,7 +35,7 @@
           </li>
           <li class="py-1">
             <strong>Email:</strong> <a href="mailto:coih.praveensharma@gmail.com" style="
-            color: #009ee3;
+            color: #000;
         " class="text-decoration-none ">coih.praveensharma@gmail.com</a>
           </li>
           <li class="py-1">
@@ -52,10 +52,10 @@
         list-style: none;">
         <h4 class="font-weight-bold" style="font-weight: bold">Policies</h4>
           <li class="py-1"><a style="
-            color: #009ee3;
+            color: #000;
         " href="{{ route('shipping_policy') }}">Shipping Policy</a></li>
           <li class="py-1"><a style="
-            color: #009ee3;
+            color: #000;
         " href="{{ route('terms_condition') }}">Terms and Conditions</a></li>
         </ul>
       </div>
@@ -82,14 +82,14 @@
     <hr>
     <div class="d-sm-flex justify-content-between py-1">
       <p style="
-    color: #009ee3;
+    color: #000;
 ">2025 © Trip Dekho. All Rights Reserved. </p>
       <p>
         <a href="#" class=" text-decoration-none pe-4" style="
-        color: #009ee3;
+        color: #000;
     ">Designed and Developed by</a>
         <a href="#" class=" text-decoration-none" style="
-    color: #009ee3;
+    color: #000;
 "> <b>Fineoutput Technologies</b></a>
       </p>
     </div>
