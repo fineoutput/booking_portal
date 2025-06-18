@@ -33,6 +33,35 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
   <style>
+/* Default navbar style */
+.navbar {
+  transition: all 0.4s ease-in-out;
+  z-index: 999;
+}
+/* .noPE{
+  display: none
+}
+.yePP{
+  display: block
+} */
+/* Sticky style when scrolled */
+.navbar.scrolled {
+  position: sticky;
+  top: 0;
+  background-color: white !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.4s ease-in-out;
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
 
   </style>
 </head>
@@ -94,8 +123,8 @@
 				@endif --}}
 
 
-<div class="sticky-top stEEP">  
-<header class="header ">
+<div class=" stEEP">  
+<header style="border-bottom:1px solid rgba(0, 0, 0, 0.306) " class="header ">
     <div class="container-fluid">
       <div class="row align-items-center">
         <div class="col-12 col-md-3">
@@ -105,13 +134,14 @@
           </div>
         </div>
         <div class="col-12 col-md-6">
-          <div class="search-bar">
-            <input type="text" placeholder="Search 'Eiffel Tower'" class="search-input">
-            <button class="search-btn">🔍</button>
-          </div>
-        </div>
-        <div class="col-12 col-md-3 d-flex justify-content-end press_header">
           
+
+        </div>
+        <div class="col-12 col-md-3 d-flex justify-content-end press_header" style="align-items: center">
+            <div class="search-bar" id="searchBar">
+  <input type="text" placeholder="Search 'Eiffel Tower'" class="search-input" id="searchInput">
+  <button class="search-btn" id="searchBtn">🔍</button>
+</div>
           <div class="sign-in dropdown">
     👤 
     @if(Auth::guard('agent')->check())
@@ -130,7 +160,10 @@
             </li>
         </ul>
     @else
+
+      
         <a href="{{ route('login') }}" class="dotts">Sign In</a>
+        
     @endif
 </div>
 
@@ -139,18 +172,27 @@
     </div>
   </header>
 <!-- Navigation Bar -->
+
+</div>
 <nav class="navbar navbar-expand-lg navbar-dark nave_color ">
-  <div class="container-fluid">
+  <div class="container justify-content-center ">
     <a class="navbar-brand" href="{{ route('index') }}">Tours Dekho</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="lol_set">
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mx-auto">
-        <!-- Mega Menu -->
+       <ul class="navbar-nav mx-auto">
+        <!-- Mega Menu --> 
+        <a id="secLog" class="compIset" style="text-decoration: none; display: none" href="{{ route('index') }}"><img style="    width: 250px;
+    position: absolute;
+    height: 60px;
+    left: 50px; " src="{{asset('frontend/images/black.png')}}" alt=""></a>
         <li class="nav-item dropdown mega-menu">
+         
           <a class="nav-link dropdown-toggle" href="#" id="megaMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/128/13208/13208798.png" alt="">
             Package Booking
           </a>
           <div class="dropdown-menu mega-menu-content" aria-labelledby="megaMenu" style="width: 750px;">
@@ -188,15 +230,70 @@
         {{-- <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li> --}}
         @endif
         {{-- <li class="nav-item"><a class="nav-link" href="{{ route('user_profile') }}">Profile</a></li> --}}
-        <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">Taxi Booking</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('hotelsbooking') }}">Hotels</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('wildlife') }}">Safari</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('guide') }}">Guide</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('taxi_booking') }}">
+          <img style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/128/8633/8633703.png" alt="">
+            
+          Taxi Booking</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('hotelsbooking') }}">
+          <img style="width: 50px; height: 50px;" src="https://edge.ixigo.com/st/vimaan/_next/static/media/hotel.4b63222d.svg" alt="">
+            
+          Hotels</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('wildlife') }}">
+          <img style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/128/4793/4793758.png" alt="">
+            
+          Safari</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('guide') }}">
+          <img style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/128/2268/2268568.png" alt="">
+            
+          Guide</a></li>
       </ul>
+      
+
+      
+      </div>
+      
     </div>
+ 
   </div>
 </nav>
-</div>
+<script>
+  window.addEventListener('scroll', function () {
+    const navbar = document.querySelector('.navbar');
+    const secLog = document.getElementById('secLog')
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+      navbar.classList.add('seltitude');
+      // secLog.classList.add('yePP');
+     secLog.style.display = 'block';
+    } else {
+      navbar.classList.remove('scrolled');
+      navbar.classList.remove('seltitude');
+      // secLog.classList.add('noPE');
+      
+     secLog.style.display = 'none';
+    }
+  });
+</script>
+<script>
+  const searchBtn = document.getElementById('searchBtn');
+  const searchBar = document.getElementById('searchBar');
+  const searchInput = document.getElementById('searchInput');
+
+  searchBtn.addEventListener('click', function () {
+    searchBar.classList.toggle('expanded');
+    if (searchBar.classList.contains('expanded')) {
+      searchInput.focus();
+    }
+  });
+
+  // Optional: Collapse on outside click
+  document.addEventListener('click', function (e) {
+    if (!searchBar.contains(e.target)) {
+      searchBar.classList.remove('expanded');
+    }
+  });
+</script>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
   const megaMenu = document.querySelector(".mega-menu");

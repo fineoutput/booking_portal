@@ -68,24 +68,7 @@
                     <h2 class="text-center mb-4" id="loginFormTitle">Login</h2>
                     <button type="button" class="ashrsy" data-bs-toggle="modal" data-bs-target="#registerModal">Signup</button>
                     </div>
-                    {{-- <form method="POST" action="{{route('agentLoginWithEmail')}}" id="loginWithEmail" class="showEmailForm">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="emailLogin" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="emailLogin" name="email" placeholder="Enter your email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="passwordLogin" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="passwordLogin" name="password" placeholder="Enter your password" required>
-                        </div>
-                        <div class="small-buttons-container">
-                            
-                            <button style="width: 50%;" type="button" class="khadk" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</button>
-                            <button style="width: 50%;" type="button" class="khadk" id="toggleLoginTypeBtn" onclick="toggleLoginForm()">Login with Phone</button>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form> --}}
+                   
 
                     <div id="loginWithEmail" class="showEmailForm">
                     <form method="POST" action="{{ route('agentLoginWithEmail') }}">
@@ -131,42 +114,7 @@
                     <!-- Phone Login Form -->
                     <div id="loginWithPhone" class="hidden">
 
-                    {{-- <form method="POST" action="{{route('agentLoginWithMobile')}}">
-                        @if (session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
-                    @if (session('message'))
-                        <div class="alert alert-success">{{ session('message') }}</div>
-                    @endif
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    
-                        @csrf
-                        <!-- Phone Number Field -->
-                        <div id="phoneFormGroup" class="mb-3">
-                            <label for="phoneLogin" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phoneLogin" name="phoneLogin" placeholder="Enter your phone number" required>
-                        </div>
-
-                        <!-- Submit Button for Phone Number -->
-                        <button type="button" class="btn btn-outline-primary mt-2" id="sendOtpBtn">Send OTP</button>
-                        
-                        <!-- OTP Field (Initially hidden) -->
-                        <div id="otpFormGroup" class="mb-3" style="display: none;">
-                            <label for="otpLogin" class="form-label">OTP</label>
-                            <input type="text" class="form-control" id="otpLogin" name="otpLogin" placeholder="Enter OTP">
-                            <button type="button" class="btn btn-outline-primary mt-2" id="submitOtpBtn">Submit OTP</button>
-                        </div>
-
-                        <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="toggleLoginForm()">Back to Email Login</button>
-                    </form> --}}
+                  
 
                     <form id="agentLoginForm" method="POST" action="{{ route('agentLoginWithMobile') }}">
                         @csrf
@@ -455,106 +403,7 @@
 </script>
 
 
-{{-- <script>
-$(document).ready(function () {
-    $('#sendOtpBtn').on('click', function (e) {
-        e.preventDefault();  // Prevent the form from submitting traditionally
 
-        console.log('Send OTP button clicked');
-        
-        // Clear any previous messages
-        $('#errorMessage').hide();
-        $('#successMessage').hide();
-        $('#validationErrors').hide();
-
-        var phone_number = $('#phoneLogin').val();
-        console.log('Phone Number: ' + phone_number); // Debugging log
-
-        $.ajax({
-    url: "{{ route('agentLoginWithMobile') }}", 
-    method: "POST",
-    data: {
-        _token: $("input[name='_token']").val(),
-        mobile_number: phone_number
-    },
-    success: function (response) {
-        console.log(response); 
-        if (response.errors) {
-            $('#validationErrors').html('');
-            $.each(response.errors, function (key, value) {
-                $('#validationErrors').append('<li>' + value + '</li>');
-            });
-            $('#validationErrors').show();
-        } else if (response.success) {
-            $('#successMessage').text(response.success);
-            $('#successMessage').show();
-            $('#otpSuccessToast').toast('show');
-            $('#otpFormGroup').show(); 
-            $('#phoneFormGroup').hide();
-            $('#sendOtpBtn').hide();
-            $('#submitOtpBtn').show();
-        }
-    },
-    error: function (xhr, status, error) {
-        console.log('Error: ', error); 
-        $('#errorMessage').text('An error occurred while processing your request. Please try again later.');
-        $('#errorMessage').show();
-    }
-});
-
-    });
-});
-
-
-
-$(document).ready(function () {
-
-$('#otpVerificationForm').on('submit', function (e) {
-    e.preventDefault();  // Prevent the default form submission
-
-    // Clear any previous messages
-    $('#otpErrorMessage').hide();
-    $('#otpSuccessMessage').hide();
-
-    var otp = $('#otp').val();  // Get the entered OTP value
-
-    // Send AJAX request to verify OTP
-    $.ajax({
-        url: "{{ route('verifyOtp') }}",  // This is the route where your backend will handle OTP verification
-        method: "POST",
-        data: {
-            _token: $("input[name='_token']").val(),  // CSRF Token
-            otp: otp,  // OTP entered by the user
-            mobile_number: "{{ $mobile_number }}"  // Pass the mobile number (this should be available in your session or passed from the controller)
-        },
-        success: function (response) {
-            if (response.success) {
-                // OTP verification successful
-                $('#otpSuccessMessage').text(response.message);  // Display success message
-                $('#otpSuccessMessage').show();
-                
-                // Redirect to the dashboard or another page
-                setTimeout(function () {
-                    window.location.href = "{{ route('agent.dashboard') }}";  // Redirect to dashboard after success
-                }, 2000);
-            } else {
-                // OTP verification failed
-                $('#otpErrorMessage').text(response.error);  // Display error message
-                $('#otpErrorMessage').show();
-            }
-        },
-        error: function (xhr, status, error) {
-            // Handle any server-side errors
-            $('#otpErrorMessage').text('An error occurred while verifying the OTP. Please try again.'); 
-            $('#otpErrorMessage').show();
-        }
-    });
-});
-
-});
-
-
-</script> --}}
 
 
 <script>
@@ -592,22 +441,6 @@ $('#otpVerificationForm').on('submit', function (e) {
         document.getElementById('submitOtpBtn').style.display = 'none';
     }
 
-    // Handle OTP submission
-    // document.getElementById('sendOtpBtn').addEventListener('click', function () {
-    //     const phoneNumber = document.getElementById('phoneLogin').value;
-
-    //     if (phoneNumber) {
-    //         // Assume an OTP is sent and the OTP field is shown
-    //         // alert("OTP sent to " + phoneNumber);
-    //         // Hide phone number input and show OTP input
-    //         document.getElementById('phoneFormGroup').style.display = 'none';
-    //         document.getElementById('otpFormGroup').style.display = 'block';
-    //         document.getElementById('sendOtpBtn').style.display = 'none';
-    //         document.getElementById('submitOtpBtn').style.display = 'block';
-    //     } else {
-    //         alert("Please enter a valid phone number");
-    //     }
-    // });
 
     // Handle phone login form submission
     document.getElementById('loginWithPhone').addEventListener('submit', function (event) {
@@ -623,19 +456,7 @@ $('#otpVerificationForm').on('submit', function (e) {
         }
     });
 
-    // Handle email login form submission
-    // document.getElementById('loginWithEmail').addEventListener('submit', function (event) {
-    //     event.preventDefault();
-    //     const email = document.getElementById('emailLogin').value;
-    //     const password = document.getElementById('passwordLogin').value;
-
-    //     if (email && password) {
-    //         // alert("Logged in with email!");
-    //         // Proceed with further logic or redirect
-    //     } else {
-    //         alert("Please fill in both email and password.");
-    //     }
-    // });
+   
 </script>
 
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">

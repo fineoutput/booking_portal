@@ -19,10 +19,13 @@
 }
 </style>
  <!-- /* //////////////Banner Starts///////////// */ -->
- <div id="responsive-slider" class="splide" style="background: #ffd600;" >
-    <div class="layie">
+ <div class="container">
+
+ 
+ <div id="responsive-slider" class="splide testing_tools" style="background: #fff;" >
+    {{-- <div class="layie">
       <h1>Plan Your Travel Now</h1>
-                        <p>650+ Travel Agents serving 65+ Destinations worldwide</p></div>  
+                        <p>650+ Travel Agents serving 65+ Destinations worldwide</p></div>   --}}
   <div class="splide__track">
       
         <ul class="splide__list">
@@ -30,26 +33,14 @@
           <li class="splide__slide">
             <picture style="  height: 50vh">
                 <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
-                {{-- <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
-                <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}"> --}}
-                <img style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner" >
+                <img style="border-radius: 20px;" src="{{ asset($value->image) }}" alt="Responsive Banner" >
             </picture>
         </li>
           @endforeach
-            
-            {{-- <li class="splide__slide"> 
-                <picture>
-                    <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
-                    <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
-                    <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
-                    <img style="border-radius: 0;" src="{{ asset('frontend/images/banner/fallback_.png') }}" alt="Responsive Banner 2">
-                </picture>
-            </li> --}}
-            <!-- Add more slides as needed -->
         </ul>
     </div>
 </div>
-
+ </div>
 
   <!-- /* //////////////Banner Ends///////////// */ -->
 
@@ -180,16 +171,23 @@
   <section class="euro_sect mt-5">
   <!-- Picture outside container for smaller screens -->
   <div class="responsive-image-wrapper">
-    <picture >
-      <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/kbh.jpg') }}">
-      <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/kbh.jpg') }}">
-      <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/kbh.jpg') }}">
-      <img style="border-radius: 20px" src="{{ asset('frontend/images/kbh.jpg') }}" alt="Responsive Banner" class="responsive-image">
+    <div class="row">
+
+    <div class="col-lg-6">
+    <picture>
+      <img style="border-radius: 20px" src="{{ asset('frontend/images/2151022269.jpg') }}" alt="Responsive Banner" class="responsive-image">
     </picture>
+    </div>  
+    <div class="col-lg-6">
+    <picture>
+      <img style="border-radius: 20px" src="{{ asset('frontend/images/2151747381.jpg') }}" alt="Responsive Banner" class="responsive-image">
+    </picture>
+    </div>  
+  </div>
   </div>
 
   <!-- Content inside the container -->
-  <div class="container">
+  {{-- <div class="container">
     <div class="row">
       <div class="col-lg-12 col-sm-12 col-md-12">
         <div class="world_upper">
@@ -197,14 +195,11 @@
             <h2>Plan Your Destination Now</h2>
             <p>Always the right choice! Proven & trusted by thousands!</p>
           </div>
-          {{-- <div class="world_upper_txt_btns">
-            <a class="sarj_anch" href="#">Europe Tours</a>
-            <a class="sarj_anch" href="#">America Tours</a>
-          </div> --}}
+          
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 </section>
 
   <!-- /* //////////////Europe Ends///////////// */ -->

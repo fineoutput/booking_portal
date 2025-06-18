@@ -6,6 +6,7 @@
         perPage   : 1,      // One slide per view
         autoplay  : true,   // Auto-slide
         interval  : 3000,   // Interval for autoplay
+        gap:10,
         breakpoints: {
             768: {
                 perPage: 1,
