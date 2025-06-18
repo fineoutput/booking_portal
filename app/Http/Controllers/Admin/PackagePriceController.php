@@ -8,6 +8,7 @@ use App\Models\Package;
 use App\Models\PackagePrice;
 use App\Models\City;
 use App\Models\State;
+use App\Models\VehicleCost;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -109,6 +110,7 @@ class PackagePriceController extends Controller
     
         $data['package'] = Package::where('id', $id)->first();
         $data['packageprice'] = PackagePrice::where('package_id', $id)->first();
+        $data['vehicleprice'] = VehicleCost::where('package_id', $id)->first();
         return view('admin/packageprice/create', $data);
     }
     public function destroy($id)
@@ -125,6 +127,8 @@ class PackagePriceController extends Controller
             // Retrieve the package by its ID
             $data['package'] = PackagePrice::findOrFail($id);
             $data['states'] = State::all();
+           $data['vehicleprice'] = VehicleCost::where('package_id',  $data['package']->package_id)->first();
+
 
             // Pass the package data to the edit view
             return view('admin/packageprice/edit',$data);

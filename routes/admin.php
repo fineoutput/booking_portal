@@ -40,6 +40,7 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\TransferAgentCallesController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\LocalTourPriceController;
+use App\Http\Controllers\Admin\VehicleCostController;
 use App\Http\Controllers\Auth\adminlogincontroller;
 use App\Models\WildlifeSafari;
 
@@ -170,6 +171,9 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
    Route::get('package-price/{id}/edit', [PackagePriceController::class, 'edit'])->name('package_price.edit');
    Route::put('package-price/{id}', [PackagePriceController::class, 'update'])->name('package_price.update');
    Route::get('/cities/{stateId}', [PackagePriceController::class, 'getCitiesByState']);
+
+
+  Route::match(['get', 'post'], '/vehicle/cost/create/{id}', [VehicleCostController::class, 'create'])->name('vehicle_cost');
 
 
 

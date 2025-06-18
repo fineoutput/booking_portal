@@ -37,10 +37,11 @@
               @endif
               <!-- End show success and error messages -->
               <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                   <h4 class="mt-0 header-title">View Package Price List</h4>
                 </div>
                 <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('package_price_create', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add Price</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('vehicle_cost', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add Vehicle Price</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
