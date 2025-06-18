@@ -102,7 +102,7 @@
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <label for="category_cost" class="form-label">Hotel Category Cost&nbsp;<span style="color:red;">*</span></label>
+                                            <label for="category_cost" class="form-label">Hotel Per Night Cost&nbsp;<span style="color:red;">*</span></label>
                                             <input type="number" class="form-control" name="category_cost" id="category_cost"
                                                 value="{{ old('category_cost', $package->category_cost ?? '') }}" required>
                                             @error('category_cost')

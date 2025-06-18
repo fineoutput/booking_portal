@@ -91,7 +91,7 @@
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <label for="category_cost" class="form-label">Hotel Category Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <label for="category_cost" class="form-label">Hotel Per Night Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="category_cost" value="" required>
                                         @error('category_cost')
                                             <div style="color:red;">{{ $message }}</div>
