@@ -210,6 +210,22 @@ img{
   opacity: 1;
   visibility: visible;
 }
+
+.sign-in.dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.else_prese {
+    background: #d9ebff;
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 /* //////////////Header Ends///////////// */
 
 /* //////////////Banner Starts///////////// */
@@ -2294,3 +2310,4 @@ textarea.form-control {
             align-items: center;
             gap: 5px;
         }
+

@@ -143,7 +143,9 @@
   <button class="search-btn" id="searchBtn">🔍</button>
 </div>
           <div class="sign-in dropdown">
-    👤 
+            <div class="else_prese">
+              <img src="https://edge.ixigo.com/st/upahaar/_next/static/media/userFilled.12154510.svg" alt="">
+            </div>
     @if(Auth::guard('agent')->check())
         <a href="#" class="dropdown-toggle dotts" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             {{ Auth::guard('agent')->user()->name }}
@@ -161,8 +163,9 @@
         </ul>
     @else
 
-      
-        <a href="{{ route('login') }}" class="dotts">Sign In</a>
+        <div class="musq">
+          <a href="{{ route('login') }}" class="dotts"><b>Log in/Sign up</b></a>
+        </div>
         
     @endif
 </div>
