@@ -208,7 +208,7 @@
   <!-- /* //////////////Gallery starts///////////// */ -->
     <section class="gallery_sect mt-5">
         <div class="container">
-        <div class="row">
+        <div class="row" style="align-items: center">
             <!-- Slider Section -->
             <div class="col-lg-5">
             <div class="side_slide">

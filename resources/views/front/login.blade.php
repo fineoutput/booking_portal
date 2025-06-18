@@ -14,7 +14,9 @@
         background-color: #fff;
         border-radius: 10px;
     }
-
+.navbar {
+    display: none;
+}
     .form-container button {
         font-size: 1rem;
         margin-bottom: 10px;
