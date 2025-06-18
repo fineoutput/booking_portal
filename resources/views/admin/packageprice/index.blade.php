@@ -60,7 +60,7 @@
                         <th data-priority="3">Deluxe 3 Cost</th>
                         <th data-priority="3">Deluxe 4 Cost</th>
                         <th data-priority="3">Deluxe 5 Cost</th> --}}
-                        <th data-priority="3">Nights Cost</th>
+                        {{-- <th data-priority="3">Nights Cost</th> --}}
                         {{-- <th data-priority="3">Adults Cost</th> --}}
                         <th data-priority="3">Child With Bed Cost</th>
                         <th data-priority="3">Child With No Bed (Infant) Cost</th>
@@ -121,7 +121,7 @@
                                 <td>₹{{ $pkg->deluxe_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->super_deluxe_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->luxury_cost ?? '0' }}</td> --}}
-                                <td>₹{{ $pkg->nights_cost ?? '0' }}</td>
+                                {{-- <td>₹{{ $pkg->nights_cost ?? '0' }}</td> --}}
                                 {{-- <td>₹{{ $pkg->adults_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->child_with_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->child_no_bed_infant_cost ?? '0' }}</td>

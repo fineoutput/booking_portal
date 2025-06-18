@@ -160,14 +160,14 @@
                                     
                                     </div>
                                     <div class="form-group row"> 
-                            
+{{--                             
                                     <div class="col-sm-6">
                                         <label for="nights_cost" class="form-label">Hotel Per Night Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="nights_cost" value="" required>
                                         @error('nights_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                             
                                     {{-- <div class="col-sm-6">
                                         <label for="adults_cost" class="form-label">Adults Cost &nbsp;<span style="color:red;">*</span></label>

@@ -170,13 +170,13 @@
                             
                                 <div class="form-group row">
                                     <!-- Per Night Cost -->
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="nights_cost" class="form-label">Hotel Per Night Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="nights_cost" value="{{ old('nights_cost', $package->nights_cost) }}" required>
                                         @error('nights_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                             
                                     <!-- Adults Cost -->
                                     {{-- <div class="col-sm-6">
