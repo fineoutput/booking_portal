@@ -227,7 +227,7 @@
     </td>
 
     <td class="suther">
-        @if ($value->package->pdf)
+        @if ($value->package->pdf ?? '')
         <button type="button" class="btn btn-primary mt-3"
     onclick="window.location.href='{{ route('pdf.download', [
         'user_id' => Auth::id(),
