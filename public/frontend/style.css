@@ -205,7 +205,9 @@ img{
   z-index: 999; /* Ensure it appears behind the dropdown */
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-
+.nav-link:focus, .nav-link:hover {
+    color: rgb(203 53 2);
+}
 .mega-menu:hover .mega-menu-backdrop {
   opacity: 1;
   visibility: visible;

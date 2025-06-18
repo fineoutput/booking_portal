@@ -9,6 +9,7 @@
   }
 
   .search-input {
+    opacity: 1 !important;
     width: 100%;
     padding: 8px;
     font-size: 14px;
@@ -28,7 +29,7 @@
       <!-- Destination Dropdown -->
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
         <div class="filter-label_hotels">Destination</div>
-        <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
+        <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..." class="search-input"></div>
         <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
           
           <form action="" method="POST" id="filter-form">
@@ -36,11 +37,11 @@
             
             <!-- Search input added here -->
             <div class="search-container">
-              <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..." class="search-input">
+              {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..." class="search-input"> --}}
             </div>
             
             @foreach($cities as $value)
-            <div class="city_list_htotle city-item">
+            <div class="city_list_htotle city-item d-flex mb-2">
                 <div class="sizemaze">
                     <!-- Image representing the city -->
                     <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
