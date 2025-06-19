@@ -531,6 +531,57 @@
     </div>
   </div>
 </div>
+
+<div class="seprate_section">
+<section class="steps-section">
+  <div class="container">
+    <h2 class="steps-title">Make 4 steps to rent a cab</h2>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-badge">1</div>
+        <div class="step-content">
+          <i class="fas fa-calendar-alt fa-2x"></i> <!-- Icon for Date & Location -->
+          <h3>Date & Location</h3>
+          <p>Pick the location and the preferred date.</p>
+        </div>
+      </div>
+      <div class="arrow">
+        <img src="https://www.cabme.in/svg/arrow.svg" alt="">
+      </div>
+      <div class="step">
+        <div class="step-badge">2</div>
+        <div class="step-content">
+          <i class="fas fa-car-side fa-2x"></i> <!-- Icon for Choose A Car -->
+          <h3>Choose A Car</h3>
+          <p>Select the vehicle using our catalogues.</p>
+        </div>
+      </div>
+     <div class="arrow">
+        <img src="https://www.cabme.in/svg/arrow.svg" alt="">
+      </div>
+      <div class="step">
+        <div class="step-badge">3</div>
+        <div class="step-content">
+          <i class="fas fa-file-alt fa-2x"></i> <!-- Icon for Make A Booking -->
+          <h3>Make A Booking</h3>
+          <p>Enter your name and booking details.</p>
+        </div>
+      </div>
+      <div class="arrow">
+        <img src="https://www.cabme.in/svg/arrow.svg" alt="">
+      </div>
+      <div class="step">
+        <div class="step-badge">4</div>
+        <div class="step-content">
+          <i class="fas fa-smile fa-2x"></i> <!-- Icon for Enjoy Your Ride -->
+          <h3>Enjoy Your Ride!</h3>
+          <p>Enjoy your trip and our good services!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
 <!-- /* //////////////form ends///////////// */ -->
 
 <script>

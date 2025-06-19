@@ -2316,3 +2316,110 @@ textarea.form-control {
         }
 
 /* //////////taxi booking */
+.steps-section {
+    padding: 40px 0;
+    background-color: #fff;
+    text-align: center;
+  }
+
+  .steps-title {
+    color: #cc3a08;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+  }
+
+  .steps-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step-badge {
+    width: 30px;
+    height: 30px;
+    background-color: #cc3a08;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .step-content {
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  .step-content i {
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .step-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .step-content p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+  }
+
+  .step-arrow {
+    width: 50px;
+    height: 2px;
+    background: repeating-linear-gradient(to right, #ccc 0, #ccc 10px, transparent 10px, transparent 20px);
+    position: relative;
+  }
+
+  .step-arrow::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 10px solid #ccc;
+  }
+
+  @media (max-width: 768px) {
+    .steps-container {
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .step-arrow {
+      display: none;
+    }
+
+    .step-content {
+      width: 200px;
+      height: 200px;
+    }
+    .arrow img{
+      display: none;
+    }
+  }
