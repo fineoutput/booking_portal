@@ -641,7 +641,7 @@
                   </div>
                   <div class="BEth">
                     <div class="BetSide">
-                      <h5>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 10) }}</h5>
+                      <h6><b>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 10) }}</b></h6>
                       <p>{{ \Carbon\Carbon::now()->format('D, d M') }}</p>
                       @if($value->prices)
                         <p>₹{{ number_format($value->prices->display_cost, 2) }} onwards</p>
