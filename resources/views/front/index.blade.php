@@ -618,16 +618,94 @@
         </ul>
       </div>
     </div>
+
+    <div id="splide-packages" class="splide">
+  <div class="splide__track">
+    <ul class="splide__list">
+      @if($packages)
+        @foreach ($packages as $key => $value)
+          @php
+            $images = json_decode($value->image, true);
+            $add = ($images && is_array($images) && count($images) > 0) ? asset(reset($images)) : asset('frontend/images/hotel_main.avif');
+          @endphp
+
+          <li class="splide__slide">
+              <div class="aus">
+                <div class="boxAus">
+                  <div class="AusMaze">
+                    <img src="{{ $add }}" alt="{{ $value->package_name }}">
+                  </div>
+                  <div class="BEth">
+                    <div class="BetSide">
+                      <h4>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 10) }}</h4>
+                      <p>{{ \Carbon\Carbon::now()->format('D, d M') }}</p>
+                      @if($value->prices)
+                        <p>₹{{ number_format($value->prices->display_cost, 2) }} onwards</p>
+                      @else
+                        <p>No price available.</p>
+                      @endif
+                    </div>
+                    <div class="oTjs">
+                      <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
+                        <button class="Despirate">View Package</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </li>
+        @endforeach
+      @else
+        <li class="splide__slide">
+            <div class="aus">
+              <div class="boxAus">
+                <div class="AusMaze">
+                  <img src="{{ asset('frontend/images/hotel_main.avif') }}" alt="No package">
+                </div>
+                <div class="BEth">
+                  <div class="BetSide">
+                    <h4>No Package Found</h4>
+                    <p>--</p>
+                    <p>--</p>
+                  </div>
+                  <div class="oTjs">
+                    <button disabled>Not Available</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </li>
+      @endif
+    </ul>
+  </div>
+</div>
+
   </div>
 </section>
 
- 
+ <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Splide('#splide-packages', {
+      perPage: 4,
+      gap: '1rem',
+      breakpoints: {
+        1024: {
+          perPage: 2,
+        },
+        640: {
+          perPage: 1,
+        },
+      },
+    }).mount();
+  });
+</script>
+
  <script>
   document.addEventListener('DOMContentLoaded', function () {
     new Splide('#common', {
       type       : 'slide',
       loop       :  true,
-      perPage    : 3,
+      perPage    : 4,
       perMove    : 1,
       gap        : '1rem',
       arrows     : true,

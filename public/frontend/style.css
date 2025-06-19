@@ -2433,3 +2433,26 @@ textarea.form-control {
       .shadow-bottom-shadow {
     box-shadow: -1px -7px 8px rgba(0, 0, 0, 0.1) !important;
 }
+
+
+/* ////////////SecoundCaedd */
+.BEth {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+}
+.AusMaze img{
+  border-radius: 20px;
+}
+.aus {
+    background: #fff;
+} 
+.Despirate{
+      background: none;
+    padding: 10px;
+    border-radius: 11px;
+    border: 1px solid #cb3502;
+    font-weight: bold;
+    color: #cb3502;
+}
