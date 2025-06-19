@@ -1733,7 +1733,7 @@ textarea.form-control {
 }
 
 .loc_stl {
-  border-right: 2px solid;
+  /* border-right: 2px solid; */
 }
 .no-form{
   border: none;
