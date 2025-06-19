@@ -562,10 +562,10 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <h2 class="text-center ">Our Packages</h2>
+        {{-- <h2 class="text-center ">Our Packages</h2> --}}
       </div>
     </div>
-    <div id="common" class="splide">
+    {{-- <div id="common" class="splide">
       <div class="splide__track">
         <ul class="splide__list">
           
@@ -617,9 +617,13 @@
 
         </ul>
       </div>
-    </div>
+    </div> --}}
 
-    <div id="splide-packages" class="splide">
+
+    <div class="couterMask">
+      <h4 class="pb-5"><b>Our Packages</b></h4>
+      
+      <div id="splide-packages" class="splide">
   <div class="splide__track">
     <ul class="splide__list">
       @if($packages)
@@ -637,7 +641,7 @@
                   </div>
                   <div class="BEth">
                     <div class="BetSide">
-                      <h4>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 10) }}</h4>
+                      <h5>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 10) }}</h5>
                       <p>{{ \Carbon\Carbon::now()->format('D, d M') }}</p>
                       @if($value->prices)
                         <p>₹{{ number_format($value->prices->display_cost, 2) }} onwards</p>
@@ -679,6 +683,8 @@
     </ul>
   </div>
 </div>
+    </div>
+
 
   </div>
 </section>
