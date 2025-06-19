@@ -127,7 +127,7 @@
                 </div>
                 <div>
                   <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
                           <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
@@ -141,9 +141,8 @@
                         </select>
                       </div>
                     </div>
-                  </div>  
-                  <div class="row">
-                    <div class="col-lg-12">
+
+                    <div class="col-lg-6">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect" id="pickup-inputs">
                           <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
@@ -154,9 +153,12 @@
                         </select>
                       </div>
                     </div>
+                  </div>  
+                  <div class="row">
+                    
                   </div>
                   <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                       <div class="mb-3">
                         <div class="select_sect" id="drop-inputs">
                           <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
@@ -165,10 +167,7 @@
                         <input type="text" name="drop_pickup_address" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-12">
+                    <div class="col-lg-6">
                     <div class="mb-3 loc_stl">
                       <div class="select_sect">
                         <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
@@ -179,7 +178,9 @@
                       </select>
                     </div>
                   </div>
+                  </div>
                 </div>
+           
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="mb-3">
