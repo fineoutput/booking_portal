@@ -694,6 +694,7 @@
     new Splide('#splide-packages', {
       perPage: 4,
       gap: '1rem',
+      loop:true,
       breakpoints: {
         1024: {
           perPage: 2,
