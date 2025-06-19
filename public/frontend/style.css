@@ -2369,6 +2369,10 @@ textarea.form-control {
     padding: 10px;
   }
 
+  .huME{
+    width: 70px;
+    height: 60px;
+  }
   .step-content i {
     margin-bottom: 10px;
     color: #333;
