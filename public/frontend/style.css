@@ -2426,4 +2426,10 @@ textarea.form-control {
     .arrow img{
       display: none;
     }
+
+
   }
+
+      .shadow-bottom-shadow {
+    box-shadow: -1px -7px 8px rgba(0, 0, 0, 0.1) !important;
+}

@@ -539,7 +539,7 @@
     <div class="steps-container">
       <div class="step">
         <div class="step-badge">1</div>
-        <div class="step-content">
+        <div class="step-content shadow-bottom-shadow ">
           <img class="huME" src="https://www.cabme.in/svg/calendar.svg" alt=""> <!-- Icon for Date & Location -->
           <h3>Date & Location</h3>
           <p>Pick the location and the preferred date.</p>
@@ -561,7 +561,7 @@
       </div>
       <div class="step">
         <div class="step-badge">3</div>
-        <div class="step-content">
+        <div class="step-content shadow-bottom-shadow">
           <img class="huME" src="https://www.cabme.in/svg/search.svg" alt="">  <!-- Icon for Make A Booking -->
           <h3>Make A Booking</h3>
           <p>Enter your name and booking details.</p>
