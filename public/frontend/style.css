@@ -1292,16 +1292,17 @@ h2 {
 
 /* Submit Button */
 .btn-primary {
-  background: linear-gradient(45deg, #007bff, #0056b3);
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
+    background: linear-gradient(45deg, #cb3502bf, #cb3502);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    font-weight: bold;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(45deg, #0056b3, #007bff);
+  background: linear-gradient(290deg,  #cb3502bf, #cb3502);
   box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.5);
   transform: translateY(-2px);
 }
@@ -1756,6 +1757,7 @@ textarea.form-control {
   border: 1px solid #0000001f;
   border-radius: 20px;
   padding: 5px;
+  width: 100%;
 }
 .omh_air_rail {
   display: flex;
@@ -1764,7 +1766,7 @@ textarea.form-control {
   flex-direction: column;
 }
 .lo_ka {
-  width: 50%;
+  width: 100%;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -1849,7 +1851,7 @@ textarea.form-control {
 }
 
 .filter-item_hotels:hover {
-  background: #f7f7f7;
+  /* background: #f7f7f7; */
 }
 
 .filter-item_hotels.active {
@@ -2313,3 +2315,4 @@ textarea.form-control {
             gap: 5px;
         }
 
+/* //////////taxi booking */
