@@ -88,11 +88,11 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-6 home_search">
-        <div class="container py-5 genrta">
-          <h1 class="text-center mb-4">Taxi Booking</h1>
+        <div class="container genrta">
+          <h2 class="text-center ">Taxi Booking</h2>
 
           <!-- Tabs for booking types -->
-          <ul class="nav nav-tabs mb-4 flex-nowrap" id="bookingTabs" role="tablist">
+          <ul class="nav nav-tabs mb-4 flex-nowrap justify-content-center" id="bookingTabs" role="tablist">
             <li class="nav-item" role="presentation">
               <button class="nav-link active" style="color: #000;" id="airport-tab" data-bs-toggle="tab" data-bs-target="#airport" type="button" role="tab" aria-controls="airport" aria-selected="true">Airport/Railway Station</button>
             </li>
@@ -245,7 +245,7 @@
               <form action="{{route('book_local_tour')}}" method="POST">
                 @csrf
                 <div class="row">
-                  <div class="col-lg-12">
+                  <div class="col-lg-6">
                     <div class="mb-3 loc_stl">
                       <div class="select_sect">
                         <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
@@ -259,9 +259,8 @@
                       </select>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-12">
+
+                  <div class="col-lg-6">
                     <div class="mb-3">
                       <div class="loc_stl">
                         <div class="select_sect">
@@ -273,8 +272,9 @@
                     </div>
                   </div>
                 </div>
+              
                 <div class="row">
-                  <div class="col-lg-12">
+                  <div class="col-lg-6">
                     <div class="select_sect">
                       <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
                       <label for="vehicle2" class="form-label">Select Vehicle</label>
@@ -283,9 +283,8 @@
                       <option value="">Select a Vehicle</option>
                     </select>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-12">
+
+                  <div class="col-lg-6">
                     <div class="start_time">
                       <div class="loc_stl">
                         <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
@@ -295,8 +294,9 @@
                     </div>
                   </div>
                 </div>
+               
                 <div class="row">
-                  <div class="col-lg-12">
+                  <div class="col-lg-6">
                     <div class="start_time">
                       <div class="loc_stl">
                         <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
@@ -305,9 +305,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-12">
+
+                  <div class="col-lg-6">
                     <div class="start_time">
                       <div class="loc_stl" style="border: none;">
                         <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
@@ -317,6 +316,7 @@
                     </div>
                   </div>
                 </div>
+               
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="start_time">
@@ -386,7 +386,7 @@
                 <!-- One-Way Specific Inputs -->
                 <div id="one-way-inputs" style="display: block;">
                   <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
                           <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
@@ -402,9 +402,8 @@
                         </select>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12">
+
+                    <div class="col-lg-6">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
                           <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
@@ -416,6 +415,7 @@
                       </div>
                     </div>
                   </div>
+                 
                   <div class="row">
                     <div class="col-lg-12">
                       <div class="mb-3">
@@ -477,7 +477,7 @@
                           <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="width: 20px;">
                           <label for="pickup-date" class="form-label">Pickup Date</label>
                         </div>
-                        <input name="pickup_date_1" type="date" class="form-control no-form" id="pickup-date" style="width: 50%;">
+                        <input name="pickup_date_1" type="date" class="form-control no-form" id="pickup-date" style="width: 100%;">
                       </div>
                     </div>
                   </div>
