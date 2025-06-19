@@ -575,11 +575,12 @@
                 <div class="card-container">
                   @php
                       $images = json_decode($value->image, true);
-                      $add = ($images && is_array($images) && count($images) > 0) ? asset(reset($images)) : asset('frontend/images/hotel_main.avif');
+                      $add = ($images && is_array($images) && count($images) > 0) ? asset(reset($images)) : asset('frontend/images/2151022269.jpg');
                   @endphp
 
                   <a style="color: #fff" href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
                     <div class="cardashEs" style="background: url('{{ $add }}') no-repeat center / cover;">
+                      <img src="{{asset($value->image)}}" alt="">
                       @if($value->prices)
                         <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>
                       @else
