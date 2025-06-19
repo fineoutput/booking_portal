@@ -2451,6 +2451,8 @@ textarea.form-control {
 }
 .aus {
     background: #fff;
+    border: 1px solid #00000029;
+    border-radius: 20px;
 } 
 .Despirate{
       background: none;
