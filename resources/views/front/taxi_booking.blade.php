@@ -592,6 +592,103 @@
   </div>
 </section>
 </div>
+
+
+<div class="aboutSEct">
+  <div class="container">
+    <div class="container my-5">
+  <div class="row text-center">
+    <div class="col-12">
+      <h2>Main features</h2>
+      <h1 class="display-4">Our Benefits</h1>
+    </div>
+  </div>
+  <div class="row justify-content-around">
+    <div class="col-md-5">
+      <div class="d-flex align-items-center mb-4">
+        <span class="badge bg-success rounded-circle p-3">1</span>
+        <div class="ms-3">
+          <h4>Lowest rate in the market</h4>
+          <p class="text-muted">Deepam Taxi offers a lowest price for outstation trip, Airport Pickup, Airport Drop trips (one way trip and round trip) across Karnataka, Tamil Nadu, Andhra Pradesh, Telangana, Kerala and Pondicherry.</p>
+        </div>
+      </div>
+      <div class="d-flex align-items-center">
+        <span class="badge bg-success rounded-circle p-3">2</span>
+        <div class="ms-3">
+          <h4>One way trip Outstation</h4>
+          <p class="text-muted">No Check-post and Driver allowance for One way trip</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="d-flex align-items-center mb-4">
+        <span class="badge bg-success rounded-circle p-3">3</span>
+        <div class="ms-3">
+          <h4>Two way trip Outstation</h4>
+          <p class="text-muted">No Check-post / Interstate Charges on Two way Outstation cab booking</p>
+        </div>
+      </div>
+      <div class="d-flex align-items-center">
+        <span class="badge bg-success rounded-circle p-3">4</span>
+        <div class="ms-3">
+          <h4>Bangalore Airport</h4>
+          <p class="text-muted">No extra Toll charges (Toll-free trip for Airport Pickup & Drop)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+
+<div class="SEctTest">
+  <div class="">
+    <div class="testimonial-section" style="background-image: url('https://www.deepamtaxi.com/assets/images/road_taxi_bg.webp'); background-size: cover; background-position: center; padding: 50px 0; color: #fff;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12">
+                <h2 class="text-white">Tour Dekho Cabs</h2>
+                <h1 class="display-4">A Glance at your personality</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card text-center p-4" style="border-radius: 10px;">
+                    <div class="car-icon mb-3">
+                        <span class="badge bg-success rounded-circle p-3"><i class="fas fa-car"></i></span>
+                    </div>
+                    <h4 class="text-success">Hatchback</h4>
+                    <p class="text-muted">Small space to travel in nearby journey. A couple or 3 to travel in comfort. Cars in the fleet - Indica @ Rs 10/km</p>
+                    <p class="text-success fw-bold">₹10/km</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card text-white text-center p-4" style="border-radius: 10px;">
+                    <div class="car-icon mb-3">
+                        <span class="badge bg-success rounded-circle p-3"><i class="fas fa-car"></i></span>
+                    </div>
+                    <h4 class="text-success">Sedan</h4>
+                    <p class="text-muted">Relaxing and comfortable seating cabs for a long journey accommodating 4 passengers with a reasonable luggage. An economical option for a family or friends. Rolling @ Rs 15/km</p>
+                    <p class="text-success fw-bold">₹15/km</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card text-white text-center p-4" style="border-radius: 10px;">
+                    <div class="car-icon mb-3">
+                        <span class="badge bg-success rounded-circle p-3"><i class="fas fa-car"></i></span>
+                    </div>
+                    <h4 class="text-success">SUV</h4>
+                    <p class="text-muted">A giant to house a family of 7 with comfy space, big wheels and a plenty of luggage to put in. A vehicle which keeps you in attitude all throughout. Moving @ Rs 20.00/km</p>
+                    <p class="text-success fw-bold">₹20/km</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  </div>
+</div>
+
 <!-- /* //////////////form ends///////////// */ -->
 
 <script>
