@@ -25,7 +25,7 @@
   >
   <link rel="stylesheet" href="{{ asset('frontend/style.css') }}">
 
-  
+  <link rel="icon" href="{{ asset('frontend/images/black.png') }}" type="image/x-icon">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
 
   <!-- Add Toastr JS -->
