@@ -87,6 +87,198 @@ class SafariController extends Controller
     //     return response()->json(['message' => 'Unauthenticated'], 401);
     // }
 
+
+
+public function alldata(Request $request)
+{
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 401);
+    }
+
+    $decodedToken = base64_decode($token);
+
+    if (strpos($decodedToken, ',') === false) {
+        return response()->json([
+            'message' => 'Invalid token format.',
+            'data' => [],
+            'status' => 201,
+        ], 400);
+    }
+
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $user->password !== $password) {
+        return response()->json([
+            'message' => 'Unauthenticated',
+            'data' => [],
+            'status' => 201,
+        ], 401);
+    }
+
+    // Common filters
+    $stateId = $request->input('state_id');
+    $cityId = $request->input('city_id');
+    $timing_value = $request->input('time');
+    $min_price = $request->input('min_price', 0);
+    $max_price = $request->input('max_price', 10000000);
+
+    $states = State::all()->pluck('state_name', 'id');
+    $cities = City::all()->pluck('city_name', 'id');
+
+    // ================= PACKAGE DATA ================= //
+    $packageQuery = Package::query();
+
+    if ($stateId) $packageQuery->where('state_id', $stateId);
+    if ($cityId) $packageQuery->where('city_id', $cityId);
+
+    if ($min_price > 0 || $max_price < 10000000) {
+        $packageQuery->whereHas('packagePrices', function ($query) use ($min_price, $max_price) {
+            $query->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+                ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
+        });
+    }
+
+    $packages = $packageQuery->get();
+
+    $packageData = $packages->map(function ($package) use ($states, $cities) {
+        $imageUrls = array_values(json_decode($package->image, true));
+        $stateNames = $states[$package->state_id] ?? null;
+        $cityNames = $cities[$package->city_id] ?? null;
+
+        $today = \Carbon\Carbon::today()->format('Y-m-d');
+        $packagePrices = PackagePrice::where('package_id', $package->id)
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today)
+            ->get();
+
+        $prices = $packagePrices->map(function ($price) {
+            return [
+                'id' => $price->id,
+                'start_date' => \Carbon\Carbon::parse($price->start_date)->format('F Y'),
+                'end_date' => \Carbon\Carbon::parse($price->end_date)->format('F Y'),
+                'display_price' => $price->display_cost,
+                'total_cost' =>
+                    ($price->standard_cost ?? 0) +
+                    ($price->deluxe_cost ?? 0) +
+                    ($price->premium_cost ?? 0) +
+                    ($price->premium_3_cost ?? 0) +
+                    ($price->super_deluxe_cost ?? 0) +
+                    ($price->luxury_cost ?? 0) +
+                    ($price->nights_cost ?? 0) +
+                    ($price->adults_cost ?? 0) +
+                    ($price->child_with_bed_cost ?? 0) +
+                    ($price->child_no_bed_infant_cost ?? 0) +
+                    ($price->child_no_bed_child_cost ?? 0) +
+                    ($price->meal_plan_only_room_cost ?? 0) +
+                    ($price->meal_plan_breakfast_cost ?? 0) +
+                    ($price->meal_plan_breakfast_lunch_dinner_cost ?? 0) +
+                    ($price->meal_plan_all_meals_cost ?? 0) +
+                    ($price->hatchback_cost ?? 0) +
+                    ($price->sedan_cost ?? 0) +
+                    ($price->economy_suv_cost ?? 0) +
+                    ($price->luxury_suv_cost ?? 0) +
+                    ($price->traveller_mini_cost ?? 0) +
+                    ($price->traveller_big_cost ?? 0) +
+                    ($price->premium_traveller_cost ?? 0) +
+                    ($price->ac_coach_cost ?? 0) +
+                    ($price->extra_bed_cost ?? 0),
+            ];
+        });
+
+        return [
+            'id' => $package->id,
+            'package_name' => $package->package_name,
+            'state_names' => $stateNames,
+            'city_names' => $cityNames,
+            'image' => array_map(fn($img) => url('') . '/' . $img, $imageUrls),
+            'video' => array_map(fn($vid) => url('') . '/' . $vid, is_array($videos = json_decode($package->video, true)) ? $videos : []),
+            'pdf' => url('') . '/' . $package->pdf,
+            'text_description' => strip_tags($package->text_description),
+            'text_description_2' => strip_tags($package->text_description_2),
+            'prices' => $prices,
+        ];
+    });
+
+    // ================= SAFARI DATA ================= //
+    $wildlifeSafaris = WildlifeSafari::orderBy('id', 'DESC')
+        ->when($stateId, fn($q) => $q->where('state_id', $stateId))
+        ->when($timing_value, fn($q) => $q->where('timings', 'LIKE', "%{$timing_value}%"))
+        ->get();
+
+    $safariData = $wildlifeSafaris->map(function ($safari) {
+        $images = is_array($decoded = json_decode($safari->image, true)) ? array_values($decoded) : [];
+        $imageUrls = array_map(fn($img) => url('') . '/' . trim($img, ' "'), $images);
+
+        return [
+            'id' => $safari->id,
+            'state_name' => $safari->state->state_name ?? null,
+            'city_name' => $safari->cities->city_name ?? null,
+            'national_park' => $safari->national_park,
+            'date' => $safari->date,
+            'timings' => explode(',', $safari->timings),
+            'vehicle' => $safari->vehicle,
+            'jeep_price' => $safari->jeep_price,
+            'center_price' => $safari->center_price,
+            'cost' => $safari->cost,
+            'description' => strip_tags($safari->description),
+            'images' => $imageUrls,
+        ];
+    });
+
+    // ================= HOTEL DATA ================= //
+    $hotels = Hotels::all();
+
+    $hotelData = $hotels->map(function ($hotel) {
+        $baseUrl = url('');
+        $stateName = $hotel->state->state_name ?? null;
+        $cityName = $hotel->cities->city_name ?? null;
+
+        $hotelPrices = $hotel->prices;
+        $pricesData = $hotelPrices->map(function ($price) {
+            return [
+                'id' => $price->id,
+                'night_cost' => $price->night_cost,
+                'start_date' => \Carbon\Carbon::parse($price->start_date)->format('F Y'),
+                'end_date' => \Carbon\Carbon::parse($price->end_date)->format('F Y'),
+            ];
+        });
+
+        return [
+            'id' => $hotel->id,
+            'name' => $hotel->name,
+            'state' => $stateName,
+            'city' => $cityName,
+            'images' => array_map(fn($img) => url('') . '/' . $img, is_array($images = json_decode($hotel->images, true)) ? $images : []),
+            'location' => $hotel->location,
+            'hotel_category' => $hotel->hotel_category,
+            'package_id' => $hotel->package_id,
+            'prices' => $pricesData,
+        ];
+    });
+
+    // ========== FINAL RESPONSE ========== //
+    return response()->json([
+        'message' => 'Data fetched successfully.',
+        'data' => [
+            'packages' => $packageData,
+            'safaris' => $safariData,
+            'hotels' => $hotelData,
+        ],
+        'status' => 200,
+    ], 200);
+}
+
+
+
+
     public function wildsafari(Request $request)
     {
         $token = $request->bearerToken();
