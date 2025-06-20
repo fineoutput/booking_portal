@@ -85,7 +85,7 @@
     const mohanJodharo = new Splide('#mohanJodharoSlider', {
       type: 'loop',
       perPage: 3,
-    //   gap: '1rem',
+      gap: '1rem',
       autoplay: true,
       breakpoints: {
         768: {
