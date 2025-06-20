@@ -642,21 +642,27 @@
                   <div class="AusMaze">
                     <img src="{{ $add }}" alt="{{ $value->package_name }}">
                   </div>
-                  <div class="BEth">
-                    <div class="BetSide">
-                      <h6><b>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b></h6>
-                      <p>{{ \Carbon\Carbon::now()->format('D, d M') }}</p>
+                  <div class=" BetSide">
+                    <div class="ulHaq p-2">
+
+                      <h6><b>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 40) }}</b></h6>
+                    </div>
+                    <div class="BEth">
+                     <div class="UnRRoz">
+                       <p>{{ \Carbon\Carbon::now()->format('D, d M') }}</p>
                       @if($value->prices)
                         <p>₹{{ number_format($value->prices->display_cost, 2) }} onwards</p>
                       @else
                         <p>No price available.</p>
                       @endif
-                    </div>
-                    <div class="oTjs">
+                     </div>
+                      <div class="oTjs">
                       <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
                         <button class="Despirate">View Package</button>
                       </a>
                     </div>
+                    </div>
+                   
                   </div>
                 </div>
               </div>
