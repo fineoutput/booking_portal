@@ -14,6 +14,10 @@
     opacity: 1 !important;
     visibility: visible !important;
 }
+.anyeSirwe {
+    width: 195px !important;
+    height: 335.4px !important;
+}
 .chnaa p{
   margin: 0;
 }
@@ -168,8 +172,8 @@
 
 
   <!-- /* //////////////Europe Starts///////////// */ -->
-  <section class="euro_sect mt-5">
-  <!-- Picture outside container for smaller screens -->
+  {{-- <section class="euro_sect mt-5">
+  
   <div class="responsive-image-wrapper">
     <div class="row">
 
@@ -186,23 +190,34 @@
   </div>
   </div>
 
-  <!-- Content inside the container -->
-  {{-- <div class="container">
-    <div class="row">
-      <div class="col-lg-12 col-sm-12 col-md-12">
-        <div class="world_upper">
-          <div class="world_upper_txt">
-            <h2>Plan Your Destination Now</h2>
-            <p>Always the right choice! Proven & trusted by thousands!</p>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-  </div> --}}
-</section>
+ 
+</section> --}}
 
   <!-- /* //////////////Europe Ends///////////// */ -->
+<div class="anotherSpiiled mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="side_slide">
+        <section id="mohanJodharoSlider" class="splide" aria-label="Image Slider">
+          <div class="splide__track">
+            <ul class="splide__list">
+              @foreach ($offer as $value)
+              
+              <li class="splide__slide long_slide">
+              <div class="">
+                
+              
+                <img class="vibhajan" src="{{ asset($value->image) }}" alt="Offer Image">
+              </div>
+              </li>
+              @endforeach
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
 
 
   <!-- /* //////////////Gallery starts///////////// */ -->
@@ -210,25 +225,10 @@
         <div class="container">
         <div class="row" style="align-items: center">
             <!-- Slider Section -->
-            <div class="col-lg-5">
-            <div class="side_slide">
-                <section id="image-slider" class="splide" aria-label="Image Slider">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                      @foreach ($offer as $value)
-                      <li class="splide__slide long_slide">
-                          <img src=
-                          {{ asset($value->image) }} alt="Image 1">
-                      </li>
-                      @endforeach
-                    </ul>
-                </div>
-                </section>
-            </div>
-            </div>
+            
 
             <!-- /////large screeen tab///// -->
-            <div class="col-lg-7 setts d-lg-block d-none">
+            <div class="col-lg-12 setts d-lg-block d-none">
       <div class="splide" id="popularCitiesSlider">
         <div class="splide__track">
           <h2 class="text-center">Holiday Packages</h2>

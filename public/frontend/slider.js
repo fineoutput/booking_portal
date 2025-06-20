@@ -28,7 +28,7 @@
   document.addEventListener('DOMContentLoaded', function () {
       new Splide('#popularCitiesSlider', {
           type: 'loop',
-          perPage: 3, // Adjust based on screen size
+          perPage: 5, // Adjust based on screen size
           perMove: 1,
           gap: '20px',
           autoplay: true,
@@ -48,7 +48,7 @@
   document.addEventListener('DOMContentLoaded', function () {
       new Splide('#popularCitiesSlider2', {
           type: 'loop',
-          perPage: 3, // Adjust based on screen size
+          perPage: 5, // Adjust based on screen size
           perMove: 1,
           gap: '20px',
           autoplay: true,
@@ -81,6 +81,24 @@
     }).mount();
 });
 
+  document.addEventListener('DOMContentLoaded', function () {
+    const mohanJodharo = new Splide('#mohanJodharoSlider', {
+      type: 'loop',
+      perPage: 3,
+    //   gap: '1rem',
+      autoplay: true,
+      breakpoints: {
+        768: {
+          perPage: 1,
+        },
+        1024: {
+          perPage: 2,
+        },
+      },
+    });
+
+    mohanJodharo.mount();
+  });
 
 // document.addEventListener('DOMContentLoaded', function() {
 //     const searchInput = document.getElementById('city-search');
