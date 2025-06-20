@@ -18,6 +18,9 @@
     width: 195px !important;
     height: 335.4px !important;
 }
+.vibhajan {
+    height: 410px !important;
+}
 .chnaa p{
   margin: 0;
 }
