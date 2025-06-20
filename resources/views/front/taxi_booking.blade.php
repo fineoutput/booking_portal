@@ -8,12 +8,10 @@
     color: white;
   }
 .vahiKaa{
-
     width: 100%;
     height: 100px;
     border-radius: 20px;
     border: none;
-
 }
   .list-group-item:hover {
     background-color: #f8f9fa;
@@ -72,18 +70,27 @@
       background-size: contain; /* Adjust for smaller screens */
     }
   }
+
+  /* Styling for radio buttons */
+  .trip-radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+ .trip-radio-group label {
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+}
+  .trip-radio-group input[type="radio"] {
+    margin-right: 5px;
+  }
 </style>
 
-<!-- /* //////////////Banner Starts///////////// */ -->
-{{-- <picture>
-  <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/car.png') }}">
-  <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/car.png') }}">
-  <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/car.png') }}">
-  <img src="{{ asset('frontend/images/banner/car.png') }}" alt="Responsive Banner">
-</picture> --}}
-<!-- /* //////////////Banner Ends///////////// */ -->
-
-<!-- /* //////////////form starts///////////// */ -->
 <div class="section peopleAndz airport-bg">
   <div class="container">
     <div class="row">
@@ -117,11 +124,14 @@
                         <img style="width: 20px;" src="{{asset('frontend/images/destination.png')}}" alt="">
                         <label for="trip-type" class="form-label whtts">Select Trip</label>
                       </div>
-                      <select name="trip" class="form-select" id="trip-type" style="width: 50%; text-align: center;" onchange="updateInputs()" required>
-                        <option disabled selected>Select</option>
-                        <option value="pickup">Pickup from Airport/Railway station</option>
-                        <option value="drop">Drop to Airport/Railway station</option>
-                      </select>
+                      <div class="trip-radio-group">
+                        <label>
+                          <input type="radio" name="trip" value="pickup" onchange="updateInputs()" required checked> Pickup from Airport/Railway station
+                        </label>
+                        <label>
+                          <input type="radio" name="trip" value="drop" onchange="updateInputs()" required> Drop to Airport/Railway station
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -828,7 +838,7 @@
   }
 
   function updateInputs() {
-    const tripType = document.getElementById("trip-type").value;
+    const tripType = document.querySelector('input[name="trip"]:checked')?.value;
     const pickupInputs = document.getElementById("pickup-inputs");
     const dropInputs = document.getElementById("drop-inputs");
     
@@ -844,6 +854,10 @@
     } else if (tripType === "drop") {
       pickupLabel.textContent = "Drop to";
       dropLabel.textContent = "Pickup from";
+    }
+    else{
+       pickupLabel.textContent = "Pickup from";
+      dropLabel.textContent = "Drop to";
     }
   }
 
