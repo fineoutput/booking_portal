@@ -41,18 +41,25 @@
             </div>
             
             @foreach($cities as $value)
-            <div class="city_list_htotle city-item d-flex mb-2">
-                <div class="sizemaze">
-                    <!-- Image representing the city -->
-                    <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
-                </div>
+            <label class="d-flex " for="city_{{ $value->id }}" class="city-label" style="
+    border-bottom: 1px solid #00000033;     padding: 10px;
+">
+            <div class="city_list_htotle city-item mb-2">
+              <div class="desMund d-flex align-items-center gap-2">
+              <div class="sizemaze">
+                <!-- Image representing the city -->
+                <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+              </div>
+              <a class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></a>
                 <div class="hotel_place">
                     <!-- Input field for the city selection -->
-                    <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels" onclick="selectDestination('{{ $value->city_name }}')">
-                    <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available' }}</label>
+                    <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->city_name }}')">
+                    
                     <span class="hotels_spn"></span>
                 </div>
+                </div>
             </div>
+            </label>
             @endforeach
 
         </div>
@@ -421,23 +428,20 @@ document.getElementById('filter-form').onsubmit = function(event) {
 
 <script>
   function filterCities() {
-    // Get the search query and convert to lowercase
-    var searchQuery = document.getElementById('city-search').value.toLowerCase();
-    
-    // Get all the city items
-    var cityItems = document.querySelectorAll('.city-item');
-    
-    // Loop through the city items and hide those that don't match the search query
+    const searchQuery = document.getElementById('city-search').value.toLowerCase();
+    const cityItems = document.querySelectorAll('.city-item');
+
     cityItems.forEach(function(item) {
-      var cityName = item.querySelector('.city-label').textContent.toLowerCase();
+      const cityName = item.textContent.trim().toLowerCase();
       if (cityName.includes(searchQuery)) {
-        item.style.display = 'block'; // Show the city
+        item.style.display = 'flex'; // show flex since it's d-flex
       } else {
-        item.style.display = 'none'; // Hide the city
+        item.style.display = 'none';
       }
     });
   }
 </script>
+
 
 
 @endsection
