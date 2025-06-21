@@ -15,6 +15,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
     rel="stylesheet">
+    <!-- Litepicker CSS -->
+<link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet">
+
   <!-- Font Awesome CDN -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   
@@ -197,7 +200,9 @@
           <a class="nav-link dropdown-toggle" href="#" id="megaMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/128/13208/13208798.png" alt="">
             Package Booking
+         
           </a>
+         
           <div class="dropdown-menu mega-menu-content" aria-labelledby="megaMenu" style="width: 750px;">
             <div class="row">
 
