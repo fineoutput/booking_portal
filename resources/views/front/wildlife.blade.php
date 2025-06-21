@@ -10,6 +10,7 @@
     }
 
     .search-input {
+    opacity: 1 !important;
     width: 100%;
     padding: 8px;
     font-size: 14px;
@@ -29,7 +30,9 @@
 
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
       <div class="filter-label_hotels">State</div>
-      <div class="filter-value_hotels" id="destination-value">Select State?</div>
+      <div class="filter-value_hotels" id="destination-value">
+       <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
+          class="search-input"></div>
       <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
 
         <form action="" method="POST" id="filter-form">
@@ -37,27 +40,32 @@
 
         <!-- Search input field for filtering cities -->
         <div class="search-container">
-          <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
-          class="search-input">
+         
         </div>
 
         <!-- Container for city list -->
-        <div id="city-list-container">
           @foreach($cities as $value)
+          <label for="city_{{ $value->id }}"
+        class="city-label" style="
+    border-bottom: 1px solid #00000033;     padding: 10px;
+">
+
         <div class="city_list_htotle" data-city-name="{{ strtolower($value->state_name ?? '') }}">
+          <div class="desMund d-flex align-items-center gap-2">
         <div class="sizemaze">
-        <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+        <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
         </div>
+         <p class="text-bold text-dark m-0" href="#"><b>{{ $value->state_name ?? 'City name not available' }}</b></p>
         <div class="hotel_place">
         <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
-        class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
-        <label for="city_{{ $value->id }}"
-        class="city-label">{{ $value->state_name ?? 'City name not available' }}</label>
+        class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->id }}')">
+        
         <span class="hotels_spn"></span>
         </div>
+          </div>
         </div>
+        </label>
       @endforeach
-        </div>
 
       </div>
       </div>
@@ -163,8 +171,9 @@
       <button type="submit" style="border: none; background: none;">
       <div class="search_sba">
         <div class="sba_center_Sarch">
+          Search
         {{-- <a href="#"> --}}
-          <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;">
+          {{-- <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;"> --}}
           {{-- </a> --}}
         </div>
       </div>

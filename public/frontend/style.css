@@ -2493,3 +2493,11 @@ textarea.form-control {
     color: #fff;
     font-weight: bold;
 }
+.container__main {
+    border: 1px solid black !important;
+}
+.sizemaze {
+    padding: 5px;
+    border: 1px solid #00000045;
+    border-radius: 5px;
+}
