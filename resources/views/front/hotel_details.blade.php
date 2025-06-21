@@ -244,14 +244,14 @@
                                                             <button type="button" onclick="updateGuestss('children', 1)">+</button>
                                                         </div>
                                                     </div>
-                                                    <div class="guest-option_hotels">
+                                                    {{-- <div class="guest-option_hotels">
                                                         <label>No. of Rooms</label>
                                                         <div class="counter_hotels">
                                                             <button type="button" onclick="updateGuestss('infants', -1)">-</button>
                                                             <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestss()">
                                                             <button type="button" onclick="updateGuestss('infants', 1)">+</button>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
