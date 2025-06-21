@@ -12,7 +12,7 @@
     .search-input {
     opacity: 1 !important;
     width: 100%;
-    padding: 8px;
+    /* padding: 8px; */
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
