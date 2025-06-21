@@ -86,15 +86,11 @@
 
       <!-- Check-in Date -->
       <div class="filter-item_hotels sachi">
-        <div class="filter-label_hotels">Check in</div>
-        <input type="date" name="start_date" id="start_date" class="filter-value_hotels">
-      </div>
-
-      <!-- Check-out Date -->
-      <div class="filter-item_hotels sachi">
-        <div class="filter-label_hotels">Check out</div>
-        <input type="date" name="end_date" id="end_date" class="filter-value_hotels">
-      </div>
+  <div class="filter-label_hotels">Select Dates</div>
+  <input type="text" id="date-range" class="filter-value_hotels" placeholder="Choose date range" readonly>
+  <input type="hidden" name="start_date" id="start_date">
+  <input type="hidden" name="end_date" id="end_date">
+</div>
 
       <!-- Guests Dropdown -->
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
@@ -237,6 +233,29 @@
     
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const picker = new Litepicker({
+      element: document.getElementById('date-range'),
+      singleMode: false,
+      numberOfMonths: 2,
+      numberOfColumns: 2,
+      format: 'YYYY-MM-DD',
+      autoApply: true,
+      showTooltip: true,
+      tooltipText: {
+        one: 'day',
+        other: 'days'
+      },
+      setup: (picker) => {
+        picker.on('selected', (date1, date2) => {
+          document.getElementById('start_date').value = date1.format('YYYY-MM-DD');
+          document.getElementById('end_date').value = date2.format('YYYY-MM-DD');
+        });
+      }
+    });
+  });
+</script>
 
 <script>
  
