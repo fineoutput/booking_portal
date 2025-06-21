@@ -2483,14 +2483,13 @@ textarea.form-control {
     margin-right: 13px;
 }
 
-.sba_center_Sarch a {
-    font-size: 20px;
-    color: #fff;
-    font-weight: bold;
-}
+
 
 .sba_center_Sarch {
     background: #cb3502;
     padding: 20px 40px;
     border-radius: 0px 20px 20px 0px;
+    font-size: 20px;
+    color: #fff;
+    font-weight: bold;
 }
