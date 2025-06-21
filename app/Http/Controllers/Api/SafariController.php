@@ -33,62 +33,6 @@ use Illuminate\Support\Facades\Auth;
 class SafariController extends Controller
 {
 
-    // public function wildsafari(Request $request)
-    // {
-
-    //     $token = $request->bearerToken();
-
-    //     if (!$token) {
-    //         return response()->json(['message' => 'Unauthenticated.'], 401);
-    //     }
-
-    //     $decodedToken = base64_decode($token);
-
-    //     if (strpos($decodedToken, ',') === false) {
-    //         return response()->json(['message' => 'Invalid token format.'], 400);
-    //     }
-
-    //     list($email, $password) = explode(',', $decodedToken);
-
-    //     $user = Agent::where('email', $email)->first();
-
-    //     if ($user && $password == $user->password) {
-
-    //         $wildlifeSafaris = WildlifeSafari::orderBy('id', 'DESC')->get();
-
-    //         $wildlifeSafarisData = $wildlifeSafaris->map(function($safari) {
-    
-    //             $stateName = $safari->state ? $safari->state->state_name : null;  
-    //             $cityName = $safari->cities ? $safari->cities->city_name : null; 
-
-    //             return [
-    //                 'id' => $safari->id,
-    //                 // 'state_id' => $safari->state_id,
-    //                 // 'city_id' => $safari->city_id,
-    //                 'state_name' => $stateName,
-    //                 'city_name' => $cityName,  
-    //                 'national_park' => $safari->national_park,
-    //                 'date' => $safari->date,
-    //                 'timings' => $safari->timings,
-    //                 'vehicle' => $safari->vehicle,
-    //                 'cost' => $safari->cost,
-    //                 'description' => strip_tags($safari->description),
-    //                 'image' => $safari->image,
-    //             ];
-    //         });
-
-    //         return response()->json([
-    //             'message' => 'Wildlife safaris fetched successfully.',
-    //             'data' => $wildlifeSafarisData,
-    //             'status' => 200
-    //         ], 200);
-    //     }
-
-    //     return response()->json(['message' => 'Unauthenticated'], 401);
-    // }
-
-
-
 public function alldata(Request $request)
 {
     $token = $request->bearerToken();
