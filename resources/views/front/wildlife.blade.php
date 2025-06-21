@@ -58,7 +58,7 @@
          <p class="text-bold text-dark m-0" href="#"><b>{{ $value->state_name ?? 'City name not available' }}</b></p>
         <div class="hotel_place">
         <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
-        class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->id }}')">
+        class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->state_name }}')">
         
         <span class="hotels_spn"></span>
         </div>
