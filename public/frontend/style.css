@@ -1989,9 +1989,9 @@ textarea.form-control {
     justify-content: space-between;
 }
 }
-.sachi{
-  border-right: 1px solid rgba(0, 0, 0, 0.21);
-  border-radius: 0;
+.sachi {
+    border-right: 1px solid rgb(0 0 0 / 11%);
+    border-radius: 0;
 }
 .size {
   font-size: 17px;
@@ -2031,7 +2031,7 @@ textarea.form-control {
 }
 
 .sizemaze img {
-  width: 5rem;
+  width: 1.5rem;
 }
 .hotels_spn {
   font-size: 0.875rem;
@@ -2469,4 +2469,34 @@ textarea.form-control {
     background: #fff;
     box-shadow: -1px 3px 18px 1px #dacccc;
     border-radius: 20px;
+}
+
+.home_search {
+    background: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.home_search {
+    margin-left: auto !important;
+    float: revert;
+    margin-right: 13px;
+}
+
+.sba_center_Sarch a {
+    font-size: 20px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.search-header_hotels {
+    display: flex;
+    border: 1px solid #dddddd;
+    border-radius: 40px;
+    padding: 8px;
+    gap: 8px;
+    background: white;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
 }

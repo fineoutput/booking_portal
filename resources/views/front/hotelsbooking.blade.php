@@ -136,7 +136,8 @@
       <div class="search_sba">
         <div class="sba_center_Sarch">
         <a href="#">  
-        <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;">
+          search
+        {{-- <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;"> --}}
         </a>  
       </div>
       </div>
