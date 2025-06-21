@@ -50,7 +50,7 @@
                 <!-- Image representing the city -->
                 <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
               </div>
-              <a class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></a>
+              <p class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></p>
                 <div class="hotel_place">
                     <!-- Input field for the city selection -->
                     <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->city_name }}')">
