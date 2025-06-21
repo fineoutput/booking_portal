@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\TransferAgentCallesController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\LocalTourPriceController;
 use App\Http\Controllers\Admin\VehicleCostController;
+use App\Http\Controllers\Admin\TestimonialsController;
 use App\Http\Controllers\Auth\adminlogincontroller;
 use App\Models\WildlifeSafari;
 
@@ -212,6 +213,16 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::put('vehicle/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
     Route::delete('vehicle/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
     Route::patch('/vehicle/{id}/status', [VehicleController::class, 'updateStatus'])->name('vehicle.updateStatus');
+
+
+    
+
+    Route::get('/testimonials', [TestimonialsController::class, 'index'])->name('testimonials');
+    Route::match(['get','post'],'/testimonials/create', [TestimonialsController::class, 'create'])->name('testimonials_crete');
+    Route::get('testimonials/{id}/edit', [TestimonialsController::class, 'edit'])->name('testimonials.edit');
+    Route::put('testimonials/{id}', [TestimonialsController::class, 'update'])->name('testimonials.update');
+    Route::delete('testimonials/{id}', [TestimonialsController::class, 'destroy'])->name('testimonials.destroy');
+    Route::patch('/testimonials/{id}/status', [TestimonialsController::class, 'updateStatus'])->name('testimonials.updateStatus');
 
 
     Route::get('/outstation', [OutstationController::class, 'index'])->name('outstation');
