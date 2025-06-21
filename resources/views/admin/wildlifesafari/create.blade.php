@@ -150,6 +150,7 @@
                                                 <select data-placeholder="" name="timings[]" multiple class="chosen-select">
                                                     <option value="morning">Morning</option>
                                                     <option value="evening ">Evening </option>
+                                                    <option value="afternoon ">After-noon </option>
                                                 </select>
                                                 @error('timings')
                                                     <div style="color:red;">{{ $message }}</div>

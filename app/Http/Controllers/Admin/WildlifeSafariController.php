@@ -145,7 +145,7 @@ class WildlifeSafariController extends Controller
             // 'date' => 'required|date',
             'cost' => 'required|numeric',
             'timings' => 'nullable|array',
-            'timings.*' => 'in:morning,evening',
+            'timings.*' => 'in:morning,evening,afternoon',
             'image' => 'nullable',
         ]);
         $wildlifeSafari = WildlifeSafari::findOrFail($id);

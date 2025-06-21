@@ -211,7 +211,7 @@ class HotelBookingController extends Controller
             'date' => 'required|date',
             'cost' => 'required|numeric',
             'timings' => 'nullable|array',
-            'timings.*' => 'in:morning,evening',
+            'timings.*' => 'in:morning,evening,afternoon',
         ]);
     
         // Find the WildlifeSafari entry

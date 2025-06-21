@@ -156,6 +156,7 @@
                                         <select data-placeholder="" name="timings[]" multiple class="chosen-select">
                                             <option value="morning" {{ in_array('morning', old('timings', explode(',', $wildlifeSafari->timings))) ? 'selected' : '' }}>Morning</option>
                                             <option value="evening" {{ in_array('evening', old('timings', explode(',', $wildlifeSafari->timings))) ? 'selected' : '' }}>Evening</option>
+                                            <option value="afternoon" {{ in_array('afternoon', old('timings', explode(',', $wildlifeSafari->timings))) ? 'selected' : '' }}>After-noon</option>
                                         </select>
                                         @error('timings')
                                             <div style="color:red;">{{ $message }}</div>

@@ -306,6 +306,7 @@
                                                                         <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
                                                                     </div>
                                                                     <div class="time-option_hotels" onclick="selectTimings('evening')">Evening</div>
+                                                                    <div class="time-option_hotels" onclick="selectTimings('afternoon')">After-noon</div>
                                                                 </div>
                                                             </div>
                                                         </div>
