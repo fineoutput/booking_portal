@@ -20,20 +20,40 @@
   });
 
   // Update destination value when a city is selected
-  function selectDestination(city) {
-    document.getElementById('destination-value' || 'location-value').textContent = city;
-    console.log(city, 'this is the selected');
-    
-    // Close the destination dropdown
-    document.getElementById('destination-value' || 'location-value').classList.remove('active');
+function selectDestination(city) {
+  const destinationValue = document.getElementById('destination-value');
+  destinationValue.textContent = city;
+  console.log(city, 'this is the selected');
+
+  const dropdown = document.querySelector('.dropdown_hotels');
+
+  if (city && dropdown) {
+    // Hide the dropdown
+    dropdown.style.display = 'none';
+    console.log(city, 'Dropdown temporarily hidden');
+
+    // After 2 seconds, remove the inline display:none (restoring original stylesheet behavior)
+    // setTimeout(() => {
+    //   dropdown.style.removeProperty('display');
+    //   console.log(city, 'Dropdown display property removed');
+    // }, 2000);
   }
-  function selectLocation(city) {
-    document.getElementById('location-value').textContent = city;
-    console.log(city, 'this is the selected');
-    
-    // Close the destination dropdown
-    document.getElementById('location-value').classList.remove('active');
+}
+
+
+
+
+function selectLocation(city) {
+  document.getElementById('location-value').textContent = city;
+  console.log(city, 'this is the selected');
+
+  // Close the dropdown menu
+  const dropdown = document.querySelector('.location-dropdown_hotels');
+  if (dropdown) {
+    dropdown.classList.remove('active');
   }
+} 
+
   
   function selectLanguage(city) {
     document.getElementById('language-value').textContent = city;

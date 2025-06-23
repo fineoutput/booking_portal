@@ -1778,8 +1778,9 @@ textarea.form-control {
 .act_trans .whtts{
   font-size: 20px;
 }
-.mormal{
-  width: 50%;
+.mormal {
+    width: 23%;
+    text-align: center;
 }
 :root{
   --tw-ring-offset-color: #fff;
@@ -2429,6 +2430,9 @@ textarea.form-control {
   .sharan_side_box {
     position: relative !important;
     top: 0 !important;
+}
+.litepicker .container__months.columns-2 {
+    width: calc((var(--litepicker-month-width) * 1) + 20px)  !important;
 }
 
   }

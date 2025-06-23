@@ -384,7 +384,7 @@
                         <img style="width: 20px;" src="{{asset('frontend/images/destination.png')}}" alt="">
                         <label for="trip-type" class="form-label whtts">Select Trip</label>
                       </div>
-                      <label for="type" class="form-label">Trip Type</label>
+                      {{-- <label for="type" class="form-label">Trip Type</label> --}}
                       <select name="trip_type" class="form-select mormal" id="type" onchange="updateTypes()">
                         <option disabled>Select type</option>
                         <option value="one-way">One-Way</option>
