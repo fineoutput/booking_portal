@@ -20,6 +20,12 @@
   .city-item {
     display: block;
   }
+  #no_city{
+    display: none;
+  }
+  .orSamar{
+    
+  }
 </style>
 
 
@@ -41,7 +47,7 @@
             </div>
             
             @foreach($cities as $value)
-            <label class="d-flex " for="city_{{ $value->id }}" class="city-label" style="
+            <label class="d-flex " for="city_{{ $value->id }}" class="city-label orSamar" style="
     border-bottom: 1px solid #00000033;     padding: 10px;
 ">
             <div class="city_list_htotle city-item mb-2">
@@ -51,6 +57,7 @@
                 <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
               </div>
               <p class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></p>
+              
                 <div class="hotel_place">
                     <!-- Input field for the city selection -->
                     <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->city_name }}')">
@@ -59,6 +66,7 @@
                 </div>
                 </div>
             </div>
+            <p id="no_city">no city found</p>
             </label>
             @endforeach
 
@@ -428,19 +436,33 @@ document.getElementById('filter-form').onsubmit = function(event) {
 </script>
 
 <script>
-  function filterCities() {
-    const searchQuery = document.getElementById('city-search').value.toLowerCase();
-    const cityItems = document.querySelectorAll('.city-item');
+function filterCities() {
+  const searchQuery = document.getElementById('city-search').value.toLowerCase();
+  const cityItems = document.querySelectorAll('.city-item');
+  
+    let matchFound = false;
 
-    cityItems.forEach(function(item) {
-      const cityName = item.textContent.trim().toLowerCase();
-      if (cityName.includes(searchQuery)) {
-        item.style.display = 'flex'; // show flex since it's d-flex
-      } else {
-        item.style.display = 'none';
-      }
-    });
+  cityItems.forEach(function(item) {
+    const cityName = item.textContent.trim().toLowerCase();
+    if (cityName.includes(searchQuery)) {
+      item.style.display = 'flex'; // show if match
+      // noCity.style.display='none';
+      matchFound = true;
+    } else {
+      item.style.display = 'none';
+      // noCity.style.display='block ' // hide if no match
+    }
+  });
+
+  // Show or hide "no city found" message
+  const noCity = document.getElementById('no_city');
+  if (matchFound) {
+    noCity.style.display = 'none';
+  } else {
+    noCity.style.display = 'block';
   }
+}
+
 </script>
 
 
