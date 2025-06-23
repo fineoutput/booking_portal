@@ -140,7 +140,7 @@
                     <div class="col-lg-6">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                           <label for="pickup-airport" class="form-label">Select City</label>
                         </div>
                         <select name="city_id" class="form-select no-form-select" id="city-dropdown" onchange="fetchAirports()">
@@ -155,7 +155,7 @@
                     <div class="col-lg-6">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect" id="pickup-inputs">
-                          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                           <label for="pickup-airport" class="form-label">Pickup from</label>
                         </div>
                         <select name="airport_id" class="form-select no-form-select" id="pickup-airport" onchange="updateVehicles()">
@@ -171,7 +171,7 @@
                     <div class="col-lg-6">
                       <div class="mb-3">
                         <div class="select_sect" id="drop-inputs">
-                          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                           <label for="drop-address" class="form-label no-form">Drop off Address</label>
                         </div>
                         <input type="text" name="drop_pickup_address" class="form-control no-form" id="drop-address" placeholder="Enter drop address">
@@ -180,7 +180,7 @@
                     <div class="col-lg-6">
                     <div class="mb-3 loc_stl">
                       <div class="select_sect">
-                        <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
+                        <img src="{{asset('frontend/images/sport-car.png')}}" alt="" style="width: 20px;">
                         <label for="vehicle2" class="form-label">Select Vehicle</label>
                       </div>
                       <select name="vehicle_id" class="form-select no-form-select" id="vehicle-select" onchange="updateEstimatedCost()">
@@ -258,7 +258,7 @@
                   <div class="col-lg-6">
                     <div class="mb-3 loc_stl">
                       <div class="select_sect">
-                        <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                        <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                         <label for="pickup-airport" class="form-label">Select City</label>
                       </div>
                       <select name="city_id" class="form-select no-form-select" id="city-dropdown-2" onchange="fetchvehicle()">
@@ -274,7 +274,7 @@
                     <div class="mb-3">
                       <div class="loc_stl">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                           <label for="local-location" class="form-label">Select Location</label>
                         </div>
                         <input type="text" name="location" class="form-control no-form" id="local-location" placeholder="Enter location" required>
@@ -286,7 +286,7 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="select_sect">
-                      <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
+                      <img src="{{asset('frontend/images/sport-car.png')}}" alt="" style="width: 20px;">
                       <label for="vehicle2" class="form-label">Select Vehicle</label>
                     </div>
                     <select name="vehicle_id" class="form-select no-form-select" id="vehicle-selects" onchange="updateEstimatedCosts()" required>
@@ -399,7 +399,7 @@
                     <div class="col-lg-6">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                           <label for="pickup-airport" class="form-label">Destination City</label>
                         </div>
                         <select name="destination_city" class="form-select no-form-select" id="destination-city" onchange="updateVehicleList()">
@@ -416,7 +416,7 @@
                     <div class="col-lg-6">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/sport-car.png')}}" alt="" style="width: 20px;">
                           <label for="vehicle3" class="form-label">Select Vehicle</label>
                         </div>
                         <select name="vehicle_id" class="form-select no-form-select" id="vehicle-selectss" onchange="updateEstimatedCostss()">
@@ -430,7 +430,7 @@
                     <div class="col-lg-12">
                       <div class="mb-3">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/schedule.png')}}" alt="" style="width: 20px;">
                           <label for="pickup-time" class="form-label">Pickup Date</label>
                         </div>
                         <input name="pickup_date" style="width: 50%;" type="date" class="form-control no-form" id="return-date">
@@ -462,7 +462,7 @@
                     <div class="col-lg-12">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                           <label for="departure-location-round" class="form-label">Departure Location</label>
                         </div>
                         <input name="departure_location" type="text" class="form-control no-form" placeholder="Enter departure location">
@@ -473,7 +473,7 @@
                     <div class="col-lg-12">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/pin.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                           <label for="destination-location-round" class="form-label">Destination Location</label>
                         </div>
                         <input name="destination_location" type="text" class="form-control modal-trigger no-form" placeholder="Enter destination location">
@@ -484,7 +484,7 @@
                     <div class="col-lg-4">
                       <div class="mb-3">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/schedule.png')}}" alt="" style="width: 20px;">
                           <label for="pickup-date" class="form-label">Pickup Date</label>
                         </div>
                         <input name="pickup_date_1" type="date" class="form-control no-form" id="pickup-date" style="width: 100%;">
@@ -495,7 +495,7 @@
                     <div class="col-lg-12">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/schedule.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/schedule.png')}}" alt="" style="width: 20px;">
                           <label for="return-date" class="form-label">Return Date</label>
                         </div>
                         <input name="drop_date" type="date" class="form-control no-form" id="return-date" style="width: 50%;">
@@ -506,7 +506,7 @@
                     <div class="col-lg-12">
                       <div class="mb-3 loc_stl">
                         <div class="select_sect">
-                          <img src="http://127.0.0.1:8000/frontend/images/sport-car.png" alt="" style="width: 20px;">
+                          <img src="{{asset('frontend/images/sport-car.png')}}" alt="" style="width: 20px;">
                           <label for="vehicle-round" class="form-label">Select Vehicle</label>
                         </div>
                         <select name="vehicle_id_1" class="form-select no-form-select" id="car-input-round">
