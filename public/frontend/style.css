@@ -2426,7 +2426,10 @@ textarea.form-control {
     .arrow img{
       display: none;
     }
-
+  .sharan_side_box {
+    position: relative !important;
+    top: 0 !important;
+}
 
   }
 
@@ -2500,4 +2503,10 @@ textarea.form-control {
     padding: 5px;
     border: 1px solid #00000045;
     border-radius: 5px;
+}
+
+.sharan_side_box {
+    position: absolute;
+    top: 50%;
+    background: #fff;
 }

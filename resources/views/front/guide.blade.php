@@ -21,7 +21,7 @@ asset('frontend/images/hotel_main.avif')
 
 {{-- @include('front.common.slides', compact('title', 'mainImage', 'sideImages', 'bottomImages', 'mobileImages')) --}}
 
-
+{{-- 
 <div id="phlGlb" class="splide">
     <div class="splide__track d-lg-none">
         <ul class="splide__list">
@@ -30,7 +30,7 @@ asset('frontend/images/hotel_main.avif')
             <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
         </ul>
     </div>
-</div>
+</div> --}}
 
 @if($slider)
     <div id="responsive-slider" class="splide" style="background: #ffd600">
