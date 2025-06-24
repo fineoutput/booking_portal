@@ -184,7 +184,7 @@
 
          @if($packages)
           @foreach ($packages as $key => $value)
-      <div class="col-lg-6 mb-2">
+      <div class="col-lg-4 mb-2">
            @php
                   $images = json_decode($value->image, true);
 
