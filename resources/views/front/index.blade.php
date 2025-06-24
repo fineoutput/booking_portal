@@ -325,11 +325,19 @@
               @foreach($popularCities as $value)
                 <div class="outer_loc_dd">
                     <div class="inner_car_ig">
-                      @if($value['image'])
+                      @php
+                          $images = json_decode($value->image, true);
+                      @endphp
+                      @if($images && is_array($images) && count($images) > 0)
+                          <img src="{{ asset(reset($images)) }}" alt="First Image">
+                      @else
+                           <img src="{{ asset('frontend/images/gallery/rjwm-rjwp-1522023.avif') }}" alt="">
+                      @endif
+                      {{-- @if($value['image'])
                         <img src="{{ asset($value['image']) }}" alt="">
                         @else
                         <img src="{{ asset('frontend/images/gallery/rjwm-rjwp-1522023.avif') }}" alt="">
-                        @endif
+                        @endif --}}
                     </div>
                     <div class="outer_car_txt justify-content-center">
                         <p>{{ $value['bookings_count'] }} tours |
