@@ -41,6 +41,7 @@ use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
 use App\Models\Wallet;
 use App\Models\HotelPrefrence;
+use App\Models\Testimonials;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Redirect;
@@ -721,6 +722,8 @@ public function getVehiclesByCity($cityId)
         $data['route'] = Route::get();
         $data['outstation'] = Outstation::get();
         $data['admincity'] = AdminCity::get();
+        $data['admincity'] = AdminCity::get();
+        $data['testimonials'] = Testimonials::where('type','Taxi Booking')->get();
         return view('front/taxi_booking',$data);
     }
 

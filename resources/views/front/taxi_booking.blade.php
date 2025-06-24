@@ -3,13 +3,16 @@
 @section('content')
 
 <style>
+  .car-icon.mb-3 img {
+    width: 70px;
+}
   .modal-header {
     background-color: #007bff;
     color: white;
   }
 .vahiKaa{
     width: 100%;
-    height: 100px;
+    height: 100px;  
     border-radius: 20px;
     border: none;
 }
@@ -653,17 +656,22 @@
             </div>
         </div>
         <div class="row justify-content-center mt-5">
-            <div class="col-md-4 mb-4">
+
+          @foreach ($testimonials as $value)
+              <div class="col-md-4 mb-4">
                 <div class="card text-center p-4" style="border-radius: 10px;">
                     <div class="car-icon mb-3">
-                        <span class="badge bg-success rounded-circle p-3"><i class="fas fa-car"></i></span>
+                        {{-- <span class="badge bg-success rounded-circle p-3"><i class="fas fa-car"></i></span> --}}
+                        <img  src="{{ asset($value->image) }}" alt="">
                     </div>
-                    <h4 class="text-success">Hatchback</h4>
-                    <p class="text-muted">Small space to travel in nearby journey. A couple or 3 to travel in comfort. Cars in the fleet - Indica @ Rs 10/km</p>
-                    <p class="text-success fw-bold">₹10/km</p>
+                    <h4 class="text-success">{{$value->title ?? ''}}</h4>
+                    <p class="text-dark">{!! $value->description ?? '' !!}</p>
+                    {{-- <p class="text-success fw-bold">₹10/km</p> --}}
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
+          @endforeach       
+
+            {{-- <div class="col-md-4 mb-4">
                 <div class="card text-white text-center p-4" style="border-radius: 10px;">
                     <div class="car-icon mb-3">
                         <span class="badge bg-success rounded-circle p-3"><i class="fas fa-car"></i></span>
@@ -682,7 +690,7 @@
                     <p class="text-muted">A giant to house a family of 7 with comfy space, big wheels and a plenty of luggage to put in. A vehicle which keeps you in attitude all throughout. Moving @ Rs 20.00/km</p>
                     <p class="text-success fw-bold">₹20/km</p>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>
