@@ -135,82 +135,53 @@
 
           @if($hotels)
           @foreach ($hotels as $key => $value)
-          <div class="col-lg-6">
-            <div class="plan_outer w-100">
-              <div class="outer_plan_upper">
-                <div class="outer_plan_img">
-                  @php
-                  $images = json_decode($value->images); 
-              @endphp
-              
-              @if($images && is_array($images) && count($images) > 0)
-                  <img src="{{ asset(reset($images)) }}" alt="First Image">
-              @else
-                  <p>No images available.</p>
-              @endif
-              
-              
-                </div>
-                <div class="inner_outer_txt">
-                  
-                  <div class="outer_type_price">
-                    <h6 class="type_xtxt"> {{$value->cities->city_name ?? ''}} </h6>
-                  </div>
-                  <div class="plan_type_date">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <p style="margin: 0;">2 reviews</p>
-                  </div>
-                  <div class="inclusive">
-                    <i class="fa-solid fa-infinity"></i>
-                    <p class="m-0">All Inclusive</p>
-                  </div>
-                </div>
-              </div>
-              <div class="">
-                
-                <div class="destination">
-                  <p style="margin: 0;">{{$value->name ?? ''}}</p>
-                </div>
-              </div>
-              <div class="options_tav night">
-                <div class="outer_car_txt justify-content-center justify-content-center">
-                  <div class="night_ski skit">
-                    
-                    <span><a href="#"></a></span>
-                  </div>
-                  <div class="destination skit">
-                    <div class="manags">
-                      <p>Starts from
-                        <b style="color: #000;">
-                          @php
-                          // Fetch price for the current hotel
-                          $hotelPrice = $hotel_prices[$value->id] ?? null;
-                      @endphp
-                          <p>
-                            @if($hotelPrice)
-                            Price:  ₹{{ $hotelPrice->night_cost ?? '0' }}
-                        @else
-                            Price Not Available
-                        @endif
-                          </p>
+         <div class="col-lg-4 mb-3">
+  @php
+      $images = json_decode($value->images);
+      $imagePath = ($images && is_array($images) && count($images) > 0) ? asset(reset($images)) : asset('frontend/images/hotel_main.avif');
+  @endphp
+  
+  <a style="color: #fff" href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
+    <div class="cardashEs" style="background: url('{{ $imagePath }}') no-repeat center / cover; position: relative;">
+      
+      <div class="price-tagashEs">
+        @php
+          $hotelPrice = $hotel_prices[$value->id] ?? null;
+        @endphp
+        @if($hotelPrice)
+          ₹{{ number_format($hotelPrice->night_cost ?? 0, 2) }} onwards
+        @else
+          Price Not Available
+        @endif
+      </div>
 
-                        </b>
-                      </p>
-                      <span style="font-size: 10px;">per person on twin sharing</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">Book Now</a>
-                </div>
-                
-              </div>
-            </div>
-            </div>
+      <div class="gradient-overlayashEs"></div>
+      <div class="contentashEs">
+        
+        <h3>{{ \Illuminate\Support\Str::limit($value->name ?? '', 30) }}</h3>
+        
+        <div class="itineraryashEs">
+          <span>{{ $value->cities->city_name ?? '' }}</span>
+          <span>⭐️⭐️⭐️⭐️⭐️ (2 reviews)</span>
+        </div>
+
+        <div class="detailsashEs">
+          <div class="durationashEs">
+            <span>All Inclusive</span>
+          </div>
+          <div class="locationashEs">
+            <span>📍 {{ $value->name ?? '' }}</span>
+          </div>
+        </div>
+        <div class="options_btns d-flex justify-content-center mt-2">
+          <a class="_btn" href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">Book Now</a>
+        </div>
+        
+      </div>
+    </div>
+  </a>
+</div>
+
           @endforeach
           @else
             <div class="col-lg-6">
