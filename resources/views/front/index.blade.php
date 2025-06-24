@@ -340,9 +340,8 @@
                         @endif --}}
                     </div>
                     <div class="outer_car_txt justify-content-center">
-                        <p>{{ $value->bookings_count ?? '0'}} tours |
-                          {{ $value->adults_count ?? '0' }} guest Travelled</p>
-                        <h2>{{ $value->city_name ?? '0' }}</h2>
+                        <p>{{ $value->package_name ?? ''}} </p>
+                        <h2>{{ $value->cities->city_name ?? '0' }}</h2>
                     </div>
                 </div>
                 @endforeach
