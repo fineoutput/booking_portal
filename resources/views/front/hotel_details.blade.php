@@ -5,6 +5,11 @@
     .splide__arrow {
     display: none;
 }   
+@media (min-width: 768px) {
+
+
+}
+
 </style>
 <section class="detail_htels mt-5">
     <div class="comp-container">
@@ -183,15 +188,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="nizam_abt mt-5">
-                        <h4 class="naxo">About this place</h4>
-
-                        <div class="ho_bhe">
-                            <span>
-                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
-                            </span>
-                        </div>
-                    </div>
+                   
                 </div>
 
 
