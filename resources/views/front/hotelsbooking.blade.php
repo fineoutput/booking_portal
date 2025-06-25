@@ -319,7 +319,7 @@
           type: 'loop',
           perPage: 1,
           pagination: false,
-          arrows: true,
+          arrows: false,
         }).mount();
       });
     }
