@@ -18,7 +18,13 @@ asset('frontend/images/hotel_main.avif'),
 asset('frontend/images/hotel_main.avif')
 ];
 @endphp
-
+<style>
+    .sharan_side_box {
+    position: absolute;
+    top: 50%;
+    background: #fff;
+}
+</style>
 {{-- @include('front.common.slides', compact('title', 'mainImage', 'sideImages', 'bottomImages', 'mobileImages')) --}}
 
 {{-- 
