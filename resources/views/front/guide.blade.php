@@ -73,7 +73,7 @@ asset('frontend/images/hotel_main.avif')
     </div>
     @endif
 
-<div class="comp-container">
+<div class="comp-container p-2">
 
     <div class="row mt-5">
 
