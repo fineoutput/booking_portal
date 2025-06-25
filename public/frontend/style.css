@@ -1523,7 +1523,9 @@ textarea.form-control {
 .mormal, .lo_ka{
   width: 100% !important;
 }
-
+    /* .dropdown_hotels{
+    position: relative !important;
+} */
   .confirss_sect h2 {
       font-size: 1.5rem;
   }

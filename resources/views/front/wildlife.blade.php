@@ -168,7 +168,7 @@
       </div>
       </div>
 
-      <button type="submit" style="border: none; background: none;">
+      <button type="submit" class="cutPiece" style="border: none; background: none;">
       <div class="search_sba">
         <div class="sba_center_Sarch">
           Search

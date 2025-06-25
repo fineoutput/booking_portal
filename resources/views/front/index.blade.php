@@ -24,6 +24,11 @@
 .chnaa p{
   margin: 0;
 }
+@media (max-width: 768px) {
+    .dropdown_hotels {
+        /* position: relative !important; */
+    }
+}
 </style>
  <!-- /* //////////////Banner Starts///////////// */ -->
  <div class="container">

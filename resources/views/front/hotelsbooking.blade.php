@@ -195,62 +195,136 @@
   <div class="container">
     <div class="row" >
       
-      @foreach ($hotel as $key => $value)     
-      <div class="col-lg-3 mt-3 mb-4">
-          <div class="alocate_hotel">
-              <!-- Splide Slider -->
-              <div class="splide alocate_slider">
-                  <div class="splide__track">
-                      <ul class="splide__list">
-                          @php
-                              $images = json_decode($value->images); 
-                          @endphp
-      
-                          @if($images && is_array($images))  
-                              @foreach($images as $image)
-                                  <li class="splide__slide new_lave">
-                                      <img src="{{ asset($image) }}" alt="Image">
-                                  </li>
-                              @endforeach
-                          @else
-                              <p>No images available.</p>
-                          @endif
-                      </ul>
-                  </div>
-              </div>
-              <a href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
-                  <div class="alocate_title_data">
-                    <h4 class="path key">{{ $value->name ?? '' }}</h4>
-                    <h4 class="size">{{ $value->hotel_category	 ?? '' }}</h4>
-                      <div class="ttiel_head">
-                          <h4 class="key">{{ $value->location ?? '' }}</h4>
-                          @php
-                          // Fetch price for the current hotel
-                          $hotelPrice = $hotel_prices[$value->id] ?? null;
-                      @endphp
+   {{-- DESKTOP ONLY --}}
+<div class="row d-none d-lg-flex">
+    @foreach ($hotel as $key => $value)     
+        @php
+            $images = json_decode($value->images); 
+            $hotelPrice = $hotel_prices[$value->id] ?? null;
+        @endphp
 
-                      <h4 class="key">
-                          @if($hotelPrice)
-                              ₹{{ $hotelPrice->night_cost ?? '0' }}
-                          @else
-                              Price Not Available
-                          @endif
-                      </h4>
-                          {{-- <h4 class="seeve size">₹{{ $value->cost ?? '0' }}</h4> --}}
-                      </div>
-                  </div>
-              </a>
-          </div>
-      </div>
+        <div class="col-lg-3 mt-3 mb-4">
+            <div class="alocate_hotel">
+                <!-- Splide Slider (still usable inside desktop if needed) -->
+                <div class="splide alocate_slider">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            @if($images && is_array($images))  
+                                @foreach($images as $image)
+                                    <li class="splide__slide new_lave">
+                                        <img src="{{ asset($image) }}" alt="Image">
+                                    </li>
+                                @endforeach
+                            @else
+                                <p>No images available.</p>
+                            @endif
+                        </ul>
+                    </div>
+                </div>
+                <a href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
+                    <div class="alocate_title_data">
+                        <h4 class="path key">{{ $value->name ?? '' }}</h4>
+                        <h4 class="size">{{ $value->hotel_category ?? '' }}</h4>
+                        <div class="ttiel_head">
+                            <h4 class="key">{{ $value->location ?? '' }}</h4>
+                            <h4 class="key">
+                                @if($hotelPrice)
+                                    ₹{{ $hotelPrice->night_cost ?? '0' }}
+                                @else
+                                    Price Not Available
+                                @endif
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    @endforeach
+</div>
 
-      
-      @endforeach
+
+ {{-- MOBILE ONLY --}}
+<div class="d-block d-lg-none">
+    <div id="mobileHotelSlider" class="splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                @foreach ($hotel as $key => $value)
+                    @php
+                        $images = json_decode($value->images); 
+                        $hotelPrice = $hotel_prices[$value->id] ?? null;
+                    @endphp
+
+                    <li class="splide__slide">
+                        <div class="alocate_hotel">
+                            <div class="splide inner_hotel_slider">
+                                <div class="splide__track">
+                                    <ul class="splide__list">
+                                        @if($images && is_array($images))  
+                                            @foreach($images as $image)
+                                                <li class="splide__slide new_lave">
+                                                    <img src="{{ asset($image) }}" alt="Image">
+                                                </li>
+                                            @endforeach
+                                        @else
+                                            <li class="splide__slide">No images available.</li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </div>
+                            <a href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
+                                <div class="alocate_title_data">
+                                    <h4 class="path key">{{ $value->name ?? '' }}</h4>
+                                    <h4 class="size">{{ $value->hotel_category ?? '' }}</h4>
+                                    <div class="ttiel_head">
+                                        <h4 class="key">{{ $value->location ?? '' }}</h4>
+                                        <h4 class="key">
+                                            @if($hotelPrice)
+                                                ₹{{ $hotelPrice->night_cost ?? '0' }}
+                                            @else
+                                                Price Not Available
+                                            @endif
+                                        </h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</div>
+
 
     </div>
     <hr>
     
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Only for mobile
+    if (window.innerWidth < 992) {
+      // Main slider with each hotel card as a slide
+      new Splide('#mobileHotelSlider', {
+        perPage: 1,
+        gap: '1rem',
+        pagination: true,
+        arrows: true,
+      }).mount();
+
+      // Inner sliders for images inside each hotel card
+      document.querySelectorAll('.inner_hotel_slider').forEach((el) => {
+        new Splide(el, {
+          type: 'loop',
+          perPage: 1,
+          pagination: false,
+          arrows: true,
+        }).mount();
+      });
+    }
+  });
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const picker = new Litepicker({
