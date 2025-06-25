@@ -29,7 +29,7 @@
  <div class="container">
 
  
- <div id="responsive-slider" class="splide testing_tools" style="background: #fff;" >
+ <div id="responsive-slider" class="splide testing_tools mt-2" style="background: #fff;" >
     {{-- <div class="layie">
       <h1>Plan Your Travel Now</h1>
                         <p>650+ Travel Agents serving 65+ Destinations worldwide</p></div>   --}}
@@ -38,7 +38,7 @@
         <ul class="splide__list">
           @foreach ($banner as $value)
           <li class="splide__slide">
-            <picture style="  height: 50vh">
+            <picture class="seeMA" style=" height: 50vh;">
                 <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
                 <img style="border-radius: 20px;" src="{{ asset($value->image) }}" alt="Responsive Banner" >
             </picture>
@@ -381,7 +381,7 @@
                         <p>or</p>
                         <div class="namems">
                             <i class="fa-solid fa-phone"></i>
-                            <span class="custom_spn">1234567895</span>
+                            <span class="custom_spn">9782324798</span>
                         </div>
                     </div>
                 </div>
@@ -597,7 +597,7 @@
               </div>
             </div>
         </li>
-      @endif
+      @endif 
     </ul>
   </div>
 </div>
