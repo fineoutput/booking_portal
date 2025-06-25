@@ -130,6 +130,9 @@ img{
     .layie{
       display: none !important;
     }
+    .mega-menu .mega-menu-content{
+      position: relative !important;
+    }
 }
 .nachel{
   flex-wrap: wrap;
@@ -457,6 +460,9 @@ img{
   .sarj_anch {
       padding: 7px;
       font-size: 11px;
+  }
+  .seeMA{
+    height: 30vh !important;
   }
 }
 
