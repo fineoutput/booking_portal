@@ -1527,6 +1527,12 @@ textarea.form-control {
   .confirss_sect h2 {
       font-size: 1.5rem;
   }
+  .cutPiece{
+    width: 100%;
+  }
+  .sba_center_Sarch{
+    border-radius: 5px !important;
+  }
 }
 .calends {
   display: flex;
@@ -1902,7 +1908,8 @@ textarea.form-control {
 }
 
 .dropdown_hotels.active {
-  display: block;
+    display: block;
+    border: 1px solid #00000033;
 }
 
 .destination-dropdown_hotels {

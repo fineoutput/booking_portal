@@ -140,7 +140,7 @@
           </div> --}}
         </div>
       </div>
-      <button type="submit" style="border: none; background: none;">
+      <button type="submit" class="cutPiece" style="border: none; background: none;">
       <div class="search_sba">
         <div class="sba_center_Sarch">
        
@@ -220,9 +220,9 @@
               </div>
               <a href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
                   <div class="alocate_title_data">
+                    <h4 class="path key">{{ $value->name ?? '' }}</h4>
+                    <h4 class="size">{{ $value->hotel_category	 ?? '' }}</h4>
                       <div class="ttiel_head">
-                        <h4 class="path key">{{ $value->name ?? '' }}</h4>
-                          <h4 class="size">{{ $value->hotel_category	 ?? '' }}</h4>
                           <h4 class="key">{{ $value->location ?? '' }}</h4>
                           @php
                           // Fetch price for the current hotel
