@@ -95,7 +95,7 @@
 <section class="navigation_sect mt-5">
   <div class="container">
     <div class="row">
-      <div class="col-lg-3 col-sm-12 col-md-12 param">
+      <div class="col-lg-3 col-sm-12 col-md-12 param"> 
         <div class="left_navi_det">
           <h6>18 Manali Holiday Packages</h6>
           <p>Showing 1-10 packages from 18 packages</p>
@@ -180,7 +180,7 @@
       </div>
       <!-- <div class="col-lg-1"></div> -->
       <div class="col-lg-9 col-sm-12 col-md-12">
-        <div class="row">
+        <div class="row d-none d-lg-flex">
 
          @if($packages)
           @foreach ($packages as $key => $value)
@@ -252,11 +252,65 @@
           @endif
 
       </div>
+
+      <div id="splide-mobile" class="splide d-block d-lg-none">
+        <div class="splide__track">
+            <ul class="splide__list">
+                @foreach ($packages as $key => $value)
+                    @php
+                        $images = json_decode($value->image, true);
+                        $add = ($images && is_array($images) && count($images) > 0)
+                            ? asset(reset($images))
+                            : asset('frontend/images/hotel_main.avif');
+                    @endphp
+                    <li class="splide__slide">
+                        <a style="color: #fff" href="{{ route('detail',['id' => base64_encode($value->id)]) }}">
+                            <div class="cardashEs" style="background: url('{{ $add }}') no-repeat center / cover;">
+                                @if($value->prices)
+                                    <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>
+                                @else
+                                    <p>No price available.</p>
+                                @endif
+
+                                <div class="gradient-overlayashEs"></div>
+                                <div class="contentashEs">
+                                    <h3>{{\Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
+                                    <div class="itineraryashEs">
+                                        <span>{!! \Illuminate\Support\Str::limit($value->text_description ?? '', 30) !!}</span>
+                                    </div>
+                                    <div class="detailsashEs">
+                                        <div class="durationashEs">
+                                            <span>🕒 5N/6D</span>
+                                        </div>
+                                        <div class="locationashEs">
+                                            <span>📍 Leh-Leh</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
     </div>
   </div>
 </section>
 
-
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.innerWidth < 992) {
+      new Splide('#splide-mobile', {
+        type: 'slide',
+        perPage: 1,
+        gap: '1rem',
+        pagination: true,
+        arrows: true,
+      }).mount();
+    }
+  });
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     new Splide('#responsive-slider', {
