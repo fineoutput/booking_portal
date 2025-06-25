@@ -516,12 +516,17 @@ img{
   font-size: 14px;
   font-weight: 500;
 }
-.gall_place{
-  position: absolute;
-  top: 0;
-  left: 23%;
-  z-index: 2;
-  color: #fff;
+.gall_place {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    z-index: 2;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 .inner_gallery_loc img{
   border-radius: 20px;
