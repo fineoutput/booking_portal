@@ -305,10 +305,11 @@
                                 <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form action="{{route('password.email')}}" method="POST">
+                                    @csrf
                                     <div class="mb-3">
                                         <label for="resetEmail" class="form-label">Enter Your Email</label>
-                                        <input type="email" class="form-control" id="resetEmail" name="resetEmail" placeholder="Enter your email to reset password" required>
+                                        <input name="email" type="email" class="form-control" id="resetEmail" name="resetEmail" placeholder="Enter your email to reset password" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary w-100">Send Reset Link</button>
                                 </form>

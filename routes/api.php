@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\SafariController;
+use App\Http\Controllers\Api\PasswordController;
 use App\Http\Controllers\Admin\PDFController;
 
 /*
@@ -20,6 +21,12 @@ use App\Http\Controllers\Admin\PDFController;
 
 
 // Route::middleware('auth:sanctum')->group(function () {
+
+
+    Route::get('password/reset', [PasswordController::class, 'showLinkRequestForm']);
+    Route::post('password/email', [PasswordController::class, 'sendResetLinkEmail']);
+    // Route::get('password/reset/{token}', [PasswordController::class, 'showResetForm']);
+    Route::post('password/reset', [PasswordController::class, 'reset']);
 
     Route::get('hotel', [HotelController::class, 'hotel']);
     Route::post('filter-hotel', [HotelController::class, 'filterHotels']);
