@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Package Customer</h4>
+          <h4 class="page-title">View Hotel Customer</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Package Customer</a></li>
-            <li class="breadcrumb-item active">View Package </li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Hotel Customer</a></li>
+            <li class="breadcrumb-item active">View Hotel </li>
           </ol>
         </div>
       </div>
@@ -38,7 +38,7 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Package Customer List</h4>
+                  <h4 class="mt-0 header-title">View Hotel Customer List</h4>
                 </div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
