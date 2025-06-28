@@ -18,6 +18,7 @@ class HotelBooking extends Model
         'no_occupants',
         'user_id',
         'night_count',
+        'room_count',
         'cost',
         'status',
     ];

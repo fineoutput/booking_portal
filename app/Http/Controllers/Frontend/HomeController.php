@@ -1130,6 +1130,7 @@ if ($max_price) {
         $wildlife->no_occupants = $request->guest_count;
         $wildlife->night_count = $request->night_count;
         $wildlife->cost = $request->total_cost;
+        $wildlife->room_count = $request->room_count;
         $wildlife->status = 0;
         $wildlife->save();
 
