@@ -332,7 +332,7 @@
       singleMode: false,
       numberOfMonths: 2,
       numberOfColumns: 2,
-      format: 'YYYY-MM-DD',
+      format: 'MM-DD-YYYY',
       autoApply: true,
       showTooltip: true,
       tooltipText: {
@@ -341,13 +341,23 @@
       },
       setup: (picker) => {
         picker.on('selected', (date1, date2) => {
-          document.getElementById('start_date').value = date1.format('YYYY-MM-DD');
-          document.getElementById('end_date').value = date2.format('YYYY-MM-DD');
+          document.getElementById('start_date').value = date1.format('MM-DD-YYYY');
+          document.getElementById('end_date').value = date2.format('MM-DD-YYYY');
+        });
+
+        // Add labels after calendar is rendered
+        picker.on('render', () => {
+          const months = picker.ui.querySelectorAll('.container__months > .month-item');
+          if (months.length === 2) {
+            months[0].insertAdjacentHTML('afterbegin', '<div class="month-label" style="text-align:center; font-weight:bold; padding:5px;">Start Date</div>');
+            months[1].insertAdjacentHTML('afterbegin', '<div class="month-label" style="text-align:center; font-weight:bold; padding:5px;">End Date</div>');
+          }
         });
       }
     });
   });
 </script>
+
 
 <script>
  
