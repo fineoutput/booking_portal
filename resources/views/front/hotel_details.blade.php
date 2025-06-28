@@ -258,6 +258,7 @@
                                         <input type="hidden" name="total_cost" id="total-cost-input">
 
                                         <input type="hidden" name="guest_count" id="guest_count">
+                                        <input type="hidden" name="room_count" id="room_count">
                                     </div>
                                     
 
@@ -285,7 +286,7 @@
     </div>
 </section>
 
-
+{{-- 
 <script>
    // Assuming this is sent via PHP:
 const hotelPriceStartDate = "{{ $hotel_price->start_date ?? '' }}";
@@ -374,6 +375,86 @@ function updateGuestCounts() {
 
 
 
+</script> --}}
+
+
+<script>
+    // Assuming this is sent via PHP:
+    const hotelPriceStartDate = "{{ $hotel_price->start_date ?? '' }}";
+    const hotelPriceEndDate = "{{ $hotel_price->end_date ?? '' }}";
+    const nightCost = {{ $hotel_price->night_cost ?? 0 }}; // Default to 0 if null
+
+    function updateNightCount() {
+        const checkInDate = document.getElementById('check_in_date').value;
+        const checkOutDate = document.getElementById('check_out_date').value;
+        
+        if (checkInDate && checkOutDate) {
+            const checkIn = new Date(checkInDate);
+            const checkOut = new Date(checkOutDate);
+
+            // Calculate the number of nights
+            const timeDiff = checkOut - checkIn;
+            const nightCount = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
+
+            if (nightCount > 0) {
+                document.getElementById('night_count').value = nightCount;
+                updatePrice(nightCount, checkInDate, checkOutDate);
+            } else {
+                alert("Check-out date must be later than check-in date.");
+            }
+        }
+    }
+
+    function updatePrice(nightCount, checkInDate, checkOutDate) {
+        const checkIn = new Date(checkInDate);
+        const checkOut = new Date(checkOutDate);
+
+        const hotelPriceStart = new Date(hotelPriceStartDate);
+        const hotelPriceEnd = new Date(hotelPriceEndDate);
+
+        // Get current infants count
+        const infantsCount = parseInt(document.getElementById('infants-count').value) || 0;
+
+        // Check if date range is within allowed range
+        if (checkIn >= hotelPriceStart && checkOut <= hotelPriceEnd) {
+            // Base price calculation
+            let totalPrice = nightCost * nightCount;
+
+            // Add infants cost (same as nightCost * count * nights)
+            const infantExtra = infantsCount * nightCost * nightCount;
+            totalPrice += infantExtra;
+
+            // Update display
+            document.getElementById('dynamic-price').innerText = '₹' + totalPrice;
+            document.getElementById('total-cost-input').value = totalPrice;
+        } else {
+            document.getElementById('dynamic-price').innerText = 'Price not available for selected dates';
+            document.getElementById('total-cost-input').value = null;
+        }
+    }
+
+    function updateGuests(type, delta) {
+        const countElement = document.getElementById(type + '-count');
+        let count = parseInt(countElement.value);
+        count += delta;
+
+        if (count >= 0) {
+            countElement.value = count;
+            updateGuestCounts();
+            updateNightCount(); // Ensure price updates when guest counts change
+        }
+    }
+
+    function updateGuestCounts() {
+        const adultsCount = parseInt(document.getElementById('adults-count').value) || 0;
+        const childrenCount = parseInt(document.getElementById('children-count').value) || 0;
+        const infantsCount = parseInt(document.getElementById('infants-count').value) || 0;
+
+        const totalGuests = adultsCount + childrenCount + infantsCount;
+
+        document.getElementById('guests-value').innerText = totalGuests + (totalGuests === 1 ? ' guest' : ' guests');
+        document.getElementById('guest_count').value = totalGuests;
+    }
 </script>
 
 <script>
