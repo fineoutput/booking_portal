@@ -241,14 +241,14 @@
                                                             <button type="button" onclick="updateGuestss('children', 1)">+</button>
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="guest-option_hotels">
+                                                    <div class="guest-option_hotels">
                                                         <label>No. of Rooms</label>
                                                         <div class="counter_hotels">
                                                             <button type="button" onclick="updateGuestss('infants', -1)">-</button>
                                                             <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestss()">
                                                             <button type="button" onclick="updateGuestss('infants', 1)">+</button>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -365,7 +365,7 @@ function updateGuestCounts() {
     const infantsCount = parseInt(document.getElementById('infants-count').value) || 0;
 
     const totalGuests = adultsCount + childrenCount + infantsCount;
-    console.log("Total Guests: ", totalGuests); // Debugging line
+    console.log("Total Guests: ", totalGuests); 
 
     document.getElementById('guests-value').innerText = totalGuests + (totalGuests === 1 ? ' guest' : ' guests');
     document.getElementById('guest_count').value = totalGuests;

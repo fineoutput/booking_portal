@@ -130,14 +130,14 @@
               <button type="button" onclick="updateGuests('children', 1)">+</button>
             </div>
           </div>
-          {{-- <div class="guest-option_hotels">
+          <div class="guest-option_hotels">
             <label>No. of Rooms</label>
             <div class="counter_hotels">
               <button type="button" onclick="updateGuests('infants', -1)">-</button>
               <input type="number" id="infants-count" value="1" min="1">
               <button type="button" onclick="updateGuests('infants', 1)">+</button>
             </div>
-          </div> --}}
+          </div>
         </div>
       </div>
       <button type="submit" class="cutPiece" style="border: none; background: none;">
