@@ -269,8 +269,8 @@
                                     <div class="ttiel_head">
                                         <h4 class="key">{{ $value->location ?? '' }}</h4>
                                         <h4 class="key">
-                                            @if($hotelPrice)
-                                                ₹{{ $hotelPrice->night_cost ?? '0' }}
+                                             @if($hotelPrice)
+                                               ₹{{ $hotelPrice->night_cost ?? '0' }}
                                             @else
                                                 Price Not Available
                                             @endif
