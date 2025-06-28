@@ -15,6 +15,7 @@ class UpgradeRequest extends Model
         'booking_id',
         'upgrade_details',
         'notes',
+        'type',
         'status',
     ];
 

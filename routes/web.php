@@ -71,6 +71,8 @@ Route::group(['prefix' => '/'], function () {
     Route::get('taxi-confirmation/{id}', [HomeController::class, 'taxiconfirmation'])->name('taxi_confirmation');
     
     Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
+    Route::post('/save-tourist-details-hotel', [HomeController::class, 'saveTouristDetailshotel'])->name('saveTouristDetailshotel');
+    Route::post('/save-tourist-details-safari', [HomeController::class, 'saveTouristDetailssafari'])->name('saveTouristDetailssafari');
 
     // Route for downloading PDF with logo
     // Route::get('/download-pdf-with-logo/{user_id}/{pdf_name}', [PDFController::class, 'downloadWithLogo'])->name('pdf.download');
@@ -82,6 +84,7 @@ Route::group(['prefix' => '/'], function () {
 
 
     Route::post('/upgrade-request', [HomeController::class, 'upgrade_request'])->name('upgrade_request');
+    Route::post('/upgrade-request-hotel', [HomeController::class, 'upgrade_requesthotel'])->name('upgrade_requesthotel');
     Route::post('/hotel-prefrence', [HomeController::class, 'hotel_prefrence'])->name('hotel_prefrence');
 
     Route::get('/get-airports/{city_id}', [HomeController::class, 'getAirports']);

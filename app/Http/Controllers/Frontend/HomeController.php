@@ -369,18 +369,6 @@ class HomeController extends Controller
 }
 
     
-    
-
-
-    // public function user_profile()
-    // {
-    //     if (Auth::guard('agent')->check()) {
-    //         $data['user'] = Auth::guard('agent')->user()->load('cities', 'state');
-    //         $data['booking'] = PackageBooking::where('id',$data['user']->id)->get();
-    //         return view('front/user_profile', $data);
-    //     }
-    //     return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
-    // }
 
 
     public function user_profile()
@@ -402,7 +390,11 @@ class HomeController extends Controller
             // return $packageIds;
 
             $data['hotels'] = Hotels::whereIn('package_id', $packageIds)->get();
-            // return $data['hotels'];
+            $data['hotels_data'] = HotelBooking2::with('tourists')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
+
+            $data['WildlifeSafari_data'] = WildlifeSafariOrder2::with('tourists')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
+
+            
 
             $user_id = Auth::guard('agent')->id();
 
@@ -541,6 +533,135 @@ public function saveTouristDetails(Request $request)
 }
 
 
+
+  public function saveTouristDetailshotel(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'age' => 'required',
+            'phone' => 'required',
+            'aadhar_front' => 'required|file',
+            'aadhar_back' => 'required|file',
+            'additional_info' => 'nullable',
+            'booking_id' => 'required',
+        ]);
+
+        $aadharFrontPath = null;
+        $aadharBackPath = null;
+
+        // Upload Aadhar Front
+        if ($request->hasFile('aadhar_front')) {
+            $file = $request->file('aadhar_front');
+            $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
+            $destination = public_path('uploads/tourist');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0777, true);
+            }
+
+            $file->move($destination, $filename);
+            $aadharFrontPath = 'uploads/tourist/' . $filename;
+        }
+
+        // Upload Aadhar Back
+        if ($request->hasFile('aadhar_back')) {
+            $file = $request->file('aadhar_back');
+            $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
+            $destination = public_path('uploads/tourist');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0777, true);
+            }
+
+            $file->move($destination, $filename);
+            $aadharBackPath = 'uploads/tourist/' . $filename;
+        }
+
+        // Save to DB
+        $tourist = new Tourist([
+            'user_id' => Auth::guard('agent')->id(),
+            'name' => $request->name,
+            'age' => $request->age,
+            'phone' => $request->phone,
+            'aadhar_front' => $aadharFrontPath,
+            'aadhar_back' => $aadharBackPath,
+            'additional_info' => $request->additional_info,
+            'booking_id' => $request->booking_id,
+            'type' => 'hotel',
+        ]);
+
+        $tourist->save();
+
+        return redirect()->back()->with([
+            'message' => 'Tourist details saved successfully!'
+        ]);
+    }
+
+
+  public function saveTouristDetailssafari(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'age' => 'required',
+            'phone' => 'required',
+            'aadhar_front' => 'required|file',
+            'aadhar_back' => 'required|file',
+            'additional_info' => 'nullable',
+            'booking_id' => 'required',
+        ]);
+
+        $aadharFrontPath = null;
+        $aadharBackPath = null;
+
+        // Upload Aadhar Front
+        if ($request->hasFile('aadhar_front')) {
+            $file = $request->file('aadhar_front');
+            $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
+            $destination = public_path('uploads/tourist');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0777, true);
+            }
+
+            $file->move($destination, $filename);
+            $aadharFrontPath = 'uploads/tourist/' . $filename;
+        }
+
+        // Upload Aadhar Back
+        if ($request->hasFile('aadhar_back')) {
+            $file = $request->file('aadhar_back');
+            $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
+            $destination = public_path('uploads/tourist');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0777, true);
+            }
+
+            $file->move($destination, $filename);
+            $aadharBackPath = 'uploads/tourist/' . $filename;
+        }
+
+        // Save to DB
+        $tourist = new Tourist([
+            'user_id' => Auth::guard('agent')->id(),
+            'name' => $request->name,
+            'age' => $request->age,
+            'phone' => $request->phone,
+            'aadhar_front' => $aadharFrontPath,
+            'aadhar_back' => $aadharBackPath,
+            'additional_info' => $request->additional_info,
+            'booking_id' => $request->booking_id,
+            'type' => 'safari',
+        ]);
+
+        $tourist->save();
+
+        return redirect()->back()->with([
+            'message' => 'Tourist details saved successfully!'
+        ]);
+    }
+
+
     public function invoice(Request $request, $id){
 
         $data['user'] = Agent::where('id',Auth::id())->first();
@@ -562,6 +683,31 @@ public function upgrade_request(Request $request)
             'upgrade_details' => $request->upgrade_details,
             'notes' => $request->notes,
             'booking_id' => $request->booking_id,
+            'type' => 'package',
+            'status' => 0,
+        ]);
+
+        $UpgradeRequest->save();
+
+
+    return redirect()->back()->with([
+        'message' => 'Upgrade Request send successfully!']);
+}
+
+public function upgrade_requesthotel(Request $request)
+{
+    $validated = $request->validate([
+        'booking_id' => 'required',
+        'upgrade_details' => 'required',
+        'notes' => 'required',
+    ]);
+    
+        $UpgradeRequest = new UpgradeRequest([
+            'user_id' => Auth::guard('agent')->id(),
+            'upgrade_details' => $request->upgrade_details,
+            'notes' => $request->notes,
+            'booking_id' => $request->booking_id,
+            'type' => 'hotel',
             'status' => 0,
         ]);
 
