@@ -21,6 +21,30 @@
     .city_list_htotle {
     display: block;
     }
+
+     .search-container {
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  .search-input {
+    opacity: 1 !important;
+    width: 100%;
+    /* padding: 8px; */
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .city-item {
+    display: block;
+  }
+  #no_city{
+    display: none;
+  }
+  .orSamar{
+    
+  }
   </style>
 
   <section class="wildlife_tallimala">
@@ -29,46 +53,44 @@
       <!-- Destination Dropdown -->
 
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-      <div class="filter-label_hotels">State</div>
-      <div class="filter-value_hotels" id="destination-value">
-       <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
-          class="search-input"></div>
-      <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
-
-        <form action="" method="POST" id="filter-form">
-        @csrf
-
-        <!-- Search input field for filtering cities -->
-        <div class="search-container">
-         
-        </div>
-
-        <!-- Container for city list -->
-          @foreach($cities as $value)
-          <label for="city_{{ $value->id }}"
-        class="city-label" style="
+        <div class="filter-label_hotels">Destination</div>
+        <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..." class="search-input"></div>
+        <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+          
+          <form action="" method="POST" id="filter-form">
+            @csrf
+            
+            <!-- Search input added here -->
+            <div class="search-container">
+              {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..." class="search-input"> --}}
+            </div>
+            
+            @foreach($cities as $value)
+            <label class="d-flex " for="city_{{ $value->id }}" class="city-label orSamar" style="
     border-bottom: 1px solid #00000033;     padding: 10px;
 ">
+            <div class="city_list_htotle city-item mb-2">
+              <div class="desMund d-flex align-items-center gap-2">
+              <div class="sizemaze">
+                <!-- Image representing the city -->
+                <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+              </div>
+              <p class="text-bold text-dark" href="#"><b>{{ $value->state_name ?? 'City name not available' }}</b></p>
+              
+                <div class="hotel_place">
+                    <!-- Input field for the city selection -->
+                    <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->state_name }}')">
+                    
+                    <span class="hotels_spn"></span>
+                </div>
+                </div>
+            </div>
+            <p id="no_city">no city found</p>
+            </label>
+            @endforeach
 
-        <div class="city_list_htotle" data-city-name="{{ strtolower($value->state_name ?? '') }}">
-          <div class="desMund d-flex align-items-center gap-2">
-        <div class="sizemaze">
-        <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
         </div>
-         <p class="text-bold text-dark m-0" href="#"><b>{{ $value->state_name ?? 'City name not available' }}</b></p>
-        <div class="hotel_place">
-        <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
-        class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->state_name }}')">
-        
-        <span class="hotels_spn"></span>
-        </div>
-          </div>
-        </div>
-        </label>
-      @endforeach
-
-      </div>
-      </div>
+    </div>
 
 
       {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
@@ -117,23 +139,23 @@
       <div class="filter-value_hotels" id="timing-value">Select Time</div>
       <div class="dropdown_hotels timing-dropdown_hotels w-100" id="timing-dropdown">
         <div class="time_list_hotels">
-        <div class="brit_life">
+        <div class="brit_life" onclick="selectTimingss('morning')">
           <div class="ujale">
           <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
           </div>
-          <div class="time-option_hotels" onclick="selectTimingss('morning')">Morning</div>
+          <div class="time-option_hotels" >Morning</div>
         </div>
-        <div class="brit_life mt-3">
+        <div class="brit_life mt-3" onclick="selectTimingss('evening')">
           <div class="ujale">
           <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
           </div>
-          <div class="time-option_hotels" onclick="selectTimingss('evening')">Evening</div>
+          <div class="time-option_hotels" >Evening</div>
         </div>
-        <div class="brit_life mt-3">
+        <div class="brit_life mt-3" onclick="selectTimingss('afternoon')">
           <div class="ujale">
           <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 30px;">
           </div>
-          <div class="time-option_hotels" onclick="selectTimingss('afternoon')">After-noon</div>
+          <div class="time-option_hotels" >After-noon</div>
         </div>
         </div>
       </div>
@@ -206,10 +228,19 @@
     @endforeach
 
 
-  
+      {{-- <li class="splide__slide">
+      <picture>
+      <source media="(min-width: 1200px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+      <source media="(min-width: 768px)" srcset="{{ asset('frontend/images/banner/banne.png') }}">
+      <source media="(max-width: 767px)" srcset="{{ asset('frontend/images/banner/mobile_.png') }}">
+      <img style="border-radius: 0;" src="{{ asset('frontend/images/banner/fallback_.png') }}"
+      alt="Responsive Banner 2">
+      </picture>
+      </li> --}}
+      <!-- Add more slides as needed -->
     </ul>
     </div>
-    </div> --}}
+    </div>
   @endif
 
   <section class="_hotels_filters">
@@ -291,7 +322,7 @@
     document.getElementById('time-input').value = time;
 
     // Optionally, close the dropdown after selection
-    // toggleDropdown('timing');  // Uncomment if you want to close the dropdown after selection
+    toggleDropdown('timing');  // Uncomment if you want to close the dropdown after selection
     }
 
     document.getElementById('filter-form').onsubmit = function (event) {
@@ -327,24 +358,35 @@
   </script>
 
 
-  <script>
-    function filterCities() {
-    // Get the search query and convert it to lowercase
-    var searchQuery = document.getElementById('city-search').value.toLowerCase();
+<script>
+function filterCities() {
+  const searchQuery = document.getElementById('city-search').value.toLowerCase();
+  const cityItems = document.querySelectorAll('.city-item');
+  
+    let matchFound = false;
 
-    // Get all the city items
-    var cityItems = document.querySelectorAll('.city_list_htotle');
-
-    // Loop through the city items and hide those that don't match the search query
-    cityItems.forEach(function (item) {
-      var cityName = item.querySelector('.city-label').textContent.toLowerCase();
-      if (cityName.includes(searchQuery)) {
-      item.style.display = 'block'; // Show the city
-      } else {
-      item.style.display = 'none'; // Hide the city
-      }
-    });
+  cityItems.forEach(function(item) {
+    const cityName = item.textContent.trim().toLowerCase();
+    if (cityName.includes(searchQuery)) {
+      item.style.display = 'flex'; // show if match
+      // noCity.style.display='none';
+      matchFound = true;
+    } else {
+      item.style.display = 'none';
+      // noCity.style.display='block ' // hide if no match
     }
-  </script>
+  });
+
+  // Show or hide "no city found" message
+  const noCity = document.getElementById('no_city');
+  if (matchFound) {
+    noCity.style.display = 'none';
+  } else {
+    noCity.style.display = 'block';
+  }
+}
+
+</script>
+
 
 @endsection
