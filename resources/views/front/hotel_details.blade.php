@@ -433,7 +433,7 @@ function updateGuestCounts() {
         }
     }
 
-    function updateGuests(type, delta) {
+    function updateGuestss(type, delta) {
         const countElement = document.getElementById(type + '-count');
         let count = parseInt(countElement.value);
         count += delta;
