@@ -385,25 +385,34 @@ function updateGuestCounts() {
     const nightCost = {{ $hotel_price->night_cost ?? 0 }}; // Default to 0 if null
 
     function updateNightCount() {
-        const checkInDate = document.getElementById('check_in_date').value;
-        const checkOutDate = document.getElementById('check_out_date').value;
-        
-        if (checkInDate && checkOutDate) {
-            const checkIn = new Date(checkInDate);
-            const checkOut = new Date(checkOutDate);
+    const checkInDate = document.getElementById('check_in_date').value;
+    const checkOutDate = document.getElementById('check_out_date').value;
 
-            // Calculate the number of nights
-            const timeDiff = checkOut - checkIn;
-            const nightCount = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
+    if (checkInDate && checkOutDate) {
+        const checkIn = new Date(checkInDate);
+        const checkOut = new Date(checkOutDate);
 
-            if (nightCount > 0) {
-                document.getElementById('night_count').value = nightCount;
-                updatePrice(nightCount, checkInDate, checkOutDate);
-            } else {
-                alert("Check-out date must be later than check-in date.");
-            }
+        // Calculate the number of nights
+        const timeDiff = checkOut - checkIn;
+        const nightCount = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
+
+        if (nightCount > 0) {
+            // Set night count
+            document.getElementById('night_count').value = nightCount;
+
+            // 🔹 Get infants count
+            const infantsCount = parseInt(document.getElementById('infants-count').value) || 0;
+
+            // 🔹 Set room_count = infantsCount (or append logic if needed)
+            document.getElementById('room_count').value = infantsCount;
+
+            // Update price
+            updatePrice(nightCount, checkInDate, checkOutDate);
+        } else {
+            alert("Check-out date must be later than check-in date.");
         }
     }
+}
 
     function updatePrice(nightCount, checkInDate, checkOutDate) {
         const checkIn = new Date(checkInDate);
