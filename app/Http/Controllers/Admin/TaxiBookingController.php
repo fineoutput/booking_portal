@@ -160,7 +160,7 @@ class TaxiBookingController extends Controller
         // Save the changes
         $vehicle->save();
     
-        return redirect()->back()->with('success', 'Safari Order status updated successfully!');
+        return redirect()->back()->with('success', 'Order status updated successfully!');
     }
 
     function localtourindex(){
