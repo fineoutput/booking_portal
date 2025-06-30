@@ -1661,7 +1661,7 @@ if ($max_price) {
             $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get(); 
             $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get(); 
 
-        return view('guide', $data);
+        return view('front/guide', $data);
     }
 
     public function getLanguagesByCity($cityId)
