@@ -390,6 +390,7 @@ class HomeController extends Controller
             // return $packageIds;
 
             $data['hotels'] = Hotels::whereIn('package_id', $packageIds)->get();
+            // return $data['hotels'];
             $data['hotels_data'] = HotelBooking2::with('tourists')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
 
             $data['WildlifeSafari_data'] = WildlifeSafariOrder2::with('tourists')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
@@ -1287,8 +1288,16 @@ if ($max_price) {
 
     public function add_package_booking(Request $request, $id)
     {
-        
-       
+
+         if (!Auth::guard('agent')->check()) {
+            // Store the form data in session
+            session()->put('booking_form_data', $request->all());
+            // Store the redirect URL (to return to after login)
+            session()->put('redirect_after_login', url()->previous());
+
+            return redirect()->route('login');
+        }
+
         $start_date = Carbon::parse($request->start_date);
         $end_date = Carbon::parse($request->end_date);
         
@@ -1703,6 +1712,14 @@ if ($max_price) {
             'languages_id' => 'required',
         ]);
  
+          if (!Auth::guard('agent')->check()) {
+            
+            session()->put('guide_form_data', $request->all());
+            session()->put('redirect_after_login', url()->previous());
+
+            return redirect()->route('login');
+        }
+
         $trip = TripGuide::where('id', $request->tour_guide_id)->first();
     
         if ($trip) {

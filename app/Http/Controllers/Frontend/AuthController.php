@@ -392,36 +392,65 @@ private function sendOtp($phone = null, $email = null)
 }
 
 
+  public function agentLoginWithEmail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required',
+            'password' => 'required',
+        ]);
 
-public function agentLoginWithEmail(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'email' => 'required',
-        'password' => 'required',
-    ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
+        $credentials = $request->only('email', 'password');
+
+        if (!Auth::guard('agent')->attempt($credentials)) {
+            return redirect()->back()->with('error', 'Invalid credentials. Please check your email and password.');
+        }
+
+        $user = Auth::guard('agent')->user();
+
+        if ($user->approved != 1) {
+            return redirect()->back()->with('error', 'Your account is not approved by the admin.');
+        }
+
+        // Check if redirect URL exists in session
+        $redirectUrl = session()->pull('redirect_after_login', route('index'));
+
+        return redirect($redirectUrl)->with('message', 'Login successful.');
     }
 
-    $credentials = $request->only('email', 'password');
+
+// public function agentLoginWithEmail(Request $request)
+// {
+//     $validator = Validator::make($request->all(), [
+//         'email' => 'required',
+//         'password' => 'required',
+//     ]);
+
+//     if ($validator->fails()) {
+//         return redirect()->back()->withErrors($validator)->withInput();
+//     }
+
+//     $credentials = $request->only('email', 'password');
     
-    if (!Auth::guard('agent')->attempt($credentials)) {
-        return redirect()->back()->with('error', 'Invalid credentials. Please check your email and password.');
-    }
+//     if (!Auth::guard('agent')->attempt($credentials)) {
+//         return redirect()->back()->with('error', 'Invalid credentials. Please check your email and password.');
+//     }
 
-    $user = Auth::guard('agent')->user();
-    Auth::login($user);
+//     $user = Auth::guard('agent')->user();
+//     Auth::login($user);
 
-    if ($user->approved != 1) {
-        return redirect()->back()->with('error', 'Your account is not approved by the admin. Please wait for approval.');
-    }
+//     if ($user->approved != 1) {
+//         return redirect()->back()->with('error', 'Your account is not approved by the admin. Please wait for approval.');
+//     }
 
-    // No need for this line as 'attempt' already handles the login
-    // Auth::guard('agent')->login($user);
+//     // No need for this line as 'attempt' already handles the login
+//     // Auth::guard('agent')->login($user);
 
-    return redirect()->route('index')->with('message', 'Login successful.');
-}
+//     return redirect()->route('index')->with('message', 'Login successful.');
+// }
 
 
 

@@ -182,28 +182,10 @@
                     </div>
                 </div>
                 <div class="hazars">
-                    <form method="POST" action="{{route('add_package_booking', ['id' => $packages->id])}}" class="needs-validation" novalidate>
+                    {{-- <form method="POST" action="{{route('add_package_booking', ['id' => $packages->id])}}" class="needs-validation" novalidate>
                         @csrf
                     
-                        <!-- Date Range -->
-                        {{-- <div class="row g-3 mb-3">
-                            <div class="col-md-6 loc_stl">
-                                <div class="rj_vk">
-                                    <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
-                                    <label for="startDate" class="form-label">Start Date</label>
-                                </div>
-                                <input name="start_date" type="date" id="startDate" class="form-control no-form" required>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="rj_vk">
-                                    <img style="width: 20px;" src="{{asset('frontend/images/schedule.png')}}" alt="">
-                                    <label for="endDate" class="form-label">End Date</label>
-                                </div>
-                                <input name="end_date" type="date" id="endDate" class="form-control no-form" required>
-                            </div>
-                        </div>
-                     --}}
-
+                     
                      <div class="row g-3 mb-3">
                         <div class="col-md-6 loc_stl">
                             <div class="rj_vk">
@@ -344,7 +326,176 @@
                                 @endif
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
+
+
+                    <form method="POST" action="{{ route('add_package_booking', ['id' => $packages->id]) }}" class="needs-validation" novalidate>
+    @csrf
+
+    {{-- Start & End Dates --}}
+    <div class="row g-3 mb-3">
+        <div class="col-md-6 loc_stl">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/schedule.png') }}" alt="">
+                <label for="startDate" class="form-label">Start Date</label>
+            </div>
+            <input name="start_date" type="date" id="startDate" class="form-control no-form" required
+                value="{{ old('start_date', session('booking_form_data.start_date')) }}">
+        </div>
+        <div class="col-md-6">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/schedule.png') }}" alt="">
+                <label for="endDate" class="form-label">End Date</label>
+            </div>
+            <input name="end_date" type="date" id="endDate" class="form-control no-form" required
+                value="{{ old('end_date', session('booking_form_data.end_date')) }}">
+        </div>
+    </div>
+
+    <div class="row g-3">
+        {{-- Adults --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/couple.png') }}" alt="">
+                <label for="adults" class="form-label">No. of Adults</label>
+            </div>
+            <input name="adults_count" type="number" id="adults" class="form-control no-form" min="1" required
+                value="{{ old('adults_count', session('booking_form_data.adults_count')) }}" placeholder="Adults">
+        </div>
+
+        {{-- Kids with bed --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/cot.png') }}" alt="">
+                <label for="kidsWithBed" class="form-label">Kids with Bed</label>
+            </div>
+            <input name="child_with_bed_count" type="number" id="kidsWithBed" class="form-control no-form" min="0" required
+                value="{{ old('child_with_bed_count', session('booking_form_data.child_with_bed_count')) }}" placeholder="Kids with bed">
+        </div>
+
+        {{-- Kids without bed --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
+                <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
+            </div>
+            <input name="child_no_bed_child_count" type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required
+                value="{{ old('child_no_bed_child_count', session('booking_form_data.child_no_bed_child_count')) }}" placeholder="Kids without bed">
+        </div>
+
+        {{-- Extra Bed --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/extra-bed.png') }}" alt="">
+                <label for="extraBed" class="form-label">Extra Bed</label>
+            </div>
+            <select id="extraBed" name="extra_bed" class="form-select no-form-select" required>
+                <option value="yes" {{ old('extra_bed', session('booking_form_data.extra_bed')) == 'yes' ? 'selected' : '' }}>Yes</option>
+                <option value="no" {{ old('extra_bed', session('booking_form_data.extra_bed')) == 'no' ? 'selected' : '' }}>No</option>
+            </select>
+        </div>
+
+        {{-- Meal Plan --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/breakfast.png') }}" alt="">
+                <label for="mealPlan" class="form-label">Meal Plan</label>
+            </div>
+            <select id="mealPlan" name="meal" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.meal') ? 'selected' : '' }}>Select meal plan</option>
+                @foreach(['only_room', 'breakfast', 'breakfast_lunch', 'breakfast_dinner', 'all_meals'] as $meal)
+                    <option value="{{ $meal }}" {{ old('meal', session('booking_form_data.meal')) == $meal ? 'selected' : '' }}>
+                        {{ ucwords(str_replace('_', ' + ', $meal)) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Hotel Preference --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
+                <label for="hotelPreference" class="form-label">Hotel Preference</label>
+            </div>
+            <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.hotel_preference') ? 'selected' : '' }}>Select preference</option>
+                @foreach(['standard_cost' => 'Standard (1 star)', 'deluxe_cost' => 'Deluxe (3 star)', 'super_deluxe_cost' => 'Deluxe (4 star)', 'luxury_cost' => 'Deluxe (5 star)', 'premium_3_cost' => 'Premium (3 star)', 'premium_cost' => 'Premium (4 star)', 'premium_5_cost' => 'Premium (5 star)', 'hostels' => 'Hostels'] as $key => $label)
+                    <option value="{{ $key }}" {{ old('hotel_preference', session('booking_form_data.hotel_preference')) == $key ? 'selected' : '' }}>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Vehicle Options --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/sport-car.png') }}" alt="">
+                <label for="vehicleOptions" class="form-label">Vehicle Options</label>
+            </div>
+            <select id="vehicleOptions" name="vehicle_options" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.vehicle_options') ? 'selected' : '' }}>Select vehicle</option>
+                @foreach([
+                    'hatchback_cost' => 'Hatchback',
+                    'sedan_cost' => 'Sedan',
+                    'luxury_sedan_cost' => 'Luxury Sedan',
+                    'economy_suv_cost' => 'Compact SUV',
+                    'suv_cost' => 'SUV',
+                    'muv_cost' => 'MUV',
+                    'luxury_suv_cost' => 'Luxury SUV',
+                    'traveller_mini_cost' => 'Traveller (7-12 pass)',
+                    'traveller_big_cost' => 'Traveller (12-21 pass)',
+                    'premium_traveller_cost' => 'Premium traveller (10-16 pass)',
+                    'ac_coach_cost' => 'Bus (AC)',
+                    'bus_nonac_cost' => 'Bus ( Non AC )'
+                ] as $value => $label)
+                    <option value="{{ $value }}" {{ old('vehicle_options', session('booking_form_data.vehicle_options')) == $value ? 'selected' : '' }}>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Booking Source --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/booking.png') }}" alt="">
+                <label for="bookingSource" class="form-label">Booking Source</label>
+            </div>
+            <select id="bookingSource" name="booking_source" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.booking_source') ? 'selected' : '' }}>Select source</option>
+                <option value="direct" {{ old('booking_source', session('booking_form_data.booking_source')) == 'direct' ? 'selected' : '' }}>Direct Booking</option>
+                <option value="reference" {{ old('booking_source', session('booking_form_data.booking_source')) == 'reference' ? 'selected' : '' }}>Reference</option>
+                <option value="online" {{ old('booking_source', session('booking_form_data.booking_source')) == 'online' ? 'selected' : '' }}>Online</option>
+            </select>
+        </div>
+
+        {{-- Travel Insurance --}}
+        <div class="col-12 form-check">
+            <input class="form-check-input" name="travelinsurance" type="checkbox" id="travelInsurance"
+                {{ old('travelinsurance', session('booking_form_data.travelinsurance')) ? 'checked' : '' }}>
+            <label class="form-check-label" for="travelInsurance">Add Travel Insurance</label>
+        </div>
+
+        {{-- Special Remarks --}}
+        <div class="col-12 mb-3">
+            <label for="specialRemarks" class="form-label">Special Remarks</label>
+            <textarea name="specialremarks" id="specialRemarks" class="form-control" rows="3">{{ old('specialremarks', session('booking_form_data.specialremarks')) }}</textarea>
+        </div>
+
+        {{-- Submit Button --}}
+        <div class="col-12">
+                <button class="btn btn-primary w-100" type="submit">Submit</button>
+
+            {{-- @if(Auth::guard('agent')->check())
+                <button class="btn btn-primary w-100" type="submit">Submit</button>
+            @else
+                <a class="btn btn-primary w-100" href="{{ route('login') }}">Submit</a>
+            @endif --}}
+        </div>
+    </div>
+</form>
+
+@php
+    // Clear session after use
+    session()->forget('booking_form_data');
+@endphp
                     
                 </div>
 
