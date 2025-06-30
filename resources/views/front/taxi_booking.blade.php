@@ -407,9 +407,9 @@
                         </div>
                         <select name="destination_city" class="form-select no-form-select" id="destination-city" onchange="updateVehicleList()">
                           <option value="">Destination City</option>
-                          @foreach($route as $value)
+                          @foreach($outstation as $value)
                               <option value="{{ $value->id ?? '' }}">
-                                  {{ $value->from_destination ?? ''}} - {{ $value->to_destination ?? '' }}
+                                  {{ $value->Route->from_destination ?? ''}} - {{ $value->Route->to_destination ?? '' }}
                               </option>
                           @endforeach
                         </select>
@@ -876,6 +876,8 @@
 
   function updateVehicleList() {
     const destinationCityId = document.getElementById("destination-city").value;
+     console.log(destinationCityId,'asdvbgiahsgihdbiasi');
+
     const vehicleSelect = document.getElementById("vehicle-selectss");
     vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
 
@@ -886,6 +888,7 @@
 
       matchingOutstation.forEach(outstation => {
         const matchingVehicle = vehicleData.find(vehicle => vehicle.id == outstation.vehicle_type);
+        console.log(matchingVehicle, 'asdvbgiahsgihdbiasi');
         if (matchingVehicle) {
           const option = document.createElement("option");
           option.value = matchingVehicle.id;
