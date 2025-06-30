@@ -62,7 +62,7 @@ class TaxiBookingController extends Controller
             $agentCall->caller_id = Auth::id();
             $agentCall->save();  
 
-            return redirect()->route('taxi-booking')->with('success', 'Agent Call Transfer successfully!');
+            return redirect()->back()->with('success', 'Agent Call Transfer successfully!');
         }
         $data['states'] = State::all();
         $data['agentCalls'] = TaxiBooking2::where('id',$id)->first();
