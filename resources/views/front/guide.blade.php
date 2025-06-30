@@ -200,84 +200,79 @@ asset('frontend/images/hotel_main.avif')
                 <div class="sharan_side_box">
                     <div class="stand_it">
                         <div class="outer_box">
+
                           <form action="{{ route('bookguide') }}" method="POST">
-                            @csrf
-                            <div class="inner_box">
-                                <div class="inner_price">
-                                    <span style="color: rgb(106, 106, 106);"><del></del></span>
-                                    <p id="price-display">Price : ₹</p> 
-                                </div>
+    @csrf
+    <div class="inner_box">
+        <div class="inner_price">
+            <p id="price-display">Price : ₹{{ old('cost', session('guide_form_data.cost')) }}</p>
+        </div>
 
-                                <input type="hidden" name="tour_guide_id" id="tour_guide_id" value="{{ old('tour_guide_id', session('guide_form_data.tour_guide_id')) }}">
-                                <input type="hidden" name="cost" id="cost" value="{{ old('cost', session('guide_form_data.cost')) }}">
+        <input type="hidden" name="tour_guide_id" id="tour_guide_id"
+            value="{{ old('tour_guide_id', session('guide_form_data.tour_guide_id')) }}">
+        <input type="hidden" name="cost" id="cost"
+            value="{{ old('cost', session('guide_form_data.cost')) }}">
 
-                                <div class="checks">
-                                    <div class="bors">
-                                        {{-- City --}}
-                                        <div class="caranke">
-                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('city_id')">
-                                                <div class="filter-label_hotels">City</div>
-                                                <select class="form-control" id="city" name="city_id">
-                                                    <option value="" disabled {{ !session('guide_form_data.city_id') ? 'selected' : '' }}>Select</option>
-                                                    @foreach ($city as $c)
-                                                        <option value="{{ $c->id }}" {{ old('city_id', session('guide_form_data.city_id')) == $c->id ? 'selected' : '' }}>
-                                                            {{ $c->city_name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+        <div class="checks">
+            <div class="bors">
+                {{-- City --}}
+                <div class="caranke">
+                    <div class="filter-item_hotels sachi">
+                        <div class="filter-label_hotels">City</div>
+                        <select class="form-control" id="city" name="city_id" required>
+                            <option value="" disabled {{ !session('guide_form_data.city_id') ? 'selected' : '' }}>Select</option>
+                            @foreach ($city as $c)
+                                <option value="{{ $c->id }}"
+                                    {{ old('city_id', session('guide_form_data.city_id')) == $c->id ? 'selected' : '' }}>
+                                    {{ $c->city_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
-                                        {{-- Language --}}
-                                        <div class="caranke">
-                                            <div class="filter-item_hotels sachi" onclick="toggleDropdown('language')">
-                                                <div class="filter-label_hotels">Language</div>
-                                                <select class="form-control" name="languages_id" id="language">
-                                                    <option value="" disabled {{ !session('guide_form_data.languages_id') ? 'selected' : '' }}>Select</option>
-                                                    {{-- You may want to dynamically populate this via JS after selecting a city --}}
-                                                    @if(session('guide_languages'))
-                                                        @foreach(session('guide_languages') as $lang)
-                                                            <option value="{{ $lang['id'] }}" {{ session('guide_form_data.languages_id') == $lang['id'] ? 'selected' : '' }}>
-                                                                {{ $lang['name'] }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                {{-- Language --}}
+                <div class="caranke">
+                    <div class="filter-item_hotels sachi">
+                        <div class="filter-label_hotels">Language</div>
+                        <select class="form-control" name="languages_id" id="language" required>
+                            <option value="" disabled>Select</option>
+                            @if(session('guide_languages'))
+                                @foreach(session('guide_languages') as $lang)
+                                    <option value="{{ $lang['id'] }}"
+                                        {{ session('guide_form_data.languages_id') == $lang['id'] ? 'selected' : '' }}>
+                                        {{ $lang['name'] }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-                                    <hr>
+            <hr>
 
-                                    {{-- Guide Type Radio --}}
-                                    <div class="guide-selection">
-                                        <label class="guide-option">
-                                            <input name="guide_type" type="radio" value="Local" {{ old('guide_type', session('guide_form_data.guide_type')) == 'Local' ? 'checked' : '' }}>
-                                            <span class="custom-radio"></span>
-                                            Local Guide
-                                        </label>
-                                        <label class="guide-option">
-                                            <input name="guide_type" type="radio" value="Outstation" {{ old('guide_type', session('guide_form_data.guide_type')) == 'Outstation' ? 'checked' : '' }}>
-                                            <span class="custom-radio"></span>
-                                            Outstation Guide
-                                        </label>
-                                    </div>
-                                </div>
+            {{-- Guide Type --}}
+            <div class="guide-selection">
+                <label class="guide-option">
+                    <input name="guide_type" type="radio" value="Local"
+                        {{ old('guide_type', session('guide_form_data.guide_type')) == 'Local' ? 'checked' : '' }}>
+                    <span class="custom-radio"></span> Local Guide
+                </label>
+                <label class="guide-option">
+                    <input name="guide_type" type="radio" value="Outstation"
+                        {{ old('guide_type', session('guide_form_data.guide_type')) == 'Outstation' ? 'checked' : '' }}>
+                    <span class="custom-radio"></span> Outstation Guide
+                </label>
+            </div>
+        </div>
 
-                                {{-- Submit Button --}}
-                                <div class="live_set mt-3">
-                                    @if(Auth::guard('agent')->check())
-                                        <button class="btn btn-info gggsd" type="submit">Reserve</button>
-                                    @else
-                                        <a class="btn btn-info gggsd" href="{{ route('login') }}">Reserve</a>
-                                    @endif
-                                </div>
-                            </div>
-                        </form>
+        <div class="live_set mt-3">
+            <button class="btn btn-info gggsd" type="submit">Reserve</button>
+        </div>
+    </div>
+</form>
 
-                        @php
-                            session()->forget('guide_form_data');
-                        @endphp
                         </div>
                     </div>
                 </div>

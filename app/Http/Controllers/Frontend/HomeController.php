@@ -1704,56 +1704,50 @@ if ($max_price) {
 
 
 
-    public function bookguide(Request $request)
+  public function bookguide(Request $request)
     {
-        // Validate the request data
+        // Validate required inputs first (only for session saving purpose)
         $validated = $request->validate([
             'city_id' => 'required',
             'languages_id' => 'required',
+            'guide_type' => 'required',
         ]);
- 
-          if (!Auth::guard('agent')->check()) {
-            
-            session()->put('guide_form_data', $request->all());
-            session()->put('redirect_after_login', url()->previous());
 
+        // 🔐 If user is NOT logged in, store data in session and redirect to login
+        if (!Auth::guard('agent')->check()) {
+            session()->put('guide_form_data', $request->all());
+            session()->put('redirect_after_login', url()->previous()); // store current page
             return redirect()->route('login');
         }
 
-        $trip = TripGuide::where('id', $request->tour_guide_id)->first();
-    
-        if ($trip) {
-            $guideTypes = explode(',', $trip->guide_type);
-            // return $request->guide_type;
-
-            if (in_array($request->guide_type, $guideTypes)) {
-
-                $TripGuide = new TripGuideBook();
-                $TripGuide->user_id = Auth::guard('agent')->id();
-                $TripGuide->tour_guide_id = $request->tour_guide_id;
-                $TripGuide->languages_id = $request->languages_id;
-                $TripGuide->state_id = $request->state_id;
-                $TripGuide->location = $request->location;
-                $TripGuide->guide_type = $request->guide_type;  // Store the guide_type
-                $TripGuide->cost = $request->cost;
-                $TripGuide->status = 0;
-    
-                // Save the TripGuideBook record
-                $TripGuide->save();
-    
-                // Redirect to confirmation page with the TripGuide ID
-                return redirect()->route('guide_confirmation', ['id' => base64_encode($TripGuide->id)])
-                    ->with('success', 'Tour Guide booked successfully!');
-            } else {
-                // If the guide_type does not match, flash an error message to the session
-                return redirect()->back()->with('message', 'The selected guide type is not valid for this tour guide.');
-            }
-        } else {
-            // Handle the case where the TripGuide is not found
-            return redirect()->back()->with('message', 'Tour guide not found.');
+        // 🟢 Logged in: Continue with booking
+        $trip = TripGuide::find($request->tour_guide_id);
+        if (!$trip) {
+            return back()->with('message', 'Tour guide not found.');
         }
+
+        $guideTypes = explode(',', $trip->guide_type);
+        if (!in_array($request->guide_type, $guideTypes)) {
+            return back()->with('message', 'The selected guide type is not valid for this tour guide.');
+        }
+
+        $booking = new TripGuideBook();
+        $booking->user_id = Auth::guard('agent')->id();
+        $booking->tour_guide_id = $request->tour_guide_id;
+        $booking->languages_id = $request->languages_id;
+        $booking->state_id = $request->state_id;
+        $booking->location = $request->location;
+        $booking->guide_type = $request->guide_type;
+        $booking->cost = $request->cost;
+        $booking->status = 0;
+        $booking->save();
+
+        session()->forget('guide_form_data'); // 🔄 clear old data after save
+
+        return redirect()->route('guide_confirmation', ['id' => base64_encode($booking->id)])
+            ->with('success', 'Tour Guide booked successfully!');
     }
-    
+        
 
 
     public function successResponse($message, $status = true, $statusCode = 201)

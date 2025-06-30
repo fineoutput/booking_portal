@@ -392,7 +392,7 @@ private function sendOtp($phone = null, $email = null)
 }
 
 
-  public function agentLoginWithEmail(Request $request)
+ public function agentLoginWithEmail(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required',
@@ -412,15 +412,20 @@ private function sendOtp($phone = null, $email = null)
         $user = Auth::guard('agent')->user();
 
         if ($user->approved != 1) {
+            Auth::guard('agent')->logout(); // Make sure unapproved user is logged out
             return redirect()->back()->with('error', 'Your account is not approved by the admin.');
         }
 
-        // Check if redirect URL exists in session
-        $redirectUrl = session()->pull('redirect_after_login', route('index'));
+        // ✅ Pull redirect URL from session
+        $redirectUrl = session()->pull('redirect_after_login');
 
-        return redirect($redirectUrl)->with('message', 'Login successful.');
+        if ($redirectUrl) {
+            return redirect($redirectUrl)->with('message', 'Login successful.');
+        }
+
+        // Fallback redirect if session not set
+        return redirect()->route('index')->with('message', 'Login successful.');
     }
-
 
 // public function agentLoginWithEmail(Request $request)
 // {
