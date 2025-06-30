@@ -416,15 +416,9 @@ private function sendOtp($phone = null, $email = null)
             return redirect()->back()->with('error', 'Your account is not approved by the admin.');
         }
 
-        // ✅ Pull redirect URL from session
-        $redirectUrl = session()->pull('redirect_after_login');
-
-        if ($redirectUrl) {
-            return redirect($redirectUrl)->with('message', 'Login successful.');
-        }
-
-        // Fallback redirect if session not set
-        return redirect()->route('index')->with('message', 'Login successful.');
+         $redirectUrl = session()->pull('redirect_after_login');
+          return redirect()->to($redirectUrl ?: route('index'))
+                    ->with('message', 'Login successful.');
     }
 
 // public function agentLoginWithEmail(Request $request)

@@ -1622,19 +1622,46 @@ if ($max_price) {
 
     }
 
-    public function guide()
-    {
-        // $data['tripguide'] = TripGuide::latest()->first();
-        // $data['slider'] = Slider::orderBy('id','DESC')->where('type','guide')->get();
-        // $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
-        // return view('front/guide',$data);
+    // public function guide()
+    // {
+    //     // $data['tripguide'] = TripGuide::latest()->first();
+    //     // $data['slider'] = Slider::orderBy('id','DESC')->where('type','guide')->get();
+    //     // $data['state'] = State::where('id',$data['tripguide']->state_id)->first();
+    //     // return view('front/guide',$data);
         
-        $data['tripguide'] = TripGuide::latest()->get(); 
-        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'guide')->get();
-        $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get(); 
-        $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get(); 
-        return view('front/guide', $data);
+    //     $data['tripguide'] = TripGuide::latest()->get(); 
+    //     $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'guide')->get();
+    //     $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get(); 
+    //     $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get(); 
+    //     return view('front/guide', $data);
 
+    // }
+
+    public function guide(Request $request)
+    {
+        $data['city'] = City::all();
+
+        // Agar guest submit karne ke baad redirect ho ke form par wapas aa rahe hain
+        if (session()->has('guide_form_data.city_id')) {
+            $cityId = session('guide_form_data.city_id');
+
+            $langs = TripGuide::where('city_id', $cityId)
+                ->pluck('languages_id')
+                ->unique();
+
+            $guide_languages = Languages::whereIn('id', $langs)
+                ->get()
+                ->map(fn($l) => ['id' => $l->id, 'name' => $l->language_name]);
+            
+            session(['guide_languages' => $guide_languages]);
+        }
+
+            $data['tripguide'] = TripGuide::latest()->get(); 
+            $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'guide')->get();
+            $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get(); 
+            $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get(); 
+
+        return view('guide', $data);
     }
 
     public function getLanguagesByCity($cityId)
@@ -1713,14 +1740,13 @@ if ($max_price) {
             'guide_type' => 'required',
         ]);
 
-        // 🔐 If user is NOT logged in, store data in session and redirect to login
         if (!Auth::guard('agent')->check()) {
-            session()->put('guide_form_data', $request->all());
-            session()->put('redirect_after_login', url()->previous()); // store current page
+            // session me user ke form selections save karo
+            session(['guide_form_data' => $request->all()]);
+            session(['redirect_after_login' => url()->previous()]);
             return redirect()->route('login');
         }
 
-        // 🟢 Logged in: Continue with booking
         $trip = TripGuide::find($request->tour_guide_id);
         if (!$trip) {
             return back()->with('message', 'Tour guide not found.');
