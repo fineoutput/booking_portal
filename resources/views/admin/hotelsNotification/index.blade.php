@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">Hotel Prefrence Request</h4>
+          <h4 class="page-title">Notification</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Hotel Prefrence Request</a></li>
-            <li class="breadcrumb-item active">Hotel Prefrence Request</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Notification</a></li>
+            <li class="breadcrumb-item active">Notification</li>
           </ol>
         </div>
       </div>
@@ -59,6 +59,7 @@
                         <th data-priority="1">Hotel Category</th>
                         <th data-priority="6">Date</th>
                         <th data-priority="1">Images</th>
+                        <th data-priority="1">Action</th>
                       </tr>
                     </thead>
                    <tbody>
@@ -82,6 +83,7 @@
                             <img src="" alt="">
                             @endif
                         </td>
+                        <td><a href="{{ route('hotelprefrencerequest', ['id' => $value->booking_id]) }}">View</a></td>
 
 
 

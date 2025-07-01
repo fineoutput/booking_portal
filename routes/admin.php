@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\PackagePriceController;
 use App\Http\Controllers\Admin\AgentCallsController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\HotelCallsController;
 use App\Http\Controllers\Admin\HotelsPriceController;
 use App\Http\Controllers\Admin\TaxiBookingController;
@@ -455,6 +456,10 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::match(['get','post'],'/remark-customercalls/create/{id}', [TransferCustomerCallesController::class, 'remarkcreate'])->name('remarkcustomercalls.create');
 
     Route::get('/view-customercalls/remark/{id}', [TransferCustomerCallesController::class, 'viewremark'])->name('customerview.remark');
+
+
+    Route::get('notification/hotel', [NotificationController::class, 'index'])->name('notificationhotel');
+
     
 });
    

@@ -194,7 +194,7 @@
 
                 <div class="col-lg-4">
                     <form action="{{ route('add_hotel_booking',['id'=>$hotel->id]) }}" method="POST">
-                        @csrf
+                    @csrf
                     <div class="sharan_side_box">
                         <div class="stand_it">
                             <div class="outer_box">

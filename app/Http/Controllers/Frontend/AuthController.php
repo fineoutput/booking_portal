@@ -410,6 +410,7 @@ private function sendOtp($phone = null, $email = null)
         }
 
         $user = Auth::guard('agent')->user();
+         Auth::login($user);
 
         if ($user->approved != 1) {
             Auth::guard('agent')->logout(); // Make sure unapproved user is logged out

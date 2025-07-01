@@ -1603,7 +1603,13 @@ if ($max_price) {
 
     public function add_wildlife_booking(Request $request,$id)
     {
-        // return $request;
+               if (!Auth::guard('agent')->check()) {
+        // Save form data to session before redirect to login
+        session(['wildlife_booking_form_data' => $request->all()]);
+        return redirect()->route('login');
+    }
+
+
         $wildlife = new WildlifeSafariOrder();
         $wildlife->user_id = Auth::guard('agent')->id();
         $wildlife->safari_id = $id;
@@ -1641,7 +1647,6 @@ if ($max_price) {
     {
         $data['city'] = City::all();
 
-        // Agar guest submit karne ke baad redirect ho ke form par wapas aa rahe hain
         if (session()->has('guide_form_data.city_id')) {
             $cityId = session('guide_form_data.city_id');
 

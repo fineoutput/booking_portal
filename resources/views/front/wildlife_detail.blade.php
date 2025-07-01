@@ -450,10 +450,10 @@
     function updateTotal() {
         let adults = parseInt(document.getElementById('adults-count').value);
         let children = parseInt(document.getElementById('children-count').value);
-        let infants = parseInt(document.getElementById('infants-count').value);
+        // let infants = parseInt(document.getElementById('infants-count').value);
 
         // Calculate total price based on guests
-        totalPrice = wildlifeCost * (adults + children + infants);
+        totalPrice = wildlifeCost * (adults + children );
 
         // Add vehicle price if selected
         let vehicleType = document.getElementById('car-input-round').value;
@@ -469,7 +469,7 @@
         // Update hidden input fields for submission
         document.getElementById('total-price').value = totalPrice;
         document.getElementById('selected-vehicle').value = vehicleType;
-        document.getElementById('guest-count').value = adults + children + infants;
+        document.getElementById('guest-count').value = adults + children;
     }
 
     // Handle vehicle selection
