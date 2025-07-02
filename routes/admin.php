@@ -133,6 +133,8 @@ Route::group(['middleware'=>'admin.auth'],function(){
    Route::get('/package', [PackageController::class, 'index'])->name('package');
 
    Route::post('/show_front/{id}', [PackageController::class, 'showFront'])->name('show_front');
+   Route::post('/holiday-package/{id}', [PackageController::class, 'holidaypackage'])->name('holidaypackage');
+   Route::post('/travel-package/{id}', [PackageController::class, 'travelpackage'])->name('travelpackage');
 
 
    Route::match(['get','post'],'/package/create', [PackageController::class, 'create'])->name('add_package');

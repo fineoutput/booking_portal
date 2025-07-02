@@ -21,6 +21,8 @@ class Package extends Model
         'text_description',
         'text_description_2',
         'show_front',
+        'holidaypackage',
+        'travelpackage',
         'night_count',
     ];
 

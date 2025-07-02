@@ -370,6 +370,40 @@ class PackageController extends Controller
         ]);
     }
 
+    public function holidaypackage($id, Request $request)
+    {
+        $validated = $request->validate([
+            'holidaypackagevalue' => 'required|in:0,1',
+        ]);
+
+        $pkg = Package::findOrFail($id);
+        $pkg->holidaypackage = $request->input('holidaypackagevalue');
+        $pkg->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Holiday package visibility updated successfully!',
+            'holidaypackagevalue' => $pkg->holidaypackage
+        ]);
+    }
+
+    public function travelpackage($id, Request $request)
+    {
+        $validated = $request->validate([
+            'travelpackage' => 'required|in:0,1',
+        ]);
+
+        $pkg = Package::findOrFail($id);
+        $pkg->travelpackage = $request->input('travelpackage');
+        $pkg->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Travel package visibility updated successfully!',
+            'travelpackage' => $pkg->travelpackage
+        ]);
+    }
+
 
     public function destroy($id)
     {
