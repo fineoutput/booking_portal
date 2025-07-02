@@ -121,8 +121,9 @@ class HomeController extends Controller
     // ->groupBy('package.city_id', 'package_booking.package_temp_id')
     // ->orderByDesc('bookings_count')
     // ->get();
-    $data['popularCities'] = Package::where('show_front',1)->get();
-    $data['popularhotels'] = Hotels::where('show_front',1)->get();
+    $data['popularCities'] = Package::where('holidaypackage',1)->get();
+    $data['popularhotels'] = Package::where('travelpackage',1)->get();
+    // $data['popularhotels'] = Hotels::where('show_front',1)->get();
 // if ($popularCities->isEmpty()) {
 //     $data['popularCities'] = [];
 // } else {
