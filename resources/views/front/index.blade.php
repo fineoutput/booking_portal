@@ -263,7 +263,8 @@
                                         <p><b>{{ $value->package_name ?? '' }}</b></p>
                                     </div>
                                     <div class="gall_place">
-                                        <h4>{{ $value->cities->city_name ?? '' }}</h4>
+                                        <h4>{{ \Illuminate\Support\Str::limit($value->cities->city_name ?? '', 20) }}</h4>
+
                                     </div>
                                 </div>
                             </div>
