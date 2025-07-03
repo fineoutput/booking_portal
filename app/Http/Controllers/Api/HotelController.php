@@ -313,6 +313,8 @@ class HotelController extends Controller
 
                 return [
                     'id' => $package->id,
+                    'holidaypackage' => $package->holidaypackage,
+                    'travelpackage' => $package->travelpackage,
                     'package_name' => $package->package_name,
                     'state_names' => $stateNames, 
                     'city_names' => $cityNames,
