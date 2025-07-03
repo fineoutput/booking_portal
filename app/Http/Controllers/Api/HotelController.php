@@ -255,7 +255,7 @@ class HotelController extends Controller
                 });
             }
 
-            $packages = $query->get();
+            $packages = $query->orderBy('id','DESC')->get();
 
             $states = State::all()->pluck('state_name', 'id');
             $cities = City::all()->pluck('city_name', 'id');
