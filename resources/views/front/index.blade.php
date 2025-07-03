@@ -286,7 +286,7 @@
                             <div class="gallery_loc">
                                 <div class="inner_gallery_loc">
                                   @php
-                                  $images = json_decode($value->images); 
+                                  $images = json_decode($value->image); 
                               @endphp
                               
                               @if($images && is_array($images) && count($images) > 0)
@@ -298,11 +298,11 @@
                                 </div>
                                 <div class="inner_gallery_loc_txt">
                                     <div class="type_gallery">
-                                        <p><b>{{ $value->name ?? '' }}</b>
+                                        <p><b>{{ $value->package_name ?? '' }}</b>
                                     </div>
-                                    <div class="gall_place">
+                                    {{-- <div class="gall_place">
                                         <h4>{{ $value->cities->city_name ?? '' }}</h4>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
