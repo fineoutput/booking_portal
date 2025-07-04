@@ -125,7 +125,7 @@ ul#city-checkboxes {
                                             </ul>
                                         </div>
 
-                                        @error('city')
+                                        @error('city_id')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
