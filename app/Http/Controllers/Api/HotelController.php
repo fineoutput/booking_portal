@@ -2548,6 +2548,7 @@ public function getLanguages(Request $request)
     
                 // Add booking_name for hotel bookings
                 $booking->booking_name = 'hotel';
+                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
                 $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
                 $bookings->push($booking); // Add hotel booking to the collection
             }
@@ -2580,6 +2581,7 @@ public function getLanguages(Request $request)
     
                 // Add booking_name for package bookings
                 $booking->booking_name = 'package';
+                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
                 $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
                 $bookings->push($booking); // Add package booking to the collection
             }
@@ -2612,6 +2614,7 @@ public function getLanguages(Request $request)
     
                 // Add booking_name for safari bookings
                 $booking->booking_name = 'safari';
+                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
                 $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
                 $bookings->push($booking); // Add safari booking to the collection
             }
@@ -2645,6 +2648,7 @@ public function getLanguages(Request $request)
     
                 // Add booking_name for taxi bookings
                 $booking->booking_name = 'taxi';
+                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
                 $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
                 $bookings->push($booking); // Add taxi booking to the collection
             }
@@ -2679,15 +2683,14 @@ public function getLanguages(Request $request)
                 
     
                 $booking->booking_name = 'guide';
+                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
                 $booking->status_label = $this->getStatusLabel($booking->status); 
                 $bookings->push($booking); 
             }
     
             $bookings->each(function ($booking) {
-                $booking->makeHidden(['updated_at', 'deleted_at']);
-                 if ($booking->created_at) {
-                    $booking->created_at = Carbon::parse($booking->created_at)->format('d-m-Y h:i A');
-                }
+                $booking->makeHidden(['updated_at', 'deleted_at','created_at']);
+
             });
     
             return response()->json([
