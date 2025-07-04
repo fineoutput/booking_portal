@@ -2678,10 +2678,9 @@ public function getLanguages(Request $request)
                     }
                 
     
-                // Add booking_name for taxi bookings
                 $booking->booking_name = 'guide';
-                $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
-                $bookings->push($booking); // Add taxi booking to the collection
+                $booking->status_label = $this->getStatusLabel($booking->status); 
+                $bookings->push($booking); 
             }
     
             $bookings->each(function ($booking) {
@@ -2691,7 +2690,6 @@ public function getLanguages(Request $request)
                 }
             });
     
-            // Return the response with the message and data
             return response()->json([
                 'message' => 'Data fetched successfully',
                 'data' => $bookings,
