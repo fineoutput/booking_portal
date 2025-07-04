@@ -2686,6 +2686,9 @@ public function getLanguages(Request $request)
     
             $bookings->each(function ($booking) {
                 $booking->makeHidden(['updated_at', 'deleted_at']);
+                 if ($booking->created_at) {
+                    $booking->created_at = Carbon::parse($booking->created_at)->format('d-m-Y h:i A');
+                }
             });
     
             // Return the response with the message and data
