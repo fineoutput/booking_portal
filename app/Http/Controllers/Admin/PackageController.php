@@ -249,15 +249,9 @@ class PackageController extends Controller
         if($request->method()=='POST'){
             // return $request->state_id;
                // Validate the incoming request
-        // $validated = $request->validate([
-        //     'package_name' => 'required',
-        //     'state_id' => 'required',
-        //     'city_id' => 'required',
-        //     'image' => 'required', 
-        //     'video' => 'required',
-        //     'text_description' => 'required',
-        //     'text_description_2' => 'required',
-        // ]);
+        $validated = $request->validate([
+            'city_id' => 'required',
+        ]);
 
 
         if ($request->hasFile('image')) {
@@ -323,7 +317,7 @@ class PackageController extends Controller
         } else {
             $pdfPath = null;
         }
-
+// return $request->city_id;
         $package = new Package();
         $package->package_name = $request->package_name;
         $package->service_charge = $request->service_charge;
