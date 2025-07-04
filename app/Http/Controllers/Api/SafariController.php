@@ -226,7 +226,7 @@ public function alldata(Request $request)
     public function wildsafari(Request $request)
     {
         $token = $request->bearerToken();
-    
+
         if (!$token) {
             return response()->json([
                 'message' => 'Unauthenticated.',
@@ -234,9 +234,9 @@ public function alldata(Request $request)
                 'status' => 201,
             ], 401);
         }
-    
+
         $decodedToken = base64_decode($token);
-    
+
         if (strpos($decodedToken, ',') === false) {
             return response()->json([
                 'message' => 'Invalid token format.',
@@ -244,65 +244,58 @@ public function alldata(Request $request)
                 'status' => 201,
             ], 400);
         }
-    
+
         list($email, $password) = explode(',', $decodedToken);
-    
+
         $user = Agent::where('email', $email)->first();
-    
+
         if ($user && $password == $user->password) {
 
             $state_id = $request->input('state_id');
             $timing_value = $request->input('time');
 
             $wildlifeSafaris = WildlifeSafari::orderBy('id', 'DESC')
-                ->when($state_id, function($query) use ($state_id) {
+                ->when($state_id != '0' && $state_id != null, function ($query) use ($state_id) {
                     return $query->where('state_id', $state_id);
                 })
-                ->when($timing_value, function($query) use ($timing_value) {
+                ->when($timing_value != '0' && $timing_value != null, function ($query) use ($timing_value) {
                     return $query->where('timings', 'LIKE', "%{$timing_value}%");
                 })
                 ->get();
 
-            
-    
-            $wildlifeSafarisData = $wildlifeSafaris->map(function($safari) {
-        
-                $stateName = $safari->state ? $safari->state->state_name : null;  
-                $cityName = $safari->cities ? $safari->cities->city_name : null; 
-    
-                // If image is not null, split by commas and clean each path
-                // $images = $safari->image ? explode(",", $safari->image) : [];
+            $wildlifeSafarisData = $wildlifeSafaris->map(function ($safari) {
+                $stateName = $safari->state ? $safari->state->state_name : null;
+                $cityName = $safari->cities ? $safari->cities->city_name : null;
                 $images = array_values(json_decode($safari->image, true));
-    
-                // Clean up and prepend the base URL to each image path
-                $imageUrls = array_map(function($image) {
-                    $image = trim($image, ' "'); // Trim any extra spaces or quotes
-                    return url('') . '/' . $image; // Prepend the base URL
+
+                $imageUrls = array_map(function ($image) {
+                    $image = trim($image, ' "');
+                    return url('') . '/' . $image;
                 }, $images);
-    
+
                 return [
                     'id' => $safari->id,
                     'state_name' => $stateName,
-                    'city_name' => $cityName,  
+                    'city_name' => $cityName,
                     'national_park' => $safari->national_park,
                     'date' => $safari->date,
-                    'timings' => explode(',', $safari->timings), 
+                    'timings' => explode(',', $safari->timings),
                     'vehicle' => $safari->vehicle,
                     'jeep_price' => $safari->jeep_price,
                     'center_price' => $safari->center_price,
                     'cost' => $safari->cost,
                     'description' => strip_tags($safari->description),
-                    'images' => $imageUrls, // Array of image URLs
+                    'images' => $imageUrls,
                 ];
             });
-    
+
             return response()->json([
                 'message' => 'Wildlife safaris fetched successfully.',
                 'data' => $wildlifeSafarisData,
                 'status' => 200
             ], 200);
         }
-    
+
         return response()->json([
             'message' => 'Unauthenticated',
             'data' => [],
