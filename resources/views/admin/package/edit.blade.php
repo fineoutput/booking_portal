@@ -6,6 +6,16 @@
     width: 337px;
     height: 200px;
 }
+ul#city-checkboxes {
+    padding: 1pc;
+}
+.new {
+    background: #f8f9fa;
+    color: gray;
+    border: none;
+    width: 50%!important;
+}
+
 </style>
 <!-- Start content -->
 <div class="content">
@@ -152,16 +162,23 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                    <label for="city">City</label>
-                                    <div id="output"></div>
-                                    <select class="chosen-select" id="city" name="city_id[]" multiple >
-                                        <!-- Cities will be populated dynamically here -->
-                                    </select>
-                                    
-                                    @error('city')
-                                        <div style="color:red">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                        <label for="city">City</label>
+                                        <div id="output"></div>
+
+                                        <!-- Bootstrap Dropdown with Checkboxes -->
+                                        <div class="dropdown">
+                                            <button class="btn btn-light border dropdown-toggle w-100 text-start" type="button" id="cityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Cities
+                                            </button>
+                                            <ul class="dropdown-menu w-100" id="city-checkboxes" aria-labelledby="cityDropdown" style="max-height: 300px; overflow-y: auto;">
+                                                <!-- Cities will be loaded here -->
+                                            </ul>
+                                        </div>
+
+                                        @error('city')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
                                <div class="col-md-6">
@@ -337,52 +354,6 @@
 
 <script>
 
-    // $(document).ready(function() {
-    //     // Load cities for the selected state when the page loads
-    //     let selectedState = $('#state').val();  // Get the selected state
-    //     if (selectedState) {
-    //         loadCities(selectedState, "{{ old('city_id', isset($package) ? $package->city_id : '') }}");  // Preselect the city if it's available
-    //     }
-
-    //     // Fetch cities when state is changed
-    //     $('#state').change(function() {
-    //         let stateId = $(this).val();
-    //         loadCities(stateId);  // Load cities based on selected state
-    //     });
-
-    //     function loadCities(stateId, selectedCity = null) {
-    //         if (stateId) {
-    //             $.ajax({
-    //                 url: '/booking_portal/public/admin/cities/' + stateId,
-    //                 method: 'GET',
-    //                 success: function(response) {
-    //                     let cities = response.cities;
-    //                     $('#city').empty().append('<option value="">Select a City</option>');
-    //                     cities.forEach(function(city) {
-    //                         // Append the city options
-    //                         $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
-    //                     });
-    //                     $('#city').prop('disabled', false);
-    //                 },
-    //                 error: function() {
-    //                     alert('Error fetching cities');
-    //                 }
-    //             });
-    //         } else {
-    //             $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
-    //         }
-    //     }
-
-    //     // Initialize select2 for interests
-    //     $('#interest').select2({
-    //         placeholder: 'Select interests',
-    //         allowClear: true
-    //     });
-    // });
-
-
-
-    
 function getSelectedValues() {
     const selectedStates = document.getElementById('state').selectedOptions;
     const selectedValues = Array.from(selectedStates).map(option => option.value);
@@ -406,57 +377,53 @@ $('#state').change(function() {
     console.log("Selected values after change:", stateIds);
 });
 
-// Function to get the selected values of states (you can call this anytime)
-// function getSelectedValues() {
-//     const selectedStates = $('#state').val(); // This will be an array of selected values
-//     console.log("Selected values:", selectedStates);
-//     return selectedStates; // Return the array of selected state values
-// }
 
 function loadCities(stateIds) {
-if (stateIds && stateIds.length > 0) {
-    // Clear the existing city options before appending new ones
-    $('#city').empty().append('<option value="">Select a City</option>');
+    if (stateIds && stateIds.length > 0) {
+        $('#city-checkboxes').empty();
 
-    $.ajax({
-        url: '/booking_portal/public/admin/cities',
-        method: 'GET',
-        data: { state_ids: stateIds },
-        success: function(response) {
-            let cities = response.cities;
-            console.log(cities, 'Cities data');
-            
-            if (typeof cities === 'object') {
-                // Iterate over the grouped cities by state
-                Object.keys(cities).forEach(function(stateId) {
-                    let cityGroup = cities[stateId];
-                    // Add a grouping option for each state
-                    $('#city').append('<optgroup label="state ' + stateId + '">');
-                    cityGroup.forEach(function(city) {
-                        $('#city').append('<option value="' + city.id + '">' + city.city_name + '</option>');
+        $.ajax({
+            url: '/booking_portal/public/admin/cities',
+            method: 'GET',
+            data: { state_ids: stateIds },
+            success: function(response) {
+                let cities = response.cities;
+                console.log(cities, 'Cities data');
+
+                if (typeof cities === 'object') {
+                    Object.keys(cities).forEach(function(stateId) {
+                        let cityGroup = cities[stateId];
+
+                        // Add a group label
+                        $('#city-checkboxes').append('<li><h6 class="dropdown-header">State ' + stateId + '</h6></li>');
+
+                        cityGroup.forEach(function(city) {
+                            let checkboxHTML = `
+                                <li>
+                                    <div class="form-check px-3">
+                                        <input class="form-check-input" type="checkbox" name="city_id[]" value="${city.id}" id="city_${city.id}">
+                                        <label class="form-check-label" for="city_${city.id}">${city.city_name}</label>
+                                    </div>
+                                </li>
+                            `;
+                            $('#city-checkboxes').append(checkboxHTML);
+                        });
+
+                        $('#city-checkboxes').append('<li><hr class="dropdown-divider"></li>');
                     });
-                    $('#city').append('</optgroup>');
-                });
+                }
+            },
+            error: function() {
+                alert('Error fetching cities');
             }
-
-            // Reinitialize Chosen.js after appending options
-            $('#city').trigger('chosen:updated');
-
-            // Enable the dropdown after data is loaded
-            $('#city').prop('disabled', false);
-
-            // Debugging step: check if options are appended
-            console.log($('#city').html(), 'Updated city dropdown options');
-        },
-        error: function() {
-            alert('Error fetching cities');
-        }
-    });
-} else {
-    // If no state is selected, disable and clear the dropdown
-    $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+        });
+    } else {
+        $('#city-checkboxes').empty().append('<li class="dropdown-item text-muted">Select a state first</li>');
+    }
 }
-}
+
+
+
 // Initialize Chosen.js (for state select)
 $('#state').chosen({
     placeholder_text_multiple: "Select States"

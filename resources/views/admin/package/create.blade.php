@@ -13,6 +13,17 @@
     select#city {
     height: 200px;
 }
+ul#city-checkboxes {
+    padding: 1pc;
+}
+
+.new {
+    background: #f8f9fa;
+    color: gray;
+    border: none;
+    width: 50%!important;
+}
+
     </style>
 <div class="content">
     <div class="container-fluid">
@@ -105,11 +116,15 @@
 
                                     <div class="col-sm-6">
                                         <label for="city">City</label>
-                                        <div id="output"></div>
-                                        <select  required class="chosen-select" id="city" name="city_id[]" multiple >
-                                            <!-- Cities will be populated dynamically here -->
-                                        </select>
-                                        
+                                        <div class="dropdown">
+                                            <button class="btn dropdown-toggle w-100 new" type="button" id="cityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Cities
+                                            </button>
+                                            <ul class="dropdown-menu w-100" id="city-checkboxes" aria-labelledby="cityDropdown" style="max-height: 300px; overflow-y: auto;">
+                                                <!-- Checkboxes will be dynamically inserted here -->
+                                            </ul>
+                                        </div>
+
                                         @error('city')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
@@ -248,17 +263,9 @@ $(document).ready(function() {
         console.log("Selected values after change:", stateIds);
     });
 
-    // Function to get the selected values of states (you can call this anytime)
-    // function getSelectedValues() {
-    //     const selectedStates = $('#state').val(); // This will be an array of selected values
-    //     console.log("Selected values:", selectedStates);
-    //     return selectedStates; // Return the array of selected state values
-    // }
-
-    function loadCities(stateIds) {
+  function loadCities(stateIds) {
     if (stateIds && stateIds.length > 0) {
-        // Clear the existing city options before appending new ones
-        $('#city').empty().append('<option value="">Select a City</option>');
+        $('#city-checkboxes').empty();
 
         $.ajax({
             url: '/booking_portal/public/admin/cities',
@@ -266,39 +273,42 @@ $(document).ready(function() {
             data: { state_ids: stateIds },
             success: function(response) {
                 let cities = response.cities;
-                console.log(cities, 'Cities data');
-                
+
                 if (typeof cities === 'object') {
-                    // Iterate over the grouped cities by state
                     Object.keys(cities).forEach(function(stateId) {
                         let cityGroup = cities[stateId];
-                        // Add a grouping option for each state
-                        $('#city').append('<optgroup label="state ' + stateId + '">');
+
+                        
+                        $data = State::where('id',stateId)->first();
+                        $('#city-checkboxes').append('<li><h6 class="dropdown-header">State ' + stateId + '</h6></li>');
+
                         cityGroup.forEach(function(city) {
-                            $('#city').append('<option value="' + city.id + '">' + city.city_name + '</option>');
+                            let checkboxHTML = `
+                                <li>
+                                    <div class="form-check px-3">
+                                        <input class="form-check-input" type="checkbox" name="city_id[]" value="${city.id}" id="city_${city.id}">
+                                        <label class="form-check-label" for="city_${city.id}">${city.city_name}</label>
+                                    </div>
+                                </li>
+                            `;
+                            $('#city-checkboxes').append(checkboxHTML);
                         });
-                        $('#city').append('</optgroup>');
+
+                        // Divider between states (optional)
+                        $('#city-checkboxes').append('<li><hr class="dropdown-divider"></li>');
                     });
                 }
-
-                // Reinitialize Chosen.js after appending options
-                $('#city').trigger('chosen:updated');
-
-                // Enable the dropdown after data is loaded
-                $('#city').prop('disabled', false);
-
-                // Debugging step: check if options are appended
-                console.log($('#city').html(), 'Updated city dropdown options');
             },
             error: function() {
                 alert('Error fetching cities');
             }
         });
     } else {
-        // If no state is selected, disable and clear the dropdown
-        $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
+        $('#city-checkboxes').empty().append('<li class="dropdown-item text-muted">Select a state first</li>');
     }
 }
+
+
     // Initialize Chosen.js (for state select)
     $('#state').chosen({
         placeholder_text_multiple: "Select States"
