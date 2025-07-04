@@ -278,8 +278,7 @@ $(document).ready(function() {
                     Object.keys(cities).forEach(function(stateId) {
                         let cityGroup = cities[stateId];
 
-                        
-                        $data = State::where('id',stateId)->first();
+                        // Group heading inside dropdown
                         $('#city-checkboxes').append('<li><h6 class="dropdown-header">State ' + stateId + '</h6></li>');
 
                         cityGroup.forEach(function(city) {
