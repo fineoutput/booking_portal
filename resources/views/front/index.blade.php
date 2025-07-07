@@ -260,7 +260,12 @@
                                 </div>
                                 <div class="inner_gallery_loc_txt">
                                     <div class="type_gallery">
-                                        <p><b>{{ $value->package_name ?? '' }}</b></p>
+                                        {{-- <p><b>{{ $value->package_name ?? '' }}</b></p> --}}
+                                         <p>
+  <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
+    <b>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
+  </a>
+</p>
                                     </div>
                                     <div class="gall_place">
                                         <h4>{{ $value->cities->city_name ?? '' }}</h4>
@@ -298,7 +303,12 @@
                                 </div>
                                 <div class="inner_gallery_loc_txt">
                                     <div class="type_gallery">
-                                        <p><b>{{ $value->name ?? '' }}</b>
+                                        {{-- <p><b>{{ $value->name ?? '' }}</b> --}}
+                                           <p>
+  <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
+    <b>{{ \Illuminate\Support\Str::limit($value->name ?? '', 30) }}</b>
+  </a>
+</p>
                                     </div>
                                     <div class="gall_place">
                                         <h4>{{ $value->cities->city_name ?? '' }}</h4>
