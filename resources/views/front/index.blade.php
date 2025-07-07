@@ -262,7 +262,7 @@
                                     <div class="type_gallery">
                                          <p>
   <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
-    <b>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
+    <b style="color: #000">{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
   </a>
 </p>
                                     </div>
@@ -305,7 +305,7 @@
                                     <div class="type_gallery">
                                          <p>
   <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
-    <b>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
+    <b style="color: #000">{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
   </a>
 </p>
                                     </div>
