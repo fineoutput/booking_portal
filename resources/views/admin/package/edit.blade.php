@@ -326,7 +326,7 @@ ul#city-checkboxes {
         }
 
         $.ajax({
-            url: "{{ url('/booking_portal/public/admin/cities') }}",
+            url: "/booking_portal/public/admin/cities",
             method: 'GET',
             data: { state_ids: stateIds },
             dataType: 'json',
