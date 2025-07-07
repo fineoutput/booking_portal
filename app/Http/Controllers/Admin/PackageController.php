@@ -227,22 +227,40 @@ class PackageController extends Controller
     
 
 
+    // public function getCitiesByState(Request $request)
+    // {
+    //     $stateIds = $request->input('state_ids', []);
+        
+    //     if (empty($stateIds)) {
+    //         return response()->json(['cities' => []]);
+    //     }
+
+    //     $cities = City::whereIn('state_id', $stateIds)->get(['id', 'state_id', 'city_name']);
+        
+    //     $groupedCities = [];
+    //     foreach ($cities as $city) {
+    //         $groupedCities[$city->state_id][] = $city;
+    //     }
+
+    //     return response()->json(['cities' => $groupedCities]);
+    // }
+
     public function getCitiesByState(Request $request)
     {
-        $stateIds = $request->input('state_ids', []);
-        
-        if (empty($stateIds)) {
-            return response()->json(['cities' => []]);
+       $stateIds = $request->query('state_ids', []);
+        $cities = [];
+
+        if (!empty($stateIds)) {
+            foreach ($stateIds as $stateId) {
+                $cities[$stateId] = City::where('state_id', $stateId)
+                    ->select('id', 'city_name')
+                    ->get()
+                    ->toArray();
+            }
         }
 
-        $cities = City::whereIn('state_id', $stateIds)->get(['id', 'state_id', 'city_name']);
-        
-        $groupedCities = [];
-        foreach ($cities as $city) {
-            $groupedCities[$city->state_id][] = $city;
-        }
+        return response()->json(['cities' => $cities]);
 
-        return response()->json(['cities' => $groupedCities]);
     }
 
     function create(Request $request) {
@@ -416,7 +434,7 @@ class PackageController extends Controller
         public function edit($id)
         {
             // Retrieve the package by its ID
-            $data['package'] = Package::findOrFail($id);
+            $data['package'] = Package::with('state')->findOrFail($id);
             $data['states'] = State::all();
 
             // Pass the package data to the edit view

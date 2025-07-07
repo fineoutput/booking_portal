@@ -90,17 +90,25 @@ ul#city-checkboxes {
                                     </div>
                                 </div>
                                 
+
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="city">State</label>
                                         <br>
-                                        <select class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
+                                        {{-- <select class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
                                             @foreach ($states as $state)
                                                 <option value="{{ $state->id }}" 
                                                     {{ in_array($state->id, old('state_id', isset($user) ? $user->state->pluck('id')->toArray() : [])) ? 'selected' : '' }}>
                                                     {{ $state->state_name }}
                                                 </option>
                                             @endforeach
+                                        </select> --}}
+
+                                        <select class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
+                                        @foreach ($states as $state)
+                                            <option value="{{ $state->id }}" 
+                                                {{ in_array($state->id, old('state_id', explode(',', $package->state_id ?? ''))) ? 'selected' : '' }}>{{ $state->state_name }}</option>
+                                        @endforeach
                                         </select>
                                 
                                         @error('state_id')
@@ -148,7 +156,7 @@ ul#city-checkboxes {
                                     @endif
                                 </div>
                                </div>
-
+                            
                                <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="video">Select Multiple Videos</label>
@@ -240,6 +248,8 @@ ul#city-checkboxes {
 
 
 
+
+
 {{-- <script>
     $('#state').selectpicker();
 </script> --}}
@@ -258,27 +268,19 @@ ul#city-checkboxes {
 
 
 <script>
-    // JavaScript to handle video removal
     document.querySelectorAll('.remove-video').forEach(function(button) {
         button.addEventListener('click', function() {
-            var video = this.getAttribute('data-video'); // Get the video path
-            var key = this.getAttribute('data-key'); // Get the key of the video in the array
+            var video = this.getAttribute('data-video');
+            var key = this.getAttribute('data-key'); 
 
-            // Get the current deleted videos (from the hidden input field)
             var deletedVideos = document.getElementById('deleted_videos').value;
-
-            // Add the video to the deleted videos list (separated by commas)
             if (deletedVideos) {
                 deletedVideos += ',' + video;
             } else {
                 deletedVideos = video;
             }
-
-            // Update the hidden input field with the new deleted videos list
             document.getElementById('deleted_videos').value = deletedVideos;
-
-            // Remove the video from the displayed form
-            this.closest('.video-item').remove(); // Removes the video item from the form
+            this.closest('.video-item').remove(); 
         });
     });
 </script>
@@ -286,120 +288,147 @@ ul#city-checkboxes {
 
 <script>
 
-function getSelectedValues() {
-    const selectedStates = document.getElementById('state').selectedOptions;
-    const selectedValues = Array.from(selectedStates).map(option => option.value);
-    console.log("Selected values:", selectedValues);
-}
+    function getSelectedValues() {
+        const selectedStates = document.getElementById('state').selectedOptions;
+        const selectedValues = Array.from(selectedStates).map(option => option.value);
+        console.log("Selected values:", selectedValues);
+    }
 
-$(document).ready(function() {
+    $(document).ready(function() {
 
-// Get the selected state values when the page loads
-let selectedStates = $('#state').val();
-if (selectedStates && selectedStates.length > 0) {
-    console.log("Selected values on page load:", selectedStates);
-    loadCities(selectedStates);  
-}
+    let selectedStates = $('#state').val();
+    if (selectedStates && selectedStates.length > 0) {
+        console.log("Selected values on page load:", selectedStates);
+        loadCities(selectedStates);  
+    }
 
-// When the state selection changes
-$('#state').change(function() {
-    let stateIds = $(this).val(); 
-    console.log(stateIds);
-    loadCities(stateIds); 
-    console.log("Selected values after change:", stateIds);
-});
-
+    $('#state').change(function() {
+        let stateIds = $(this).val(); 
+        console.log(stateIds);
+        loadCities(stateIds); 
+        console.log("Selected values after change:", stateIds);
+    });
 
 function loadCities(stateIds) {
-    if (stateIds && stateIds.length > 0) {
         $('#city-checkboxes').empty();
+        if (!stateIds || !stateIds.length) {
+            $('#city-checkboxes').append('<li class="dropdown-item text-muted">Select states first</li>');
+            return;
+        }
+
+        console.log('Fetching cities for state IDs:', stateIds); // Debugging
 
         $.ajax({
-            url: '/booking_portal/public/admin/cities',
+            url: "{{ url('/booking_portal/public/admin/cities') }}",
             method: 'GET',
             data: { state_ids: stateIds },
-            success: function(response) {
-                let cities = response.cities;
-                console.log(cities, 'Cities data');
+            dataType: 'json',
+            success: function(resp) {
+                console.log('AJAX response:', resp); // Debugging
+                if (resp.cities && typeof resp.cities === 'object') {
+                    let html = '';
+                    const selectedCities = @json(explode(',', $package->city_id ?? ''));
 
-                if (typeof cities === 'object') {
-                    Object.keys(cities).forEach(function(stateId) {
-                        let cityGroup = cities[stateId];
-
-                        // Add a group label
-                        $('#city-checkboxes').append('<li><h6 class="dropdown-header">State ' + stateId + '</h6></li>');
-
-                        cityGroup.forEach(function(city) {
-                            let checkboxHTML = `
-                                <li>
-                                    <div class="form-check px-3">
-                                        <input class="form-check-input" type="checkbox" name="city_id[]" value="${city.id}" id="city_${city.id}">
+                    $.each(resp.cities, function(stateId, cities) {
+                        html += `<li class="dropdown-header">State ${stateId}</li>`;
+                        cities.forEach(city => {
+                            const checked = selectedCities.includes(String(city.id)) ? 'checked' : '';
+                            html += `
+                                <li class="px-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="city_id[]" value="${city.id}" id="city_${city.id}" ${checked}>
                                         <label class="form-check-label" for="city_${city.id}">${city.city_name}</label>
                                     </div>
-                                </li>
-                            `;
-                            $('#city-checkboxes').append(checkboxHTML);
+                                </li>`;
                         });
-
-                        $('#city-checkboxes').append('<li><hr class="dropdown-divider"></li>');
+                        html += '<li><hr class="dropdown-divider"></li>';
                     });
+                    $('#city-checkboxes').html(html);
+                } else {
+                    $('#city-checkboxes').html('<li class="dropdown-item text-muted">No cities found</li>');
                 }
             },
-            error: function() {
-                alert('Error fetching cities');
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', status, error, xhr.responseText);
+                $('#city-checkboxes').html('<li class="dropdown-item text-danger">Error fetching cities</li>');
             }
         });
-    } else {
-        $('#city-checkboxes').empty().append('<li class="dropdown-item text-muted">Select a state first</li>');
     }
-}
 
+    $(document).ready(function() {
+        // Initialize Bootstrap Selectpicker
+        $('#state').selectpicker();
+        $('#state').selectpicker('refresh');
 
+        // Initialize Chosen.js for state select (optional, only if needed)
+        $('#state').chosen({
+            placeholder_text_multiple: "Select States"
+        });
 
-// Initialize Chosen.js (for state select)
-$('#state').chosen({
-    placeholder_text_multiple: "Select States"
-});
+        // Load cities for initial state selection
+        const initialStates = $('#state').val() || [];
+        console.log('Initial states:', initialStates); // Debugging
+        loadCities(initialStates);
 
-// Initialize select2 for interests (if needed)
-$('#interest').select2({
-    placeholder: 'Select interests',
-    allowClear: true
-});
-});
+        // Reload cities when state selection changes
+        $('#state').on('changed.bs.select', function() {
+            const stateIds = $(this).val() || [];
+            console.log('State selection changed:', stateIds); // Debugging
+            loadCities(stateIds);
+        });
+
+        // Optional: Display selected states and cities in #output
+        function updateSelectedDisplay() {
+            let selectedStates = $('#state').val() || [];
+            let selectedCities = $('input[name="city_id[]"]:checked').map(function() {
+                return $(this).next('label').text();
+            }).get();
+
+            $('#output').html(`
+                <p><strong>Selected States:</strong> ${selectedStates.length > 0 ? selectedStates.join(', ') : 'None'}</p>
+                <p><strong>Selected Cities:</strong> ${selectedCities.length > 0 ? selectedCities.join(', ') : 'None'}</p>
+            `);
+        }
+
+        // Update display on page load and when selections change
+        updateSelectedDisplay();
+        $('#state').on('changed.bs.select', updateSelectedDisplay);
+        $('#city-checkboxes').on('change', 'input[name="city_id[]"]', updateSelectedDisplay);
+    });
+
+    $('#state').chosen({
+        placeholder_text_multiple: "Select States"
+    });
+
+    $('#interest').select2({
+        placeholder: 'Select interests',
+        allowClear: true
+    });
+    });
 
 </script>
 
 <script>
-    // JavaScript to handle the image removal
     document.querySelectorAll('.remove-image').forEach(function(button) {
         button.addEventListener('click', function() {
-            var image = this.getAttribute('data-image'); // Get the image path
-            var key = this.getAttribute('data-key'); // Get the key of the image in the array
+            var image = this.getAttribute('data-image'); 
+            var key = this.getAttribute('data-key'); 
 
-            // Get the current deleted images (from the hidden input field)
             var deletedImages = document.getElementById('deleted_images').value;
 
-            // Add the image to the deleted images list (separated by commas)
             if (deletedImages) {
                 deletedImages += ',' + image;
             } else {
                 deletedImages = image;
             }
 
-            // Update the hidden input field with the new deleted images list
             document.getElementById('deleted_images').value = deletedImages;
 
-            // Remove the image from the form
-            this.closest('.image-item').remove(); // Removes the image from the displayed form
+            this.closest('.image-item').remove(); 
         });
     });
 </script>
 
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
-<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
 <script>
     CKEDITOR.replace('text_description', {
         toolbar: [
