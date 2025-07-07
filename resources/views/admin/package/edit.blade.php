@@ -119,25 +119,22 @@ ul#city-checkboxes {
                                 
 
                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="city">City</label>
-                                        <div id="output"></div>
-
-                                        <!-- Bootstrap Dropdown with Checkboxes -->
-                                        <div class="dropdown">
-                                            <button class="btn btn-light border dropdown-toggle w-100 text-start" type="button" id="cityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Select Cities
-                                            </button>
-                                            <ul class="dropdown-menu w-100" id="city-checkboxes" aria-labelledby="cityDropdown" style="max-height: 300px; overflow-y: auto;">
-                                                <!-- Cities will be loaded here -->
-                                            </ul>
-                                        </div>
-
-                                        @error('city_id')
-                                            <div style="color:red">{{ $message }}</div>
-                                        @enderror
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <div id="output"></div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light border dropdown-toggle w-100 text-start" type="button" id="cityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Cities
+                                        </button>
+                                        <ul style="max-height: 300px; overflow-y: auto;" class="dropdown-menu w-100" id="city-checkboxes" aria-labelledby="cityDropdown" style="max-height: 300px; overflow-y: auto;">
+                                            <!-- Cities will be loaded here -->
+                                        </ul>
                                     </div>
+                                    @error('city_id')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
                                 </div>
+                            </div>
 
                                <div class="col-md-6">
                                 <div class="form-group">
@@ -260,6 +257,10 @@ ul#city-checkboxes {
     $('#state').selectpicker('refresh');
 </script>
 
+@php
+    // Convert comma-separated string to array for use in JS
+    $selectedCityIds = explode(',', $package->city_id ?? '');
+@endphp
 
 <script>
   document.getElementById('output').innerHTML = location.search;
@@ -309,14 +310,20 @@ ul#city-checkboxes {
         console.log("Selected values after change:", stateIds);
     });
 
-function loadCities(stateIds) {
+
+    /////////////////////////
+
+
+     const selectedCities = @json($selectedCityIds);
+    console.log('Selected Cities:', selectedCities);
+
+    function loadCities(stateIds) {
         $('#city-checkboxes').empty();
+
         if (!stateIds || !stateIds.length) {
             $('#city-checkboxes').append('<li class="dropdown-item text-muted">Select states first</li>');
             return;
         }
-
-        console.log('Fetching cities for state IDs:', stateIds); // Debugging
 
         $.ajax({
             url: "{{ url('/booking_portal/public/admin/cities') }}",
@@ -324,25 +331,30 @@ function loadCities(stateIds) {
             data: { state_ids: stateIds },
             dataType: 'json',
             success: function(resp) {
-                console.log('AJAX response:', resp); // Debugging
+                console.log('AJAX response:', resp); // ✅ Debug
+
                 if (resp.cities && typeof resp.cities === 'object') {
                     let html = '';
-                    const selectedCities = @json(explode(',', $package->city_id ?? ''));
 
                     $.each(resp.cities, function(stateId, cities) {
                         html += `<li class="dropdown-header">State ${stateId}</li>`;
+
                         cities.forEach(city => {
-                            const checked = selectedCities.includes(String(city.id)) ? 'checked' : '';
+                            const cityIdStr = String(city.id);
+                            const isChecked = selectedCities.includes(cityIdStr) ? 'checked' : '';
+
                             html += `
                                 <li class="px-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="city_id[]" value="${city.id}" id="city_${city.id}" ${checked}>
+                                        <input class="form-check-input" type="checkbox" name="city_id[]" value="${city.id}" id="city_${city.id}" ${isChecked}>
                                         <label class="form-check-label" for="city_${city.id}">${city.city_name}</label>
                                     </div>
                                 </li>`;
                         });
+
                         html += '<li><hr class="dropdown-divider"></li>';
                     });
+
                     $('#city-checkboxes').html(html);
                 } else {
                     $('#city-checkboxes').html('<li class="dropdown-item text-muted">No cities found</li>');
@@ -356,45 +368,35 @@ function loadCities(stateIds) {
     }
 
     $(document).ready(function() {
-        // Initialize Bootstrap Selectpicker
         $('#state').selectpicker();
         $('#state').selectpicker('refresh');
 
-        // Initialize Chosen.js for state select (optional, only if needed)
-        $('#state').chosen({
-            placeholder_text_multiple: "Select States"
-        });
-
-        // Load cities for initial state selection
         const initialStates = $('#state').val() || [];
-        console.log('Initial states:', initialStates); // Debugging
         loadCities(initialStates);
 
-        // Reload cities when state selection changes
         $('#state').on('changed.bs.select', function() {
             const stateIds = $(this).val() || [];
-            console.log('State selection changed:', stateIds); // Debugging
             loadCities(stateIds);
         });
 
-        // Optional: Display selected states and cities in #output
         function updateSelectedDisplay() {
             let selectedStates = $('#state').val() || [];
-            let selectedCities = $('input[name="city_id[]"]:checked').map(function() {
+            let selectedCityNames = $('input[name="city_id[]"]:checked').map(function() {
                 return $(this).next('label').text();
             }).get();
 
             $('#output').html(`
                 <p><strong>Selected States:</strong> ${selectedStates.length > 0 ? selectedStates.join(', ') : 'None'}</p>
-                <p><strong>Selected Cities:</strong> ${selectedCities.length > 0 ? selectedCities.join(', ') : 'None'}</p>
+                <p><strong>Selected Cities:</strong> ${selectedCityNames.length > 0 ? selectedCityNames.join(', ') : 'None'}</p>
             `);
         }
 
-        // Update display on page load and when selections change
         updateSelectedDisplay();
         $('#state').on('changed.bs.select', updateSelectedDisplay);
         $('#city-checkboxes').on('change', 'input[name="city_id[]"]', updateSelectedDisplay);
     });
+
+    /////////////////////////
 
     $('#state').chosen({
         placeholder_text_multiple: "Select States"
