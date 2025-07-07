@@ -1054,51 +1054,109 @@ public function getVehiclesByCity($cityId)
     //     return view('front.list', $data);
     // }
 
-    public function list($id)
-    {
-        $id = base64_decode($id);
+    // public function list($id)
+    // {
+    //     $id = base64_decode($id);
         
-        $data['city'] = City::where('id', $id)->first();
-        $data['allpackages'] = Package::all();
+    //     $data['city'] = City::where('id', $id)->first();
 
-        $min_price = request()->input('min_price', 0); 
-        $max_price = request()->input('max_price', 100000); 
+    //     $data['city_data'] = Package::where('state_id', $data['city']->state_id)->get();
 
-        $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])
-            ->whereHas('packagePrices', function($query) use ($min_price, $max_price) {
-                $query->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])  
-                      ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]); 
-            })
-            ->get();
+    //     $data['allpackages'] = Package::all();
 
-        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
+    //     $min_price = request()->input('min_price', 0); 
+    //     $max_price = request()->input('max_price', 100000); 
+
+    //     $data['packages'] = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id])
+    //         ->whereHas('packagePrices', function($query) use ($min_price, $max_price) {
+    //             $query->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])  
+    //                   ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]); 
+    //         })
+    //         ->get();
+
+    //     $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
  
-        $formatted_date = Carbon::now()->format('Y-m-d');
+    //     $formatted_date = Carbon::now()->format('Y-m-d');
 
-        foreach ($data['packages'] as $package) {
-            $package_price = PackagePrice::where('package_id', $package->id)
-                ->where('start_date', '<=', $formatted_date)
-                ->where('end_date', '>=', $formatted_date)
-                ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])  
-                ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]) 
-                ->first();
+    //     foreach ($data['packages'] as $package) {
+    //         $package_price = PackagePrice::where('package_id', $package->id)
+    //             ->where('start_date', '<=', $formatted_date)
+    //             ->where('end_date', '>=', $formatted_date)
+    //             ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])  
+    //             ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]) 
+    //             ->first();
 
-            if ($package_price) {
-                $package->prices = $package_price;
-            } else {
-                $package->prices = null; 
-            }
+    //         if ($package_price) {
+    //             $package->prices = $package_price;
+    //         } else {
+    //             $package->prices = null; 
+    //         }
 
-            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+    //         $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
             
-            $package->hotels = $hotels;
-        }
+    //         $package->hotels = $hotels;
+    //     }
         
-        return view('front.list', $data);
+    //     return view('front.list', $data);
+    // }
+    
+    
+    public function list($id, Request $request)
+{
+    $id = base64_decode($id);
+
+    if (!is_numeric($id)) {
+        abort(404, 'Invalid City ID');
     }
-    
-    
-    
+
+    $data['city'] = City::where('id', $id)->first();
+    if (!$data['city']) {
+        abort(404, 'City not found');
+    }
+
+    $data['city_data'] = Package::where('state_id', $data['city']->state_id)->get();
+    $data['allpackages'] = Package::all();
+
+    // Get min and max price from request
+    $min_price = $request->input('min_price', 0);
+    $max_price = $request->input('max_price', 10000000);
+
+    // Start building the query for packages
+    $query = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id]);
+
+    // Filter based on packagePrices (date + price)
+    $formatted_date = Carbon::now()->format('Y-m-d');
+    if ($min_price > 0 || $max_price < 10000000) {
+        $query->whereHas('packagePrices', function ($q) use ($min_price, $max_price, $formatted_date) {
+            $q->where('start_date', '<=', $formatted_date)
+              ->where('end_date', '>=', $formatted_date)
+              ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+              ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
+        });
+    }
+
+    $data['packages'] = $query->get();
+
+    // Fetch sliders
+    $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
+
+    // Attach prices and hotels to each package
+    foreach ($data['packages'] as $package) {
+        $package_price = PackagePrice::where('package_id', $package->id)
+            ->where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)
+            ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+            ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price])
+            ->first();
+
+        $package->prices = $package_price ?: null;
+
+        $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+        $package->hotels = $hotels;
+    }
+
+    return view('front.list', $data);
+}
 
 
 

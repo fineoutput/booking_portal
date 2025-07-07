@@ -150,7 +150,7 @@
         
                 @php
                     // Get unique cities by city_name
-                    $uniqueCities = $allpackages->pluck('cities.city_name')->unique();
+                    $uniqueCities = $city_data->pluck('cities.city_name')->unique();
                 @endphp
         
                 @foreach($uniqueCities as $citys)

@@ -90,56 +90,6 @@ ul#city-checkboxes {
                                     </div>
                                 </div>
                                 
-                                {{-- <div class="form-group">
-                                    <label for="package_name">State Name</label>
-                                    <input type="text" name="state_id" value="{{ old('state_id', $package->state_id) }}" class="form-control">
-                                </div>
-                            
-                                <div class="form-group">
-                                    <label for="package_name">City Name</label>
-                                    <input type="text" name="city_id" value="{{ old('city_id', $package->city_id) }}" class="form-control">
-                                </div> --}}
-
-                                {{-- <div class="col-sm-4">
-                                    <label for="state">State</label>
-                                    <select class="form-control" id="state" name="state_id">
-                                        @foreach ($states as $state)
-                                            <option value="{{ $state->id }}" {{ old('state', isset($package) ? $package->state_id : null) == $state->id ? 'selected' : '' }}>
-                                                {{ $state->state_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    
-                                    @error('state')
-                                        <div style="color:red">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <label for="city">City</label>
-                                    <select class="form-control" id="city" name="city_id">
-                                    </select>
-                                    @error('city')
-                                        <div style="color:red">{{ $message }}</div>
-                                    @enderror
-                                </div> --}}
-
-                                {{-- <div class="col-sm-4">
-                                    <div class="form-group">
-                                    <select required class="selectpicker" id="state" name="state_id[]" multiple data-live-search="true">
-                                        @foreach ($states as $state)
-                                        <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
-                                            {{ $state->state_name }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                    
-                                    @error('state')
-                                        <div style="color:red">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                </div> --}}
-
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="city">State</label>
@@ -198,24 +148,6 @@ ul#city-checkboxes {
                                     @endif
                                 </div>
                                </div>
-                            
-                               {{-- <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="video">Select Multipal Videos</label>
-                                    <input type="file" name="video[]" class="form-control" multiple>
-                                    <small class="form-text text-muted">Leave blank to keep existing videos.</small>
-                                    @if($package->video)
-                                        <div>
-                                            @foreach(json_decode($package->video) as $video)
-                                                <video width="150" controls>
-                                                    <source src="{{ asset($video) }}" type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                </div>
-                               </div> --}}
 
                                <div class="col-md-6">
                                 <div class="form-group">
