@@ -291,7 +291,7 @@
                             <div class="gallery_loc">
                                 <div class="inner_gallery_loc">
                                   @php
-                                  $images = json_decode($value->images); 
+                                  $images = json_decode($value->image); 
                               @endphp
                               
                               @if($images && is_array($images) && count($images) > 0)
@@ -306,7 +306,7 @@
                                         {{-- <p><b>{{ $value->name ?? '' }}</b> --}}
                                            <p>
   <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
-    <b>{{ \Illuminate\Support\Str::limit($value->name ?? '', 30) }}</b>
+    <b>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
   </a>
 </p>
                                     </div>
