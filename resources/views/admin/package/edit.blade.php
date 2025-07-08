@@ -331,7 +331,7 @@ ul#city-checkboxes {
             data: { state_ids: stateIds },
             dataType: 'json',
             success: function(resp) {
-                console.log('AJAX response:', resp); // ✅ Debug
+                console.log('AJAX response:', resp);
 
                 if (resp.cities && typeof resp.cities === 'object') {
                     let html = '';

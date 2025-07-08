@@ -19,7 +19,7 @@ class TestimonialsController extends Controller
         if($request->method() == 'POST') {
             $validated = $request->validate([
                 'type' => 'required',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+                'image' => 'nullable', 
             ]);
     
             $agentCall = new Testimonials();
@@ -77,7 +77,7 @@ class TestimonialsController extends Controller
             'type' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable',
         ]);
 
         $agentCall = Testimonials::findOrFail($id);
