@@ -60,7 +60,7 @@ class PushNotificationController extends Controller
     $validated = $request->validate([
         'title' => 'required|string',
         'description' => 'required|string',
-        'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'img' => 'required',
     ]);
 
     // Create a new notification entry
