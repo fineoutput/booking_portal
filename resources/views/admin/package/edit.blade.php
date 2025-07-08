@@ -69,7 +69,7 @@ ul#city-checkboxes {
                                 </div>
 
 
-                                <div class="col-sm-6">
+                                {{-- <div class="col-sm-6">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="service_charge" 
                                             name="service_charge" 
@@ -79,7 +79,7 @@ ul#city-checkboxes {
                                     @error('service_charge')
                                     <div style="color:red">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> --}}
 
 
 

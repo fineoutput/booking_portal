@@ -338,7 +338,7 @@ class PackageController extends Controller
 // return $request->city_id;
         $package = new Package();
         $package->package_name = $request->package_name;
-        $package->service_charge = $request->service_charge;
+        // $package->service_charge = $request->service_charge;
         $package->state_id = implode(',', $request->state_id);
         $package->city_id = implode(',', $request->city_id);
         $package->image = $imagePaths ? json_encode($imagePaths) : null; 
@@ -470,7 +470,7 @@ class PackageController extends Controller
     $package->city_id = implode(',', $cityIds);
 
     $package->package_name = $request->package_name;
-    $package->service_charge = $request->service_charge;
+    // $package->service_charge = $request->service_charge;
     $package->text_description = $request->text_description;
     $package->night_count = $request->night_count;
     $package->text_description_2 = $request->text_description_2;

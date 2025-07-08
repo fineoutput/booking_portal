@@ -51,7 +51,7 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Package Name</th>
-                        <th data-priority="1">Services Charge</th>
+                        {{-- <th data-priority="1">Services Charge</th> --}}
                         <th data-priority="1">Night Count</th>
                         <th data-priority="3">State Citys</th>
                         {{-- <th data-priority="1">City</th> --}}
@@ -71,7 +71,7 @@
                       <tr>
                           <td>{{ $key + 1 }}</td>
                           <td>{{ $pkg->package_name ?? '' }}</td>
-                          <td>{{ $pkg->service_charge ?? '' }}</td>
+                          {{-- <td>{{ $pkg->service_charge ?? '' }}</td> --}}
                           <td>{{ $pkg->night_count ?? '0' }}</td>
 
                           <td class="states" style="width: 404px !important;">
