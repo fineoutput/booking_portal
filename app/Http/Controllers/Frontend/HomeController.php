@@ -304,52 +304,61 @@ class HomeController extends Controller
     // }
 
 
-   public function state_detail($id, Request $request)
-    {
-        $id = base64_decode($id);
+public function state_detail($id, Request $request)
+{
+    $id = base64_decode($id);
 
-        $min_price = $request->input('min_price', 0); 
-        $max_price = $request->input('max_price', 10000000); 
-        
-        if (!is_numeric($id)) {
-            abort(404, 'Invalid State ID');
-        }
+    $min_price = $request->input('min_price', 0); 
+    $max_price = $request->input('max_price', 10000000); 
+    
+    if (!is_numeric($id)) {
+        abort(404, 'Invalid State ID');
+    }
 
-        $data['city'] = $id;
+    $data['city'] = $id;
 
-        $state = State::where('id',$id)->first();
+    $state = State::where('id', $id)->first();
 
-        $packageCities = Package::where('state_id', $state->id)
-            ->pluck('city_id') 
-            ->toArray();
+    $packageCities = Package::where('state_id', $state->id)
+        ->pluck('city_id') 
+        ->toArray();
 
-        $allCityIds = collect($packageCities)
-            ->flatMap(function ($item) {
-                return explode(',', $item); 
-            })
-            ->map(fn($id) => trim($id))
-            ->unique()
-            ->filter()
-            ->values()
-            ->toArray();
+    $allCityIds = collect($packageCities)
+        ->flatMap(fn($item) => explode(',', $item))
+        ->map(fn($id) => trim($id))
+        ->unique()
+        ->filter()
+        ->values()
+        ->toArray();
 
-        $cityMap = City::pluck('city_name', 'id')->toArray();
+    $cityMap = City::pluck('city_name', 'id')->toArray();
 
-        $uniqueCityNames = City::whereIn('id', $allCityIds)
-            ->pluck('city_name')
-            ->unique()
-            ->values()
-            ->toArray();
+    $uniqueCityNames = City::whereIn('id', $allCityIds)
+        ->pluck('city_name')
+        ->unique()
+        ->values()
+        ->toArray();
 
-        $data['city_data'] = $uniqueCityNames;
+    $data['city_data'] = $uniqueCityNames;
 
-        $query = Package::where('state_id', $id);
+    $query = Package::where('state_id', $id);
 
-        $packages = Package::where('state_id', $id)->get();
+    // Apply price range filter
+    $formatted_date = Carbon::now()->format('Y-m-d');
+    if ($min_price > 0 || $max_price < 10000000) {
+        $query->whereHas('packagePrices', function ($q) use ($min_price, $max_price, $formatted_date) {
+            $q->where('start_date', '<=', $formatted_date)
+              ->where('end_date', '>=', $formatted_date)
+              ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+              ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
+        });
+    }
 
-        $selectedCities = $request->input('cities', []);
-        // return $selectedCities;
+    // Get all packages first
+    $packages = $query->with('packagePrices')->get();
 
+    // Filter by selected cities if any
+    $selectedCities = $request->input('cities', []);
     if (!empty($selectedCities)) {
         $packages = $packages->filter(function ($package) use ($selectedCities, $cityMap) {
             $cityIds = explode(',', $package->city_id);
@@ -357,51 +366,41 @@ class HomeController extends Controller
                 return $cityMap[$id] ?? null;
             })->filter();
 
-            return $citiesForPackage->sort()->values()->all() === collect($selectedCities)->sort()->values()->all();
-        });
+            // Check if any selected city is present in this package
+            return $citiesForPackage->intersect($selectedCities)->isNotEmpty();
+        })->values(); // reindex the collection
     }
 
-        $formatted_date = Carbon::now()->format('Y-m-d');
-        if ($min_price > 0 || $max_price < 10000000) {
-            $query->whereHas('packagePrices', function ($query) use ($min_price, $max_price, $formatted_date) {
-                $query->where('start_date', '<=', $formatted_date)
-                    ->where('end_date', '>=', $formatted_date)
-                    ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
-                    ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
-            });
-        }
+    // Continue processing packages
+    foreach ($packages as $package) {
+        $package_price = PackagePrice::where('package_id', $package->id)
+            ->where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)
+            ->first();
 
-        $data['packages'] = $query->with('packagePrices')->get();
+        $package->prices = $package_price;
 
-        foreach ($data['packages'] as $package) {
-            // Get current price
-            $package_price = PackagePrice::where('package_id', $package->id)
-                ->where('start_date', '<=', $formatted_date)
-                ->where('end_date', '>=', $formatted_date)
-                ->first();
+        $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
+        $package->hotels = $hotels;
 
-            $package->prices = $package_price;
+        $packageCityIds = explode(',', $package->city_id);
+        $packageCityNames = collect($packageCityIds)
+            ->map(fn($id) => trim($id))
+            ->filter()
+            ->map(fn($id) => $cityMap[$id] ?? null)
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
 
-            $hotels = Hotels::whereRaw("FIND_IN_SET(?, package_id)", [$package->id])->get(['id', 'name']);
-            $package->hotels = $hotels;
-
-            $packageCityIds = explode(',', $package->city_id);
-            $packageCityNames = collect($packageCityIds)
-                ->map(fn($id) => trim($id))
-                ->filter()
-                ->map(fn($id) => $cityMap[$id] ?? null)
-                ->filter()
-                ->unique()
-                ->values()
-                ->toArray();
-
-            $package->city_names = $packageCityNames;
-        }
-
-        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
-
-        return view('front.state_detail', $data);
+        $package->city_names = $packageCityNames;
     }
+
+    $data['packages'] = $packages;
+    $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'package')->get();
+
+    return view('front.state_detail', $data);
+}
 
     
 
