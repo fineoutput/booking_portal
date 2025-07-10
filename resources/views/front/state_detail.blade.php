@@ -95,8 +95,16 @@
     <div class="row">
       <div class="col-lg-3 col-sm-12 col-md-12 param">
         <div class="left_navi_det">
-          <h6>18 Manali Holiday Packages</h6>
-          <p>Showing 1-10 packages from 18 packages</p>
+          {{-- <h6>18 Manali Holiday Packages</h6> --}}
+          <p>
+            Showing {{
+              $packages->filter(function($package) {
+                return $package->packagePrices->contains(function($price) {
+                    return !is_null($price->display_cost) && $price->display_cost !== '';
+                });
+              })->count() ?? 0
+            }} packages
+          </p>
         </div>
         <div class="navi_full_list">
 
@@ -126,22 +134,21 @@
         
                 @php
                     // Get unique cities by city_name
-                    $uniqueCities = $packages->pluck('cities.city_name')->unique();
+                    $uniqueCities = $city_data;
                 @endphp
         
                 @foreach($uniqueCities as $city)
                     <div class="city_box">
-                        <!-- Add a checkbox for each unique city -->
                         <input type="checkbox" name="cities[]" value="{{ $city }}" 
                             {{ in_array($city, request()->input('cities', [])) ? 'checked' : '' }}>
                         <p>{{ $city }}</p>
                     </div>
                 @endforeach
         
-                <div class="ravet">
+                {{-- <div class="ravet">
                     <h4>Joining & Leaving</h4>
                     <p>Can’t find tours from your city? Check our Joining & leaving option. Book your own flights and join directly at the first destination of the tour.</p>
-                </div>
+                </div> --}}
             </div>
             <div class="d-flex justify-content-center ">
             <button class="_btn" type="submit ">Apply Filter</button>
@@ -160,6 +167,7 @@
 
           @if($packages)
           @foreach ($packages as $key => $value)
+           @if($value->prices)
           <div class="col-lg-6">
             <div class="plan_outer w-100">
               <div class="outer_plan_upper">
@@ -180,16 +188,25 @@
                 <div class="inner_outer_txt">
                   
                   <div class="outer_type_price">
-                    <h6 class="type_xtxt"> {{$value->cities->city_name ?? ''}} </h6>
+                    <h6 class="type_xtxt">
+                       @php
+                    // Get unique cities by city_name
+                    $uniqueCities = $city_data;
+                @endphp
+        
+                  @foreach($value->city_names as $city)
+                    {{ $city ?? '' }}@if(!$loop->last), @endif
+                  @endforeach
+
                   </div>
-                  <div class="plan_type_date">
+                  {{-- <div class="plan_type_date">
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <p style="margin: 0;">2 reviews</p>
-                  </div>
+                  </div> --}}
                   <div class="inclusive">
                     <i class="fa-solid fa-infinity"></i>
                     <p class="m-0">All Inclusive</p>
@@ -218,15 +235,7 @@
                       <p>Starts from
                         <b style="color: #000;">
                           @if($value->prices)
-                          @php
-                            $total = $value->prices->standard_cost + $value->prices->premium_cost +
-                            $value->prices->premium_3_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
-            $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
-            $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
-            $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
-            $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
-            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
-                          @endphp
+                          
                           <p>Price: ₹{{$value->prices->display_cost}}</p>
                       @else
                           <p>No price available for this package.</p>
@@ -244,6 +253,7 @@
               </div>
             </div>
             </div>
+            @endif
           @endforeach
           @else
             <div class="col-lg-6">

@@ -97,8 +97,16 @@
     <div class="row">
       <div class="col-lg-3 col-sm-12 col-md-12 param"> 
         <div class="left_navi_det">
-          <h6>18 Manali Holiday Packages</h6>
-          <p>Showing 1-10 packages from 18 packages</p>
+          {{-- <h6>18 Manali Holiday Packages</h6> --}}
+  <p>
+  Showing {{
+    $packages->filter(function($package) {
+      return $package->packagePrices->contains(function($price) {
+          return !is_null($price->display_cost) && $price->display_cost !== '';
+      });
+    })->count() ?? 0
+  }} packages
+</p>
         </div>
         <div class="navi_full_list">
 
@@ -150,7 +158,7 @@
         
                 @php
                     // Get unique cities by city_name
-                    $uniqueCities = $city_data->pluck('cities.city_name')->unique();
+                    $uniqueCities = $city_data;
                 @endphp
         
                 @foreach($uniqueCities as $citys)
@@ -162,10 +170,10 @@
                     </div>
                 @endforeach
         
-                <div class="ravet">
+                {{-- <div class="ravet">
                     <h4>Joining & Leaving</h4>
                     <p>Can’t find tours from your city? Check our Joining & leaving option. Book your own flights and join directly at the first destination of the tour.</p>
-                </div>
+                </div> --}}
             </div>
             <div class="d-flex justify-content-center ">
             <button class="_btn" type="submit ">Apply Filter</button>
@@ -184,6 +192,7 @@
 
          @if($packages)
           @foreach ($packages as $key => $value)
+          @if($value->prices->display_cost ?? '')
       <div class="col-lg-4 mb-2">
            @php
                   $images = json_decode($value->image, true);
@@ -202,17 +211,8 @@
               @endif
         <a style="color: #fff" href="{{route('detail',['id' => base64_encode($value->id)])}}">
          <div class="cardashEs" style="background: url('{{ $add ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
-           @if($value->prices)
-                          @php
-                            $total = $value->prices->standard_cost + $value->prices->premium_cost + $value->prices->premium_3_cost + $value->prices->deluxe_cost + $value->prices->super_deluxe_cost +
-            $value->prices->luxury_cost + $value->prices->nights_cost + $value->prices->adults_cost + $value->prices->child_with_bed_cost +
-            $value->prices->child_no_bed_infant_cost + $value->prices->child_no_bed_child_cost + $value->prices->meal_plan_only_room_cost +
-            $value->prices->meal_plan_breakfast_cost + $value->prices->meal_plan_breakfast_lunch_dinner_cost + $value->prices->meal_plan_all_meals_cost +
-            $value->prices->hatchback_cost + $value->prices->sedan_cost + $value->prices->economy_suv_cost + $value->prices->luxury_suv_cost +
-            $value->prices->traveller_mini_cost + $value->prices->traveller_big_cost + $value->prices->premium_traveller_cost + $value->prices->ac_coach_cost + $value->prices->extra_bed_cost; 
-                          @endphp
-                          {{-- <p>Price: ₹{{ number_format($value->prices->display_cost, 2) }}</p> --}}
-                        
+                 
+            @if($value->prices)
         <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>
                           @else
                           <p>No price available.</p>
@@ -232,11 +232,12 @@
             </div>
             <div class="detailsashEs">
                 <div class="durationashEs">
-                    <span>🕒 5N/6D</span>
+                    <span>🕒 {{$value->night_count ?? 0}}N/{{$value->night_count+1 ?? 0}}D</span>
                     {{-- <span>{!!\Illuminate\Support\Str::limit($value->text_description_2 ?? '', 30) !!}</span> --}}
                 </div>
                 <div class="locationashEs">
-                    <span>📍 Leh-Leh</span>
+                    <span>📍  {{$city->city_name ?? ''}}
+                    </span>
                 </div>
             </div>
         </div>
@@ -244,6 +245,7 @@
         </a>
 
       </div>
+       @endif
        @endforeach
           @else
 
@@ -433,10 +435,9 @@
 
 <script>
   document.getElementById('filter-form').onsubmit = function(event) {
-      event.preventDefault(); // Prevent default form submission
+      event.preventDefault(); 
 
-      // Get all form values including city_id, start_date, end_date, min_price, and max_price
-      const city_id = '{{ request()->input('city_id') }}';  // City ID
+      const city_id = '{{ request()->input('city_id') }}'; 
       const start_date = '{{ request()->input('start_date') }}';  // Start date
       const end_date = '{{ request()->input('end_date') }}';  // End date
       const min_price = document.getElementById('minPrice').value;  // Min price from form
@@ -447,6 +448,7 @@
 
       // Add the query parameters dynamically
       url.searchParams.set('city_id', city_id);
+      console.log(city_id);
       url.searchParams.set('start_date', start_date);
       url.searchParams.set('end_date', end_date);
       url.searchParams.set('min_price', min_price);

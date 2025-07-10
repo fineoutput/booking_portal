@@ -261,10 +261,10 @@
                                 <div class="inner_gallery_loc_txt">
                                     <div class="type_gallery">
                                          <p>
-  <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
-    <b style="color: #000">{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
-  </a>
-</p>
+                                      <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
+                                        <b style="color: #000">{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
+                                      </a>
+                                    </p>
                                     </div>
                                     {{-- <div class="gall_place">
                                         <h4>{{ \Illuminate\Support\Str::limit($value->cities->city_name ?? '', 20) }}</h4>

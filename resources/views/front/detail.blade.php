@@ -405,14 +405,14 @@
                 <option value="" disabled {{ !session('booking_form_data.meal') ? 'selected' : '' }}>Select meal plan</option>
                 @foreach(['only_room', 'breakfast', 'breakfast_lunch', 'breakfast_dinner', 'all_meals'] as $meal)
                     <option value="{{ $meal }}" {{ old('meal', session('booking_form_data.meal')) == $meal ? 'selected' : '' }}>
-                        {{ ucwords(str_replace('_', ' + ', $meal)) }}
+                        {{ ucwords(str_replace('_', ' ', $meal)) }}
                     </option>
                 @endforeach
             </select>
         </div>
 
         {{-- Hotel Preference --}}
-        <div class="col-12">
+        {{-- <div class="col-12">
             <div class="rj_vk">
                 <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
                 <label for="hotelPreference" class="form-label">Hotel Preference</label>
@@ -423,7 +423,30 @@
                     <option value="{{ $key }}" {{ old('hotel_preference', session('booking_form_data.hotel_preference')) == $key ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
             </select>
+        </div> --}}
+
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
+                <label for="hotelPreference" class="form-label">Hotel Preference</label>
+            </div>
+            <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.hotel_preference') ? 'selected' : '' }}>Select preference</option>
+
+                @foreach ($packagesprices as $value)
+                    @php
+                        $hotelCategory = $value->hotel_category ?? '';
+                        $selectedPref = old('hotel_preference', session('booking_form_data.hotel_preference'));
+                    @endphp
+                    @if($hotelCategory)
+                        <option value="{{ $hotelCategory }}" {{ $selectedPref == $hotelCategory ? 'selected' : '' }}>
+                            {{ ucfirst(str_replace('_', ' ', $hotelCategory)) }}
+                        </option>
+                    @endif
+                @endforeach
+            </select>
         </div>
+
 
         {{-- Vehicle Options --}}
         <div class="col-12">

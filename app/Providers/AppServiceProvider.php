@@ -31,13 +31,24 @@ class AppServiceProvider extends ServiceProvider
         View::composer('front.common.header', function ($view) {
 
         $stateIds = Package::pluck('state_id')->toArray();
-        $cityIds = Package::pluck('city_id')->toArray(); 
+        $cityIdsRaw = Package::pluck('city_id')->toArray();
 
-        $states = State::whereIn('id', $stateIds) 
-                        ->with(['cities' => function($query) use ($cityIds) {
-                            $query->whereIn('id', $cityIds);
-                        }])
-                        ->get();
+        $cityIds = collect($cityIdsRaw)
+            ->flatMap(function ($item) {
+                return explode(',', $item);
+            })
+            ->unique()
+            ->filter()
+            ->map(function ($id) {
+                return (int) trim($id);
+            })
+            ->toArray();
+
+            $states = State::whereIn('id', $stateIds)
+            ->with(['cities' => function($query) use ($cityIds) {
+                $query->whereIn('id', $cityIds);
+            }])
+            ->get();
 
 
             $view->with('states', $states);
