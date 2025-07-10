@@ -242,6 +242,7 @@
           <h2 class="text-center">Holiday Packages</h2>
             <ul class="splide__list">
                 @foreach($popularCities as $value)
+                 @if($value->packagePrices && $value->packagePrices->isNotEmpty())
                     <li class="splide__slide">
                       <div class="row">
                         <div class="col">
@@ -275,6 +276,7 @@
                         </div>
                       </div>
                     </li>
+                    @endif
                 @endforeach
             </ul>
         </div>
@@ -285,6 +287,7 @@
           <h2 class="text-center">Travel Places</h2>
             <ul class="splide__list">
                 @foreach($popularhotels as $value)
+                 @if($value->packagePrices && $value->packagePrices->isNotEmpty())
                     <li class="splide__slide">
                       <div class="row">
                         <div class="col">
@@ -317,6 +320,7 @@
                         </div>
                       </div>
                     </li>
+                    @endif
                 @endforeach
             </ul>
         </div>
@@ -554,6 +558,7 @@
     <ul class="splide__list">
       @if($packages)
         @foreach ($packages as $key => $value)
+        @if($value->packagePrices && $value->packagePrices->isNotEmpty())
           @php
             $images = json_decode($value->image, true);
             $add = ($images && is_array($images) && count($images) > 0) ? asset(reset($images)) : asset('frontend/images/hotel_main.avif');
@@ -590,6 +595,7 @@
                 </div>
               </div>
           </li>
+            @endif
         @endforeach
       @else
         <li class="splide__slide">
