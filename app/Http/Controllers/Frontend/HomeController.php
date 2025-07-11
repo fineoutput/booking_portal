@@ -442,7 +442,12 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
             })->toArray();
             // return $packageIds;
 
-            $data['hotels'] = Hotels::whereIn('package_id', $packageIds)->get();
+            // $data['hotels'] = Hotels::whereIn('package_id', $packageIds)->get();
+            $data['hotels'] = Hotels::where(function ($query) use ($packageIds) {
+                foreach ($packageIds as $id) {
+                    $query->orWhereRaw("FIND_IN_SET(?, package_id)", [$id]);
+                }
+            })->get();
             // return $data['hotels'];
             $data['hotels_data'] = HotelBooking2::with('tourists')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
 
