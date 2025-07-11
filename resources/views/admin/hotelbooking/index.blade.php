@@ -75,8 +75,8 @@
                         <td>{{ $hotel->salesman_mobile ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->hotel->name ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->hotel->cities->city_name ?? '' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($hotel->check_in_date)->format('d F Y') ?? '' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($hotel->check_out_date)->format('d F Y') ?? '' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($hotel->hotel_se->check_in_date)->format('d F Y') ?? '' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($hotel->hotel_se->check_out_date)->format('d F Y') ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->no_occupants ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->night_count ?? '' }}</td>
                         <td>{{ $hotel->agent_margin ?? '' }}</td>
