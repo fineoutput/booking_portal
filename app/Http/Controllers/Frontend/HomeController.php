@@ -988,6 +988,8 @@ public function getVehiclesByCity($cityId)
         $taxibooking->city_id = $request->city_id;
         $taxibooking->location = $request->location;
         $taxibooking->airport_id = $request->airport_id;
+        $taxibooking->drop_pickup_address = $request->drop_pickup_address;
+
         $taxibooking->vehicle_id = $request->vehicle_id;
         $taxibooking->start_date = $request->start_date;
         $taxibooking->pickup_date = $request->pickup_date;
