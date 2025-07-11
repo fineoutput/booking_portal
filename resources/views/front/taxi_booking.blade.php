@@ -408,7 +408,7 @@
                         <select name="destination_city" class="form-select no-form-select" id="destination-city" onchange="updateVehicleList()">
                           <option value="">Destination City</option>
                           @foreach($outstation as $value)
-                              <option value="{{ $value->Route->id ?? '' }}">
+                              <option value="{{ $value->id ?? '' }}">
                                   {{ $value->Route->from_destination ?? ''}} - {{ $value->Route->to_destination ?? '' }}
                               </option>
                           @endforeach
