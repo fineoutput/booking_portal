@@ -150,9 +150,10 @@ class PackageController extends Controller
     }
 
     function upgradeorders($id) {
-            $data['UpgradeRequest'] = UpgradeRequest::orderBy('id','DESC')->where('booking_id',$id)->get();
+            $data['UpgradeRequest'] = UpgradeRequest::orderBy('id','DESC')->where('type','package')->where('booking_id',$id)->get();
             return view('admin/package/upgrade',$data);
     }
+    
     function hotelprefrenceorders($id) {
             $data['UpgradeRequest'] = HotelPrefrence::orderBy('id','DESC')->where('booking_id',$id)->get();
             return view('admin/package/hotelprefrence',$data);

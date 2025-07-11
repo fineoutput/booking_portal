@@ -134,6 +134,10 @@
                     Add Remark
                   </a>
 
+                  <a href="{{ route('upgradehotelrequest', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
+                                View Request
+                              </a>
+
                   <a href="{{ route('viewremarkhotelsbooking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
                     View Remark
                   </a>
@@ -160,6 +164,10 @@
                   <a href="{{ route('remark_hotels_booking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
                     Add Remark
                   </a>
+
+                  <a href="{{ route('upgradehotelrequest', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
+                                View Request
+                              </a>
 
                   <a href="{{ route('viewremarkhotelsbooking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
                     View Remark
@@ -244,6 +252,10 @@
                                     Add Remark
                                   </a>
 
+                                  <a href="{{ route('upgradehotelrequest', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
+                                View Request
+                              </a>
+
                                   <a href="{{ route('viewremarkhotelsbooking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
                                     View Remark
                                   </a>
@@ -270,6 +282,10 @@
                                   <a href="{{ route('remark_hotels_booking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
                                     Add Remark
                                   </a>
+
+                                  <a href="{{ route('upgradehotelrequest', ['id' => $hotel->id]) }}" class="btn btn-danger mt-2">
+                                View Request
+                              </a>
 
                                   <a href="{{ route('viewremarkhotelsbooking', ['id' =>    $hotel->id]) }}" class="btn btn-success mt-2">
                                     View Remark

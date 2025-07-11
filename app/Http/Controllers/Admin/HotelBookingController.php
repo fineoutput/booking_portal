@@ -18,7 +18,7 @@ use App\Models\RemarkHotelOrder;
 use App\Models\TransferHotelOrder;
 use App\adminmodel\Team;
 use App\Models\Tourist;
-
+use App\Models\UpgradeRequest;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -53,6 +53,33 @@ class HotelBookingController extends Controller
         return view('admin/hotelbooking/transfercreate',$data);
     }
 
+
+    
+    public function upgradeupdateStatus($id)
+    {
+        $vehicle = UpgradeRequest::findOrFail($id);
+
+        $action = request()->input('status_action');
+
+      if ($action == 'cancel') {
+            $vehicle->status = 1;
+        } elseif ($action == 'accept') {
+
+            $vehicle->status = 2;
+        } elseif ($action == 'process') {
+
+            $vehicle->status = 2;
+
+        } else {
+
+            return redirect()->back()->with('error', 'Invalid status update action.');
+            
+        }
+    
+        $vehicle->save();
+    
+        return redirect()->back()->with('success', 'status updated successfully!');
+    }
 
     function remarkcreate(Request $request,$id) {
         if($request->method()=='POST'){
@@ -126,6 +153,11 @@ class HotelBookingController extends Controller
             $data['WildlifeSafari'] = HotelBooking2::orderBy('id','DESC')->where('status',3)->get();
         }
         return view('admin/hotelbooking/index',$data);
+    }
+
+     function upgradeorders($id) {
+            $data['UpgradeRequest'] = UpgradeRequest::orderBy('id','DESC')->where('type','hotel')->where('booking_id',$id)->get();
+            return view('admin/hotelbooking/upgrade',$data);
     }
 
     function rejectorders() {

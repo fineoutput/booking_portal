@@ -90,6 +90,10 @@ Route::group(['middleware'=>'admin.auth'],function(){
 
    Route::get('/accept-hotels-booking', [HotelBookingController::class, 'acceptorders'])->name('accepthotelsbooking');
 
+    Route::get('/upgrade-hotel-request/{id}', [HotelBookingController::class, 'upgradeorders'])->name('upgradehotelrequest');
+
+       Route::match(['put', 'patch'], '/upgraderequest-hotel/{id}/status', [HotelBookingController::class, 'upgradeupdateStatus'])->name('upgraderequest.updateStatus');
+
    Route::get('/reject-hotels-booking', [HotelBookingController::class, 'rejectorders'])->name('rejecthotelsbooking');
    Route::match(['put', 'patch'], '/hotels-booking/{id}/status', [HotelBookingController::class, 'updateStatus'])->name('hotelsbooking.updateStatus');
 
