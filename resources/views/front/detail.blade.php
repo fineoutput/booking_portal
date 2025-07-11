@@ -694,14 +694,14 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // Convert Laravel's packagePrices to JavaScript array
     const packagePrices = @json($packages->packagePrices ?? []);
 
-    // When user selects a date
     document.getElementById('startDate').addEventListener('change', function () {
         const selectedDate = new Date(this.value);
         let matchFound = false;
+        let nextAvailableDate = null;
 
         for (const price of packagePrices) {
             const startDate = new Date(price.start_date);
@@ -711,17 +711,30 @@
                 matchFound = true;
                 break;
             }
+
+            // Track the next available future price date
+            if (startDate > selectedDate) {
+                if (!nextAvailableDate || startDate < nextAvailableDate) {
+                    nextAvailableDate = startDate;
+                }
+            }
         }
 
         if (!matchFound) {
-            // Show alert message
-            Swal.fire({
-    icon: 'warning',
-    title: 'Oops!',
-    text: 'Price not available in these dates.'
-});
+            let message = 'Price not available in these dates.';
+            if (nextAvailableDate) {
+                const formatted = nextAvailableDate.toLocaleDateString('en-GB', {
+                    day: '2-digit', month: 'long', year: 'numeric'
+                });
+                message += ` Available from ${formatted}.`;
+            }
 
-            // Reset the input value
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops!',
+                text: message
+            });
+
             this.value = '';
         }
     });
