@@ -692,11 +692,10 @@
     </div>
 </section>
 
-
+{{$packages->prices}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 <script>
-    const packagePrices = @json($packages->packagePrices ?? []);
+    const packagePrices = @json([$packages->prices]);
 
     document.getElementById('startDate').addEventListener('change', function () {
         const selectedDate = new Date(this.value);

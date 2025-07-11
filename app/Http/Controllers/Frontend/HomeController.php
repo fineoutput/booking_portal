@@ -1245,44 +1245,43 @@ public function getVehiclesByCity($cityId)
     }
 
 
-    public function detail($id)
-    {
-        $id = base64_decode($id);
+  public function detail($id)
+{
+    $id = base64_decode($id);
+    $formatted_date = Carbon::now()->format('Y-m-d');
+    // return $formatted_date;
+    // Get specific package with current price range
+    $package = Package::with(['packagePrices' => function ($q) use ($formatted_date) {
+        $q->whereDate('start_date', '<=', $formatted_date)
+          ->whereDate('end_date', '>=', $formatted_date)
+          ->orderBy('start_date', 'asc');
+    }])->where('id', $id)->first();
 
-        $formatted_date = Carbon::now()->format('Y-m-d');
-
-        // Fetch the specific package
-        $package = Package::with(['packagePrices' => function ($q) use ($formatted_date) {
-            $q->where('start_date', '<=', $formatted_date)
-            ->where('end_date', '>=', $formatted_date)
-            ->orderBy('start_date', 'asc');
-        }])->where('id', $id)->first();
-
-        if (!$package) {
-            abort(404, 'Package not found');
-        }
-
-        // Try to get current price
-        $package_price = $package->packagePrices->first();
-
-        // If not available, get next upcoming future price
-        if (!$package_price) {
-            $package_price = PackagePrice::where('package_id', $package->id)
-                ->where('start_date', '>', $formatted_date)
-                ->orderBy('start_date', 'asc')
-                ->first();
-        }
-
-        $package->prices = $package_price;
-
-        // Optional: get all prices if needed
-        $data['packagesprices'] = PackagePrice::where('package_id', $package->id)->get();
-
-        // Final data
-        $data['packages'] = $package;
-
-        return view('front/detail', $data);
+    if (!$package) {
+        abort(404, 'Package not found');
     }
+
+    // Get the first current price (if any)
+    $package_price = $package->packagePrices->first();
+    if (!$package_price) {
+        $package_price = PackagePrice::where('package_id', $package->id)
+            ->whereDate('start_date', '>', $formatted_date)
+            ->orderBy('start_date', 'asc')
+            ->first();  // only one
+    }
+
+    // return $package_price;
+
+    $package->prices = $package_price;
+
+    // Optional: all price ranges for JS use or display
+    $data['packagesprices'] = PackagePrice::where('package_id', $package->id)->get();
+
+    // Final data
+    $data['packages'] = $package;
+
+    return view('front/detail', $data);
+}
 
 
     // public function detail($id)
