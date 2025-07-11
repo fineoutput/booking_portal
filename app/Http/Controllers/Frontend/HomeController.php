@@ -1245,16 +1245,80 @@ public function getVehiclesByCity($cityId)
     }
 
 
-
     public function detail($id)
     {
         $id = base64_decode($id);
 
-        $data['packages'] = Package::where('id',$id)->first();
-        $data['packagesprices'] = PackagePrice::where('package_id',$data['packages']->id)->get();
+        $formatted_date = Carbon::now()->format('Y-m-d');
 
-        return view('front/detail',$data);
+        // Fetch the specific package
+        $package = Package::with(['packagePrices' => function ($q) use ($formatted_date) {
+            $q->where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)
+            ->orderBy('start_date', 'asc');
+        }])->where('id', $id)->first();
+
+        if (!$package) {
+            abort(404, 'Package not found');
+        }
+
+        // Try to get current price
+        $package_price = $package->packagePrices->first();
+
+        // If not available, get next upcoming future price
+        if (!$package_price) {
+            $package_price = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '>', $formatted_date)
+                ->orderBy('start_date', 'asc')
+                ->first();
+        }
+
+        $package->prices = $package_price;
+
+        // Optional: get all prices if needed
+        $data['packagesprices'] = PackagePrice::where('package_id', $package->id)->get();
+
+        // Final data
+        $data['packages'] = $package;
+
+        return view('front/detail', $data);
     }
+
+
+    // public function detail($id)
+    // {
+    //     $id = base64_decode($id);
+
+    //     $data['packages'] = Package::where('id',$id)->first();
+    //     $data['packagesprices'] = PackagePrice::where('package_id',$data['packages']->id)->get();
+
+    //     $formatted_date = Carbon::now()->format('Y-m-d');
+
+    //     // Get packages for the selected city
+    //     $query = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id]);
+
+    //     $data['packages'] = $query->with(['packagePrices' => function ($q) use ($formatted_date) {
+    //         $q->where('start_date', '<=', $formatted_date)
+    //         ->where('end_date', '>=', $formatted_date)
+    //         ->orderBy('start_date', 'asc');
+    //     }])->get();
+
+    //     foreach ($data['packages'] as $package) {
+    //         $package_price = $package->packagePrices->first();
+
+    //         if (!$package_price) {
+    //             $package_price = PackagePrice::where('package_id', $package->id)
+    //                 ->where('start_date', '>', $formatted_date)
+    //                 ->orderBy('start_date', 'asc')
+    //                 ->first();
+    //         }
+
+    //         $package->prices = $package_price;
+    //     }
+
+
+    //     return view('front/detail',$data);
+    // }
 
 
     // public function hotelsbooking()

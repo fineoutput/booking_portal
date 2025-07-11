@@ -692,6 +692,41 @@
     </div>
 </section>
 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Convert Laravel's packagePrices to JavaScript array
+    const packagePrices = @json($packages->packagePrices ?? []);
+
+    // When user selects a date
+    document.getElementById('startDate').addEventListener('change', function () {
+        const selectedDate = new Date(this.value);
+        let matchFound = false;
+
+        for (const price of packagePrices) {
+            const startDate = new Date(price.start_date);
+            const endDate = new Date(price.end_date);
+
+            if (selectedDate >= startDate && selectedDate <= endDate) {
+                matchFound = true;
+                break;
+            }
+        }
+
+        if (!matchFound) {
+            // Show alert message
+            Swal.fire({
+    icon: 'warning',
+    title: 'Oops!',
+    text: 'Price not available in these dates.'
+});
+
+            // Reset the input value
+            this.value = '';
+        }
+    });
+</script>
+
 <script>
 function openZoom(img) {
     const modal = document.getElementById("zoomModal");
