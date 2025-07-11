@@ -207,10 +207,10 @@
                     <i class="fa-solid fa-star"></i>
                     <p style="margin: 0;">2 reviews</p>
                   </div> --}}
-                  <div class="inclusive">
+                  {{-- <div class="inclusive">
                     <i class="fa-solid fa-infinity"></i>
                     <p class="m-0">All Inclusive</p>
-                  </div>
+                  </div> --}}
                 </div>
               </div>
               <div class="">

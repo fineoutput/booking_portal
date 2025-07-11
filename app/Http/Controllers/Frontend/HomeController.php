@@ -303,7 +303,7 @@ class HomeController extends Controller
     //     return view('front/state_detail', $data);
     // }
 
-
+    
 public function state_detail($id, Request $request)
 {
     $id = base64_decode($id);
@@ -341,42 +341,60 @@ public function state_detail($id, Request $request)
 
     $data['city_data'] = $uniqueCityNames;
 
-    $query = Package::where('state_id', $id);
+   $formatted_date = Carbon::now()->format('Y-m-d');
 
-    // Apply price range filter
-    $formatted_date = Carbon::now()->format('Y-m-d');
+$query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
+
+    // Price filter for current date
     if ($min_price > 0 || $max_price < 10000000) {
         $query->whereHas('packagePrices', function ($q) use ($min_price, $max_price, $formatted_date) {
             $q->where('start_date', '<=', $formatted_date)
-              ->where('end_date', '>=', $formatted_date)
-              ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
-              ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
+            ->where('end_date', '>=', $formatted_date)
+            ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+            ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price]);
         });
     }
 
-    // Get all packages first
-    $packages = $query->with('packagePrices')->get();
+    $packages = $query->with(['packagePrices' => function($q) use ($formatted_date) {
+        // First try current prices
+        $q->where('start_date', '<=', $formatted_date)
+        ->where('end_date', '>=', $formatted_date);
+    }])->get();
+
+    // Agar current date me price na mile kisi package ke liye, toh future price fetch karo
+    foreach ($packages as $package) {
+        if ($package->packagePrices->isEmpty()) {
+            // Get next available price after current date
+            $futurePrice = PackagePrice::where('package_id', $package->id)
+                ->where('start_date', '>', $formatted_date)
+                ->orderBy('start_date', 'asc')
+                ->first();
+
+            if ($futurePrice) {
+                // Replace empty collection with future price
+                $package->packagePrices = collect([$futurePrice]);
+            }
+        }
+    }
 
     // Filter by selected cities if any
     $selectedCities = $request->input('cities', []);
     if (!empty($selectedCities)) {
+        $cityMap = City::pluck('city_name', 'id')->toArray();
+
         $packages = $packages->filter(function ($package) use ($selectedCities, $cityMap) {
             $cityIds = explode(',', $package->city_id);
             $citiesForPackage = collect($cityIds)->map(function ($id) use ($cityMap) {
                 return $cityMap[$id] ?? null;
             })->filter();
 
-            // Check if any selected city is present in this package
             return $citiesForPackage->intersect($selectedCities)->isNotEmpty();
-        })->values(); // reindex the collection
+        })->values();
     }
 
     // Continue processing packages
     foreach ($packages as $package) {
-        $package_price = PackagePrice::where('package_id', $package->id)
-            ->where('start_date', '<=', $formatted_date)
-            ->where('end_date', '>=', $formatted_date)
-            ->first();
+        $package_price = $package->packagePrices->first(); // Use eager loaded or future price
 
         $package->prices = $package_price;
 
@@ -384,6 +402,7 @@ public function state_detail($id, Request $request)
         $package->hotels = $hotels;
 
         $packageCityIds = explode(',', $package->city_id);
+        $cityMap = City::pluck('city_name', 'id')->toArray();
         $packageCityNames = collect($packageCityIds)
             ->map(fn($id) => trim($id))
             ->filter()
