@@ -1507,6 +1507,7 @@ if ($max_price) {
             return redirect()->route('login');
         }
 
+
         $start_date = Carbon::parse($request->start_date);
         $end_date = Carbon::parse($request->end_date);
         

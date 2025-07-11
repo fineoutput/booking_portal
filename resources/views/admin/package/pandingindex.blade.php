@@ -74,8 +74,12 @@
                         <td>{{ $hotel->user->name ?? '' }}</td>
                         <td>{{ $hotel->package->package_name ?? '' }}</td>
                         <td>{{ $hotel->package->cities->city_name ?? '' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($hotel->check_in_date)->format('d F Y') ?? '' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($hotel->check_out_date)->format('d F Y') ?? '' }}</td>
+                        <td>
+                           {{ $hotel->packagetemp->start_date ? \Carbon\Carbon::parse($hotel->packagetemp->start_date)->format('d F Y') : '' }}
+                        </td>
+                        <td>
+                            {{ $hotel->packagetemp->end_date ? \Carbon\Carbon::parse($hotel->packagetemp->end_date)->format('d F Y') : '' }}
+                        </td>
                         <td>{{ $hotel->salesman_name ?? '' }}</td>
                         <td>{{ $hotel->salesman_mobile ?? '' }}</td>
                         <td>₹{{ $hotel->agent_margin ?? '' }}</td>
