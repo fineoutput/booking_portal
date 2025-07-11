@@ -50,7 +50,7 @@
                     <h4>{{$packages->package_name ?? ''}},{{$packages->state->state_name ?? ''}},{{$packages->cities->city_name ?? ''}}</h4>
                     
                     <div class="hum_str">
-                        <div class="plan_type_date">
+                        {{-- <div class="plan_type_date">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
@@ -59,9 +59,9 @@
                             <p style="margin: 0;">350+ guests rated 5*</p>
                             <p style="margin: 0;color: #0a66c2;font-weight: bold;">
                                 10 Reviews</p>
-                        </div>
+                        </div> --}}
                     </div>
-                    <div class="hum_str">
+                    {{-- <div class="hum_str">
                         <div class="plan_type_date gap-2">
                             <p>
                                 <i class="fa-solid fa-calendar-days"></i>
@@ -72,7 +72,7 @@
                                 <b>7</b> Cities
                             </p>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="head_mage">
                     <div class="mage_vin">
