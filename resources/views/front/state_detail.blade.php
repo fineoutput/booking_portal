@@ -167,7 +167,7 @@
 
           @if($packages)
           @foreach ($packages as $key => $value)
-           @if($value->prices)
+           {{-- @if($value->prices) --}}
           <div class="col-lg-6">
             <div class="plan_outer w-100">
               <div class="outer_plan_upper">
@@ -253,7 +253,7 @@
               </div>
             </div>
             </div>
-            @endif
+            {{-- @endif --}}
           @endforeach
           @else
             <div class="col-lg-6">

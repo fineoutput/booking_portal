@@ -192,7 +192,7 @@
 
          @if($packages)
           @foreach ($packages as $key => $value)
-          @if($value->prices->display_cost ?? '')
+          {{-- @if($value->prices->display_cost ?? '') --}}
       <div class="col-lg-4 mb-2">
            @php
                   $images = json_decode($value->image, true);
@@ -245,7 +245,7 @@
         </a>
 
       </div>
-       @endif
+       {{-- @endif --}}
        @endforeach
           @else
 

@@ -1199,12 +1199,22 @@ public function getVehiclesByCity($cityId)
 
         // Attach prices and hotels to each package
         foreach ($data['packages'] as $package) {
-            $package_price = PackagePrice::where('package_id', $package->id)
+
+                $package_price = PackagePrice::where('package_id', $package->id)
                 ->where('start_date', '<=', $formatted_date)
                 ->where('end_date', '>=', $formatted_date)
                 ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
                 ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price])
                 ->first();
+
+            if (!$package_price) {
+                $package_price = PackagePrice::where('package_id', $package->id)
+                    ->where('start_date', '>', $formatted_date)
+                    ->whereRaw('CAST(display_cost AS UNSIGNED) >= ?', [$min_price])
+                    ->whereRaw('CAST(display_cost AS UNSIGNED) <= ?', [$max_price])
+                    ->orderBy('start_date', 'asc')
+                    ->first();
+            }
 
             $package->prices = $package_price ?: null;
 
