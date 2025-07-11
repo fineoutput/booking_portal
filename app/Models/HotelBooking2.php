@@ -32,6 +32,11 @@ class HotelBooking2 extends Model
         return $this->belongsTo(State::class, 'state_id'); 
     }
 
+    public function hotel()
+    {
+        return $this->belongsTo(Hotels::class, 'hotel_id'); 
+    }
+
     public function safari()
     {
         return $this->belongsTo(Hotels::class, 'hotel_id'); 
