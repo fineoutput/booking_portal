@@ -405,11 +405,23 @@
                           <img src="{{asset('frontend/images/pin.png')}}" alt="" style="width: 20px;">
                           <label for="pickup-airport" class="form-label">Destination City</label>
                         </div>
+                        {{-- <select name="destination_city" class="form-select no-form-select" id="destination-city" onchange="updateVehicleList()">
+                          <option value="">Destination City</option>
+                          @foreach($outstation as $value)
+                              <option value="{{ $value->Route->id ?? '' }}">
+                                  {{ $value->Route->from_destination ?? ''}} - {{ $value->Route->to_destination ?? '' }}
+                              </option>
+                          @endforeach
+                        </select> --}}
                         <select name="destination_city" class="form-select no-form-select" id="destination-city" onchange="updateVehicleList()">
                           <option value="">Destination City</option>
                           @foreach($outstation as $value)
-                              <option value="{{ $value->id ?? '' }}">
-                                  {{ $value->Route->from_destination ?? ''}} - {{ $value->Route->to_destination ?? '' }}
+                              <option 
+                                  value="{{ $value->Route->id ?? '' }}"  {{-- value sent on form submit --}}
+                                  data-outstation-id="{{ $value->id ?? '' }}" {{-- used for JS vehicle filtering --}}
+                                  data-from="{{ $value->Route->from_destination ?? '' }}" 
+                                  data-to="{{ $value->Route->to_destination ?? '' }}">
+                                  {{ $value->Route->from_destination ?? '' }} - {{ $value->Route->to_destination ?? '' }}
                               </option>
                           @endforeach
                         </select>
@@ -875,30 +887,59 @@
   }
 
   function updateVehicleList() {
-    const destinationCityId = document.getElementById("destination-city").value;
-     console.log(destinationCityId,'asdvbgiahsgihdbiasi');
+  const select = document.getElementById("destination-city");
+  const selectedOption = select.options[select.selectedIndex];
 
-    const vehicleSelect = document.getElementById("vehicle-selectss");
-    vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+  const outstationId = selectedOption.getAttribute("data-outstation-id");
 
-    if (destinationCityId) {
-      const outstationData = @json($outstation);
-      const vehicleData = @json($vehicle);
-      const matchingOutstation = outstationData.filter(outstation => outstation.id == destinationCityId);
+  const vehicleSelect = document.getElementById("vehicle-selectss");
+  vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
 
-      matchingOutstation.forEach(outstation => {
-        const matchingVehicle = vehicleData.find(vehicle => vehicle.id == outstation.vehicle_type);
-        console.log(matchingVehicle, 'asdvbgiahsgihdbiasi');
-        if (matchingVehicle) {
-          const option = document.createElement("option");
-          option.value = matchingVehicle.id;
-          option.text = matchingVehicle.vehicle_type;
-          option.setAttribute("data-price", outstation.cost);
-          vehicleSelect.appendChild(option);
-        }
-      });
+  if (outstationId) {
+    const outstationData = @json($outstation);
+    const vehicleData = @json($vehicle);
+
+    const matchingOutstation = outstationData.find(out => out.id == outstationId);
+
+    if (matchingOutstation) {
+      const matchingVehicle = vehicleData.find(vehicle => vehicle.id == matchingOutstation.vehicle_type);
+
+      if (matchingVehicle) {
+        const option = document.createElement("option");
+        option.value = matchingVehicle.id;
+        option.text = matchingVehicle.vehicle_type;
+        option.setAttribute("data-price", matchingOutstation.cost);
+        vehicleSelect.appendChild(option);
+      }
     }
   }
+}
+
+  // function updateVehicleList() {
+  //   const destinationCityId = document.getElementById("destination-city").value;
+  //    console.log(destinationCityId,'asdvbgiahsgihdbiasi');
+
+  //   const vehicleSelect = document.getElementById("vehicle-selectss");
+  //   vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+
+  //   if (destinationCityId) {
+  //     const outstationData = @json($outstation);
+  //     const vehicleData = @json($vehicle);
+  //     const matchingOutstation = outstationData.filter(outstation => outstation.id == destinationCityId);
+
+  //     matchingOutstation.forEach(outstation => {
+  //       const matchingVehicle = vehicleData.find(vehicle => vehicle.id == outstation.vehicle_type);
+  //       console.log(matchingVehicle, 'asdvbgiahsgihdbiasi');
+  //       if (matchingVehicle) {
+  //         const option = document.createElement("option");
+  //         option.value = matchingVehicle.id;
+  //         option.text = matchingVehicle.vehicle_type;
+  //         option.setAttribute("data-price", outstation.cost);
+  //         vehicleSelect.appendChild(option);
+  //       }
+  //     });
+  //   }
+  // }
 
   function updateEstimatedCost() {
     const vehicleSelect = document.getElementById('vehicle-select');
