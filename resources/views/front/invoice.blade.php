@@ -72,9 +72,15 @@
           CHECK OUT - {{ optional($booking->packagetemp)->end_date ? \Carbon\Carbon::parse($booking->packagetemp->end_date)->format('d-F-Y') : '' }}<br/>
           PAX - {{ $booking->packagetemp->adults_count ?? ''}} Adults
         </td>
-        <td>{{$booking->fetched_price ?? ''}}</td>
+        <td>{{ $booking->fetched_price ?? '' }}</td>
         <td>18%</td>
-        <td>{{$booking->final_price ?? ''}}</td>
+        <td>
+            @php  
+                $tax_amount = $booking->fetched_price * 0.18;
+                $total_price = round($booking->fetched_price + $tax_amount, 2);
+            @endphp
+            {{ $total_price }}
+        </td>
       </tr>
     </tbody>
   </table>
