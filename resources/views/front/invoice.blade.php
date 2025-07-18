@@ -96,11 +96,16 @@
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">18% IGST (ON SERVICE)</td>
-      <td>{{ $booking->final_price ? number_format($booking->final_price * 0.18, 2) : '' }}</td>
+      @php  
+                $tax_amount = $booking->fetched_price * 0.18;
+                 $margin = $booking->agent_margin;
+                $total_price = round($booking->fetched_price + $margin + $tax_amount, 2);
+          @endphp
+      <td> {{$tax_amount}}</td>
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">TOTAL AMOUNT</td>
-      <td><strong>{{$booking->final_price ?? ''}}</strong></td>
+      <td><strong>{{$total_price ?? '0'}}</strong></td>
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">RECEIVED</td>
@@ -108,7 +113,7 @@
     </tr>
     <tr>
       <td class="text-right bold" colspan="4">BALANCE AMOUNT</td>
-      <td><strong>{{$booking->final_price ?? ''}}</strong></td>
+      <td><strong>{{$total_price ?? ''}}</strong></td>
     </tr>
   </table>
 
