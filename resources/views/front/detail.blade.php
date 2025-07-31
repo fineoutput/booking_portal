@@ -357,7 +357,7 @@
         <div class="col-12">
             <div class="rj_vk">
                 <img style="width: 20px;" src="{{ asset('frontend/images/location.png') }}" alt="">
-                <label for="pickupLocation" class="form-label">Pickup Location</label>
+                <label for="pickupLocation" class="form-label">Pickup Location(Pickup and Drop Location will be Same)</label>
             </div>
             <select name="pickup_location" class="form-select no-form-select" required id="">
             @foreach ($package_location as $value)
