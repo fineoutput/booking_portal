@@ -1562,7 +1562,7 @@ if ($max_price) {
         $wildlife->specialremarks = $request->specialremarks;  
 
         $wildlife->pickup_location = $request->pickup_location;  
-        $wildlife->drop_location = $request->drop_location;  
+        // $wildlife->drop_location = $request->drop_location;  
         $wildlife->vehicle_count = $request->vehicle_count;  
         $wildlife->number_of_rooms = $request->number_of_rooms;  
         $wildlife->hotel_category = $request->hotel_category;   

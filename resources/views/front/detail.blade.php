@@ -369,13 +369,13 @@
         </div>
 
         <!-- Drop Location -->
-        <div class="col-12">
+        {{-- <div class="col-12">
             <div class="rj_vk">
                 <img style="width: 20px;" src="{{ asset('frontend/images/location.png') }}" alt="">
                 <label for="dropLocation" class="form-label">Drop Location</label>
             </div>
             <input name="drop_location" type="text" id="dropLocation" class="form-control no-form" required value="{{ old('drop_location', session('booking_form_data.drop_location')) }}" placeholder="Enter drop location">
-        </div>
+        </div> --}}
 
         <!-- Vehicle Count -->
         <div class="col-12">
