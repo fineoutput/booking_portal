@@ -68,7 +68,8 @@
                         {{-- <th data-priority="3">Adults Cost</th> --}}
                         <th data-priority="3">Child With Bed Cost</th>
                         <th data-priority="3">Child With No Bed (Infant) Cost</th>
-                        <th data-priority="3">Child With No Bed (Child) Cost</th>
+                        <th data-priority="3">Children (1-5 years) Cost</th>
+                        <th data-priority="3">Children (5-11 years) Cost</th>
                         <th data-priority="3">Meal Plan (Only Room) Cost</th>
                         <th data-priority="3">Meal Plan Breakfast Cost</th>
                         <th data-priority="3">Meal Plan (Breakfast + Lunch/Dinner) Cost</th>
@@ -133,7 +134,8 @@
                                 {{-- <td>₹{{ $pkg->adults_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->child_with_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->child_no_bed_infant_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->child_no_bed_child_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->children_1_5_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->children_5_11_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_only_room_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_breakfast_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_breakfast_lunch_dinner_cost ?? '0' }}</td>

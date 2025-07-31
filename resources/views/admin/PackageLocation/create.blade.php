@@ -5,10 +5,10 @@
 
 <div class="content-wrapper">
   <section class="content-header">
-    <h1>Edit Competition</h1>
+    <h1>Edit Location</h1>
     <ol class="breadcrumb">
       <li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Edit Competition</li>
+      <li class="active">Edit Location</li>
     </ol>
   </section>
 
@@ -17,7 +17,7 @@
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Edit Competition</h3>
+            <h3 class="panel-title">Edit Location</h3>
           </div>
           
 

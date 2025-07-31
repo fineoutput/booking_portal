@@ -225,10 +225,26 @@
                                     </div>
                             
                                  <div class="form-group row">
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="child_no_bed_child_cost" class="form-label">Child With No Bed (Child) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="child_no_bed_child_cost" value="" required>
                                         @error('child_no_bed_child_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div> --}}
+
+                                    <div class="col-sm-6">
+                                        <label for="children_1_5_cost" class="form-label">Children (5-11 years) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="children_1_5_cost" value="" required>
+                                        @error('children_1_5_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="children_1_5_cost" class="form-label">Children (1-5 years) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="children_1_5_cost" value="" required>
+                                        @error('children_1_5_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>

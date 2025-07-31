@@ -359,7 +359,13 @@
                 <img style="width: 20px;" src="{{ asset('frontend/images/location.png') }}" alt="">
                 <label for="pickupLocation" class="form-label">Pickup Location</label>
             </div>
-            <input name="pickup_location" type="date" id="pickupLocation" class="form-control no-form" required value="{{ old('pickup_location', session('booking_form_data.pickup_location')) }}" placeholder="Enter pickup location">
+            <select name="pickup_location" class="form-select no-form-select" required id="">
+            @foreach ($package_location as $value)
+                      <option value="{{$value->location ?? ''}}" {{ old('pickup_location', session('booking_form_data.pickup_location')) == $value->location ? 'selected' : '' }}>
+                        {{ $value->location ?? ''}}</option>
+            @endforeach
+            </select>
+        
         </div>
 
         <!-- Drop Location -->
@@ -368,7 +374,7 @@
                 <img style="width: 20px;" src="{{ asset('frontend/images/location.png') }}" alt="">
                 <label for="dropLocation" class="form-label">Drop Location</label>
             </div>
-            <input name="drop_location" type="date" id="dropLocation" class="form-control no-form" required value="{{ old('drop_location', session('booking_form_data.drop_location')) }}" placeholder="Enter drop location">
+            <input name="drop_location" type="text" id="dropLocation" class="form-control no-form" required value="{{ old('drop_location', session('booking_form_data.drop_location')) }}" placeholder="Enter drop location">
         </div>
 
         <!-- Vehicle Count -->
@@ -380,20 +386,6 @@
             <input name="vehicle_count" type="number" id="vehicleCount" class="form-control no-form" min="1" required value="{{ old('vehicle_count', session('booking_form_data.vehicle_count')) }}" placeholder="Number of vehicles">
         </div>
 
-        <!-- Select Room -->
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
-                <label for="selectRoom" class="form-label">Select Room</label>
-            </div>
-            <select id="selectRoom" name="select_room" class="form-select no-form-select" required>
-                <option value="" disabled {{ !session('booking_form_data.select_room') ? 'selected' : '' }}>Select room type</option>
-                <option value="single" {{ old('select_room', session('booking_form_data.select_room')) == 'single' ? 'selected' : '' }}>Single Room</option>
-                <option value="double" {{ old('select_room', session('booking_form_data.select_room')) == 'double' ? 'selected' : '' }}>Double Room</option>
-                <option value="triple" {{ old('select_room', session('booking_form_data.select_room')) == 'triple' ? 'selected' : '' }}>Triple Room</option>
-                <option value="suite" {{ old('select_room', session('booking_form_data.select_room')) == 'suite' ? 'selected' : '' }}>Suite</option>
-            </select>
-        </div>
 
         <!-- No. of Rooms -->
         <div class="col-12">
@@ -412,7 +404,7 @@
             </div>
             <select id="children511" name="children_5_11" class="form-select no-form-select" required>
                 <option value="" disabled {{ !session('booking_form_data.children_5_11') ? 'selected' : '' }}>Select number</option>
-                @for($i=0; $i<=5; $i++)
+                @for($i=0; $i<=20; $i++)
                     <option value="{{ $i }}" {{ old('children_5_11', session('booking_form_data.children_5_11')) == $i ? 'selected' : '' }}>{{ $i }}</option>
                 @endfor
             </select>
@@ -426,7 +418,7 @@
             </div>
             <select id="children15" name="children_1_5" class="form-select no-form-select" required>
                 <option value="" disabled {{ !session('booking_form_data.children_1_5') ? 'selected' : '' }}>Select number</option>
-                @for($i=0; $i<=5; $i++)
+                @for($i=0; $i<=20; $i++)
                     <option value="{{ $i }}" {{ old('children_1_5', session('booking_form_data.children_1_5')) == $i ? 'selected' : '' }}>{{ $i }}</option>
                 @endfor
             </select>
@@ -514,17 +506,58 @@
             <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
                 <option value="" disabled {{ !session('booking_form_data.hotel_preference') ? 'selected' : '' }}>Select preference</option>
 
-                @foreach ($packagesprices as $value)
-                    @php
-                        $hotelCategory = $value->hotel_category ?? '';
-                        $selectedPref = old('hotel_preference', session('booking_form_data.hotel_preference'));
-                    @endphp
-                    @if($hotelCategory)
-                        <option value="{{ $hotelCategory }}" {{ $selectedPref == $hotelCategory ? 'selected' : '' }}>
-                            {{ ucfirst(str_replace('_', ' ', $hotelCategory)) }}
-                        </option>
-                    @endif
-                @endforeach
+              @foreach ($packagesprices as $value)
+                        @php
+                            $hotelCategory = $value->hotel_category ?? '';
+                            $selectedPref = old('hotel_preference', session('booking_form_data.hotel_preference'));
+                        @endphp
+
+                        @if($hotelCategory)
+                            <option value="{{ $hotelCategory }}" {{ $selectedPref == $hotelCategory ? 'selected' : '' }}>
+                                @switch($hotelCategory)
+                                    @case('standard_cost')
+                                        Standard Hotel
+                                        @break
+                                    @case('deluxe_cost')
+                                        Deluxe Hotel
+                                        @break
+                                    @case('premium_3_cost')
+                                        Premium (3 star)
+                                        @break
+                                    @case('super_deluxe_cost')
+                                        Super Deluxe Hotel
+                                        @break
+                                    @case('premium_cost')
+                                        Premium (4 star)
+                                        @break
+                                    @case('luxury_cost')
+                                        Deluxe (4 star) Hotel
+                                        @break
+                                    @case('premium_5_cost')
+                                        Premium (5 star)
+                                        @break
+                                    @case('hostels')
+                                        Hostels
+                                        @break
+                                    @default
+                                        NO DATA
+                                @endswitch
+                            </option>
+                        @endif
+                    @endforeach
+            </select>
+        </div>
+
+            <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
+                <label for="selectRoom" class="form-label">Select Hotel Category</label>
+            </div>
+            <select id="selectRoom" name="hotel_category" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.hotel_category') ? 'selected' : '' }}>Select room type</option>
+                <option value="hotel_premium_cost" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'hotel_premium_cost' ? 'selected' : '' }}>Hotel Premium</option>
+                <option value="hotel_delux_cost" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'hotel_delux_cost' ? 'selected' : '' }}>Hotel Delux</option>
+                
             </select>
         </div>
 

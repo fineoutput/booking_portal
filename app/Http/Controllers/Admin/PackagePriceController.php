@@ -43,7 +43,7 @@ class PackagePriceController extends Controller
                 // 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
-                'child_no_bed_child_cost' => 'required|numeric',
+                // 'child_no_bed_child_cost' => 'required|numeric',
                 'meal_plan_only_room_cost' => 'required|numeric',
                 'meal_plan_breakfast_cost' => 'required|numeric',
                 'meal_plan_breakfast_lunch_dinner_cost' => 'required|numeric',
@@ -66,6 +66,8 @@ class PackagePriceController extends Controller
                 'hotel_premium_cost' => 'required|numeric',
                 'hotel_delux_cost' => 'required|numeric',
                 'room_cost' => 'required|numeric',
+                'children_1_5_cost' => 'required|numeric',
+                'children_5_11_cost' => 'required|numeric',
             ]);
        
                 $packagePrice = new PackagePrice();
@@ -107,6 +109,8 @@ class PackagePriceController extends Controller
                 $packagePrice->hotel_premium_cost = $request->hotel_premium_cost;
                 $packagePrice->hotel_delux_cost = $request->hotel_delux_cost;
                 $packagePrice->room_cost = $request->room_cost;
+                $packagePrice->children_5_11_cost = $request->children_5_11_cost;
+                $packagePrice->children_1_5_cost = $request->children_1_5_cost;
                 $packagePrice->save();
     
                 $message = 'Package price added successfully.';
@@ -158,7 +162,7 @@ class PackagePriceController extends Controller
                 // 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
-                'child_no_bed_child_cost' => 'required|numeric',
+                // 'child_no_bed_child_cost' => 'required|numeric',
                 'meal_plan_only_room_cost' => 'required|numeric',
                 'meal_plan_breakfast_cost' => 'required|numeric',
                 'meal_plan_breakfast_lunch_dinner_cost' => 'required|numeric',
@@ -181,6 +185,8 @@ class PackagePriceController extends Controller
                 'hotel_premium_cost' => 'required|numeric',
                 'hotel_delux_cost' => 'required|numeric',
                 'room_cost' => 'required|numeric',
+                  'children_1_5_cost' => 'required|numeric',
+                'children_5_11_cost' => 'required|numeric',
             ]);
         
             $packagePrice = PackagePrice::findOrFail($id);
@@ -222,6 +228,8 @@ class PackagePriceController extends Controller
                  $packagePrice->hotel_premium_cost = $request->hotel_premium_cost;
                 $packagePrice->hotel_delux_cost = $request->hotel_delux_cost;
                 $packagePrice->room_cost = $request->room_cost;
+                   $packagePrice->children_5_11_cost = $request->children_5_11_cost;
+                $packagePrice->children_1_5_cost = $request->children_1_5_cost;
                 $packagePrice->save();
         
             return redirect()->route('package_price', ['id' => $packagePrice->package_id])->with('success', 'Package updated successfully.');
