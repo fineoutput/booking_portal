@@ -1571,6 +1571,7 @@ if ($max_price) {
         $wildlife->status = 0;
 
       $package_location = LocationCost::where('package_id', $id)->where('location',$request->pickup_location)->first();
+   
 
 
         if($request->meal == 'only_room'){
@@ -1624,62 +1625,62 @@ if ($max_price) {
         }
 
         if($request->hotel_category == 'hotel_delux_cost'){
-            $hotel_cat_cost = $package_vehicle->hotel_delux_cost ?? 0;
+            $hotel_cat_cost = $package_price->hotel_delux_cost ?? 0;
         }else{
-            $hotel_cat_cost = $package_vehicle->hotel_premium_cost ?? 0;
+            $hotel_cat_cost = $package_price->hotel_premium_cost ?? 0;
         }
         // vehicle_options
 
         if($request->vehicle_options == 'hatchback_cost'){
 
-           $vehicle_options_cost = $package_vehicle->hatchback_cost ?? 0;
+           $vehicle_options_cost = $package_price->hatchback_cost ?? 0;
 
         }elseif($request->vehicle_options == 'sedan_cost'){
 
-            $vehicle_options_cost = $package_vehicle->sedan_cost ?? 0;
+            $vehicle_options_cost = $package_price->sedan_cost ?? 0;
 
         }elseif($request->vehicle_options == 'economy_suv_cost'){
 
-            $vehicle_options_cost = $package_vehicle->economy_suv_cost ?? 0;
+            $vehicle_options_cost = $package_price->economy_suv_cost ?? 0;
 
         }elseif($request->vehicle_options == 'luxury_suv_cost'){
 
-            $vehicle_options_cost = $package_vehicle->luxury_suv_cost ?? 0;
+            $vehicle_options_cost = $package_price->luxury_suv_cost ?? 0;
 
         }
         elseif($request->vehicle_options == 'traveller_mini_cost'){
 
-            $vehicle_options_cost = $package_vehicle->traveller_mini_cost ?? 0;
+            $vehicle_options_cost = $package_price->traveller_mini_cost ?? 0;
 
         }
         elseif($request->vehicle_options == 'traveller_big_cost'){
 
-            $vehicle_options_cost = $package_vehicle->traveller_big_cost ?? 0;
+            $vehicle_options_cost = $package_price->traveller_big_cost ?? 0;
 
         }
         elseif($request->vehicle_options == 'premium_traveller_cost'){
 
-            $vehicle_options_cost = $package_vehicle->premium_traveller_cost ?? 0;
+            $vehicle_options_cost = $package_price->premium_traveller_cost ?? 0;
         }
         elseif($request->vehicle_options == 'luxury_sedan_cost'){
 
-            $vehicle_options_cost = $package_vehicle->luxury_sedan_cost ?? 0;
+            $vehicle_options_cost = $package_price->luxury_sedan_cost ?? 0;
         }
         elseif($request->vehicle_options == 'suv_cost'){
 
-            $vehicle_options_cost = $package_vehicle->suv_cost ?? 0;
+            $vehicle_options_cost = $package_price->suv_cost ?? 0;
         }
         elseif($request->vehicle_options == 'muv_cost'){
 
-            $vehicle_options_cost = $package_vehicle->muv_cost ?? 0;
+            $vehicle_options_cost = $package_price->muv_cost ?? 0;
         }
         elseif($request->vehicle_options == 'bus_nonac_cost'){
 
-            $vehicle_options_cost = $package_vehicle->bus_nonac_cost ?? 0;
+            $vehicle_options_cost = $package_price->bus_nonac_cost ?? 0;
         }
         else{
 
-            $vehicle_options_cost = $package_vehicle->ac_coach_cost ?? 0;
+            $vehicle_options_cost = $package_price->ac_coach_cost ?? 0;
         }
 
         if($request->extra_bed == 'yes'){
@@ -1689,22 +1690,36 @@ if ($max_price) {
             $extrabed_cost = 0;
         }
 
-        $total_night_cost = $package_price->nights_cost *  $night_count;
-        $adults_cost = $package_price->nights_cost *  $request->adults_count;
+        $total_night_cost = $hotel_preference_cost *  $night_count;
+        $adults_cost = $package_price->adults_cost *  $request->adults_count;
+
         $children_5_11 = $package_price->children_5_11_cost *  $request->children_5_11;
+
+
         $children_1_5 = $package_price->children_1_5_cost *  $request->children_1_5;
+
         $child_with_bed_cost = $package_price->child_with_bed_cost *  $request->child_with_bed_count;
-        $child_no_bed_child_cost = $package_price->child_no_bed_child_cost *  $request->child_no_bed_child_count;
+
+        $child_no_bed_child_cost = $package_price->child_no_bed_infant_cost *  $request->child_no_bed_child_count;
+
+
         $total_meal_cost = $meal_cost;
-        $total_hotel_preference_cost = $hotel_preference_cost;
+
+
         $total_vehicle_options_cost = $vehicle_options_cost * $request->vehicle_count;
+
         $room_cost =  $package_price->room_cost * $request->number_of_rooms;
+
+
         $package_location_cost =  $package_location->cost;
 
-        $finaltotal = $total_night_cost + $hotel_cat_cost + $package_location_cost + $adults_cost + $children_5_11 + $children_1_5 + $child_with_bed_cost + $room_cost + $child_no_bed_child_cost + $total_meal_cost + $total_hotel_preference_cost + $total_vehicle_options_cost + $extrabed_cost; 
+
+        $admin_margin =  $package_price->admin_margin;
+
+        $finaltotal = $admin_margin + $total_night_cost + $hotel_cat_cost + $package_location_cost + $adults_cost + $children_5_11 + $children_1_5 + $child_with_bed_cost + $room_cost + $child_no_bed_child_cost + $total_meal_cost  + $total_vehicle_options_cost + $extrabed_cost; 
 
         $wildlife->total_cost = $finaltotal;
-        //   return $finaltotal;
+
         $wildlife->save();
     
         return redirect()->route('confirmation', ['id' => base64_encode($wildlife->id)]);
