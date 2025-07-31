@@ -101,17 +101,17 @@
                                 <td>{{ $pkg->end_date ?? '' }}</td>
                               <td>
                                 @if ($pkg->hotel_category == 'standard_cost')
-                                    Standard (1 star)
+                                    Standard Hotel
                                 @elseif ($pkg->hotel_category == 'deluxe_cost')
-                                    Deluxe (3 star)
+                                    Deluxe Hotel
                                 @elseif ($pkg->hotel_category == 'premium_3_cost')
                                     Premium (3 star)
                                 @elseif ($pkg->hotel_category == 'super_deluxe_cost')
-                                    Deluxe (4 star)
+                                    Super Deluxe Hotel
                                 @elseif ($pkg->hotel_category == 'premium_cost')
                                     Premium (4 star)
                                 @elseif ($pkg->hotel_category == 'luxury_cost')
-                                    Deluxe (5 star)
+                                    Deluxe (4 star) Hotel
                                 @elseif ($pkg->hotel_category == 'premium_5_cost')
                                     Premium (5 star)
                                 @elseif ($pkg->hotel_category == 'hostels')
