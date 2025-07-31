@@ -353,6 +353,87 @@
     </div>
 
     <div class="row g-3">
+        <!-- Pickup Location -->
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/location.png') }}" alt="">
+                <label for="pickupLocation" class="form-label">Pickup Location</label>
+            </div>
+            <input name="pickup_location" type="date" id="pickupLocation" class="form-control no-form" required value="{{ old('pickup_location', session('booking_form_data.pickup_location')) }}" placeholder="Enter pickup location">
+        </div>
+
+        <!-- Drop Location -->
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/location.png') }}" alt="">
+                <label for="dropLocation" class="form-label">Drop Location</label>
+            </div>
+            <input name="drop_location" type="date" id="dropLocation" class="form-control no-form" required value="{{ old('drop_location', session('booking_form_data.drop_location')) }}" placeholder="Enter drop location">
+        </div>
+
+        <!-- Vehicle Count -->
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/sport-car.png') }}" alt="">
+                <label for="vehicleCount" class="form-label">Vehicle Count</label>
+            </div>
+            <input name="vehicle_count" type="number" id="vehicleCount" class="form-control no-form" min="1" required value="{{ old('vehicle_count', session('booking_form_data.vehicle_count')) }}" placeholder="Number of vehicles">
+        </div>
+
+        <!-- Select Room -->
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
+                <label for="selectRoom" class="form-label">Select Room</label>
+            </div>
+            <select id="selectRoom" name="select_room" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.select_room') ? 'selected' : '' }}>Select room type</option>
+                <option value="single" {{ old('select_room', session('booking_form_data.select_room')) == 'single' ? 'selected' : '' }}>Single Room</option>
+                <option value="double" {{ old('select_room', session('booking_form_data.select_room')) == 'double' ? 'selected' : '' }}>Double Room</option>
+                <option value="triple" {{ old('select_room', session('booking_form_data.select_room')) == 'triple' ? 'selected' : '' }}>Triple Room</option>
+                <option value="suite" {{ old('select_room', session('booking_form_data.select_room')) == 'suite' ? 'selected' : '' }}>Suite</option>
+            </select>
+        </div>
+
+        <!-- No. of Rooms -->
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
+                <label for="numberOfRooms" class="form-label">No. of Rooms</label>
+            </div>
+            <input name="number_of_rooms" type="number" id="numberOfRooms" class="form-control no-form" min="1" required value="{{ old('number_of_rooms', session('booking_form_data.number_of_rooms')) }}" placeholder="Number of rooms">
+        </div>
+
+        <!-- Select number of children 5-11 -->
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
+                <label for="children511" class="form-label">Number of Children (5-11 years)</label>
+            </div>
+            <select id="children511" name="children_5_11" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.children_5_11') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=5; $i++)
+                    <option value="{{ $i }}" {{ old('children_5_11', session('booking_form_data.children_5_11')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
+
+        <!-- Select number of children 1-5 -->
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
+                <label for="children15" class="form-label">Number of Children (1-5 years)</label>
+            </div>
+            <select id="children15" name="children_1_5" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.children_1_5') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=5; $i++)
+                    <option value="{{ $i }}" {{ old('children_1_5', session('booking_form_data.children_1_5')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
+    </div>
+
+    <div class="row g-3">
         {{-- Adults --}}
         <div class="col-12">
             <div class="rj_vk">
