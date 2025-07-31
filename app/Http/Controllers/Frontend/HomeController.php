@@ -1698,7 +1698,7 @@ if ($max_price) {
         $total_meal_cost = $meal_cost;
         $total_hotel_preference_cost = $hotel_preference_cost;
         $total_vehicle_options_cost = $vehicle_options_cost * $request->vehicle_count;
-        $room_cost =  $request->number_of_rooms;
+        $room_cost =  $package_price->room_cost * $request->number_of_rooms;
         $package_location_cost =  $package_location->cost;
 
         $finaltotal = $total_night_cost + $hotel_cat_cost + $package_location_cost + $adults_cost + $children_5_11 + $children_1_5 + $child_with_bed_cost + $room_cost + $child_no_bed_child_cost + $total_meal_cost + $total_hotel_preference_cost + $total_vehicle_options_cost + $extrabed_cost; 
