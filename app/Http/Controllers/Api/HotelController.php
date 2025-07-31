@@ -43,6 +43,7 @@ use App\Models\AdminCity;
 use App\Models\HomeSlider;
 use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
+use App\Models\LocationCost;
 use App\Models\Tourist;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -52,6 +53,21 @@ use Illuminate\Support\Facades\Auth;
 
 class HotelController extends Controller
 {
+
+    public function pickupLocation(Request $request)
+    {
+        $request->validate([
+            'package_id' => 'required'
+        ]);
+
+        $locations = LocationCost::where('package_id', $request->package_id)->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pickup locations fetched successfully.',
+            'data' => $locations
+        ]);
+    }
 
     public function hotel(Request $request)
     {
@@ -1931,7 +1947,17 @@ public function packagebooking(Request $request)
     $wildlife->vehicle_options = $request->vehicle_options;  
     $wildlife->travelinsurance = $request->travelinsurance;  
     $wildlife->specialremarks = $request->specialremarks;  
+
+     $wildlife->pickup_location = $request->pickup_location;  
+        $wildlife->drop_location = $request->drop_location;  
+        $wildlife->vehicle_count = $request->vehicle_count;  
+        $wildlife->number_of_rooms = $request->number_of_rooms;  
+        $wildlife->hotel_category = $request->hotel_category;   
+        $wildlife->children_5_11 = $request->children_5_11;  
+        $wildlife->children_1_5 = $request->children_1_5;  
     $wildlife->status = 0;
+
+     $package_location = LocationCost::where('package_id', $request->package_id)->where('location',$request->pickup_location)->first();
 
     // Meal cost calculation
     switch ($request->meal) {
@@ -2014,19 +2040,35 @@ public function packagebooking(Request $request)
             $vehicle_options_cost = $package_price->ac_coach_cost;
     }
 
+       if($request->hotel_category == 'hotel_delux_cost'){
+            $hotel_cat_cost = $package_price->hotel_delux_cost ?? 0;
+        }else{
+            $hotel_cat_cost = $package_price->hotel_premium_cost ?? 0;
+        }
+
     // Extra bed cost
     $extrabed_cost = ($request->extra_bed == 'yes') ? $package_price->extra_bed_cost : 0;
 
     // Calculate total costs
-    $total_night_cost = $package_price->nights_cost * $night_count;
+    $total_night_cost = $hotel_preference_cost * $night_count;
     $adults_cost = $package_price->adults_cost * $request->adults_count;
-    $child_with_bed_cost = $package_price->child_with_bed_cost * $request->child_with_bed_count;
-    $child_no_bed_child_cost = $package_price->child_no_bed_child_cost * $request->child_no_bed_child_count;
-    $total_meal_cost = $meal_cost;
-    $total_hotel_preference_cost = $hotel_preference_cost;
-    $total_vehicle_options_cost = $vehicle_options_cost;
 
-    $finaltotal = $total_night_cost + $adults_cost + $child_with_bed_cost + $child_no_bed_child_cost + $total_meal_cost + $total_hotel_preference_cost + $total_vehicle_options_cost + $extrabed_cost; 
+     $child_with_bed_cost = $package_price->child_with_bed_cost *  $request->child_with_bed_count;
+
+    $child_no_bed_child_cost = $package_price->child_no_bed_infant_cost *  $request->child_no_bed_child_count;
+
+    $total_meal_cost = $meal_cost;
+
+
+    $total_vehicle_options_cost = $vehicle_options_cost * $request->vehicle_count;
+
+     $package_location_cost =  $package_location->cost;
+     $room_cost =  $package_price->room_cost * $request->number_of_rooms;
+    $admin_margin =  $package_price->admin_margin;
+    $children_1_5 = $package_price->children_1_5_cost *  $request->children_1_5;
+      $children_5_11 = $package_price->children_5_11_cost *  $request->children_5_11;
+
+    $finaltotal = $hotel_cat_cost + $children_5_11 + $children_1_5 + $room_cost + $admin_margin + $package_location_cost + $total_night_cost + $adults_cost + $child_with_bed_cost + $child_no_bed_child_cost + $total_meal_cost + $total_vehicle_options_cost + $extrabed_cost; 
 
     // Save package booking data
     $wildlife->total_cost = $finaltotal;

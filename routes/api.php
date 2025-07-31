@@ -36,6 +36,7 @@ use App\Http\Controllers\Admin\PDFController;
     Route::post('package-booking', [HotelController::class, 'packagebooking']);
 
     Route::post('package-booking-se', [HotelController::class, 'confirm']);
+    Route::post('pickup-location', [HotelController::class, 'pickupLocation']);
 
     Route::post('/hotel-with-packages', [HotelController::class, 'getHotelWithPackages']);
     Route::post('/vehicle', [HotelController::class, 'vehicle']);
