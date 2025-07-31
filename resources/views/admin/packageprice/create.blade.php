@@ -100,6 +100,34 @@
 
                                     </div>
 
+                                    <div class="form-group row">
+                                           <div class="col-sm-6">
+                                        <label for="hotel_delux_cost" class="form-label">Hotel Delux Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="hotel_delux_cost" value="" required>
+                                        @error('hotel_delux_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="hotel_premium_cost" class="form-label">Hotel Premium Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="hotel_premium_cost" value="" required>
+                                        @error('hotel_premium_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    
+
+                                    <div class="col-sm-6">
+                                        <label for="room_cost" class="form-label">Room Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="room_cost" value="" required>
+                                        @error('room_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    </div>
+
                                  
 
                                     {{-- <div class="col-sm-6">
@@ -370,6 +398,14 @@
                                         <label for="display_cost" class="form-label">Display Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="display_cost" value="" required>
                                         @error('display_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="admin_margin" class="form-label">Admin Margin &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="admin_margin" value="" required>
+                                        @error('admin_margin')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>

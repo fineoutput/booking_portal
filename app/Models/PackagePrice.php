@@ -41,6 +41,10 @@ class PackagePrice extends Model
         'start_date',
         'end_date',
         'display_cost',
+        'admin_margin',
+        'hotel_premium_cost',
+        'hotel_delux_cost',
+        'room_cost',
 
         'luxury_sedan_cost',
         'suv_cost',

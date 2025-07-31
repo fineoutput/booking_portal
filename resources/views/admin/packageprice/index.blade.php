@@ -42,6 +42,7 @@
                 </div>
                 <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('package_price_create', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add Price</a></div>
                 <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('vehicle_cost', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add Vehicle Price</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('location_cost', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add Location</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -55,6 +56,9 @@
                         <th data-priority="1">End Month</th>
                         <th data-priority="3">Hotel Category </th>
                         <th data-priority="3">Hotel Category Cost</th>
+                        <th data-priority="3"> Hotel Premium Cost</th>
+                        <th data-priority="3"> Hotel Delux Cost</th>
+                        <th data-priority="3"> Room Cost</th>
                         {{-- <th data-priority="3">Premium 5 star Cost</th>
                         <th data-priority="3">Premium 3 star Cost</th>
                         <th data-priority="3">Deluxe 3 Cost</th>
@@ -83,6 +87,7 @@
                         <th data-priority="3">Bus (Non AC) Cost</th>
                         <th data-priority="3">Extra Bed Cost</th>
                         <th data-priority="3">Display Cost</th>
+                        <th data-priority="3">Admin Margin</th>
                         
                         <th data-priority="6">Action</th>
                       </tr>
@@ -116,6 +121,9 @@
                                 @endif
                             </td>
                                 <td>₹{{ $pkg->category_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->hotel_premium_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->hotel_delux_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->room_cost ?? '0' }}</td>
                                 {{-- <td>₹{{ $pkg->premium_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->premium_3_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->deluxe_cost ?? '0' }}</td>
@@ -144,6 +152,7 @@
                                 <td>₹{{ $pkg->bus_nonac_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->extra_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->display_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->admin_margin ?? '0' }}</td>
                                 <td>
                                     <!-- Edit Button -->
                                     <a href="{{ route('package_price.edit', $pkg->id) }}" class="btn btn-warning">Edit</a>

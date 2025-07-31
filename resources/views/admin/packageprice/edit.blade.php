@@ -111,6 +111,38 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group row">
+                                         
+                                        <div class="col-sm-6">
+                                            <label for="hotel_delux_cost" class="form-label">Hotel Delux Cost&nbsp;<span style="color:red;">*</span></label>
+                                            <input type="number" class="form-control" name="hotel_delux_cost" id="hotel_delux_cost"
+                                                value="{{ old('hotel_delux_cost', $package->hotel_delux_cost ?? '') }}" required>
+                                            @error('hotel_delux_cost')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                   
+                                        <div class="col-sm-6">
+                                            <label for="hotel_premium_cost" class="form-label">Hotel Premium Cost&nbsp;<span style="color:red;">*</span></label>
+                                            <input type="number" class="form-control" name="hotel_premium_cost" id="hotel_premium_cost"
+                                                value="{{ old('hotel_premium_cost', $package->hotel_premium_cost ?? '') }}" required>
+                                            @error('hotel_premium_cost')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <label for="room_cost" class="form-label">Room Cost&nbsp;<span style="color:red;">*</span></label>
+                                            <input type="number" class="form-control" name="room_cost" id="room_cost"
+                                                value="{{ old('room_cost', $package->room_cost ?? '') }}" required>
+                                            @error('room_cost')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    
+                                    </div>
+
 
                                     {{-- <div class="col-sm-6">
                                         <label for="standard_cost" class="form-label">Standard (1 star) Hotel category Cost &nbsp;<span style="color:red;">*</span></label>
@@ -396,6 +428,13 @@
                                         <label for="display_cost" class="form-label">Display Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="display_cost" value="{{ old('display_cost', $package->display_cost) }}" required>
                                         @error('display_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="admin_margin" class="form-label">Admin Margin &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="admin_margin" value="{{ old('admin_margin', $package->admin_margin) }}" required>
+                                        @error('admin_margin')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>

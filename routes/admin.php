@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\TransferAgentCallesController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\LocalTourPriceController;
+use App\Http\Controllers\Admin\PackageLocationController;
 use App\Http\Controllers\Admin\VehicleCostController;
 use App\Http\Controllers\Admin\TestimonialsController;
 use App\Http\Controllers\Auth\adminlogincontroller;
@@ -182,6 +183,8 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
 
   Route::match(['get', 'post'], '/vehicle/cost/create/{id}', [VehicleCostController::class, 'create'])->name('vehicle_cost');
+
+  Route::match(['get', 'post'], '/location/cost/create/{id}', [PackageLocationController::class, 'update'])->name('location_cost');
 
 
 

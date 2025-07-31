@@ -62,6 +62,10 @@ class PackagePriceController extends Controller
                 'suv_cost' => 'required|numeric',
                 'muv_cost' => 'required|numeric',
                 'bus_nonac_cost' => 'required|numeric',
+                'admin_margin' => 'required|numeric',
+                'hotel_premium_cost' => 'required|numeric',
+                'hotel_delux_cost' => 'required|numeric',
+                'room_cost' => 'required|numeric',
             ]);
        
                 $packagePrice = new PackagePrice();
@@ -99,6 +103,10 @@ class PackagePriceController extends Controller
                 $packagePrice->bus_nonac_cost = $request->bus_nonac_cost;
                 $packagePrice->extra_bed_cost = $request->extra_bed_cost;
                 $packagePrice->display_cost = $request->display_cost;
+                $packagePrice->admin_margin = $request->admin_margin;
+                $packagePrice->hotel_premium_cost = $request->hotel_premium_cost;
+                $packagePrice->hotel_delux_cost = $request->hotel_delux_cost;
+                $packagePrice->room_cost = $request->room_cost;
                 $packagePrice->save();
     
                 $message = 'Package price added successfully.';
@@ -169,6 +177,10 @@ class PackagePriceController extends Controller
                 'bus_nonac_cost' => 'required|numeric',
                 'extra_bed_cost' => 'required|numeric',
                 'display_cost' => 'required|numeric',
+                'admin_margin' => 'required|numeric',
+                'hotel_premium_cost' => 'required|numeric',
+                'hotel_delux_cost' => 'required|numeric',
+                'room_cost' => 'required|numeric',
             ]);
         
             $packagePrice = PackagePrice::findOrFail($id);
@@ -206,6 +218,10 @@ class PackagePriceController extends Controller
                 $packagePrice->bus_nonac_cost = $request->bus_nonac_cost;
                 $packagePrice->extra_bed_cost = $request->extra_bed_cost;
                 $packagePrice->display_cost = $request->display_cost;
+                $packagePrice->admin_margin = $request->admin_margin;
+                 $packagePrice->hotel_premium_cost = $request->hotel_premium_cost;
+                $packagePrice->hotel_delux_cost = $request->hotel_delux_cost;
+                $packagePrice->room_cost = $request->room_cost;
                 $packagePrice->save();
         
             return redirect()->route('package_price', ['id' => $packagePrice->package_id])->with('success', 'Package updated successfully.');
