@@ -74,14 +74,14 @@
                                               <div class="col-sm-6">
                                         <select class="form-control" name="hotel_category" id="hotel_category" required>
                                             <option selected disabled value="">Select Hotel Category</option>
-                                            <option value="standard_cost">Standard (1 star)</option>
-                                            <option value="deluxe_cost">Deluxe (3 star)</option>
-                                            <option value="super_deluxe_cost">Deluxe (4 star)</option>
-                                            <option value="luxury_cost">Deluxe  (5 star)</option>
-                                            <option value="premium_3_cost">Premium (3 star)</option>
+                                            <option value="standard_cost">Standard Hotel</option>
+                                            <option value="deluxe_cost">Deluxe Hotel</option>
+                                            <option value="super_deluxe_cost">Super Deluxe Hotel</option>
+                                            <option value="luxury_cost">Deluxe (4 star) Hotel</option>
+                                            {{-- <option value="premium_3_cost">Premium (3 star)</option>
                                             <option value="premium_cost">Premium (4 star)</option>
                                             <option value="premium_5_cost">Premium (5 star)</option>
-                                            <option value="hostels">Hostels</option>
+                                            <option value="hostels">Hostels</option> --}}
                                         </select>
                                         <div class="form-floating">
                                             @error('hotel_category')

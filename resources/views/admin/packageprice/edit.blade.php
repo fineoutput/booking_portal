@@ -78,20 +78,20 @@
                                             <label for="hotel_category" class="form-label">Hotel Category&nbsp;<span style="color:red;">*</span></label>
                                             <select class="form-control" name="hotel_category" id="hotel_category" required>
                                                 <option disabled value="">Select Hotel Category</option>
-                                                <option value="standard_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'standard_cost') ? 'selected' : '' }}>Standard (1 star)</option>
-                                                <option value="deluxe_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'deluxe_cost') ? 'selected' : '' }}>Deluxe (3 star)</option>
+                                                <option value="standard_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'standard_cost') ? 'selected' : '' }}>Standard Hotel</option>
+                                                <option value="deluxe_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'deluxe_cost') ? 'selected' : '' }}>Deluxe Hotel</option>
 
-                                                <option value="super_deluxe_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'super_deluxe_cost') ? 'selected' : '' }}>Deluxe (4 star)</option>
+                                                <option value="super_deluxe_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'super_deluxe_cost') ? 'selected' : '' }}>Super Deluxe Hotel</option>
                                                 
-                                                 <option value="luxury_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'luxury_cost') ? 'selected' : '' }}>Deluxe (5 star)</option>
+                                                 <option value="luxury_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'luxury_cost') ? 'selected' : '' }}>Deluxe (4 star) Hotel</option>
 
-                                                   <option value="premium_3_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'premium_3_cost') ? 'selected' : '' }}>Premium (3 star)</option>
+                                                   {{-- <option value="premium_3_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'premium_3_cost') ? 'selected' : '' }}>Premium (3 star)</option>
 
                                                 <option value="premium_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'premium_cost') ? 'selected' : '' }}>Premium (4 star)</option>
 
                                                 <option value="premium_5_cost" {{ (old('hotel_category', $package->hotel_category ?? '') == 'premium_5_cost') ? 'selected' : '' }}>Premium (5 star)</option>
 
-                                                <option value="hostels" {{ (old('hotel_category', $package->hotel_category ?? '') == 'hostels') ? 'selected' : '' }}>Hostels</option>
+                                                <option value="hostels" {{ (old('hotel_category', $package->hotel_category ?? '') == 'hostels') ? 'selected' : '' }}>Hostels</option> --}}
                                                
                                             </select>
                                             <div class="form-floating">
