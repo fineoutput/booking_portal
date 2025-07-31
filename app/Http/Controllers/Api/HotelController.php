@@ -125,7 +125,7 @@ class HotelController extends Controller
     }
 
     return response()->json([
-        'status' => true,
+        'status' => 200,
         'message' => 'Package price and hotel categories fetched successfully.',
         'data' => $hotelOptions
     ]);
