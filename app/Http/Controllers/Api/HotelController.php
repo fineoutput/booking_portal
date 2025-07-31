@@ -54,6 +54,83 @@ use Illuminate\Support\Facades\Auth;
 class HotelController extends Controller
 {
 
+  public function getPackagePriceApi(Request $request)
+{
+    $request->validate([
+        'package_id' => 'required'
+    ]);
+
+    $id = $request->package_id;
+    $formattedDate = Carbon::now()->format('Y-m-d');
+
+    // Get all price entries for hotel category listing
+    $allPrices = PackagePrice::where('package_id', $id)->get();
+
+    if ($allPrices->isEmpty()) {
+        return response()->json([
+            'status' => false,
+            'message' => 'No package prices found.',
+        ], 404);
+    }
+
+    // Build hotel category options with labels
+    $hotelOptions = $allPrices->pluck('hotel_category')->unique()->map(function ($category) {
+        switch ($category) {
+            case 'standard_cost':
+                $label = 'Standard Hotel';
+                break;
+            case 'deluxe_cost':
+                $label = 'Deluxe Hotel';
+                break;
+            case 'premium_3_cost':
+                $label = 'Premium (3 star)';
+                break;
+            case 'super_deluxe_cost':
+                $label = 'Super Deluxe Hotel';
+                break;
+            case 'premium_cost':
+                $label = 'Premium (4 star)';
+                break;
+            case 'luxury_cost':
+                $label = 'Deluxe (4 star) Hotel';
+                break;
+            case 'premium_5_cost':
+                $label = 'Premium (5 star)';
+                break;
+            case 'hostels':
+                $label = 'Hostels';
+                break;
+            default:
+                $label = 'NO DATA';
+        }
+
+        return [
+            'value' => $category,
+            'label' => $label
+        ];
+    })->values(); // reset keys
+
+    // Get the current or upcoming price
+    $currentPrice = $allPrices
+        ->where('start_date', '<=', $formattedDate)
+        ->where('end_date', '>=', $formattedDate)
+        ->sortBy('start_date')
+        ->first();
+
+    if (!$currentPrice) {
+        $currentPrice = $allPrices
+            ->where('start_date', '>', $formattedDate)
+            ->sortBy('start_date')
+            ->first();
+    }
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Package price and hotel categories fetched successfully.',
+        'data' => $hotelOptions
+    ]);
+}
+
     public function pickupLocation(Request $request)
     {
         $request->validate([

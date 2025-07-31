@@ -32,20 +32,15 @@
                     <div class="card m-b-20">
                         <div class="card-body">
                             <!-- show success and error messages -->
-                            @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                            </div>
-                            @endif
-                            @if (session('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('error') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                            </div>
-                            @endif
+              @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                             <!-- End show success and error messages -->
                             <h4 class="mt-0 header-title">Add Package Price Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
@@ -234,9 +229,9 @@
                                     </div> --}}
 
                                     <div class="col-sm-6">
-                                        <label for="children_1_5_cost" class="form-label">Children (5-11 years) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="children_1_5_cost" value="" required>
-                                        @error('children_1_5_cost')
+                                        <label for="children_5_11_cost" class="form-label">Children (5-11 years) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="children_5_11_cost" value="" required>
+                                        @error('children_5_11_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
