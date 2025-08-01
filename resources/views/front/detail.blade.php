@@ -340,7 +340,7 @@
                 <label for="startDate" class="form-label">Start Date</label>
             </div>
             <input name="start_date" type="date" id="startDate" class="form-control no-form" required
-                value="{{ old('start_date', session('booking_form_data.start_date')) }}">
+                value="{{ old('start_date', session('booking_form_data.start_date')) }}" >
         </div>
         <div class="col-md-6">
             <div class="rj_vk">

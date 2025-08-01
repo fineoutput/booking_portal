@@ -1508,6 +1508,22 @@ if ($max_price) {
     public function add_package_booking(Request $request, $id)
     {
 
+         $validatedData = $request->validate([
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'pickup_location' => 'required',
+        'vehicle_count' => 'required',
+        'number_of_rooms' => 'required',
+        'children_1_5' => 'required',
+        'children_5_11' => 'required',
+        'adults_count' => 'required',
+        'child_no_bed_child_count' => 'required',
+        'meal' => 'required',
+        'hotel_preference' => 'required',
+        'hotel_category' => 'required',
+        'vehicle_options' => 'required',
+    ]);
+
          if (!Auth::guard('agent')->check()) {
             // Store the form data in session
             session()->put('booking_form_data', $request->all());
