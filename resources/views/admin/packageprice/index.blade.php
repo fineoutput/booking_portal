@@ -55,7 +55,7 @@
                         <th data-priority="1">Start Month</th>
                         <th data-priority="1">End Month</th>
                         <th data-priority="3">Hotel Category </th>
-                        <th data-priority="3">Hotel Category Cost</th>
+                        {{-- <th data-priority="3">Hotel Category Cost</th> --}}
                         <th data-priority="3"> Hotel Premium Cost</th>
                         <th data-priority="3"> Hotel Delux Cost</th>
                         <th data-priority="3"> Room Cost</th>
@@ -70,7 +70,7 @@
                         <th data-priority="3">Child With No Bed (Infant) Cost</th>
                         <th data-priority="3">Children (1-5 years) Cost</th>
                         <th data-priority="3">Children (5-11 years) Cost</th>
-                        <th data-priority="3">Meal Plan (Only Room) Cost</th>
+                        {{-- <th data-priority="3">Meal Plan (Only Room) Cost</th> --}}
                         <th data-priority="3">Meal Plan Breakfast Cost</th>
                         <th data-priority="3">Meal Plan (Breakfast + Lunch/Dinner) Cost</th>
                         <th data-priority="3">Meal Plan (All Meal) Cost</th>
@@ -121,7 +121,7 @@
                                     NO DATA
                                 @endif
                             </td>
-                                <td>₹{{ $pkg->category_cost ?? '0' }}</td>
+                                {{-- <td>₹{{ $pkg->category_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->hotel_premium_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->hotel_delux_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->room_cost ?? '0' }}</td>
@@ -136,7 +136,7 @@
                                 <td>₹{{ $pkg->child_no_bed_infant_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->children_1_5_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->children_5_11_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->meal_plan_only_room_cost ?? '0' }}</td>
+                                {{-- <td>₹{{ $pkg->meal_plan_only_room_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->meal_plan_breakfast_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_breakfast_lunch_dinner_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_all_meals_cost ?? '0' }}</td>

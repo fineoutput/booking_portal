@@ -1710,13 +1710,19 @@ if ($max_price) {
 
         $room_cost =  $package_price->room_cost * $request->number_of_rooms;
 
-
         $package_location_cost =  $package_location->cost;
 
+        $fin_price = $room_cost * $night_count;
+        $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
+        $fin_price_2 = $total_vehicle_options_cost;
+        $fin_price_3 = $extrabed_cost * $request->number_of_rooms * $night_count;
+        $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $children_5_11 + $children_1_5;
+
+        $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
         $admin_margin =  $package_price->admin_margin;
 
-        $finaltotal = $admin_margin + $total_night_cost + $hotel_cat_cost + $package_location_cost + $adults_cost + $children_5_11 + $children_1_5 + $child_with_bed_cost + $room_cost + $child_no_bed_child_cost + $total_meal_cost  + $total_vehicle_options_cost + $extrabed_cost; 
+        $finaltotal = $admin_margin + $total_price; 
 
         $wildlife->total_cost = $finaltotal;
 

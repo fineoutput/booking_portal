@@ -476,9 +476,18 @@
             </div>
             <select id="mealPlan" name="meal" class="form-select no-form-select" required>
                 <option value="" disabled {{ !session('booking_form_data.meal') ? 'selected' : '' }}>Select meal plan</option>
-                @foreach(['breakfast', 'breakfast_dinner', 'all_meals'] as $meal)
-                    <option value="{{ $meal }}" {{ old('meal', session('booking_form_data.meal')) == $meal ? 'selected' : '' }}>
-                        {{ ucwords(str_replace('_', ' ', $meal)) }}
+                @php
+                    $labels = [
+                        'breakfast'        => 'Breakfast',
+                        'breakfast_dinner' => 'Breakfast Dinner/Lunch',
+                        'all_meals'        => 'All Meals',
+                    ];
+                @endphp
+
+                @foreach (['breakfast', 'breakfast_dinner', 'all_meals'] as $meal)
+                    <option value="{{ $meal }}"
+                        {{ old('meal', session('booking_form_data.meal')) == $meal ? 'selected' : '' }}>
+                        {{ $labels[$meal] }}
                     </option>
                 @endforeach
             </select>
