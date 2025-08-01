@@ -1997,7 +1997,7 @@ public function packagebooking(Request $request)
 
     // Get package price for the specific package
     $package_price = PackagePrice::where('package_id', $request->package_id)->where('hotel_category',$request->hotel_preference)
-    // ->where('room_category',$request->hotel_category)
+    ->where('room_category',$request->hotel_category)
         ->where('start_date', '<=', $formatted_date)
         ->where('end_date', '>=', $formatted_date)
         ->first();
