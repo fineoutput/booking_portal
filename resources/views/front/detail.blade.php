@@ -432,8 +432,17 @@
                 <img style="width: 20px;" src="{{ asset('frontend/images/couple.png') }}" alt="">
                 <label for="adults" class="form-label">No. of Adults</label>
             </div>
-            <input name="adults_count" type="number" id="adults" class="form-control no-form" min="1" required
-                value="{{ old('adults_count', session('booking_form_data.adults_count')) }}" placeholder="Adults">
+             <select id="adults_count" name="adults_count" class="form-select no-form-select" required>
+                
+                 <option value="" disabled {{ !session('booking_form_data.adults_count') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('adults_count', session('booking_form_data.adults_count')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+
+            </select>
+
+            {{-- <input name="adults_count" type="number" id="adults" class="form-control no-form" min="1" required
+                value="{{ old('adults_count', session('booking_form_data.adults_count')) }}" placeholder="Adults"> --}}
         </div>
 
         {{-- Kids with bed --}}
@@ -452,8 +461,18 @@
                 <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
                 <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
             </div>
-            <input name="child_no_bed_child_count" type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required
-                value="{{ old('child_no_bed_child_count', session('booking_form_data.child_no_bed_child_count')) }}" placeholder="Kids without bed">
+
+             <select id="child_no_bed_child_count" name="child_no_bed_child_count" class="form-select no-form-select" required>
+                
+                 <option value="" disabled {{ !session('booking_form_data.child_no_bed_child_count') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('child_no_bed_child_count', session('booking_form_data.child_no_bed_child_count')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+
+            </select>
+
+            {{-- <input name="child_no_bed_child_count" type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required
+                value="{{ old('child_no_bed_child_count', session('booking_form_data.child_no_bed_child_count')) }}" placeholder="Kids without bed"> --}}
         </div>
 
         {{-- Extra Bed --}}
@@ -463,8 +482,12 @@
                 <label for="extraBed" class="form-label">Extra Bed</label>
             </div>
             <select id="extraBed" name="extra_bed" class="form-select no-form-select" required>
-                <option value="yes" {{ old('extra_bed', session('booking_form_data.extra_bed')) == 'yes' ? 'selected' : '' }}>Yes</option>
-                <option value="no" {{ old('extra_bed', session('booking_form_data.extra_bed')) == 'no' ? 'selected' : '' }}>No</option>
+                
+                 <option value="" disabled {{ !session('booking_form_data.extra_bed') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('extra_bed', session('booking_form_data.extra_bed')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+
             </select>
         </div>
 

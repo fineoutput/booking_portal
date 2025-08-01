@@ -1699,12 +1699,7 @@ if ($max_price) {
             $vehicle_options_cost = $package_price->ac_coach_cost ?? 0;
         }
 
-        if($request->extra_bed == 'yes'){
-            $extrabed_cost = $package_price->extra_bed_cost ?? 0;
-        }
-        else{
-            $extrabed_cost = 0;
-        }
+
 
         $total_night_cost = $hotel_preference_cost *  $night_count;
         $adults_cost = $package_price->adults_cost *  $request->adults_count;
@@ -1728,13 +1723,16 @@ if ($max_price) {
 
         $package_location_cost =  $package_location->cost;
 
+         $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
+
         $fin_price = $room_cost * $night_count;
+        $fin_price_0 = $hotel_cat_cost * $night_count;
         $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
         $fin_price_2 = $total_vehicle_options_cost;
-        $fin_price_3 = $extrabed_cost * $request->number_of_rooms * $night_count;
+        $fin_price_3 = $extrabed_cost * $night_count;
         $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $children_5_11 + $children_1_5;
 
-        $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
+        $total_price = $fin_price + $fin_price_0 + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
         $admin_margin =  $package_price->admin_margin;
 

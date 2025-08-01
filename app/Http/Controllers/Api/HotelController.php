@@ -1974,7 +1974,7 @@ public function packagebooking(Request $request)
         'adults_count' => 'required|integer|min:1',
         // 'child_with_bed_count' => 'nullable|integer|min:0',
         'child_no_bed_child_count' => 'nullable|integer|min:0',
-        'extra_bed' => 'nullable|in:yes,no',
+        'extra_bed' => 'nullable',
         'meal' => 'nullable|in:breakfast,breakfast_dinner,all_meals',
         'hotel_preference' => 'nullable',
         'vehicle_options' => 'nullable',
@@ -2124,10 +2124,7 @@ public function packagebooking(Request $request)
             $hotel_cat_cost = $package_price->hotel_premium_cost ?? 0;
         }
 
-    // Extra bed cost
-    $extrabed_cost = ($request->extra_bed == 'yes') ? $package_price->extra_bed_cost : 0;
 
-    // Calculate total costs
     $total_night_cost = $hotel_preference_cost * $night_count;
     $adults_cost = $package_price->adults_cost * $request->adults_count;
 
@@ -2146,13 +2143,16 @@ public function packagebooking(Request $request)
     $children_1_5 = $package_price->children_1_5_cost *  $request->children_1_5;
       $children_5_11 = $package_price->children_5_11_cost *  $request->children_5_11;
 
+       $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
+
         $fin_price = $room_cost * $night_count;
+        $fin_price_0 = $hotel_cat_cost * $night_count;
         $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
         $fin_price_2 = $total_vehicle_options_cost;
-        $fin_price_3 = $extrabed_cost * $request->number_of_rooms * $night_count;
+        $fin_price_3 = $extrabed_cost * $night_count;
         $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $children_5_11 + $children_1_5;
 
-        $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
+        $total_price = $fin_price + $fin_price_0 + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
         $admin_margin =  $package_price->admin_margin;
 
