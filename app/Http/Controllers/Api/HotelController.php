@@ -1996,46 +1996,15 @@ public function packagebooking(Request $request)
     $formatted_date = Carbon::now()->format('Y-m-d');
 
     // Get package price for the specific package
-    // $package_price = PackagePrice::where('package_id', $request->package_id)->where('hotel_category',$request->hotel_preference)
-    //     ->where('start_date', '<=', $formatted_date)
-    //     ->where('end_date', '>=', $formatted_date)
-    //     ->first();
-
-     $existsHotel = PackagePrice::where('package_id', $request->package_id)
-                ->where('hotel_category', $request->hotel_preference)
-                ->exists();
-
-            $existsRoom = PackagePrice::where('package_id', $request->package_id)
-                ->where('hotel_category', $request->hotel_preference)
-                ->where('room_category', $request->hotel_category)
-                ->exists();
-
-            $existsDate = PackagePrice::where('package_id', $request->package_id)
-                ->where('hotel_category', $request->hotel_preference)
-                ->where('room_category', $request->hotel_category)
-                ->where('start_date', '<=', $formatted_date)
-                ->where('end_date', '>=', $formatted_date)
-                ->exists();
-
-            if (!$existsHotel) {
-                $msg = "No price entry found for selected hotel category.";
-            } elseif (!$existsRoom) {
-                $msg = "Price exists for hotel category, but not for selected room category.";
-            } elseif (!$existsDate) {
-                $msg = "Price exists for hotel and room category, but not for these dates.";
-            } else {
-                $package_price = PackagePrice::where('package_id', $request->package_id)
-                    ->where('hotel_category', $request->hotel_preference)
-                    ->where('room_category', $request->hotel_category)
-                    ->where('start_date', '<=', $formatted_date)
-                    ->where('end_date', '>=', $formatted_date)
-                    ->first();
-                    // return $package_price;
-                }
+    $package_price = PackagePrice::where('package_id', $request->package_id)->where('hotel_category',$request->hotel_preference)
+    ->where('room_category',$request->hotel_category)
+        ->where('start_date', '<=', $formatted_date)
+        ->where('end_date', '>=', $formatted_date)
+        ->first();
 
     if (!$package_price) {
         return response()->json([
-            'message' => $msg,
+            'message' => 'Package not found for the selected dates',
             'data' => [],
             'status' => 201,
         ], 404);
