@@ -37,14 +37,14 @@ class PackagePriceController extends Controller
                 // 'premium_cost' => 'required|numeric',
                 // 'super_deluxe_cost' => 'required|numeric',
                 // 'luxury_cost' => 'required|numeric',
-                'category_cost' => 'required|numeric',
+                // 'category_cost' => 'required|numeric',
                 'hotel_category' => 'required',
                 // 'nights_cost' => 'required|numeric',
                 // 'adults_cost' => 'required|numeric',
                 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
                 // 'child_no_bed_child_cost' => 'required|numeric',
-                'meal_plan_only_room_cost' => 'required|numeric',
+                // 'meal_plan_only_room_cost' => 'required|numeric',
                 'meal_plan_breakfast_cost' => 'required|numeric',
                 'meal_plan_breakfast_lunch_dinner_cost' => 'required|numeric',
                 'meal_plan_all_meals_cost' => 'required|numeric',
@@ -75,7 +75,7 @@ class PackagePriceController extends Controller
                 $packagePrice->end_date = $request->end_date;
                 $packagePrice->start_date = $request->start_date;
                 $packagePrice->hotel_category = $request->hotel_category;
-                $packagePrice->category_cost = $request->category_cost;
+                // $packagePrice->category_cost = $request->category_cost;
                 // $packagePrice->standard_cost = $request->standard_cost;
                 // $packagePrice->deluxe_cost = $request->deluxe_cost;
                 // $packagePrice->premium_cost = $request->premium_cost;
@@ -87,7 +87,7 @@ class PackagePriceController extends Controller
                 $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
                 $packagePrice->child_no_bed_infant_cost = $request->child_no_bed_infant_cost;
                 $packagePrice->child_no_bed_child_cost = $request->child_no_bed_child_cost;
-                $packagePrice->meal_plan_only_room_cost = $request->meal_plan_only_room_cost;
+                // $packagePrice->meal_plan_only_room_cost = $request->meal_plan_only_room_cost;
                 $packagePrice->meal_plan_breakfast_cost = $request->meal_plan_breakfast_cost;
                 $packagePrice->meal_plan_breakfast_lunch_dinner_cost = $request->meal_plan_breakfast_lunch_dinner_cost;
                 $packagePrice->meal_plan_all_meals_cost = $request->meal_plan_all_meals_cost;
@@ -150,7 +150,7 @@ class PackagePriceController extends Controller
         public function update(Request $request, $id)
         {
             $request->validate([
-                 'category_cost' => 'required|numeric',
+                //  'category_cost' => 'required|numeric',
                 'hotel_category' => 'required',
                 // 'standard_cost' => 'required|numeric',
                 // 'deluxe_cost' => 'required|numeric',
@@ -163,7 +163,7 @@ class PackagePriceController extends Controller
                 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
                 // 'child_no_bed_child_cost' => 'required|numeric',
-                'meal_plan_only_room_cost' => 'required|numeric',
+                // 'meal_plan_only_room_cost' => 'required|numeric',
                 'meal_plan_breakfast_cost' => 'required|numeric',
                 'meal_plan_breakfast_lunch_dinner_cost' => 'required|numeric',
                 'meal_plan_all_meals_cost' => 'required|numeric',
@@ -195,7 +195,7 @@ class PackagePriceController extends Controller
                 $packagePrice->end_date = $request->end_date;
                 $packagePrice->start_date = $request->start_date;
                 $packagePrice->hotel_category = $request->hotel_category;
-                $packagePrice->category_cost = $request->category_cost;
+                // $packagePrice->category_cost = $request->category_cost;
                 // $packagePrice->deluxe_cost = $request->deluxe_cost;
                 // $packagePrice->premium_cost = $request->premium_cost;
                 // $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
@@ -206,7 +206,7 @@ class PackagePriceController extends Controller
                 $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
                 $packagePrice->child_no_bed_infant_cost = $request->child_no_bed_infant_cost;
                 $packagePrice->child_no_bed_child_cost = $request->child_no_bed_child_cost;
-                $packagePrice->meal_plan_only_room_cost = $request->meal_plan_only_room_cost;
+                // $packagePrice->meal_plan_only_room_cost = $request->meal_plan_only_room_cost;
                 $packagePrice->meal_plan_breakfast_cost = $request->meal_plan_breakfast_cost;
                 $packagePrice->meal_plan_breakfast_lunch_dinner_cost = $request->meal_plan_breakfast_lunch_dinner_cost;
                 $packagePrice->meal_plan_all_meals_cost = $request->meal_plan_all_meals_cost;

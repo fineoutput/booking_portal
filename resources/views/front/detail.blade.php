@@ -437,14 +437,14 @@
         </div>
 
         {{-- Kids with bed --}}
-        <div class="col-12">
+        {{-- <div class="col-12">
             <div class="rj_vk">
                 <img style="width: 20px;" src="{{ asset('frontend/images/cot.png') }}" alt="">
                 <label for="kidsWithBed" class="form-label">Kids with Bed</label>
             </div>
             <input name="child_with_bed_count" type="number" id="kidsWithBed" class="form-control no-form" min="0" required
                 value="{{ old('child_with_bed_count', session('booking_form_data.child_with_bed_count')) }}" placeholder="Kids with bed">
-        </div>
+        </div> --}}
 
         {{-- Kids without bed --}}
         <div class="col-12">
@@ -476,7 +476,7 @@
             </div>
             <select id="mealPlan" name="meal" class="form-select no-form-select" required>
                 <option value="" disabled {{ !session('booking_form_data.meal') ? 'selected' : '' }}>Select meal plan</option>
-                @foreach(['only_room', 'breakfast', 'breakfast_lunch', 'breakfast_dinner', 'all_meals'] as $meal)
+                @foreach(['breakfast', 'breakfast_dinner', 'all_meals'] as $meal)
                     <option value="{{ $meal }}" {{ old('meal', session('booking_form_data.meal')) == $meal ? 'selected' : '' }}>
                         {{ ucwords(str_replace('_', ' ', $meal)) }}
                     </option>

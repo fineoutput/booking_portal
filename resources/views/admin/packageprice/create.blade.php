@@ -85,13 +85,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="category_cost" class="form-label">Hotel Per Night Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="category_cost" value="" required>
                                         @error('category_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     </div>
 
@@ -244,13 +244,13 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="meal_plan_only_room_cost" class="form-label">Meal Plan (Only Room) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="meal_plan_only_room_cost" value="" required>
                                         @error('meal_plan_only_room_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                 </div>
 

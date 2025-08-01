@@ -101,14 +101,14 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        {{-- <div class="col-sm-6">
                                             <label for="category_cost" class="form-label">Hotel Per Night Cost&nbsp;<span style="color:red;">*</span></label>
                                             <input type="number" class="form-control" name="category_cost" id="category_cost"
                                                 value="{{ old('category_cost', $package->category_cost ?? '') }}" required>
                                             @error('category_cost')
                                                 <div style="color:red;">{{ $message }}</div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <div class="form-group row">
@@ -266,13 +266,13 @@
                                     </div>
                             
                                     <!-- Meal Plan (Only Room) Cost -->
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="meal_plan_only_room_cost" class="form-label">Meal Plan (Only Room) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="meal_plan_only_room_cost" value="{{ old('meal_plan_only_room_cost', $package->meal_plan_only_room_cost) }}" required>
                                         @error('meal_plan_only_room_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                 </div>
                             
                                 <div class="form-group row">
