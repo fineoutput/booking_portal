@@ -583,12 +583,12 @@
             <div class="col-12">
             <div class="rj_vk">
                 <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
-                <label for="selectRoom" class="form-label">Select Hotel Category</label>
+                <label for="selectRoom" class="form-label">Select Room Category</label>
             </div>
             <select id="selectRoom" name="hotel_category" class="form-select no-form-select" required>
-                <option value="" disabled {{ !session('booking_form_data.hotel_category') ? 'selected' : '' }}>Select room type</option>
-                <option value="hotel_premium_cost" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'hotel_premium_cost' ? 'selected' : '' }}>Hotel Premium</option>
-                <option value="hotel_delux_cost" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'hotel_delux_cost' ? 'selected' : '' }}>Hotel Delux</option>
+                <option value="" disabled {{ !session('booking_form_data.hotel_category') ? 'selected' : '' }}>Select Room type</option>
+                <option value="premium" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'premium' ? 'selected' : '' }}>Premium</option>
+                <option value="deluxe" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'deluxe' ? 'selected' : '' }}>Delux</option>
                 
             </select>
         </div>

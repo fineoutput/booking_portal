@@ -101,6 +101,23 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-sm-6">
+                                            {{-- <label for="room_category" class="form-label">Room Category&nbsp;<span style="color:red;">*</span></label> --}}
+                                            <select class="form-control" name="room_category" id="room_category" required>
+                                                <option disabled value="">Select Room Category</option>
+
+                                                <option value="premium" {{ (old('room_category', $package->room_category ?? '') == 'premium') ? 'selected' : '' }}>premium</option>
+
+                                                <option value="deluxe" {{ (old('room_category', $package->room_category ?? '') == 'deluxe') ? 'selected' : '' }}>Deluxe</option>
+                                               
+                                            </select>
+                                            <div class="form-floating">
+                                                @error('room_category')
+                                                    <div style="color:red">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
                                         {{-- <div class="col-sm-6">
                                             <label for="category_cost" class="form-label">Hotel Per Night Cost&nbsp;<span style="color:red;">*</span></label>
                                             <input type="number" class="form-control" name="category_cost" id="category_cost"
@@ -113,7 +130,7 @@
 
                                     <div class="form-group row">
                                          
-                                        <div class="col-sm-6">
+                                        {{-- <div class="col-sm-6">
                                             <label for="hotel_delux_cost" class="form-label">Hotel Delux Cost&nbsp;<span style="color:red;">*</span></label>
                                             <input type="number" class="form-control" name="hotel_delux_cost" id="hotel_delux_cost"
                                                 value="{{ old('hotel_delux_cost', $package->hotel_delux_cost ?? '') }}" required>
@@ -130,7 +147,7 @@
                                             @error('hotel_premium_cost')
                                                 <div style="color:red;">{{ $message }}</div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
 
                                         <div class="col-sm-6">
                                             <label for="room_cost" class="form-label">Room Cost&nbsp;<span style="color:red;">*</span></label>

@@ -56,8 +56,8 @@
                         <th data-priority="1">End Month</th>
                         <th data-priority="3">Hotel Category </th>
                         {{-- <th data-priority="3">Hotel Category Cost</th> --}}
-                        <th data-priority="3"> Hotel Premium Cost</th>
-                        <th data-priority="3"> Hotel Delux Cost</th>
+                        <th data-priority="3"> Room Category</th>
+                        {{-- <th data-priority="3"> Hotel Delux Cost</th> --}}
                         <th data-priority="3"> Room Cost</th>
                         {{-- <th data-priority="3">Premium 5 star Cost</th>
                         <th data-priority="3">Premium 3 star Cost</th>
@@ -122,8 +122,8 @@
                                 @endif
                             </td>
                                 {{-- <td>₹{{ $pkg->category_cost ?? '0' }}</td> --}}
-                                <td>₹{{ $pkg->hotel_premium_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->hotel_delux_cost ?? '0' }}</td>
+                                <td>{{ $pkg->room_category ?? '0' }}</td>
+                                {{-- <td>₹{{ $pkg->hotel_delux_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->room_cost ?? '0' }}</td>
                                 {{-- <td>₹{{ $pkg->premium_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->premium_3_cost ?? '0' }}</td>

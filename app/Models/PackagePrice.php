@@ -47,6 +47,7 @@ class PackagePrice extends Model
         'room_cost',
         'children_5_11_cost',
         'children_1_5_cost',
+        'room_category',
 
         'luxury_sedan_cost',
         'suv_cost',

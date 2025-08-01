@@ -63,8 +63,8 @@ class PackagePriceController extends Controller
                 'muv_cost' => 'required|numeric',
                 'bus_nonac_cost' => 'required|numeric',
                 'admin_margin' => 'required|numeric',
-                'hotel_premium_cost' => 'required|numeric',
-                'hotel_delux_cost' => 'required|numeric',
+                // 'hotel_premium_cost' => 'required|numeric',
+                // 'hotel_delux_cost' => 'required|numeric',
                 'room_cost' => 'required|numeric',
                 'children_1_5_cost' => 'required|numeric',
                 'children_5_11_cost' => 'required|numeric',
@@ -106,8 +106,8 @@ class PackagePriceController extends Controller
                 $packagePrice->extra_bed_cost = $request->extra_bed_cost;
                 $packagePrice->display_cost = $request->display_cost;
                 $packagePrice->admin_margin = $request->admin_margin;
-                $packagePrice->hotel_premium_cost = $request->hotel_premium_cost;
-                $packagePrice->hotel_delux_cost = $request->hotel_delux_cost;
+                $packagePrice->room_category = $request->room_category;
+                // $packagePrice->hotel_delux_cost = $request->hotel_delux_cost;
                 $packagePrice->room_cost = $request->room_cost;
                 $packagePrice->children_5_11_cost = $request->children_5_11_cost;
                 $packagePrice->children_1_5_cost = $request->children_1_5_cost;
@@ -182,8 +182,8 @@ class PackagePriceController extends Controller
                 'extra_bed_cost' => 'required|numeric',
                 'display_cost' => 'required|numeric',
                 'admin_margin' => 'required|numeric',
-                'hotel_premium_cost' => 'required|numeric',
-                'hotel_delux_cost' => 'required|numeric',
+                // 'hotel_premium_cost' => 'required|numeric',
+                // 'hotel_delux_cost' => 'required|numeric',
                 'room_cost' => 'required|numeric',
                   'children_1_5_cost' => 'required|numeric',
                 'children_5_11_cost' => 'required|numeric',
@@ -225,8 +225,8 @@ class PackagePriceController extends Controller
                 $packagePrice->extra_bed_cost = $request->extra_bed_cost;
                 $packagePrice->display_cost = $request->display_cost;
                 $packagePrice->admin_margin = $request->admin_margin;
-                 $packagePrice->hotel_premium_cost = $request->hotel_premium_cost;
-                $packagePrice->hotel_delux_cost = $request->hotel_delux_cost;
+                 $packagePrice->room_category = $request->room_category;
+                // $packagePrice->hotel_delux_cost = $request->hotel_delux_cost;
                 $packagePrice->room_cost = $request->room_cost;
                    $packagePrice->children_5_11_cost = $request->children_5_11_cost;
                 $packagePrice->children_1_5_cost = $request->children_1_5_cost;

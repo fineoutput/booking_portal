@@ -1996,14 +1996,46 @@ public function packagebooking(Request $request)
     $formatted_date = Carbon::now()->format('Y-m-d');
 
     // Get package price for the specific package
-    $package_price = PackagePrice::where('package_id', $request->package_id)->where('hotel_category',$request->hotel_preference)
-        ->where('start_date', '<=', $formatted_date)
-        ->where('end_date', '>=', $formatted_date)
-        ->first();
+    // $package_price = PackagePrice::where('package_id', $request->package_id)->where('hotel_category',$request->hotel_preference)
+    //     ->where('start_date', '<=', $formatted_date)
+    //     ->where('end_date', '>=', $formatted_date)
+    //     ->first();
+
+     $existsHotel = PackagePrice::where('package_id', $request->package_id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->exists();
+
+            $existsRoom = PackagePrice::where('package_id', $request->package_id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->where('room_category', $request->hotel_category)
+                ->exists();
+
+            $existsDate = PackagePrice::where('package_id', $request->package_id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->where('room_category', $request->hotel_category)
+                ->where('start_date', '<=', $formatted_date)
+                ->where('end_date', '>=', $formatted_date)
+                ->exists();
+
+            if (!$existsHotel) {
+                $msg = "No price entry found for selected hotel category.";
+            } elseif (!$existsRoom) {
+                $msg = "Price exists for hotel category, but not for selected room category.";
+            } elseif (!$existsDate) {
+                $msg = "Price exists for hotel and room category, but not for these dates.";
+            } else {
+                $package_price = PackagePrice::where('package_id', $request->package_id)
+                    ->where('hotel_category', $request->hotel_preference)
+                    ->where('room_category', $request->hotel_category)
+                    ->where('start_date', '<=', $formatted_date)
+                    ->where('end_date', '>=', $formatted_date)
+                    ->first();
+                    // return $package_price;
+                }
 
     if (!$package_price) {
         return response()->json([
-            'message' => 'Package not found for the selected dates',
+            'message' => $msg,
             'data' => [],
             'status' => 201,
         ], 404);
@@ -2146,13 +2178,12 @@ public function packagebooking(Request $request)
        $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
 
         $fin_price = $room_cost * $night_count;
-        $fin_price_0 = $hotel_cat_cost * $night_count;
+        // $fin_price_0 = $hotel_cat_cost * $night_count;
         $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
         $fin_price_2 = $total_vehicle_options_cost;
         $fin_price_3 = $extrabed_cost * $night_count;
         $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $children_5_11 + $children_1_5;
-
-        $total_price = $fin_price + $fin_price_0 + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
+        $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
         $admin_margin =  $package_price->admin_margin;
 

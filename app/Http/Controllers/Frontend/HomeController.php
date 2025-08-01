@@ -1552,14 +1552,50 @@ if ($max_price) {
         
 
       $package_vehicle = VehicleCost::where('package_id', $id)->first();
-        $package_price = PackagePrice::where('package_id', $id)->where('hotel_category',$request->hotel_preference)
+        // $package_price = PackagePrice::where('package_id', $id)->where('hotel_category',$request->hotel_preference)->where('room_category',$request->room_category)
+        //         ->where('start_date', '<=', $start_dates)
+        //         ->where('end_date', '>=', $end_dates)
+        //         ->first();
+
+        //         if(empty($package_price)){
+        //           return redirect()->back()->with('message', "Price not available for these dates.");
+        //           }
+
+        $existsHotel = PackagePrice::where('package_id', $id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->exists();
+
+            $existsRoom = PackagePrice::where('package_id', $id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->where('room_category', $request->hotel_category)
+                ->exists();
+
+            $existsDate = PackagePrice::where('package_id', $id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->where('room_category', $request->hotel_category)
                 ->where('start_date', '<=', $start_dates)
                 ->where('end_date', '>=', $end_dates)
-                ->first();
+                ->exists();
 
-                if(empty($package_price)){
-                  return redirect()->back()->with('message', "Price not available for these dates.");
-                  }
+            if (!$existsHotel) {
+                $msg = "No price entry found for selected hotel category.";
+            } elseif (!$existsRoom) {
+                $msg = "Price exists for hotel category, but not for selected room category.";
+            } elseif (!$existsDate) {
+                $msg = "Price exists for hotel and room category, but not for these dates.";
+            } else {
+                $package_price = PackagePrice::where('package_id', $id)
+                    ->where('hotel_category', $request->hotel_preference)
+                    ->where('room_category', $request->hotel_category)
+                    ->where('start_date', '<=', $start_dates)
+                    ->where('end_date', '>=', $end_dates)
+                    ->first();
+                    // return $package_price;
+                }
+
+             if (!$package_price) {
+                return redirect()->back()->with('message', $msg);
+            }
 
         $wildlife = new PackageBookingTemp();
         $wildlife->user_id = Auth::guard('agent')->id();
@@ -1640,11 +1676,11 @@ if ($max_price) {
 
         }
 
-        if($request->hotel_category == 'hotel_delux_cost'){
-            $hotel_cat_cost = $package_price->hotel_delux_cost ?? 0;
-        }else{
-            $hotel_cat_cost = $package_price->hotel_premium_cost ?? 0;
-        }
+        // if($request->hotel_category == 'hotel_delux_cost'){
+        //     $hotel_cat_cost = $package_price->hotel_delux_cost ?? 0;
+        // }else{
+        //     $hotel_cat_cost = $package_price->hotel_premium_cost ?? 0;
+        // }
         // vehicle_options
 
         if($request->vehicle_options == 'hatchback_cost'){
@@ -1726,13 +1762,12 @@ if ($max_price) {
          $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
 
         $fin_price = $room_cost * $night_count;
-        $fin_price_0 = $hotel_cat_cost * $night_count;
+        // $fin_price_0 = $hotel_cat_cost * $night_count;
         $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
         $fin_price_2 = $total_vehicle_options_cost;
         $fin_price_3 = $extrabed_cost * $night_count;
         $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $children_5_11 + $children_1_5;
-
-        $total_price = $fin_price + $fin_price_0 + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
+        $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
         $admin_margin =  $package_price->admin_margin;
 

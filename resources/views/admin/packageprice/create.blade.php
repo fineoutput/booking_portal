@@ -85,17 +85,21 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="col-sm-6">
-                                        <label for="category_cost" class="form-label">Hotel Per Night Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="category_cost" value="" required>
-                                        @error('category_cost')
+                                    <div class="col-sm-6">
+                                        {{-- <label for="room_category" class="form-label">Select Room Category &nbsp;<span style="color:red;">*</span></label> --}}
+                                        <select class="form-control" name="room_category" id="room_category" required>
+                                            <option selected disabled value="">Select Room Category</option>
+                                            <option value="premium">Premium</option>
+                                            <option value="deluxe">Deluxe</option>
+                                        </select>
+                                        @error('room_category')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div> --}}
+                                    </div>
 
                                     </div>
 
-                                    <div class="form-group row">
+                                    {{-- <div class="form-group row">
                                            <div class="col-sm-6">
                                         <label for="hotel_delux_cost" class="form-label">Hotel Delux Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="hotel_delux_cost" value="" required>
@@ -110,7 +114,7 @@
                                         @error('hotel_premium_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                     
 
                                     <div class="col-sm-6">
