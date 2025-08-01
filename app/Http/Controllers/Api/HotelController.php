@@ -334,11 +334,11 @@ class HotelController extends Controller
             $query = Package::query();
 
             if ($stateId) {
-                $query->where('state_id', $stateId);
+                $query->whereRaw("FIND_IN_SET(?, state_id)", [$stateId]);
             }
 
             if ($cityId) {
-                $query->where('city_id', $cityId);
+                $query->whereRaw("FIND_IN_SET(?, city_id)", [$cityId]);
             }
 
             if ($min_price > 0 || $max_price < 10000000) {
