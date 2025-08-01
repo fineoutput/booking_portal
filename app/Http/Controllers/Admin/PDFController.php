@@ -14,60 +14,114 @@ use PDF;
 class PDFController extends Controller
 {
 
-    public function downloadWithLogo($user_id, $booking_id, $pdf_name)
-    {
-          set_time_limit(300);
+    // public function downloadWithLogo($user_id, $booking_id, $pdf_name)
+    // {
+    //       set_time_limit(300);
 
-        try {
-            $user = Agent::where('id',Auth::id())->first();
-            $booking = PackageBooking::with('tourists', 'hotels')->where('id', $booking_id)->first();
-            // $user = Agent::where('id',Auth::id())->first();
+    //     try {
+    //         $user = Agent::where('id',Auth::id())->first();
+    //         $booking = PackageBooking::with('tourists', 'hotels')->where('id', $booking_id)->first();
+    //         $user = Agent::where('id',Auth::id())->first();
 
-            $pdf_name = urldecode(basename($pdf_name));
-            $pdfPath = public_path('packages/pdf/' . $pdf_name);
+    //         // $pdf_name = urldecode(basename($pdf_name));
+    //         // $pdfPath = public_path('packages/pdf/' . $pdf_name);
 
-            if (!file_exists($pdfPath)) {
-                return abort(404, 'PDF not found.');
-            }
+    //         // if (!file_exists($pdfPath)) {
+    //         //     return abort(404, 'PDF not found.');
+    //         // }
 
-            $pdf = new Fpdi();
+    //         $pdf = new Fpdi();
            
-            $pageCount = $pdf->setSourceFile($pdfPath);
+    //         // $pageCount = $pdf->setSourceFile($pdfPath);
 
-            for ($i = 1; $i <= $pageCount; $i++) {
-                $template = $pdf->importPage($i);
-                $size = $pdf->getTemplateSize($template);
-                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-                $pdf->useTemplate($template);
-            }
+    //         // for ($i = 1; $i <= $pageCount; $i++) {
+    //         //     $template = $pdf->importPage($i);
+    //         //     $size = $pdf->getTemplateSize($template);
+    //         //     $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+    //         //     $pdf->useTemplate($template);
+    //         // }
 
-            $invoiceHtml = view('front.invoice', compact('user', 'booking'))->render();
-            $tempPdf = PDF::loadHTML($invoiceHtml);
-            $tempPdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
-            $tempPdf->save($tempPdfPath);
+    //         $invoiceHtml = view('front.invoice', compact('user', 'booking'))->render();
+    //         $tempPdf = PDF::loadHTML($invoiceHtml);
+    //         $tempPdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
+    //         $tempPdf->save($tempPdfPath);
 
-            $invoicePageCount = $pdf->setSourceFile($tempPdfPath);
-            for ($i = 1; $i <= $invoicePageCount; $i++) {
-                $template = $pdf->importPage($i);
-                $size = $pdf->getTemplateSize($template);
-                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-                $pdf->useTemplate($template);
-            }
+    //         $invoicePageCount = $pdf->setSourceFile($tempPdfPath);
+    //         for ($i = 1; $i <= $invoicePageCount; $i++) {
+    //             $template = $pdf->importPage($i);
+    //             $size = $pdf->getTemplateSize($template);
+    //             $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+    //             $pdf->useTemplate($template);
+    //         }
 
-            unlink($tempPdfPath);
+    //         unlink($tempPdfPath);
 
-            return response()->stream(function () use ($pdf) {
-                $pdf->Output('D', 'customized_with_invoice.pdf');
-            }, 200, [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="customized_with_invoice.pdf"'
-            ]);
+    //         return response()->stream(function () use ($pdf) {
+    //             $pdf->Output('D', 'customized_with_invoice.pdf');
+    //         }, 200, [
+    //             'Content-Type' => 'application/pdf',
+    //             'Content-Disposition' => 'attachment; filename="customized_with_invoice.pdf"'
+    //         ]);
 
-        } catch (\Exception $e) {
-            \Log::error('PDF generation failed: ' . $e->getMessage());
-            return abort(500, 'Something went wrong generating the PDF.');
+    //     } catch (\Exception $e) {
+    //         \Log::error('PDF generation failed: ' . $e->getMessage());
+    //         return abort(500, 'Something went wrong generating the PDF.');
+    //     }
+    // }
+
+
+    public function downloadWithLogo($user_id, $booking_id, $pdf_name)
+{
+    set_time_limit(300);
+
+    try {
+        $user = Agent::where('id', Auth::id())->first();
+        $booking = PackageBooking::with('tourists', 'hotels')->where('id', $booking_id)->first();
+
+        $pdf = new Fpdi();
+
+        // 1. Generate invoice page and add to PDF
+        $invoiceHtml = view('front.invoice', compact('user', 'booking'))->render();
+        $tempPdf = PDF::loadHTML($invoiceHtml);
+        $tempPdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
+        $tempPdf->save($tempPdfPath);
+
+        $invoicePageCount = $pdf->setSourceFile($tempPdfPath);
+        for ($i = 1; $i <= $invoicePageCount; $i++) {
+            $template = $pdf->importPage($i);
+            $size = $pdf->getTemplateSize($template);
+            $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+            $pdf->useTemplate($template);
         }
+
+        unlink($tempPdfPath); // Clean up temp file
+
+        // 2. Add additional PDF page from packages/pdf
+        $additionalPdfPath = public_path('packages/pdf/' . urldecode($pdf_name));
+        if (file_exists($additionalPdfPath)) {
+            $additionalPageCount = $pdf->setSourceFile($additionalPdfPath);
+            for ($i = 1; $i <= $additionalPageCount; $i++) {
+                $template = $pdf->importPage($i);
+                $size = $pdf->getTemplateSize($template);
+                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+                $pdf->useTemplate($template);
+            }
+        } else {
+            \Log::warning("Additional PDF not found: " . $additionalPdfPath);
+        }
+
+        return response()->stream(function () use ($pdf) {
+            $pdf->Output('D', 'customized_with_invoice.pdf');
+        }, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="customized_with_invoice.pdf"'
+        ]);
+
+    } catch (\Exception $e) {
+        \Log::error('PDF generation failed: ' . $e->getMessage());
+        return abort(500, 'Something went wrong generating the PDF.');
     }
+}
 
 
     // public function downloadWithLogo($user_id, $pdf_name)
