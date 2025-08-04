@@ -2630,212 +2630,426 @@ public function getLanguages(Request $request)
     }
 
 
-
     public function allbookings(Request $request) {
-        $token = $request->bearerToken();
-    
-        if (!$token) {
-            return response()->json([
-                'message' => 'Unauthenticated.',
-                'data' => [],
-                'status' => 401,
-            ]);
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 401,
+        ]);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+
+    $user = Agent::where('email', $email)->first();
+
+    if ($user && $password == $user->password) {
+        $bookings = collect();
+
+        // Hotel bookings
+        $hotelBookings = HotelBooking2::where('user_id', $user->id)->get();
+        foreach ($hotelBookings as $booking) {
+            $hotel = Hotels::find($booking->hotel_id);
+
+            if ($hotel) {
+                $imagePaths = $hotel->images;
+
+                if (is_string($imagePaths)) {
+                    $imagePaths = json_decode($imagePaths, true);
+                }
+
+                if (!is_array($imagePaths)) {
+                    $imagePaths = [$imagePaths];
+                }
+
+                $baseUrl = url('');
+                $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+                    return $baseUrl . '/' . ltrim($image, '/');
+                }, $imagePaths);
+
+                $booking->image = $fullImageUrls;
+            } else {
+                $booking->image = [];
+            }
+
+            $booking->booking_name = 'hotel';
+            $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+            $booking->status_label = $this->getStatusLabel($booking->status);
+            $bookings->push($booking);
         }
-    
-        $decodedToken = base64_decode($token);
-        list($email, $password) = explode(',', $decodedToken);
-    
-        $user = Agent::where('email', $email)->first();
-    
-        if ($user && $password == $user->password) {
-            $bookings = collect(); // Initialize an empty collection to store all bookings
-    
-            // Fetch hotel bookings
-            $hotelBookings = HotelBooking2::where('user_id', $user->id)->get();
-            foreach ($hotelBookings as $booking) {
-                $hotel = Hotels::find($booking->hotel_id);
-    
-                if ($hotel) {
-                    $imagePaths = $hotel->images;
-    
-                    if (is_string($imagePaths)) {
-                        $imagePaths = json_decode($imagePaths, true);
-                    }
-    
-                    if (!is_array($imagePaths)) {
-                        $imagePaths = [$imagePaths];
-                    }
-    
-                    $baseUrl = url('');
-                    $fullImageUrls = array_map(function ($image) use ($baseUrl) {
-                        return $baseUrl . '/' . ltrim($image, '/');
-                    }, $imagePaths);
-    
-                    $booking->image = $fullImageUrls;
-                } else {
-                    $booking->image = [];
-                }
-    
-                // Add booking_name for hotel bookings
-                $booking->booking_name = 'hotel';
-                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
-                $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
-                $bookings->push($booking); // Add hotel booking to the collection
-            }
-    
-            // Fetch package bookings
-            $packageBookings = PackageBooking::where('user_id', $user->id)->get();
-            foreach ($packageBookings as $booking) {
-                $package = Package::find($booking->package_id);
-    
-                if ($package) {
-                    $imagePaths = $package->image;
-    
-                    if (is_string($imagePaths)) {
-                        $imagePaths = json_decode($imagePaths, true);
-                    }
-    
-                    if (!is_array($imagePaths)) {
-                        $imagePaths = [$imagePaths];
-                    }
-    
-                    $baseUrl = url('');
-                    $fullImageUrls = array_map(function ($image) use ($baseUrl) {
-                        return $baseUrl . '/' . ltrim($image, '/');
-                    }, $imagePaths);
-    
-                    $booking->image = array_values($fullImageUrls);
-                } else {
-                    $booking->image = [];
-                }
-    
-                // Add booking_name for package bookings
-                $booking->booking_name = 'package';
-                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
-                $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
-                $bookings->push($booking); // Add package booking to the collection
-            }
-    
-            // Fetch safari bookings
-            $safariBookings = WildlifeSafariOrder2::where('user_id', $user->id)->get();
-            foreach ($safariBookings as $booking) {
-                $safari = WildlifeSafari::find($booking->safari_id);
-    
-                if ($safari) {
-                    $imagePaths = $safari->image;
-    
-                    if (is_string($imagePaths)) {
-                        $imagePaths = json_decode($imagePaths, true);
-                    }
-    
-                    if (!is_array($imagePaths)) {
-                        $imagePaths = [$imagePaths];
-                    }
-    
-                    $baseUrl = url('');
-                    $fullImageUrls = array_map(function ($image) use ($baseUrl) {
-                        return $baseUrl . '/' . ltrim($image, '/');
-                    }, $imagePaths);
-    
-                    $booking->image = array_values($fullImageUrls);
-                } else {
-                    $booking->image = [];
-                }
-    
-                // Add booking_name for safari bookings
-                $booking->booking_name = 'safari';
-                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
-                $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
-                $bookings->push($booking); // Add safari booking to the collection
-            }
-    
-            // Fetch taxi bookings
-            $taxiBookings = TaxiBooking2::where('user_id', $user->id)->get();
-            foreach ($taxiBookings as $booking) {
-                $vehicleId_1 = $booking->taxi_order_id;
-                $vh = TaxiBooking::find($vehicleId_1);
 
-                $vehicleId = $vh->vehicle_id ?: $vh->vehicle_id_1;
-    
-                if ($vehicleId) {
-                    $vehicle = Vehicle::find($vehicleId);
-    
-                    if ($vehicle) {
-                        $imagePath = $vehicle->image;
-                        if ($imagePath) {
-                            $baseUrl = url('');
-                            $fullImageUrl = $baseUrl . '/' . ltrim($imagePath, '/');
-                            $booking->image = [$fullImageUrl];
-                        } else {
-                            $booking->image = [];
-                        }
-                    } else {
-                        $booking->image = [];
-                    }
-                } else {
-                    $booking->image = [];
+        // Package bookings
+        $packageBookings = PackageBooking::where('user_id', $user->id)->get();
+        foreach ($packageBookings as $booking) {
+            $package = Package::find($booking->package_id);
+
+            if ($package) {
+                $imagePaths = $package->image;
+
+                if (is_string($imagePaths)) {
+                    $imagePaths = json_decode($imagePaths, true);
                 }
-    
-                // Add booking_name for taxi bookings
-                $booking->booking_name = 'taxi';
-                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
-                $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
-                $bookings->push($booking); // Add taxi booking to the collection
+
+                if (!is_array($imagePaths)) {
+                    $imagePaths = [$imagePaths];
+                }
+
+                $baseUrl = url('');
+                $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+                    return $baseUrl . '/' . ltrim($image, '/');
+                }, $imagePaths);
+
+                $booking->image = array_values($fullImageUrls);
+
+                // ✅ Add PDF download URL
+                if ($package->pdf) {
+                    $booking->pdf_url = route('pdf.download', [
+                        'user_id' => $user->id,
+                        'booking_id' => $booking->id,
+                        'pdf_name' => urlencode(basename($package->pdf)),
+                    ]);
+                } else {
+                    $booking->pdf_url = null;
+                }
+
+            } else {
+                $booking->image = [];
+                $booking->pdf_url = null;
             }
 
+            $booking->booking_name = 'package';
+            $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+            $booking->status_label = $this->getStatusLabel($booking->status);
+            $bookings->push($booking);
+        }
 
-            $taxiBookings = TripGuideBook2::where('user_id', $user->id)->get();
-            foreach ($taxiBookings as $booking) {
-                $vehicleId = $booking->	guide_id;
-    
-                    $vehicle = TripGuide::find($vehicleId);
-    
-                    if ($vehicle) {
-                        $imagePaths = $safari->image;
-        
-                        if (is_string($imagePaths)) {
-                            $imagePaths = json_decode($imagePaths, true);
-                        }
-        
-                        if (!is_array($imagePaths)) {
-                            $imagePaths = [$imagePaths];
-                        }
-        
+        // Safari bookings
+        $safariBookings = WildlifeSafariOrder2::where('user_id', $user->id)->get();
+        foreach ($safariBookings as $booking) {
+            $safari = WildlifeSafari::find($booking->safari_id);
+
+            if ($safari) {
+                $imagePaths = $safari->image;
+
+                if (is_string($imagePaths)) {
+                    $imagePaths = json_decode($imagePaths, true);
+                }
+
+                if (!is_array($imagePaths)) {
+                    $imagePaths = [$imagePaths];
+                }
+
+                $baseUrl = url('');
+                $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+                    return $baseUrl . '/' . ltrim($image, '/');
+                }, $imagePaths);
+
+                $booking->image = array_values($fullImageUrls);
+            } else {
+                $booking->image = [];
+            }
+
+            $booking->booking_name = 'safari';
+            $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+            $booking->status_label = $this->getStatusLabel($booking->status);
+            $bookings->push($booking);
+        }
+
+        // Taxi bookings
+        $taxiBookings = TaxiBooking2::where('user_id', $user->id)->get();
+        foreach ($taxiBookings as $booking) {
+            $vehicleId_1 = $booking->taxi_order_id;
+            $vh = TaxiBooking::find($vehicleId_1);
+
+            $vehicleId = $vh->vehicle_id ?: $vh->vehicle_id_1;
+
+            if ($vehicleId) {
+                $vehicle = Vehicle::find($vehicleId);
+
+                if ($vehicle) {
+                    $imagePath = $vehicle->image;
+                    if ($imagePath) {
                         $baseUrl = url('');
-                        $fullImageUrls = array_map(function ($image) use ($baseUrl) {
-                            return $baseUrl . '/' . ltrim($image, '/');
-                        }, $imagePaths);
-        
-                        $booking->image = array_values($fullImageUrls);
+                        $fullImageUrl = $baseUrl . '/' . ltrim($imagePath, '/');
+                        $booking->image = [$fullImageUrl];
                     } else {
                         $booking->image = [];
                     }
+                } else {
+                    $booking->image = [];
+                }
+            } else {
+                $booking->image = [];
+            }
+
+            $booking->booking_name = 'taxi';
+            $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+            $booking->status_label = $this->getStatusLabel($booking->status);
+            $bookings->push($booking);
+        }
+
+        // Guide bookings
+        $taxiBookings = TripGuideBook2::where('user_id', $user->id)->get();
+        foreach ($taxiBookings as $booking) {
+            $vehicleId = $booking->guide_id;
+
+            $vehicle = TripGuide::find($vehicleId);
+
+            if ($vehicle) {
+                $imagePaths = $safari->image;
+
+                if (is_string($imagePaths)) {
+                    $imagePaths = json_decode($imagePaths, true);
+                }
+
+                if (!is_array($imagePaths)) {
+                    $imagePaths = [$imagePaths];
+                }
+
+                $baseUrl = url('');
+                $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+                    return $baseUrl . '/' . ltrim($image, '/');
+                }, $imagePaths);
+
+                $booking->image = array_values($fullImageUrls);
+            } else {
+                $booking->image = [];
+            }
+
+            $booking->booking_name = 'guide';
+            $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+            $booking->status_label = $this->getStatusLabel($booking->status);
+            $bookings->push($booking);
+        }
+
+        $bookings->each(function ($booking) {
+            $booking->makeHidden(['updated_at', 'deleted_at', 'created_at']);
+        });
+
+        return response()->json([
+            'message' => 'Data fetched successfully',
+            'data' => $bookings,
+            'status' => 200,
+        ]);
+    } else {
+        return response()->json([
+            'message' => 'Unauthenticated. Invalid credentials.',
+            'data' => [],
+            'status' => 401,
+        ], 401);
+    }
+}
+
+
+
+    // public function allbookings(Request $request) {
+    //     $token = $request->bearerToken();
+    
+    //     if (!$token) {
+    //         return response()->json([
+    //             'message' => 'Unauthenticated.',
+    //             'data' => [],
+    //             'status' => 401,
+    //         ]);
+    //     }
+    
+    //     $decodedToken = base64_decode($token);
+    //     list($email, $password) = explode(',', $decodedToken);
+    
+    //     $user = Agent::where('email', $email)->first();
+    
+    //     if ($user && $password == $user->password) {
+    //         $bookings = collect(); // Initialize an empty collection to store all bookings
+    
+    //         // Fetch hotel bookings
+    //         $hotelBookings = HotelBooking2::where('user_id', $user->id)->get();
+    //         foreach ($hotelBookings as $booking) {
+    //             $hotel = Hotels::find($booking->hotel_id);
+    
+    //             if ($hotel) {
+    //                 $imagePaths = $hotel->images;
+    
+    //                 if (is_string($imagePaths)) {
+    //                     $imagePaths = json_decode($imagePaths, true);
+    //                 }
+    
+    //                 if (!is_array($imagePaths)) {
+    //                     $imagePaths = [$imagePaths];
+    //                 }
+    
+    //                 $baseUrl = url('');
+    //                 $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+    //                     return $baseUrl . '/' . ltrim($image, '/');
+    //                 }, $imagePaths);
+    
+    //                 $booking->image = $fullImageUrls;
+    //             } else {
+    //                 $booking->image = [];
+    //             }
+    
+    //             // Add booking_name for hotel bookings
+    //             $booking->booking_name = 'hotel';
+    //             $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+    //             $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
+    //             $bookings->push($booking); // Add hotel booking to the collection
+    //         }
+    
+    //         // Fetch package bookings
+    //         $packageBookings = PackageBooking::where('user_id', $user->id)->get();
+    //         foreach ($packageBookings as $booking) {
+    //             $package = Package::find($booking->package_id);
+    
+    //             if ($package) {
+    //                 $imagePaths = $package->image;
+    
+    //                 if (is_string($imagePaths)) {
+    //                     $imagePaths = json_decode($imagePaths, true);
+    //                 }
+    
+    //                 if (!is_array($imagePaths)) {
+    //                     $imagePaths = [$imagePaths];
+    //                 }
+    
+    //                 $baseUrl = url('');
+    //                 $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+    //                     return $baseUrl . '/' . ltrim($image, '/');
+    //                 }, $imagePaths);
+    
+    //                 $booking->image = array_values($fullImageUrls);
+    //             } else {
+    //                 $booking->image = [];
+    //             }
+    
+    //             // Add booking_name for package bookings
+    //             $booking->booking_name = 'package';
+    //             $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+    //             $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
+    //             $bookings->push($booking); // Add package booking to the collection
+    //         }
+    
+    //         // Fetch safari bookings
+    //         $safariBookings = WildlifeSafariOrder2::where('user_id', $user->id)->get();
+    //         foreach ($safariBookings as $booking) {
+    //             $safari = WildlifeSafari::find($booking->safari_id);
+    
+    //             if ($safari) {
+    //                 $imagePaths = $safari->image;
+    
+    //                 if (is_string($imagePaths)) {
+    //                     $imagePaths = json_decode($imagePaths, true);
+    //                 }
+    
+    //                 if (!is_array($imagePaths)) {
+    //                     $imagePaths = [$imagePaths];
+    //                 }
+    
+    //                 $baseUrl = url('');
+    //                 $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+    //                     return $baseUrl . '/' . ltrim($image, '/');
+    //                 }, $imagePaths);
+    
+    //                 $booking->image = array_values($fullImageUrls);
+    //             } else {
+    //                 $booking->image = [];
+    //             }
+    
+    //             // Add booking_name for safari bookings
+    //             $booking->booking_name = 'safari';
+    //             $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+    //             $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
+    //             $bookings->push($booking); // Add safari booking to the collection
+    //         }
+    
+    //         // Fetch taxi bookings
+    //         $taxiBookings = TaxiBooking2::where('user_id', $user->id)->get();
+    //         foreach ($taxiBookings as $booking) {
+    //             $vehicleId_1 = $booking->taxi_order_id;
+    //             $vh = TaxiBooking::find($vehicleId_1);
+
+    //             $vehicleId = $vh->vehicle_id ?: $vh->vehicle_id_1;
+    
+    //             if ($vehicleId) {
+    //                 $vehicle = Vehicle::find($vehicleId);
+    
+    //                 if ($vehicle) {
+    //                     $imagePath = $vehicle->image;
+    //                     if ($imagePath) {
+    //                         $baseUrl = url('');
+    //                         $fullImageUrl = $baseUrl . '/' . ltrim($imagePath, '/');
+    //                         $booking->image = [$fullImageUrl];
+    //                     } else {
+    //                         $booking->image = [];
+    //                     }
+    //                 } else {
+    //                     $booking->image = [];
+    //                 }
+    //             } else {
+    //                 $booking->image = [];
+    //             }
+    
+    //             // Add booking_name for taxi bookings
+    //             $booking->booking_name = 'taxi';
+    //             $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+    //             $booking->status_label = $this->getStatusLabel($booking->status); // Use status from booking
+    //             $bookings->push($booking); // Add taxi booking to the collection
+    //         }
+
+
+    //         $taxiBookings = TripGuideBook2::where('user_id', $user->id)->get();
+    //         foreach ($taxiBookings as $booking) {
+    //             $vehicleId = $booking->	guide_id;
+    
+    //                 $vehicle = TripGuide::find($vehicleId);
+    
+    //                 if ($vehicle) {
+    //                     $imagePaths = $safari->image;
+        
+    //                     if (is_string($imagePaths)) {
+    //                         $imagePaths = json_decode($imagePaths, true);
+    //                     }
+        
+    //                     if (!is_array($imagePaths)) {
+    //                         $imagePaths = [$imagePaths];
+    //                     }
+        
+    //                     $baseUrl = url('');
+    //                     $fullImageUrls = array_map(function ($image) use ($baseUrl) {
+    //                         return $baseUrl . '/' . ltrim($image, '/');
+    //                     }, $imagePaths);
+        
+    //                     $booking->image = array_values($fullImageUrls);
+    //                 } else {
+    //                     $booking->image = [];
+    //                 }
                 
     
-                $booking->booking_name = 'guide';
-                $booking->dates = date('d-m-Y', strtotime($booking->created_at));
-                $booking->status_label = $this->getStatusLabel($booking->status); 
-                $bookings->push($booking); 
-            }
+    //             $booking->booking_name = 'guide';
+    //             $booking->dates = date('d-m-Y', strtotime($booking->created_at));
+    //             $booking->status_label = $this->getStatusLabel($booking->status); 
+    //             $bookings->push($booking); 
+    //         }
     
-            $bookings->each(function ($booking) {
-                $booking->makeHidden(['updated_at', 'deleted_at','created_at']);
+    //         $bookings->each(function ($booking) {
+    //             $booking->makeHidden(['updated_at', 'deleted_at','created_at']);
 
-            });
+    //         });
     
-            return response()->json([
-                'message' => 'Data fetched successfully',
-                'data' => $bookings,
-                'status' => 200,
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'Unauthenticated. Invalid credentials.',
-                'data' => [],
-                'status' => 401,
-            ], 401);
-        }
-    }
+    //         return response()->json([
+    //             'message' => 'Data fetched successfully',
+    //             'data' => $bookings,
+    //             'status' => 200,
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'message' => 'Unauthenticated. Invalid credentials.',
+    //             'data' => [],
+    //             'status' => 401,
+    //         ], 401);
+    //     }
+    // }
     
     // Helper method to get the status label
    
