@@ -357,6 +357,13 @@
   </section>
 </div>
 
+<style>
+/* Style for disabled select options */
+select option:disabled {
+    color: rgba(34, 7, 7, 0.233);
+}
+</style>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
