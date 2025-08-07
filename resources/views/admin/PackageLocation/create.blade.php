@@ -362,6 +362,36 @@
 document.addEventListener('DOMContentLoaded', function() {
   const wrapper = document.getElementById('location-cost-wrapper');
 
+  // Function to update vehicle options in a location group
+  function updateVehicleOptions(locationGroup) {
+    const vehicleSelects = locationGroup.querySelectorAll('.vehicle-group select');
+    const selectedValues = Array.from(vehicleSelects)
+      .map(select => select.value)
+      .filter(value => value && value !== '');
+
+    vehicleSelects.forEach(select => {
+      // Reset all options to enabled
+      Array.from(select.options).forEach(option => {
+        if (option.value !== '') {
+          option.disabled = false;
+        }
+      });
+
+      // Disable selected values in other dropdowns
+      selectedValues.forEach(value => {
+        if (value && select.value !== value) {
+          const option = select.querySelector(`option[value="${value}"]`);
+          if (option) {
+            option.disabled = true;
+          }
+        }
+      });
+    });
+  }
+
+  // Initial update for existing location groups
+  document.querySelectorAll('.location-group').forEach(updateVehicleOptions);
+
   // Add new location
   wrapper.addEventListener('click', function(e) {
     if (e.target && e.target.classList.contains('btn-add-location')) {
@@ -379,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="col-sm-5">
                 <label class="form-label">Vehicle <span style="color:red;">*</span></label>
                 <select name="vehicles[${index}][]" class="form-control" required>
-                    <option selected disabled value="">Select Vehicle</option>
+                  <option selected disabled value="">Select Vehicle</option>
                   <option value="hatchback_cost">Hatchback</option>
                   <option value="sedan_cost">Sedan</option>
                   <option value="economy_suv_cost">Economy SUV</option>
@@ -408,11 +438,12 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       `;
       wrapper.insertBefore(newLocation, e.target);
+      updateVehicleOptions(newLocation);
     }
 
     // Add vehicle to existing location
     if (e.target && e.target.classList.contains('btn-add-vehicle')) {
-      console.log('Add Vehicle button clicked'); // Debugging
+      console.log('Add Vehicle button clicked');
       const locationGroup = e.target.closest('.location-group');
       const locationIndex = Array.from(document.querySelectorAll('.location-group')).indexOf(locationGroup);
       const vehicleGroup = locationGroup.querySelector('.vehicle-group');
@@ -443,18 +474,29 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       `;
       vehicleGroup.insertBefore(newVehicle, vehicleGroup.querySelector('.btn-add-vehicle').parentElement.parentElement);
+      updateVehicleOptions(locationGroup);
     }
 
     // Remove vehicle
     if (e.target && e.target.classList.contains('btn-remove-vehicle')) {
-      console.log('Remove Vehicle button clicked'); // Debugging
+      console.log('Remove Vehicle button clicked');
+      const locationGroup = e.target.closest('.location-group');
       e.target.closest('.vehicle-row').remove();
+      updateVehicleOptions(locationGroup);
     }
 
     // Remove location
     if (e.target && e.target.classList.contains('btn-remove-location')) {
-      console.log('Remove Location button clicked'); // Debugging
+      console.log('Remove Location button clicked');
       e.target.closest('.location-group').remove();
+    }
+  });
+
+  // Update vehicle options when a selection changes
+  wrapper.addEventListener('change', function(e) {
+    if (e.target && e.target.tagName === 'SELECT' && e.target.name.includes('vehicles')) {
+      const locationGroup = e.target.closest('.location-group');
+      updateVehicleOptions(locationGroup);
     }
   });
 });
