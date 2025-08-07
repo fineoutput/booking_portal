@@ -74,18 +74,18 @@
                         <th data-priority="3">Meal Plan Breakfast Cost</th>
                         <th data-priority="3">Meal Plan (Breakfast + Lunch/Dinner) Cost</th>
                         <th data-priority="3">Meal Plan (All Meal) Cost</th>
-                        <th data-priority="3">Vehicle (Hatchback) Cost</th>
-                        <th data-priority="3">Vehicle (Sedan) Cost</th>
-                        <th data-priority="3">Vehicle (Economy SUV) Cost</th>
-                        <th data-priority="3">Vehicle (Luxury SUV) Cost</th>
-                        <th data-priority="3">Vehicle (Traveller (7-12 pass)) Cost</th>
-                        <th data-priority="3">Vehicle (Traveller (12-21 pass)) Cost</th>
-                        <th data-priority="3">Vehicle (Premium traveller (10-16 pass)) Cost</th>
-                        <th data-priority="3">Vehicle (AC Coach (18-30 pass)) Cost</th>
-                        <th data-priority="3">Luxury (Sedan) Cost</th>
-                        <th data-priority="3">SUV Cost</th>
-                        <th data-priority="3">MUV Cost</th>
-                        <th data-priority="3">Bus (Non AC) Cost</th>
+                        <th data-priority="3">Hatchback Cost</th>
+                        <th data-priority="3">Sedan Cost</th>
+                        <th data-priority="3">Economy SUV Cost</th>
+                        <th data-priority="3">Premium SUV Cost</th>
+                        <th data-priority="3">Tempo Traveller(8-16 Seat) Cost</th>
+                        <th data-priority="3">Tempo Traveller(17-25 Seat) Cost</th>
+                        <th data-priority="3">Urbania(12-17 Seat) Cost</th>
+                        <th data-priority="3">Luxury Bus Cost</th>
+                        {{-- <th data-priority="3">Luxury (Sedan) Cost</th>
+                        <th data-priority="3">SUV Cost</th> --}}
+                        {{-- <th data-priority="3">MUV Cost</th> --}}
+                        <th data-priority="3">Deluxe Bus Cost </th>
                         <th data-priority="3">Extra Bed Cost</th>
                         <th data-priority="3">Display Cost</th>
                         <th data-priority="3">Admin Margin</th>
@@ -148,9 +148,9 @@
                                 <td>₹{{ $pkg->traveller_big_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->premium_traveller_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->ac_coach_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->luxury_sedan_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->suv_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->muv_cost ?? '0' }}</td>
+                                {{-- <td>₹{{ $pkg->luxury_sedan_cost ?? '0' }}</td> --}}
+                                {{-- <td>₹{{ $pkg->suv_cost ?? '0' }}</td> --}}
+                                {{-- <td>₹{{ $pkg->muv_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->bus_nonac_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->extra_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->display_cost ?? '0' }}</td>
