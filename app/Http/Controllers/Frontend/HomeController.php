@@ -1561,6 +1561,8 @@ if ($max_price) {
         //           return redirect()->back()->with('message', "Price not available for these dates.");
         //           }
 
+        $package_price = null;
+        
         $existsHotel = PackagePrice::where('package_id', $id)
                 ->where('hotel_category', $request->hotel_preference)
                 ->exists();

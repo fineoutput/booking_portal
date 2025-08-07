@@ -184,7 +184,7 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
   Route::match(['get', 'post'], '/vehicle/cost/create/{id}', [VehicleCostController::class, 'create'])->name('vehicle_cost');
 
-  Route::match(['get', 'post'], '/location/cost/create/{id}', [PackageLocationController::class, 'update'])->name('location_cost');
+ Route::match(['get', 'post'], '/admin/package-location/{id}', [PackageLocationController::class, 'update'])->name('location_cost');
 
 
 

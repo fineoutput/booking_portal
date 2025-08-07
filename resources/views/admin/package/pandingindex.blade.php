@@ -52,6 +52,7 @@
                         <th data-priority="1">PNR number</th>
                         <th data-priority="1">User Name</th>
                         <th data-priority="1">Package Name</th>
+                        <th data-priority="1">Pickup Location</th>
                         <th data-priority="1">City</th>
                         {{-- <th data-priority="1">Date</th> --}}
                         <th data-priority="1">Check In Date</th>
@@ -73,6 +74,7 @@
                         <td>#{{ $hotel->id ?? '' }}</td>
                         <td>{{ $hotel->user->name ?? '' }}</td>
                         <td>{{ $hotel->package->package_name ?? '' }}</td>
+                        <td>{{ $hotel->packagetemp->pickup_location ?? '' }}</td>
                         <td>{{ $hotel->package->cities->city_name ?? '' }}</td>
                         <td>
                            {{ $hotel->packagetemp->start_date ? \Carbon\Carbon::parse($hotel->packagetemp->start_date)->format('d F Y') : '' }}

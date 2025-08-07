@@ -13,6 +13,7 @@ class LocationCost extends Model
     protected $fillable = [
         'package_id',
         'location',
+        'vehicle',
         'cost',
     ];
 

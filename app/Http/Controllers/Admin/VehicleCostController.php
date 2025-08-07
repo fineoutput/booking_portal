@@ -58,7 +58,7 @@ class VehicleCostController extends Controller
             ]
         );
 
-        return redirect()->back()->with('success', 'Vehicle cost saved successfully.');
+        return redirect()->route('package_price', ['id' => $id])->with('success', 'Vehicle cost saved successfully.');
     }
 
 
