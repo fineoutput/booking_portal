@@ -314,6 +314,7 @@
                             <div class="col-sm-5">
                               <label class="form-label">Vehicle <span style="color:red;">*</span></label>
                               <select name="vehicles[0][]" class="form-control" required>
+                                  <option selected disabled value="">Select Vehicle</option>
                                 <option value="hatchback_cost">Hatchback</option>
                                 <option value="sedan_cost">Sedan</option>
                                 <option value="economy_suv_cost">Economy SUV</option>
@@ -378,6 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="col-sm-5">
                 <label class="form-label">Vehicle <span style="color:red;">*</span></label>
                 <select name="vehicles[${index}][]" class="form-control" required>
+                    <option selected disabled value="">Select Vehicle</option>
                   <option value="hatchback_cost">Hatchback</option>
                   <option value="sedan_cost">Sedan</option>
                   <option value="economy_suv_cost">Economy SUV</option>
@@ -420,6 +422,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="col-sm-5">
           <label class="form-label">Vehicle <span style="color:red;">*</span></label>
           <select name="vehicles[${locationIndex}][]" class="form-control" required>
+            <option selected disabled value="">Select Vehicle</option>
             <option value="hatchback_cost">Hatchback</option>
             <option value="sedan_cost">Sedan</option>
             <option value="economy_suv_cost">Economy SUV</option>

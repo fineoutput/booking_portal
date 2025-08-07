@@ -1260,7 +1260,11 @@ public function getVehiclesByCity($cityId)
     $formatted_date = Carbon::now()->format('Y-m-d');
     // return $formatted_date;
     // Get specific package with current price range
-    $data['package_location'] = LocationCost::where('package_id', $id)->get();
+    // $data['package_location'] = LocationCost::where('package_id', $id)->get();
+    $data['package_location'] = LocationCost::where('package_id', $id)
+    ->select('location')
+    ->distinct()
+    ->get();
     $package = Package::with(['packagePrices' => function ($q) use ($formatted_date) {
         $q->whereDate('start_date', '<=', $formatted_date)
           ->whereDate('end_date', '>=', $formatted_date)
@@ -1624,9 +1628,8 @@ if ($max_price) {
         $wildlife->children_1_5 = $request->children_1_5;   
         $wildlife->status = 0;
 
-      $package_location = LocationCost::where('package_id', $id)->where('location',$request->pickup_location)->first();
+      $package_location = LocationCost::where('package_id', $id)->where('location',$request->pickup_location)->where('vehicle',$request->vehicle_options)->first();
    
-
 
         if($request->meal == 'only_room'){
 

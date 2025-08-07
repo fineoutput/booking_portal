@@ -2035,8 +2035,9 @@ public function packagebooking(Request $request)
         $wildlife->children_5_11 = $request->children_5_11;  
         $wildlife->children_1_5 = $request->children_1_5;  
     $wildlife->status = 0;
+    
 
-     $package_location = LocationCost::where('package_id', $request->package_id)->where('location',$request->pickup_location)->first();
+      $package_location = LocationCost::where('package_id', $request->package_id)->where('location',$request->pickup_location)->where('vehicle',$request->vehicle_options)->first();
 
     // Meal cost calculation
     switch ($request->meal) {

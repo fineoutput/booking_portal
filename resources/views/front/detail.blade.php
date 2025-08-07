@@ -352,6 +352,33 @@
         </div>
     </div>
 
+            {{-- Vehicle Options --}}
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/sport-car.png') }}" alt="">
+                <label for="vehicleOptions" class="form-label">Vehicle Options</label>
+            </div>
+            <select id="vehicleOptions" name="vehicle_options" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.vehicle_options') ? 'selected' : '' }}>Select vehicle</option>
+                @foreach([
+                    'hatchback_cost' => 'Hatchback',
+                    'sedan_cost' => 'Sedan',
+                    // 'luxury_sedan_cost' => 'Luxury Sedan',
+                    'economy_suv_cost' => 'Economy SUV',
+                    // 'suv_cost' => 'SUV',
+                    // 'muv_cost' => 'MUV',
+                    'luxury_suv_cost' => 'Premium SUV',
+                    'traveller_mini_cost' => 'Tempo Traveller(8-16 Seat)',
+                    'traveller_big_cost' => 'Tempo Traveller(17-25 Seat)',
+                    'premium_traveller_cost' => 'Urbania(12-17 Seat)',
+                    'ac_coach_cost' => 'Luxury Bus',
+                    'bus_nonac_cost' => 'Deluxe Bus'
+                ] as $value => $label)
+                    <option value="{{ $value }}" {{ old('vehicle_options', session('booking_form_data.vehicle_options')) == $value ? 'selected' : '' }}>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+        
     <div class="row g-3">
         <!-- Pickup Location -->
         <div class="col-12">
@@ -594,32 +621,7 @@
         </div>
 
 
-        {{-- Vehicle Options --}}
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/sport-car.png') }}" alt="">
-                <label for="vehicleOptions" class="form-label">Vehicle Options</label>
-            </div>
-            <select id="vehicleOptions" name="vehicle_options" class="form-select no-form-select" required>
-                <option value="" disabled {{ !session('booking_form_data.vehicle_options') ? 'selected' : '' }}>Select vehicle</option>
-                @foreach([
-                    'hatchback_cost' => 'Hatchback',
-                    'sedan_cost' => 'Sedan',
-                    // 'luxury_sedan_cost' => 'Luxury Sedan',
-                    'economy_suv_cost' => 'Economy SUV',
-                    // 'suv_cost' => 'SUV',
-                    // 'muv_cost' => 'MUV',
-                    'luxury_suv_cost' => 'Premium SUV',
-                    'traveller_mini_cost' => 'Tempo Traveller(8-16 Seat)',
-                    'traveller_big_cost' => 'Tempo Traveller(17-25 Seat)',
-                    'premium_traveller_cost' => 'Urbania(12-17 Seat)',
-                    'ac_coach_cost' => 'Luxury Bus',
-                    'bus_nonac_cost' => 'Deluxe Bus'
-                ] as $value => $label)
-                    <option value="{{ $value }}" {{ old('vehicle_options', session('booking_form_data.vehicle_options')) == $value ? 'selected' : '' }}>{{ $label }}</option>
-                @endforeach
-            </select>
-        </div>
+
 
         {{-- Booking Source --}}
         <div class="col-12">
