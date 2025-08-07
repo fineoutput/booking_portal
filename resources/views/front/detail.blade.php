@@ -605,16 +605,16 @@
                 @foreach([
                     'hatchback_cost' => 'Hatchback',
                     'sedan_cost' => 'Sedan',
-                    'luxury_sedan_cost' => 'Luxury Sedan',
-                    'economy_suv_cost' => 'Compact SUV',
-                    'suv_cost' => 'SUV',
-                    'muv_cost' => 'MUV',
-                    'luxury_suv_cost' => 'Luxury SUV',
-                    'traveller_mini_cost' => 'Traveller (7-12 pass)',
-                    'traveller_big_cost' => 'Traveller (12-21 pass)',
-                    'premium_traveller_cost' => 'Premium traveller (10-16 pass)',
-                    'ac_coach_cost' => 'Bus (AC)',
-                    'bus_nonac_cost' => 'Bus ( Non AC )'
+                    // 'luxury_sedan_cost' => 'Luxury Sedan',
+                    'economy_suv_cost' => 'Economy SUV',
+                    // 'suv_cost' => 'SUV',
+                    // 'muv_cost' => 'MUV',
+                    'luxury_suv_cost' => 'Premium SUV',
+                    'traveller_mini_cost' => 'Tempo Traveller(8-16 Seat)',
+                    'traveller_big_cost' => 'Tempo Traveller(17-25 Seat)',
+                    'premium_traveller_cost' => 'Urbania(12-17 Seat)',
+                    'ac_coach_cost' => 'Luxury Bus',
+                    'bus_nonac_cost' => 'Deluxe Bus'
                 ] as $value => $label)
                     <option value="{{ $value }}" {{ old('vehicle_options', session('booking_form_data.vehicle_options')) == $value ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
