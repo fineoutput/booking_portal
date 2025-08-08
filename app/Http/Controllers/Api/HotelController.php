@@ -2055,6 +2055,44 @@ public function packagebooking(Request $request)
             $meal_cost = $package_price->meal_plan_all_meals_cost;
     }
 
+
+
+            if($request->meal == 'only_room'){
+
+           $extra_meal_cost = $package_price->meal_plan_only_room_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast'){
+
+            $extra_meal_cost = $package_price->extra_breakfast_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast_dinner'){
+
+            $extra_meal_cost = $package_price->extra_breakfast_lunch_dinner_cost ?? 0;
+
+        }else{
+
+            $extra_meal_cost = $package_price->extra_all_meals_cost ?? 0;
+        }
+
+        if($request->meal == 'only_room'){
+
+           $nochild_meal_cost = $package_price->meal_plan_only_room_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast'){
+
+            $nochild_meal_cost = $package_price->child_breakfast_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast_dinner'){
+
+            $nochild_meal_cost = $package_price->child_breakfast_lunch_dinner_cost ?? 0;
+
+        }else{
+
+            $nochild_meal_cost = $package_price->child_all_meals_cost ?? 0;
+        }
+
+
+
     switch ($request->hotel_preference) {
         case 'standard_cost':
             $hotel_preference_cost = $package_price->category_cost;
@@ -2143,16 +2181,20 @@ public function packagebooking(Request $request)
      $room_cost =  $package_price->room_cost * $request->number_of_rooms;
     $admin_margin =  $package_price->admin_margin;
     $children_1_5 = $package_price->children_1_5_cost *  $request->children_1_5;
-      $children_5_11 = $package_price->children_5_11_cost *  $request->children_5_11;
+
+      $children_5_11 = $package_price->child_no_bed_infant_cost *  $request->children_5_11;
 
        $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
+          $extrabed_meal_cost = $extra_meal_cost * $request->extra_bed;
+         $child_meal_cost = $nochild_meal_cost * $request->child_no_bed_child_count;
+
 
         $fin_price = $room_cost * $night_count;
         // $fin_price_0 = $hotel_cat_cost * $night_count;
         $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
         $fin_price_2 = $total_vehicle_options_cost;
         $fin_price_3 = $extrabed_cost * $night_count;
-        $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $children_5_11 + $children_1_5;
+        $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $extrabed_meal_cost + $child_meal_cost + $children_5_11;
         $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
         $admin_margin =  $package_price->admin_margin;

@@ -266,7 +266,7 @@
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div> --}}
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="children_5_11_cost" class="form-label">Children (5-11 years) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="children_5_11_cost" value="{{ old('children_5_11_cost', $package->children_5_11_cost) }}" required>
                                         @error('children_5_11_cost')
@@ -280,7 +280,7 @@
                                         @error('children_1_5_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                             
                                     <!-- Meal Plan (Only Room) Cost -->
                                     {{-- <div class="col-sm-6">
@@ -310,141 +310,141 @@
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-                            
-                                <div class="form-group row">
-                                    <!-- Meal Plan (All Meals) Cost -->
-                                    <div class="col-sm-6">
+
+                                       <div class="col-sm-6">
                                         <label for="meal_plan_all_meals_cost" class="form-label">Meal Plan (All meals) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="meal_plan_all_meals_cost" value="{{ old('meal_plan_all_meals_cost', $package->meal_plan_all_meals_cost) }}" required>
                                         @error('meal_plan_all_meals_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
-                            
-                                    <!-- Vehicle (Hatchback) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="hatchback_cost" class="form-label">Vehicle (Hatchback) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="hatchback_cost" value="{{$vehicleprice->hatchback_cost ?? 0}}" readonly required>
-                                        @error('hatchback_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+
                                 </div>
 
-                                <div class="form-group row">
-                                    <!-- Meal Plan (All Meals) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="sedan_cost" class="form-label">Vehicle (Sedan) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="sedan_cost" value="{{$vehicleprice->sedan_cost ?? 0}}" readonly required>
-                                        @error('sedan_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                            
-                                    <!-- Vehicle (Hatchback) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="economy_suv_cost" class="form-label">Economy SUV Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="economy_suv_cost" value="{{$vehicleprice->economy_suv_cost ?? 0}}" readonly required>
-                                        @error('economy_suv_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+
+                                <div class="form-group row mt-5">
+
+                                <div class="col-sm-6">
+                                    <label for="extra_all_meals_cost" class="form-label">
+                                        Extra Bed + Meal Plan (All meals) Cost <span style="color:red;">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" 
+                                        name="extra_all_meals_cost" 
+                                        value="{{ old('extra_all_meals_cost', $package->extra_all_meals_cost) }}" 
+                                        required>
+                                    @error('extra_all_meals_cost')
+                                        <div style="color:red;">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
-                                <div class="form-group row">
-                                    <div class="col-sm-6">
-                                        <label for="luxury_sedan_cost" class="form-label">Luxury (Sedan) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="luxury_sedan_cost" id="luxury_sedan_cost"
-                                            value="{{$vehicleprice->luxury_sedan_cost ?? 0}}" readonly required>
-                                        @error('luxury_sedan_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                <div class="col-sm-6">
+                                    <label for="extra_breakfast_cost" class="form-label">
+                                        Extra Bed + Meal Plan (Breakfast) Cost <span style="color:red;">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" 
+                                        name="extra_breakfast_cost" 
+                                        value="{{ old('extra_breakfast_cost', $package->extra_breakfast_cost) }}" 
+                                        required>
+                                    @error('extra_breakfast_cost')
+                                        <div style="color:red;">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                                    <div class="col-sm-6">
-                                        <label for="suv_cost" class="form-label">SUV Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="suv_cost" id="suv_cost"
+                                <div class="col-sm-6">
+                                    <label for="extra_breakfast_lunch_dinner_cost" class="form-label">
+                                        Extra Bed + Meal Plan (Breakfast + lunch/dinner) Cost <span style="color:red;">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" 
+                                        name="extra_breakfast_lunch_dinner_cost" 
+                                        value="{{ old('extra_breakfast_lunch_dinner_cost', $package->extra_breakfast_lunch_dinner_cost) }}" 
+                                        required>
+                                    @error('extra_breakfast_lunch_dinner_cost')
+                                        <div style="color:red;">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                            </div>
+
+
+                                <div class="form-group row mt-5">
+
+                                <div class="col-sm-6">
+                                    <label for="child_all_meals_cost" class="form-label">
+                                        Child With No Bed + Meal Plan (All meals) Cost <span style="color:red;">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" 
+                                        name="child_all_meals_cost" 
+                                        value="{{ old('child_all_meals_cost', $package->child_all_meals_cost) }}" 
+                                        required>
+                                    @error('child_all_meals_cost')
+                                        <div style="color:red;">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="child_breakfast_cost" class="form-label">
+                                        Child With No Bed + Meal Plan (Breakfast) Cost <span style="color:red;">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" 
+                                        name="child_breakfast_cost" 
+                                        value="{{ old('child_breakfast_cost', $package->child_breakfast_cost) }}" 
+                                        required>
+                                    @error('child_breakfast_cost')
+                                        <div style="color:red;">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="child_breakfast_lunch_dinner_cost" class="form-label">
+                                        Child With No Bed + Meal Plan (Breakfast + lunch/dinner) Cost <span style="color:red;">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" 
+                                        name="child_breakfast_lunch_dinner_cost" 
+                                        value="{{ old('child_breakfast_lunch_dinner_cost', $package->child_breakfast_lunch_dinner_cost) }}" 
+                                        required>
+                                    @error('child_breakfast_lunch_dinner_cost')
+                                        <div style="color:red;">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                            </div>
+
+
+                            <div class="test">
+                                <input type="hidden" class="form-control" name="hatchback_cost" value="{{$vehicleprice->hatchback_cost ?? 0}}" readonly required>
+
+                                <input type="hidden" class="form-control" name="sedan_cost" value="{{$vehicleprice->sedan_cost ?? 0}}" readonly required>
+
+                                <input type="hidden" class="form-control" name="economy_suv_cost" value="{{$vehicleprice->economy_suv_cost ?? 0}}" readonly required>
+
+                                <input type="hidden" class="form-control" name="luxury_sedan_cost" id="luxury_sedan_cost" value="{{$vehicleprice->luxury_sedan_cost ?? 0}}" readonly required>
+
+                                <input type="hidden" class="form-control" name="suv_cost" id="suv_cost"
                                             value="{{$vehicleprice->suv_cost ?? 0}}" readonly required>
-                                        @error('suv_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
 
+                                <input type="hidden" class="form-control" name="luxury_suv_cost" value="{{$vehicleprice->luxury_suv_cost ?? 0}}" readonly required>
 
-                                <div class="form-group row">
-                                    <!-- Meal Plan (All Meals) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="luxury_suv_cost" class="form-label">Premium SUV Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="luxury_suv_cost" value="{{$vehicleprice->luxury_suv_cost ?? 0}}" readonly required>
-                                        @error('luxury_suv_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                            
-                                    <!-- Vehicle (Hatchback) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="traveller_mini_cost" class="form-label">Tempo Traveller(8-16 Seat) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="traveller_mini_cost" value="{{$vehicleprice->traveller_mini_cost ?? 0}}" readonly required>
-                                        @error('traveller_mini_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                                 <input type="hidden" class="form-control" name="traveller_mini_cost" value="{{$vehicleprice->traveller_mini_cost ?? 0}}" readonly required>
 
+                                 <input type="hidden" class="form-control" name="traveller_big_cost" value="{{$vehicleprice->traveller_big_cost ?? 0}}" readonly required>
 
+                                <input type="hidden" class="form-control" name="premium_traveller_cost" value="{{$vehicleprice->premium_traveller_cost ?? 0}}" readonly required>
+
+                                <input type="hidden" class="form-control" name="bus_nonac_cost" id="bus_nonac_cost" value="{{$vehicleprice->bus_nonac_cost ?? 0}}" readonly required>
+
+                                <input type="hidden" class="form-control" name="ac_coach_cost" value="{{$vehicleprice->ac_coach_cost ?? 0}}" readonly required>
+                            </div>
+               
 
                                 <div class="form-group row">
                                     <!-- Meal Plan (All Meals) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="traveller_big_cost" class="form-label">Tempo Traveller(17-25 Seat) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="traveller_big_cost" value="{{$vehicleprice->traveller_big_cost ?? 0}}" readonly required>
-                                        @error('traveller_big_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                            
-                                    <!-- Vehicle (Hatchback) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="premium_traveller_cost" class="form-label">Urbania(12-17 Seat) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="premium_traveller_cost" value="{{$vehicleprice->premium_traveller_cost ?? 0}}" readonly required>
-                                        @error('premium_traveller_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                            <div class="form-group row">
                                     {{-- <div class="col-sm-6">
-                                        <label for="muv_cost" class="form-label">MUV Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="muv_cost" id="muv_cost"
-                                            value="{{$vehicleprice->muv_cost ?? 0}}" readonly required>
-                                        @error('muv_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div> --}}
-
-                                    <div class="col-sm-6">
-                                        <label for="bus_nonac_cost" class="form-label">Deluxe Bus Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="bus_nonac_cost" id="bus_nonac_cost"
-                                            value="{{$vehicleprice->bus_nonac_cost ?? 0}}" readonly required>
-                                        @error('bus_nonac_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <!-- Meal Plan (All Meals) Cost -->
-                                    <div class="col-sm-6">
                                         <label for="ac_coach_cost" class="form-label">Luxury Bus Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="ac_coach_cost" value="{{$vehicleprice->ac_coach_cost ?? 0}}" readonly required>
+                                       
                                         @error('ac_coach_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                 {{-- </div>
 
                                 <div class="form-group row"> --}}

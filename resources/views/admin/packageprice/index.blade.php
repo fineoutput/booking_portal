@@ -55,22 +55,10 @@
                         <th data-priority="1">Start Month</th>
                         <th data-priority="1">End Month</th>
                         <th data-priority="3">Hotel Category </th>
-                        {{-- <th data-priority="3">Hotel Category Cost</th> --}}
                         <th data-priority="3"> Room Category</th>
-                        {{-- <th data-priority="3"> Hotel Delux Cost</th> --}}
                         <th data-priority="3"> Room Cost</th>
-                        {{-- <th data-priority="3">Premium 5 star Cost</th>
-                        <th data-priority="3">Premium 3 star Cost</th>
-                        <th data-priority="3">Deluxe 3 Cost</th>
-                        <th data-priority="3">Deluxe 4 Cost</th>
-                        <th data-priority="3">Deluxe 5 Cost</th> --}}
-                        {{-- <th data-priority="3">Nights Cost</th> --}}
-                        {{-- <th data-priority="3">Adults Cost</th> --}}
                         <th data-priority="3">Child With Bed Cost</th>
                         <th data-priority="3">Child With No Bed (Infant) Cost</th>
-                        <th data-priority="3">Children (1-5 years) Cost</th>
-                        <th data-priority="3">Children (5-11 years) Cost</th>
-                        {{-- <th data-priority="3">Meal Plan (Only Room) Cost</th> --}}
                         <th data-priority="3">Meal Plan Breakfast Cost</th>
                         <th data-priority="3">Meal Plan (Breakfast + Lunch/Dinner) Cost</th>
                         <th data-priority="3">Meal Plan (All Meal) Cost</th>
@@ -82,13 +70,16 @@
                         <th data-priority="3">Tempo Traveller(17-25 Seat) Cost</th>
                         <th data-priority="3">Urbania(12-17 Seat) Cost</th>
                         <th data-priority="3">Luxury Bus Cost</th>
-                        {{-- <th data-priority="3">Luxury (Sedan) Cost</th>
-                        <th data-priority="3">SUV Cost</th> --}}
-                        {{-- <th data-priority="3">MUV Cost</th> --}}
                         <th data-priority="3">Deluxe Bus Cost </th>
                         <th data-priority="3">Extra Bed Cost</th>
                         <th data-priority="3">Display Cost</th>
                         <th data-priority="3">Admin Margin</th>
+                        <th data-priority="3">Extra Bed + Meal Plan (All meals) Cost</th>
+                        <th data-priority="3">Extra Bed + Meal Plan (Breakfast) Cost</th>
+                        <th data-priority="3">Extra Bed + Meal Plan (Breakfast + lunch/dinner) Cost</th>
+                        <th data-priority="3">Child With No Bed + Meal Plan (All meals) Cost</th>
+                        <th data-priority="3">Child With No Bed + Meal Plan (Breakfast) Cost</th>
+                        <th data-priority="3">Child With No Bed + Meal Plan (Breakfast + lunch/dinner) Cost</th>
                         
                         <th data-priority="6">Action</th>
                       </tr>
@@ -121,22 +112,10 @@
                                     NO DATA
                                 @endif
                             </td>
-                                {{-- <td>₹{{ $pkg->category_cost ?? '0' }}</td> --}}
                                 <td>{{ $pkg->room_category ?? '0' }}</td>
-                                {{-- <td>₹{{ $pkg->hotel_delux_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->room_cost ?? '0' }}</td>
-                                {{-- <td>₹{{ $pkg->premium_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->premium_3_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->deluxe_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->super_deluxe_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->luxury_cost ?? '0' }}</td> --}}
-                                {{-- <td>₹{{ $pkg->nights_cost ?? '0' }}</td> --}}
-                                {{-- <td>₹{{ $pkg->adults_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->child_with_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->child_no_bed_infant_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->children_1_5_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->children_5_11_cost ?? '0' }}</td>
-                                {{-- <td>₹{{ $pkg->meal_plan_only_room_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->meal_plan_breakfast_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_breakfast_lunch_dinner_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_all_meals_cost ?? '0' }}</td>
@@ -148,13 +127,18 @@
                                 <td>₹{{ $pkg->traveller_big_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->premium_traveller_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->ac_coach_cost ?? '0' }}</td>
-                                {{-- <td>₹{{ $pkg->luxury_sedan_cost ?? '0' }}</td> --}}
-                                {{-- <td>₹{{ $pkg->suv_cost ?? '0' }}</td> --}}
-                                {{-- <td>₹{{ $pkg->muv_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->bus_nonac_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->extra_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->display_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->admin_margin ?? '0' }}</td>
+
+                                <td>₹{{ $pkg->extra_all_meals_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->extra_breakfast_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->extra_breakfast_lunch_dinner_cost ?? '0' }}</td>
+
+                                <td>₹{{ $pkg->child_all_meals_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->child_breakfast_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->child_breakfast_lunch_dinner_cost ?? '0' }}</td>
                                 <td>
                                     <!-- Edit Button -->
                                     <a href="{{ route('package_price.edit', $pkg->id) }}" class="btn btn-warning">Edit</a>

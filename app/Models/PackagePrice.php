@@ -49,6 +49,14 @@ class PackagePrice extends Model
         'children_1_5_cost',
         'room_category',
 
+        'extra_all_meals_cost',
+        'extra_breakfast_lunch_dinner_cost',
+        'extra_breakfast_cost',
+
+        'child_breakfast_lunch_dinner_cost',
+        'child_breakfast_cost',
+        'child_all_meals_cost',
+
         'luxury_sedan_cost',
         'suv_cost',
         'muv_cost',

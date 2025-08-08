@@ -352,6 +352,187 @@
         </div>
     </div>
 
+
+         <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/couple.png') }}" alt="">
+                <label for="adults" class="form-label">No. of Adults</label>
+            </div>
+             <select id="adults_count" name="adults_count" class="form-select no-form-select" required>
+                
+                 <option value="" disabled {{ !session('booking_form_data.adults_count') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('adults_count', session('booking_form_data.adults_count')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+
+            </select>
+
+            {{-- <input name="adults_count" type="number" id="adults" class="form-control no-form" min="1" required
+                value="{{ old('adults_count', session('booking_form_data.adults_count')) }}" placeholder="Adults"> --}}
+        </div>
+
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
+                <label for="children511" class="form-label">Number of Children (5-11 years)</label>
+            </div>
+            <select id="children511" name="children_5_11" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.children_5_11') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('children_5_11', session('booking_form_data.children_5_11')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
+
+
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
+                <label for="children15" class="form-label">Number of Children (1-5 years)</label>
+            </div>
+            <select id="children15" name="children_1_5" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.children_1_5') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('children_1_5', session('booking_form_data.children_1_5')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
+
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
+                <label for="numberOfRooms" class="form-label">No. of Rooms</label>
+            </div>
+            <input name="number_of_rooms" type="number" id="numberOfRooms" class="form-control no-form" min="1" required value="{{ old('number_of_rooms', session('booking_form_data.number_of_rooms')) }}" placeholder="Number of rooms">
+        </div>
+
+
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/extra-bed.png') }}" alt="">
+                <label for="extraBed" class="form-label">Extra Bed</label>
+            </div>
+            <select id="extraBed" name="extra_bed" class="form-select no-form-select" required>
+                
+                 <option value="" disabled {{ !session('booking_form_data.extra_bed') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('extra_bed', session('booking_form_data.extra_bed')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+
+            </select>
+        </div>
+
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
+                <label for="kidsWithoutBed" class="form-label">Child Without Bed</label>
+            </div>
+
+             <select id="child_no_bed_child_count" name="child_no_bed_child_count" class="form-select no-form-select" required>
+                
+                 <option value="" disabled {{ !session('booking_form_data.child_no_bed_child_count') ? 'selected' : '' }}>Select number</option>
+                @for($i=0; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('child_no_bed_child_count', session('booking_form_data.child_no_bed_child_count')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+
+            </select>
+
+            {{-- <input name="child_no_bed_child_count" type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required
+                value="{{ old('child_no_bed_child_count', session('booking_form_data.child_no_bed_child_count')) }}" placeholder="Kids without bed"> --}}
+        </div>
+
+
+
+             <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
+                <label for="hotelPreference" class="form-label">Hotel Preference</label>
+            </div>
+            <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.hotel_preference') ? 'selected' : '' }}>Select preference</option>
+
+              @foreach ($packagesprices as $value)
+                        @php
+                            $hotelCategory = $value->hotel_category ?? '';
+                            $selectedPref = old('hotel_preference', session('booking_form_data.hotel_preference'));
+                        @endphp
+
+                        @if($hotelCategory)
+                            <option value="{{ $hotelCategory }}" {{ $selectedPref == $hotelCategory ? 'selected' : '' }}>
+                                @switch($hotelCategory)
+                                    @case('standard_cost')
+                                        Standard Hotel
+                                        @break
+                                    @case('deluxe_cost')
+                                        Deluxe Hotel
+                                        @break
+                                    @case('premium_3_cost')
+                                        Premium (3 star)
+                                        @break
+                                    @case('super_deluxe_cost')
+                                        Super Deluxe Hotel
+                                        @break
+                                    @case('premium_cost')
+                                        Premium (4 star)
+                                        @break
+                                    @case('luxury_cost')
+                                        Deluxe (4 star) Hotel
+                                        @break
+                                    @case('premium_5_cost')
+                                        Premium (5 star)
+                                        @break
+                                    @case('hostels')
+                                        Hostels
+                                        @break
+                                    @default
+                                        NO DATA
+                                @endswitch
+                            </option>
+                        @endif
+                    @endforeach
+            </select>
+        </div>
+
+
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
+                <label for="selectRoom" class="form-label">Select Room Category</label>
+            </div>
+            <select id="selectRoom" name="hotel_category" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.hotel_category') ? 'selected' : '' }}>Select Room type</option>
+                <option value="premium" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'premium' ? 'selected' : '' }}>Premium</option>
+                <option value="deluxe" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'deluxe' ? 'selected' : '' }}>Delux</option>
+                
+            </select>
+        </div>
+
+
+        <div class="col-12">
+            <div class="rj_vk">
+                <img style="width: 20px;" src="{{ asset('frontend/images/breakfast.png') }}" alt="">
+                <label for="mealPlan" class="form-label">Meal Plan</label>
+            </div>
+            <select id="mealPlan" name="meal" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.meal') ? 'selected' : '' }}>Select meal plan</option>
+                @php
+                    $labels = [
+                        'breakfast'        => 'Breakfast',
+                        'breakfast_dinner' => 'Breakfast Dinner/Lunch',
+                        'all_meals'        => 'All Meals',
+                    ];
+                @endphp
+
+                @foreach (['breakfast', 'breakfast_dinner', 'all_meals'] as $meal)
+                    <option value="{{ $meal }}"
+                        {{ old('meal', session('booking_form_data.meal')) == $meal ? 'selected' : '' }}>
+                        {{ $labels[$meal] }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+
             {{-- Vehicle Options --}}
         <div class="col-12">
             <div class="rj_vk">
@@ -415,62 +596,18 @@
 
 
         <!-- No. of Rooms -->
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
-                <label for="numberOfRooms" class="form-label">No. of Rooms</label>
-            </div>
-            <input name="number_of_rooms" type="number" id="numberOfRooms" class="form-control no-form" min="1" required value="{{ old('number_of_rooms', session('booking_form_data.number_of_rooms')) }}" placeholder="Number of rooms">
-        </div>
+  
 
         <!-- Select number of children 5-11 -->
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
-                <label for="children511" class="form-label">Number of Children (5-11 years)</label>
-            </div>
-            <select id="children511" name="children_5_11" class="form-select no-form-select" required>
-                <option value="" disabled {{ !session('booking_form_data.children_5_11') ? 'selected' : '' }}>Select number</option>
-                @for($i=0; $i<=20; $i++)
-                    <option value="{{ $i }}" {{ old('children_5_11', session('booking_form_data.children_5_11')) == $i ? 'selected' : '' }}>{{ $i }}</option>
-                @endfor
-            </select>
-        </div>
+
 
         <!-- Select number of children 1-5 -->
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
-                <label for="children15" class="form-label">Number of Children (1-5 years)</label>
-            </div>
-            <select id="children15" name="children_1_5" class="form-select no-form-select" required>
-                <option value="" disabled {{ !session('booking_form_data.children_1_5') ? 'selected' : '' }}>Select number</option>
-                @for($i=0; $i<=20; $i++)
-                    <option value="{{ $i }}" {{ old('children_1_5', session('booking_form_data.children_1_5')) == $i ? 'selected' : '' }}>{{ $i }}</option>
-                @endfor
-            </select>
-        </div>
+
     </div>
 
     <div class="row g-3">
         {{-- Adults --}}
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/couple.png') }}" alt="">
-                <label for="adults" class="form-label">No. of Adults</label>
-            </div>
-             <select id="adults_count" name="adults_count" class="form-select no-form-select" required>
-                
-                 <option value="" disabled {{ !session('booking_form_data.adults_count') ? 'selected' : '' }}>Select number</option>
-                @for($i=0; $i<=20; $i++)
-                    <option value="{{ $i }}" {{ old('adults_count', session('booking_form_data.adults_count')) == $i ? 'selected' : '' }}>{{ $i }}</option>
-                @endfor
 
-            </select>
-
-            {{-- <input name="adults_count" type="number" id="adults" class="form-control no-form" min="1" required
-                value="{{ old('adults_count', session('booking_form_data.adults_count')) }}" placeholder="Adults"> --}}
-        </div>
 
         {{-- Kids with bed --}}
         {{-- <div class="col-12">
@@ -483,65 +620,13 @@
         </div> --}}
 
         {{-- Kids without bed --}}
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/children.png') }}" alt="">
-                <label for="kidsWithoutBed" class="form-label">Kids without Bed</label>
-            </div>
-
-             <select id="child_no_bed_child_count" name="child_no_bed_child_count" class="form-select no-form-select" required>
-                
-                 <option value="" disabled {{ !session('booking_form_data.child_no_bed_child_count') ? 'selected' : '' }}>Select number</option>
-                @for($i=0; $i<=20; $i++)
-                    <option value="{{ $i }}" {{ old('child_no_bed_child_count', session('booking_form_data.child_no_bed_child_count')) == $i ? 'selected' : '' }}>{{ $i }}</option>
-                @endfor
-
-            </select>
-
-            {{-- <input name="child_no_bed_child_count" type="number" id="kidsWithoutBed" class="form-control no-form" min="0" required
-                value="{{ old('child_no_bed_child_count', session('booking_form_data.child_no_bed_child_count')) }}" placeholder="Kids without bed"> --}}
-        </div>
+ 
 
         {{-- Extra Bed --}}
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/extra-bed.png') }}" alt="">
-                <label for="extraBed" class="form-label">Extra Bed</label>
-            </div>
-            <select id="extraBed" name="extra_bed" class="form-select no-form-select" required>
-                
-                 <option value="" disabled {{ !session('booking_form_data.extra_bed') ? 'selected' : '' }}>Select number</option>
-                @for($i=0; $i<=20; $i++)
-                    <option value="{{ $i }}" {{ old('extra_bed', session('booking_form_data.extra_bed')) == $i ? 'selected' : '' }}>{{ $i }}</option>
-                @endfor
 
-            </select>
-        </div>
 
         {{-- Meal Plan --}}
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/breakfast.png') }}" alt="">
-                <label for="mealPlan" class="form-label">Meal Plan</label>
-            </div>
-            <select id="mealPlan" name="meal" class="form-select no-form-select" required>
-                <option value="" disabled {{ !session('booking_form_data.meal') ? 'selected' : '' }}>Select meal plan</option>
-                @php
-                    $labels = [
-                        'breakfast'        => 'Breakfast',
-                        'breakfast_dinner' => 'Breakfast Dinner/Lunch',
-                        'all_meals'        => 'All Meals',
-                    ];
-                @endphp
 
-                @foreach (['breakfast', 'breakfast_dinner', 'all_meals'] as $meal)
-                    <option value="{{ $meal }}"
-                        {{ old('meal', session('booking_form_data.meal')) == $meal ? 'selected' : '' }}>
-                        {{ $labels[$meal] }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
 
         {{-- Hotel Preference --}}
         {{-- <div class="col-12">
@@ -557,71 +642,7 @@
             </select>
         </div> --}}
 
-        <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
-                <label for="hotelPreference" class="form-label">Hotel Preference</label>
-            </div>
-            <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
-                <option value="" disabled {{ !session('booking_form_data.hotel_preference') ? 'selected' : '' }}>Select preference</option>
-
-              @foreach ($packagesprices as $value)
-                        @php
-                            $hotelCategory = $value->hotel_category ?? '';
-                            $selectedPref = old('hotel_preference', session('booking_form_data.hotel_preference'));
-                        @endphp
-
-                        @if($hotelCategory)
-                            <option value="{{ $hotelCategory }}" {{ $selectedPref == $hotelCategory ? 'selected' : '' }}>
-                                @switch($hotelCategory)
-                                    @case('standard_cost')
-                                        Standard Hotel
-                                        @break
-                                    @case('deluxe_cost')
-                                        Deluxe Hotel
-                                        @break
-                                    @case('premium_3_cost')
-                                        Premium (3 star)
-                                        @break
-                                    @case('super_deluxe_cost')
-                                        Super Deluxe Hotel
-                                        @break
-                                    @case('premium_cost')
-                                        Premium (4 star)
-                                        @break
-                                    @case('luxury_cost')
-                                        Deluxe (4 star) Hotel
-                                        @break
-                                    @case('premium_5_cost')
-                                        Premium (5 star)
-                                        @break
-                                    @case('hostels')
-                                        Hostels
-                                        @break
-                                    @default
-                                        NO DATA
-                                @endswitch
-                            </option>
-                        @endif
-                    @endforeach
-            </select>
-        </div>
-
-            <div class="col-12">
-            <div class="rj_vk">
-                <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
-                <label for="selectRoom" class="form-label">Select Room Category</label>
-            </div>
-            <select id="selectRoom" name="hotel_category" class="form-select no-form-select" required>
-                <option value="" disabled {{ !session('booking_form_data.hotel_category') ? 'selected' : '' }}>Select Room type</option>
-                <option value="premium" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'premium' ? 'selected' : '' }}>Premium</option>
-                <option value="deluxe" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'deluxe' ? 'selected' : '' }}>Delux</option>
-                
-            </select>
-        </div>
-
-
-
+   
 
         {{-- Booking Source --}}
         <div class="col-12">
