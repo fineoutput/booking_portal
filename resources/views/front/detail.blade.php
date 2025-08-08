@@ -518,7 +518,7 @@
                 @php
                     $labels = [
                         'breakfast'        => 'Breakfast',
-                        'breakfast_dinner' => 'Breakfast Dinner/Lunch',
+                        'breakfast_dinner' => 'Breakfast + Dinner/Lunch',
                         'all_meals'        => 'All Meals',
                         'no_meal'        => 'No Meal',
                     ];
