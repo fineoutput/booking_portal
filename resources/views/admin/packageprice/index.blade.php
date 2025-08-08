@@ -70,9 +70,10 @@
                         <th data-priority="3">Urbania(12-17 Seat) Cost</th>
                         <th data-priority="3">Luxury Bus Cost</th>
                         <th data-priority="3">Deluxe Bus Cost </th>
-                        <th data-priority="3">Extra Bed Cost</th>
                         <th data-priority="3">Display Cost</th>
                         <th data-priority="3">Admin Margin</th>
+                        <th data-priority="3">Extra Bed Adult Cost</th>
+
                         <th data-priority="3">Extra Bed + Meal Plan (All meals) Cost</th>
                         <th data-priority="3">Extra Bed + Meal Plan (Breakfast) Cost</th>
                         <th data-priority="3">Extra Bed + Meal Plan (Breakfast + lunch/dinner) Cost</th>
@@ -128,10 +129,10 @@
                                 <td>₹{{ $pkg->premium_traveller_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->ac_coach_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->bus_nonac_cost ?? '0' }}</td>
-                                <td>₹{{ $pkg->extra_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->display_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->admin_margin ?? '0' }}</td>
 
+                                <td>₹{{ $pkg->extra_bed_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->extra_all_meals_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->extra_breakfast_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->extra_breakfast_lunch_dinner_cost ?? '0' }}</td>
