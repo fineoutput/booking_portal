@@ -929,5 +929,15 @@ function closeZoom() {
         this.dataset.userEdited = true;
     });
 </script>
-
+<script>
+   document.querySelectorAll('input[type="date"]').forEach(input => {
+        input.addEventListener('click', function () {
+            if (typeof this.showPicker === 'function') {
+                this.showPicker(); 
+            } else {
+                this.focus();
+            }
+        });
+    });
+</script>
 @endsection
