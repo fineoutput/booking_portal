@@ -248,13 +248,7 @@
                                     </div>
                             
                                     <!-- Child No Bed (Infant) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="child_no_bed_infant_cost" class="form-label">Child With No Bed (Infant) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="child_no_bed_infant_cost" value="{{ old('child_no_bed_infant_cost', $package->child_no_bed_infant_cost) }}" required>
-                                        @error('child_no_bed_infant_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                               
                                 </div>
                             
                                 <div class="form-group row">
@@ -363,6 +357,16 @@
                                     @enderror
                                 </div>
 
+
+                                   <div class="col-sm-6">
+                                        <label for="extra_bed_cost" class="form-label">Extra Bed Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="extra_bed_cost" value="{{ old('extra_bed_cost', $package->extra_bed_cost) }}" required>
+                                        @error('extra_bed_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                
+
                             </div>
 
 
@@ -407,6 +411,15 @@
                                     @enderror
                                 </div>
 
+
+                                     <div class="col-sm-6">
+                                        <label for="child_no_bed_infant_cost" class="form-label">Child With No Bed (No Meal) Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="child_no_bed_infant_cost" value="{{ old('child_no_bed_infant_cost', $package->child_no_bed_infant_cost) }}" required>
+                                        @error('child_no_bed_infant_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
                             </div>
 
 
@@ -449,13 +462,7 @@
 
                                 <div class="form-group row"> --}}
                                     <!-- Meal Plan (All Meals) Cost -->
-                                    <div class="col-sm-6">
-                                        <label for="extra_bed_cost" class="form-label">Extra Bed Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="extra_bed_cost" value="{{ old('extra_bed_cost', $package->extra_bed_cost) }}" required>
-                                        @error('extra_bed_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                 
                                     <div class="col-sm-6">
                                         <label for="display_cost" class="form-label">Display Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="display_cost" value="{{ old('display_cost', $package->display_cost) }}" required>

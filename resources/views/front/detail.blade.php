@@ -520,10 +520,11 @@
                         'breakfast'        => 'Breakfast',
                         'breakfast_dinner' => 'Breakfast Dinner/Lunch',
                         'all_meals'        => 'All Meals',
+                        'no_meal'        => 'No Meal',
                     ];
                 @endphp
 
-                @foreach (['breakfast', 'breakfast_dinner', 'all_meals'] as $meal)
+                @foreach (['breakfast', 'breakfast_dinner', 'all_meals','no_meal'] as $meal)
                     <option value="{{ $meal }}"
                         {{ old('meal', session('booking_form_data.meal')) == $meal ? 'selected' : '' }}>
                         {{ $labels[$meal] }}

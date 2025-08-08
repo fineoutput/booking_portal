@@ -58,7 +58,7 @@
                         <th data-priority="3"> Room Category</th>
                         <th data-priority="3"> Room Cost</th>
                         <th data-priority="3">Child With Bed Cost</th>
-                        <th data-priority="3">Child With No Bed (Infant) Cost</th>
+                        <th data-priority="3">Child With No Bed (No Meal) Cost</th>
                         <th data-priority="3">Meal Plan Breakfast Cost</th>
                         <th data-priority="3">Meal Plan (Breakfast + Lunch/Dinner) Cost</th>
                         <th data-priority="3">Meal Plan (All Meal) Cost</th>

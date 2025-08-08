@@ -1631,9 +1631,9 @@ if ($max_price) {
       $package_location = LocationCost::where('package_id', $id)->where('location',$request->pickup_location)->where('vehicle',$request->vehicle_options)->first();
    
 
-        if($request->meal == 'only_room'){
+        if($request->meal == 'no_meal'){
 
-           $meal_cost = $package_price->meal_plan_only_room_cost ?? 0;
+           $meal_cost =  0;
 
         }elseif($request->meal == 'breakfast'){
 
@@ -1653,9 +1653,9 @@ if ($max_price) {
         }
 
         
-        if($request->meal == 'only_room'){
+        if($request->meal == 'no_meal'){
 
-           $extra_meal_cost = $package_price->meal_plan_only_room_cost ?? 0;
+            $extra_meal_cost = $package_price->extra_bed_cost ?? 0;
 
         }elseif($request->meal == 'breakfast'){
 
@@ -1670,9 +1670,9 @@ if ($max_price) {
             $extra_meal_cost = $package_price->extra_all_meals_cost ?? 0;
         }
 
-        if($request->meal == 'only_room'){
+        if($request->meal == 'no_meal'){
 
-           $nochild_meal_cost = $package_price->meal_plan_only_room_cost ?? 0;
+           $nochild_meal_cost = $package_price->child_no_bed_infant_cost ?? 0;
 
         }elseif($request->meal == 'breakfast'){
 
@@ -1787,7 +1787,7 @@ if ($max_price) {
 
         $child_with_bed_cost = $package_price->child_with_bed_cost *  $request->child_with_bed_count;
 
-        $child_no_bed_child_cost = $package_price->child_no_bed_infant_cost *  $request->child_no_bed_child_count;
+       
 
 
         $total_meal_cost = $meal_cost;
@@ -1799,17 +1799,27 @@ if ($max_price) {
 
         $package_location_cost =  $package_location->cost;
 
-         $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
+        //  $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
          $extrabed_meal_cost = $extra_meal_cost * $request->extra_bed;
-         $child_meal_cost = $nochild_meal_cost * $request->child_no_bed_child_count;
+
+        //  if($request->child_no_bed_child_count == 0){
+
+        //   $child_meal_cost = $package_price->child_no_bed_infant_cost *  $request->child_no_bed_child_count;
+          
+        //  }else{
+
+             $child_meal_cost = $nochild_meal_cost * $request->child_no_bed_child_count;
+        //  }
+
 
 
         $fin_price = $room_cost * $night_count;
         // $fin_price_0 = $hotel_cat_cost * $night_count;
         $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
         $fin_price_2 = $total_vehicle_options_cost;
-        $fin_price_3 = $extrabed_cost * $night_count;
-        $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $extrabed_meal_cost + $child_meal_cost + $children_5_11;
+        $fin_price_3 = $extrabed_meal_cost * $night_count;
+        $fin_price_01 = $child_meal_cost * $night_count;
+        $fin_price_4 =  $package_location_cost + $fin_price_01 + $children_5_11;
         $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
         $admin_margin =  $package_price->admin_margin;

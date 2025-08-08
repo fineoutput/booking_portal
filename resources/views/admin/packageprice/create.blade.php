@@ -342,6 +342,14 @@
                                         @enderror
                                     </div>
 
+                                     <div class="col-sm-6">
+                                        <label for="extra_bed_cost" class="form-label">Extra Bed Adult Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="extra_bed_cost" value="" required>
+                                        @error('extra_bed_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
 
                                 </div>
 
@@ -379,13 +387,7 @@
 
                                  <div class="form-group row mt-5">
 
-                                    <div class="col-sm-6">
-                                        <label for="extra_bed_cost" class="form-label">Extra Bed Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="extra_bed_cost" value="" required>
-                                        @error('extra_bed_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                   
                                     
                                     <div class="col-sm-6">
                                         <label for="display_cost" class="form-label">Display Cost &nbsp;<span style="color:red;">*</span></label>
