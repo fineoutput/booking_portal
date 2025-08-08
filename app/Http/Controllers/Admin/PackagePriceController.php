@@ -41,7 +41,7 @@ class PackagePriceController extends Controller
                 'hotel_category' => 'required',
                 // 'nights_cost' => 'required|numeric',
                 // 'adults_cost' => 'required|numeric',
-                'child_with_bed_cost' => 'required|numeric',
+                // 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
                 // 'child_no_bed_child_cost' => 'required|numeric',
                 // 'meal_plan_only_room_cost' => 'required|numeric',
@@ -157,7 +157,7 @@ class PackagePriceController extends Controller
                 //  'category_cost' => 'required|numeric',
                 'hotel_category' => 'required',
               
-                'child_with_bed_cost' => 'required|numeric',
+                // 'child_with_bed_cost' => 'required|numeric',
                 'child_no_bed_infant_cost' => 'required|numeric',
 
                 'meal_plan_breakfast_cost' => 'required|numeric',

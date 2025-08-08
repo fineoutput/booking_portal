@@ -204,24 +204,18 @@
                                         @enderror
                                     </div> --}}
                                     </div>
-                                    <div class="form-group row"> 
+                                    {{-- <div class="form-group row">  --}}
                             
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="child_with_bed_cost" class="form-label">Child With Bed Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="child_with_bed_cost" value="" required>
                                         @error('child_with_bed_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
-                            
-                                    <div class="col-sm-6">
-                                        <label for="child_no_bed_infant_cost" class="form-label">Child With No Bed (Infant) Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="child_no_bed_infant_cost" value="" required>
-                                        @error('child_no_bed_infant_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    </div>
+                             --}}
+                                   
+                                    {{-- </div> --}}
                             
                                  <div class="form-group row">
                                     {{-- <div class="col-sm-6">
@@ -377,6 +371,14 @@
                                         <label for="child_breakfast_lunch_dinner_cost" class="form-label">Child With No Bed + Meal Plan (Breakfast + lunch/dinner) Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="child_breakfast_lunch_dinner_cost" value="" required>
                                         @error('child_breakfast_lunch_dinner_cost')
+                                            <div style="color:red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                     <div class="col-sm-6">
+                                        <label for="child_no_bed_infant_cost" class="form-label">Child With No Bed Cost &nbsp;<span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="child_no_bed_infant_cost" value="" required>
+                                        @error('child_no_bed_infant_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
