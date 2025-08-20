@@ -403,7 +403,15 @@
                 <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
                 <label for="numberOfRooms" class="form-label">No. of Rooms</label>
             </div>
-            <input name="number_of_rooms" type="number" id="numberOfRooms" class="form-control no-form" min="1" required value="{{ old('number_of_rooms', session('booking_form_data.number_of_rooms')) }}" placeholder="Number of rooms">
+
+             <select id="numberOfRooms" name="number_of_rooms" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.number_of_rooms') ? 'selected' : '' }}>Select number</option>
+                @for($i=1; $i<=20; $i++)
+                    <option value="{{ $i }}" {{ old('number_of_rooms', session('booking_form_data.number_of_rooms')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                @endfor
+            </select>
+
+            {{-- <input name="number_of_rooms" type="number" id="numberOfRooms" class="form-control no-form" min="1" required value="{{ old('number_of_rooms', session('booking_form_data.number_of_rooms')) }}" placeholder="Number of rooms"> --}}
         </div>
 
 
