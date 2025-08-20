@@ -1797,7 +1797,7 @@ if ($max_price) {
 
         $room_cost =  $package_price->room_cost * $request->number_of_rooms;
 
-        $package_location_cost =  $package_location->cost;
+        $package_location_cost =  $package_location->cost * $request->vehicle_count;
 
         //  $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
          $extrabed_meal_cost = $extra_meal_cost * $request->extra_bed;
