@@ -456,7 +456,56 @@
                 <img style="width: 20px;" src="{{ asset('frontend/images/hotel.png') }}" alt="">
                 <label for="hotelPreference" class="form-label">Hotel Preference</label>
             </div>
+            @php
+                $selectedPref = old('hotel_preference', session('booking_form_data.hotel_preference'));
+                $addedCategories = [];
+            @endphp
+
             <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
+                <option value="" disabled {{ !$selectedPref ? 'selected' : '' }}>Select preference</option>
+
+                @foreach ($packagesprices as $value)
+                    @php
+                        $hotelCategory = $value->hotel_category ?? '';
+                    @endphp
+
+                    @if($hotelCategory && !in_array($hotelCategory, $addedCategories))
+                        @php $addedCategories[] = $hotelCategory; @endphp
+
+                        <option value="{{ $hotelCategory }}" {{ $selectedPref == $hotelCategory ? 'selected' : '' }}>
+                            @switch($hotelCategory)
+                                @case('standard_cost')
+                                    Standard Hotel
+                                    @break
+                                @case('deluxe_cost')
+                                    Deluxe Hotel
+                                    @break
+                                @case('premium_3_cost')
+                                    Premium (3 star)
+                                    @break
+                                @case('super_deluxe_cost')
+                                    Super Deluxe Hotel
+                                    @break
+                                @case('premium_cost')
+                                    Premium (4 star)
+                                    @break
+                                @case('luxury_cost')
+                                    Deluxe (4 star) Hotel
+                                    @break
+                                @case('premium_5_cost')
+                                    Premium (5 star)
+                                    @break
+                                @case('hostels')
+                                    Hostels
+                                    @break
+                                @default
+                                    NO DATA
+                            @endswitch
+                        </option>
+                    @endif
+                @endforeach
+            </select>
+            {{-- <select id="hotelPreference" name="hotel_preference" class="form-select no-form-select" required>
                 <option value="" disabled {{ !session('booking_form_data.hotel_preference') ? 'selected' : '' }}>Select preference</option>
 
               @foreach ($packagesprices as $value)
@@ -498,7 +547,7 @@
                             </option>
                         @endif
                     @endforeach
-            </select>
+            </select> --}}
         </div>
 
 
@@ -510,7 +559,7 @@
             <select id="selectRoom" name="hotel_category" class="form-select no-form-select" required>
                 <option value="" disabled {{ !session('booking_form_data.hotel_category') ? 'selected' : '' }}>Select Room type</option>
                 <option value="premium" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'premium' ? 'selected' : '' }}>Premium</option>
-                <option value="deluxe" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'deluxe' ? 'selected' : '' }}>Delux</option>
+                <option value="deluxe" {{ old('hotel_category', session('booking_form_data.hotel_category')) == 'deluxe' ? 'selected' : '' }}>Deluxe</option>
                 
             </select>
         </div>
