@@ -1994,21 +1994,65 @@ public function packagebooking(Request $request)
     }
 
     $formatted_date = Carbon::now()->format('Y-m-d');
+     $start_dates = $request->start_date ? Carbon::parse($request->start_date)->format('Y-m-d') : null;
+      $end_dates = $request->end_date ? Carbon::parse($request->end_date)->format('Y-m-d') : null;
 
-    // Get package price for the specific package
-    $package_price = PackagePrice::where('package_id', $request->package_id)->where('hotel_category',$request->hotel_preference)
-    ->where('room_category',$request->hotel_category)
-        ->where('start_date', '<=', $formatted_date)
-        ->where('end_date', '>=', $formatted_date)
-        ->first();
+     $package_price = null;
+        
+        $existsHotel = PackagePrice::where('package_id',$request->package_id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->exists();
 
-    if (!$package_price) {
-        return response()->json([
-            'message' => 'Package not found for the selected dates',
-            'data' => [],
-            'status' => 201,
-        ], 404);
-    }
+            $existsRoom = PackagePrice::where('package_id',$request->package_id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->where('room_category', $request->hotel_category)
+                ->exists();
+
+            $existsDate = PackagePrice::where('package_id',$request->package_id)
+                ->where('hotel_category', $request->hotel_preference)
+                ->where('room_category', $request->hotel_category)
+                ->where('start_date', '<=', $start_dates)
+                ->where('end_date', '>=', $end_dates)
+                ->exists();
+
+            if (!$existsHotel) {
+                $msg = "No price entry found for selected hotel category.";
+            } elseif (!$existsRoom) {
+                $msg = "Price exists for hotel category, but not for selected room category.";
+            } elseif (!$existsDate) {
+                $msg = "Price exists for hotel and room category, but not for these dates.";
+            } else {
+                $package_price = PackagePrice::where('package_id', $request->package_id)
+                    ->where('hotel_category', $request->hotel_preference)
+                    ->where('room_category', $request->hotel_category)
+                    ->where('start_date', '<=', $start_dates)
+                    ->where('end_date', '>=', $end_dates)
+                    ->first();
+                    // return $package_price;
+                }
+
+             if (!$package_price) {
+                 return response()->json([
+                     'message' => $msg,
+                     'data' => [],
+                     'status' => 201,
+                ], 404);
+                //  return redirect()->back()->with('message', $msg);
+            }
+
+    // $package_price = PackagePrice::where('package_id', $request->package_id)->where('hotel_category',$request->hotel_preference)
+    // ->where('room_category',$request->hotel_category)
+    //     ->where('start_date', '<=', $formatted_date)
+    //     ->where('end_date', '>=', $formatted_date)
+    //     ->first();
+
+    // if (!$package_price) {
+    //     return response()->json([
+    //         'message' => 'Package not found for the selected dates',
+    //         'data' => [],
+    //         'status' => 201,
+    //     ], 404);
+    // }
 
     // Initialize PackageBookingTemp object
     $wildlife = new PackageBookingTemp();
@@ -2170,60 +2214,88 @@ public function packagebooking(Request $request)
 
      $child_with_bed_cost = $package_price->child_with_bed_cost *  $request->child_with_bed_count;
 
-    $child_no_bed_child_cost = $package_price->child_no_bed_infant_cost *  $request->child_no_bed_child_count;
+    // $child_no_bed_child_cost = $package_price->child_no_bed_infant_cost *  $request->child_no_bed_child_count;
 
-    $total_meal_cost = $meal_cost;
+    // $total_meal_cost = $meal_cost;
 
 
-    $total_vehicle_options_cost = $vehicle_options_cost * $request->vehicle_count;
+    // $total_vehicle_options_cost = $vehicle_options_cost * $request->vehicle_count;
 
-     $package_location_cost =  $package_location->cost;
-     $room_cost =  $package_price->room_cost * $request->number_of_rooms;
-    $admin_margin =  $package_price->admin_margin;
-    $children_1_5 = $package_price->children_1_5_cost *  $request->children_1_5;
+    //  $package_location_cost =  $package_location->cost;
+    //  $room_cost =  $package_price->room_cost * $request->number_of_rooms;
+    // $admin_margin =  $package_price->admin_margin;
+    // $children_1_5 = $package_price->children_1_5_cost *  $request->children_1_5;
 
-      $children_5_11 = $package_price->child_no_bed_infant_cost *  $request->children_5_11;
+    //   $children_5_11 = $package_price->child_no_bed_infant_cost *  $request->children_5_11;
 
-       $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
-          $extrabed_meal_cost = $extra_meal_cost * $request->extra_bed;
-         $child_meal_cost = $nochild_meal_cost * $request->child_no_bed_child_count;
+    //    $extrabed_cost = $package_price->extra_bed_cost * $request->extra_bed;
+    //       $extrabed_meal_cost = $extra_meal_cost * $request->extra_bed;
+    //      $child_meal_cost = $nochild_meal_cost * $request->child_no_bed_child_count;
 
+
+    //     $fin_price = $room_cost * $night_count;
+    //     // $fin_price_0 = $hotel_cat_cost * $night_count;
+    //     $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
+    //     $fin_price_2 = $total_vehicle_options_cost;
+    //     $fin_price_3 = $extrabed_cost * $night_count;
+    //     $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $extrabed_meal_cost + $child_meal_cost + $children_5_11;
+    //     $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
+
+    //     $admin_margin =  $package_price->admin_margin;
+
+    //     $finaltotal = $admin_margin + $total_price;
+
+     $total_meal_cost = $meal_cost;
+
+
+        $total_vehicle_options_cost = $vehicle_options_cost * $request->vehicle_count;
+
+        $room_cost =  $package_price->room_cost * $request->number_of_rooms;
+
+        $package_location_cost =  $package_location->cost * $request->vehicle_count;
+
+        $extrabed_meal_cost = $extra_meal_cost * $request->extra_bed;
+
+        $child_meal_cost = $nochild_meal_cost * $request->child_no_bed_child_count;
 
         $fin_price = $room_cost * $night_count;
-        // $fin_price_0 = $hotel_cat_cost * $night_count;
+        
         $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
         $fin_price_2 = $total_vehicle_options_cost;
-        $fin_price_3 = $extrabed_cost * $night_count;
-        $fin_price_4 = $child_no_bed_child_cost + $package_location_cost + $extrabed_meal_cost + $child_meal_cost + $children_5_11;
+
+        $fin_price_3 = $extrabed_meal_cost * $night_count;
+        
+        $fin_price_01 = $child_meal_cost * $night_count;
+
+        $fin_price_4 =  $package_location_cost + $fin_price_01;
+        
         $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
         $admin_margin =  $package_price->admin_margin;
 
-        $finaltotal = $admin_margin + $total_price;
+        $finaltotal = $admin_margin + $total_price; 
 
-    // Save package booking data
-    $wildlife->total_cost = $finaltotal;
-    $wildlife->save();
+        $wildlife->total_cost = $finaltotal;
+        $wildlife->save();
 
-    // Return response as JSON
-    return response()->json([
-        'message' => 'Package booking successfully added.',
-        'status' => 200,
-        'data' => [
-            'id' => $wildlife->id,
-            'total_cost' => $finaltotal,
-            'start_date' => $start_date->toDateString(),
-            'end_date' => $end_date->toDateString(),
-            'adults_count' => $request->adults_count,
-            'child_with_bed_count' => $request->child_with_bed_count,
-            'child_no_bed_child_count' => $request->child_no_bed_child_count,
-            'meal' => $request->meal,
-            'hotel_preference' => $request->hotel_preference,
-            'vehicle_options' => $request->vehicle_options,
-            'extra_bed' => $request->extra_bed,
-            'specialremarks' => $request->specialremarks,
-        ]
-    ], 200);
+        return response()->json([
+            'message' => 'Package booking successfully added.',
+            'status' => 200,
+            'data' => [
+                'id' => $wildlife->id,
+                'total_cost' => $finaltotal,
+                'start_date' => $start_date->toDateString(),
+                'end_date' => $end_date->toDateString(),
+                'adults_count' => $request->adults_count,
+                'child_with_bed_count' => $request->child_with_bed_count,
+                'child_no_bed_child_count' => $request->child_no_bed_child_count,
+                'meal' => $request->meal,
+                'hotel_preference' => $request->hotel_preference,
+                'vehicle_options' => $request->vehicle_options,
+                'extra_bed' => $request->extra_bed,
+                'specialremarks' => $request->specialremarks,
+            ]
+        ], 200);
 }
 
 // ======================================= Booking Confirm start ========================================
