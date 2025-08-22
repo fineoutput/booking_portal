@@ -2060,6 +2060,7 @@ public function packagebooking(Request $request)
     $wildlife->package_id = $request->package_id;
     $wildlife->start_date = $start_date;
     $wildlife->end_date = $end_date;
+    $wildlife->room_category = $request->hotel_category;
     $wildlife->adults_count = $request->adults_count;
     $wildlife->child_with_bed_count = $request->child_with_bed_count;
     $wildlife->night_count = $night_count;  

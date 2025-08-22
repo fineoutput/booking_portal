@@ -56,6 +56,7 @@ class PackageBookingTemp extends Model
         'vehicle_options',
         'travelinsurance',
         'specialremarks',
+        'room_category',
         'status',
     ];
 

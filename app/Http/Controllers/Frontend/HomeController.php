@@ -434,17 +434,16 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
 
             $data['user']->load('cities', 'state');
 
-            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
-
+            
             $data['selected_hotels'] = HotelPrefrence::where('user_id', $data['user']->id)
-            ->pluck('hotel_id', 'booking_id')->toArray(); 
+                ->pluck('hotel_id', 'booking_id')->toArray();
+
+            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
             
             $packageIds = $data['booking']->pluck('package_id')->map(function($id) {
                 return (int)$id;
             })->toArray();
-            // return $packageIds;
-
-            // $data['hotels'] = Hotels::whereIn('package_id', $packageIds)->get();
+            
             $data['hotels'] = Hotels::where(function ($query) use ($packageIds) {
                 foreach ($packageIds as $id) {
                     $query->orWhereRaw("FIND_IN_SET(?, package_id)", [$id]);
@@ -1608,6 +1607,7 @@ if ($max_price) {
         $wildlife->package_id = $id;
         $wildlife->start_date = $start_date;
         $wildlife->end_date = $end_date;
+        $wildlife->room_category = $request->hotel_category;
         $wildlife->adults_count = $request->adults_count;
         $wildlife->child_with_bed_count = $request->child_with_bed_count;
         $wildlife->night_count = $night_count;  

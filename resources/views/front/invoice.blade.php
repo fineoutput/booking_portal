@@ -1,191 +1,127 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Invoice</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; font-size: 14px; color: #000; }
+    body { font-family: Arial, sans-serif; margin: 30px; font-size: 14px; color: #000; line-height: 1.6; }
     .header, .footer { text-align: center; }
     .invoice-box { border: 1px solid #000; padding: 20px; }
     .company-logo { float: right; width: 100px; }
     .clearfix::after { content: ""; display: table; clear: both; }
     .bold { font-weight: bold; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #000; padding: 6px; text-align: center; }
-    .no-border td { border: none; }
-    .text-left { text-align: left; }
-    .text-right { text-align: right; }
+    .section-title { font-size: 16px; margin-top: 20px; font-weight: bold; text-decoration: underline; }
   </style>
 </head>
 <body>
 
 <div class="invoice-box">
+  <!-- Header -->
   <div class="clearfix">
     <div style="float: left;">
-      <p><strong>Original-for Recipient</strong><br/>
-      <strong>{{$user->business_name ?? ''}}</strong><br/>
-        {{$user->cities->city_name ?? ''}}, {{$user->state->state_name ?? ''}}
-      <br/>
-      GSTIN: {{$user->GST_number ?? ''}}<br/>
-      E-mail: <a href="mailto:{{$user->email  ?? ''}}">{{$user->email  ?? ''}}</a>
+      <p><br/>
+      <strong>{{ $user->business_name ?? '' }}</strong><br/>
+      {{ $user->cities->city_name ?? '' }}, {{ $user->state->state_name ?? '' }}<br/>
+      GSTIN: {{ $user->GST_number ?? '' }}<br/>
+      E-mail: <a href="mailto:{{ $user->email ?? '' }}">{{ $user->email ?? '' }}</a>
       </p>
     </div>
-    <img src="{{public_path($user->logo)}}" class="company-logo" alt="Colors of India Logo"/>
+    @if(!empty($user->logo))
+      <img src="{{ public_path($user->logo) }}" class="company-logo" alt="Company Logo"/>
+    @endif
   </div>
 
   <hr/>
 
+  <!-- Date -->
   <div class="clearfix">
-   
     <div style="float: right;">
-      <strong>Date:</strong> {{ $booking->created_at->format('d/m/Y') }}
+      <strong>Date:</strong> {{ \Carbon\Carbon::now()->format('d/m/Y') }}
     </div>
   </div>
 
+  <!-- Main Content -->
+  <p>Hi Sir/Madam,</p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Sr.</th>
-        <th>Package Name</th>
-        <th>Description</th>
-        <th>PER PAX COST</th>
-        <th>PAX</th>
-        <th>Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>{{ $booking->package->package_name ?? ''}}</td>
-        <td class="text-left">
+  <p>Greetings from <strong>{{ $user->business_name ?? '' }}</strong>.</p>
 
-          CHECK IN - {{ optional($booking->packagetemp)->start_date ? \Carbon\Carbon::parse($booking->packagetemp->start_date)->format('d-F-Y') : '' }}<br/>
-          CHECK OUT - {{ optional($booking->packagetemp)->end_date ? \Carbon\Carbon::parse($booking->packagetemp->end_date)->format('d-F-Y') : '' }}<br/>
-          PAX - {{ $booking->packagetemp->adults_count ?? ''}} Adults
-        </td>
-        <td>{{ $booking->fetched_price ?? '' }}</td>
-        <td>18%</td>
-        <td>
-            @php  
-                $tax_amount = $booking->fetched_price * 0.18;
-                $total_price = round($booking->fetched_price + $tax_amount, 2);
-            @endphp
-            {{ $total_price }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <p>Thank you for your query with us. As per your requirements, following are the package details.</p>
 
-  <table class="no-border">
-    <tr>
-      <td class="text-right bold" colspan="4">Gross Total</td>
-      <td>{{$booking->fetched_price ?? ''}}</td>
-    </tr>
-    <tr>
-      <td class="text-right bold" colspan="4">Service Charge</td>
-      <td>{{$booking->agent_margin ?? ''}}</td>
-    </tr>
-    <tr>
-      <td class="text-right bold" colspan="4">18% IGST (ON SERVICE)</td>
-      @php  
-                $tax_amount = $booking->fetched_price * 0.18;
-                 $margin = $booking->agent_margin;
-                $total_price = round($booking->fetched_price + $margin + $tax_amount, 2);
-          @endphp
-      <td> {{$tax_amount}}</td>
-    </tr>
-    <tr>
-      <td class="text-right bold" colspan="4">TOTAL AMOUNT</td>
-      <td><strong>{{$total_price ?? '0'}}</strong></td>
-    </tr>
-    <tr>
-      <td class="text-right bold" colspan="4">RECEIVED</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td class="text-right bold" colspan="4">BALANCE AMOUNT</td>
-      <td><strong>{{$total_price ?? ''}}</strong></td>
-    </tr>
-  </table>
-
-  <br/>
-  <p><strong>E. & O. E.</strong><br/>
-  CASH: Payment to be made to the cashier & printed Official Receipt must be obtained.<br/>
-  Cheque / DD: All Cheques and drafts in payment of bills must be crossed ‘A/c Payee Only’ and drawn in favour of ‘Colors of India Hospitality’.<br/>
-  Late Payment: Interest @18% p.a. from the bill amount will be charged on all outstanding bills after the due date.<br/>
-  For GST INPUT: Kindly mention all details carefully to avoid unnecessary complications.<br/>
-  This is computer generated invoice signature not required.</p>
-</div>
-
-</body>
-</html> --}}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trip Details</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 30px; font-size: 14px; color: #000; line-height: 1.6; }
-    .header, .footer { text-align: center; }
-    .company-logo { float: right; width: 100px; }
-    .clearfix::after { content: ""; display: table; clear: both; }
-    .bold { font-weight: bold; }
-  </style>
-</head>
-<body>
-
-<div class="clearfix">
-  <div style="float: left;">
-    <p>
-      <strong>{{$user->business_name ?? 'Golden Vacation Tour and Travels'}}</strong><br/>
-      {{$user->cities->city_name ?? ''}}, {{$user->state->state_name ?? ''}}<br/>
-      GSTIN: {{$user->GST_number ?? ''}}<br/>
-      Email: <a href="mailto:{{$user->email}}">{{$user->email}}</a>
+  <!-- Trip Info -->
+  <p><strong>Trip ID:</strong> {{ $booking->id ?? 'N/A' }}</p>
+  <p><strong>{{ $booking->package->package_name ?? 'Package Name' }}</strong></p>
+  
+    <p> CHECK IN - {{ optional($booking->packagetemp)->start_date ? \Carbon\Carbon::parse  ($booking->packagetemp->start_date)->format('d-F-Y') : 'N/A' }}<br/>
+      CHECK OUT - {{ optional($booking->packagetemp)->end_date ? \Carbon\Carbon::parse($booking->packagetemp->end_date)->format('d-F-Y') : 'N/A' }}
     </p>
-  </div>
-  <img src="{{ public_path($user->logo) }}" class="company-logo" alt="Company Logo"/>
-</div>
 
-<hr/>
+    <p> {{ $booking->packagetemp->adults_count ?? 0 }} Adults,
+      {{ $booking->packagetemp->children_5_11 ?? 0 }} Children 
+   </p>
 
-<p>Hi Sir/Madam,</p>
+  <!-- OPTION 1 -->
+  <p class="section-title">Price Details: 
+     @switch($booking->packagetemp->hotel_preference)
+                                @case('standard_cost')
+                                    Standard Hotel
+                                    @break
+                                @case('deluxe_cost')
+                                    Deluxe Hotel
+                                    @break
+                                @case('premium_3_cost')
+                                    Premium (3 star)
+                                    @break
+                                @case('super_deluxe_cost')
+                                    Super Deluxe Hotel
+                                    @break
+                                @case('premium_cost')
+                                    Premium (4 star)
+                                    @break
+                                @case('luxury_cost')
+                                    Deluxe (4 star) Hotel
+                                    @break
+                                @case('premium_5_cost')
+                                    Premium (5 star)
+                                    @break
+                                @case('hostels')
+                                    Hostels
+                                    @break
+                                @default
+                                    NO DATA
+                            @endswitch
 
-<p>Greetings from <strong>Golden Vacation Tour and Travels</strong>.</p>
+    ,{{ $booking->packagetemp->hotel_category ?? '' }}Room Package</p>
 
-<p>
-  Thank you for your query with us. As per your requirements, following are the package details.
-</p>
+  @php
+      $basePrice = $booking->fetched_price ?? 0;
+      $margin = $booking->agent_margin ?? 0;
+      // $tax_amount = $basePrice * 0.18;
+      $total_price = round($basePrice + $margin, 2);
+  @endphp
 
-<p>
-  <strong>Trip ID:</strong> {{ $booking->trip_id ?? 'N/A' }}<br/>
-  ({{ count($packages) }} Package Category/Options)
-</p>
+  <p><strong>Total Price (INR):</strong> <i class="fas fa-rupee-sign"></i>{{ number_format($total_price, 2) }} /- (exc. GST)</p>
 
-<p><strong>{{ $booking->trip_title ?? 'Bhutan Trip' }}</strong></p>
-<ul>
-  <li>{{ \Carbon\Carbon::parse($booking->start_date)->format('d M, Y') }} for {{ $booking->nights ?? '5' }} Nights, {{ ($booking->nights ?? 5)+1 }} Days</li>
-  <li>{{ $booking->adults ?? 0 }} Adults, {{ $booking->children ?? 0 }} Children {{ $booking->children_ages ?? '' }}</li>
-</ul>
 
-@foreach ($packages as $index => $package)
-  <hr/>
-  <p>⏬ <strong>OPTION {{ $index + 1 }}: {{ $package->category_name ?? 'N/A' }}</strong></p>
-  <p><strong>Total Price (INR):</strong> {{ number_format($package->price, 0) }} /- (exc. GST)</p>
-
-  <p>🏨 <strong>Hotels</strong></p>
-  @foreach ($package->hotels as $hotel)
-    <p>
-      <strong>{{ $loop->iteration }}{{ ordinal($loop->iteration) }} Night at {{ $hotel->city ?? '' }}</strong><br/>
-      Check-in: {{ \Carbon\Carbon::parse($hotel->checkin)->format('d M') }} & Check-out: {{ \Carbon\Carbon::parse($hotel->checkout)->format('d M') }}<br/>
-      {{ $hotel->name }} ({{ $hotel->category }})<br/>
-      Dinner + Breakfast • {{ $hotel->room_details }}
-    </p>
+  @if($hotels && count($hotels))
+  <p><strong><i class="fa-solid fa-hotel"></i> Hotels Available</strong></p>
+  @foreach($hotels as $hotel)
+    <p>{{ $hotel->name ?? 'Unnamed Hotel' }}</p>
   @endforeach
-@endforeach
+@else
+  <p><strong>No Hotels Available</strong></p>
+@endif
+
+  {{-- @foreach ($hotels as $index => $hotel)
+    @php
+      $hotelName = $hotel->name ?? 'Hotel Name';
+    @endphp
+
+    <p>
+      <strong>{{ ordinal($index + 1) }} {{$hotelName ?? ''}}
+    </p>
+  @endforeach --}}
+</div>
 
 </body>
 </html>
