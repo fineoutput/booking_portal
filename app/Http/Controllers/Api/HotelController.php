@@ -137,7 +137,8 @@ class HotelController extends Controller
             'package_id' => 'required'
         ]);
 
-        $locations = LocationCost::where('package_id', $request->package_id)->get();
+        $locations = LocationCost::where('package_id', $request->package_id)->select('location')
+       ->distinct()->get();
 
         return response()->json([
             'status' => true,
