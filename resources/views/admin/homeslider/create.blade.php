@@ -81,6 +81,14 @@
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
+
+                                    <div class="col-sm-4">
+                                        <label for="state">Select Video Image</label>
+                                            <input type="file" name="video" accept="video/*">
+                                        @error('video')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
                                 <div class="form-group row">

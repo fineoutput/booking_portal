@@ -41,14 +41,36 @@
   <div class="splide__track">
       
         <ul class="splide__list">
-          @foreach ($banner as $value)
-          <li class="splide__slide">
-            <picture class="seeMA" style=" height: 50vh;">
-                <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
-                <img style="border-radius: 20px;" src="{{ asset($value->image) }}" alt="Responsive Banner" >
-            </picture>
-        </li>
-          @endforeach
+       @foreach ($banner as $value)
+    {{-- Image Slide --}}
+          @if (!empty($value->image))
+              <li class="splide__slide">
+                  <picture class="seeMA" style="height: 50vh;">
+                      <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
+                      <img style="border-radius: 20px; width: 100%; height: 100%; object-fit: cover;" 
+                          src="{{ asset($value->image) }}" 
+                          alt="Responsive Banner">
+                  </picture>
+              </li>
+          @endif
+
+          {{-- Video Slide --}}
+          @if (!empty($value->video))
+              <li class="splide__slide">
+                  <div class="seeMA" style="height: 50vh; border-radius: 20px; overflow: hidden;">
+                      <video 
+                          src="{{ asset($value->video) }}" 
+                          autoplay 
+                          muted 
+                          loop 
+                          playsinline 
+                          style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+                          Your browser does not support the video tag.
+                      </video>
+                  </div>
+              </li>
+          @endif
+      @endforeach
         </ul>
     </div>
 </div>

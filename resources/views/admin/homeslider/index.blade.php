@@ -53,6 +53,7 @@
                         <th data-priority="1">Type</th>
                         <th data-priority="1">Image</th>
                         <th data-priority="1">App Image</th>
+                        <th data-priority="1">Video</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -76,6 +77,16 @@
                               @endif
                           </td>
                           
+                          <td>
+                             @if(!empty($value->video))
+                                  <video width="150" height="100" controls>
+                                      <source src="{{ asset($value->video) }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                  </video>
+                              @else
+                                <p>No Video</p>
+                            @endif
+                          </td>
 
                         <td>
                           <a href="{{ route('home_slider.edit', $value->id) }}" class="btn btn-primary">

@@ -13,6 +13,7 @@ class HomeSlider extends Model
         'type',
         'image',
         'Appimage',
+        'video',
         'status',
     ];
 

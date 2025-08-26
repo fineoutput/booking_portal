@@ -90,6 +90,22 @@
                                         @enderror
                                         <img src="{{ asset($slider->Appimage) }}" width="50" height="50" alt="">
                                     </div>
+
+                                    <div class="col-sm-4">
+                                        <label for="video">Select Video</label>
+                                        <input class="form-control" type="file" name="video" accept="video/*">
+                                        @error('video')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+
+                                        @if(!empty($slider->video))
+                                            <video width="150" height="100" controls>
+                                                <source src="{{ asset($slider->video) }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        @endif
+                                    </div>
+
                                 </div>
                             
                                 <div class="form-group row">
