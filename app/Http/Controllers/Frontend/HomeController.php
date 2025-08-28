@@ -1630,7 +1630,6 @@ if ($max_price) {
 
       $package_location = LocationCost::where('package_id', $id)->where('location',$request->pickup_location)->where('vehicle',$request->vehicle_options)->first();
    
-
         if($request->meal == 'no_meal'){
 
            $meal_cost =  0;
@@ -1818,12 +1817,16 @@ if ($max_price) {
         // $fin_price_0 = $hotel_cat_cost * $night_count;
         $fin_price_1 = $request->number_of_rooms * $total_meal_cost * $night_count;
         $fin_price_2 = $total_vehicle_options_cost;
+        
 
         $fin_price_3 = $extrabed_meal_cost * $night_count;
-        
         $fin_price_01 = $child_meal_cost * $night_count;
 
+
         $fin_price_4 =  $package_location_cost + $fin_price_01;
+
+        // return $night_count;
+
         // $fin_price_4 =  $package_location_cost + $fin_price_01 + $children_5_11;
         
         $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;

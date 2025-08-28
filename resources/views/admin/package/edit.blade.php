@@ -90,6 +90,13 @@ ul#city-checkboxes {
                                     </div>
                                 </div>
                                 
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="pickup_location">Pickup Location</label>
+                                        <input type="text" name="pickup_location" value="{{ old('pickup_location', $package->pickup_location) }}" class="form-control">
+                                    </div>
+                                </div>
+                                
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
@@ -204,6 +211,14 @@ ul#city-checkboxes {
                                     <textarea name="text_description_2" class="form-control">{{ old('text_description_2', $package->text_description_2) }}</textarea>
                                 </div>
                                </div>
+
+                               <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="title_description">Title Description </label>
+                                    <textarea name="title_description" class="form-control">{{ old('title_description', $package->title_description) }}</textarea>
+                                </div>
+                               </div>
+
                                </div>
                                <input type="hidden" name="deleted_images" id="deleted_images" value="path/to/old_image1.jpg,path/to/old_image2.jpg">
                                <input type="hidden" id="deleted_videos" name="deleted_videos" value="">
@@ -442,6 +457,18 @@ ul#city-checkboxes {
             { name: 'tools', items: ['Maximize'] }
         ],
         height: 200
+    });
+
+    CKEDITOR.replace('title_description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
     });
 
     // Initialize CKEditor for long description

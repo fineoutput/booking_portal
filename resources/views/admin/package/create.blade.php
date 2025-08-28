@@ -97,6 +97,16 @@ ul#city-checkboxes {
                                         @enderror
                                     </div>
 
+                                    <div class="col-sm-6 mb-2">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" type="text" value="" id="pickup_location" name="pickup_location" placeholder="Enter name" required>
+                                            <label for="pickup_location">Pickup Location &nbsp;<span style="color:red;">*</span></label>
+                                        </div>
+                                        @error('pickup_location')
+                                        <div style="color:red">{{$message}}</div>
+                                        @enderror
+                                    </div>
+
                                     <div class="col-sm-6">
                                         <label for="state">State</label>
                                         <br>
@@ -183,6 +193,14 @@ ul#city-checkboxes {
                                             <label class="form-label" for="power">Text Description 2 &nbsp;<span style="color:red;">*</span></label>
                                             <textarea class="form-control" name="text_description_2" id="text_description_2" required>{{ old('text_description_2') }}</textarea>
                                             @error('text_description_2')
+                                            <div style="color:red">{{$message}}</div>
+                                        @enderror
+                                        </div>
+
+                                        <div class="col-sm-12 mt-3">
+                                            <label class="form-label" for="power">Title Description &nbsp;<span style="color:red;">*</span></label>
+                                            <textarea class="form-control" name="title_description" id="title_description" required>{{ old('title_description') }}</textarea>
+                                            @error('title_description')
                                             <div style="color:red">{{$message}}</div>
                                         @enderror
                                         </div>
@@ -338,6 +356,18 @@ $(document).ready(function() {
 
     // Initialize CKEditor for long description
     CKEDITOR.replace('text_description_2', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
+
+    CKEDITOR.replace('title_description', {
         toolbar: [
             { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
             { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },

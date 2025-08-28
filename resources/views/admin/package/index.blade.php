@@ -53,11 +53,13 @@
                         <th data-priority="1">Package Name</th>
                         {{-- <th data-priority="1">Services Charge</th> --}}
                         <th data-priority="1">Night Count</th>
+                        <th data-priority="1">Pickup Location</th>
                         <th data-priority="3">State Citys</th>
                         {{-- <th data-priority="1">City</th> --}}
                         <th data-priority="1">PDF File</th>
                         <th data-priority="3">Images</th>
                         <th data-priority="3">Videos</th>
+                        <th data-priority="6">Title Description</th>
                         <th data-priority="6">Text Description</th>
                         <th data-priority="6">Text Description 2</th>
                         <th data-priority="6">Show on the Frontend</th>
@@ -73,6 +75,7 @@
                           <td>{{ $pkg->package_name ?? '' }}</td>
                           {{-- <td>{{ $pkg->service_charge ?? '' }}</td> --}}
                           <td>{{ $pkg->night_count ?? '0' }}</td>
+                          <td>{{ $pkg->pickup_location ?? '0' }}</td>
 
                           <td class="states" style="width: 404px !important;">
                             @if($pkg->state_id && $pkg->city_id)
@@ -142,6 +145,7 @@
                               @endif
                           </td>
                   
+                          <td>{!! \Str::words($pkg->title_description, 20) !!}</td>
                           <td>{!! \Str::words($pkg->text_description, 20) !!}</td>
                           <td>{!! \Str::words($pkg->text_description_2, 20) !!}</td>
 

@@ -18,6 +18,8 @@ class Package extends Model
         'image',
         'service_charge',
         'video',
+        'title_description',
+        'pickup_location',
         'text_description',
         'text_description_2',
         'show_front',
