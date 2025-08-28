@@ -168,91 +168,67 @@
           @if($packages)
           @foreach ($packages as $key => $value)
            {{-- @if($value->prices) --}}
-          <div class="col-lg-6">
-            <div class="plan_outer w-100">
-              <div class="outer_plan_upper">
-                <div class="outer_plan_img">
-                  @php
-                  // Assuming 'image' contains a JSON array of images
-                  $images = json_decode($value->image, true); // Decode the JSON to an array (true for associative array)
-              @endphp
-              
-              @if($images && is_array($images) && count($images) > 0)
-                  <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
-                  <img src="{{ asset(reset($images)) }}" alt="First Image">
-              @else
-                  <p>No image available.</p>
-              @endif
-              
-                </div>
-                <div class="inner_outer_txt">
-                  
-                  <div class="outer_type_price">
-                    <h6 class="type_xtxt">
-                       @php
-                    // Get unique cities by city_name
-                    $uniqueCities = $city_data;
-                @endphp
-        
-                  @foreach($value->city_names as $city)
-                    {{ $city ?? '' }}@if(!$loop->last), @endif
-                  @endforeach
+         <div class="col-lg-4 mb-2">
+    @php
+        // Decode images
+        $images = json_decode($value->image, true);
+    @endphp
 
-                  </div>
-                  {{-- <div class="plan_type_date">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <p style="margin: 0;">2 reviews</p>
-                  </div> --}}
-                  {{-- <div class="inclusive">
-                    <i class="fa-solid fa-infinity"></i>
-                    <p class="m-0">All Inclusive</p>
-                  </div> --}}
-                </div>
-              </div>
-              <div class="">
+    @if($images && is_array($images) && count($images) > 0)
+        @php
+            $add = asset(reset($images));
+        @endphp
+    @else
+        @php
+            $add = asset('frontend/images/hotel_main.avif');
+        @endphp
+    @endif
+
+    <a style="color: #fff" href="{{ route('detail',['id' => base64_encode($value->id)]) }}">
+        <div class="cardashEs" style="background: url('{{ $add }}') no-repeat center / cover;">
+            
+            {{-- Price --}}
+            @if($value->prices)
+                <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>
+            @else
+                <p>No price available.</p>
+            @endif
+
+            <div class="gradient-overlayashEs"></div>
+            <div class="contentashEs">
                 
-                <div class="destination">
-                  <p style="margin: 0;">{{$value->package_name ?? ''}}</p>
-                  
-                  @foreach($value->hotels as $hotel)
-                    <span>{{ $hotel->name }}</span>,
-                  @endforeach
-                </div>
-                
-              </div>
-              <div class="options_tav night">
-                <div class="outer_car_txt justify-content-center justify-content-center">
-                  <div class="night_ski skit">
-                    
-                    <span><a href="#"></a></span>
-                  </div>
-                  <div class="destination skit">
-                    <div class="manags">
-                      <p>Starts from
-                        <b style="color: #000;">
-                          @if($value->prices)
-                          
-                          <p>Price: ₹{{$value->prices->display_cost}}</p>
-                      @else
-                          <p>No price available for this package.</p>
-                      @endif
-                        </b>
-                      </p>
-                      <span style="font-size: 10px;">per person on twin sharing</span>
+                {{-- Package Name --}}
+                <h3>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</h3>
+
+                {{-- Hotels (from your first block) --}}
+                @if($value->hotels && count($value->hotels) > 0)
+                    <div class="itineraryashEs">
+                        @foreach($value->hotels as $hotel)
+                            <span>{{ $hotel->name }}</span>@if(!$loop->last), @endif
+                        @endforeach
                     </div>
-                  </div>
+                @endif
+
+                <div class="detailsashEs">
+                    {{-- Duration --}}
+                    <div class="durationashEs">
+                        <span>🕒 {{$value->night_count ?? 0}}N/{{$value->night_count+1 ?? 0}}D</span>
+                    </div>
+
+                    {{-- Cities (from your first block) --}}
+                    <div class="locationashEs">
+                        <span>📍 
+                            @foreach($value->city_names as $city)
+                                {{ $city ?? '' }}@if(!$loop->last), @endif
+                            @endforeach
+                        </span>
+                    </div>
                 </div>
-                <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="{{route('detail',['id' => base64_encode($value->id)])}}">Book Now</a>
-                </div>
-                
-              </div>
             </div>
-            </div>
+        </div>
+    </a>
+</div>
+
             {{-- @endif --}}
           @endforeach
           @else
