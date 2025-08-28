@@ -1592,7 +1592,7 @@ textarea.form-control {
 .head_incldes{
   background: #fff;
   border-radius: 5px;
-  padding: 15px 20px;
+  padding: 15px 20px 0 0 ;
 }
 .head_incldes_left h4{
   font-size: 14px;
