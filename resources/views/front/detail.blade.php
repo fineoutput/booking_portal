@@ -597,7 +597,7 @@
                 <img style="width: 20px;" src="{{ asset('frontend/images/sport-car.png') }}" alt="">
                 <label for="vehicleOptions" class="form-label">Vehicle Options</label>
             </div>
-            <select id="vehicleOptions" name="vehicle_options" class="form-select no-form-select" required>
+            {{-- <select id="vehicleOptions" name="vehicle_options" class="form-select no-form-select" required>
                 <option value="" disabled {{ !session('booking_form_data.vehicle_options') ? 'selected' : '' }}>Select vehicle</option>
                 @foreach([
                     'hatchback_cost' => 'Hatchback',
@@ -614,6 +614,14 @@
                     'bus_nonac_cost' => 'Deluxe Bus'
                 ] as $value => $label)
                     <option value="{{ $value }}" {{ old('vehicle_options', session('booking_form_data.vehicle_options')) == $value ? 'selected' : '' }}>{{ $label }}</option>
+                @endforeach
+            </select> --}}
+            <select id="vehicleOptions" name="vehicle_options" class="form-select no-form-select" required>
+                <option value="" disabled {{ !session('booking_form_data.vehicle_options') ? 'selected' : '' }}>Select vehicle</option>
+                @foreach($availableVehicles as $value => $label)
+                    <option value="{{ $value }}" {{ old('vehicle_options', session('booking_form_data.vehicle_options')) == $value ? 'selected' : '' }}>
+                        {{ $label }}
+                    </option>
                 @endforeach
             </select>
         </div>

@@ -1293,6 +1293,34 @@ public function getVehiclesByCity($cityId)
     // Final data
     $data['packages'] = $package;
 
+    $vehicleCost = VehicleCost::where('package_id', $id)->first();
+
+    $vehicleLabels = [
+        'hatchback_cost' => 'Hatchback',
+        'sedan_cost' => 'Sedan',
+        'economy_suv_cost' => 'Economy SUV',
+        'luxury_suv_cost' => 'Premium SUV',
+        'traveller_mini_cost' => 'Tempo Traveller(8-16 Seat)',
+        'traveller_big_cost' => 'Tempo Traveller(17-25 Seat)',
+        'premium_traveller_cost' => 'Urbania(12-17 Seat)',
+        'ac_coach_cost' => 'Luxury Bus',
+        'bus_nonac_cost' => 'Deluxe Bus'
+    ];
+
+    $availableVehicles = [];
+
+    if ($vehicleCost) {
+        foreach ($vehicleLabels as $field => $label) {
+            $cost = $vehicleCost->$field;
+
+            if (!is_null($cost) && floatval($cost) > 0) {
+                $availableVehicles[$field] = $label;
+            }
+        }
+    }
+
+    $data['availableVehicles'] = $availableVehicles;
+
     return view('front/detail', $data);
 }
 
@@ -1876,9 +1904,25 @@ if ($max_price) {
 
             $packagetempbooking->update(['status' => 1]);
 
-            return redirect()->route('index')->with('message', 'Package Booking Created Successfully');
+            return redirect()->route('index')->with([
+                'message' => 'Package Booking Created Successfully',
+                'download_pdf_route' => route('pdf.download', [
+                    'user_id' => $packagebooking->user_id,
+                    'booking_id' => $packagebooking->id,
+                    'pdf_name' => urlencode(basename($packagebooking->package->pdf))
+                ])
+            ]);
+        }
 
-    }
+        private function downloadpdf($packagebooking){
+
+                 return redirect()->route('pdf.download', [
+                    'user_id' => $packagebooking->user_id,
+                    'booking_id' => $packagebooking->id,
+                    'pdf_name' => urlencode(basename($packagebooking->package->pdf))
+                ]);
+
+        }
 
 
     public function wildlife()

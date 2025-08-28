@@ -655,6 +655,15 @@
   </div>
 </section>
 
+@if(session('download_pdf_route'))
+    <script>
+        window.onload = function () {
+            // Redirect user to the PDF download route (this triggers browser download)
+            window.location.href = "{{ session('download_pdf_route') }}";
+        };
+    </script>
+@endif
+
  <script>
   document.addEventListener('DOMContentLoaded', function () {
     new Splide('#splide-packages', {

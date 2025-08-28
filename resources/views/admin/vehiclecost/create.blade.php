@@ -59,62 +59,62 @@
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Hatchback Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="hatchback_cost" value="{{ old('hatchback_cost', $vehicleCost->hatchback_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="hatchback_cost" value="{{ old('hatchback_cost', $vehicleCost->hatchback_cost ?? '') }}" >
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Sedan Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="sedan_cost" value="{{ old('sedan_cost', $vehicleCost->sedan_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="sedan_cost" value="{{ old('sedan_cost', $vehicleCost->sedan_cost ?? '') }}" >
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Economy SUV Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="economy_suv_cost" value="{{ old('economy_suv_cost', $vehicleCost->economy_suv_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="economy_suv_cost" value="{{ old('economy_suv_cost', $vehicleCost->economy_suv_cost ?? '') }}" >
                                     </div>
 
                                     {{-- <div class="col-sm-6">
                                         <label class="form-label">Luxury Sedan Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="luxury_sedan_cost" value="{{ old('luxury_sedan_cost', $vehicleCost->luxury_sedan_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="luxury_sedan_cost" value="{{ old('luxury_sedan_cost', $vehicleCost->luxury_sedan_cost ?? '') }}" >
                                     </div> --}}
 
                                     {{-- <div class="col-sm-6">
                                         <label class="form-label">SUV Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="suv_cost" value="{{ old('suv_cost', $vehicleCost->suv_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="suv_cost" value="{{ old('suv_cost', $vehicleCost->suv_cost ?? '') }}" >
                                     </div> --}}
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Premium SUV Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="luxury_suv_cost" value="{{ old('luxury_suv_cost', $vehicleCost->luxury_suv_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="luxury_suv_cost" value="{{ old('luxury_suv_cost', $vehicleCost->luxury_suv_cost ?? '') }}" >
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Tempo Traveller(8-16 Seat) Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="traveller_mini_cost" value="{{ old('traveller_mini_cost', $vehicleCost->traveller_mini_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="traveller_mini_cost" value="{{ old('traveller_mini_cost', $vehicleCost->traveller_mini_cost ?? '') }}" >
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Tempo Traveller(17-25 Seat) Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="traveller_big_cost" value="{{ old('traveller_big_cost', $vehicleCost->traveller_big_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="traveller_big_cost" value="{{ old('traveller_big_cost', $vehicleCost->traveller_big_cost ?? '') }}" >
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Urbania(12-17 Seat) Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="premium_traveller_cost" value="{{ old('premium_traveller_cost', $vehicleCost->premium_traveller_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="premium_traveller_cost" value="{{ old('premium_traveller_cost', $vehicleCost->premium_traveller_cost ?? '') }}" >
                                     </div>
 {{-- 
                                     <div class="col-sm-6">
                                         <label class="form-label">MUV Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="muv_cost" value="{{ old('muv_cost', $vehicleCost->muv_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="muv_cost" value="{{ old('muv_cost', $vehicleCost->muv_cost ?? '') }}" >
                                     </div> --}}
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Deluxe Bus Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="bus_nonac_cost" value="{{ old('bus_nonac_cost', $vehicleCost->bus_nonac_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="bus_nonac_cost" value="{{ old('bus_nonac_cost', $vehicleCost->bus_nonac_cost ?? '') }}" >
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label class="form-label">Luxury Bus Cost <span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="ac_coach_cost" value="{{ old('ac_coach_cost', $vehicleCost->ac_coach_cost ?? '') }}" required>
+                                        <input type="number" class="form-control" name="ac_coach_cost" value="{{ old('ac_coach_cost', $vehicleCost->ac_coach_cost ?? '') }}" >
                                     </div>
                                 </div>
 

@@ -26,18 +26,18 @@ class VehicleCostController extends Controller
         }
 
         $request->validate([
-            'hatchback_cost' => 'required|numeric',
-            'sedan_cost' => 'required|numeric',
-            'economy_suv_cost' => 'required|numeric',
-            // 'luxury_sedan_cost' => 'required|numeric',
-            // 'suv_cost' => 'required|numeric',
-            'luxury_suv_cost' => 'required|numeric',
-            'traveller_mini_cost' => 'required|numeric',
-            'traveller_big_cost' => 'required|numeric',
-            'premium_traveller_cost' => 'required|numeric',
-            // 'muv_cost' => 'required|numeric',
-            'bus_nonac_cost' => 'required|numeric',
-            'ac_coach_cost' => 'required|numeric',
+            'hatchback_cost' => 'nullable|numeric',
+            'sedan_cost' => 'nullable|numeric',
+            'economy_suv_cost' => 'nullable|numeric',
+            // 'luxury_sedan_cost' => 'nullable|numeric',
+            // 'suv_cost' => 'nullable|numeric',
+            'luxury_suv_cost' => 'nullable|numeric',
+            'traveller_mini_cost' => 'nullable|numeric',
+            'traveller_big_cost' => 'nullable|numeric',
+            'premium_traveller_cost' => 'nullable|numeric',
+            // 'muv_cost' => 'nullable|numeric',
+            'bus_nonac_cost' => 'nullable|numeric',
+            'ac_coach_cost' => 'nullable|numeric',
         ]);
 
         $vehicleCost = VehicleCost::updateOrCreate(
