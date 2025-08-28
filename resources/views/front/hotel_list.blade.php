@@ -15,7 +15,7 @@
 
   .slider-track {
       position: absolute;
-      top: 50%;
+      top: 0%;
       left: 0;
       right: 0;
       height: 4px;
@@ -38,7 +38,7 @@
       background-color: #fff;
       border: 2px solid #007bff;
       border-radius: 50%;
-      top: 50%;
+      top: 0%;
       transform: translate(-50%, -50%);
       cursor: pointer;
       z-index: 2;
