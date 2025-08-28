@@ -2480,7 +2480,7 @@ textarea.form-control {
     background: #fff;
     border: 1px solid #00000029;
     border-radius: 20px;
-    height: 370px;
+    height: 100%;
 } 
 .Despirate {
     background: none;
