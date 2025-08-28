@@ -84,7 +84,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     const mohanJodharo = new Splide('#mohanJodharoSlider', {
       type: 'loop',
-      perPage: 3,
+      perPage: 4,
       gap: '1rem',
       autoplay: true,
       breakpoints: {
