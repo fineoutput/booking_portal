@@ -45,7 +45,7 @@
     {{-- Image Slide --}}
           @if (!empty($value->image))
               <li class="splide__slide">
-                  <picture class="seeMA" style="height: 50vh;">
+                  <picture class="seeMA" style="height: 70vh;">
                       <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
                       <img style="border-radius: 20px; width: 100%; height: 100%; object-fit: cover;" 
                           src="{{ asset($value->image) }}" 
@@ -57,7 +57,7 @@
           {{-- Video Slide --}}
           @if (!empty($value->video))
               <li class="splide__slide">
-                  <div class="seeMA" style="height: 50vh; border-radius: 20px; overflow: hidden;">
+                  <div class="seeMA" style="height: 70vh; border-radius: 20px; overflow: hidden;">
                       <video 
                           src="{{ asset($value->video) }}" 
                           autoplay 
@@ -269,8 +269,9 @@
     </div>
 </div>
 </div>
+<hr>
   <!-- /* //////////////Europe Ends///////////// */ -->
-<div class="anotherSpiiled mt-5">
+<div class="anotherSpiiled mt-5" style="overflow: hidden">
     <div class="row">
       <div class="side_slide">
         <section id="mohanJodharoSlider" class="splide" aria-label="Image Slider">
