@@ -31,7 +31,7 @@
 }
 </style>
  <!-- /* //////////////Banner Starts///////////// */ -->
- <div class="container">
+
 
  
  <div id="responsive-slider" class="splide testing_tools mt-2" style="background: #fff;" >
@@ -74,7 +74,6 @@
         </ul>
     </div>
 </div>
- </div>
 
   <!-- /* //////////////Banner Ends///////////// */ -->
 
@@ -222,43 +221,8 @@
 
  
 </section> --}}
-
-  <!-- /* //////////////Europe Ends///////////// */ -->
-<div class="anotherSpiiled mt-5">
-  <div class="container">
-    <div class="row">
-      <div class="side_slide">
-        <section id="mohanJodharoSlider" class="splide" aria-label="Image Slider">
-          <div class="splide__track">
-            <ul class="splide__list">
-              @foreach ($offer as $value)
-              
-              <li class="splide__slide long_slide">
-              <div class="">
-                
-              
-                <img class="vibhajan" src="{{ asset($value->image) }}" alt="Offer Image">
-              </div>
-              </li>
-              @endforeach
-            </ul>
-          </div>
-        </section>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-  <!-- /* //////////////Gallery starts///////////// */ -->
-    <section class="gallery_sect mt-5">
-        <div class="container">
-        <div class="row" style="align-items: center">
-            <!-- Slider Section -->
-            
-
-            <!-- /////large screeen tab///// -->
-<div class="col-lg-12 setts ">
+<div class="container">
+  <div class="col-lg-12 setts ">
       <div class="splide" id="popularCitiesSlider">
         <div class="splide__track">
           <h2 class="text-center">Holiday Packages</h2>
@@ -303,6 +267,43 @@
             </ul>
         </div>
     </div>
+</div>
+</div>
+  <!-- /* //////////////Europe Ends///////////// */ -->
+<div class="anotherSpiiled mt-5">
+    <div class="row">
+      <div class="side_slide">
+        <section id="mohanJodharoSlider" class="splide" aria-label="Image Slider">
+          <div class="splide__track">
+            <ul class="splide__list">
+              @foreach ($offer as $value)
+              
+              <li class="splide__slide long_slide">
+              <div class="">
+                
+              
+                <img class="vibhajan" src="{{ asset($value->image) }}" alt="Offer Image">
+              </div>
+              </li>
+              @endforeach
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+</div>
+
+
+  <!-- /* //////////////Gallery starts///////////// */ -->
+    <section class="gallery_sect mt-5">
+        <div class="container">
+        <div class="row" style="align-items: center">
+            <!-- Slider Section -->
+            
+
+            <!-- /////large screeen tab///// -->
+<div class="col-lg-12 setts ">
+   
     <hr>
       <div class="splide" id="popularCitiesSlider2">
         <div class="splide__track">
