@@ -601,11 +601,11 @@
                     <div class="ulHaq p-2">
                       <h6><b>{!! \Illuminate\Support\Str::limit($value->title_description ?? '', 40) !!}</b></h6>
                     <div class="ulHaq p-2">
-                      <p><b>{{ $value->pickup_location ?? '' }}</b></p>
+                      <p>📍<b>{{ $value->pickup_location ?? '' }}</b></p>
                     </div>
                     <div class="BEth">
                      <div class="UnRRoz">
-                       <p>{{ \Carbon\Carbon::now()->format('D, d M') }}</p>
+                       {{-- <p>{{ \Carbon\Carbon::now()->format('D, d M') }}</p> --}}
                       @if($value->prices)
                         <p>₹{{ number_format($value->prices->display_cost, 2) }} onwards</p>
                       @else
