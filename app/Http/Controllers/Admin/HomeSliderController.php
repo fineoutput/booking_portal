@@ -26,8 +26,8 @@ class HomeSliderController extends Controller
         if ($request->method() == 'POST') {
             $validated = $request->validate([
                 'type' => 'required',
-                'image' => 'required|file|mimes:jpeg,png,jpg,webp',
-                'Appimage' => 'required|file|mimes:jpeg,png,jpg,webp',
+                'image' => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
+                'Appimage' => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
                 'video' => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200', 
             ]);
 
@@ -96,7 +96,7 @@ class HomeSliderController extends Controller
 
         $request->validate([
             'type' => 'required',
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,webp',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048',
             'Appimage' => 'nullable|file|mimes:jpeg,png,jpg,webp',
             'video' => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200', 
         ]);
