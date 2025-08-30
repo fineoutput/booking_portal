@@ -69,6 +69,7 @@
                                     
                                     <div class="col-sm-4">
                                         <label for="state">Select Image</label>
+                                        <span style=" color: red; ">Please upload image under 2mb</span>
                                             <input class="form-control" type="file" name="image">
                                         @error('image')
                                             <div style="color:red">{{ $message }}</div>
