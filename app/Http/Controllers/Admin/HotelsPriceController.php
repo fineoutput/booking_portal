@@ -42,7 +42,7 @@ class HotelsPriceController extends Controller
                 $hotel_price->start_date = $request->start_date;
                 $hotel_price->night_cost = $request->night_cost;
                 $hotel_price->room_category = $request->room_category;
-                $hotel_price->room_cost = $request->room_cost;
+                // $hotel_price->room_cost = $request->room_cost;
                 $hotel_price->meal_plan_breakfast_cost = $request->meal_plan_breakfast_cost;
                 $hotel_price->meal_plan_breakfast_lunch_dinner_cost = $request->meal_plan_breakfast_lunch_dinner_cost;
                 $hotel_price->meal_plan_all_meals_cost = $request->meal_plan_all_meals_cost;
@@ -103,7 +103,7 @@ class HotelsPriceController extends Controller
                 $hotel_price->end_date = $request->end_date;
                 $hotel_price->start_date = $request->start_date;
                 $hotel_price->room_category = $request->room_category;
-                $hotel_price->room_cost = $request->room_cost;
+                // $hotel_price->room_cost = $request->room_cost;
                 $hotel_price->meal_plan_breakfast_cost = $request->meal_plan_breakfast_cost;
                 $hotel_price->meal_plan_breakfast_lunch_dinner_cost = $request->meal_plan_breakfast_lunch_dinner_cost;
                 $hotel_price->meal_plan_all_meals_cost = $request->meal_plan_all_meals_cost;

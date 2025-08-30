@@ -54,7 +54,7 @@
                         <th data-priority="1">End Month</th>
                         <th data-priority="3">Night Cost</th>
                         <th data-priority="3">Room Category</th>
-                        <th data-priority="3">Room Cost</th>
+                        {{-- <th data-priority="3">Room Cost</th> --}}
                         <th data-priority="3">Meal Plan (Breakfast) Cost</th>
                         <th data-priority="3">Meal Plan (Breakfast + lunch/dinner) Cost</th>
                         <th data-priority="3">Meal Plan (All meals) Cost</th>
@@ -79,7 +79,7 @@
                                 {{-- <td>{{ $pkg->end_date ?? '' }}</td> --}}
                                 <td>₹{{ $pkg->night_cost ?? '0' }}</td>
                                 <td>{{ $pkg->room_category ?? '' }}</td>
-                                <td>₹{{ $pkg->room_cost ?? '0' }}</td>
+                                {{-- <td>₹{{ $pkg->room_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->meal_plan_breakfast_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_breakfast_lunch_dinner_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_all_meals_cost ?? '0' }}</td>

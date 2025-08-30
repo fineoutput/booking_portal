@@ -91,13 +91,13 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-sm-6 mt-4">
+                                    {{-- <div class="col-sm-6 mt-4">
                                         <label for="room_cost" class="form-label">Room Cost &nbsp;<span style="color:red;">*</span></label>
                                         <input type="number" class="form-control" name="room_cost" value="" >
                                         @error('room_cost')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                 </div>
 
