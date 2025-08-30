@@ -146,6 +146,112 @@
                                             @enderror
                                         </div>
 
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Nearby within Walking Distance</label>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" name="nearby[]" multiple class="chosen-select">
+                                                <option value="Public transport within 1 km">Public transport within 1 km</option>
+                                                <option value="Shopping centers within 1 km">Shopping centers within 1 km</option>
+                                            </select>
+                                            @error('nearby')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Locality</label>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" name="locality[]" multiple class="chosen-select">
+                                                <option value="Other Popular Areas">Other Popular Areas</option>
+                                                <option value="Near Popular Attractions">Near Popular Attractions</option>
+                                                <option value="Near Transit Hub(s)">Near Transit Hub(s)</option>
+                                            </select>
+                                            @error('locality')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Chains</label>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" name="chains[]" multiple class="chosen-select">
+                                                <option value="Marriott, Westin & Le Meridien">Marriott, Westin & Le Meridien</option>
+                                                <option value="Moustache">Moustache</option>
+                                                <option value="Oyo Hotels">Oyo Hotels</option>
+                                                <option value="Sarovar">Sarovar</option>
+                                                <option value="StayVista">StayVista</option>
+                                                <option value="Sterling Holiday resorts">Sterling Holiday resorts</option>
+                                                <option value="Taj">Taj</option>
+                                                <option value="Treebo Hotels">Treebo Hotels</option>
+                                                <option value="Zostel">Zostel</option>
+                                            </select>
+                                            @error('chains')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Hotel Amenities</label>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" name="hotel_amenities[]" multiple class="chosen-select">
+                                                <option value="Room Service"> Room Service</option>
+                                                <option value="Balcony/Terrace">Balcony/Terrace</option>
+                                                <option value="Barbeque">Barbeque</option>
+                                                <option value="Cafe">Cafe</option>
+                                                <option value="EV Charging Station">EV Charging Station</option>
+                                                <option value="Restaurant">Restaurant</option>
+                                                <option value="Bar">Bar</option>
+                                                <option value="Parking">Parking</option>
+                                                <option value="Caretaker">Caretaker</option>
+                                                <option value="Bonfire">Bonfire</option>
+                                                <option value="Kitchenette">Kitchenette</option>
+                                                <option value="Elevator/Lift">Elevator/Lift</option>
+                                                <option value="Indoor Games">Indoor Games</option>
+                                                <option value="Living Room">Living Room</option>
+                                            </select>
+                                            @error('hotel_amenities')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Room Amenities</label>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" name="room_amenities[]" multiple class="chosen-select">
+                                                <option value="Fireplace">Fireplace</option>
+                                                <option value="Interconnected Room">Interconnected Room</option>
+                                                <option value="Bathtub">Bathtub</option>
+                                                <option value="Kitchenette">Kitchenette</option>
+                                                <option value="Smoking Room">Smoking Room</option>
+                                                <option value="Private Pool">Private Pool</option>
+                                                <option value="Balcony">Balcony</option>
+                                                <option value="Cook & Butler Service">Cook & Butler Service</option>
+                                                <option value="Heater">Heater</option>
+                                                <option value="Jacuzzi">Jacuzzi</option>
+                                                <option value="Living Area">Living Area</option>
+                                            </select>
+                                            @error('room_amenities')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">House Rules</label>
+                                            <div id="output"></div>
+                                            <select data-placeholder="" name="house_rules[]" multiple class="chosen-select">
+                                                <option value="Smoking Allowed">Smoking Allowed</option>
+                                                <option value="Unmarried Couples Allowed">Unmarried Couples Allowed</option>
+                                                <option value="Pets Allowed">Pets Allowed</option>
+                                                <option value="Alcohol Allowed">Alcohol Allowed</option>
+                                                <option value="Non Veg Allowed">Non Veg Allowed</option>
+                                            </select>
+                                            @error('house_rules')
+                                                <div style="color:red;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
                                     </div>
 
                                     <div class="form-group row">

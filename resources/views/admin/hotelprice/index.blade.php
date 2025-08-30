@@ -53,6 +53,19 @@
                         <th data-priority="1">Start Month</th>
                         <th data-priority="1">End Month</th>
                         <th data-priority="3">Night Cost</th>
+                        <th data-priority="3">Room Category</th>
+                        <th data-priority="3">Room Cost</th>
+                        <th data-priority="3">Meal Plan (Breakfast) Cost</th>
+                        <th data-priority="3">Meal Plan (Breakfast + lunch/dinner) Cost</th>
+                        <th data-priority="3">Meal Plan (All meals) Cost</th>
+                        <th data-priority="3">Extra Bed + Meal Plan (All meals) Cost</th>
+                        <th data-priority="3">Extra Bed + Meal Plan (Breakfast) Cost</th>
+                        <th data-priority="3">Extra Bed + Meal Plan (Breakfast + lunch/dinner) Cost</th>
+                        <th data-priority="3">Extra Bed Adult Cost </th>
+                        <th data-priority="3">Child With No Bed + Meal Plan (All meals) Cost </th>
+                        <th data-priority="3">Child With No Bed + Meal Plan (Breakfast) Cost </th>
+                        <th data-priority="3">Child With No Bed + Meal Plan (Breakfast + lunch/dinner) Cost </th>
+                        <th data-priority="3">Child With No Bed Cost </th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -65,6 +78,19 @@
                                 <td>{{ \Carbon\Carbon::parse($pkg->end_date)->format('d F Y') ?? '' }}</td>
                                 {{-- <td>{{ $pkg->end_date ?? '' }}</td> --}}
                                 <td>₹{{ $pkg->night_cost ?? '0' }}</td>
+                                <td>{{ $pkg->room_category ?? '' }}</td>
+                                <td>₹{{ $pkg->room_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->meal_plan_breakfast_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->meal_plan_breakfast_lunch_dinner_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->meal_plan_all_meals_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->extra_all_meals_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->extra_breakfast_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->extra_breakfast_lunch_dinner_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->extra_bed_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->child_all_meals_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->child_breakfast_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->child_breakfast_lunch_dinner_cost ?? '0' }}</td>
+                                <td>₹{{ $pkg->child_no_bed_infant_cost ?? '0' }}</td>
                                 <td>
                                     <!-- Edit Button -->
                                     <a href="{{ route('hotel_price.edit', $pkg->id) }}" class="btn btn-warning">Edit</a>

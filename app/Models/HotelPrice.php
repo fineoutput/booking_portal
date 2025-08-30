@@ -15,6 +15,19 @@ class HotelPrice extends Model
         'night_cost',
         'start_date',
         'end_date',
+        'room_category',
+        'room_cost',
+        'meal_plan_breakfast_cost',
+        'meal_plan_breakfast_lunch_dinner_cost',
+        'meal_plan_all_meals_cost',
+        'extra_all_meals_cost',
+        'extra_breakfast_cost',
+        'extra_breakfast_lunch_dinner_cost',
+        'extra_bed_cost',
+        'child_all_meals_cost',
+        'child_breakfast_cost',
+        'child_breakfast_lunch_dinner_cost',
+        'child_no_bed_infant_cost',
     ];
 
     

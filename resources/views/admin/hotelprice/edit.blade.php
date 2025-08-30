@@ -49,45 +49,136 @@
                             <!-- End show success and error messages -->
                             <h4 class="mt-0 header-title">Add Hotel Price Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
+
                             <form action="{{ route('hotel_price.update', $package->id ?? '') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                @method('PUT') <!-- Use PUT method for editing data -->
+                                @method('PUT') <!-- Important for update -->
+                                
                                 <div class="form-group row">
-                                    <!-- Standard Cost -->
-
                                     <div class="col-sm-6">
-                                        <label for="start_date" class="form-label">Start Month &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="date" class="form-control" name="start_date"
-                                         value="{{ old('start_date', $package->start_date) }}" required>
-                                        @error('start_date')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
+                                        <label for="start_date" class="form-label">Start Month <span style="color:red;">*</span></label>
+                                        <input type="date" class="form-control" name="start_date" value="{{ old('start_date', $package->start_date) }}">
+                                        @error('start_date') <div style="color:red;">{{ $message }}</div> @enderror
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <label for="end_date" class="form-label">End Month &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="date" class="form-control" name="end_date" 
-                                        value="{{ old('end_date', $package->end_date) }}" required>
-                                        @error('end_date')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
+                                        <label for="end_date" class="form-label">End Month <span style="color:red;">*</span></label>
+                                        <input type="date" class="form-control" name="end_date" value="{{ old('end_date', $package->end_date) }}">
+                                        @error('end_date') <div style="color:red;">{{ $message }}</div> @enderror
                                     </div>
-
-                                    <div class="col-sm-6">
-                                        <label for="night_cost" class="form-label">Hotel Night Cost &nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" class="form-control" name="night_cost" value="{{ old('night_cost', $package->night_cost) }}" required>
-                                        @error('night_cost')
-                                            <div style="color:red;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
                                 </div>
-                            
-                                <!-- Repeat similar blocks for other fields as needed... -->
-                            
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="night_cost" class="form-label">Hotel Night Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="night_cost" value="{{ old('night_cost', $package->night_cost) }}">
+                                        @error('night_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="room_category" class="form-label">Room Category <span style="color:red;">*</span></label>
+                                        <select class="form-control" name="room_category">
+                                            <option disabled value="">Select Room Category</option>
+                                            <option value="premium" {{ old('room_category', $package->room_category) == 'premium' ? 'selected' : '' }}>Premium</option>
+                                            <option value="deluxe" {{ old('room_category', $package->room_category) == 'deluxe' ? 'selected' : '' }}>Deluxe</option>
+                                        </select>
+                                        @error('room_category') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-sm-6 mt-4">
+                                        <label for="room_cost" class="form-label">Room Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="room_cost" value="{{ old('room_cost', $package->room_cost) }}">
+                                        @error('room_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+
+                                <h2 class="mt-5">Meals </h2>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label>Meal Plan (Breakfast) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="meal_plan_breakfast_cost" value="{{ old('meal_plan_breakfast_cost', $package->meal_plan_breakfast_cost) }}">
+                                        @error('meal_plan_breakfast_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label>Meal Plan (Breakfast + lunch/dinner) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="meal_plan_breakfast_lunch_dinner_cost" value="{{ old('meal_plan_breakfast_lunch_dinner_cost', $package->meal_plan_breakfast_lunch_dinner_cost) }}">
+                                        @error('meal_plan_breakfast_lunch_dinner_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label>Meal Plan (All meals) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="meal_plan_all_meals_cost" value="{{ old('meal_plan_all_meals_cost', $package->meal_plan_all_meals_cost) }}">
+                                        @error('meal_plan_all_meals_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+
+                                <h2 class="mt-5">Extra Bed + Meals </h2>
+
+                                <div class="form-group row mt-5">
+                                    <div class="col-sm-6">
+                                        <label>Extra Bed + Meal Plan (All meals) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="extra_all_meals_cost" value="{{ old('extra_all_meals_cost', $package->extra_all_meals_cost) }}">
+                                        @error('extra_all_meals_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label>Extra Bed + Meal Plan (Breakfast) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="extra_breakfast_cost" value="{{ old('extra_breakfast_cost', $package->extra_breakfast_cost) }}">
+                                        @error('extra_breakfast_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-5">
+                                    <div class="col-sm-6">
+                                        <label>Extra Bed + Meal Plan (Breakfast + lunch/dinner) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="extra_breakfast_lunch_dinner_cost" value="{{ old('extra_breakfast_lunch_dinner_cost', $package->extra_breakfast_lunch_dinner_cost) }}">
+                                        @error('extra_breakfast_lunch_dinner_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label>Extra Bed Adult Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="extra_bed_cost" value="{{ old('extra_bed_cost', $package->extra_bed_cost) }}">
+                                        @error('extra_bed_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+
+                                <h2 class="mt-5">Child With No Bed + Meals </h2>
+
+                                <div class="form-group row mt-5">
+                                    <div class="col-sm-6">
+                                        <label>Child With No Bed + Meal Plan (All meals) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="child_all_meals_cost" value="{{ old('child_all_meals_cost', $package->child_all_meals_cost) }}">
+                                        @error('child_all_meals_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label>Child With No Bed + Meal Plan (Breakfast) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="child_breakfast_cost" value="{{ old('child_breakfast_cost', $package->child_breakfast_cost) }}">
+                                        @error('child_breakfast_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-5">
+                                    <div class="col-sm-6">
+                                        <label>Child With No Bed + Meal Plan (Breakfast + lunch/dinner) Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="child_breakfast_lunch_dinner_cost" value="{{ old('child_breakfast_lunch_dinner_cost', $package->child_breakfast_lunch_dinner_cost) }}">
+                                        @error('child_breakfast_lunch_dinner_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label>Child With No Bed Cost <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="child_no_bed_infant_cost" value="{{ old('child_no_bed_infant_cost', $package->child_no_bed_infant_cost) }}">
+                                        @error('child_no_bed_infant_cost') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <div class="w-100 text-center">
-                                        <button type="submit" class="btn btn-danger"><i class="fa fa-user"></i> Update</button>
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update</button>
                                     </div>
                                 </div>
                             </form>

@@ -36,45 +36,26 @@ class HotelsPriceController extends Controller
                 'night_cost' => 'required|numeric',
             ]);
     
-            // Check if a PackagePrice entry already exists for this package
-            // $packagePrice = PackagePrice::where('package_id', $id)->first();
-    
-            // if ($packagePrice) {
-            //     // If the PackagePrice already exists, update it
-            //     $packagePrice->standard_cost = $request->standard_cost;
-            //     $packagePrice->deluxe_cost = $request->deluxe_cost;
-            //     $packagePrice->premium_cost = $request->premium_cost;
-            //     $packagePrice->super_deluxe_cost = $request->super_deluxe_cost;
-            //     $packagePrice->luxury_cost = $request->luxury_cost;
-            //     $packagePrice->nights_cost = $request->nights_cost;
-            //     $packagePrice->adults_cost = $request->adults_cost;
-            //     $packagePrice->child_with_bed_cost = $request->child_with_bed_cost;
-            //     $packagePrice->child_no_bed_infant_cost = $request->child_no_bed_infant_cost;
-            //     $packagePrice->child_no_bed_child_cost = $request->child_no_bed_child_cost;
-            //     $packagePrice->meal_plan_only_room_cost = $request->meal_plan_only_room_cost;
-            //     $packagePrice->meal_plan_breakfast_cost = $request->meal_plan_breakfast_cost;
-            //     $packagePrice->meal_plan_breakfast_lunch_dinner_cost = $request->meal_plan_breakfast_lunch_dinner_cost;
-            //     $packagePrice->meal_plan_all_meals_cost = $request->meal_plan_all_meals_cost;
-            //     $packagePrice->hatchback_cost = $request->hatchback_cost;
-            //     $packagePrice->sedan_cost = $request->sedan_cost;
-            //     $packagePrice->economy_suv_cost = $request->economy_suv_cost;
-            //     $packagePrice->luxury_suv_cost = $request->luxury_suv_cost;
-            //     $packagePrice->traveller_mini_cost = $request->traveller_mini_cost;
-            //     $packagePrice->traveller_big_cost = $request->traveller_big_cost;
-            //     $packagePrice->premium_traveller_cost = $request->premium_traveller_cost;
-            //     $packagePrice->ac_coach_cost = $request->ac_coach_cost;
-            //     $packagePrice->save();
-    
-            //     $message = 'Package price updated successfully.';
-            // } else {
-                // If the PackagePrice does not exist, create a new one
-                $packagePrice = new HotelPrice();
-                $packagePrice->hotel_id = $id;
-                $packagePrice->end_date = $request->end_date;
-                $packagePrice->start_date = $request->start_date;
-                $packagePrice->night_cost = $request->night_cost;
+                $hotel_price = new HotelPrice();
+                $hotel_price->hotel_id = $id;
+                $hotel_price->end_date = $request->end_date;
+                $hotel_price->start_date = $request->start_date;
+                $hotel_price->night_cost = $request->night_cost;
+                $hotel_price->room_category = $request->room_category;
+                $hotel_price->room_cost = $request->room_cost;
+                $hotel_price->meal_plan_breakfast_cost = $request->meal_plan_breakfast_cost;
+                $hotel_price->meal_plan_breakfast_lunch_dinner_cost = $request->meal_plan_breakfast_lunch_dinner_cost;
+                $hotel_price->meal_plan_all_meals_cost = $request->meal_plan_all_meals_cost;
+                $hotel_price->extra_all_meals_cost = $request->extra_all_meals_cost;
+                $hotel_price->extra_breakfast_cost = $request->extra_breakfast_cost;
+                $hotel_price->extra_breakfast_lunch_dinner_cost = $request->extra_breakfast_lunch_dinner_cost;
+                $hotel_price->extra_bed_cost = $request->extra_bed_cost;
+                $hotel_price->child_all_meals_cost = $request->child_all_meals_cost;
+                $hotel_price->child_breakfast_cost = $request->child_breakfast_cost;
+                $hotel_price->child_breakfast_lunch_dinner_cost = $request->child_breakfast_lunch_dinner_cost;
+                $hotel_price->child_no_bed_infant_cost = $request->child_no_bed_infant_cost;
               
-                $packagePrice->save();
+                $hotel_price->save();
     
                 $message = 'Hotel price added successfully.';
             // }
@@ -116,15 +97,28 @@ class HotelsPriceController extends Controller
                
             ]);
         
-            $packagePrice = HotelPrice::findOrFail($id);
+            $hotel_price = HotelPrice::findOrFail($id);
         
-                $packagePrice->night_cost = $request->night_cost;
-                $packagePrice->end_date = $request->end_date;
-                $packagePrice->start_date = $request->start_date;
+                $hotel_price->night_cost = $request->night_cost;
+                $hotel_price->end_date = $request->end_date;
+                $hotel_price->start_date = $request->start_date;
+                $hotel_price->room_category = $request->room_category;
+                $hotel_price->room_cost = $request->room_cost;
+                $hotel_price->meal_plan_breakfast_cost = $request->meal_plan_breakfast_cost;
+                $hotel_price->meal_plan_breakfast_lunch_dinner_cost = $request->meal_plan_breakfast_lunch_dinner_cost;
+                $hotel_price->meal_plan_all_meals_cost = $request->meal_plan_all_meals_cost;
+                $hotel_price->extra_all_meals_cost = $request->extra_all_meals_cost;
+                $hotel_price->extra_breakfast_cost = $request->extra_breakfast_cost;
+                $hotel_price->extra_breakfast_lunch_dinner_cost = $request->extra_breakfast_lunch_dinner_cost;
+                $hotel_price->extra_bed_cost = $request->extra_bed_cost;
+                $hotel_price->child_all_meals_cost = $request->child_all_meals_cost;
+                $hotel_price->child_breakfast_cost = $request->child_breakfast_cost;
+                $hotel_price->child_breakfast_lunch_dinner_cost = $request->child_breakfast_lunch_dinner_cost;
+                $hotel_price->child_no_bed_infant_cost = $request->child_no_bed_infant_cost;
                 
-                $packagePrice->save();
+                $hotel_price->save();
         
-            return redirect()->route('hotel_price', ['id' => $packagePrice->hotel_id])->with('success', 'Hotel Price updated successfully.');
+            return redirect()->route('hotel_price', ['id' => $hotel_price->hotel_id])->with('success', 'Hotel Price updated successfully.');
         }
 
 }
