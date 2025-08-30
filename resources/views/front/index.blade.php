@@ -599,7 +599,7 @@
                       <h6><b>{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 40) }}</b></h6>
                     </div>
                     <div class="ulHaq p-2">
-                      <h6>{{ \Illuminate\Support\Str::limit($value->title_description ?? '', 40) }}</h6>
+                      <h6>{!!\Illuminate\Support\Str::limit($value->title_description ?? '', 40) !!}</h6>
                     <div class="ulHaq p-2">
                       <p>📍<b>{{ $value->pickup_location ?? '' }}</b></p>
                     </div>

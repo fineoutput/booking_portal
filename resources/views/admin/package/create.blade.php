@@ -369,7 +369,7 @@ $(document).ready(function() {
 
     CKEDITOR.replace('title_description', {
         toolbar: [
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'basicstyles', items: ['Italic', 'Underline', 'Strike', 'RemoveFormat'] },
             { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
             { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
             { name: 'styles', items: ['Format', 'FontSize'] },
