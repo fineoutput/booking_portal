@@ -216,20 +216,6 @@
 
                      
 
-                      <td>
-
-                        @php
-                            $hotelPoliciesList = explode(',', $hotel->hotel_policies);  // Exploding the comma-separated hotel policies
-                        @endphp
-
-                        @if(count($hotelPoliciesList) > 0)
-                            @foreach($hotelPoliciesList as $policy)
-                                {{ $policy }}<br>  <!-- Line break for each hotel policy -->
-                            @endforeach
-                        @else
-                            No Hotel Policies Selected
-                        @endif
-                      </td>
 
                       
 
@@ -243,22 +229,27 @@
                             @foreach($roomAmenitiesList as $amenity)
                                 {{ $amenity }}<br>  <!-- Line break for each room amenity -->
                             @endforeach
-                        @else
-                            No Room Amenities Selected
-                        @endif
-                            $roomAmenitiesList = explode(',', $hotel->room_amenities);  // Exploding the comma-separated room amenities
-                        @endphp
-
-                        @if(count($roomAmenitiesList) > 0)
-                            @foreach($roomAmenitiesList as $amenity)
-                                {{ $amenity }}<br>  <!-- Line break for each room amenity -->
-                            @endforeach
+                       
                         @else
                             No Room Amenities Selected
                         @endif
 
                       </td>
 
+                      <td>
+
+                        @php
+                            $hotelPoliciesList = explode(',', $hotel->house_rules);  // Exploding the comma-separated hotel policies
+                        @endphp
+
+                        @if(count($hotelPoliciesList) > 0)
+                            @foreach($hotelPoliciesList as $policy)
+                                {{ $policy }}<br>  <!-- Line break for each hotel policy -->
+                            @endforeach
+                        @else
+                            No Hotel Policies Selected
+                        @endif
+                      </td>
                       <td>
                         @if (!empty($hotel->images) && json_decode($hotel->images))
                             @foreach (json_decode($hotel->images) as $image)
