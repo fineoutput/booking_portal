@@ -21,6 +21,12 @@ class Hotels extends Model
         'package_id',
         'show_front',
         'meal_plan',
+        'nearby',
+        'locality',
+        'chains',
+        'hotel_amenities',
+        'room_amenities',
+        'house_rules',
     ];
 
     public function package()

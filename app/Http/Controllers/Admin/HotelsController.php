@@ -79,7 +79,13 @@ class HotelsController extends Controller
             $hotel->hotel_category = $request->hotel_category;
             $hotel->package_id = !empty($request->package_id) ? implode(',', $request->package_id) : null;
             $hotel->meal_plan = !empty($request->meal_plan) ? implode(',', $request->meal_plan) : null;
-    
+            $hotel->nearby = !empty($request->nearby) ? implode(',', $request->nearby) : null;
+            $hotel->locality = !empty($request->locality) ? implode(',', $request->locality) : null;
+            $hotel->chains = !empty($request->chains) ? implode(',', $request->chains) : null;
+            $hotel->hotel_amenities = !empty($request->hotel_amenities) ? implode(',', $request->hotel_amenities) : null;
+            $hotel->room_amenities = !empty($request->room_amenities) ? implode(',', $request->room_amenities) : null;
+            $hotel->house_rules = !empty($request->house_rules) ? implode(',', $request->house_rules) : null;
+            
             $hotel->save();
 
             return redirect()->route('hotels')->with('success', 'Hotel added successfully.');
