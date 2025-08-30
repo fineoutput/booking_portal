@@ -56,6 +56,12 @@
                         <th data-priority="1">Hotel Category</th>
                         <th data-priority="3">Package</th>
                         <th data-priority="3">Meal Plan</th>
+                        <th data-priority="3">Nearby</th>
+                        <th data-priority="3">Locality</th>
+                        <th data-priority="3">Chains</th>
+                        <th data-priority="3">Hotel Amenities</th>
+                        <th data-priority="3">Room Amenities</th>
+                        <th data-priority="3">House Rules</th>
                         <th data-priority="3">Image</th>
                         <th data-priority="3">Show on the Frontend</th>
                         <th data-priority="6">Action</th>
@@ -150,6 +156,109 @@
                               No Meals Selected
                           @endif
                       </td>
+
+                      <td>
+                          @php
+                              $nearbyList = explode(',', $hotel->nearby);  // Exploding the comma-separated nearby places
+                          @endphp
+                      
+                          @if(count($nearbyList) > 0)
+                              @foreach($nearbyList as $nearby)
+                                  {{ $nearby }}<br>  <!-- Line break for each nearby place -->
+                              @endforeach
+                          @else
+                              No Nearby Places Selected
+                          @endif  
+                      </td>
+
+                      <td>
+                          @php
+                              $localityList = explode(',', $hotel->locality);  // Exploding the comma-separated locality
+                          @endphp
+
+                          @if(count($localityList) > 0)
+                              @foreach($localityList as $locality)
+                                  {{ $locality }}<br>  <!-- Line break for each locality -->
+                              @endforeach
+                          @else
+                              No Locality Selected
+                          @endif
+                      </td>
+
+                      <td>
+                        @php
+                            $chainsList = explode(',', $hotel->chains);  // Exploding the comma-separated chains
+                        @endphp
+
+                        @if(count($chainsList) > 0)
+                            @foreach($chainsList as $chain)
+                                {{ $chain }}<br>  <!-- Line break for each chain -->
+                            @endforeach
+                        @else
+                            No Chains Selected
+                        @endif
+                      </td>
+
+                      <td>
+
+                        @php
+                            $hotelAmenitiesList = explode(',', $hotel->hotel_amenities);  // Exploding the comma-separated hotel amenities
+                        @endphp
+
+                        @if(count($hotelAmenitiesList) > 0)
+                            @foreach($hotelAmenitiesList as $amenity)
+                                {{ $amenity }}<br>  <!-- Line break for each hotel amenity -->
+                            @endforeach
+                        @else
+                            No Hotel Amenities Selected
+                        @endif
+                      </td>
+
+                     
+
+                      <td>
+
+                        @php
+                            $hotelPoliciesList = explode(',', $hotel->hotel_policies);  // Exploding the comma-separated hotel policies
+                        @endphp
+
+                        @if(count($hotelPoliciesList) > 0)
+                            @foreach($hotelPoliciesList as $policy)
+                                {{ $policy }}<br>  <!-- Line break for each hotel policy -->
+                            @endforeach
+                        @else
+                            No Hotel Policies Selected
+                        @endif
+                      </td>
+
+                      
+
+                      <td>
+
+                        @php
+                            $roomAmenitiesList = explode(',', $hotel->room_amenities);  // Exploding the comma-separated room amenities
+                        @endphp
+
+                        @if(count($roomAmenitiesList) > 0)
+                            @foreach($roomAmenitiesList as $amenity)
+                                {{ $amenity }}<br>  <!-- Line break for each room amenity -->
+                            @endforeach
+                        @else
+                            No Room Amenities Selected
+                        @endif
+                            $roomAmenitiesList = explode(',', $hotel->room_amenities);  // Exploding the comma-separated room amenities
+                        @endphp
+
+                        @if(count($roomAmenitiesList) > 0)
+                            @foreach($roomAmenitiesList as $amenity)
+                                {{ $amenity }}<br>  <!-- Line break for each room amenity -->
+                            @endforeach
+                        @else
+                            No Room Amenities Selected
+                        @endif
+
+                      </td>
+
                       <td>
                         @if (!empty($hotel->images) && json_decode($hotel->images))
                             @foreach (json_decode($hotel->images) as $image)
