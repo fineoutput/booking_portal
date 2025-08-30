@@ -181,7 +181,110 @@
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    
+                                    <div class="col-sm-6"><br>
+    <label class="form-label" style="margin-left: 10px">Nearby within Walking Distance</label>
+    <div id="output"></div>
+    <select name="nearby[]" multiple class="chosen-select">
+    <option value="Public transport within 1 km"
+        {{ in_array('Public transport within 1 km', explode(',', (is_array(old('nearby', $hotel->nearby ?? '')) ? implode(',', old('nearby', $hotel->nearby ?? '')) : (string) old('nearby', $hotel->nearby ?? '')))) ? 'selected' : '' }}>
+        Public transport within 1 km
+    </option>
+    <option value="Shopping centers within 1 km"
+        {{ in_array('Shopping centers within 1 km', explode(',', (is_array(old('nearby', $hotel->nearby ?? '')) ? implode(',', old('nearby', $hotel->nearby ?? '')) : (string) old('nearby', $hotel->nearby ?? '')))) ? 'selected' : '' }}>
+        Shopping centers within 1 km
+    </option>
+</select>
+
+    @error('nearby')
+        <div style="color:red;">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="col-sm-6"><br>
+    <label class="form-label" style="margin-left: 10px">Locality</label>
+    <div id="output"></div>
+    <select data-placeholder="" name="locality[]" multiple class="chosen-select">
+        <option value="Other Popular Areas"
+            {{ in_array('Other Popular Areas', explode(',', (is_array(old('locality', $hotel->locality ?? '')) ? implode(',', old('locality', $hotel->locality ?? '')) : (string) old('locality', $hotel->locality ?? '')))) ? 'selected' : '' }}>
+            Other Popular Areas
+        </option>
+        <option value="Near Popular Attractions"
+            {{ in_array('Near Popular Attractions', explode(',', (is_array(old('locality', $hotel->locality ?? '')) ? implode(',', old('locality', $hotel->locality ?? '')) : (string) old('locality', $hotel->locality ?? '')))) ? 'selected' : '' }}>
+            Near Popular Attractions
+        </option>
+        <option value="Near Transit Hub(s)"
+            {{ in_array('Near Transit Hub(s)', explode(',', (is_array(old('locality', $hotel->locality ?? '')) ? implode(',', old('locality', $hotel->locality ?? '')) : (string) old('locality', $hotel->locality ?? '')))) ? 'selected' : '' }}>
+            Near Transit Hub(s)
+        </option>
+    </select>
+    @error('locality')
+        <div style="color:red;">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="col-sm-6"><br>
+    <label class="form-label" style="margin-left: 10px">Chains</label>
+    <div id="output"></div>
+    <select data-placeholder="" name="chains[]" multiple class="chosen-select">
+        @foreach (['Marriott, Westin & Le Meridien','Moustache','Oyo Hotels','Sarovar','StayVista','Sterling Holiday resorts','Taj','Treebo Hotels','Zostel'] as $chain)
+            <option value="{{ $chain }}"
+                {{ in_array($chain, explode(',', (is_array(old('chains', $hotel->chains ?? '')) ? implode(',', old('chains', $hotel->chains ?? '')) : (string) old('chains', $hotel->chains ?? '')))) ? 'selected' : '' }}>
+                {{ $chain }}
+            </option>
+        @endforeach
+    </select>
+    @error('chains')
+        <div style="color:red;">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="col-sm-6"><br>
+    <label class="form-label" style="margin-left: 10px">Hotel Amenities</label>
+    <div id="output"></div>
+    <select data-placeholder="" name="hotel_amenities[]" multiple class="chosen-select">
+        @foreach (['Room Service','Balcony/Terrace','Barbeque','Cafe','EV Charging Station','Restaurant','Bar','Parking','Caretaker','Bonfire','Kitchenette','Elevator/Lift','Indoor Games','Living Room'] as $amenity)
+            <option value="{{ $amenity }}"
+                {{ in_array($amenity, explode(',', (is_array(old('hotel_amenities', $hotel->hotel_amenities ?? '')) ? implode(',', old('hotel_amenities', $hotel->hotel_amenities ?? '')) : (string) old('hotel_amenities', $hotel->hotel_amenities ?? '')))) ? 'selected' : '' }}>
+                {{ $amenity }}
+            </option>
+        @endforeach
+    </select>
+    @error('hotel_amenities')
+        <div style="color:red;">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="col-sm-6"><br>
+    <label class="form-label" style="margin-left: 10px">Room Amenities</label>
+    <div id="output"></div>
+    <select data-placeholder="" name="room_amenities[]" multiple class="chosen-select">
+        @foreach (['Fireplace','Interconnected Room','Bathtub','Kitchenette','Smoking Room','Private Pool','Balcony','Cook & Butler Service','Heater','Jacuzzi','Living Area'] as $room)
+            <option value="{{ $room }}"
+                {{ in_array($room, explode(',', (is_array(old('room_amenities', $hotel->room_amenities ?? '')) ? implode(',', old('room_amenities', $hotel->room_amenities ?? '')) : (string) old('room_amenities', $hotel->room_amenities ?? '')))) ? 'selected' : '' }}>
+                {{ $room }}
+            </option>
+        @endforeach
+    </select>
+    @error('room_amenities')
+        <div style="color:red;">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="col-sm-6"><br>
+    <label class="form-label" style="margin-left: 10px">House Rules</label>
+    <div id="output"></div>
+    <select data-placeholder="" name="house_rules[]" multiple class="chosen-select">
+        @foreach (['Smoking Allowed','Unmarried Couples Allowed','Pets Allowed','Alcohol Allowed','Non Veg Allowed'] as $rule)
+            <option value="{{ $rule }}"
+                {{ in_array($rule, explode(',', (is_array(old('house_rules', $hotel->house_rules ?? '')) ? implode(',', old('house_rules', $hotel->house_rules ?? '')) : (string) old('house_rules', $hotel->house_rules ?? '')))) ? 'selected' : '' }}>
+                {{ $rule }}
+            </option>
+        @endforeach
+    </select>
+    @error('house_rules')
+        <div style="color:red;">{{ $message }}</div>
+    @enderror
+</div>
                                     
                                     
                                     

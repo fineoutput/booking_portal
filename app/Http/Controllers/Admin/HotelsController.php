@@ -207,7 +207,13 @@ public function update(Request $request, $id)
     $hotel->hotel_category = $request->hotel_category;
     $hotel->package_id = is_array($request->package_id) ? implode(',', $request->package_id) : null;
     $hotel->meal_plan = is_array($request->meal_plan) ? implode(',', $request->meal_plan) : null;
-
+    $hotel->nearby = is_array($request->nearby) ? implode(',', $request->nearby) : null;
+    $hotel->locality = is_array($request->locality) ? implode(',', $request->locality) : null;
+    $hotel->chains = is_array($request->chains) ? implode(',', $request->chains) : null;
+    $hotel->hotel_amenities = is_array($request->hotel_amenities) ? implode(',', $request->hotel_amenities) : null;
+    $hotel->room_amenities = is_array($request->room_amenities) ? implode(',', $request->room_amenities) : null;
+    $hotel->house_rules = is_array($request->house_rules) ? implode(',', $request->house_rules) : null;
+    
     $hotel->images = json_encode(array_values($imagePaths)); 
     $hotel->save();
 
