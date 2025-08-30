@@ -134,7 +134,7 @@
                         </td>
                         <td>
                           @php
-                              $mealPlans = explode(',', $hotel->meal_plan);  // Exploding the comma-separated meal plans
+                              $mealPlans = explode(',', $hotel->meal_plan);  
                           @endphp
                       
                           @if(count($mealPlans) > 0)
@@ -159,12 +159,12 @@
 
                       <td>
                           @php
-                              $nearbyList = explode(',', $hotel->nearby);  // Exploding the comma-separated nearby places
+                              $nearbyList = explode(',', $hotel->nearby); 
                           @endphp
                       
                           @if(count($nearbyList) > 0)
                               @foreach($nearbyList as $nearby)
-                                  {{ $nearby }}<br>  <!-- Line break for each nearby place -->
+                                  {{ $nearby }}<br>  
                               @endforeach
                           @else
                               No Nearby Places Selected
@@ -173,12 +173,12 @@
 
                       <td>
                           @php
-                              $localityList = explode(',', $hotel->locality);  // Exploding the comma-separated locality
+                              $localityList = explode(',', $hotel->locality);  
                           @endphp
 
                           @if(count($localityList) > 0)
                               @foreach($localityList as $locality)
-                                  {{ $locality }}<br>  <!-- Line break for each locality -->
+                                  {{ $locality }}<br>  
                               @endforeach
                           @else
                               No Locality Selected
@@ -187,12 +187,12 @@
 
                       <td>
                         @php
-                            $chainsList = explode(',', $hotel->chains);  // Exploding the comma-separated chains
+                            $chainsList = explode(',', $hotel->chains); 
                         @endphp
 
                         @if(count($chainsList) > 0)
                             @foreach($chainsList as $chain)
-                                {{ $chain }}<br>  <!-- Line break for each chain -->
+                                {{ $chain }}<br> 
                             @endforeach
                         @else
                             No Chains Selected
@@ -202,12 +202,12 @@
                       <td>
 
                         @php
-                            $hotelAmenitiesList = explode(',', $hotel->hotel_amenities);  // Exploding the comma-separated hotel amenities
+                            $hotelAmenitiesList = explode(',', $hotel->hotel_amenities);  
                         @endphp
 
                         @if(count($hotelAmenitiesList) > 0)
                             @foreach($hotelAmenitiesList as $amenity)
-                                {{ $amenity }}<br>  <!-- Line break for each hotel amenity -->
+                                {{ $amenity }}<br>  
                             @endforeach
                         @else
                             No Hotel Amenities Selected
@@ -222,12 +222,12 @@
                       <td>
 
                         @php
-                            $roomAmenitiesList = explode(',', $hotel->room_amenities);  // Exploding the comma-separated room amenities
+                            $roomAmenitiesList = explode(',', $hotel->room_amenities);  
                         @endphp
 
                         @if(count($roomAmenitiesList) > 0)
                             @foreach($roomAmenitiesList as $amenity)
-                                {{ $amenity }}<br>  <!-- Line break for each room amenity -->
+                                {{ $amenity }}<br>  
                             @endforeach
                        
                         @else
@@ -239,12 +239,12 @@
                       <td>
 
                         @php
-                            $hotelPoliciesList = explode(',', $hotel->house_rules);  // Exploding the comma-separated hotel policies
+                            $hotelPoliciesList = explode(',', $hotel->house_rules); 
                         @endphp
 
                         @if(count($hotelPoliciesList) > 0)
                             @foreach($hotelPoliciesList as $policy)
-                                {{ $policy }}<br>  <!-- Line break for each hotel policy -->
+                                {{ $policy }}<br> 
                             @endforeach
                         @else
                             No Hotel Policies Selected
