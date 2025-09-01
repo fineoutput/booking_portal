@@ -64,33 +64,124 @@
   }
 </style>
 
-{{-- @if($slider)
-    <div id="responsive-slider" class="splide mt-5" style="background: #ffd600">
-      <div class="layie">
-        
-                        </div>  
-    <div class="splide__track">
-        
-          <ul class="splide__list">
-            @foreach ($slider as $value)
-            <li class="splide__slide">
-              <picture>
-                  <source media="(min-width: 1200px)" srcset="{{ asset($value->image) }}">
-                  <source media="(min-width: 768px)" srcset="{{ asset($value->image) }}">
-                  <source media="(max-width: 767px)" srcset="{{ asset($value->image) }}">
-                  <img class="chats" style="border-radius: 0;" src="{{ asset($value->image) }}" alt="Responsive Banner">
-              </picture>
-          </li>
-            @endforeach
-           
+
+
+  <div class="header-container_hotels">
+    
+    <div class="search-header_hotels">
+      <!-- Destination Dropdown -->
+      <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+        <div class="filter-label_hotels">Destination</div>
+        <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..." class="search-input"></div>
+        <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+          
+          <form action="" method="POST" id="filter-form">
+            @csrf
+            
+            <!-- Search input added here -->
+            <div class="search-container">
+              {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..." class="search-input"> --}}
+            </div>
+            
+            
+            <label class="d-flex "  class="city-label orSamar" style="
+    border-bottom: 1px solid #00000033;     padding: 10px;
+">
+            <div class="city_list_htotle city-item mb-2">
+              <div class="desMund d-flex align-items-center gap-2">
+              <div class="sizemaze">
+                <!-- Image representing the city -->
+                <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+              </div>
+              <p class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></p>
               
-       
-          </ul>
-      </div>
+                <div class="hotel_place">
+                    <!-- Input field for the city selection -->
+                    <input type="radio" name="city_id"  class="destination-option_hotels opacity-0" onclick>
+                    
+                    <span class="hotels_spn"></span>
+                </div>
+                </div>
+            </div>
+            <p id="no_city">no city found</p>
+            </label>
+          
+
+        </div>
     </div>
-    @endif --}}
+      
 
 
+      <!-- Check-in Date -->
+      <div class="filter-item_hotels sachi">
+  <div class="filter-label_hotels">Select Dates</div>
+  <input type="text" id="date-range" class="filter-value_hotels" placeholder="Choose date range" readonly>
+  <input type="hidden" name="start_date" id="start_date">
+  <input type="hidden" name="end_date" id="end_date">
+</div>
+
+      <!-- Guests Dropdown -->
+      <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
+        <div class="filter-label_hotels">Guests</div>
+        
+          <div class="filter-value_hotels" id="guests-value">1 guest</div>
+        
+        <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+            <div class="guest-option_hotels">
+            <label>No. of Rooms</label>
+            <div class="counter_hotels">
+              <button type="button" onclick="updateGuests('infants', -1)">-</button>
+              <input type="number" id="infants-count" value="1" min="1">
+              <button type="button" onclick="updateGuests('infants', 1)">+</button>
+            </div>
+          </div>
+          <div class="guest-option_hotels">
+            <label>Adults</label>
+            <div class="counter_hotels">
+              <button type="button" onclick="updateGuests('adults', -1)">-</button>
+              <input type="number" id="adults-count" value="1" min="1">
+              <button type="button" onclick="updateGuests('adults', 1)">+</button>
+            </div>
+          </div>
+          <div class="guest-option_hotels">
+  <label>Children</label>
+  <div class="counter_hotels">
+    <button type="button" onclick="updateChildren(-1)">-</button>
+    <input type="number" id="children-count" value="0" min="0">
+    <button type="button" onclick="updateChildren(1)">+</button>
+  </div>
+
+  <!-- Dynamic child age dropdowns appear here -->
+  
+</div>
+<hr id="what">
+<div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
+    Children age
+  </div>
+
+  <!-- Dynamic child age dropdowns appear here -->
+  <div id="children-ages"> </div>
+        
+        </div>
+      </div>
+     
+ <button type="submit" class="cutPiece" style="border: none; background: none;">
+      <div class="search_sba">
+        <div class="sba_center_Sarch">
+       
+          search
+        {{-- <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;"> --}}
+       
+      </div>
+      </div>
+    </button>
+    </form>
+
+    </div>
+  </div>
+
+
+  <hr>
 <section class="navigation_sect mt-5">
   <div class="container">
     <div class="row">
@@ -98,6 +189,7 @@
         <div class="left_navi_det">
           <h6>18 Manali Holiday Packages</h6>
           <p>Showing 1-10 packages from 18 packages</p>
+          
         </div>
         <div class="navi_full_list">
 
@@ -339,6 +431,152 @@
       // Set the updated URL as the form action and submit the form
       window.location.href = url; // Redirect to the updated URL
   };
+</script>
+
+<script>
+document.getElementById('filter-form').onsubmit = function(event) {
+    event.preventDefault();
+
+    // Get the selected city_id
+    const city_id = document.querySelector('input[name="city_id"]:checked'); // Get selected radio button
+
+    if (city_id) {
+        // If a city is selected, get the value
+        const cityValue = city_id.value;
+        const start_date = document.getElementById('start_date').value;
+        const end_date = document.getElementById('end_date').value;
+
+        // Construct the URL with parameters
+        const actionUrl = '{{ route("filterHotels") }}'; // Using GET method
+        const finalUrl = `${actionUrl}?city_id=${cityValue}&start_date=${start_date}&end_date=${end_date}`;
+
+        // Redirect to the new URL with parameters (trigger a GET request)
+        window.location.href = finalUrl;
+    } else {
+        // If no city is selected, you might want to show an error or prompt the user to select a city
+        alert("Please select a city.");
+    }
+};
+
+</script>
+<script>
+function updateChildren(change) {
+  let input = document.getElementById("children-count");
+  let currentValue = parseInt(input.value) || 0;
+  let newValue = currentValue + change;
+
+  if (newValue < 0) newValue = 0; // prevent negatives
+  input.value = newValue;
+
+  updateChildrenAges(newValue);
+}
+
+function updateChildrenAges(count) {
+  const container = document.getElementById("children-ages");
+  const label = document.getElementById("children-age-label");
+
+  container.innerHTML = ""; // Clear old dropdowns
+
+  if (count > 0) {
+    label.style.display = "block"; // show label when children exist
+    container.style.display = "grid";
+    container.style.gridTemplateColumns = "1fr 1fr"; // 2 columns
+    container.style.gap = "10px";
+    container.style.marginTop = "10px";
+  } else {
+    label.style.display = "none"; // hide label when no children
+    container.style.display = "none";
+  }
+
+  for (let i = 1; i <= count; i++) {
+    let wrapper = document.createElement("div");
+    wrapper.style.display = "flex";
+    wrapper.style.alignItems = "center";
+
+    let childLabel = document.createElement("span");
+    childLabel.innerText = `Child ${i}`;
+    childLabel.style.marginRight = "8px";
+    childLabel.style.fontSize = "14px";
+    childLabel.style.fontWeight = "bold";
+
+    let select = document.createElement("select");
+    select.name = `child_age_${i}`;
+    select.classList.add("child-age-select");
+
+    for (let age = 0; age <= 17; age++) {
+      let option = document.createElement("option");
+      option.value = age;
+      option.text = `${age} years`;
+      select.appendChild(option);
+    }
+
+    wrapper.appendChild(childLabel);
+    wrapper.appendChild(select);
+    container.appendChild(wrapper);
+  }
+}
+
+</script>
+<script>
+function filterCities() {
+  const searchQuery = document.getElementById('city-search').value.toLowerCase();
+  const cityItems = document.querySelectorAll('.city-item');
+  
+    let matchFound = false;
+
+  cityItems.forEach(function(item) {
+    const cityName = item.textContent.trim().toLowerCase();
+    if (cityName.includes(searchQuery)) {
+      item.style.display = 'flex'; // show if match
+      // noCity.style.display='none';
+      matchFound = true;
+    } else {
+      item.style.display = 'none';
+      // noCity.style.display='block ' // hide if no match
+    }
+  });
+
+  // Show or hide "no city found" message
+  const noCity = document.getElementById('no_city');
+  if (matchFound) {
+    noCity.style.display = 'none';
+  } else {
+    noCity.style.display = 'block';
+  }
+}
+
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const picker = new Litepicker({
+      element: document.getElementById('date-range'),
+      singleMode: false,
+      numberOfMonths: 2,
+      numberOfColumns: 2,
+      format: 'MM-DD-YYYY',
+      autoApply: true,
+      showTooltip: true,
+      tooltipText: {
+        one: 'day',
+        other: 'days'
+      },
+      setup: (picker) => {
+        picker.on('selected', (date1, date2) => {
+          document.getElementById('start_date').value = date1.format('MM-DD-YYYY');
+          document.getElementById('end_date').value = date2.format('MM-DD-YYYY');
+        });
+
+        // Add labels after calendar is rendered
+        picker.on('render', () => {
+          const months = picker.ui.querySelectorAll('.container__months > .month-item');
+          if (months.length === 2) {
+            months[0].insertAdjacentHTML('afterbegin', '<div class="month-label" style="text-align:center; font-weight:bold; padding:5px;">Start Date</div>');
+            months[1].insertAdjacentHTML('afterbegin', '<div class="month-label" style="text-align:center; font-weight:bold; padding:5px;">End Date</div>');
+          }
+        });
+      }
+    });
+  });
 </script>
 
 @endsection
