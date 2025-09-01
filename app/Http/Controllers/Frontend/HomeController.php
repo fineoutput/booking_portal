@@ -1415,7 +1415,7 @@ public function getVehiclesByCity($cityId)
         $min_price = $request->query('min_price');
         $max_price = $request->query('max_price');
 
-        $query = Hotels::where('show_front',1)->query();
+        $query = Hotels::where('show_front', 1);
 
         if ($city_id) {
             $query->where('city_id', $city_id);
