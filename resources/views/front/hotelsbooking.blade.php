@@ -141,12 +141,13 @@
   <!-- Dynamic child age dropdowns appear here -->
   
 </div>
+<hr id="what">
 <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
     Children age
   </div>
 
   <!-- Dynamic child age dropdowns appear here -->
-  <div id="children-ages"></div>
+  <div id="children-ages"> </div>
         
         </div>
       </div>
