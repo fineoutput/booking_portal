@@ -62,6 +62,33 @@
       margin-top: 10px;
       color: #666;
   }
+
+
+    .filter-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 100%;
+    font-family: Arial, sans-serif;
+  }
+  .filter-box h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  .filter-group {
+    margin-bottom: 15px;
+  }
+  .filter-group h5 {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  .filter-group label {
+    font-size: 14px;
+    cursor: pointer;
+  }
+  input[type="checkbox"] {
+    margin-right: 6px;
+  }
 </style>
 
 
@@ -195,22 +222,74 @@
 
           <form id="filter-form" action="" method="GET">
             <!-- Price Filter Section -->
-            <div class="price-filter-container">
-                <div class="price-inputs">
-                    <input name="min_price" type="number" class="price-input" id="minPrice" placeholder="Min price" value="{{ request()->input('min_price') }}">
-                    <input name="max_price" type="number" class="price-input" id="maxPrice" placeholder="Max price" value="{{ request()->input('max_price') }}">
-                </div>
-                <div class="slider-container">
-                    <div class="slider-track"></div>
-                    <div class="slider-range"></div>
-                    <div class="slider-thumb" id="minThumb"></div>
-                    <div class="slider-thumb" id="maxThumb"></div>
-                </div>
-                <div class="price-label">
-                    Selected price range: ₹<span id="minValue">{{ request()->input('min_price', 0) }}</span> - ₹<span id="maxValue">{{ request()->input('max_price', 100000) }}</span>
-                </div>
+            
+            
+            <div class="filter-box">
+                <div class="filter-group">
+    <h5>Star Category</h5>
+    <label><input type="checkbox" name="star" value="5"> 5 Star</label><br>
+    <label><input type="checkbox" name="star" value="4"> 4 Star</label><br>
+    <label><input type="checkbox" name="star" value="3"> 3 Star</label><br>
+    <label><input type="checkbox" name="star" value="2"> 2 Star</label><br>
+  </div>
             </div>
-        
+            <div class="filter-box">
+                <div class="filter-group">
+    <h5>MEAL PLAN</h5>
+    <label><input type="checkbox" name="meal_plan" value="breakfast"> Breakfast + Lunch/Dinner Included</label><br>
+    <label><input type="checkbox" name="meal_plan" value="lunch"> All Meals Included</label><br>
+    <label><input type="checkbox" name="meal_plan" value="dinner"> Only rooms </label><br>
+    <label><input type="checkbox" name="meal_plan" value="dinner"> Breakfast Included </label><br>
+  </div>
+            </div>
+            
+            <div class="filter-box">
+                <div class="filter-group">
+    <h5>Nearby within Walking Distance</h5>
+    <label><input type="checkbox" name="nearby" value="public_transport"> Public transport within 1 km</label><br>
+    <label><input type="checkbox" name="nearby" value="shopping"> Shopping centers within 1 km</label><br>
+  </div>
+            </div>
+            
+            <div class="filter-box">
+                <div class="filter-group">
+    <h5>Locality</h5>
+    <label><input type="checkbox" name="locality" value="popular"> Other Popular Areas</label><br>
+    <label><input type="checkbox" name="locality" value="attractions"> Near Popular Attractions</label><br>
+    <label><input type="checkbox" name="locality" value="transit"> Near Transit Hub(s)</label><br>
+  </div>
+            </div>
+            
+            <div class="filter-box">
+                <div class="filter-group">
+    <h5>Total Price With Tax</h5>
+    <label><input type="checkbox" name="locality" value="popular">₹ 0 - ₹ 2500</label><br>
+    <label><input type="checkbox" name="locality" value="attractions">₹ 2500 - ₹ 4500</label><br>
+    <label><input type="checkbox" name="locality" value="transit">₹ 4500 - ₹ 7000 </label><br>
+    <label><input type="checkbox" name="locality" value="transit">₹ 9500 - ₹ 11000 </label><br>
+    <label><input type="checkbox" name="locality" value="transit">₹ 11000 - ₹ 49000</label><br>
+    <label><input type="checkbox" name="locality" value="transit">₹ 49000+</label><br>
+  </div>
+            </div>
+            <div class="filter-box">
+                <div class="filter-group">
+    <h5>Chains</h5>
+    <label><input type="checkbox" name="locality" value="popular">Marriott, Westin & Le Meridien</label><br>
+    <label><input type="checkbox" name="locality" value="attractions">Moustache</label><br>
+    <label><input type="checkbox" name="locality" value="transit">Oyo Hotels</label><br>
+    <label><input type="checkbox" name="locality" value="transit">Sarovar</label><br>
+    <label><input type="checkbox" name="locality" value="transit">StayVista</label><br>
+    <label><input type="checkbox" name="locality" value="transit">Sterling Holiday resorts</label><br>
+    <label><input type="checkbox" name="locality" value="transit">Taj</label><br>
+    <label><input type="checkbox" name="locality" value="transit">Treebo Hotels</label><br>
+    <label><input type="checkbox" name="locality" value="transit">Zostel</label><br>
+  </div>
+            </div>
+            
+
+
+
+
             <div class="d-flex justify-content-center ">
             <button class="_btn" type="submit ">Apply Filter</button>
           </div>
