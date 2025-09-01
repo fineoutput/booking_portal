@@ -1380,7 +1380,7 @@ public function getVehiclesByCity($cityId)
     public function hotelsbooking()
     {
         // Get all hotels
-        $data['hotel'] = Hotels::all();
+        $data['hotel'] = Hotels::where('show_front',1)->get();
     
         // Get all sliders for hotels
         $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
@@ -1415,7 +1415,7 @@ public function getVehiclesByCity($cityId)
         $min_price = $request->query('min_price');
         $max_price = $request->query('max_price');
 
-        $query = Hotels::query();
+        $query = Hotels::where('show_front',1)->query();
 
         if ($city_id) {
             $query->where('city_id', $city_id);
