@@ -114,6 +114,14 @@
           <div class="filter-value_hotels" id="guests-value">1 guest</div>
         
         <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+            <div class="guest-option_hotels">
+            <label>No. of Rooms</label>
+            <div class="counter_hotels">
+              <button type="button" onclick="updateGuests('infants', -1)">-</button>
+              <input type="number" id="infants-count" value="1" min="1">
+              <button type="button" onclick="updateGuests('infants', 1)">+</button>
+            </div>
+          </div>
           <div class="guest-option_hotels">
             <label>Adults</label>
             <div class="counter_hotels">
@@ -123,21 +131,23 @@
             </div>
           </div>
           <div class="guest-option_hotels">
-            <label>Children</label>
-            <div class="counter_hotels">
-              <button type="button" onclick="updateGuests('children', -1)">-</button>
-              <input type="number" id="children-count" value="1" min="1">
-              <button type="button" onclick="updateGuests('children', 1)">+</button>
-            </div>
-          </div>
-          <div class="guest-option_hotels">
-            <label>No. of Rooms</label>
-            <div class="counter_hotels">
-              <button type="button" onclick="updateGuests('infants', -1)">-</button>
-              <input type="number" id="infants-count" value="1" min="1">
-              <button type="button" onclick="updateGuests('infants', 1)">+</button>
-            </div>
-          </div>
+  <label>Children</label>
+  <div class="counter_hotels">
+    <button type="button" onclick="updateChildren(-1)">-</button>
+    <input type="number" id="children-count" value="0" min="0">
+    <button type="button" onclick="updateChildren(1)">+</button>
+  </div>
+
+  <!-- Dynamic child age dropdowns appear here -->
+  
+</div>
+<div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
+    Children age
+  </div>
+
+  <!-- Dynamic child age dropdowns appear here -->
+  <div id="children-ages"></div>
+        
         </div>
       </div>
       <button type="submit" class="cutPiece" style="border: none; background: none;">
@@ -292,6 +302,64 @@
     
   </div>
 </section>
+<script>
+function updateChildren(change) {
+  let input = document.getElementById("children-count");
+  let currentValue = parseInt(input.value) || 0;
+  let newValue = currentValue + change;
+
+  if (newValue < 0) newValue = 0; // prevent negatives
+  input.value = newValue;
+
+  updateChildrenAges(newValue);
+}
+
+function updateChildrenAges(count) {
+  const container = document.getElementById("children-ages");
+  const label = document.getElementById("children-age-label");
+
+  container.innerHTML = ""; // Clear old dropdowns
+
+  if (count > 0) {
+    label.style.display = "block"; // show label when children exist
+    container.style.display = "grid";
+    container.style.gridTemplateColumns = "1fr 1fr"; // 2 columns
+    container.style.gap = "10px";
+    container.style.marginTop = "10px";
+  } else {
+    label.style.display = "none"; // hide label when no children
+    container.style.display = "none";
+  }
+
+  for (let i = 1; i <= count; i++) {
+    let wrapper = document.createElement("div");
+    wrapper.style.display = "flex";
+    wrapper.style.alignItems = "center";
+
+    let childLabel = document.createElement("span");
+    childLabel.innerText = `Child ${i}`;
+    childLabel.style.marginRight = "8px";
+    childLabel.style.fontSize = "14px";
+    childLabel.style.fontWeight = "bold";
+
+    let select = document.createElement("select");
+    select.name = `child_age_${i}`;
+    select.classList.add("child-age-select");
+
+    for (let age = 0; age <= 17; age++) {
+      let option = document.createElement("option");
+      option.value = age;
+      option.text = `${age} years`;
+      select.appendChild(option);
+    }
+
+    wrapper.appendChild(childLabel);
+    wrapper.appendChild(select);
+    container.appendChild(wrapper);
+  }
+}
+
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Only for mobile
