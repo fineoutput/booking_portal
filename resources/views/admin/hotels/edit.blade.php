@@ -79,13 +79,14 @@
                                     <!-- Hotel Category -->
                                     <div class="col-sm-4 mt-2">
                                         <select class="form-control" name="hotel_category" id="hotel_category" required>
-                                            <option value="Standard" {{ old('hotel_category', $hotel->category) == 'Standard' ? 'selected' : '' }}>Standard (2 star)</option>
-                                            <option value="Deluxe" {{ old('hotel_category', $hotel->category) == 'Deluxe' ? 'selected' : '' }}>Deluxe (3 star)</option>
-                                            <option value="Premium_3" {{ old('hotel_category', $hotel->category) == 'Premium_3' ? 'selected' : '' }}>Premium (3 star)</option>
-                                            <option value="Super deluxe" {{ old('hotel_category', $hotel->category) == 'Super deluxe' ? 'selected' : '' }}>Deluxe (4 star)</option>
-                                            <option value="Premium" {{ old('hotel_category', $hotel->category) == 'Premium' ? 'selected' : '' }}>Premium (4 star)</option>
-                                            <option value="Luxury" {{ old('hotel_category', $hotel->category) == 'Luxury' ? 'selected' : '' }}>Deluxe  (5 star)</option>
-                                            
+                                            <option value="">Select Hotel Category</option>
+                                            <option value="5 Star" {{ old('hotel_category', $hotel->category) == '5 Star' ? 'selected' : '' }}>5 Star</option>
+                                            <option value="4 Star" {{ old('hotel_category', $hotel->category) == '4 Star' ? 'selected' : '' }}>4 Star</option>
+                                            <option value="3 Star" {{ old('hotel_category', $hotel->category) == '3 Star' ? 'selected' : '' }}>3 Star</option>
+                                            <option value="2 Star" {{ old('hotel_category', $hotel->category) == '2 Star' ? 'selected' : '' }}>2 Star</option>
+                                            <option value="Dormetry" {{ old('hotel_category', $hotel->category) == 'Dormetry' ? 'selected' : '' }}>Dormetry</option>
+                                            <option value="Villas / Homestay" {{ old('hotel_category', $hotel->category) == 'Villas / Homestay' ? 'selected' : '' }}>Villas / Homestay</option>
+                                            <option value="Hostels" {{ old('hotel_category', $hotel->category) == 'Hostels' ? 'selected' : '' }}>Hostels</option>
                                         </select>
                                         <div class="form-floating">
                                             @error('hotel_category')

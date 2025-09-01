@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="col-sm-4 mt-2">
                                         <select class="form-control" name="hotel_category" id="hotel_category" required>
-                                            <option value="">Select Hotel Category</option>
+                                            <option selected disabled value="">Select Hotel Category</option>
                                             <option value="5 Star">5 Star</option>
                                             <option value="4 Star">4 Star</option>
                                             <option value="3 Star">3 Star</option>
@@ -81,7 +81,6 @@
                                             <option value="Dormetry">Dormetry</option>
                                             <option value="Villas / Homestay">Villas / Homestay</option>
                                             <option value="Hostels">Hostels</option>
-                                            
                                         </select>
                                         <div class="form-floating">
                                             @error('hotel_category')
