@@ -1939,7 +1939,11 @@ textarea.form-control {
 .guests-dropdown_hotels {
     width: 380px;
 }
-
+.child-age-select {
+    padding: 4px 4px;
+    border: 1px solid #00000042;
+    border-radius: 5px;
+}
 .guest-option_hotels {
   display: flex;
   justify-content: space-between;
