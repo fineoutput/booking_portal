@@ -1426,8 +1426,8 @@ public function getVehiclesByCity($cityId)
 
         $hotels = $query->get();
 
-        $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
-        $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
+        $formatted_start_date = Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d');
+        $formatted_end_date = Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d');
 
         $hotel_ids = $hotels->pluck('id');
 
