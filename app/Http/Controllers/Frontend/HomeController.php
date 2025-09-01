@@ -1407,70 +1407,80 @@ public function getVehiclesByCity($cityId)
 
    
 
-  public function filterHotels(Request $request)
+ public function filterHotels(Request $request)
     {
-        // Retrieve the parameters from the URL query string
         $city_id = $request->query('city_id');
         $start_date = $request->query('start_date');
         $end_date = $request->query('end_date');
-        $min_price = $request->query('min_price');  // Min price from the form
-        $max_price = $request->query('max_price');  // Max price from the form
+        $min_price = $request->query('min_price');
+        $max_price = $request->query('max_price');
 
-        // Query to get all hotels
         $query = Hotels::query();
 
-        // If a city_id is provided, filter by city
         if ($city_id) {
-            $query = $query->where('city_id', $city_id);
+            $query->where('city_id', $city_id);
         }
 
         $hotels = $query->get();
-
-        $formatted_start_date = Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d');
-        $formatted_end_date = Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d');
-
         $hotel_ids = $hotels->pluck('id');
 
-        $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
-                                ->where('start_date', '<=', $formatted_start_date)
-                                ->where('end_date', '>=', $formatted_end_date);
+        // Safe date parsing
+        $formatted_start_date = null;
+        $formatted_end_date = null;
 
-// If min_price is provided, filter by min price
-if ($min_price) {
-    $hotel_prices_query = $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
-}
+        try {
+            if (!empty($start_date)) {
+                $formatted_start_date = Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d');
+            }
+            if (!empty($end_date)) {
+                $formatted_end_date = Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d');
+            }
+        } catch (\Exception $e) {
+            // Handle parsing error if needed
+            return redirect()->back()->withErrors(['Invalid date format provided.']);
+        }
 
-// If max_price is provided, filter by max price
-if ($max_price) {
-    $hotel_prices_query = $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
-}
+        $hotel_prices = collect(); // Default empty collection
+        $filtered_hotels = $hotels; // Default to all hotels
 
-        $hotel_prices = $hotel_prices_query->get()->keyBy('hotel_id');
+        if ($formatted_start_date && $formatted_end_date) {
+            $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+                ->where('start_date', '<=', $formatted_start_date)
+                ->where('end_date', '>=', $formatted_end_date);
 
-        $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices) {
-            return isset($hotel_prices[$hotel->id]) && $hotel_prices[$hotel->id]->night_cost >= request()->query('min_price', 0) && $hotel_prices[$hotel->id]->night_cost <= request()->query('max_price', 1000000);
-        });
+            if ($min_price) {
+                $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
+            }
 
+            if ($max_price) {
+                $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
+            }
+
+            $hotel_prices = $hotel_prices_query->get()->keyBy('hotel_id');
+
+            $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices, $min_price, $max_price) {
+                $min = $min_price ?? 0;
+                $max = $max_price ?? 1000000;
+
+                return isset($hotel_prices[$hotel->id]) &&
+                    $hotel_prices[$hotel->id]->night_cost >= $min &&
+                    $hotel_prices[$hotel->id]->night_cost <= $max;
+            });
+        }
 
         $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
 
-        // Prepare data for the view
-        $data = [
-            'hotels' => $filtered_hotels, // Only pass the filtered hotels
+        return view('front.hotel_list', [
+            'hotels' => $filtered_hotels,
             'hotel_prices' => $hotel_prices,
             'start_date' => $start_date,
             'end_date' => $end_date,
             'slider' => $slider,
-            'city_id' => $city_id,  // Include city_id for re-populating the filter form
-            'min_price' => $min_price,  // Pass min_price to the view
-            'max_price' => $max_price,  // Pass max_price to the view
-        ];
-
-        // Return the updated filtered hotel list view with the necessary data
-        return view('front.hotel_list', $data);
+            'city_id' => $city_id,
+            'min_price' => $min_price,
+            'max_price' => $max_price,
+        ]);
     }
-
-
   
     
     
