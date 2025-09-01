@@ -221,7 +221,7 @@
 
  
 </section> --}}
-<div class="container">
+<div class="container mt-5">
   <div class="col-lg-12 setts ">
       <div class="splide" id="popularCitiesSlider">
         <div class="splide__track">
