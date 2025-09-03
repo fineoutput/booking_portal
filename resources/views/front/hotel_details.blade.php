@@ -4,7 +4,10 @@
 <style>
     .splide__arrow {
     display: none;
-}   
+}  
+.guests-dropdown_hotels {
+    width: 100%;
+} 
 @media (min-width: 768px) {
 
 
@@ -188,6 +191,42 @@
                             </span>
                         </div>
                     </div>
+                    <div class="nizam_abt mt-5">
+                        <h4 class="naxo">About this place</h4>
+
+                        <div class="ho_bhe">
+                            <span>
+                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="nizam_abt mt-5">
+                        <h4 class="naxo">About this place</h4>
+
+                        <div class="ho_bhe">
+                            <span>
+                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="nizam_abt mt-5">
+                        <h4 class="naxo">About this place</h4>
+
+                        <div class="ho_bhe">
+                            <span>
+                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="nizam_abt mt-5">
+                        <h4 class="naxo">About this place</h4>
+
+                        <div class="ho_bhe">
+                            <span>
+                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
+                            </span>
+                        </div>
+                    </div>
                    
                 </div>
 
@@ -225,6 +264,14 @@
                                                     <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
                                                 </div>
                                                 <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+                                                     <div class="guest-option_hotels">
+                                                        <label>No. of Rooms</label>
+                                                        <div class="counter_hotels">
+                                                            <button type="button" onclick="updateGuestss('infants', -1)">-</button>
+                                                            <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestss()">
+                                                            <button type="button" onclick="updateGuestss('infants', 1)">+</button>
+                                                        </div>
+                                                    </div>
                                                     <div class="guest-option_hotels">
                                                         <label>Adults</label>
                                                         <div class="counter_hotels">
@@ -233,22 +280,26 @@
                                                             <button type="button" onclick="updateGuestss('adults', 1)">+</button>
                                                         </div>
                                                     </div>
-                                                    <div class="guest-option_hotels">
-                                                        <label>Children</label>
-                                                        <div class="counter_hotels">
-                                                            <button type="button" onclick="updateGuestss('children', -1)">-</button>
-                                                            <input type="number" id="children-count" value="0" min="0" onchange="updateGuestss()">
-                                                            <button type="button" onclick="updateGuestss('children', 1)">+</button>
-                                                        </div>
+                                                   
+                                                  
+
+                                                     <div class="guest-option_hotels">
+                                                    <label>Children</label>
+                                                    <div class="counter_hotels">
+                                                        <button type="button" onclick="updateGuestss('children', -1)">-</button>
+                                                        <input type="number" id="children-count" value="0" min="0" onchange="updateGuestss()">
+                                                        <button type="button" onclick="updateGuestss('children', 1)">+</button>
                                                     </div>
-                                                    <div class="guest-option_hotels">
-                                                        <label>No. of Rooms</label>
-                                                        <div class="counter_hotels">
-                                                            <button type="button" onclick="updateGuestss('infants', -1)">-</button>
-                                                            <input type="number" id="infants-count" value="0" min="0" onchange="updateGuestss()">
-                                                            <button type="button" onclick="updateGuestss('infants', 1)">+</button>
-                                                        </div>
+
+ 
                                                     </div>
+                                                    <!-- Section label (hidden initially) -->
+                                                        <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
+                                                            Children age
+                                                        </div>
+
+                                                        <!-- Dropdowns container -->
+                                                        <div id="children-ages"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -450,6 +501,9 @@ function updateGuestCounts() {
         if (count >= 0) {
             countElement.value = count;
             updateGuestCounts();
+              if (type === 'children') {
+            updateChildrenAges(count);
+        }
             updateNightCount(); // Ensure price updates when guest counts change
         }
     }
@@ -465,7 +519,52 @@ function updateGuestCounts() {
         document.getElementById('guest_count').value = totalGuests;
     }
 </script>
+<script>
+    function updateChildrenAges(count) {
+    const container = document.getElementById("children-ages");
+    const label = document.getElementById("children-age-label");
 
+    container.innerHTML = ""; // Clear old dropdowns
+
+    if (count > 0) {
+        label.style.display = "block"; // show "Children age" label
+        container.style.display = "grid";
+        container.style.gridTemplateColumns = "1fr 1fr"; // 2-column layout
+        container.style.gap = "10px";
+        container.style.marginTop = "10px";
+    } else {
+        label.style.display = "none"; // hide if no children
+        container.style.display = "none";
+    }
+
+    for (let i = 1; i <= count; i++) {
+        let wrapper = document.createElement("div");
+        wrapper.style.display = "flex";
+        wrapper.style.alignItems = "center";
+
+        let childLabel = document.createElement("span");
+        childLabel.innerText = `Child ${i}`;
+        childLabel.style.marginRight = "8px";
+        childLabel.style.fontSize = "14px";
+
+        let select = document.createElement("select");
+        select.name = `child_age_${i}`;
+        select.classList.add("child-age-select");
+
+        for (let age = 0; age <= 17; age++) {
+            let option = document.createElement("option");
+            option.value = age;
+            option.text = `${age} years`;
+            select.appendChild(option);
+        }
+
+        wrapper.appendChild(childLabel);
+        wrapper.appendChild(select);
+        container.appendChild(wrapper);
+    }
+}
+
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         new Splide('#phlGlb', {
