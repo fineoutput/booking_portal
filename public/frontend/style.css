@@ -2540,3 +2540,36 @@ textarea.form-control {
     box-shadow: 0px 3px 5px 1px #00000030;
 }
 
+.roomsetc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #8080804f;
+    padding: 10px;
+    border-radius: 10px;
+    background: #27adff17;
+    margin-bottom: 20px;
+}
+.room_type select {
+    background: transparent;
+    outline: none;
+    width: 100%;
+    border: 1px solid #b0b0b06e;
+    padding: 5px;
+    border-radius: 5px;
+}
+.karwit_set {
+    font-size: 20px;
+    font-weight: bold;
+    color: #27adff;
+}
+.room_mode label {
+    font-size: 16px;
+    font-weight: bold;
+}
+.room_mode select {
+    border: 1px solid #8e818161;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}

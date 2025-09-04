@@ -117,9 +117,22 @@
 </div>
         </div>
 
+        
         <div class="other_dets mt-5">
             <div class="row">
                 <div class="col-lg-8">
+                    <div class="roomsetc">
+            <div class="karwit_set">
+                Select Room Type
+            </div>
+            <div class="room_mode">
+    <label for="room_type">Room Type</label>
+    <select name="room_type" id="room_type" class="filter-value_hotels" onchange="togglePremiumFields()">
+        <option value="single">Deluxe</option>
+        <option value="double">Premium</option>
+    </select>
+</div>
+        </div>
                     <div class="sides_maxe">
                         <div class="aaeheads">
                             <h4 class="hoses">{{$hotel->name ?? ''}},{{$hotel->cities->city_name ?? ''}}
@@ -239,33 +252,7 @@ Couples in particular like the location – they rated it 8.4 for a two-person t
                             </span>
                         </div>
                     </div>
-                    <div class="nizam_abt mt-5">
-                        <h4 class="naxo">About this place</h4>
-
-                        <div class="ho_bhe">
-                            <span>
-                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
-                            </span>
-                        </div>
-                    </div>
-                    <div class="nizam_abt mt-5">
-                        <h4 class="naxo">About this place</h4>
-
-                        <div class="ho_bhe">
-                            <span>
-                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
-                            </span>
-                        </div>
-                    </div>
-                    <div class="nizam_abt mt-5">
-                        <h4 class="naxo">About this place</h4>
-
-                        <div class="ho_bhe">
-                            <span>
-                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
-                            </span>
-                        </div>
-                    </div>
+                    
                    
                 </div>
 
@@ -283,13 +270,7 @@ Couples in particular like the location – they rated it 8.4 for a two-person t
                                         <span id="dynamic-price">₹</span> <!-- Dynamically updated price -->
                                         <span></span>
                                     </div>
-                                    <div class="room_mode">
-    <label for="room_type">Room Type</label>
-    <select name="room_type" id="room_type" class="filter-value_hotels" onchange="togglePremiumFields()">
-        <option value="single">Deluxe</option>
-        <option value="double">Premium</option>
-    </select>
-</div>
+                                    
                                    </siv>
 
                                     <div class="checks">
@@ -364,12 +345,24 @@ Couples in particular like the location – they rated it 8.4 for a two-person t
 
     <div class="form-group mt-2">
         <label class="filter-label_hotels" for="extra_bed">Extra Bed</label>
-        <input class="need"type="number" name="extra_bed" id="extra_bed" class="filter-value_hotels" min="0" value="0">
+         <select class="need hato" name="beds" id="beds" class="filter-value_hotels">
+            <option value="">-- 0 --</option>
+                
+            @for ($i = 0; $i <= 20; $i++)
+                <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
+        </select>
     </div>
 
     <div class="form-group mt-2">
         <label class="filter-label_hotels" for="child_no_bed">Child With No Bed</label>
-        <input class="need" type="number" name="child_no_bed" id="child_no_bed" class="filter-value_hotels" min="0" value="0">
+         <select class="need hato" name="nobed" id="nobed" class="filter-value_hotels">
+            <option value="">-- 0 --</option>
+                
+            @for ($i = 0; $i <= 20; $i++)
+                <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
+        </select>
     </div>
 </div>
  </div>
@@ -388,7 +381,7 @@ Couples in particular like the location – they rated it 8.4 for a two-person t
                                             Reserve
                                         </button>
                                         @else
-                                        <a href="{{ route('login') }}" class="btn btn-primary">Send Request to Admin</a>
+                                        <a href="{{ route('login') }}" class="btn btn-primary">Fetch Price</a>
                                         @endif
                                             
                                         </div>
