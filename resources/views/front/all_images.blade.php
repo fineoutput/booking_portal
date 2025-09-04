@@ -25,12 +25,13 @@
                         $images = json_decode($hotels->images); // Decode the JSON to an array
                     @endphp
             @foreach($images as $image)
-            <div class="col-lg-4">
+            <div class="col-lg-4" style="padding-bottom: 15px;">
                 <div class="maze_trace">
                     <!-- Assuming $image stores the path or filename of the image -->
                     <img src="{{ asset($image) }}" alt="{{ $image->alt_text ?? 'Hotel Image' }}">
                 </div>
             </div>
+            
         @endforeach
         
 
@@ -44,7 +45,9 @@
                     <img src="{{asset('frontend/images/arja.avif')}}" alt="">
                 </div>
             </div> --}}
+            
         </div>
+     
     </div>
 </section>
 
