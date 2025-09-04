@@ -208,7 +208,7 @@
                         </div>
                     </div>
                     <div class="nizam_abt mt-5">
-                        <h4 class="naxo">About this place</h4>
+                        <h4 class="naxo">Hotel Amenities</h4>
 
                         <div class="ho_bhe">
                             <span>
@@ -330,7 +330,7 @@
                                        
                                                                                   <div id="premium-fields" class="trnas wast" style="display:none; margin-top:15px;">
     <div class="form-group">
-        <label for="meals">Meals</label>
+        <label class="filter-label_hotels" for="meals">Meals</label>
         <select class="need hato" name="meals" id="meals" class="filter-value_hotels">
             <option value="">-- Select --</option>
             <option value="breakfast">Breakfast</option>
@@ -340,12 +340,12 @@
     </div>
 
     <div class="form-group mt-2">
-        <label for="extra_bed">Extra Bed</label>
+        <label class="filter-label_hotels" for="extra_bed">Extra Bed</label>
         <input class="need"type="number" name="extra_bed" id="extra_bed" class="filter-value_hotels" min="0" value="0">
     </div>
 
     <div class="form-group mt-2">
-        <label for="child_no_bed">Child With No Bed</label>
+        <label class="filter-label_hotels" for="child_no_bed">Child With No Bed</label>
         <input class="need" type="number" name="child_no_bed" id="child_no_bed" class="filter-value_hotels" min="0" value="0">
     </div>
 </div>
