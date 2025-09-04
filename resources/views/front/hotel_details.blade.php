@@ -8,6 +8,22 @@
 .guests-dropdown_hotels {
     width: 100%;
 } 
+.wast{
+    border-top: 1px solid #b0b0b0;
+}
+.form-group{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.need{
+    width: 120px;
+}
+.hato{
+    padding: 5px;
+    border: 1px solid #b0b0b0;
+    border-radius: 5px;
+}
 @media (min-width: 768px) {
 
 
@@ -238,12 +254,20 @@
                         <div class="stand_it">
                             <div class="outer_box">
                                 <div class="inner_box">
-                                    <div class="inner_price">
+                                   <siv class="room_check d-flex justify-content-between align-items-center">
+                                     <div class="inner_price">
                                         <span style="color: rgb(106, 106, 106);"><del></del></span>
                                         <span id="dynamic-price">₹</span> <!-- Dynamically updated price -->
                                         <span></span>
                                     </div>
-                                    
+                                    <div class="room_mode">
+    <label for="room_type">Room Type</label>
+    <select name="room_type" id="room_type" class="filter-value_hotels" onchange="togglePremiumFields()">
+        <option value="single">Deluxe</option>
+        <option value="double">Premium</option>
+    </select>
+</div>
+                                   </siv>
 
                                     <div class="checks">
                                         <div class="bors">
@@ -300,10 +324,32 @@
 
                                                         <!-- Dropdowns container -->
                                                         <div id="children-ages"></div>
+  
                                                 </div>
                                             </div>
-                                        </div>
-                                    
+                                       
+                                                                                  <div id="premium-fields" class="trnas wast" style="display:none; margin-top:15px;">
+    <div class="form-group">
+        <label for="meals">Meals</label>
+        <select class="need hato" name="meals" id="meals" class="filter-value_hotels">
+            <option value="">-- Select --</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+        </select>
+    </div>
+
+    <div class="form-group mt-2">
+        <label for="extra_bed">Extra Bed</label>
+        <input class="need"type="number" name="extra_bed" id="extra_bed" class="filter-value_hotels" min="0" value="0">
+    </div>
+
+    <div class="form-group mt-2">
+        <label for="child_no_bed">Child With No Bed</label>
+        <input class="need" type="number" name="child_no_bed" id="child_no_bed" class="filter-value_hotels" min="0" value="0">
+    </div>
+</div>
+ </div>
                                         {{-- {{$hotel_price}} --}}
                                         <input type="hidden" name="night_count" id="night_count">
                                         <input type="hidden" name="total_cost" id="total-cost-input">
@@ -428,6 +474,23 @@ function updateGuestCounts() {
 
 </script> --}}
 
+<script>
+function togglePremiumFields() {
+    const roomType = document.getElementById("room_type").value;
+    const premiumFields = document.getElementById("premium-fields");
+
+    if (roomType === "double") {
+        premiumFields.style.display = "block";
+    } else {
+        premiumFields.style.display = "none";
+
+        // reset values if Deluxe is chosen again
+        document.getElementById("meals").value = "";
+        document.getElementById("extra_bed").value = 0;
+        document.getElementById("child_no_bed").value = 0;
+    }
+}
+</script>
 
 <script>
     // Assuming this is sent via PHP:
