@@ -356,9 +356,9 @@ Couples in particular like the location – they rated it 8.4 for a two-person t
         <label class="filter-label_hotels" for="meals">Meals</label>
         <select class="need hato" name="meals" id="meals" class="filter-value_hotels">
             <option value="">-- Select --</option>
-            <option value="breakfast">Breakfast</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
+            <option value="breakfast">Breakfast + Lunch/Dinner</option>
+            <option value="lunch">All Meals</option>
+            <option value="dinner">No Meals</option>
         </select>
     </div>
 
