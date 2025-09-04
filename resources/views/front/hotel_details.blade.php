@@ -208,7 +208,7 @@
                         </div>
                     </div>
                     <div class="nizam_abt mt-5">
-                        <h4 class="naxo">Hotel Amenities</h4>
+                        <h4 class="naxo">Hotel Facilities</h4>
 
                         <div class="ho_bhe">
                             <p>
