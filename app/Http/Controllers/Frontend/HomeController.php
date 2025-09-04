@@ -1568,6 +1568,12 @@ public function getVehiclesByCity($cityId)
             });
         }
 
+        $data['hotel'] = Hotels::where('show_front',1)->get();
+  
+        $cityIds = $data['hotel']->pluck('city_id')->unique();
+    
+        $cities = City::whereIn('id', $cityIds)->get();
+
         $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
 
         return view('front.hotel_list', [
@@ -1579,6 +1585,7 @@ public function getVehiclesByCity($cityId)
             'city_id' => $city_id,
             'min_price' => $min_price,
             'max_price' => $max_price,
+            'cities' => $cities,
         ]);
     }
         
@@ -1626,7 +1633,7 @@ public function getVehiclesByCity($cityId)
 
     public function add_hotel_booking(Request $request,$id)
     {
-        // return $request;
+
         $wildlife = new HotelBooking();
         $wildlife->user_id = Auth::guard('agent')->id();
         $wildlife->hotel_id = $id;
@@ -1639,7 +1646,6 @@ public function getVehiclesByCity($cityId)
         $wildlife->status = 0;
         $wildlife->save();
 
-        // return redirect()->back()->with('message','Hotel Booking Created Succesfully');
         return redirect()->route('hotel_confirmation', ['id' => base64_encode($wildlife->id)]);
     }
 

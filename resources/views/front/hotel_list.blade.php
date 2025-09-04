@@ -118,7 +118,7 @@
           </div>
 
 
-          <label class="d-flex " class="city-label orSamar" style="
+          {{-- <label class="d-flex " class="city-label orSamar" style="
     border-bottom: 1px solid #00000033;     padding: 10px;
 ">
             <div class="city_list_htotle city-item mb-2">
@@ -138,7 +138,31 @@
               </div>
             </div>
             <p id="no_city">no city found</p>
-          </label>
+          </label> --}}
+
+           @foreach($cities as $value)
+            <label class="d-flex " for="city_{{ $value->id }}" class="city-label orSamar" style="
+    border-bottom: 1px solid #00000033;     padding: 10px;
+">
+            <div class="city_list_htotle city-item mb-2">
+              <div class="desMund d-flex align-items-center gap-2">
+              <div class="sizemaze">
+                <!-- Image representing the city -->
+                <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+              </div>
+              <p class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></p>
+              
+                <div class="hotel_place">
+                    <!-- Input field for the city selection -->
+                    <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}" class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->city_name }}')">
+                    
+                    <span class="hotels_spn"></span>
+                </div>
+                </div>
+            </div>
+            <p id="no_city">no city found</p>
+            </label>
+            @endforeach
 
 
       </div>

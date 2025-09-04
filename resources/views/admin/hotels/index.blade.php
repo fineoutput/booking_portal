@@ -78,28 +78,32 @@
                         {{-- <td>{{ $hotel->hotel_category }}</td> --}}
                         <td>
                           @switch($hotel->hotel_category)
-                              @case('Standard')
-                                  Standard (1 star)
+                              @case('5 Star')
+                                 5 Star
                                   @break
                       
-                              @case('Deluxe')
-                                  Deluxe (3 star)
+                              @case('4 Star')
+                                  4 Star
                                   @break
                       
-                              @case('Premium_3')
-                                  Premium (3 star)
+                              @case('3 Star')
+                                  3 Star
                                   @break
                       
-                              @case('Super deluxe')
-                                  Deluxe (4 star)
+                              @case('2 Star')
+                                 2 Star
                                   @break
                       
-                              @case('Premium')
-                                  Premium (4 star)
+                              @case('Dormetry')
+                                  Dormetry
                                   @break
                       
-                              @case('Luxury')
-                                  Deluxe (5 star)
+                              @case('Villas / Homestay')
+                                  Villas / Homestay
+                                  @break
+
+                              @case('Hostels')
+                                  Hostels
                                   @break
                       
                               @default
