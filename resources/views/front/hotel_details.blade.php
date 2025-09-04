@@ -211,6 +211,29 @@
                         <h4 class="naxo">Hotel Amenities</h4>
 
                         <div class="ho_bhe">
+                            <p>
+
+                            
+                            <b>Comfortable Accommodations</b>: Hotel Mountain Face by Snow City Hotels in Manali offers comfortable rooms with private bathrooms, garden or mountain views, and modern amenities. Each room includes a work desk, TV, and free WiFi.
+</p>
+<p>
+
+
+<b>Dining and Leisure</b>: Guests can enjoy Indian cuisine at the on-site restaurant or relax in the outdoor seating area. The hotel features a garden, outdoor fireplace, and free WiFi throughout the property.
+</p>
+
+<p>
+
+
+<b>Convenient Facilities</b>: The hotel provides a free airport shuttle service, lounge, 24-hour front desk, and free on-site private parking. Additional services include room service, bike hire, and a tour desk.
+</p>
+
+<p>
+
+
+<b>Local Attractions</b>: Located 52 km from Kullu–Manali Airport, the hotel is near Hidimba Devi Temple (5 km), Tibetan Monastery (3.9 km), and Solang Valley (16 km). Guests appreciate the scenic views and excellent service.
+</p>
+Couples in particular like the location – they rated it 8.4 for a two-person trip.
                             <span>
                                 Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
                             </span>
