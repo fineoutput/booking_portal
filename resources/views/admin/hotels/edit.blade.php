@@ -77,23 +77,38 @@
                                     </div>
                             
                                     <!-- Hotel Category -->
+                                    @php
+                                        // Optional: Map old hotel_category to dropdown value
+                                        $categoryMap = [
+                                            'Standard' => '2 Star',
+                                            'Deluxe' => '3 Star',
+                                            'Premium_3' => '3 Star',
+                                            'Super deluxe' => '4 Star',
+                                            'Premium' => '4 Star',
+                                            'Luxury' => '5 Star',
+                                        ];
+
+                                        $selectedCategory = old('hotel_category') ?? ($categoryMap[$hotel->hotel_category] ?? $hotel->hotel_category);
+                                    @endphp
+
                                     <div class="col-sm-4 mt-2">
                                         <select class="form-control" name="hotel_category" id="hotel_category" required>
                                             <option value="">Select Hotel Category</option>
-                                            <option value="5 Star" {{ old('hotel_category', $hotel->category) == '5 Star' ? 'selected' : '' }}>5 Star</option>
-                                            <option value="4 Star" {{ old('hotel_category', $hotel->category) == '4 Star' ? 'selected' : '' }}>4 Star</option>
-                                            <option value="3 Star" {{ old('hotel_category', $hotel->category) == '3 Star' ? 'selected' : '' }}>3 Star</option>
-                                            <option value="2 Star" {{ old('hotel_category', $hotel->category) == '2 Star' ? 'selected' : '' }}>2 Star</option>
-                                            <option value="Dormetry" {{ old('hotel_category', $hotel->category) == 'Dormetry' ? 'selected' : '' }}>Dormetry</option>
-                                            <option value="Villas / Homestay" {{ old('hotel_category', $hotel->category) == 'Villas / Homestay' ? 'selected' : '' }}>Villas / Homestay</option>
-                                            <option value="Hostels" {{ old('hotel_category', $hotel->category) == 'Hostels' ? 'selected' : '' }}>Hostels</option>
+                                            <option value="5 Star" {{ $selectedCategory == '5 Star' ? 'selected' : '' }}>5 Star</option>
+                                            <option value="4 Star" {{ $selectedCategory == '4 Star' ? 'selected' : '' }}>4 Star</option>
+                                            <option value="3 Star" {{ $selectedCategory == '3 Star' ? 'selected' : '' }}>3 Star</option>
+                                            <option value="2 Star" {{ $selectedCategory == '2 Star' ? 'selected' : '' }}>2 Star</option>
+                                            <option value="Dormetry" {{ $selectedCategory == 'Dormetry' ? 'selected' : '' }}>Dormetry</option>
+                                            <option value="Villas / Homestay" {{ $selectedCategory == 'Villas / Homestay' ? 'selected' : '' }}>Villas / Homestay</option>
+                                            <option value="Hostels" {{ $selectedCategory == 'Hostels' ? 'selected' : '' }}>Hostels</option>
                                         </select>
                                         <div class="form-floating">
                                             @error('hotel_category')
-                                            <div style="color:red">{{$message}}</div>
+                                                <div style="color:red">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
+
                                 </div>
                             
                                 <!-- Package Selection -->
@@ -383,7 +398,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/booking_portal/public/admin/cities/' + stateId,
+                    url: '/admin/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;
