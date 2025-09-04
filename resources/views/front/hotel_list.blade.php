@@ -339,6 +339,82 @@
       <label><input type="checkbox" name="chains[]" value="Zostel" {{ in_array('Zostel', $chains) ? 'checked' : '' }}> Zostel</label><br>
     </div>
   </div>
+  <div class="filter-box">
+    <div class="filter-group">
+      <h5>Hotel Amenities</h5>
+      <label><input type="checkbox" name="" value="Marriott" >Room Service  </label><br>
+
+      <label><input type="checkbox" name="" value=""> Balcony/Terrace</label><br>
+
+      <label><input type="checkbox" name="" value="" > Barbeque</label><br>
+      <label><input type="checkbox" name="" value=""> Cafe</label><br>
+      <label><input type="checkbox" name="" value="" > EV Charging Station</label><br>
+      <label><input type="checkbox" name="" value=""> Restaurant</label><br>
+      <label><input type="checkbox" name="" value="" > Bar</label><br>
+      <label><input type="checkbox" name="" value=" " > Parking</label><br>
+      <label><input type="checkbox" name="" value=""> Bonfire</label><br>
+      <label><input type="checkbox" name="" value=""> Kitchenette</label><br>
+      <label><input type="checkbox" name="" value=""> Elevator/Lift</label><br>
+      <label><input type="checkbox" name="" value=""> Indoor Games</label><br>
+      <label><input type="checkbox" name="" value=""> Living Room</label><br>
+      <label><input type="checkbox" name="" value=""> Caretaker</label><br>
+    </div>
+  </div>
+  <div class="filter-box">
+    <div class="filter-group">
+      <h5>Room Amenities</h5>
+      <label><input type="checkbox" name="" value="Marriott" >Fireplace </label><br>
+
+      <label><input type="checkbox" name="" value=""> Interconnected Room</label><br>
+
+      <label><input type="checkbox" name="" value="" > Bathtub</label><br>
+      <label><input type="checkbox" name="" value=""> Kitchenette</label><br>
+      <label><input type="checkbox" name="" value="" > Smoking Room</label><br>
+      <label><input type="checkbox" name="" value=""> Private Pool</label><br>
+      <label><input type="checkbox" name="" value="" > Balcony</label><br>
+      <label><input type="checkbox" name="" value=" " > Cook & Butler Service</label><br>
+      <label><input type="checkbox" name="" value=""> Heater</label><br>
+      <label><input type="checkbox" name="" value=""> Jacuzzi</label><br>
+      <label><input type="checkbox" name="" value=""> Living Area</label><br>
+    </div>
+  </div>
+  <div class="filter-box">
+    <div class="filter-group">
+      <h5>House Rules</h5>
+      <label><input type="checkbox" name="" value="Marriott" >Smoking Allowed</label><br>
+
+      <label><input type="checkbox" name="" value=""> Unmarried Couples Allowed</label><br>
+
+      <label><input type="checkbox" name="" value="" > Pets Allowed</label><br>
+      <label><input type="checkbox" name="" value=""> Alcohol Allowed</label><br>
+      <label><input type="checkbox" name="" value="" > Non Veg Allowed </label><br>
+      
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <!-- Submit -->
   <div class="d-flex justify-content-center ">
