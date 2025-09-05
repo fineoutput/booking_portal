@@ -24,10 +24,14 @@
     border: 1px solid #b0b0b0;
     border-radius: 5px;
 }
-@media (min-width: 768px) {
 
-
+.tarati{
+    margin-bottom: 5rem!important;
 }
+.namesef{
+    position: relative;
+}
+
 
 </style>
 <section class="detail_htels mt-5">
@@ -119,23 +123,12 @@
 
         
         <div class="other_dets mt-5">
-            <div class="row">
+            <div class="row namesef">
                 <div class="col-lg-8">
-                    <div class="roomsetc">
-            <div class="karwit_set">
-                Select Room Type
-            </div>
-            <div class="room_mode">
-    <label for="room_type">Room Type</label>
-    <select name="room_type" id="room_type" class="filter-value_hotels" onchange="togglePremiumFields()">
-        <option value="single">Deluxe</option>
-        <option value="double">Premium</option>
-    </select>
-</div>
-        </div>
+                   
                     <div class="sides_maxe">
                         <div class="aaeheads">
-                            <h4 class="hoses">{{$hotel->name ?? ''}},{{$hotel->cities->city_name ?? ''}}
+                            <h4 class="hoses tarati">{{$hotel->name ?? ''}},{{$hotel->cities->city_name ?? ''}}
                             </h4>
                             <span class="sabke">
                                 <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
@@ -264,13 +257,24 @@ Couples in particular like the location – they rated it 8.4 for a two-person t
                         <div class="stand_it">
                             <div class="outer_box">
                                 <div class="inner_box">
+                                      <div class="roomsetc setups">
+            <div class="karwit_set">
+                Select Room Type
+            </div>
+            <div class="room_mode">
+    <select name="room_type" id="room_type" class="filter-value_hotels" onchange="togglePremiumFields()">
+        <option value="single">Deluxe</option>
+        <option value="double">Premium</option>
+    </select>
+</div>
+        </div>
                                    <siv class="room_check d-flex justify-content-between align-items-center">
                                      <div class="inner_price">
                                         <span style="color: rgb(106, 106, 106);"><del></del></span>
                                         <span id="dynamic-price">₹</span> <!-- Dynamically updated price -->
                                         <span></span>
                                     </div>
-                                    
+                                   
                                    </siv>
 
                                     <div class="checks">

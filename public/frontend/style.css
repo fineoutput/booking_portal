@@ -133,6 +133,18 @@ img{
     .mega-menu .mega-menu-content{
       position: relative !important;
     }
+
+.setups {
+    position: relative !important;
+    left: 15px;
+    z-index: 9999;
+    /* font-size: 60px; */
+    top: 0px !important;
+    width: 90% !important;
+    /* margin-bottom: 80px; */
+}
+
+
 }
 .nachel{
   flex-wrap: wrap;
@@ -2573,3 +2585,13 @@ textarea.form-control {
     border-radius: 5px;
     font-weight: bold;
 }
+
+.setups {
+    position: absolute;
+    left: 15px;
+    z-index: 9999;
+    /* font-size: 60px; */
+    top: 50px;
+    width: 60%;
+}
+
