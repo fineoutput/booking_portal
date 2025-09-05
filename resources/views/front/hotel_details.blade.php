@@ -220,28 +220,28 @@
                             <p>
 
                             
-                            <b>Comfortable Accommodations</b>: Hotel Mountain Face by Snow City Hotels in Manali offers comfortable rooms with private bathrooms, garden or mountain views, and modern amenities. Each room includes a work desk, TV, and free WiFi.
+                            <b>Comfortable Accommodations</b>: Our hotel offers well-appointed rooms designed for your comfort, complete with private bathrooms, scenic views, and modern amenities. Each room includes a work desk, television, and complimentary Wi-Fi to ensure a relaxing and productive stay.
 </p>
 <p>
 
 
-<b>Dining and Leisure</b>: Guests can enjoy Indian cuisine at the on-site restaurant or relax in the outdoor seating area. The hotel features a garden, outdoor fireplace, and free WiFi throughout the property.
-</p>
-
-<p>
-
-
-<b>Convenient Facilities</b>: The hotel provides a free airport shuttle service, lounge, 24-hour front desk, and free on-site private parking. Additional services include room service, bike hire, and a tour desk.
+<b>Dining and Leisure</b>: Guests can enjoy a variety of cuisines at the on-site restaurant or unwind in the outdoor seating area. The property also features a lush garden, outdoor fireplace, and complimentary Wi-Fi throughout, creating the perfect environment for relaxation and leisure.
 </p>
 
 <p>
 
 
-<b>Local Attractions</b>: Located 52 km from Kullu–Manali Airport, the hotel is near Hidimba Devi Temple (5 km), Tibetan Monastery (3.9 km), and Solang Valley (16 km). Guests appreciate the scenic views and excellent service.
+<b>Convenient Facilities</b>: We provide a range of services including complimentary 24-hour front desk. Additional amenities such as room service are available to make your stay more enjoyable and hassle-free.
 </p>
-Couples in particular like the location – they rated it 8.4 for a two-person trip.
+
+<p>
+
+
+<b>Nearby Attractions:</b>: The property is ideally located close to popular landmarks and natural attractions, offering guests easy access to cultural sites, shopping, and outdoor activities. Whether you’re here to explore or simply relax, there’s something for everyone nearby.
+</p>
+Guests particularly appreciate the tranquil setting, modern amenities, and attentive service. Whether you’re planning a romantic getaway, family vacation, or business trip, our hotel provides the perfect balance of comfort and convenience.
                             <span>
-                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
+                                Experience a serene escape with all the essentials you need for a memorable stay—modern facilities, peaceful surroundings, and easy access to exciting experiences just moments away.
                             </span>
                         </div>
                     </div>
