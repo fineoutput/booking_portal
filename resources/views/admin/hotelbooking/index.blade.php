@@ -57,8 +57,14 @@
                         {{-- <th data-priority="1">Date</th> --}}
                         <th data-priority="1">Check In Date</th>
                         <th data-priority="1">Check Out Date</th>
-                        <th data-priority="1">No Occupants</th>
+                        <th data-priority="1">No. Adults</th>
+                        <th data-priority="1">Childrens</th>
                         <th data-priority="1">Night Count</th>
+                        <th data-priority="1">Room Type</th>
+                        <th data-priority="1">Child With No Bed</th>
+                        <th data-priority="1">Bed</th>
+                        <th data-priority="1">Meals</th>
+                        <th data-priority="1">Child Age</th>
                         <th data-priority="1">Agent Cost</th>
                         <th data-priority="1">Final Cost</th>
                         <th data-priority="1">Date</th>
@@ -78,7 +84,25 @@
                         <td>{{ \Carbon\Carbon::parse($hotel->hotel_se->check_in_date)->format('d F Y') ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($hotel->hotel_se->check_out_date)->format('d F Y') ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->no_occupants ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->child_count ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->night_count ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->room_type ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->nobed ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->beds ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->meals ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->child_count ?? '' }}Child -
+                          @php
+                              $childrenAges = json_decode($hotel->hotel_se->children_ages ?? '[]');
+                          @endphp
+
+                          @if(!empty($childrenAges))
+                              @foreach($childrenAges as $age)
+                                  {{ $age }} years @if (!$loop->last), @endif
+                              @endforeach
+                          @else
+                              No age data available.
+                          @endif
+                        </td>
                         <td>{{ $hotel->agent_margin ?? '' }}</td>
                         <td>{{ $hotel->final_price ?? '' }}</td>
                         <td>{{ \Carbon\Carbon::parse($hotel->created_at)->format('d F Y') ?? '' }}</td>
