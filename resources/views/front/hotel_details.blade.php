@@ -220,28 +220,28 @@
                             <p>
 
                             
-                            <b>Comfortable Accommodations</b>: Our hotel offers well-appointed rooms designed for your comfort, complete with private bathrooms, scenic views, and modern amenities. Each room includes a work desk, television, and complimentary Wi-Fi to ensure a relaxing and productive stay.
+                            <b>Comfortable Accommodations</b>: Hotel Mountain Face by Snow City Hotels in Manali offers comfortable rooms with private bathrooms, garden or mountain views, and modern amenities. Each room includes a work desk, TV, and free WiFi.
 </p>
 <p>
 
 
-<b>Dining and Leisure</b>: Guests can enjoy a variety of cuisines at the on-site restaurant or unwind in the outdoor seating area. The property also features a lush garden, outdoor fireplace, and complimentary Wi-Fi throughout, creating the perfect environment for relaxation and leisure.
-</p>
-
-<p>
-
-
-<b>Convenient Facilities</b>: We provide a range of services including complimentary 24-hour front desk. Additional amenities such as room service are available to make your stay more enjoyable and hassle-free.
+<b>Dining and Leisure</b>: Guests can enjoy Indian cuisine at the on-site restaurant or relax in the outdoor seating area. The hotel features a garden, outdoor fireplace, and free WiFi throughout the property.
 </p>
 
 <p>
 
 
-<b>Nearby Attractions:</b>: The property is ideally located close to popular landmarks and natural attractions, offering guests easy access to cultural sites, shopping, and outdoor activities. Whether you’re here to explore or simply relax, there’s something for everyone nearby.
+<b>Convenient Facilities</b>: The hotel provides a free airport shuttle service, lounge, 24-hour front desk, and free on-site private parking. Additional services include room service, bike hire, and a tour desk.
 </p>
-Guests particularly appreciate the tranquil setting, modern amenities, and attentive service. Whether you’re planning a romantic getaway, family vacation, or business trip, our hotel provides the perfect balance of comfort and convenience.
+
+<p>
+
+
+<b>Local Attractions</b>: Located 52 km from Kullu–Manali Airport, the hotel is near Hidimba Devi Temple (5 km), Tibetan Monastery (3.9 km), and Solang Valley (16 km). Guests appreciate the scenic views and excellent service.
+</p>
+Couples in particular like the location – they rated it 8.4 for a two-person trip.
                             <span>
-                                Experience a serene escape with all the essentials you need for a memorable stay—modern facilities, peaceful surroundings, and easy access to exciting experiences just moments away.
+                                Experience the perfect getaway in our newly constructed home, featuring modern amenities that prioritize your comfort. Nestled in a peaceful neighborhood, you’ll enjoy the tranquility of a lush garden area—ideal for relaxation. Plus, you're just moments away from a variety of exciting attractions that await your exploration. Your serene escape starts here!
                             </span>
                         </div>
                     </div>
@@ -262,11 +262,11 @@ Guests particularly appreciate the tranquil setting, modern amenities, and atten
                 Select Room Type
             </div>
             <div class="room_mode">
-    <select name="room_type" id="room_type" class="filter-value_hotels" onchange="togglePremiumFields()">
-        <option value="single">Deluxe</option>
-        <option value="double">Premium</option>
-    </select>
-</div>
+                <select name="room_type" id="room_type" name="room_type" class="filter-value_hotels" onchange="togglePremiumFields()">
+                    <option value="deluxe">Deluxe</option>
+                    <option value="premium">Premium</option>
+                </select>
+            </div>
         </div>
                                    <siv class="room_check d-flex justify-content-between align-items-center">
                                      <div class="inner_price">
@@ -325,14 +325,13 @@ Guests particularly appreciate the tranquil setting, modern amenities, and atten
 
  
                                                     </div>
-                                                    <!-- Section label (hidden initially) -->
                                                         <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
                                                             Children age
                                                         </div>
+                                                        <div id="children-ages">
+                                                            <input type="hidden" name="children_ages_array" id="children-ages-array">
 
-                                                        <!-- Dropdowns container -->
-                                                        <div id="children-ages"></div>
-  
+                                                        </div>
                                                 </div>
                                             </div>
                                        
@@ -341,9 +340,10 @@ Guests particularly appreciate the tranquil setting, modern amenities, and atten
         <label class="filter-label_hotels" for="meals">Meals</label>
         <select class="need hato" name="meals" id="meals" class="filter-value_hotels">
             <option value="">-- Select --</option>
-            <option value="breakfast">Breakfast + Lunch/Dinner</option>
-            <option value="lunch">All Meals</option>
-            <option value="dinner">No Meals</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="breakfast_dinner">Breakfast + Lunch/Dinner</option>
+            <option value="all_meals">All Meals</option>
+            <option value="no_meal">No Meals</option>
         </select>
     </div>
 
@@ -375,6 +375,7 @@ Guests particularly appreciate the tranquil setting, modern amenities, and atten
                                         <input type="hidden" name="total_cost" id="total-cost-input">
 
                                         <input type="hidden" name="guest_count" id="guest_count">
+                                        <input type="hidden" name="child_count" id="child_count">
                                         <input type="hidden" name="room_count" id="room_count">
                                     </div>
                                     
@@ -499,7 +500,7 @@ function togglePremiumFields() {
     const roomType = document.getElementById("room_type").value;
     const premiumFields = document.getElementById("premium-fields");
 
-    if (roomType === "double") {
+    if (roomType === "premium") {
         premiumFields.style.display = "block";
     } else {
         premiumFields.style.display = "none";
@@ -565,7 +566,7 @@ function togglePremiumFields() {
 
             // Add infants cost (same as nightCost * count * nights)
             const infantExtra = infantsCount * nightCost * nightCount;
-            totalPrice += infantExtra;
+            totalPrice = nightCost * nightCount;
 
             // Update display
             document.getElementById('dynamic-price').innerText = '₹' + totalPrice;
@@ -596,10 +597,12 @@ function togglePremiumFields() {
         const childrenCount = parseInt(document.getElementById('children-count').value) || 0;
         const infantsCount = parseInt(document.getElementById('infants-count').value) || 0;
 
-        const totalGuests = adultsCount + childrenCount + infantsCount;
+        const totalGuests = adultsCount;
+        const child_count = childrenCount;
 
         document.getElementById('guests-value').innerText = totalGuests + (totalGuests === 1 ? ' guest' : ' guests');
         document.getElementById('guest_count').value = totalGuests;
+        document.getElementById('child_count').value = child_count;
     }
 </script>
 <script>
@@ -610,14 +613,31 @@ function togglePremiumFields() {
     container.innerHTML = ""; // Clear old dropdowns
 
     if (count > 0) {
-        label.style.display = "block"; // show "Children age" label
+        label.style.display = "block";
         container.style.display = "grid";
         container.style.gridTemplateColumns = "1fr 1fr"; // 2-column layout
         container.style.gap = "10px";
         container.style.marginTop = "10px";
     } else {
-        label.style.display = "none"; // hide if no children
+        label.style.display = "none";
         container.style.display = "none";
+    }
+
+    // Create or get the hidden input to store selected ages as an array
+    let hiddenInput = document.getElementById("children-ages-array");
+    if (!hiddenInput) {
+        hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "children_ages_array";
+        hiddenInput.id = "children-ages-array";
+        container.appendChild(hiddenInput);
+    }
+
+    // Function to update hidden input with selected age values
+    function updateHiddenInput() {
+        const selectedAges = Array.from(container.querySelectorAll(".child-age-select"))
+            .map(select => Number(select.value));
+        hiddenInput.value = JSON.stringify(selectedAges);
     }
 
     for (let i = 1; i <= count; i++) {
@@ -641,12 +661,17 @@ function togglePremiumFields() {
             select.appendChild(option);
         }
 
+        // Listen to change event to update hidden input
+        select.addEventListener("change", updateHiddenInput);
+
         wrapper.appendChild(childLabel);
         wrapper.appendChild(select);
         container.appendChild(wrapper);
     }
-}
 
+    // Initial call to set default values
+    updateHiddenInput();
+}
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -16,10 +16,16 @@ class HotelBooking extends Model
         'check_in_date',
         'check_out_date',
         'no_occupants',
+        'child_count',
         'user_id',
         'night_count',
         'room_count',
         'cost',
+        'room_type',
+        'nobed',
+        'beds',
+        'meals',
+        'children_ages',
         'status',
     ];
 

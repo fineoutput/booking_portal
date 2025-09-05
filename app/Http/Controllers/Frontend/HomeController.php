@@ -1495,6 +1495,9 @@ public function getVehiclesByCity($cityId)
         $nearby = $request->query('nearby'); // array
         $localities = $request->query('locality'); // array
         $chains = $request->query('chains'); // array
+        $house_rules = $request->query('house_rules'); // array
+        $house_rules = $request->query('room_amenities'); // array
+        $house_rules = $request->query('hotel_amenities'); // array
 
         $query = Hotels::where('show_front', 1);
 
@@ -1520,6 +1523,18 @@ public function getVehiclesByCity($cityId)
 
         if (!empty($chains)) {
             $query->whereIn('chains', $chains);
+        }
+
+        if (!empty($house_rules)) {
+            $query->whereIn('house_rules', $house_rules);
+        }
+
+        if (!empty($room_amenities)) {
+            $query->whereIn('room_amenities', $room_amenities);
+        }
+
+        if (!empty($hotel_amenities)) {
+            $query->whereIn('hotel_amenities', $hotel_amenities);
         }
 
         $hotels = $query->get();
@@ -1634,16 +1649,119 @@ public function getVehiclesByCity($cityId)
     public function add_hotel_booking(Request $request,$id)
     {
 
+        $start_dates = $request->check_in_date ? Carbon::parse($request->check_in_date)->format('Y-m-d') : null;
+
+        $end_dates = $request->check_out_date ? Carbon::parse($request->check_out_date)->format('Y-m-d') : null;
+
+        $existsDate = HotelPrice::where('hotel_id', $id)
+                ->where('room_category', $request->room_type)
+                ->where('start_date', '<=', $start_dates)
+                ->where('end_date', '>=', $end_dates)
+                ->first();
+
+                
+
+            if (empty($existsDate)) {
+                $msg = "Price Not Available.";
+            }
+
+             if (empty($existsDate)) {
+                return redirect()->back()->with('message', $msg);
+            }
+
+
+        // Meals
+
+        if($request->meal == 'no_meal'){
+
+           $meal_cost =  0;
+
+        }elseif($request->meal == 'breakfast'){
+
+            $meal_cost = $existsDate->meal_plan_breakfast_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast_lunch'){
+
+            $meal_cost = $existsDate->meal_plan_breakfast_lunch_dinner_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast_dinner'){
+
+            $meal_cost = $existsDate->meal_plan_breakfast_lunch_dinner_cost ?? 0;
+
+        }else{
+
+            $meal_cost = $existsDate->meal_plan_all_meals_cost ?? 0;
+        }
+
+     // extra bed cost
+
+        if($request->meal == 'no_meal'){
+
+            $extra_meal_cost = $existsDate->extra_bed_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast'){
+
+            $extra_meal_cost = $existsDate->extra_breakfast_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast_dinner'){
+
+            $extra_meal_cost = $existsDate->extra_breakfast_lunch_dinner_cost ?? 0;
+
+        }else{
+
+            $extra_meal_cost = $existsDate->extra_all_meals_cost ?? 0;
+        }
+
+
+        // Child With No Bed
+
+         if($request->meal == 'no_meal'){
+
+           $nochild_meal_cost = $existsDate->child_no_bed_infant_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast'){
+
+            $nochild_meal_cost = $existsDate->child_breakfast_cost ?? 0;
+
+        }elseif($request->meal == 'breakfast_dinner'){
+
+            $nochild_meal_cost = $existsDate->child_breakfast_lunch_dinner_cost ?? 0;
+
+        }else{
+
+            $nochild_meal_cost = $existsDate->child_all_meals_cost ?? 0;
+        }
+
+        // return $request->children_ages_array;
+
         $wildlife = new HotelBooking();
         $wildlife->user_id = Auth::guard('agent')->id();
         $wildlife->hotel_id = $id;
         $wildlife->check_in_date = $request->check_in_date;
         $wildlife->check_out_date = $request->check_out_date;
         $wildlife->no_occupants = $request->guest_count;
+        $wildlife->child_count = $request->child_count;
         $wildlife->night_count = $request->night_count;
-        $wildlife->cost = $request->total_cost;
         $wildlife->room_count = $request->room_count;
+        $wildlife->meals = $request->meals;
+        $wildlife->beds = $request->beds;
+        $wildlife->nobed = $request->nobed;
+        $wildlife->children_ages = $request->children_ages_array;
+        $wildlife->room_type = $request->room_type;
         $wildlife->status = 0;
+
+        $meal_cost_total = $meal_cost * $request->room_count * $request->night_count;
+        $extra_meal_cost_total = $extra_meal_cost * $request->night_count * $request->beds;
+        $nochild_meal_cost_total = $nochild_meal_cost * $request->night_count * $request->nobed;
+
+        $total = $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
+
+        if($request->room_type == 'deluxe'){
+            $finel = $request->room_count * $existsDate->night_cost * $request->night_count;
+          $wildlife->cost = $finel;
+        }else{
+          $wildlife->cost = $total;
+        }
         $wildlife->save();
 
         return redirect()->route('hotel_confirmation', ['id' => base64_encode($wildlife->id)]);
