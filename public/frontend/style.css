@@ -137,7 +137,7 @@ img{
 .setups {
     position: relative !important;
     left: 15px;
-    z-index: 9999;
+    /* z-index: 9999; */
     /* font-size: 60px; */
     top: 0px !important;
     width: 90% !important;
@@ -2589,7 +2589,7 @@ textarea.form-control {
 .setups {
     position: absolute;
     left: 15px;
-    z-index: 9999;
+    /* z-index: 9999; */
     /* font-size: 60px; */
     top: 50px;
     width: 60%;
