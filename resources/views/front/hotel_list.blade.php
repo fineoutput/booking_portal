@@ -92,7 +92,7 @@
   }
 
   input[type="checkbox"] {
-    margin-right: 6px;
+    /* margin-right: 6px; */
   }
 </style>
 
@@ -251,8 +251,7 @@
     <div class="row">
       <div class="col-lg-3 col-sm-12 col-md-12 param">
         <div class="left_navi_det">
-          <h6>18 Manali Holiday Packages</h6>
-          <p>Showing 1-10 packages from 18 packages</p>
+          <h6><b>Get the perfect package</b></h6>
 
         </div>
         <div class="navi_full_list">
