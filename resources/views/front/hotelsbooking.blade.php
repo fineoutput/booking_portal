@@ -26,6 +26,60 @@
   .orSamar{
     
   }
+
+
+
+
+  .app-download-section {
+  background: #f9f9f9;
+  padding: 40px 20px;
+}
+
+.app-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: auto;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.app-left img {
+  max-width: 300px;
+  border-radius: 20px;
+}
+
+.app-right h4 {
+  color: #888;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.app-right h2 {
+  font-size: 48px;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.app-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.qr-code {
+  width: 100px;
+  height: 100px;
+}
+
+.store-buttons img {
+  height: 50px;
+  margin-bottom: 10px;
+  display: block;
+}
+
 </style>
 
 
@@ -168,7 +222,7 @@
   </div>
 
   @if($slider)
-  {{-- <div id="responsive-slider" class="splide" style="background: #ffd600">
+  <div id="responsive-slider" class="splide" style="background: #ffd600">
     <div class="layie">
      
                       </div>  
@@ -190,7 +244,7 @@
 
         </ul>
     </div>
-</div> --}}
+</div>
 @endif
 
   <section class="_hotels_filters">
@@ -303,6 +357,28 @@
     
   </div>
 </section>
+<div class="container">
+<section class="app-download-section">
+  <div class="app-container">
+    <div class="app-left">
+      <img src="{{asset('frontend/images/firstaas.png')}}" alt="Mobile App Preview">
+    </div>
+
+    <div class="app-right">
+      <h4>TRY ON MOBILE</h4>
+      <h2>Download our app for<br>unbeatable perks!</h2>
+
+      <div class="app-buttons">
+        <img src="{{asset('frontend/images/frame(1).png')}}" alt="QR Code" class="qr-code">
+        <div class="store-buttons">
+          <a href="#"><img src="{{asset('frontend/images/App_Store_135e41d560.svg')}}" alt="Google Play"></a>
+          <a href="#"><img src="{{asset('frontend/images/Google_Play_Store_badge_EN_47acf10f1d.webp')}}" alt="App Store"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
 <script>
 function updateChildren(change) {
   let input = document.getElementById("children-count");
