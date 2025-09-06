@@ -27,7 +27,19 @@
     
   }
 
-
+.whybk_img {
+    /* width: 80px; */
+    height: 80px;
+    margin-top: -56px;
+    background: #F1F9FF;
+    /* border: 1px solid #eee; */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    margin-bottom: 12px;
+}
 
 
   .app-download-section {
@@ -86,6 +98,80 @@
   display: block;
 }
 
+
+.why-book-section {
+  background: #fff;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.why-book-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.trust-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.trust-box img {
+  height: 25px;
+}
+
+.trust-box .trust-logo {
+  height: 18px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: #fdfdfd;
+}
+
+.feature-card:hover {
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-5px);
+}
+
+.feature-card img {
+  width: 60px;
+  margin-bottom: 15px;
+}
+
+.feature-card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+.jsay {
+    width: 120px;
+    height: auto;
+}
+.leking {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 </style>
 
   <div class="header-container_hotels">
@@ -384,6 +470,54 @@
   </div>
 </section>
 </div>
+
+<section class="why-book-section">
+  <div class="container">
+    <div class="leking">
+    <h2>Why Book Hotels with <img class="jsay" src="{{asset('frontend/images/black.png')}}" alt="">?</h2>
+
+    <!-- Trustpilot -->
+    <div class="trust-box">
+      <span>Great</span>
+      <img src="stars.png" alt="Trustpilot Rating" />
+      <a href="#">14,255 reviews on</a>
+      <img src="trustpilot.png" alt="Trustpilot" class="trust-logo" />
+    </div>
+    </div>
+    <!-- Features -->
+    <div class="features">
+      <div class="feature-card">
+        <div class="whybk_img">
+        <img src="https://images.emtcontent.com/hotel-img/hotel-icn.svg" alt="Hotel Options">
+        </div>
+        <h3>Extensive Hotel Options</h3>
+        <p>Best hotels available for different destinations to offer you the stay of a lifetime.</p>
+      </div>
+      <div class="feature-card">
+        <div class="whybk_img">
+        <img src="https://images.emtcontent.com/hotel-img/wallet-icn.svg" alt="Savings">
+        </div>
+        <h3>Savings on Hotel Booking</h3>
+        <p>Enjoy hotel bookings with the best offers and discounts and make your stay unforgettable.</p>
+      </div>
+      <div class="feature-card">
+        <div class="whybk_img">
+        <img src="https://images.emtcontent.com/hotel-img/rating-icn.svg" alt="Ratings">
+        </div>
+        <h3>Hotel Ratings</h3>
+        <p>All our hotels have good ratings on Trip Advisor and are recommended by users.</p>
+      </div>
+      <div class="feature-card">
+        <div class="whybk_img">
+        <img src="https://images.emtcontent.com/hotel-img/beach-icn.svg" alt="Best Price">
+        </div>
+        <h3>Best Price</h3>
+        <p>Get excellent hotels/resorts at the best prices to pamper your desires.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <script>
 function updateChildren(change) {
   let input = document.getElementById("children-count");
