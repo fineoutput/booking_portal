@@ -33,6 +33,12 @@
   .app-download-section {
   background: #f9f9f9;
   padding: 40px 20px;
+  background-color: #fff;
+  border-radius: .625rem;
+  box-shadow: 0 0 1.125rem 0 rgb(0 0 0 / 23%);
+  display: block;
+  margin: 22px auto 1.25rem;
+  padding: 40px 1.25rem 0px 1.25rem;
 }
 
 .app-container {
@@ -47,7 +53,7 @@
 
 .app-left img {
   max-width: 300px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
 }
 
 .app-right h4 {
@@ -81,7 +87,6 @@
 }
 
 </style>
-
 
   <div class="header-container_hotels">
     
