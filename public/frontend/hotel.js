@@ -31,14 +31,21 @@ function selectDestination(city) {
     // Hide the dropdown
     dropdown.style.display = 'none';
     console.log(city, 'Dropdown temporarily hidden');
-
-    // After 2 seconds, remove the inline display:none (restoring original stylesheet behavior)
-    // setTimeout(() => {
-    //   dropdown.style.removeProperty('display');
-    //   console.log(city, 'Dropdown display property removed');
-    // }, 2000);
   }
+
+  // ✅ Fix: Save city info to localStorage
+  const selectedRadio = document.querySelector('input[name="city_id"]:checked');
+  const savedData = JSON.parse(localStorage.getItem('hotelFormData')) || {};
+
+  if (selectedRadio) {
+    savedData.city_id = selectedRadio.value;
+    savedData.city_name = city;
+  }
+  // console.log(savedData,'kjaskjdaskdksadkhsakhdsak');
+
+  localStorage.setItem('hotelFormData', JSON.stringify(savedData));
 }
+
 
 
 
