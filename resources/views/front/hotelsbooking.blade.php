@@ -844,24 +844,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Restore data if exists
     const savedData = JSON.parse(localStorage.getItem(formKey));
     if (savedData) {
-        // Restore city radio button checked
+        // Restore city radio
         if (savedData.city_id) {
-            const radio = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
-            if (radio) radio.checked = true;
-        }
-
-        // Show city name in the city search input
-        const citySearch = document.getElementById('city-search');
-        if (citySearch && savedData.city_name) {
-            citySearch.value = savedData.city_name;
-        }
-
-        // Optional: update the div (if you want to show the selected city elsewhere)
-        const destinationValue = document.getElementById('destination-value');
-        if (destinationValue && savedData.city_name) {
-            // Since this div contains the input, setting textContent would overwrite it.
-            // So **do NOT override the input here**.
-            // Instead, you can skip or update a separate span if you want a visible label.
+            const selectedCity = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
+            if (selectedCity) {
+                selectedCity.checked = true;
+            }
         }
 
         // Restore dates
@@ -872,14 +860,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // Restore guest counts
         if (savedData.infants !== undefined) document.getElementById('infants-count').value = savedData.infants;
         if (savedData.adults !== undefined) document.getElementById('adults-count').value = savedData.adults;
-        if (savedData.children !== undefined) {
-            document.getElementById('children-count').value = savedData.children;
-            updateChildAgeDropdown(savedData.children);  // Render child age selects
-        }
+        if (savedData.children !== undefined) document.getElementById('children-count').value = savedData.children;
 
         // Restore children ages if any
         if (savedData.childrenAges && Array.isArray(savedData.childrenAges)) {
             setTimeout(() => {
+                updateChildAgeDropdown(savedData.children); // Ensure age dropdowns rendered first
                 savedData.childrenAges.forEach((age, index) => {
                     const select = document.getElementById(`child-age-${index}`);
                     if (select) select.value = age;
@@ -890,12 +876,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Save on form submit
     form.addEventListener('submit', function (e) {
-        // Uncomment if you want to prevent actual form submission during testing
+        // You can optionally prevent default for testing without server
         // e.preventDefault();
 
         const data = {
-            city_id: form.city_id?.value || null,
-            city_name: document.getElementById('city-search').value || null,
+            city_id: form.city_id?.value,
             start_date: document.getElementById('start_date').value,
             end_date: document.getElementById('end_date').value,
             date_range: document.getElementById('date-range').value,
@@ -915,7 +900,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// Update children count & dropdowns
+// Optional: Update children age dropdowns on count change
 function updateChildren(delta) {
     const countInput = document.getElementById('children-count');
     let count = parseInt(countInput.value) || 0;
@@ -925,11 +910,10 @@ function updateChildren(delta) {
     updateChildAgeDropdown(count);
 }
 
-// Render dropdowns for child ages
 function updateChildAgeDropdown(count) {
     const container = document.getElementById('children-ages');
     const label = document.getElementById('children-age-label');
-    container.innerHTML = ''; // Clear old selects
+    container.innerHTML = ''; // Clear old
 
     if (count > 0) {
         label.style.display = 'block';
@@ -950,6 +934,5 @@ function updateChildAgeDropdown(count) {
     }
 }
 </script>
-
 
 @endsection

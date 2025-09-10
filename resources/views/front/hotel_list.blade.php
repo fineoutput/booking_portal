@@ -871,7 +871,7 @@
 
 
 
-{{-- <script>
+<script>
       document.addEventListener('DOMContentLoaded', function () {
           const form = document.getElementById('filter-form');
           const formKey = 'hotelFormData'; // Unique key for LocalStorage
@@ -978,121 +978,6 @@
           label.style.display = 'none';
       }
   }
-</script> --}}
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('filter-form');
-    const formKey = 'hotelFormData'; // Unique key for LocalStorage
-
-    // Restore data if exists
-    const savedData = JSON.parse(localStorage.getItem(formKey));
-    if (savedData) {
-        // Restore city radio button checked
-        if (savedData.city_id) {
-            const radio = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
-            if (radio) radio.checked = true;
-        }
-
-        // Show city name in the city search input
-        const citySearch = document.getElementById('city-search');
-        if (citySearch && savedData.city_name) {
-            citySearch.value = savedData.city_name;
-        }
-
-        // Optional: update the div (if you want to show the selected city elsewhere)
-        const destinationValue = document.getElementById('destination-value');
-        if (destinationValue && savedData.city_name) {
-            // Since this div contains the input, setting textContent would overwrite it.
-            // So **do NOT override the input here**.
-            // Instead, you can skip or update a separate span if you want a visible label.
-        }
-
-        // Restore dates
-        if (savedData.start_date) document.getElementById('start_date').value = savedData.start_date;
-        if (savedData.end_date) document.getElementById('end_date').value = savedData.end_date;
-        if (savedData.date_range) document.getElementById('date-range').value = savedData.date_range;
-
-        // Restore guest counts
-        if (savedData.infants !== undefined) document.getElementById('infants-count').value = savedData.infants;
-        if (savedData.adults !== undefined) document.getElementById('adults-count').value = savedData.adults;
-        if (savedData.children !== undefined) {
-            document.getElementById('children-count').value = savedData.children;
-            updateChildAgeDropdown(savedData.children);  // Render child age selects
-        }
-
-        // Restore children ages if any
-        if (savedData.childrenAges && Array.isArray(savedData.childrenAges)) {
-            setTimeout(() => {
-                savedData.childrenAges.forEach((age, index) => {
-                    const select = document.getElementById(`child-age-${index}`);
-                    if (select) select.value = age;
-                });
-            }, 100);
-        }
-    }
-
-    // Save on form submit
-    form.addEventListener('submit', function (e) {
-        // Uncomment if you want to prevent actual form submission during testing
-        // e.preventDefault();
-
-        const data = {
-            city_id: form.city_id?.value || null,
-            city_name: document.getElementById('city-search').value || null,
-            start_date: document.getElementById('start_date').value,
-            end_date: document.getElementById('end_date').value,
-            date_range: document.getElementById('date-range').value,
-            infants: document.getElementById('infants-count').value,
-            adults: document.getElementById('adults-count').value,
-            children: document.getElementById('children-count').value,
-            childrenAges: []
-        };
-
-        // Collect child age dropdowns
-        const ageDropdowns = document.querySelectorAll('#children-ages select');
-        ageDropdowns.forEach((dropdown) => {
-            data.childrenAges.push(dropdown.value);
-        });
-
-        localStorage.setItem(formKey, JSON.stringify(data));
-    });
-});
-
-// Update children count & dropdowns
-function updateChildren(delta) {
-    const countInput = document.getElementById('children-count');
-    let count = parseInt(countInput.value) || 0;
-    count = Math.max(0, count + delta);
-    countInput.value = count;
-
-    updateChildAgeDropdown(count);
-}
-
-// Render dropdowns for child ages
-function updateChildAgeDropdown(count) {
-    const container = document.getElementById('children-ages');
-    const label = document.getElementById('children-age-label');
-    container.innerHTML = ''; // Clear old selects
-
-    if (count > 0) {
-        label.style.display = 'block';
-        for (let i = 0; i < count; i++) {
-            const select = document.createElement('select');
-            select.id = `child-age-${i}`;
-            select.name = `child_age_${i}`;
-            for (let age = 0; age <= 17; age++) {
-                const option = document.createElement('option');
-                option.value = age;
-                option.textContent = `${age} years`;
-                select.appendChild(option);
-            }
-            container.appendChild(select);
-        }
-    } else {
-        label.style.display = 'none';
-    }
-}
 </script>
 
 @endsection
