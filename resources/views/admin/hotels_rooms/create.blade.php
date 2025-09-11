@@ -17,11 +17,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Add Hotel</h4>
+                    <h4 class="page-title">Add Room</h4>
                     <ol class="breadcrumb" style="display:none">
                         <!-- <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li> -->
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Hotel</a></li>
-                        <li class="breadcrumb-item active">Add Hotel</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Room</a></li>
+                        <li class="breadcrumb-item active">Add Room</li>
                     </ol>
                 </div>
             </div>
@@ -50,89 +50,21 @@
                             <!-- End show success and error messages -->
                             <h4 class="mt-0 header-title">Add Hotel Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
-                            <form action="{{route('add_hotels')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{route('store_hotels_room',$hotels->id)}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" type="text" value="" id="name" name="name" placeholder="Enter name" required>
-                                            <label for="name">Enter Hotel Name &nbsp;<span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" type="text" value="" id="title" name="title" placeholder="Enter title" required>
+                                            <label for="name">Enter Title &nbsp;<span style="color:red;">*</span></label>
                                         </div>
-                                        @error('name')
+                                        @error('title')
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-floating">
-                                            <input class="form-control" type="location" value="" id="location" name="location" placeholder="Enter location" required>
-                                            <label for="location"> location &nbsp;<span style="color:red;">*</span></label>
-                                        </div>
-                                        @error('location')
-                                        <div style="color:red">{{$message}}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-sm-4 mt-2">
-                                        <select class="form-control" name="hotel_category" id="hotel_category" required>
-                                            <option selected disabled value="">Select Hotel Category</option>
-                                            <option value="5 Star">5 Star</option>
-                                            <option value="4 Star">4 Star</option>
-                                            <option value="3 Star">3 Star</option>
-                                            <option value="2 Star">2 Star</option>
-                                            <option value="Dormetry">Dormetry</option>
-                                            <option value="Villas / Homestay">Villas / Homestay</option>
-                                            <option value="Hostels">Hostels</option>
-                                        </select>
-                                        <div class="form-floating">
-                                            @error('hotel_category')
-                                            <div style="color:red">{{$message}}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-
-                                    <div class="col-sm-4">
-                                        <label for="state">State</label>
-                                        <select class="form-control" id="state" name="state_id">
-                                            @foreach ($states as $state)
-                                                <option value="{{ $state->id }}" {{ old('state', isset($user) ? $user->state : null) == $state->id ? 'selected' : '' }}>
-                                                    {{ $state->state_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                             
                                         
-                                        @error('state')
-                                            <div style="color:red">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <label for="city">City</label>
-                                        <div id="output"></div>
-                                        <select data-placeholder="" class="form-control" id="city" class="chosen-select" name="city_id">
-                                        </select>
-                                        @error('city')
-                                            <div style="color:red">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group row">
                                         <div class="col-sm-6"><br>
-                                            <label class="form-label" style="margin-left: 10px" for="power">Select Package Multipal</label>
-                                            <div id="output"></div>
-                                            <select data-placeholder="" name="package_id[]" multiple class="chosen-select">
-                                                @foreach($package as $value)
-                                                <option value="{{ $value->id ?? ''}}">
-                                                    {{$value->package_name ?? ''}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('package_id')
-                                                <div style="color:red;">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        {{-- <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Meal Multipal</label>
                                             <div id="output"></div>
                                             <select data-placeholder="" name="meal_plan[]" multiple class="chosen-select">
@@ -250,7 +182,7 @@
                                             @error('house_rules')
                                                 <div style="color:red;">{{ $message }}</div>
                                             @enderror
-                                        </div> --}}
+                                        </div>
 
                                     </div>
 
@@ -258,10 +190,6 @@
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Multipal Image</label>
                                             <input class="form-control" style="margin-left: 10px" type="file" id="images" name="images[]" multiple>
-                                        </div>
-                                        <div class="col-sm-6"><br>
-                                            <label class="form-label" style="margin-left: 10px" for="power">Select Video</label>
-                                            <input class="form-control" style="margin-left: 10px" type="file" id="video" name="video">
                                         </div>
                                        
                                     </div>
@@ -273,68 +201,19 @@
                             </form>
                         </div>
                     </div>
-                </div> <!-- end col -->
-            </div> <!-- end row -->
+                </div>
+            </div>
         </div>
-        <!-- end page content-->
-    </div> <!-- container-fluid -->
-</div> <!-- content -->
+    
+    </div> 
+</div> 
+
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
-{{-- <script>
-    $(document).ready(function() {
-        $('select').select2();  // Initializes Select2 on your select element
-    });
-</script> --}}
 <script>
     document.getElementById('output').innerHTML = location.search;
     $(".chosen-select").chosen();
-</script>
-
-<script>
-    $(document).ready(function() {
-        // Load cities for the selected state when the page loads
-        let selectedState = $('#state').val();  // Get the selected state
-        if (selectedState) {
-            loadCities(selectedState, "{{ old('city', isset($user) ? $user->city : '') }}");  // Preselect the city if it's available
-        }
-
-        // Fetch cities when state is changed
-        $('#state').change(function() {
-            let stateId = $(this).val();
-            loadCities(stateId);  // Load cities based on selected state
-        });
-
-        function loadCities(stateId, selectedCity = null) {
-            if (stateId) {
-                $.ajax({
-                    url: '/booking_portal/public/admin/cities/' + stateId,
-                    method: 'GET',
-                    success: function(response) {
-                        let cities = response.cities;
-                        $('#city').empty().append('<option value="">Select a City</option>');
-                        cities.forEach(function(city) {
-                            // Append the city options
-                            $('#city').append('<option value="' + city.id + '" ' + (selectedCity == city.id ? 'selected' : '') + '>' + city.city_name + '</option>');
-                        });
-                        $('#city').prop('disabled', false);
-                    },
-                    error: function() {
-                        alert('Error fetching cities');
-                    }
-                });
-            } else {
-                $('#city').prop('disabled', true).empty().append('<option value="">Select a City</option>');
-            }
-        }
-
-        // Initialize select2 for interests
-        $('#interest').select2({
-            placeholder: 'Select interests',
-            allowClear: true
-        });
-    });
 </script>
 
 @endsection

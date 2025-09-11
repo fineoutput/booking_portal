@@ -172,7 +172,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-sm-6"><br>
+                                    {{-- <div class="col-sm-6"><br>
                                         <label class="form-label" style="margin-left: 10px" for="meal_plan">Select Meal Multipal</label>
                                         <div id="output"></div>
                                         <select data-placeholder="" name="meal_plan[]" multiple class="chosen-select">
@@ -301,7 +301,7 @@
         <div style="color:red;">{{ $message }}</div>
     @enderror
 </div>
-                                    
+                                     --}}
                                     
                                     
 
@@ -341,6 +341,25 @@
                                                     @endforeach
                                                 </div>
                                             @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="images">Select Video</label>
+                                            <input type="file" name="video" class="form-control">
+                                            
+                                                        <div class="image-item">
+                                                            @if($hotel->video)
+                                                            <video width="320" height="240" controls>
+                                                                <source src="{{ asset($hotel->video) }}" type="video/mp4">
+                                                                Your browser does not support the video tag.
+                                                            </video>
+                                                        @else
+                                                            <p>No video available</p>
+                                                        @endif
+                                                            
+                                                        </div>
                                         </div>
                                     </div>
                                     

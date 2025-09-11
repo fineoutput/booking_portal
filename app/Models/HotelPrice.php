@@ -12,6 +12,7 @@ class HotelPrice extends Model
     protected $table = 'hotel_price';
     protected $fillable = [
         'hotel_id',
+        'room_id',
         'night_cost',
         'start_date',
         'end_date',
@@ -42,6 +43,11 @@ class HotelPrice extends Model
     public function hotel()
     {
         return $this->belongsTo(Hotels::class, 'hotel_id'); 
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(HotelsRoom::class, 'room_id'); 
     }
 
     public function cities()

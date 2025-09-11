@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Hotel Price</h4>
+          <h4 class="page-title">View {{$package_id->title ?? ''}} Price</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Hotel Price</a></li>
-            <li class="breadcrumb-item active">View Hotel Price</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">{{$package_id->title ?? ''}} Price</a></li>
+            <li class="breadcrumb-item active">View {{$package_id->title ?? ''}} Price</li>
           </ol>
         </div>
       </div>
@@ -38,9 +38,9 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Hotel Price List</h4>
+                  <h4 class="mt-0 header-title">View {{$package_id->title ?? ''}} Price List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('hotel_price_create', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add Hotel Price</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('hotel_price_create', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add {{$package_id->title ?? ''}} Price</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -50,10 +50,11 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Hotel Name</th>
+                        <th data-priority="1">Room</th>
                         <th data-priority="1">Start Month</th>
                         <th data-priority="1">End Month</th>
                         <th data-priority="3">Night Cost</th>
-                        <th data-priority="3">Room Category</th>
+                        {{-- <th data-priority="3">Room Category</th> --}}
                         {{-- <th data-priority="3">Room Cost</th> --}}
                         <th data-priority="3">Meal Plan (Breakfast) Cost</th>
                         <th data-priority="3">Meal Plan (Breakfast + lunch/dinner) Cost</th>
@@ -74,11 +75,12 @@
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{ $pkg->hotel->name ?? '' }}</td>
+                                <td>{{ $pkg->room->title ?? '' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($pkg->start_date)->format('d F Y') ?? '' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($pkg->end_date)->format('d F Y') ?? '' }}</td>
                                 {{-- <td>{{ $pkg->end_date ?? '' }}</td> --}}
                                 <td>₹{{ $pkg->night_cost ?? '0' }}</td>
-                                <td>{{ $pkg->room_category ?? '' }}</td>
+                                {{-- <td>{{ $pkg->room_category ?? '' }}</td> --}}
                                 {{-- <td>₹{{ $pkg->room_cost ?? '0' }}</td> --}}
                                 <td>₹{{ $pkg->meal_plan_breakfast_cost ?? '0' }}</td>
                                 <td>₹{{ $pkg->meal_plan_breakfast_lunch_dinner_cost ?? '0' }}</td>

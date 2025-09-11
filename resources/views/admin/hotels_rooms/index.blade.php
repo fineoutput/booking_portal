@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Hotels</h4>
+          <h4 class="page-title">{{$hotels->name ?? ''}} Rooms List</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Hotels</a></li>
-            <li class="breadcrumb-item active">View Hotels</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">{{$hotels->name ?? ''}} Rooms List</a></li>
+            <li class="breadcrumb-item active">{{$hotels->name ?? ''}} Rooms List</li>
           </ol>
         </div>
       </div>
@@ -38,9 +38,10 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Hotels List</h4>
+                  <h4 class="mt-0 header-title">{{$hotels->name ?? ''}} Rooms List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('add_hotels')}}" role="button" style="margin-left: 20px;"> Add Hotels</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" 
+                    href="{{route('add_hotels_room',$hotels->id)}}" role="button" style="margin-left: 20px;"> Add Room</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -49,94 +50,23 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th data-priority="1">Name</th>
-                        <th data-priority="1">State</th>
-                        <th data-priority="1">City</th>
-                        <th data-priority="3">Location</th>
-                        <th data-priority="1">Hotel Category</th>
-                        <th data-priority="3">Package</th>
+                        <th data-priority="1">Title</th>
                         <th data-priority="3">Meal Plan</th>
-                        {{-- <th data-priority="3">Nearby</th>
+                        <th data-priority="3">Nearby</th>
                         <th data-priority="3">Locality</th>
                         <th data-priority="3">Chains</th>
                         <th data-priority="3">Hotel Amenities</th>
                         <th data-priority="3">Room Amenities</th>
-                        <th data-priority="3">House Rules</th> --}}
+                        <th data-priority="3">House Rules</th>
                         <th data-priority="3">Image</th>
-                        <th data-priority="3">Video</th>
-                        <th data-priority="3">Show on the Frontend</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
                    <tbody>
-                    @foreach($hotels as $key=> $hotel)
+                    @foreach($hotels_room as $key=> $hotel)
                     <tr>
                         <td>{{ $key+1 }}</td> <!-- Loop index -->
-                        <td>{{ $hotel->name }}</td>
-                        <td>{{ $hotel->state->state_name ?? '' }}</td>
-                        <td>{{ $hotel->cities->city_name ?? '' }}</td>
-                        <td>{{ $hotel->location }}</td>
-                        {{-- <td>{{ $hotel->hotel_category }}</td> --}}
-                        <td>
-                          @switch($hotel->hotel_category)
-                              @case('5 Star')
-                                 5 Star
-                                  @break
-                      
-                              @case('4 Star')
-                                  4 Star
-                                  @break
-                      
-                              @case('3 Star')
-                                  3 Star
-                                  @break
-                      
-                              @case('2 Star')
-                                 2 Star
-                                  @break
-                      
-                              @case('Dormetry')
-                                  Dormetry
-                                  @break
-                      
-                              @case('Villas / Homestay')
-                                  Villas / Homestay
-                                  @break
-
-                              @case('Hostels')
-                                  Hostels
-                                  @break
-                      
-                              @default
-                                  {{ $hotel->hotel_category }} (Unknown category)
-                          @endswitch
-                      </td>
-                      
-                        <td>
-                          @php
-                          $propertyIds = explode(',', $hotel->package_id);  
-                          $isFirst = true;  // Variable to track the first iteration
-                      @endphp
-                     @foreach ($propertyIds as $propertyId)
-                        @php
-                           $property = \App\Models\Package::find($propertyId);  
-                        @endphp
-                  
-                        @if ($property)
-                          @if (!$isFirst) 
-                              ,
-                          @endif
-                          {{ $property->package_name }}
-                  
-                          @php
-                              $isFirst = false;
-                          @endphp
-                          @else
-                            Package not found
-                          @endif
-                      @endforeach
-
-                        </td>
+                        <td>{{ $hotel->title }}</td>
                         <td>
                           @php
                               $mealPlans = explode(',', $hotel->meal_plan);  
@@ -162,7 +92,7 @@
                           @endif
                       </td>
 
-                      {{-- <td>
+                      <td>
                           @php
                               $nearbyList = explode(',', $hotel->nearby); 
                           @endphp
@@ -254,7 +184,7 @@
                         @else
                             No Hotel Policies Selected
                         @endif
-                      </td> --}}
+                      </td>
                       <td>
                         @if (!empty($hotel->images) && json_decode($hotel->images))
                             @foreach (json_decode($hotel->images) as $image)
@@ -265,43 +195,15 @@
                         @endif
                     </td>
 
-                    <td>
-                         @if($hotel->video)
-                          <video width="100" height="100" controls>
-                            <source src="{{ asset($hotel->video) }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    @else
-                        <p>No video available</p>
-                    @endif
-                    </td>
-                    
-
-                      <td>
-                        <form id="form_{{ $hotel->id }}" action="{{ route('show_front_hotels', ['id' => $hotel->id]) }}" method="POST">
-                            @csrf <!-- CSRF token for security -->
-                            <input 
-                                type="checkbox" 
-                                name="show_front" 
-                                id="show_front_{{ $hotel->id }}" 
-                                data-hotel-id="{{ $hotel->id }}"
-                                value="1" 
-                                {{ $hotel->show_front ? 'checked' : '' }}>
-                            <label for="show_front_{{ $hotel->id }}">Show on Frontend</label>
-                            <input type="hidden" name="show_front_value" id="show_front_value_{{ $hotel->id }}" value="{{ $hotel->show_front ? '1' : '0' }}">
-                        </form>
-                    </td>
-
 
                         <td>
-                            <a href="{{ route('hotels.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('hotels_room.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('hotels_room.destroy', $hotel->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this hotel?')">Delete</button>
                             </form>
-                            {{-- <a href="{{ route('hotel_price', $hotel->id) }}" class="btn btn-success mt-2">Add Price</a> --}}
-                            <a href="{{ route('hotels_room', $hotel->id) }}" class="btn btn-success mt-2">Add Room</a>
+                            <a href="{{ route('hotel_price', $hotel->id) }}" class="btn btn-success mt-2">Add Price</a>
                         </td>
                     </tr>
                 @endforeach

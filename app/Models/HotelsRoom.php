@@ -5,21 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Hotels extends Model
+class HotelsRoom extends Model
 {
     use HasFactory;
 
-    protected $table = 'hotels';
+    protected $table = 'hotels_rooms';
     protected $fillable = [
-        'name',
+        'title',
         'images',
-        'state_id',
-        'city_id',
-        'location',
-        'location',
-        'hotel_category',
-        'package_id',
-        'show_front',
+        'hotel_id',
         'meal_plan',
         'nearby',
         'locality',
@@ -27,7 +21,6 @@ class Hotels extends Model
         'hotel_amenities',
         'room_amenities',
         'house_rules',
-        'video',
     ];
 
     public function package()

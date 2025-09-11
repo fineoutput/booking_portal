@@ -28,51 +28,45 @@ class HotelsController extends Controller
     function create(Request $request) {
 
         if($request->method()=='POST'){
-            // $validated = $request->validate([
-            //     'name' => 'required',
-            //     'images' => 'required', 
-            //     'location' => 'required',
-            //     'hotel_category' => 'required',
-            //     'package_id' => 'required',
-            // ]);
-          
-    
-            // if ($request->hasFile('images')) {
-            //     $imagePaths = [];
-            //     foreach ($request->file('images') as $image) {
-            //         $imagePaths[] = $image->store('hotels/images', 'public');
-            //     }
-            // } else {
-            //     $imagePaths = null;
-            // }
 
             if ($request->hasFile('images')) {
                 $imagePaths = [];
                 foreach ($request->file('images') as $image) {
-                    // Define the custom folder inside the public directory (you can change 'public/images')
                     $destinationPath = public_path('hotels/images');
             
-                    // Ensure the destination directory exists
                     if (!file_exists($destinationPath)) {
                         mkdir($destinationPath, 0777, true);
                     }
             
-                    // Get the original file name and store the image with the new name
                     $filename = time() . '_' . $image->getClientOriginalName();
                     
-                    // Move the file to the destination
                     $image->move($destinationPath, $filename);
             
-                    // Store the relative path of the image (to access via URL later)
                     $imagePaths[] = 'hotels/images/' . $filename;
                 }
             } else {
                 $imagePaths = null;
             }
+
+             $video_path = null;
+
+              if ($request->hasFile('video')) {
+                $videoDestination = public_path('uploads/videos');
+
+                if (!file_exists($videoDestination)) {
+                    mkdir($videoDestination, 0777, true);
+                }
+
+                $videoName = time() . '_video.' . $request->file('video')->extension();
+                $request->file('video')->move($videoDestination, $videoName);
+
+                $video_path = 'uploads/videos/' . $videoName;
+            }
     
             $hotel = new Hotels();
             $hotel->name = $request->name;
             $hotel->images = $imagePaths ? json_encode($imagePaths) : null; 
+            $hotel->video = $video_path;
             $hotel->location = $request->location;
             $hotel->state_id = $request->state_id;
             $hotel->city_id = $request->city_id;
@@ -199,6 +193,22 @@ public function update(Request $request, $id)
             $imagePaths[] = 'hotels/images/' . $filename;
         }
     }
+
+      if ($request->hasFile('video')) {
+            if (!empty($hotel->video) && file_exists(public_path($hotel->video))) {
+                unlink(public_path($hotel->video));
+            }
+
+            $videoName = time() . '_video.' . $request->file('video')->extension();
+
+            $videoDestination = public_path('uploads/videos');
+            if (!file_exists($videoDestination)) {
+                mkdir($videoDestination, 0777, true);
+            }
+            $request->file('video')->move($videoDestination, $videoName);
+
+            $hotel->video = 'uploads/videos/' . $videoName;
+        }
 
     $hotel->name = $request->name;
     $hotel->location = $request->location;

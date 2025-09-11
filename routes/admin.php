@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\OutstationController;
 use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\RoundTripController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\HotelsRoomController;
 use App\Http\Controllers\Admin\TransferAgentCallesController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\LocalTourPriceController;
@@ -112,6 +113,17 @@ Route::group(['middleware'=>'admin.auth'],function(){
     Route::put('hotels/{hotel}', [HotelsController::class, 'update'])->name('hotels.update');
     Route::delete('hotels/{hotel}', [HotelsController::class, 'destroy'])->name('hotels.destroy');
     Route::get('/cities/{stateId}', [HotelsController::class, 'getCitiesByStatehotels']);
+
+   //  Hotels Rooms  ------------------------
+   Route::get('/hotels-room/{id}', [HotelsRoomController::class, 'index'])->name('hotels_room');
+
+   Route::get('/hotels/room/create/{id}', [HotelsRoomController::class, 'create'])->name('add_hotels_room');
+
+   Route::post('/hotels/room/store/{id}', [HotelsRoomController::class, 'store'])->name('store_hotels_room');
+
+   Route::get('hotels/room/{hotel}/edit', [HotelsRoomController::class, 'edit'])->name('hotels_room.edit');
+    Route::put('hotels/room/{hotel}', [HotelsRoomController::class, 'update'])->name('hotels_room.update');
+    Route::delete('hotels/room/{hotel}', [HotelsRoomController::class, 'delete'])->name('hotels_room.destroy');
 
 
     Route::get('/hotel-price/{id}', [HotelsPriceController::class, 'index'])->name('hotel_price');

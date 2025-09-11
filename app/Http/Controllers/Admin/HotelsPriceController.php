@@ -9,6 +9,7 @@ use App\Models\PackagePrice;
 use App\Models\City;
 use App\Models\HotelPrice;
 use App\Models\Hotels;
+use App\Models\HotelsRoom;
 use App\Models\State;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -16,8 +17,9 @@ use Illuminate\Support\Facades\Log;
 class HotelsPriceController extends Controller
 {
     function index($id){
-        $data['package'] = HotelPrice::orderBy('id','DESC')->where('hotel_id',$id)->get();
-        $data['package_id'] = Hotels::where('id',$id)->first();
+        $data['package'] = HotelPrice::orderBy('id','DESC')->where('room_id',$id)->get();
+        $data['package_id'] = HotelsRoom::where('id',$id)->first();
+        // $data['hotel'] = Hotels::where('id',$data['package']->hotel_id)->first();
         return view('admin/hotelprice/index',$data);
     }
 
@@ -30,14 +32,18 @@ class HotelsPriceController extends Controller
 
     public function create(Request $request, $id)
     {
+            $room = HotelsRoom::findOrFail($id);
+
         if ($request->method() == 'POST') {
             // Validate the incoming request
             $request->validate([
                 'night_cost' => 'required|numeric',
             ]);
+
     
                 $hotel_price = new HotelPrice();
-                $hotel_price->hotel_id = $id;
+                $hotel_price->room_id = $id;
+                $hotel_price->hotel_id = $room->hotel_id;
                 $hotel_price->end_date = $request->end_date;
                 $hotel_price->start_date = $request->start_date;
                 $hotel_price->night_cost = $request->night_cost;
@@ -66,8 +72,9 @@ class HotelsPriceController extends Controller
         }
     
         // Fetch the package data for the form
-        $data['package'] = Hotels::where('id', $id)->first();
-        $data['packageprice'] = HotelPrice::where('hotel_id', $id)->first();
+        // $data['hotel'] = Hotels::where('id', $id)->first();
+        $data['package'] = HotelsRoom::where('id', $id)->first();
+        $data['packageprice'] = HotelPrice::where('hotel_id', $room->hotel_id)->first();
         return view('admin/hotelprice/create', $data);
     }
     public function destroy($id)
@@ -118,7 +125,7 @@ class HotelsPriceController extends Controller
                 
                 $hotel_price->save();
         
-            return redirect()->route('hotel_price', ['id' => $hotel_price->hotel_id])->with('success', 'Hotel Price updated successfully.');
+            return redirect()->route('hotel_price', ['id' => $hotel_price->room_id])->with('success', 'Hotel Price updated successfully.');
         }
 
 }

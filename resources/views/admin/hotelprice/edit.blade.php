@@ -75,7 +75,7 @@
                                         @error('night_cost') <div style="color:red;">{{ $message }}</div> @enderror
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <label for="room_category" class="form-label">Room Category <span style="color:red;">*</span></label>
                                         <select class="form-control" name="room_category">
                                             <option disabled value="">Select Room Category</option>
@@ -83,7 +83,7 @@
                                             <option value="deluxe" {{ old('room_category', $package->room_category) == 'deluxe' ? 'selected' : '' }}>Deluxe</option>
                                         </select>
                                         @error('room_category') <div style="color:red;">{{ $message }}</div> @enderror
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div class="col-sm-6 mt-4">
                                         <label for="room_cost" class="form-label">Room Cost <span style="color:red;">*</span></label>

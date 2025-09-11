@@ -80,7 +80,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <select class="form-control" name="room_category" id="room_category" >
                                             <option selected disabled value="">Select Room Category</option>
                                             <option value="premium">Premium</option>
@@ -89,7 +89,7 @@
                                         @error('room_category')
                                             <div style="color:red;">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div class="col-sm-6 mt-4">
                                         <label for="room_cost" class="form-label">Room Cost &nbsp;<span style="color:red;">*</span></label>
