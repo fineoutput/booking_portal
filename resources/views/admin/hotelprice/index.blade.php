@@ -40,6 +40,7 @@
                 <div class="col-md-10">
                   <h4 class="mt-0 header-title">View {{$package_id->title ?? ''}} Price List</h4>
                 </div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('hotels_room', $package_id->hotel_id) }}" role="button" style="margin-left: 20px;">Back</a></div>
                 <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('hotel_price_create', $package_id->id) }}" role="button" style="margin-left: 20px;"> Add {{$package_id->title ?? ''}} Price</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">

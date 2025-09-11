@@ -40,6 +40,7 @@
                 <div class="col-md-10">
                   <h4 class="mt-0 header-title">{{$hotels->name ?? ''}} Rooms List</h4>
                 </div>
+                 <div class="col-md-2"> <a class="btn btn-info cticket" href="{{ route('hotels') }}" role="button" style="margin-left: 20px;">Back</a></div>
                 <div class="col-md-2"> <a class="btn btn-info cticket" 
                     href="{{route('add_hotels_room',$hotels->id)}}" role="button" style="margin-left: 20px;"> Add Room</a></div>
               </div>
