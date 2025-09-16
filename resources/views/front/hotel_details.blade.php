@@ -691,9 +691,9 @@
                                     <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
                                             padding-left: 0 !important;">
                                         <div class="nizam_abt mt-5">
-                                            <h4 class="naxo">About this Hotel</h4>
+                                            <h4 class="naxo">Room Types</h4>
 
-                                            <div class="ho_bhe">
+                                            {{-- <div class="ho_bhe">
                                                 <span>
                                                     State :- {{$hotel->state->state_name ?? ''}}
                                                 </span>
@@ -701,7 +701,7 @@
                                                 <span>
                                                     City :- {{$hotel->cities->city_name ?? ''}}
                                                 </span>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         {{-- <li class="l7n4lsf atm_9s_1o8liyq_keqd55 dir dir-ltr">2 bedrooms<span
                                                 class="axjq0r atm_9s_glywfm dir dir-ltr"><span
