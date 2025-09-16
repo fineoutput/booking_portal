@@ -806,6 +806,7 @@
                 </div>
             </div>
 
+             @foreach ($hotel_room as $value)
             <div class="room-card">
                 <!-- Upgrade Banner -->
                 <div class="upgrade-banner">
@@ -818,19 +819,10 @@
                         <div class="jules">
 
 
-                            <div id="room-slider" class="splide" style="    height: 100%;
-        width: 100%">
-                                <div class="splide__track" style="height: 100% !important;
-        width: 100%">
+                            <div id="room-slider" class="splide" style="height: 100%; width: 100%">
+                                <div class="splide__track" style="height: 100% !important; width: 100%">
                                     <ul class="splide__list">
-                                        <li class="splide__slide">
-                                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
-                                                alt="Room Image" class="open-modal">
-                                        </li>
-                                        <li class="splide__slide">
-                                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
-                                                alt="Room Image" class="open-modal">
-                                        </li>
+
                                         <li class="splide__slide">
                                             <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
                                                 alt="Room Image" class="open-modal">
@@ -852,7 +844,7 @@
                                     <span class="close"
                                         style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">&times;</span>
                                     <div style="padding:32px 32px 16px 32px;">
-                                        <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">Deluxe Room AC</h2>
+                                        <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">{{$value->title ?? ''}}</h2>
                                         <div id="modal-slider" class="splide" style="margin-bottom:24px;">
                                             <div class="splide__track">
                                                 <ul class="splide__list">
@@ -928,7 +920,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h3>Super Deluxe Room AC</h3>
+                        <h3>{{$value->title ?? ''}}</h3>
                         <div class="features">
 
                             <ul class="rmTypeList vertical appendTop10 ">
@@ -956,8 +948,11 @@
                     <div class="room_Center">
                         <h4 class="naxo">Room Only</h4>
                         <ul class="offers">
-                            <li>✔ Enjoy 20% off on drinks.</li>
-                            <li>✔ Non-Refundable</li>
+                              @foreach(explode(',', $value->room_amenities) as $amenity)
+                                    @if(trim($amenity) !== '')
+                                        <li>✔ {{ trim($amenity) }}</li>
+                                    @endif
+                                @endforeach
                         </ul>
                     </div>
                     <!-- Right Side -->
@@ -973,6 +968,7 @@
                     </div>
                 </div>
             </div>
+              @endforeach
         </div>
     </section>
     <script>
