@@ -850,28 +850,68 @@
 </div>
 
 
-<!-- Modal -->
-<div id="imageModal" class="modal">
-  <span class="close">&times;</span>
-  <div id="modal-slider" class="splide">
-    <div class="splide__track">
-      <ul class="splide__list">
-        <li class="splide__slide">
-          <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="">
-        </li>
-        <li class="splide__slide">
-          <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="">
-        </li>
-        <li class="splide__slide">
-          <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="">
-        </li>
-      </ul>
+<!-- Redesigned Modal -->
+<div id="imageModal" class="modal" style="display:none; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:16px; max-width:900px; width:95vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.25);">
+        <span class="close" style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">&times;</span>
+        <div style="padding:32px 32px 16px 32px;">
+            <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">Deluxe Room AC</h2>
+            <div id="modal-slider" class="splide" style="margin-bottom:24px;">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                        </li>
+                        <li class="splide__slide">
+                            <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                        </li>
+                        <li class="splide__slide">
+                            <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                        </li>
+                    </ul>
+                </div>
+                <div class="splide__arrows">
+                    <button class="splide__arrow splide__arrow--prev">‹</button>
+                    <button class="splide__arrow splide__arrow--next">›</button>
+                </div>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
+                <div style="flex:2; min-width:260px;">
+                    <div style="display:flex; gap:16px; align-items:center; margin-bottom:12px;">
+                        <span>📐 220 sq.ft (20 sq.mt)</span>
+                        <span>🌆 City View</span>
+                    </div>
+                    <div style="display:flex; gap:16px; align-items:center; margin-bottom:12px;">
+                        <span>🛏 1 King Bed</span>
+                        <span>🛁 1 Bathroom</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:8px;">Room Amenities</h4>
+                        <ul style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px 24px; padding-left:18px;">
+                            <li>❄ Air Conditioning</li>
+                            <li>📶 Wi-Fi</li>
+                            <li>🚬 Smoking Room</li>
+                            <li>✔ Mineral Water - additional charge</li>
+                            <li>🧹 Daily Housekeeping</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="flex:1; min-width:200px; background:#f7f7f7; border-radius:8px; padding:16px;">
+                    <div style="font-size:1.2rem; font-weight:700; color:#222; margin-bottom:8px;">₹ 1,663</div>
+                    <div style="color:#888; font-size:1rem; margin-bottom:8px;">+ ₹ 427 Taxes & Fees per night</div>
+                    <button class="select-btn" style="width:100%; background:#007bff; color:#fff; border:none; border-radius:6px; padding:10px 0; font-size:1rem; font-weight:600; margin-bottom:8px;">SELECT ROOM</button>
+                    <div class="exclusive-offer" style="color:#0a66c2; font-size:0.95rem;">Exclusive Offer - DBS Credit Card, Get 693 Off</div>
+                </div>
+            </div>
+            <div style="margin-top:24px;">
+                <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:8px;">Room Only</h4>
+                <ul class="offers" style="padding-left:18px;">
+                    <li>✔ Enjoy 20% off on drinks.</li>
+                    <li>✔ Non-Refundable</li>
+                </ul>
+            </div>
+        </div>
     </div>
-     <div class="splide__arrows">
-      <button class="splide__arrow splide__arrow--prev">‹</button>
-      <button class="splide__arrow splide__arrow--next">›</button>
-    </div>
-  </div>
 </div>
         </div>
       <h3>Super Deluxe Room AC</h3>
