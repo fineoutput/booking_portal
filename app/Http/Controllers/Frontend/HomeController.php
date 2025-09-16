@@ -41,6 +41,7 @@ use App\Models\WildlifeSafari;
 use App\Models\WildlifeSafariOrder;
 use App\Models\Wallet;
 use App\Models\HotelPrefrence;
+use App\Models\HotelsRoom;
 use App\Models\LocationCost;
 use App\Models\Testimonials;
 use App\Models\VehicleCost;
@@ -1611,6 +1612,7 @@ public function getVehiclesByCity($cityId)
     {
         $id = base64_decode($id);
         $data['hotel'] = Hotels::where('id',$id)->first();
+        $data['hotel_room'] = HotelsRoom::where('hotel_id',$id)->get();
         $data['hotel_price'] = HotelPrice::where('hotel_id',$id)->first();
         return view('front/hotel_details',$data);
     }
