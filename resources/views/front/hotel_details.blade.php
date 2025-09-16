@@ -97,6 +97,306 @@
     height: 100%;
 }
     </style>
+    <div class="header-container_hotels">
+
+  <div class="search-header_hotels">
+    <!-- Destination Dropdown -->
+    <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+      <div class="filter-label_hotels">Destination</div>
+      
+
+<form action="" method="POST" id="filter-form">
+          @csrf
+<div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search"
+          onkeyup="filterCities()" placeholder="Search cities..." class="search-input" readonly></div>
+      <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+          <!-- Search input added here -->
+          <div class="search-container">
+            {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
+              class="search-input"> --}}
+          </div>
+
+          {{-- @foreach($cities as $value) --}}
+          <label class="d-flex " for="city_" class="city-label orSamar" style="
+              border-bottom: 1px solid #00000033;     padding: 10px;">
+            <div class="city_list_htotle city-item mb-2">
+              <div class="desMund d-flex align-items-center gap-2">
+                <div class="sizemaze">
+                  <!-- Image representing the city -->
+                  <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+                </div>
+                <p class="text-bold text-dark" href="#"><b></b></p>
+
+                <div class="hotel_place">
+                  <!-- Input field for the city selection -->
+                  <input type="radio" id="city_" name="city_id" value=""
+                    class="destination-option_hotels opacity-0" onclick="selectDestination('')">
+
+                  <span class="hotels_spn"></span>
+                </div>
+              </div>
+            </div>
+            <p id="no_city">no city found</p>
+          </label>
+          {{-- @endforeach --}}
+
+      </div>
+    </div>
+    {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+      <div class="filter-label_hotels">Destination</div>
+      <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
+      <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+
+        <form action="" method="POST" id="filter-form">
+          @csrf
+
+          @foreach($cities as $value)
+          <div class="city_list_htotle">
+            <div class="sizemaze">
+              <!-- Image representing the city -->
+              <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+            </div>
+            <div class="hotel_place">
+              <!-- Input field for the city selection -->
+              <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
+                class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+              <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available'
+                }}</label>
+              <span class="hotels_spn"></span>
+            </div>
+          </div>
+          @endforeach
+
+      </div>
+    </div> --}}
+
+
+    <!-- Check-in Date -->
+    <div class="filter-item_hotels sachi">
+      <div class="filter-label_hotels">Select Dates</div>
+      <input type="text" id="date-range" class="filter-value_hotels" placeholder="Choose date range" readonly>
+      <input type="hidden" name="start_date" id="start_date">
+      <input type="hidden" name="end_date" id="end_date">
+    </div>
+
+    <!-- Guests Dropdown -->
+    <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
+      <div class="filter-label_hotels">Guests</div>
+
+      <div class="filter-value_hotels" id="guests-value">1 guest</div>
+
+      <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+        <div class="guest-option_hotels">
+          <label>No. of Rooms</label>
+          <div class="counter_hotels">
+            <button type="button" onclick="updateGuests('infants', -1)">-</button>
+            <input type="number" id="infants-count" value="1" min="1">
+            <button type="button" onclick="updateGuests('infants', 1)">+</button>
+          </div>
+        </div>
+        <div class="guest-option_hotels">
+          <label>Adults</label>
+          <div class="counter_hotels">
+            <button type="button" onclick="updateGuests('adults', -1)">-</button>
+            <input type="number" id="adults-count" value="1" min="1">
+            <button type="button" onclick="updateGuests('adults', 1)">+</button>
+          </div>
+        </div>
+        <div class="guest-option_hotels">
+          <label>Children</label>
+          <div class="counter_hotels">
+            <button type="button" onclick="updateChildren(-1)">-</button>
+            <input type="number" id="children-count" value="0" min="0">
+            <button type="button" onclick="updateChildren(1)">+</button>
+          </div>
+
+          <!-- Dynamic child age dropdowns appear here -->
+
+        </div>
+        <hr id="what">
+        <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
+          Children age
+        </div>
+
+        <!-- Dynamic child age dropdowns appear here -->
+        <div id="children-ages"> </div>
+
+      </div>
+    </div>
+    <button type="submit" class="cutPiece" style="border: none; background: none;">
+      <div class="search_sba">
+        <div class="sba_center_Sarch">
+
+          search
+          {{-- <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;"> --}}
+
+        </div>
+      </div>
+    </button>
+</form>
+
+  </div>
+</div>
+
+    {{-- <form action="{{ route('add_hotel_booking',['id'=>$hotel->id]) }}" method="POST">
+                            @csrf
+                            <div class="sharan_side_box">
+                                <div class="stand_it">
+                                    <div class="outer_box">
+                                        <div class="inner_box">
+
+                                            <siv class="room_check d-flex justify-content-between align-items-center">
+                                                <div class="inner_price">
+                                                    <span style="color: rgb(106, 106, 106);"><del></del></span>
+                                                    <span id="dynamic-price">₹</span>
+                                                    <span></span>
+                                                </div>
+
+                                            </siv>
+
+                                            <div class="checks">
+                                                <div class="bors">
+                                                    <div class="caranke">
+                                                        <label for="">Check In</label>
+                                                        <input name="check_in_date" id="check_in_date" type="date"
+                                                            class="filter-value_hotels" placeholder="Check In"
+                                                            onchange="updateNightCount()" required>
+                                                    </div>
+                                                    <div class="caranke">
+                                                        <label for="">Check Out</label>
+                                                        <input name="check_out_date" id="check_out_date" type="date"
+                                                            class="filter-value_hotels" placeholder="Check out"
+                                                            onchange="updateNightCount()" required>
+                                                    </div>
+                                                </div>
+                                                <div class="rivvsa">
+                                                    <div class="filter-item_hotels sachi trnas"
+                                                        onclick="toggleDropdown('guests')">
+                                                        <div class="filter-label_hotels">Guests</div>
+                                                        <div class="arrow">
+                                                            <div class="filter-value_hotels" id="guests-value">1 guest</div>
+                                                            <img src="{{ asset('frontend/images/down.png') }}"
+                                                                style="width: 20px;" alt="">
+                                                        </div>
+                                                        <div class="dropdown_hotels guests-dropdown_hotels"
+                                                            id="guests-dropdown">
+                                                            <div class="guest-option_hotels">
+                                                                <label>No. of Rooms</label>
+                                                                <div class="counter_hotels">
+                                                                    <button type="button"
+                                                                        onclick="updateGuestss('infants', -1)">-</button>
+                                                                    <input type="number" id="infants-count" value="0"
+                                                                        min="0" onchange="updateGuestss()">
+                                                                    <button type="button"
+                                                                        onclick="updateGuestss('infants', 1)">+</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="guest-option_hotels">
+                                                                <label>Adults</label>
+                                                                <div class="counter_hotels">
+                                                                    <button type="button"
+                                                                        onclick="updateGuestss('adults', -1)">-</button>
+                                                                    <input type="number" id="adults-count" value="1" min="1"
+                                                                        onchange="updateGuestss()">
+                                                                    <button type="button"
+                                                                        onclick="updateGuestss('adults', 1)">+</button>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div class="guest-option_hotels">
+                                                                <label>Children</label>
+                                                                <div class="counter_hotels">
+                                                                    <button type="button"
+                                                                        onclick="updateGuestss('children', -1)">-</button>
+                                                                    <input type="number" id="children-count" value="0"
+                                                                        min="0" onchange="updateGuestss()">
+                                                                    <button type="button"
+                                                                        onclick="updateGuestss('children', 1)">+</button>
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div id="children-age-label"
+                                                                style="margin-top:10px; display:none; font-weight:600;">
+                                                                Children age
+                                                            </div>
+                                                            <div id="children-ages">
+                                                                <input type="hidden" name="children_ages_array"
+                                                                    id="children-ages-array">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="premium-fields" class="trnas wast"
+                                                        style="display:none; margin-top:15px;">
+                                                        <div class="form-group">
+                                                            <label class="filter-label_hotels" for="meals">Meals</label>
+                                                            <select class="need hato" name="meals" id="meals"
+                                                                class="filter-value_hotels">
+                                                                <option value="">-- Select --</option>
+                                                                <option value="breakfast">Breakfast</option>
+                                                                <option value="breakfast_dinner">Breakfast + Lunch/Dinner
+                                                                </option>
+                                                                <option value="all_meals">All Meals</option>
+                                                                <option value="no_meal">No Meals</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group mt-2">
+                                                            <label class="filter-label_hotels" for="extra_bed">Extra
+                                                                Bed</label>
+                                                            <select class="need hato" name="beds" id="beds"
+                                                                class="filter-value_hotels">
+                                                                <option value="">-- 0 --</option>
+
+                                                                @for ($i = 0; $i <= 20; $i++) <option value="{{ $i }}">{{ $i
+                                                                    }}</option>
+                                                                    @endfor
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group mt-2">
+                                                            <label class="filter-label_hotels" for="child_no_bed">Child With
+                                                                No Bed</label>
+                                                            <select class="need hato" name="nobed" id="nobed"
+                                                                class="filter-value_hotels">
+                                                                <option value="">-- 0 --</option>
+
+                                                                @for ($i = 0; $i <= 20; $i++) <option value="{{ $i }}">{{ $i
+                                                                    }}</option>
+                                                                    @endfor
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" name="night_count" id="night_count">
+                                                <input type="hidden" name="total_cost" id="total-cost-input">
+
+                                                <input type="hidden" name="guest_count" id="guest_count">
+                                                <input type="hidden" name="child_count" id="child_count">
+                                                <input type="hidden" name="room_count" id="room_count">
+                                            </div>
+
+
+                                            <div class="live_set mt-3">
+                                                @if(Auth::guard('agent')->check())
+                                                <button type="submit" class="btn btn-info gggsd">
+                                                    Reserve
+                                                </button>
+                                                @else
+                                                <a href="{{ route('login') }}" class="btn btn-primary">Fetch Price</a>
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form> --}}
     <section class="detail_htels mt-5">
         <div class="comp-container">
             <div class="upper_site_dets">
@@ -194,7 +494,7 @@
                                             <div class="last_ride">
                                               <div class="live_set mt-3">
                                                 
-                                                <a href="{{ route('login') }}" class="btn btn-primary">Book Now</a>
+                                                <a href="{{ route('final_booking') }}" class="btn btn-primary">Book Now</a>
                                                 
 
                                             </div>   
@@ -744,21 +1044,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </script> --}}
 
     <script>
-        function togglePremiumFields() {
-            const roomType = document.getElementById("room_type").value;
-            const premiumFields = document.getElementById("premium-fields");
-
-            if (roomType === "premium") {
-                premiumFields.style.display = "block";
-            } else {
-                premiumFields.style.display = "none";
-
-                // reset values if Deluxe is chosen again
-                document.getElementById("meals").value = "";
-                document.getElementById("extra_bed").value = 0;
-                document.getElementById("child_no_bed").value = 0;
-            }
-        }
+       
     </script>
 
     <script>
@@ -927,6 +1213,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 type: 'loop',
                 perPage: 3,
                 perMove: 1,
+                arrows:false,
                 gap: '1rem',
                 autoplay: true,
                 interval: 3000,

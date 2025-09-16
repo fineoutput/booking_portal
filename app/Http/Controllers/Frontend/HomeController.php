@@ -1621,6 +1621,10 @@ public function getVehiclesByCity($cityId)
         $data['packagebookingtemp'] = HotelBooking::where('id', $id)->first();
         return view('front/hotel_confirmation', $data);
     }
+    
+    public function final_booking(Request $request) {
+        return view('front/final_booking');
+    }
 
 
 
