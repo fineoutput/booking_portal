@@ -66,7 +66,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgb(0 0 0 / 24%);
 }
 .modal img {
   width: auto;
@@ -833,13 +833,13 @@
     width: 100%">
     <ul class="splide__list">
       <li class="splide__slide">
-        <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="Room Image" class="open-modal">
+        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="Room Image" class="open-modal">
       </li>
       <li class="splide__slide">
-        <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="Room Image" class="open-modal">
+        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="Room Image" class="open-modal">
       </li>
       <li class="splide__slide">
-        <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="Room Image" class="open-modal">
+        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="Room Image" class="open-modal">
       </li>
     </ul>
   </div>
@@ -851,7 +851,7 @@
 
 
 <!-- Redesigned Modal -->
-<div id="imageModal" class="modal" style="display:none; align-items:center; justify-content:center;">
+<div id="imageModal" class="modal" style="display:none; align-items:center; justify-content:center; justify-items:center; ">
     <div style="background:#fff; border-radius:16px; max-width:900px; width:95vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.25);">
         <span class="close" style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">&times;</span>
         <div style="padding:32px 32px 16px 32px;">
@@ -860,13 +860,13 @@
                 <div class="splide__track">
                     <ul class="splide__list">
                         <li class="splide__slide">
-                            <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
                         </li>
                         <li class="splide__slide">
-                            <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
                         </li>
                         <li class="splide__slide">
-                            <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
                         </li>
                     </ul>
                 </div>
@@ -926,7 +926,7 @@
         <span>🧹 Daily Housekeeping</span>
         <span>🍽 In-room Dining</span>
       </div>
-      <a href="#" class="more-link">More Details</a>
+    <a href="#" class="more-link" id="open-modal-details">More Details</a>
     </div>
 <div class="room_Center">
     <h4>Room Only</h4>
@@ -972,14 +972,26 @@ document.addEventListener('DOMContentLoaded', function () {
   var modal = document.getElementById("imageModal");
   var closeBtn = document.querySelector(".close");
 
-  // Open modal when any image clicked
-  document.querySelectorAll('.open-modal').forEach((img, index) => {
-    img.addEventListener('click', () => {
-      modal.style.display = "block";
-      modalSlider.mount();
-      modalSlider.go(index); // start from clicked image
+
+    // Open modal when any image clicked
+    document.querySelectorAll('.open-modal').forEach((img, index) => {
+        img.addEventListener('click', () => {
+            modal.style.display = "block";
+            modalSlider.mount();
+            modalSlider.go(index); // start from clicked image
+        });
     });
-  });
+
+    // Open modal when 'More Details' link is clicked
+    var moreDetailsBtn = document.getElementById('open-modal-details');
+    if (moreDetailsBtn) {
+        moreDetailsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.style.display = "block";
+            modalSlider.mount();
+            modalSlider.go(0); // start from first image
+        });
+    }
 
   // Close modal
   closeBtn.onclick = function() {
