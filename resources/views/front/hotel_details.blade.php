@@ -954,7 +954,7 @@
                         <a href="#" class="more-link" id="open-modal-details">More Details</a>
                     </div>
                     <div class="room_Center">
-                        <h4>Room Only</h4>
+                        <h4 class="naxo">Room Only</h4>
                         <ul class="offers">
                             <li>✔ Enjoy 20% off on drinks.</li>
                             <li>✔ Non-Refundable</li>

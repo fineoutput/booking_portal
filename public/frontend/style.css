@@ -2662,7 +2662,7 @@ textarea.form-control {
     .room-right {
       flex: 1;
       min-width: 280px;
-      padding: 20px;
+      padding: 10px 10px;
     }
     .room-right h4 {
       font-size: 18px;
@@ -2727,8 +2727,8 @@ textarea.form-control {
 }
 .room_Center {
     flex: 1;
-    padding: 0px 10px;
-    border-right: 1px solid #8080804a;
+    padding: 10px 10px;
+    /* border-right: 1px solid #8080804a; */
 }
 .room-left {
     border-right: 1px solid #8080804a;
