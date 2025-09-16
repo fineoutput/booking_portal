@@ -223,7 +223,7 @@
                     </div>
 
                     <!-- Dynamic child age dropdowns appear here -->
-                    <div id="children-ages"> </div>
+                    <div id="children-ages" class="vincent"> </div>
 
                 </div>
             </div>

@@ -2176,7 +2176,7 @@ textarea.form-control {
 }
 
 .rivvsa {
-  border-top: 1px solid #0000004f;
+  /* border-top: 1px solid #0000004f; */
 }
 .caranke {
   padding: 10px;
@@ -2759,4 +2759,21 @@ textarea.form-control {
 }
 ul.rmTypeList.vertical.appendTop10 {
     padding: 0;
+}
+#children-ages {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+}
+
+.samule {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #33333396;
+}
+.need {
+    width: 40%;
+    border: 1px solid #80808066;
+    border-radius: 5px;
 }
