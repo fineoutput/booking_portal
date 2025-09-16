@@ -2,9 +2,7 @@
 @section('title', 'home')
 @section('content')
     <style>
-        .splide__arrow {
-            display: none;
-        }
+      
 
         .guests-dropdown_hotels {
             width: 100%;
@@ -50,6 +48,54 @@
             justify-content: space-between;
             gap: 5px;
         }
+
+
+
+
+
+
+
+
+    .modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 40px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.9);
+}
+.modal img {
+  width: auto;
+  max-height: 80vh;
+  margin: auto;
+  display: block;
+}
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+}
+.splide__arrow {
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.splide__track{
+    height: 100%;
+}
     </style>
     <section class="detail_htels mt-5">
         <div class="comp-container">
@@ -352,8 +398,7 @@
                                 </h4>
                                 <span class="sabke">
                                     <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
-                padding-left: 0 !important;
-            ">
+                                        padding-left: 0 !important;">
                                         <div class="nizam_abt mt-5">
                                             <h4 class="naxo">About this Hotel</h4>
 
@@ -482,7 +527,52 @@
         <div class="jules">
 
         
-      <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="Room Image">
+      <div id="room-slider" class="splide" style="    height: 100%;
+    width: 100%">
+  <div class="splide__track" style="height: 100% !important;
+    width: 100%">
+    <ul class="splide__list">
+      <li class="splide__slide">
+        <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="Room Image" class="open-modal">
+      </li>
+      <li class="splide__slide">
+        <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="Room Image" class="open-modal">
+      </li>
+      <li class="splide__slide">
+        <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="Room Image" class="open-modal">
+      </li>
+    </ul>
+  </div>
+    <div class="splide__arrows">
+    <button class="splide__arrow splide__arrow--prev">‹</button>
+    <button class="splide__arrow splide__arrow--next">›</button>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="imageModal" class="modal">
+  <span class="close">&times;</span>
+  <div id="modal-slider" class="splide">
+    <div class="splide__track">
+      <ul class="splide__list">
+        <li class="splide__slide">
+          <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="">
+        </li>
+        <li class="splide__slide">
+          <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="">
+        </li>
+        <li class="splide__slide">
+          <img src="http://127.0.0.1:8000/hotels/images/1757922823_dlYiMO6E6D9INuanH8t0.jpg" alt="">
+        </li>
+      </ul>
+    </div>
+     <div class="splide__arrows">
+      <button class="splide__arrow splide__arrow--prev">‹</button>
+      <button class="splide__arrow splide__arrow--next">›</button>
+    </div>
+  </div>
+</div>
         </div>
       <h3>Super Deluxe Room AC</h3>
       <div class="features">
@@ -520,7 +610,48 @@
 </div>
         </div>
     </section>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Main slider
+  new Splide('#room-slider', {
+    type: 'loop',
+    arrows: true,
+    pagination: false,
+    drag: false,
+  }).mount();
 
+  // Modal slider
+  var modalSlider = new Splide('#modal-slider', {
+    type: 'loop',
+    arrows: true,
+    pagination: false,
+    drag: false,
+  });
+
+  // Modal
+  var modal = document.getElementById("imageModal");
+  var closeBtn = document.querySelector(".close");
+
+  // Open modal when any image clicked
+  document.querySelectorAll('.open-modal').forEach((img, index) => {
+    img.addEventListener('click', () => {
+      modal.style.display = "block";
+      modalSlider.mount();
+      modalSlider.go(index); // start from clicked image
+    });
+  });
+
+  // Close modal
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+});
+</script>
     {{--
     <script>
         // Assuming this is sent via PHP:
