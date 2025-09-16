@@ -2078,7 +2078,7 @@ textarea.form-control {
 
 /* //////////////////////////////Hotel detail page */
 .nive {
-  height: 50vh;
+  /* height: 50vh; */
 }
 .mirror_maxe {
     height: 100%;
@@ -2732,4 +2732,31 @@ textarea.form-control {
 }
 .room-left {
     border-right: 1px solid #8080804a;
+}
+.rmTypeList__item--icon img {
+    width: 22px;
+    margin: 0;
+}
+
+.features span {
+    display: block;
+    font-weight: bold;
+    color: grey;
+}
+.same {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.rmTypeList__item{
+  list-style: none;
+}
+.rmTypeList__item {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+ul.rmTypeList.vertical.appendTop10 {
+    padding: 0;
 }

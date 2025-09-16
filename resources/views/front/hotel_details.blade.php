@@ -2,8 +2,6 @@
 @section('title', 'home')
 @section('content')
     <style>
-      
-
         .guests-dropdown_hotels {
             width: 100%;
         }
@@ -56,347 +54,337 @@
 
 
 
-    .modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  padding-top: 40px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: rgb(0 0 0 / 24%);
-}
-.modal img {
-  width: auto;
-  max-height: 80vh;
-  margin: auto;
-  display: block;
-}
-.close {
-  position: absolute;
-  top: 15px;
-  right: 35px;
-  color: #fff;
-  font-size: 40px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 999;
-}
-.splide__arrow {
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  border: none;
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-.splide__track{
-    height: 100%;
-}
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 40px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgb(0 0 0 / 24%);
+        }
+
+        .modal img {
+            width: auto;
+            max-height: 80vh;
+            margin: auto;
+            display: block;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        .splide__arrow {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .splide__track {
+            height: 100%;
+        }
     </style>
     <div class="header-container_hotels">
 
-  <div class="search-header_hotels">
-    <!-- Destination Dropdown -->
-    <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-      <div class="filter-label_hotels">Destination</div>
-      
-
-<form action="" method="POST" id="filter-form">
-          @csrf
-<div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search"
-          onkeyup="filterCities()" placeholder="Search cities..." class="search-input" readonly></div>
-      <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
-          <!-- Search input added here -->
-          <div class="search-container">
-            {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
-              class="search-input"> --}}
-          </div>
-
-          {{-- @foreach($cities as $value) --}}
-          <label class="d-flex " for="city_" class="city-label orSamar" style="
-              border-bottom: 1px solid #00000033;     padding: 10px;">
-            <div class="city_list_htotle city-item mb-2">
-              <div class="desMund d-flex align-items-center gap-2">
-                <div class="sizemaze">
-                  <!-- Image representing the city -->
-                  <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
-                </div>
-                <p class="text-bold text-dark" href="#"><b></b></p>
-
-                <div class="hotel_place">
-                  <!-- Input field for the city selection -->
-                  <input type="radio" id="city_" name="city_id" value=""
-                    class="destination-option_hotels opacity-0" onclick="selectDestination('')">
-
-                  <span class="hotels_spn"></span>
-                </div>
-              </div>
-            </div>
-            <p id="no_city">no city found</p>
-          </label>
-          {{-- @endforeach --}}
-
-      </div>
-    </div>
-    {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-      <div class="filter-label_hotels">Destination</div>
-      <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
-      <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
-
-        <form action="" method="POST" id="filter-form">
-          @csrf
-
-          @foreach($cities as $value)
-          <div class="city_list_htotle">
-            <div class="sizemaze">
-              <!-- Image representing the city -->
-              <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
-            </div>
-            <div class="hotel_place">
-              <!-- Input field for the city selection -->
-              <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
-                class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
-              <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available'
-                }}</label>
-              <span class="hotels_spn"></span>
-            </div>
-          </div>
-          @endforeach
-
-      </div>
-    </div> --}}
+        <div class="search-header_hotels">
+            <!-- Destination Dropdown -->
+            <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+                <div class="filter-label_hotels">Destination</div>
 
 
-    <!-- Check-in Date -->
-    <div class="filter-item_hotels sachi">
-      <div class="filter-label_hotels">Select Dates</div>
-      <input type="text" id="date-range" class="filter-value_hotels" placeholder="Choose date range" readonly>
-      <input type="hidden" name="start_date" id="start_date">
-      <input type="hidden" name="end_date" id="end_date">
-    </div>
+                <form action="" method="POST" id="filter-form">
+                    @csrf
+                    <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search"
+                            onkeyup="filterCities()" placeholder="Search cities..." class="search-input" readonly></div>
+                    <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+                        <!-- Search input added here -->
+                        <div class="search-container">
+                            {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
+                                class="search-input"> --}}
+                        </div>
 
-    <!-- Guests Dropdown -->
-    <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
-      <div class="filter-label_hotels">Guests</div>
+                        {{-- @foreach($cities as $value) --}}
+                        <label class="d-flex " for="city_" class="city-label orSamar" style="
+                  border-bottom: 1px solid #00000033;     padding: 10px;">
+                            <div class="city_list_htotle city-item mb-2">
+                                <div class="desMund d-flex align-items-center gap-2">
+                                    <div class="sizemaze">
+                                        <!-- Image representing the city -->
+                                        <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+                                    </div>
+                                    <p class="text-bold text-dark" href="#"><b></b></p>
 
-      <div class="filter-value_hotels" id="guests-value">1 guest</div>
+                                    <div class="hotel_place">
+                                        <!-- Input field for the city selection -->
+                                        <input type="radio" id="city_" name="city_id" value=""
+                                            class="destination-option_hotels opacity-0" onclick="selectDestination('')">
 
-      <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
-        <div class="guest-option_hotels">
-          <label>No. of Rooms</label>
-          <div class="counter_hotels">
-            <button type="button" onclick="updateGuests('infants', -1)">-</button>
-            <input type="number" id="infants-count" value="1" min="1">
-            <button type="button" onclick="updateGuests('infants', 1)">+</button>
-          </div>
-        </div>
-        <div class="guest-option_hotels">
-          <label>Adults</label>
-          <div class="counter_hotels">
-            <button type="button" onclick="updateGuests('adults', -1)">-</button>
-            <input type="number" id="adults-count" value="1" min="1">
-            <button type="button" onclick="updateGuests('adults', 1)">+</button>
-          </div>
-        </div>
-        <div class="guest-option_hotels">
-          <label>Children</label>
-          <div class="counter_hotels">
-            <button type="button" onclick="updateChildren(-1)">-</button>
-            <input type="number" id="children-count" value="0" min="0">
-            <button type="button" onclick="updateChildren(1)">+</button>
-          </div>
-
-          <!-- Dynamic child age dropdowns appear here -->
-
-        </div>
-        <hr id="what">
-        <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
-          Children age
-        </div>
-
-        <!-- Dynamic child age dropdowns appear here -->
-        <div id="children-ages"> </div>
-
-      </div>
-    </div>
-    <button type="submit" class="cutPiece" style="border: none; background: none;">
-      <div class="search_sba">
-        <div class="sba_center_Sarch">
-
-          search
-          {{-- <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;"> --}}
-
-        </div>
-      </div>
-    </button>
-</form>
-
-  </div>
-</div>
-
-    {{-- <form action="{{ route('add_hotel_booking',['id'=>$hotel->id]) }}" method="POST">
-                            @csrf
-                            <div class="sharan_side_box">
-                                <div class="stand_it">
-                                    <div class="outer_box">
-                                        <div class="inner_box">
-
-                                            <siv class="room_check d-flex justify-content-between align-items-center">
-                                                <div class="inner_price">
-                                                    <span style="color: rgb(106, 106, 106);"><del></del></span>
-                                                    <span id="dynamic-price">₹</span>
-                                                    <span></span>
-                                                </div>
-
-                                            </siv>
-
-                                            <div class="checks">
-                                                <div class="bors">
-                                                    <div class="caranke">
-                                                        <label for="">Check In</label>
-                                                        <input name="check_in_date" id="check_in_date" type="date"
-                                                            class="filter-value_hotels" placeholder="Check In"
-                                                            onchange="updateNightCount()" required>
-                                                    </div>
-                                                    <div class="caranke">
-                                                        <label for="">Check Out</label>
-                                                        <input name="check_out_date" id="check_out_date" type="date"
-                                                            class="filter-value_hotels" placeholder="Check out"
-                                                            onchange="updateNightCount()" required>
-                                                    </div>
-                                                </div>
-                                                <div class="rivvsa">
-                                                    <div class="filter-item_hotels sachi trnas"
-                                                        onclick="toggleDropdown('guests')">
-                                                        <div class="filter-label_hotels">Guests</div>
-                                                        <div class="arrow">
-                                                            <div class="filter-value_hotels" id="guests-value">1 guest</div>
-                                                            <img src="{{ asset('frontend/images/down.png') }}"
-                                                                style="width: 20px;" alt="">
-                                                        </div>
-                                                        <div class="dropdown_hotels guests-dropdown_hotels"
-                                                            id="guests-dropdown">
-                                                            <div class="guest-option_hotels">
-                                                                <label>No. of Rooms</label>
-                                                                <div class="counter_hotels">
-                                                                    <button type="button"
-                                                                        onclick="updateGuestss('infants', -1)">-</button>
-                                                                    <input type="number" id="infants-count" value="0"
-                                                                        min="0" onchange="updateGuestss()">
-                                                                    <button type="button"
-                                                                        onclick="updateGuestss('infants', 1)">+</button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="guest-option_hotels">
-                                                                <label>Adults</label>
-                                                                <div class="counter_hotels">
-                                                                    <button type="button"
-                                                                        onclick="updateGuestss('adults', -1)">-</button>
-                                                                    <input type="number" id="adults-count" value="1" min="1"
-                                                                        onchange="updateGuestss()">
-                                                                    <button type="button"
-                                                                        onclick="updateGuestss('adults', 1)">+</button>
-                                                                </div>
-                                                            </div>
-
-
-
-                                                            <div class="guest-option_hotels">
-                                                                <label>Children</label>
-                                                                <div class="counter_hotels">
-                                                                    <button type="button"
-                                                                        onclick="updateGuestss('children', -1)">-</button>
-                                                                    <input type="number" id="children-count" value="0"
-                                                                        min="0" onchange="updateGuestss()">
-                                                                    <button type="button"
-                                                                        onclick="updateGuestss('children', 1)">+</button>
-                                                                </div>
-
-
-                                                            </div>
-                                                            <div id="children-age-label"
-                                                                style="margin-top:10px; display:none; font-weight:600;">
-                                                                Children age
-                                                            </div>
-                                                            <div id="children-ages">
-                                                                <input type="hidden" name="children_ages_array"
-                                                                    id="children-ages-array">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div id="premium-fields" class="trnas wast"
-                                                        style="display:none; margin-top:15px;">
-                                                        <div class="form-group">
-                                                            <label class="filter-label_hotels" for="meals">Meals</label>
-                                                            <select class="need hato" name="meals" id="meals"
-                                                                class="filter-value_hotels">
-                                                                <option value="">-- Select --</option>
-                                                                <option value="breakfast">Breakfast</option>
-                                                                <option value="breakfast_dinner">Breakfast + Lunch/Dinner
-                                                                </option>
-                                                                <option value="all_meals">All Meals</option>
-                                                                <option value="no_meal">No Meals</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="form-group mt-2">
-                                                            <label class="filter-label_hotels" for="extra_bed">Extra
-                                                                Bed</label>
-                                                            <select class="need hato" name="beds" id="beds"
-                                                                class="filter-value_hotels">
-                                                                <option value="">-- 0 --</option>
-
-                                                                @for ($i = 0; $i <= 20; $i++) <option value="{{ $i }}">{{ $i
-                                                                    }}</option>
-                                                                    @endfor
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="form-group mt-2">
-                                                            <label class="filter-label_hotels" for="child_no_bed">Child With
-                                                                No Bed</label>
-                                                            <select class="need hato" name="nobed" id="nobed"
-                                                                class="filter-value_hotels">
-                                                                <option value="">-- 0 --</option>
-
-                                                                @for ($i = 0; $i <= 20; $i++) <option value="{{ $i }}">{{ $i
-                                                                    }}</option>
-                                                                    @endfor
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <input type="hidden" name="night_count" id="night_count">
-                                                <input type="hidden" name="total_cost" id="total-cost-input">
-
-                                                <input type="hidden" name="guest_count" id="guest_count">
-                                                <input type="hidden" name="child_count" id="child_count">
-                                                <input type="hidden" name="room_count" id="room_count">
-                                            </div>
-
-
-                                            <div class="live_set mt-3">
-                                                @if(Auth::guard('agent')->check())
-                                                <button type="submit" class="btn btn-info gggsd">
-                                                    Reserve
-                                                </button>
-                                                @else
-                                                <a href="{{ route('login') }}" class="btn btn-primary">Fetch Price</a>
-                                                @endif
-
-                                            </div>
-                                        </div>
+                                        <span class="hotels_spn"></span>
                                     </div>
                                 </div>
                             </div>
-                        </form> --}}
+                            <p id="no_city">no city found</p>
+                        </label>
+                        {{-- @endforeach --}}
+
+                    </div>
+            </div>
+            {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+                <div class="filter-label_hotels">Destination</div>
+                <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
+                <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+
+                    <form action="" method="POST" id="filter-form">
+                        @csrf
+
+                        @foreach($cities as $value)
+                        <div class="city_list_htotle">
+                            <div class="sizemaze">
+                                <!-- Image representing the city -->
+                                <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}"
+                                    alt="City Image" />
+                            </div>
+                            <div class="hotel_place">
+                                <!-- Input field for the city selection -->
+                                <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
+                                    class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+                                <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not
+                                    available'
+                                    }}</label>
+                                <span class="hotels_spn"></span>
+                            </div>
+                        </div>
+                        @endforeach
+
+                </div>
+            </div> --}}
+
+
+            <!-- Check-in Date -->
+            <div class="filter-item_hotels sachi">
+                <div class="filter-label_hotels">Select Dates</div>
+                <input type="text" id="date-range" class="filter-value_hotels" placeholder="Choose date range" readonly>
+                <input type="hidden" name="start_date" id="start_date">
+                <input type="hidden" name="end_date" id="end_date">
+            </div>
+
+            <!-- Guests Dropdown -->
+            <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
+                <div class="filter-label_hotels">Guests</div>
+
+                <div class="filter-value_hotels" id="guests-value">1 guest</div>
+
+                <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+                    <div class="guest-option_hotels">
+                        <label>No. of Rooms</label>
+                        <div class="counter_hotels">
+                            <button type="button" onclick="updateGuests('infants', -1)">-</button>
+                            <input type="number" id="infants-count" value="1" min="1">
+                            <button type="button" onclick="updateGuests('infants', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="guest-option_hotels">
+                        <label>Adults</label>
+                        <div class="counter_hotels">
+                            <button type="button" onclick="updateGuests('adults', -1)">-</button>
+                            <input type="number" id="adults-count" value="1" min="1">
+                            <button type="button" onclick="updateGuests('adults', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="guest-option_hotels">
+                        <label>Children</label>
+                        <div class="counter_hotels">
+                            <button type="button" onclick="updateChildren(-1)">-</button>
+                            <input type="number" id="children-count" value="0" min="0">
+                            <button type="button" onclick="updateChildren(1)">+</button>
+                        </div>
+
+                        <!-- Dynamic child age dropdowns appear here -->
+
+                    </div>
+                    <hr id="what">
+                    <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
+                        Children age
+                    </div>
+
+                    <!-- Dynamic child age dropdowns appear here -->
+                    <div id="children-ages"> </div>
+
+                </div>
+            </div>
+            <button type="submit" class="cutPiece" style="border: none; background: none;">
+                <div class="search_sba">
+                    <div class="sba_center_Sarch">
+
+                        search
+                        {{-- <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;"> --}}
+
+                    </div>
+                </div>
+            </button>
+            </form>
+
+        </div>
+    </div>
+
+    {{-- <form action="{{ route('add_hotel_booking',['id'=>$hotel->id]) }}" method="POST">
+        @csrf
+        <div class="sharan_side_box">
+            <div class="stand_it">
+                <div class="outer_box">
+                    <div class="inner_box">
+
+                        <siv class="room_check d-flex justify-content-between align-items-center">
+                            <div class="inner_price">
+                                <span style="color: rgb(106, 106, 106);"><del></del></span>
+                                <span id="dynamic-price">₹</span>
+                                <span></span>
+                            </div>
+
+                        </siv>
+
+                        <div class="checks">
+                            <div class="bors">
+                                <div class="caranke">
+                                    <label for="">Check In</label>
+                                    <input name="check_in_date" id="check_in_date" type="date" class="filter-value_hotels"
+                                        placeholder="Check In" onchange="updateNightCount()" required>
+                                </div>
+                                <div class="caranke">
+                                    <label for="">Check Out</label>
+                                    <input name="check_out_date" id="check_out_date" type="date" class="filter-value_hotels"
+                                        placeholder="Check out" onchange="updateNightCount()" required>
+                                </div>
+                            </div>
+                            <div class="rivvsa">
+                                <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
+                                    <div class="filter-label_hotels">Guests</div>
+                                    <div class="arrow">
+                                        <div class="filter-value_hotels" id="guests-value">1 guest</div>
+                                        <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
+                                    </div>
+                                    <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+                                        <div class="guest-option_hotels">
+                                            <label>No. of Rooms</label>
+                                            <div class="counter_hotels">
+                                                <button type="button" onclick="updateGuestss('infants', -1)">-</button>
+                                                <input type="number" id="infants-count" value="0" min="0"
+                                                    onchange="updateGuestss()">
+                                                <button type="button" onclick="updateGuestss('infants', 1)">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="guest-option_hotels">
+                                            <label>Adults</label>
+                                            <div class="counter_hotels">
+                                                <button type="button" onclick="updateGuestss('adults', -1)">-</button>
+                                                <input type="number" id="adults-count" value="1" min="1"
+                                                    onchange="updateGuestss()">
+                                                <button type="button" onclick="updateGuestss('adults', 1)">+</button>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="guest-option_hotels">
+                                            <label>Children</label>
+                                            <div class="counter_hotels">
+                                                <button type="button" onclick="updateGuestss('children', -1)">-</button>
+                                                <input type="number" id="children-count" value="0" min="0"
+                                                    onchange="updateGuestss()">
+                                                <button type="button" onclick="updateGuestss('children', 1)">+</button>
+                                            </div>
+
+
+                                        </div>
+                                        <div id="children-age-label"
+                                            style="margin-top:10px; display:none; font-weight:600;">
+                                            Children age
+                                        </div>
+                                        <div id="children-ages">
+                                            <input type="hidden" name="children_ages_array" id="children-ages-array">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="premium-fields" class="trnas wast" style="display:none; margin-top:15px;">
+                                    <div class="form-group">
+                                        <label class="filter-label_hotels" for="meals">Meals</label>
+                                        <select class="need hato" name="meals" id="meals" class="filter-value_hotels">
+                                            <option value="">-- Select --</option>
+                                            <option value="breakfast">Breakfast</option>
+                                            <option value="breakfast_dinner">Breakfast + Lunch/Dinner
+                                            </option>
+                                            <option value="all_meals">All Meals</option>
+                                            <option value="no_meal">No Meals</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mt-2">
+                                        <label class="filter-label_hotels" for="extra_bed">Extra
+                                            Bed</label>
+                                        <select class="need hato" name="beds" id="beds" class="filter-value_hotels">
+                                            <option value="">-- 0 --</option>
+
+                                            @for ($i = 0; $i <= 20; $i++) <option value="{{ $i }}">{{ $i
+                                                }}</option>
+                                                @endfor
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mt-2">
+                                        <label class="filter-label_hotels" for="child_no_bed">Child With
+                                            No Bed</label>
+                                        <select class="need hato" name="nobed" id="nobed" class="filter-value_hotels">
+                                            <option value="">-- 0 --</option>
+
+                                            @for ($i = 0; $i <= 20; $i++) <option value="{{ $i }}">{{ $i
+                                                }}</option>
+                                                @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="night_count" id="night_count">
+                            <input type="hidden" name="total_cost" id="total-cost-input">
+
+                            <input type="hidden" name="guest_count" id="guest_count">
+                            <input type="hidden" name="child_count" id="child_count">
+                            <input type="hidden" name="room_count" id="room_count">
+                        </div>
+
+
+                        <div class="live_set mt-3">
+                            @if(Auth::guard('agent')->check())
+                            <button type="submit" class="btn btn-info gggsd">
+                                Reserve
+                            </button>
+                            @else
+                            <a href="{{ route('login') }}" class="btn btn-primary">Fetch Price</a>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form> --}}
     <section class="detail_htels mt-5">
         <div class="comp-container">
             <div class="upper_site_dets">
@@ -429,9 +417,9 @@
                                         <!-- Show only 2 images after the first one -->
                                         @foreach(array_slice($images, 1, 2) as $key => $image)
                                             <div class="nerve" style="
-                                                                        width: 100%;
-                                                                        height: 160px;
-                                                                    ">
+                                                                                    width: 100%;
+                                                                                    height: 160px;
+                                                                                ">
                                                 <div class="side_masic">
                                                     <img src="{{ asset($image) }}" alt="">
                                                 </div>
@@ -482,22 +470,23 @@
                                             </delt>
                                             <div class="andy_time d-flex">
                                                 <p style="
-            color: #000;
-            font-size: 28px;
-            font-weight: 900;
-            line-height: 22px;
-        ">₹ 1000</p><span>+ ₹ 354 taxes & fees</span>
+                color: #000;
+                font-size: 28px;
+                font-weight: 900;
+                line-height: 22px;
+            ">₹ 1000</p><span>+ ₹ 354 taxes & fees</span>
                                             </div>
                                         </div>
 
                                         <div class="pulp_fiction">
                                             <div class="last_ride">
-                                              <div class="live_set mt-3">
-                                                
-                                                <a href="{{ route('final_booking') }}" class="btn btn-primary">Book Now</a>
-                                                
+                                                <div class="live_set mt-3">
 
-                                            </div>   
+                                                    <a href="{{ route('final_booking') }}" class="btn btn-primary">Book
+                                                        Now</a>
+
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -688,17 +677,19 @@
             </div>
 
 
-            <div class="other_dets mt-5">
+            <div class="other_dets">
                 <div class="row namesef">
                     <div class="col-lg-8">
 
                         <div class="sides_maxe">
                             <div class="aaeheads">
-                                <h4 class="hoses tarati">{{$hotel->name ?? ''}},{{$hotel->cities->city_name ?? ''}}
-                                </h4>
+                                <p class="hoses tarati">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt
+                                    architecto, enim tempore ipsam quod sed omnis iure veritatis blanditiis aliquam
+                                    officiis.
+                                </p>
                                 <span class="sabke">
                                     <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
-                                        padding-left: 0 !important;">
+                                            padding-left: 0 !important;">
                                         <div class="nizam_abt mt-5">
                                             <h4 class="naxo">About this Hotel</h4>
 
@@ -801,8 +792,8 @@
                             </div>
                         </div> --}}
 
-                       
-                    
+
+
 
 
                     </div>
@@ -816,194 +807,228 @@
             </div>
 
             <div class="room-card">
-  <!-- Upgrade Banner -->
-  <div class="upgrade-banner">
-    Upgrade to a room with larger size for ₹287
-  </div>
-
-  <div class="room-content">
-    <!-- Left Side -->
-    <div class="room-left">
-        <div class="jules">
-
-        
-      <div id="room-slider" class="splide" style="    height: 100%;
-    width: 100%">
-  <div class="splide__track" style="height: 100% !important;
-    width: 100%">
-    <ul class="splide__list">
-      <li class="splide__slide">
-        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="Room Image" class="open-modal">
-      </li>
-      <li class="splide__slide">
-        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="Room Image" class="open-modal">
-      </li>
-      <li class="splide__slide">
-        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="Room Image" class="open-modal">
-      </li>
-    </ul>
-  </div>
-    <div class="splide__arrows">
-    <button class="splide__arrow splide__arrow--prev">‹</button>
-    <button class="splide__arrow splide__arrow--next">›</button>
-  </div>
-</div>
-
-
-<!-- Redesigned Modal -->
-<div id="imageModal" class="modal" style="display:none; align-items:center; justify-content:center; justify-items:center; ">
-    <div style="background:#fff; border-radius:16px; max-width:900px; width:95vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.25);">
-        <span class="close" style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">&times;</span>
-        <div style="padding:32px 32px 16px 32px;">
-            <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">Deluxe Room AC</h2>
-            <div id="modal-slider" class="splide" style="margin-bottom:24px;">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <li class="splide__slide">
-                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
-                        </li>
-                        <li class="splide__slide">
-                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
-                        </li>
-                        <li class="splide__slide">
-                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp" alt="" style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
-                        </li>
-                    </ul>
+                <!-- Upgrade Banner -->
+                <div class="upgrade-banner">
+                    Upgrade to a room with larger size for ₹287
                 </div>
-                <div class="splide__arrows">
-                    <button class="splide__arrow splide__arrow--prev">‹</button>
-                    <button class="splide__arrow splide__arrow--next">›</button>
-                </div>
-            </div>
-            <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
-                <div style="flex:2; min-width:260px;">
-                    <div style="display:flex; gap:16px; align-items:center; margin-bottom:12px;">
-                        <span>📐 220 sq.ft (20 sq.mt)</span>
-                        <span>🌆 City View</span>
+
+                <div class="room-content">
+                    <!-- Left Side -->
+                    <div class="room-left">
+                        <div class="jules">
+
+
+                            <div id="room-slider" class="splide" style="    height: 100%;
+        width: 100%">
+                                <div class="splide__track" style="height: 100% !important;
+        width: 100%">
+                                    <ul class="splide__list">
+                                        <li class="splide__slide">
+                                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
+                                                alt="Room Image" class="open-modal">
+                                        </li>
+                                        <li class="splide__slide">
+                                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
+                                                alt="Room Image" class="open-modal">
+                                        </li>
+                                        <li class="splide__slide">
+                                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
+                                                alt="Room Image" class="open-modal">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="splide__arrows">
+                                    <button class="splide__arrow splide__arrow--prev">‹</button>
+                                    <button class="splide__arrow splide__arrow--next">›</button>
+                                </div>
+                            </div>
+
+
+                            <!-- Redesigned Modal -->
+                            <div id="imageModal" class="modal"
+                                style="display:none; align-items:center; justify-content:center; justify-items:center; ">
+                                <div
+                                    style="background:#fff; border-radius:16px; max-width:900px; width:95vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.25);">
+                                    <span class="close"
+                                        style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">&times;</span>
+                                    <div style="padding:32px 32px 16px 32px;">
+                                        <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">Deluxe Room AC</h2>
+                                        <div id="modal-slider" class="splide" style="margin-bottom:24px;">
+                                            <div class="splide__track">
+                                                <ul class="splide__list">
+                                                    <li class="splide__slide">
+                                                        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
+                                                            alt=""
+                                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                                    </li>
+                                                    <li class="splide__slide">
+                                                        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
+                                                            alt=""
+                                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                                    </li>
+                                                    <li class="splide__slide">
+                                                        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
+                                                            alt=""
+                                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="splide__arrows">
+                                                <button class="splide__arrow splide__arrow--prev">‹</button>
+                                                <button class="splide__arrow splide__arrow--next">›</button>
+                                            </div>
+                                        </div>
+                                        {{-- <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
+                                            <div style="flex:2; min-width:260px;">
+                                                <div
+                                                    style="display:flex; gap:16px; align-items:center; margin-bottom:12px;">
+                                                    <span>📐 220 sq.ft (20 sq.mt)</span>
+                                                    <span>🌆 City View</span>
+                                                </div>
+                                                <div
+                                                    style="display:flex; gap:16px; align-items:center; margin-bottom:12px;">
+                                                    <span>🛏 1 King Bed</span>
+                                                    <span>🛁 1 Bathroom</span>
+                                                </div>
+                                                <div style="margin-bottom:16px;">
+                                                    <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:8px;">Room
+                                                        Amenities</h4>
+                                                    <ul
+                                                        style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px 24px; padding-left:18px;">
+                                                        <li>❄ Air Conditioning</li>
+                                                        <li>📶 Wi-Fi</li>
+                                                        <li>🚬 Smoking Room</li>
+                                                        <li>✔ Mineral Water - additional charge</li>
+                                                        <li>🧹 Daily Housekeeping</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="flex:1; min-width:200px; background:#f7f7f7; border-radius:8px; padding:16px;">
+                                                <div
+                                                    style="font-size:1.2rem; font-weight:700; color:#222; margin-bottom:8px;">
+                                                    ₹ 1,663</div>
+                                                <div style="color:#888; font-size:1rem; margin-bottom:8px;">+ ₹ 427 Taxes &
+                                                    Fees per night</div>
+                                                <button class="select-btn"
+                                                    style="width:100%; background:#007bff; color:#fff; border:none; border-radius:6px; padding:10px 0; font-size:1rem; font-weight:600; margin-bottom:8px;">SELECT
+                                                    ROOM</button>
+                                                <div class="exclusive-offer" style="color:#0a66c2; font-size:0.95rem;">
+                                                    Exclusive Offer - DBS Credit Card, Get 693 Off</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:24px;">
+                                            <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:8px;">Room Only</h4>
+                                            <ul class="offers" style="padding-left:18px;">
+                                                <li>✔ Enjoy 20% off on drinks.</li>
+                                                <li>✔ Non-Refundable</li>
+                                            </ul>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Super Deluxe Room AC</h3>
+                        <div class="features">
+
+                            <ul class="rmTypeList vertical appendTop10 ">
+                                <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
+                                            src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png"
+                                            alt="220 sq.ft (20 sq.mt)"></span><span
+                                        class="makeFlex column column-text"><span class="rmTypeList__item--text">220 sq.ft
+                                            (20 sq.mt)</span></span></li>
+                                <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
+                                            src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/view.png"
+                                            alt="City View"></span><span class="makeFlex column column-text"><span
+                                            class="rmTypeList__item--text">City View</span></span></li>
+                                <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
+                                            src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/bed.png"
+                                            alt="1 King Bed"></span><span class="makeFlex column column-text"><span
+                                            class="rmTypeList__item--text">1 King Bed</span></span></li>
+                                <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
+                                            src="https://promos.makemytrip.com/hotelfacilities/bathroom.png"
+                                            alt="1 Bathroom"></span><span class="makeFlex column column-text"><span
+                                            class="rmTypeList__item--text">1 Bathroom</span></span></li>
+                            </ul>
+                        </div>
+                        <a href="#" class="more-link" id="open-modal-details">More Details</a>
                     </div>
-                    <div style="display:flex; gap:16px; align-items:center; margin-bottom:12px;">
-                        <span>🛏 1 King Bed</span>
-                        <span>🛁 1 Bathroom</span>
-                    </div>
-                    <div style="margin-bottom:16px;">
-                        <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:8px;">Room Amenities</h4>
-                        <ul style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px 24px; padding-left:18px;">
-                            <li>❄ Air Conditioning</li>
-                            <li>📶 Wi-Fi</li>
-                            <li>🚬 Smoking Room</li>
-                            <li>✔ Mineral Water - additional charge</li>
-                            <li>🧹 Daily Housekeeping</li>
+                    <div class="room_Center">
+                        <h4>Room Only</h4>
+                        <ul class="offers">
+                            <li>✔ Enjoy 20% off on drinks.</li>
+                            <li>✔ Non-Refundable</li>
                         </ul>
                     </div>
-                </div>
-                <div style="flex:1; min-width:200px; background:#f7f7f7; border-radius:8px; padding:16px;">
-                    <div style="font-size:1.2rem; font-weight:700; color:#222; margin-bottom:8px;">₹ 1,663</div>
-                    <div style="color:#888; font-size:1rem; margin-bottom:8px;">+ ₹ 427 Taxes & Fees per night</div>
-                    <button class="select-btn" style="width:100%; background:#007bff; color:#fff; border:none; border-radius:6px; padding:10px 0; font-size:1rem; font-weight:600; margin-bottom:8px;">SELECT ROOM</button>
-                    <div class="exclusive-offer" style="color:#0a66c2; font-size:0.95rem;">Exclusive Offer - DBS Credit Card, Get 693 Off</div>
+                    <!-- Right Side -->
+                    <div class="room-right">
+
+                        <div class="old-price">₹ 3,123</div>
+                        <div class="price">₹ 1,663</div>
+                        <div class="tax">+ ₹ 427 Taxes & Fees per night</div>
+                        <button class="select-btn">SELECT ROOM</button>
+                        <div class="exclusive-offer">
+                            Exclusive Offer - DBS Credit Card, Get 693 Off
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div style="margin-top:24px;">
-                <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:8px;">Room Only</h4>
-                <ul class="offers" style="padding-left:18px;">
-                    <li>✔ Enjoy 20% off on drinks.</li>
-                    <li>✔ Non-Refundable</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-        </div>
-      <h3>Super Deluxe Room AC</h3>
-      <div class="features">
-        <span>📐 260 sq.ft (24 sq.mt)</span>
-        <span>🌆 City View</span>
-        <span>🛏 1 King Bed</span>
-        <span>🛁 1 Bathroom</span>
-        <span>❄ Air Conditioning</span>
-        <span>🚬 Smoking Room</span>
-        <span>📶 Wi-Fi</span>
-        <span>🧹 Daily Housekeeping</span>
-        <span>🍽 In-room Dining</span>
-      </div>
-    <a href="#" class="more-link" id="open-modal-details">More Details</a>
-    </div>
-<div class="room_Center">
-    <h4>Room Only</h4>
-      <ul class="offers">
-        <li>✔ Enjoy 20% off on drinks.</li>
-        <li>✔ Non-Refundable</li>
-      </ul>
-</div>
-    <!-- Right Side -->
-    <div class="room-right">
-      
-      <div class="old-price">₹ 3,123</div>
-      <div class="price">₹ 1,663</div>
-      <div class="tax">+ ₹ 427 Taxes & Fees per night</div>
-      <button class="select-btn">SELECT ROOM</button>
-      <div class="exclusive-offer">
-        Exclusive Offer - DBS Credit Card, Get 693 Off
-      </div>
-    </div>
-  </div>
-</div>
         </div>
     </section>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  // Main slider
-  new Splide('#room-slider', {
-    type: 'loop',
-    arrows: true,
-    pagination: false,
-    drag: false,
-  }).mount();
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Main slider
+            new Splide('#room-slider', {
+                type: 'loop',
+                arrows: true,
+                pagination: false,
+                drag: false,
+            }).mount();
 
-  // Modal slider
-  var modalSlider = new Splide('#modal-slider', {
-    type: 'loop',
-    arrows: true,
-    pagination: false,
-    drag: false,
-  });
+            // Modal slider
+            var modalSlider = new Splide('#modal-slider', {
+                type: 'loop',
+                arrows: true,
+                pagination: false,
+                drag: false,
+            });
 
-  // Modal
-  var modal = document.getElementById("imageModal");
-  var closeBtn = document.querySelector(".close");
+            // Modal
+            var modal = document.getElementById("imageModal");
+            var closeBtn = document.querySelector(".close");
 
 
-    // Open modal when any image clicked
-    document.querySelectorAll('.open-modal').forEach((img, index) => {
-        img.addEventListener('click', () => {
-            modal.style.display = "block";
-            modalSlider.mount();
-            modalSlider.go(index); // start from clicked image
+            // Open modal when any image clicked
+            document.querySelectorAll('.open-modal').forEach((img, index) => {
+                img.addEventListener('click', () => {
+                    modal.style.display = "block";
+                    modalSlider.mount();
+                    modalSlider.go(index); // start from clicked image
+                });
+            });
+
+            // Open modal when 'More Details' link is clicked
+            var moreDetailsBtn = document.getElementById('open-modal-details');
+            if (moreDetailsBtn) {
+                moreDetailsBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    modal.style.display = "block";
+                    modalSlider.mount();
+                    modalSlider.go(0); // start from first image
+                });
+            }
+
+            // Close modal
+            closeBtn.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
         });
-    });
-
-    // Open modal when 'More Details' link is clicked
-    var moreDetailsBtn = document.getElementById('open-modal-details');
-    if (moreDetailsBtn) {
-        moreDetailsBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            modal.style.display = "block";
-            modalSlider.mount();
-            modalSlider.go(0); // start from first image
-        });
-    }
-
-  // Close modal
-  closeBtn.onclick = function() {
-    modal.style.display = "none";
-  }
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-});
-</script>
+    </script>
     {{--
     <script>
         // Assuming this is sent via PHP:
@@ -1096,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </script> --}}
 
     <script>
-       
+
     </script>
 
     <script>
@@ -1265,7 +1290,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 type: 'loop',
                 perPage: 3,
                 perMove: 1,
-                arrows:false,
+                arrows: false,
                 gap: '1rem',
                 autoplay: true,
                 interval: 3000,
