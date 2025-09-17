@@ -1674,8 +1674,26 @@ public function getVehiclesByCity($cityId)
         return view('front/hotel_confirmation', $data);
     }
     
-    public function final_booking(Request $request) {
-        return view('front/final_booking');
+    public function final_booking(Request $request,$id) {
+
+         $data['start_date'] =  Carbon::now()->format('Y-m-d') ?? null;
+        $data['end_date'] =  Carbon::now()->format('Y-m-d') ?? null;
+
+        $data['hotel_room_1'] = HotelsRoom::with('prices')->where('id', $id)->inRandomOrder()->first();
+        $data['hotel'] = Hotels::where('id', $data['hotel_room_1']->hotel_id)->first();
+
+          if ($data['hotel_room_1']) {
+            if ($data['start_date'] && $data['end_date']) {
+                $data['hotel_room_1']->price = HotelPrice::where('room_id', $data['hotel_room_1']->id)
+                    ->where('start_date', '<=', $data['start_date'])
+                    ->where('end_date', '>=', $data['end_date'])
+                    ->first();
+            } else {
+                $data['hotel_room_1']->price = null;
+            }
+        }
+
+        return view('front/final_booking',$data);
     }
 
 
@@ -1709,13 +1727,20 @@ public function getVehiclesByCity($cityId)
 
         $end_dates = $request->check_out_date ? Carbon::parse($request->check_out_date)->format('Y-m-d') : null;
 
-        $existsDate = HotelPrice::where('hotel_id', $id)
-                ->where('room_category', $request->room_type)
+        $hotel_room = HotelsRoom::where('id', $id)->first();
+
+        $existsDate = HotelPrice::where('room_id', $id)
+                // ->where('room_category', $request->room_id)
                 ->where('start_date', '<=', $start_dates)
                 ->where('end_date', '>=', $end_dates)
                 ->first();
 
-                
+
+            $checkIn = Carbon::parse($request->check_in_date);
+            $checkOut = Carbon::parse($request->check_out_date);
+
+            $numberOfNights = $checkOut->diffInDays($checkIn);
+
 
             if (empty($existsDate)) {
                 $msg = "Price Not Available.";
@@ -1797,27 +1822,28 @@ public function getVehiclesByCity($cityId)
         $wildlife->check_out_date = $request->check_out_date;
         $wildlife->no_occupants = $request->guest_count;
         $wildlife->child_count = $request->child_count;
-        $wildlife->night_count = $request->night_count;
+        $wildlife->night_count = $numberOfNights;
         $wildlife->room_count = $request->room_count;
         $wildlife->meals = $request->meals;
         $wildlife->beds = $request->beds;
         $wildlife->nobed = $request->nobed;
         $wildlife->children_ages = $request->children_ages_array;
-        $wildlife->room_type = $request->room_type;
+        $wildlife->room_id = $id ?? '';
         $wildlife->status = 0;
 
-        $meal_cost_total = $meal_cost * $request->room_count * $request->night_count;
-        $extra_meal_cost_total = $extra_meal_cost * $request->night_count * $request->beds;
-        $nochild_meal_cost_total = $nochild_meal_cost * $request->night_count * $request->nobed;
+        $meal_cost_total = $meal_cost * $request->room_count * $numberOfNights;
+        $extra_meal_cost_total = $extra_meal_cost * $numberOfNights * $request->beds;
+        $nochild_meal_cost_total = $nochild_meal_cost * $numberOfNights * $request->nobed;
 
         $total = $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
+// return $request->nobed;
+        $finel = $request->room_count * $existsDate->night_cost * $numberOfNights;
+        $wildlife->cost = $total;
 
-        if($request->room_type == 'deluxe'){
-            $finel = $request->room_count * $existsDate->night_cost * $request->night_count;
-          $wildlife->cost = $finel;
-        }else{
-          $wildlife->cost = $total;
-        }
+        // if($request->room_id == 'deluxe'){
+        // }else{
+        //   $wildlife->cost = $total;
+        // }
         $wildlife->save();
 
         return redirect()->route('hotel_confirmation', ['id' => base64_encode($wildlife->id)]);

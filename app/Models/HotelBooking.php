@@ -21,7 +21,7 @@ class HotelBooking extends Model
         'night_count',
         'room_count',
         'cost',
-        'room_type',
+        'room_id',
         'nobed',
         'beds',
         'meals',

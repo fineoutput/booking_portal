@@ -69,7 +69,7 @@ Route::group(['prefix' => '/'], function () {
     Route::get('hotel-confirmation/{id}', [HomeController::class, 'hotelconfirmation'])->name('hotel_confirmation');
     Route::get('guide-confirmation/{id}', [HomeController::class, 'guideconfirmation'])->name('guide_confirmation');
     Route::get('taxi-confirmation/{id}', [HomeController::class, 'taxiconfirmation'])->name('taxi_confirmation');
-    Route::get('final_booking', [HomeController::class, 'final_booking'])->name('final_booking');
+    Route::get('final_booking/{id}', [HomeController::class, 'final_booking'])->name('final_booking');
     
     Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
     Route::post('/save-tourist-details-hotel', [HomeController::class, 'saveTouristDetailshotel'])->name('saveTouristDetailshotel');

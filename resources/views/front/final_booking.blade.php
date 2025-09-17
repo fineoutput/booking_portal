@@ -103,9 +103,9 @@
           <div class="booking-card">
     <div class="booking-header">
       <div>
-        <h2>The Camelot Beach Resort</h2>
+        <h2>{{$hotel->name ?? ''}}</h2>
         {{-- <div class="star-rating">★★★☆☆</div> --}}
-        <div class="address">Survey no. 237/10(part) Hno. 6/189/B, calangute bardez taluka 403516 , Goa, India</div>
+        <div class="address">{{$hotel->location ?? ''}} {{$hotel->state->state_name ?? ''}}, {{$hotel->cities->city_name ?? ''}}</div>
       </div>
       <img src="https://r1imghtlak.mmtcdn.com/15766a4e46f611ebab010242ac110003.jpg" alt="Hotel Image">
     </div>
@@ -126,7 +126,8 @@
         <h3>1 Night | 2 Adults | 1 Room</h3>
       </div>
     </div>
-  <form action="#" method="POST">
+
+  <form action="{{ route('add_hotel_booking',['id'=>$hotel_room_1->id]) }}" method="POST">
         @csrf
         <div class="sharan_side_box">
             <div class="stand_it">
@@ -145,12 +146,21 @@
                         <div class="checks d-flex">
                             <div class="row" style="width: 100%;">
                                 <div class="col-lg-6">
-                                    <div class="filter-item_hotels sachi">
-                                <div class="filter-label_hotels">Select Dates</div>
-                                <input type="text" id="date-range" class="filter-value_hotels" placeholder="Choose date range" readonly>
-                                <input type="hidden" name="start_date" id="start_date">
-                                <input type="hidden" name="end_date" id="end_date">
-                            </div></div>
+                                    <div class="bors">
+                                                    <div class="caranke">
+                                                        <label for="">Check In</label>
+                                                        <input name="check_in_date" id="check_in_date" type="date"
+                                                            class="filter-value_hotels" placeholder="Check In"
+                                                            onchange="updateNightCount()" required>
+                                                    </div>
+                                                    <div class="caranke">
+                                                        <label for="">Check Out</label>
+                                                        <input name="check_out_date" id="check_out_date" type="date"
+                                                            class="filter-value_hotels" placeholder="Check out"
+                                                            onchange="updateNightCount()" required>
+                                                    </div>
+                                                </div>
+                          </div>
                                 <div class="col-lg-6">
                                     <div class="rivvsa">
                                 <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
@@ -164,7 +174,7 @@
                                             <label>No. of Rooms</label>
                                             <div class="counter_hotels">
                                                 <button type="button" onclick="updateGuestss('infants', -1)">-</button>
-                                                <input type="number" id="infants-count" value="0" min="0"
+                                                <input name="room_count" type="number" id="infants-count" value="0" min="0"
                                                     onchange="updateGuestss()">
                                                 <button type="button" onclick="updateGuestss('infants', 1)">+</button>
                                             </div>
@@ -252,7 +262,7 @@
 
                             <input type="hidden" name="guest_count" id="guest_count">
                             <input type="hidden" name="child_count" id="child_count">
-                            <input type="hidden" name="room_count" id="room_count">
+                            {{-- <input type="hidden" name="room_count" id="room_count"> --}}
                         </div>
 
 
@@ -271,32 +281,53 @@
             </div>
         </div>
        
-    </form> 
+  </form> 
+  
     <div class="room-info">
-      <h3>Deluxe Room AC</h3>
-      <p>2 Adults</p>
+      <h3>{{$hotel_room_1->title ?? ''}}</h3>
+      {{-- <p>2 Adults</p> --}}
       <ul>
-        <li>Room Only</li>
-        <li>No meals included</li>
-      </ul>
-      <p><strong>Non-Refundable</strong><br>Refund is not applicable for this booking</p>
-      <a href="#">Cancellation policy details</a>
-      <a href="#" style="float:right;">See Inclusions</a>
-    </div>
+         @foreach(explode(',', $hotel_room_1->meal_plan) as $amenity)
+                                    @if(trim($amenity) !== '')
+                                    
+                                     @if($amenity == 'meal_plan_only_room')
+                                      <li> Meal Plan (Only Room)</li>
+                                  @elseif($amenity == 'meal_plan_breakfast')
+                                     <li> Meal Plan (Breakfast)</li>
+                                  @elseif($amenity == 'meal_plan_all_meals')
+                                     <li> Meal Plan (All Meals)</li>
+                                  @elseif($amenity == 'meal_plan_breakfast_lunch_dinner')
+                                      <li> Meal Plan (Breakfast + Lunch/Dinner)</li>
+                                  @else
+                                      No Meals Selected
+                                  @endif
 
-    <div class="important-info">
-      <h4>Important information</h4>
-      <ul>
-        <li>Unmarried couples allowed</li>
-        <li>Local ids not allowed</li>
-        <li>Primary Guest should be at least 18 years of age.</li>
-        <li>Passport, Aadhaar, Driving License and Govt. ID are accepted as ID proof(s)</li>
-      </ul>
-      <span class="view-more" onclick="toggleInfo(this)">View More</span>
-    </div>
-  </div>
-    </div>
-</section>
+                                        {{-- <li>✔ {{ trim($amenity) }}</li> --}}
+                                    @endif
+                                @endforeach
+                                </ul>
+                                <p><strong>Non-Refundable</strong><br>Refund is not applicable for this booking</p>
+                                <a href="#">Cancellation policy details</a>
+                                <a href="#" style="float:right;">See Inclusions</a>
+                              </div>
+
+                              <div class="important-info">
+                                <h4>Important information</h4>
+                                <ul>
+                                   @foreach(explode(',', $hotel_room_1->nearby) as $amenity)
+                                    @if(trim($amenity) !== '')
+                                        <li>{{ trim($amenity) }}</li>
+                                    @endif
+                                @endforeach
+                                  {{-- <li>Local ids not allowed</li>
+                                  <li>Primary Guest should be at least 18 years of age.</li>
+                                  <li>Passport, Aadhaar, Driving License and Govt. ID are accepted as ID proof(s)</li> --}}
+                                </ul>
+                                <span class="view-more" onclick="toggleInfo(this)">View More</span>
+                              </div>
+                            </div>
+                              </div>
+                          </section>
 
 <div class="comp-container">
    

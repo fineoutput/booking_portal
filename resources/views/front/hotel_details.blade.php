@@ -489,9 +489,12 @@
                                         <div class="pulp_fiction">
                                             <div class="last_ride">
                                                 <div class="live_set mt-3">
-
-                                                    <a href="{{ route('final_booking') }}" class="btn btn-primary">Book
+                                                    @if($hotel_room_1->id ?? '')
+                                                    <a href="{{ route('final_booking',$hotel_room_1->id) }}" class="btn btn-primary">Book
                                                         Now</a>
+                                                        @else
+                                                            Room Not Found
+                                                        @endif
 
 
                                                 </div>
@@ -1008,7 +1011,9 @@
                             @endif
                          </div>
                         {{-- <div class="tax">+ ₹ 427 Taxes & Fees per night</div> --}}
-                        <button class="select-btn">SELECT ROOM</button>
+                        <button class="select-btn">
+                            <a href="{{ route('final_booking',$value->id) }}" class="text-light">SELECT ROOM</a>
+                        </button>
                         <div class="exclusive-offer">
                             Exclusive Offer - DBS Credit Card, Get 693 Off
                         </div>
