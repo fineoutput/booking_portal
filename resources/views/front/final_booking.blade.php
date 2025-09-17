@@ -145,7 +145,7 @@
 
                         <div class="checks d-flex">
                             <div class="row" style="width: 100%;">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="bors">
                                                     <div class="caranke">
                                                         <label for="">Check In</label>
@@ -161,7 +161,8 @@
                                                     </div>
                                                 </div>
                           </div>
-                                <div class="col-lg-6">
+                          <div class="row"></div>
+                                <div class="col-lg-12">
                                     <div class="rivvsa">
                                 <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
                                     <div class="filter-label_hotels">Guests</div>
