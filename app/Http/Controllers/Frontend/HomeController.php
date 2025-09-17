@@ -1647,14 +1647,22 @@ public function getVehiclesByCity($cityId)
             }
         }
 
-        if ($data['start_date'] && $data['end_date'] && $data['hotel_room_1']) {
-    $data['hotel_room_1']->price = HotelPrice::where('room_id', $data['hotel_room_1']->id)
-        ->where('start_date', '<=', $data['start_date'])
-        ->where('end_date', '>=', $data['end_date'])
-        ->first();
-} else {
-    $data['hotel_room_1']->price = null;
-}
+       if (!$data['hotel_room_1']) {
+            $data['hotel_room_1'] = HotelsRoom::with('prices')
+                ->where('hotel_id', $id)
+                ->first();
+        }
+
+        if ($data['hotel_room_1']) {
+            if ($data['start_date'] && $data['end_date']) {
+                $data['hotel_room_1']->price = HotelPrice::where('room_id', $data['hotel_room_1']->id)
+                    ->where('start_date', '<=', $data['start_date'])
+                    ->where('end_date', '>=', $data['end_date'])
+                    ->first();
+            } else {
+                $data['hotel_room_1']->price = null;
+            }
+        }
 
         return view('front.hotel_details', $data);
     }

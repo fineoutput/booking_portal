@@ -457,24 +457,28 @@
                                         </div>
                                         <div class="shawshank">
                                             <div class="shaw_list">
-                                                <ul>  @foreach(explode(',', $hotel_room_1->hotel_amenities) as $amenity)
-                                                @if(trim($amenity) !== '')
-                                                    <li>{{ trim($amenity) }}</li>
+                                                <ul> @if($hotel_room_1 && $hotel_room_1->hotel_amenities)
+                                                    @foreach(explode(',', $hotel_room_1->hotel_amenities) as $amenity)
+                                                        @if(trim($amenity) !== '')
+                                                            <li>{{ trim($amenity) }}</li>
+                                                        @endif
+                                                    @endforeach
                                                 @endif
-                                            @endforeach
+
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="site_pricwe">
                                             <delt class="pii">
-                                                <del>₹@if ($hotel_room_1->price)
+                                                <del>₹
+                                                    @if($hotel_room_1 && $hotel_room_1->price)
                                                 {{ $hotel_room_1->price->night_cost + 613 }}
                                             @else
                                                 Price not available
                                             @endif</del> <span> Per night</span>
                                             </delt>
                                             <div class="andy_time d-flex">
-                                                <p style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">₹ @if ($hotel_room_1->price)
+                                                <p style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">₹ @if ($hotel_room_1 && $hotel_room_1->price)
                                                 {{ $hotel_room_1->price->night_cost }}
                                             @else
                                                 Price not available
