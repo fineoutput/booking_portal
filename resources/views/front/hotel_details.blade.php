@@ -694,9 +694,7 @@
 
                         <div class="sides_maxe">
                             <div class="aaeheads">
-                                <p class="hoses tarati">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt
-                                    architecto, enim tempore ipsam quod sed omnis iure veritatis blanditiis aliquam
-                                    officiis.
+                                <p class="hoses tarati">{{$hotel->text_description ?? ''}}
                                 </p>
                                 <span class="sabke">
                                     <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="

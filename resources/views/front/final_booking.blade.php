@@ -107,25 +107,34 @@
         {{-- <div class="star-rating">★★★☆☆</div> --}}
         <div class="address">{{$hotel->location ?? ''}} {{$hotel->state->state_name ?? ''}}, {{$hotel->cities->city_name ?? ''}}</div>
       </div>
-      <img src="https://r1imghtlak.mmtcdn.com/15766a4e46f611ebab010242ac110003.jpg" alt="Hotel Image">
+      @php
+    $images = json_decode($hotel_room_1->images ?? '[]', true);
+@endphp
+
+@if (!empty($images) && isset($images[0]))
+    <img src="{{ asset($images[0]) }}" alt="Hotel Image" style="max-width:100%; border-radius:8px;">
+@else
+    <p><em>No image available</em></p>
+@endif
     </div>
 
-    <div class="booking-dates">
+    <div class="booking-dates" id="bookingDates">
       <div>
         <strong>CHECK IN</strong>
-        <h3>Tue <b>16 Sep</b> 2025</h3>
-        <small>2 PM</small>
+        <h3 id="checkInDate">--</h3>
+        {{-- <small>2 PM</small> --}}
       </div>
       <div>
         <strong>CHECK OUT</strong>
-        <h3>Wed <b>17 Sep</b> 2025</h3>
-        <small>11 AM</small>
+        <h3 id="checkOutDate">--</h3>
+        {{-- <small>11 AM</small> --}}
       </div>
       <div>
         <strong>Stay Info</strong>
-        <h3>1 Night | 2 Adults | 1 Room</h3>
+        <h3 id="stayInfo">--</h3>
       </div>
     </div>
+
 
   <form action="{{ route('add_hotel_booking',['id'=>$hotel_room_1->id]) }}" method="POST">
         @csrf
@@ -145,7 +154,7 @@
 
                         <div class="checks d-flex">
                             <div class="row" style="width: 100%;">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="bors">
                                                     <div class="caranke">
                                                         <label for="">Check In</label>
@@ -161,8 +170,7 @@
                                                     </div>
                                                 </div>
                           </div>
-                          <div class="row"></div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="rivvsa">
                                 <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
                                     <div class="filter-label_hotels">Guests</div>
@@ -539,4 +547,57 @@
             updateHiddenInput();
         }
     </script>
+
+
+
+<script>
+  function formatDate(dateStr) {
+    // Input: "09-01-2025" => Output: "Tue 1 Sep 2025"
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    const parts = dateStr.split("-");
+    if (parts.length !== 3) return "--";
+
+    const [month, day, year] = parts;
+    const date = new Date(`${year}-${month}-${day}`);
+    if (isNaN(date)) return "--";
+
+    const dayName = days[date.getDay()];
+    const monthName = months[date.getMonth()];
+
+    return `${dayName} <b>${parseInt(day)}</b> ${monthName} ${year}`;
+  }
+
+  function populateBookingDates() {
+    const data = localStorage.getItem("hotelFormData");
+    if (!data) return;
+
+    try {
+      const formData = JSON.parse(data);
+
+      const checkInFormatted = formatDate(formData.start_date);
+      const checkOutFormatted = formatDate(formData.end_date);
+
+      const nights = (() => {
+        const inDate = new Date(formData.start_date);
+        const outDate = new Date(formData.end_date);
+        const diff = (outDate - inDate) / (1000 * 60 * 60 * 24);
+        return diff > 0 ? diff : 1;
+      })();
+
+      const adults = formData.adults || 1;
+      const rooms = 1; // Static or pull from another field if available
+
+      document.getElementById("checkInDate").innerHTML = checkInFormatted;
+      document.getElementById("checkOutDate").innerHTML = checkOutFormatted;
+      document.getElementById("stayInfo").textContent = `${nights} Night${nights > 1 ? 's' : ''} | ${adults} Adult${adults > 1 ? 's' : ''} | ${rooms} Room`;
+    } catch (e) {
+      console.error("Invalid hotelFormData:", e);
+    }
+  }
+
+  populateBookingDates();
+</script>
+
 @endsection
