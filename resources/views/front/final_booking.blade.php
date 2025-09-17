@@ -271,7 +271,6 @@
 
                             <input type="hidden" name="guest_count" id="guest_count">
                             <input type="hidden" name="child_count" id="child_count">
-                            {{-- <input type="hidden" name="room_count" id="room_count"> --}}
                         </div>
 
 
@@ -598,6 +597,75 @@
   }
 
   populateBookingDates();
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const formDataStr = localStorage.getItem("hotelFormData");
+        if (!formDataStr) return;
+
+        try {
+            const formData = JSON.parse(formDataStr);
+
+            // Set check-in and check-out dates
+            document.getElementById("check_in_date").value = formatToInputDate(formData.start_date);
+            document.getElementById("check_out_date").value = formatToInputDate(formData.end_date);
+
+            // Rooms = infants
+            document.getElementById("infants-count").value = formData.infants || 0;
+
+            // Adults
+            document.getElementById("adults-count").value = formData.adults || 1;
+
+            // Children
+            document.getElementById("children-count").value = formData.children || 0;
+
+            // Guest display
+            const totalGuests = parseInt(formData.adults || 1) + parseInt(formData.children || 0);
+            document.getElementById("guests-value").innerText = `${totalGuests} Guest${totalGuests > 1 ? 's' : ''}`;
+
+            // Children Ages
+            if (formData.childrenAges && formData.childrenAges.length > 0) {
+                document.getElementById("children-age-label").style.display = 'block';
+                const ageContainer = document.getElementById("children-ages");
+                ageContainer.innerHTML = ''; // clear previous inputs
+
+                const ageInputs = [];
+
+                formData.childrenAges.forEach((age, index) => {
+                    const input = document.createElement("input");
+                    input.type = "number";
+                    input.min = "0";
+                    input.max = "17";
+                    input.value = age;
+                    input.name = `child_age_${index + 1}`;
+                    input.style.marginRight = "5px";
+                    input.classList.add("child-age");
+                    ageInputs.push(age);
+                    ageContainer.appendChild(input);
+                });
+
+                // Store in hidden field
+                document.getElementById("children-ages-array").value = JSON.stringify(ageInputs);
+            }
+
+            // Optional fields — leave as blank or select defaults (you can skip if not pre-filled)
+            document.getElementById("meals").value = formData.meals || '';
+            document.getElementById("beds").value = formData.beds || '';
+            document.getElementById("nobed").value = formData.nobed || '';
+
+        } catch (error) {
+            console.error("Error parsing hotelFormData from localStorage:", error);
+        }
+
+        function formatToInputDate(dateStr) {
+            // Convert from MM-DD-YYYY to YYYY-MM-DD for input type=date
+            const parts = dateStr.split("-");
+            if (parts.length !== 3) return '';
+            return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+        }
+    });
 </script>
 
 @endsection
