@@ -79,7 +79,7 @@ class HotelsController extends Controller
             $hotel->hotel_amenities = !empty($request->hotel_amenities) ? implode(',', $request->hotel_amenities) : null;
             $hotel->room_amenities = !empty($request->room_amenities) ? implode(',', $request->room_amenities) : null;
             $hotel->house_rules = !empty($request->house_rules) ? implode(',', $request->house_rules) : null;
-            
+            $hotel->text_description = $request->text_description;
             $hotel->save();
 
             return redirect()->route('hotels')->with('success', 'Hotel added successfully.');
@@ -223,7 +223,7 @@ public function update(Request $request, $id)
     $hotel->hotel_amenities = is_array($request->hotel_amenities) ? implode(',', $request->hotel_amenities) : null;
     $hotel->room_amenities = is_array($request->room_amenities) ? implode(',', $request->room_amenities) : null;
     $hotel->house_rules = is_array($request->house_rules) ? implode(',', $request->house_rules) : null;
-    
+    $hotel->text_description = $request->text_description;
     $hotel->images = json_encode(array_values($imagePaths)); 
     $hotel->save();
 

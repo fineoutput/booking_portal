@@ -28,6 +28,7 @@ class Hotels extends Model
         'room_amenities',
         'house_rules',
         'video',
+        'text_description'
     ];
 
     public function package()

@@ -366,7 +366,12 @@
 
                                     <input type="hidden" name="deleted_images" id="deleted_images" value="">
                                 </div>
-                            
+                              <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="text_description">Text Description</label>
+                                        <textarea name="text_description" class="form-control">{{ old('text_description', $hotel->text_description) }}</textarea>
+                                    </div>
+                                </div>
                                 <!-- Submit Button -->
                                 <div class="form-group">
                                     <div class="w-100 text-center">
@@ -385,6 +390,7 @@
         <!-- end page content-->
     </div> <!-- container-fluid -->
 </div> <!-- content -->
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
@@ -469,6 +475,43 @@
         });
     });
 </script>
+<script>
+    CKEDITOR.replace('text_description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 200
+    });
 
+    CKEDITOR.replace('title_description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
+
+    // Initialize CKEditor for long description
+    CKEDITOR.replace('text_description_2', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
+</script>
 
 @endsection
