@@ -457,24 +457,28 @@
                                         </div>
                                         <div class="shawshank">
                                             <div class="shaw_list">
-                                                <ul>
-                                                    <li>Enjoy 20% off on drinks</li>
-                                                    <li>Enjoy 20% off on drinks</li>
-                                                    <li>Enjoy 20% off on drinks</li>
+                                                <ul>  @foreach(explode(',', $hotel_room_1->hotel_amenities) as $amenity)
+                                                @if(trim($amenity) !== '')
+                                                    <li>{{ trim($amenity) }}</li>
+                                                @endif
+                                            @endforeach
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="site_pricwe">
                                             <delt class="pii">
-                                                <del>₹1200</del> <span> Per night</span>
+                                                <del>₹@if ($hotel_room_1->price)
+                                                {{ $hotel_room_1->price->night_cost + 613 }}
+                                            @else
+                                                Price not available
+                                            @endif</del> <span> Per night</span>
                                             </delt>
                                             <div class="andy_time d-flex">
-                                                <p style="
-                color: #000;
-                font-size: 28px;
-                font-weight: 900;
-                line-height: 22px;
-            ">₹ 1000</p><span>+ ₹ 354 taxes & fees</span>
+                                                <p style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">₹ @if ($hotel_room_1->price)
+                                                {{ $hotel_room_1->price->night_cost }}
+                                            @else
+                                                Price not available
+                                            @endif
                                             </div>
                                         </div>
 
@@ -792,16 +796,7 @@
                             </div>
                         </div> --}}
 
-
-
-
-
                     </div>
-
-
-
-
-
 
                 </div>
             </div>
@@ -822,11 +817,25 @@
                             <div id="room-slider" class="splide" style="height: 100%; width: 100%">
                                 <div class="splide__track" style="height: 100% !important; width: 100%">
                                     <ul class="splide__list">
+                                                @php
+                                                    $images = json_decode($value->images, true);
+                                                @endphp
 
-                                        <li class="splide__slide">
-                                            <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
-                                                alt="Room Image" class="open-modal">
-                                        </li>
+                                                @if (is_array($images))
+                                                    @foreach ($images as $image)
+                                                        <li class="splide__slide">
+                                                            <img src="{{ asset($image) }}" alt=""
+                                                                style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;" 
+                                                                class="open-modal">
+                                                        </li>
+                                                    @endforeach
+                                                @else
+                                                    {{-- Optional: Fallback message or default image --}}
+                                                    <li class="splide__slide">
+                                                        <img src="{{ asset('images/no-image.jpg') }}" alt="No image available"
+                                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                                    </li>
+                                                @endif
                                     </ul>
                                 </div>
                                 <div class="splide__arrows">
@@ -848,7 +857,25 @@
                                         <div id="modal-slider" class="splide" style="margin-bottom:24px;">
                                             <div class="splide__track">
                                                 <ul class="splide__list">
-                                                    <li class="splide__slide">
+                                                   @php
+                                                        $images = json_decode($value->images, true);
+                                                    @endphp
+                                                    @if (is_array($images))
+                                                        @foreach ($images as $image)
+                                                            <li class="splide__slide">
+                                                                <img src="{{ asset($image) }}" alt=""
+                                                                    style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;" 
+                                                                    class="open-modal">
+                                                            </li>
+                                                        @endforeach
+                                                    @else
+                                                        {{-- Optional: Fallback message or default image --}}
+                                                        <li class="splide__slide">
+                                                            <img src="{{ asset('images/no-image.jpg') }}" alt="No image available"
+                                                                style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                                        </li>
+                                                    @endif
+                                                    {{-- <li class="splide__slide">
                                                         <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
                                                             alt=""
                                                             style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
@@ -862,7 +889,7 @@
                                                         <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
                                                             alt=""
                                                             style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
-                                                    </li>
+                                                    </li> --}}
                                                 </ul>
                                             </div>
                                             <div class="splide__arrows">
@@ -924,12 +951,17 @@
                         <div class="features">
 
                             <ul class="rmTypeList vertical appendTop10 ">
-                                <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
+                                 @foreach(explode(',', $value->nearby) as $amenity)
+                                    @if(trim($amenity) !== '')
+                                        {{-- <li>✔ {{ trim($amenity) }}</li> --}}
+                                        <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
                                             src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png"
                                             alt="220 sq.ft (20 sq.mt)"></span><span
-                                        class="makeFlex column column-text"><span class="rmTypeList__item--text">220 sq.ft
-                                            (20 sq.mt)</span></span></li>
-                                <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
+                                        class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span></li>
+                                    @endif
+                                @endforeach
+                                
+                                {{-- <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
                                             src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/view.png"
                                             alt="City View"></span><span class="makeFlex column column-text"><span
                                             class="rmTypeList__item--text">City View</span></span></li>
@@ -940,7 +972,7 @@
                                 <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
                                             src="https://promos.makemytrip.com/hotelfacilities/bathroom.png"
                                             alt="1 Bathroom"></span><span class="makeFlex column column-text"><span
-                                            class="rmTypeList__item--text">1 Bathroom</span></span></li>
+                                            class="rmTypeList__item--text">1 Bathroom</span></span></li> --}}
                             </ul>
                         </div>
                         <a href="#" class="more-link" id="open-modal-details">More Details</a>
@@ -958,9 +990,20 @@
                     <!-- Right Side -->
                     <div class="room-right">
 
-                        <div class="old-price">₹ 3,123</div>
-                        <div class="price">₹ 1,663</div>
-                        <div class="tax">+ ₹ 427 Taxes & Fees per night</div>
+                        <div class="old-price">@if ($value->price)
+                                ₹{{ $value->price->night_cost + 613 }} 
+                            @else
+                                0
+                            @endif
+                        </div>
+                        <div class="price">
+                           @if ($value->price)
+                                <p>₹{{ $value->price->night_cost }} / night</p>
+                            @else
+                                <p><em>Price not available for selected dates.</em></p>
+                            @endif
+                         </div>
+                        {{-- <div class="tax">+ ₹ 427 Taxes & Fees per night</div> --}}
                         <button class="select-btn">SELECT ROOM</button>
                         <div class="exclusive-offer">
                             Exclusive Offer - DBS Credit Card, Get 693 Off

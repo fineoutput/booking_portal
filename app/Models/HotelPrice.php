@@ -31,6 +31,10 @@ class HotelPrice extends Model
         'child_no_bed_infant_cost',
     ];
 
+    public function prices()
+    {
+        return $this->hasMany(HotelPrice::class, 'room_id');
+    }
     
     // public function state()
     // {

@@ -15,7 +15,7 @@ class HotelsRoomController extends Controller
 {
     function index($id) {
         $data['hotels'] = Hotels::where('id',$id)->first();
-        $data['hotels_room'] = HotelsRoom::orderBy('id','DESC')->get();
+        $data['hotels_room'] = HotelsRoom::where('hotel_id',$id)->orderBy('id','DESC')->get();
         return view('admin/hotels_rooms/index',$data);
     }
     

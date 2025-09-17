@@ -1608,13 +1608,55 @@ public function getVehiclesByCity($cityId)
 
 
 
+    // public function hotel_details(Request $request, $id)
+    // {
+    //     $id = base64_decode($id);
+    //     $data['hotel'] = Hotels::where('id',$id)->first();
+    //     $data['hotel_room'] = HotelsRoom::where('hotel_id',$id)->get();
+
+    //      $start_dates = $request->check_in_date ? Carbon::parse($request->check_in_date)->format('Y-m-d') : null;
+
+    //     $end_dates = $request->check_out_date ? Carbon::parse($request->check_out_date)->format('Y-m-d') : null;
+
+    //     $data['hotel_price'] = HotelPrice::where('room_id', $data['hotel_room']->id)
+    //             ->where('start_date', '<=', $start_dates)
+    //             ->where('end_date', '>=', $end_dates)
+    //             ->first();
+
+    //     return view('front/hotel_details',$data);
+    // }
+
     public function hotel_details(Request $request, $id)
     {
         $id = base64_decode($id);
-        $data['hotel'] = Hotels::where('id',$id)->first();
-        $data['hotel_room'] = HotelsRoom::where('hotel_id',$id)->get();
-        $data['hotel_price'] = HotelPrice::where('hotel_id',$id)->first();
-        return view('front/hotel_details',$data);
+        $data['hotel'] = Hotels::where('id', $id)->first();
+        $data['hotel_room'] = HotelsRoom::with('prices')->where('hotel_id', $id)->get();
+        $data['hotel_room_1'] = HotelsRoom::with('prices')->where('hotel_id', $id)->inRandomOrder()->first();
+
+        $data['start_date'] =  Carbon::now()->format('Y-m-d') ?? null;
+        $data['end_date'] =  Carbon::now()->format('Y-m-d') ?? null;
+
+        foreach ($data['hotel_room'] as $room) {
+            if ($data['start_date'] && $data['end_date']) {
+                $room->price = HotelPrice::where('room_id', $room->id)
+                    ->where('start_date', '<=', $data['start_date'])
+                    ->where('end_date', '>=', $data['end_date'])
+                    ->first();
+            } else {
+                $room->price = null;
+            }
+        }
+
+        if ($data['start_date'] && $data['end_date'] && $data['hotel_room_1']) {
+    $data['hotel_room_1']->price = HotelPrice::where('room_id', $data['hotel_room_1']->id)
+        ->where('start_date', '<=', $data['start_date'])
+        ->where('end_date', '>=', $data['end_date'])
+        ->first();
+} else {
+    $data['hotel_room_1']->price = null;
+}
+
+        return view('front.hotel_details', $data);
     }
 
 
