@@ -69,8 +69,8 @@
                         <td>{{ $hotel->price_6_to_10 ?? '' }}</td>
 
                         <td>
-                            <a href="{{ route('tripguide.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('tripguide.destroy', $hotel->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('tripguide_price.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('tripguide_price.destroy', $hotel->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
