@@ -119,27 +119,29 @@
                         </div>
 
                         {{-- @foreach($cities as $value) --}}
-                        <label class="d-flex " for="city_" class="city-label orSamar" style="
-                  border-bottom: 1px solid #00000033;     padding: 10px;">
-                            <div class="city_list_htotle city-item mb-2">
-                                <div class="desMund d-flex align-items-center gap-2">
-                                    <div class="sizemaze">
-                                        <!-- Image representing the city -->
-                                        <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
-                                    </div>
-                                    <p class="text-bold text-dark" href="#"><b></b></p>
+                          @foreach($cities as $value)
+          <label class="d-flex " for="city_{{ $value->id }}" class="city-label orSamar" style="
+              border-bottom: 1px solid #00000033;     padding: 10px;">
+            <div class="city_list_htotle city-item mb-2">
+              <div class="desMund d-flex align-items-center gap-2">
+                <div class="sizemaze">
+                  <!-- Image representing the city -->
+                  <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+                </div>
+                <p class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></p>
 
-                                    <div class="hotel_place">
-                                        <!-- Input field for the city selection -->
-                                        <input type="radio" id="city_" name="city_id" value=""
-                                            class="destination-option_hotels opacity-0" onclick="selectDestination('')">
+                <div class="hotel_place">
+                  <!-- Input field for the city selection -->
+                  <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
+                    class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->city_name }}')">
 
-                                        <span class="hotels_spn"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p id="no_city">no city found</p>
-                        </label>
+                  <span class="hotels_spn"></span>
+                </div>
+              </div>
+            </div>
+            <p id="no_city">no city found</p>
+          </label>
+          @endforeach
                         {{-- @endforeach --}}
 
                     </div>
@@ -1022,6 +1024,7 @@
         </div>
     </section>
     <script>
+        
         document.addEventListener('DOMContentLoaded', function () {
             // Main slider
             new Splide('#room-slider', {
@@ -1075,100 +1078,7 @@
             }
         });
     </script>
-    {{--
-    <script>
-        // Assuming this is sent via PHP:
-        const hotelPriceStartDate = "{{ $hotel_price->start_date ?? '' }}";
-        const hotelPriceEndDate = "{{ $hotel_price->end_date ?? '' }}";
-        const nightCost = {{ $hotel_price-> night_cost ?? '' }};
-
-        function updateNightCount() {
-            const checkInDate = document.getElementById('check_in_date').value;
-            const checkOutDate = document.getElementById('check_out_date').value;
-
-            if (checkInDate && checkOutDate) {
-                const checkIn = new Date(checkInDate);
-                const checkOut = new Date(checkOutDate);
-
-                // Calculate the number of nights
-                const timeDiff = checkOut - checkIn;
-                const nightCount = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
-
-                if (nightCount > 0) {
-                    document.getElementById('night_count').value = nightCount;
-                    updatePrice(nightCount, checkInDate, checkOutDate);
-                } else {
-                    alert("Check-out date must be later than check-in date.");
-                }
-            }
-        }
-        function updatePrice(nightCount, checkInDate, checkOutDate) {
-            // Extract month and year from check-in and check-out dates
-            const checkInMonth = new Date(checkInDate).getMonth() + 1; // Get month (1-12)
-            const checkInYear = new Date(checkInDate).getFullYear(); // Get year
-
-            // Extract month and year from hotel price availability
-            const hotelPriceStartMonth = new Date(hotelPriceStartDate).getMonth() + 1;
-            const hotelPriceStartYear = new Date(hotelPriceStartDate).getFullYear();
-
-            const hotelPriceEndMonth = new Date(hotelPriceEndDate).getMonth() + 1;
-            const hotelPriceEndYear = new Date(hotelPriceEndDate).getFullYear();
-
-            // Check if the selected date range is within the available range
-            if (
-                (checkInYear > hotelPriceStartYear || (checkInYear === hotelPriceStartYear && checkInMonth >= hotelPriceStartMonth)) &&
-                (checkInYear < hotelPriceEndYear || (checkInYear === hotelPriceEndYear && checkInMonth <= hotelPriceEndMonth))
-            ) {
-                // Calculate total price
-                const totalPrice = nightCost * nightCount;
-
-                // Update the price dynamically in the HTML (for display purposes)
-                document.getElementById('dynamic-price').innerText = '₹' + totalPrice;
-
-                // Set the hidden total cost input value
-                document.getElementById('total-cost-input').value = totalPrice; // This is the correct hidden input
-            } else {
-                document.getElementById('dynamic-price').innerText = 'Price not available for selected dates';
-
-                // Set the hidden total cost input to null or a message
-                document.getElementById('total-cost-input').value = null;
-            }
-        }
-
-
-        function updateGuestss(type, delta) {
-            const countElement = document.getElementById(type + '-count');
-            let count = parseInt(countElement.value);
-            count += delta;
-
-            // Ensure the count doesn't go below 0 for children or infants
-            if (count >= 0) {
-                countElement.value = count;
-                updateGuestCounts();
-            }
-        }
-
-        function updateGuestCounts() {
-            console.log("Update guest count triggered");
-            const adultsCount = parseInt(document.getElementById('adults-count').value) || 0;
-            const childrenCount = parseInt(document.getElementById('children-count').value) || 0;
-            const infantsCount = parseInt(document.getElementById('infants-count').value) || 0;
-
-            const totalGuests = adultsCount + childrenCount + infantsCount;
-            console.log("Total Guests: ", totalGuests);
-
-            document.getElementById('guests-value').innerText = totalGuests + (totalGuests === 1 ? ' guest' : ' guests');
-            document.getElementById('guest_count').value = totalGuests;
-        }
-
-
-
-
-    </script> --}}
-
-    <script>
-
-    </script>
+  
 
     <script>
         // Assuming this is sent via PHP:
@@ -1262,6 +1172,7 @@
             document.getElementById('child_count').value = child_count;
         }
     </script>
+
     <script>
         function updateChildrenAges(count) {
             const container = document.getElementById("children-ages");
@@ -1348,5 +1259,33 @@
             }).mount();
         });
     </script>
+
+
+<script>
+  document.getElementById('filter-form').onsubmit = function (event) {
+    event.preventDefault();
+
+    // Get the selected city_id
+    const city_id = document.querySelector('input[name="city_id"]:checked'); // Get selected radio button
+
+    if (city_id) {
+      // If a city is selected, get the value
+      const cityValue = city_id.value;
+      const start_date = document.getElementById('start_date').value;
+      const end_date = document.getElementById('end_date').value;
+
+      // Construct the URL with parameters
+      const actionUrl = '{{ route("filterHotels") }}'; // Using GET method
+      const finalUrl = `${actionUrl}?city_id=${cityValue}&start_date=${start_date}&end_date=${end_date}`;
+
+      // Redirect to the new URL with parameters (trigger a GET request)
+      window.location.href = finalUrl;
+    } else {
+      // If no city is selected, you might want to show an error or prompt the user to select a city
+      alert("Please select a city.");
+    }
+  };
+
+</script>
 
 @endsection
