@@ -96,8 +96,7 @@
     <div class="row">
       <div class="col-lg-3 col-sm-12 col-md-12 param">
         <div class="left_navi_det">
-          <h6>18 Manali Holiday Packages</h6>
-          <p>Showing 1-10 packages from 18 packages</p>
+          <h6><b>Apply Filters</b></h6>
         </div>
         <div class="navi_full_list">
 
@@ -135,76 +134,53 @@
 
           @if($safari)
           @foreach ($safari as $key => $value)
-          <div class="col-lg-6">
-            <div class="plan_outer w-100">
-              <div class="outer_plan_upper">
-                <div class="outer_plan_img">
-                  @php
-                  $images = json_decode($value->images); 
-              @endphp
-              
-              @if($images && is_array($images) && count($images) > 0)
-                  <img src="{{ asset(reset($images)) }}" alt="First Image">
-              @else
-                  <p>No images available.</p>
-              @endif
-              
-              
-                </div>
-                <div class="inner_outer_txt">
-                  
-                  <div class="outer_type_price">
-                    <h6 class="type_xtxt"> {{$value->cities->city_name ?? ''}} </h6>
-                  </div>
-                  <div class="plan_type_date">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <p style="margin: 0;">2 reviews</p>
-                  </div>
-                  <div class="inclusive">
-                    <i class="fa-solid fa-infinity"></i>
-                    <p class="m-0">All Inclusive</p>
-                  </div>
-                </div>
-              </div>
-              <div class="">
+          <div class="col-lg-4 mb-2">
+    @php
+        $images = json_decode($value->images, true);
+    @endphp
+
+    @if($images && is_array($images) && count($images) > 0)
+        @php
+            $add = asset(reset($images));
+        @endphp
+    @else
+        @php
+            $add = asset('frontend/images/hotel_main.avif');
+        @endphp
+    @endif
+
+    <a style="color: #fff" href="{{ route('wildlife_detail', ['id' => base64_encode($value->id)]) }}">
+        <div class="cardashEs" style="background: url('{{ $add }}') no-repeat center / cover;">
+            
+            @if($value->cost)
+                <div class="price-tagashEs">₹{{ number_format($value->cost, 2) }} onwards</div>
+            @else
+                <p>No price available.</p>
+            @endif
+
+            <div class="gradient-overlayashEs"></div>
+            <div class="contentashEs">
+                <h3>{{ \Illuminate\Support\Str::limit($value->national_park ?? '', 30) }}</h3>
                 
-                <div class="destination">
-                  <p style="margin: 0;">{{$value->national_park ?? ''}}</p>
-                </div>
-              </div>
-              <div class="options_tav night">
-                <div class="outer_car_txt justify-content-center justify-content-center">
-                  <div class="night_ski skit">
-                    
-                    <span><a href="#"></a></span>
-                  </div>
-                  <div class="destination skit">
-                    <div class="manags">
-                      <p>Starts from
-                        <b style="color: #000;">
+                
 
-                          <p>
-                            Price:  ₹{{ $value->cost ?? '0' }}
-
-                          </p>
-
-                        </b>
-                      </p>
-                      <span style="font-size: 10px;">per person on twin sharing</span>
+                <div class="detailsashEs">
+                   
+                    <div class="locationashEs">
+                        <span>📍 {{$value->cities->city_name ?? ''}}</span>
                     </div>
-                  </div>
                 </div>
-                <div class="options_btns d-flex justify-content-center">
-                  <a class="_btn" href="{{ route('wildlife_detail', ['id' => base64_encode($value->id)]) }}">Book Now</a>
-                </div>
+
                 
-              </div>
+
+                <div class="options_btns mt-2">
+                    <a class="_btn" href="{{ route('wildlife_detail', ['id' => base64_encode($value->id)]) }}">Book Now</a>
+                </div>
             </div>
-            </div>
+        </div>
+    </a>
+</div>
+
           @endforeach
           @else
             <div class="col-lg-6">
