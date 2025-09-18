@@ -45,6 +45,7 @@ use App\Http\Controllers\Admin\LocalTourPriceController;
 use App\Http\Controllers\Admin\PackageLocationController;
 use App\Http\Controllers\Admin\VehicleCostController;
 use App\Http\Controllers\Admin\TestimonialsController;
+use App\Http\Controllers\Admin\TripGuidePriceController;
 use App\Http\Controllers\Auth\adminlogincontroller;
 use App\Models\WildlifeSafari;
 
@@ -389,6 +390,16 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::get('/trip-guide/cities/{stateId}', [TripGuideController::class, 'getCitiesByStatetripguide']);
   
     Route::get('/trip-guide-booking', [TripGuideController::class, 'tripguidebooking'])->name('tripguidebooking');
+
+    Route::get('/trip-guide-price/{id}', [TripGuidePriceController::class, 'index'])->name('tripguide_price');
+    Route::match(['get','post'],'/trip-guide-price/create/{id}', [TripGuidePriceController::class, 'create'])->name('tripguide_price_create');
+    Route::get('trip-guide-price/{id}/edit', [TripGuidePriceController::class, 'edit'])->name('tripguide_price.edit');
+    Route::put('trip-guide-price/{id}', [TripGuidePriceController::class, 'update'])->name('tripguide_price.update');
+    Route::delete('trip-guide-price/{id}', [TripGuidePriceController::class, 'destroy'])->name('tripguide_price.destroy');
+    Route::patch('/trip-guide-price/{id}/status', [TripGuidePriceController::class, 'updateStatus'])->name('tripguide_price.updateStatus');
+    
+
+
 
     Route::match(['get','post'],'/transfer-trip-guide-booking/{id}', [TripGuideController::class, 'transfercreate'])->name('transfer_trip_guide_booking');
 

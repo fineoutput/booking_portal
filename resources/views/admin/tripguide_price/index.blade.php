@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="page-title-box">
-          <h4 class="page-title">View Trip Guide</h4>
+          <h4 class="page-title">View Trip Guide Price</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0);">Trip Guide</a></li>
-            <li class="breadcrumb-item active">View Trip Guide</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Trip Guide Price</a></li>
+            <li class="breadcrumb-item active">View Trip Guide Price</li>
           </ol>
         </div>
       </div>
@@ -38,9 +38,9 @@
               <!-- End show success and error messages -->
               <div class="row">
                 <div class="col-md-10">
-                  <h4 class="mt-0 header-title">View Trip Guide List</h4>
+                  <h4 class="mt-0 header-title">View Trip Guide Price List</h4>
                 </div>
-                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('tripguide_create')}}" role="button" style="margin-left: 20px;"> Add Trip Guide</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('tripguide_price_create', $trip->id)}}" role="button" style="margin-left: 20px;"> Add Trip Guide Price</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -49,63 +49,32 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th data-priority="1">State</th>
-                        <th data-priority="1">City</th>
-                        {{-- <th data-priority="1">Location</th> --}}
-                        <th data-priority="1">Language</th>
-                        <th data-priority="1">Guide Type</th>
-                        <!-- <th data-priority="1">Local Guide</th>
-                        <th data-priority="1">Out Station Guide</th> -->
-                        <th data-priority="1">Cost</th>
-                        <th data-priority="1">Image</th>
+                        <th data-priority="1">Trip</th>
+                        <th data-priority="1">1 To 4</th>
+                        <th data-priority="1">5</th>
+                        <th data-priority="1">6</th>
+                        <th data-priority="1">6 To 10</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
                    <tbody>
-                    @foreach($WildlifeSafari as $key=> $hotel)
+                    @foreach($trip_price as $key=> $hotel)
                     <tr>
-                        <td>{{ $key+1 }}</td> <!-- Loop index -->
-                        <td>{{ $hotel->state->state_name ?? '' }}</td>
-                        <td>{{ $hotel->cities->city_name ?? '' }}</td>
+                        <td>{{ $key+1 }}</td> 
+                        <td>{{ $hotel->trip->city_id ?? '' }}</td>
+                        <td>{{ $hotel->price_1_to_4 ?? '' }}</td>
                         {{-- <td>{{ $hotel->location ?? '' }}</td> --}}
-                        <td>{{ $hotel->languages->language_name ?? '' }}</td>
-                        <td>
-            @if($hotel->guide_type)
-                @php
-                    $guideTypes = explode(',', $hotel->guide_type);
-                @endphp
-                {{ implode(', ', $guideTypes) }}
-            @else
-                N/A
-            @endif
-        </td>
-                        <!-- <td>{{ $hotel->local_guide ?? '' }}</td>
-                        <td>{{ $hotel->out_station_guide ?? '' }}</td> -->
-                        <td>{{ $hotel->cost ?? '' }}</td>
-                        <td>
-                          @php
-                             $images = json_decode($hotel->image); // Decode JSON to array
-                         @endphp
- 
-                         @if($images && is_array($images))  <!-- Check if images is not null and is an array -->
-                             @foreach($images as $image)
-                                 <img src="{{ asset($image) }}" alt="Image" style="width: 50px; height: 50px; margin: 5px;">
-                             @endforeach
-                         @else
-                             <p>No images available.</p>
-                         @endif
-                        </td>
-                        {{-- <td>{{ $hotel->vehicle ?? '' }}</td> --}}
+                        <td>{{ $hotel->price_5 ?? '' }}</td>
+                        <td>{{ $hotel->price_6 ?? '' }}</td>
+                        <td>{{ $hotel->price_6_to_10 ?? '' }}</td>
 
                         <td>
                             <a href="{{ route('tripguide.edit', $hotel->id) }}" class="btn btn-warning">Edit</a>
-                        
                             <form action="{{ route('tripguide.destroy', $hotel->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
                             </form>
-                                <a href="{{ route('tripguide_price', $hotel->id) }}" class="btn btn-success">Add Price</a>
                           
                         </td>
                     </tr>
