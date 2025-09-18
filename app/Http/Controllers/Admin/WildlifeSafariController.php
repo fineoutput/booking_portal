@@ -99,6 +99,7 @@ class WildlifeSafariController extends Controller
             $agentCall->center_price = $request->center_price;
             $agentCall->jeep_price = $request->jeep_price;
             $agentCall->cost = $request->cost;
+            $agentCall->status = 1;
             $agentCall->description = $request->description;
             $agentCall->image = $imagePaths ? json_encode($imagePaths) : null; 
             $agentCall->timings = implode(',', $request->timings);
@@ -199,7 +200,7 @@ class WildlifeSafariController extends Controller
 
     public function updateStatus($id)
     {
-        $vehicle = Vehicle::findOrFail($id);
+        $vehicle = WildlifeSafari::findOrFail($id);
         $vehicle->status = ($vehicle->status == 1) ? 2 : 1;
         $vehicle->save();
 

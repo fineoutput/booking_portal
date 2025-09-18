@@ -2246,7 +2246,7 @@ public function getVehiclesByCity($cityId)
 
     public function wildlife()
     {
-        $data['wildlife'] = WildlifeSafari::all();
+        $data['wildlife'] = WildlifeSafari::where('status',1)->get();
         $cityIds = $data['wildlife']->pluck('state_id')->unique();
 
         $data['cities'] = State::whereIn('id', $cityIds)->get();

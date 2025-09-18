@@ -95,6 +95,20 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
                             </form>
+                            
+                            <form action="{{ route('wild_life_safari.updateStatus', $hotel->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PATCH') 
+                                @if ($hotel->status == 1) 
+                                    <button type="submit" class="btn btn-warning mt-2" onclick="return confirm('Are you sure you want to deactivate this?');" data-toggle="tooltip" data-placement="top" title="Deactivate">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                @else 
+                                    <button type="submit" class="btn btn-success mt-2" onclick="return confirm('Are you sure you want to activate this?');" data-toggle="tooltip" data-placement="top" title="Activate">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                @endif
+                            </form>
                         </td>
                     </tr>
                 @endforeach

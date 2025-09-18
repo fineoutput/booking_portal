@@ -75,6 +75,8 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Safari?')">Delete</button>
                             </form>
+
+                            
                           
                         </td>
                     </tr>
