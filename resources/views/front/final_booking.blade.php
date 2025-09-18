@@ -62,7 +62,7 @@
 
     .room-info {
       border-bottom: 1px solid #e0e0e0;
-      padding-bottom: 15px;
+      padding-top: 15px;
       margin-bottom: 15px;
     }
 
