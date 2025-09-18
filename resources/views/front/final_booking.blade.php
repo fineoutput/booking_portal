@@ -315,8 +315,8 @@
                                 @endforeach
                                 </ul>
                                 <p><strong>Non-Refundable</strong><br>Refund is not applicable for this booking</p>
-                                <a href="#">Cancellation policy details</a>
-                                <a href="#" style="float:right;">See Inclusions</a>
+                                
+                                
                               </div>
 
                               <div class="important-info">
