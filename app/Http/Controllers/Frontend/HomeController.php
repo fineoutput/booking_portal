@@ -1626,7 +1626,7 @@ public function filterHotels(Request $request)
     $hotel_amenities = $request->query('hotel_amenities'); // array
 
     // Step 1: Build HotelsRoom query
-    $roomQuery = HotelsRoom::where('show_front', 1);
+    $roomQuery = HotelsRoom::query();
 
     if ($city_id) {
         $roomQuery->where('city_id', $city_id);
