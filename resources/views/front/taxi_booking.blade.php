@@ -624,7 +624,7 @@
         <span class="badge bg-success rounded-circle p-3">1</span>
         <div class="ms-3">
           <h4>Lowest rate in the market</h4>
-          <p class="text-muted">Deepam Taxi offers a lowest price for outstation trip, Airport Pickup, Airport Drop trips (one way trip and round trip) across Karnataka, Tamil Nadu, Andhra Pradesh, Telangana, Kerala and Pondicherry.</p>
+          <p class="text-muted">Tour Dekhho Taxi offers a lowest price for outstation trip, Airport Pickup, Airport Drop trips (one way trip and round trip) across Karnataka, Tamil Nadu, Andhra Pradesh, Telangana, Kerala and Pondicherry.</p>
         </div>
       </div>
       <div class="d-flex align-items-center">
