@@ -4,6 +4,9 @@
 
 
   <style>
+    .alocate_hotel{
+      background-color: #fff;
+    }
     .search-container {
     margin-bottom: 10px;
     padding: 5px;
@@ -45,6 +48,44 @@
   .orSamar{
     
   }
+
+  /* Wildlife Section Styles */
+.itachi-wildlife {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 40px 0;
+}
+
+.itachi-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.itachi-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.itachi-text h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.itachi-text p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: #555;
+}
+.itachi-text {
+    text-align: left;
+}
+
   </style>
 
   <section class="wildlife_tallimala">
@@ -243,7 +284,7 @@
     </div>
   @endif
 
-  <section class="_hotels_filters">
+  <section class="_hotels_filters jets">
     <div class="container">
 
 
@@ -293,6 +334,52 @@
 
     </div>
   </section>
+
+
+<div class="seprate_section">
+<section class="steps-section">
+  <div class="container">
+    {{-- <h2 class="steps-title">Make 4 steps to rent a cab</h2> --}}
+    
+    <!-- Wildlife Section -->
+<section class="itachi-wildlife">
+  <div class="row">
+    <div class="col-lg-4"> <div class="itachi-item">
+    <img src="https://bookwildlifesafari.com/assets/icons/EXTRAORDINARY-ADVENTURES.png" alt="Wildlife Adventure Icon" class="itachi-icon">
+    <div class="itachi-text">
+      <h3>EXTRAORDINARY ADVENTURES</h3>
+      <p>BookWildlifeSafari, is your gateway to extraordinary adventures, and exquisite safari experiences.</p>
+    </div>
+  </div></div>
+    <div class="col-lg-4"> <div class="itachi-item">
+    <img src="https://bookwildlifesafari.com/assets/icons/travel-with-a-purpose.png" alt="Travel Purpose Icon" class="itachi-icon">
+    <div class="itachi-text">
+      <h3>TRAVEL WITH A PURPOSE</h3>
+      <p>At BookWildlifeSafari, we are committed toward conserving nature & empowering local communities.</p>
+    </div>
+  </div></div>
+    <div class="col-lg-4"> <div class="itachi-item">
+    <img src="https://bookwildlifesafari.com/assets/icons/24-7-support.png" alt="Support Icon" class="itachi-icon">
+    <div class="itachi-text">
+      <h3>24 x 7 SUPPORT</h3>
+      <p>Round-the-clock local assistance over Phone, WhatsApp, Email to address any travel needs or emergencies.</p>
+    </div>
+  </div></div>
+  </div>
+ 
+
+ 
+
+ 
+</section>
+
+  </div>  
+</section>
+</div>
+
+<section class="last_fest">
+  
+</section>
 
 
   <script>

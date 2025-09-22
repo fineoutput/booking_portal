@@ -2777,3 +2777,16 @@ ul.rmTypeList.vertical.appendTop10 {
     border: 1px solid #80808066;
     border-radius: 5px;
 }
+.jets{
+  background-image: url('https://worldexpeditions.com/croppedImages/Africa/Namibia/Chobe-National-Park-Namibia-Africa-306672-1920px-16x7.jpg?');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.last_fest{
+    background-image: url('https://www.jhalanaleopardreserve.com/wp-content/uploads/2020/08/footer1-copy.png-copy-e1596824730584.png');
+  background-position: center;
+  background-size: contain;
+height: 40vh;
+  background-repeat: no-repeat;
+}
