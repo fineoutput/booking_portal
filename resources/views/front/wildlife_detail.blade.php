@@ -327,7 +327,7 @@
                                                         <div class="filter-value_hotels" id="guests-value">1 guest</div>
                                                         <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
                                                     </div>
-                                                    <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+                                                    <div class="dropdown_hotels guests-dropdown_hotels w-100" id="guests-dropdown">
                                                         <div class="guest-option_hotels">
                                                             <label>Adults</label>
                                                             <div class="counter_hotels">
@@ -337,13 +337,24 @@
                                                             </div>
                                                         </div>
                                                         <div class="guest-option_hotels">
-                                                            <label>Children</label>
-                                                            <div class="counter_hotels">
-                                                                <button type="button" onclick="updateGuests('children', -1)">-</button>
-                                                                <input name="no_persons" type="number" id="children-count" value="0" min="0" onchange="updateTotal()">
-                                                                <button type="button" onclick="updateGuests('children', 1)">+</button>
-                                                            </div>
-                                                        </div>
+          <label>Children</label>
+          <div class="counter_hotels">
+            <button type="button" onclick="updateChildren(-1)">-</button>
+            <input type="number" id="children-count" value="0" min="0">
+            <button type="button" onclick="updateChildren(1)">+</button>
+          </div>
+
+          <!-- Dynamic child age dropdowns appear here -->
+
+        </div>
+        <hr id="what">
+        <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
+          Children age
+        </div>
+
+        <!-- Dynamic child age dropdowns appear here -->
+        <div id="children-ages"> </div>
+                                                        
                                                         {{-- <div class="guest-option_hotels">
                                                             <label>No. of Rooms</label>
                                                             <div class="counter_hotels">
@@ -355,12 +366,36 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                
+                                             <div class="rivvsa">
+                                            <div class="side_ill" style="
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+">
+        <label class="filter-label_hotels" for="guest_type">Guest Type</label>
+        <select class="harkat" name="guest_type" id="">
+          <option value="indian" selected>Type</option>
+          <option value="indian">Indian</option>
+          <option value="angrez">Foreigner</option>
+        </select>
+      </div>
+                                             </div>
                                             <div class="rivvsa">
                                                 <div class="select_sect trnas">
+                                                    <div class="side_ill" style="
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    ">
                                                     <label for="vehicle-round" class="form-label">Select Vehicle</label>
+        <select class="harkat" name="guest_type" id="">
+          <option value="indian" selected>Type</option>
+          <option value="indian">SUV</option>
+          <option value="angrez">Canter</option>
+        </select>
+      </div>
                                                 </div>
-                                                <input
+                                                {{-- <input
                                                     type="text"
                                                     id="car-input-round"
                                                     class="form-control car-input no-form"
@@ -391,7 +426,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 
                                             </div>
                                         </div>

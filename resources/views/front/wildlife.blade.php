@@ -88,7 +88,7 @@
 
   </style>
 
-  <section class="wildlife_tallimala">
+  <section class="wildlife_tallimala jets">
     <div class="header-container_hotels">
     <div class="search-header_hotels">
       <!-- Destination Dropdown -->
@@ -250,6 +250,8 @@
       </div>
       </div>
 
+      
+      
       <button type="submit" class="cutPiece" style="border: none; background: none;">
       <div class="search_sba">
         <div class="sba_center_Sarch">
@@ -269,7 +271,7 @@
 
 
   @if($slider)
-    {{-- <div id="responsive-slider" class="splide" style="background: #ffd600">
+    <div id="responsive-slider" class="splide" style="background: #ffd600">
     <div class="layie">
     
     </div>
@@ -303,7 +305,7 @@
     </div>
   @endif
 
-  <section class="_hotels_filters jets">
+  <section class="_hotels_filters ">
     <div class="container">
 
 

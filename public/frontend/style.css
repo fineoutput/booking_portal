@@ -2790,3 +2790,8 @@ ul.rmTypeList.vertical.appendTop10 {
 height: 40vh;
   background-repeat: no-repeat;
 }
+.harkat{
+      border: 1px solid #8080806b;
+    padding: 5px 2px;
+    border-radius: 10px;
+}
