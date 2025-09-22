@@ -43,6 +43,7 @@ use App\Http\Controllers\Admin\TransferAgentCallesController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\LocalTourPriceController;
 use App\Http\Controllers\Admin\PackageLocationController;
+use App\Http\Controllers\Admin\SafariPricesController;
 use App\Http\Controllers\Admin\VehicleCostController;
 use App\Http\Controllers\Admin\TestimonialsController;
 use App\Http\Controllers\Admin\TripGuidePriceController;
@@ -397,6 +398,17 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::put('trip-guide-price/{id}', [TripGuidePriceController::class, 'update'])->name('tripguide_price.update');
     Route::delete('trip-guide-price/{id}', [TripGuidePriceController::class, 'destroy'])->name('tripguide_price.destroy');
     Route::patch('/trip-guide-price/{id}/status', [TripGuidePriceController::class, 'updateStatus'])->name('tripguide_price.updateStatus');
+
+
+
+
+
+    Route::get('/safari-prices/{id}', [SafariPricesController::class, 'index'])->name('safari_prices');
+    Route::match(['get','post'],'/safari-prices/create/{id}', [SafariPricesController::class, 'create'])->name('safari_prices_create');
+    Route::get('safari-prices/{id}/edit', [SafariPricesController::class, 'edit'])->name('safari_prices.edit');
+    Route::put('safari-prices/{id}', [SafariPricesController::class, 'update'])->name('safari_prices.update');
+    Route::delete('safari-prices/{id}', [SafariPricesController::class, 'destroy'])->name('safari_prices.destroy');
+    Route::patch('/safari-prices/{id}/status', [SafariPricesController::class, 'updateStatus'])->name('safari_prices.updateStatus');
     
 
 

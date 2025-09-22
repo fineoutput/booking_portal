@@ -109,6 +109,9 @@
                                     </button>
                                 @endif
                             </form>
+
+                             <a href="{{ route('safari_prices', $hotel->id) }}" class="btn btn-success">Price</a>
+
                         </td>
                     </tr>
                 @endforeach
