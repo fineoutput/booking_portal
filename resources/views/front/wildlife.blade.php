@@ -348,14 +348,14 @@
     <img src="https://bookwildlifesafari.com/assets/icons/EXTRAORDINARY-ADVENTURES.png" alt="Wildlife Adventure Icon" class="itachi-icon">
     <div class="itachi-text">
       <h3>EXTRAORDINARY ADVENTURES</h3>
-      <p>BookWildlifeSafari, is your gateway to extraordinary adventures, and exquisite safari experiences.</p>
+      <p>Trip Dekho, is your gateway to extraordinary adventures, and exquisite safari experiences.</p>
     </div>
   </div></div>
     <div class="col-lg-4"> <div class="itachi-item">
     <img src="https://bookwildlifesafari.com/assets/icons/travel-with-a-purpose.png" alt="Travel Purpose Icon" class="itachi-icon">
     <div class="itachi-text">
       <h3>TRAVEL WITH A PURPOSE</h3>
-      <p>At BookWildlifeSafari, we are committed toward conserving nature & empowering local communities.</p>
+      <p>At Trip Dekho, we are committed toward conserving nature & empowering local communities.</p>
     </div>
   </div></div>
     <div class="col-lg-4"> <div class="itachi-item">
