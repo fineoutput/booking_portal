@@ -220,14 +220,33 @@
           <button type="button" onclick="updateGuests('adults', 1)">+</button>
         </div>
         </div>
-        <div class="guest-option_hotels">
+        {{-- <div class="guest-option_hotels">
         <label>Children</label>
         <div class="counter_hotels">
           <button type="button" onclick="updateGuests('children', -1)">-</button>
           <input type="number" id="children-count" value="1" min="1">
           <button type="button" onclick="updateGuests('children', 1)">+</button>
         </div>
+        </div> --}}
+         <div class="guest-option_hotels">
+          <label>Children</label>
+          <div class="counter_hotels">
+            <button type="button" onclick="updateChildren(-1)">-</button>
+            <input type="number" id="children-count" value="0" min="0">
+            <button type="button" onclick="updateChildren(1)">+</button>
+          </div>
+
+          <!-- Dynamic child age dropdowns appear here -->
+
         </div>
+        <hr id="what">
+        <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
+          Children age
+        </div>
+
+        <!-- Dynamic child age dropdowns appear here -->
+        <div id="children-ages"> </div>
+
       </div>
       </div>
 
