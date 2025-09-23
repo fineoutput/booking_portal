@@ -2374,6 +2374,7 @@ public function getVehiclesByCity($cityId)
         $data['end_date']   = Carbon::now()->format('Y-m-d');
         
         $dayType = Carbon::now()->isWeekend() ? 'Weekend' : 'Weekday';
+        // return $dayType;
 
         if ($request->vehicle == 'Canter') {
             $veh = 'Per_Seat';
@@ -2386,11 +2387,18 @@ public function getVehiclesByCity($cityId)
             ->where('end_month', '>=', $data['end_date'])
             ->where('visitor_type', $request->guest_type)
             ->where('price_type', $veh)
-            ->where('day_type', $dayType)   // <--- yahi naya filter
+            ->where('day_type', $dayType)
             ->first();
+
 
         if (!$price) {
             return redirect()->back()->with('message', 'Price not found.');
+        }
+
+        if($price->price_type == 'Per_Seat'){
+            $finPrice = $price->price * $request->no_adults;
+        }else{
+            $finPrice = $price->price;
         }
 
         $wildlife = new WildlifeSafariOrder();
@@ -2402,7 +2410,7 @@ public function getVehiclesByCity($cityId)
         $wildlife->no_kids = $request->no_kids;
         $wildlife->child_age = json_encode($childAges);
         $wildlife->guest_type = $request->guest_type;
-        $wildlife->cost = $price->price;
+        $wildlife->cost = $finPrice;
         $wildlife->vehicle = $request->vehicle;
         $wildlife->guest_count = $request->guest_count;
         $wildlife->timings = $request->selected_time;
