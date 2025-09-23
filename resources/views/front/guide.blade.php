@@ -24,6 +24,13 @@ asset('frontend/images/hotel_main.avif')
     top: 50%;
     background: #fff;
 }
+.lifes {
+    padding: 10px;
+}
+
+.person_site {
+    border-top: 1px solid #cccccc;
+}
 </style>
 {{-- @include('front.common.slides', compact('title', 'mainImage', 'sideImages', 'bottomImages', 'mobileImages')) --}}
 
@@ -251,10 +258,17 @@ asset('frontend/images/hotel_main.avif')
             </div>
             <div class="person_site">
                 <div class="lifes">
-                    <label for="">No of Persons</label>
+                    <label for=""><b>No of Persons</b></label>
                     <div class="zimm">
 
-                        <input type="number" name="" id="">
+                       <div class="guest-option_hotels">
+                        <label>Adults</label>
+                        <div class="counter_hotels">
+                            <button type="button" onclick="updateGuests('adults', -1)">-</button>
+                            <input type="number" id="adults-count" value="1" min="1">
+                            <button type="button" onclick="updateGuests('adults', 1)">+</button>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
