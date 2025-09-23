@@ -106,7 +106,7 @@
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div> --}}
-
+{{-- 
                                     <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="number" value="{{ old('jeep_price', $wildlifeSafari->jeep_price) }}" id="jeep_price" name="jeep_price" placeholder="Enter jeep_price" required>
@@ -126,7 +126,7 @@
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
-                            
+                             --}}
                                     {{-- <div class="col-sm-4">
                                         <div class="form-floating">
                                             <input class="form-control" type="date" value="{{ old('date', $wildlifeSafari->date) }}" id="date" name="date" placeholder="Enter date" required>

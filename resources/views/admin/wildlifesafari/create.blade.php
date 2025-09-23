@@ -101,7 +101,7 @@
                                             @enderror
                                         </div> --}}
 
-                                        <div class="col-sm-4">
+                                        {{-- <div class="col-sm-4">
                                             <div class="form-floating">
                                                 <input class="form-control" type="number" value="" id="jeep_price" name="jeep_price" placeholder="Enter jeep_price" required>
                                                 <label for="jeep_price">Jeep Price &nbsp;<span style="color:red;">*</span></label>
@@ -119,7 +119,7 @@
                                             @error('center_price')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
 {{-- 
                                         <div class="col-sm-4">
                                             <div class="form-floating">
