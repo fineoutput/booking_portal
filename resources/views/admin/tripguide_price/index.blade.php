@@ -41,6 +41,7 @@
                   <h4 class="mt-0 header-title">View Trip Guide Price List</h4>
                 </div>
                 <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('tripguide_price_create', $trip->id)}}" role="button" style="margin-left: 20px;"> Add Trip Guide Price</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('tripguide')}}" role="button" style="margin-left: 20px;">Back</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">

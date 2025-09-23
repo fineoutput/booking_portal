@@ -116,39 +116,44 @@
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div> --}}
-
+                                    
                                     <div class="col-sm-6">
                                         <label for="languages">Language</label>
-                                        <select class="form-control" id="languages" name="languages_id">
+                                        <div id="output"></div>
+                                        @php
+                                            // Retrieve old input or use the saved value, and convert it to an array.
+                                            $selectedLanguages = old('languages_id', isset($wildlifeSafari) ? explode(',', $wildlifeSafari->languages_id) : []);
+                                        @endphp
+                                        <select data-placeholder="" id="languages" name="languages_id[]" multiple class="chosen-select">
                                             @foreach($languages as $value)
                                                 <option value="{{$value->id}}" 
-                                                    @if($wildlifeSafari->languages_id == $value->id) selected @endif>
+                                                    {{ in_array($value->id, $selectedLanguages) ? 'selected' : '' }}>
                                                     {{$value->language_name}}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        @error('languages')
+                                        @error('languages_id')
                                             <div style="color:red">{{ $message }}</div>
                                         @enderror
                                     </div>
 
                                     <div class="form-group row">
-    <div class="col-sm-6">
-        <label for="guide_type">Guide Type</label>
-        <div id="output"></div>
-        @php
-            // Retrieve old input or use the saved value, converting it to an array.
-            $selectedGuideTypes = old('guide_type', isset($wildlifeSafari) ? explode(',', $wildlifeSafari->guide_type) : []);
-        @endphp
-        <select name="guide_type[]" id="guide_type" multiple class="chosen-select" required>
-            <option value="Local" {{ in_array('Local', $selectedGuideTypes) ? 'selected' : '' }}>Local</option>
-            <option value="Outstation" {{ in_array('Outstation', $selectedGuideTypes) ? 'selected' : '' }}>Outstation</option>
-        </select>
-        @error('guide_type')
-            <div style="color:red">{{ $message }}</div>
-        @enderror
-    </div>
-</div>
+                                        <div class="col-sm-6">
+                                            <label for="guide_type">Guide Type</label>
+                                            <div id="output"></div>
+                                            @php
+                                                // Retrieve old input or use the saved value, converting it to an array.
+                                                $selectedGuideTypes = old('guide_type', isset($wildlifeSafari) ? explode(',', $wildlifeSafari->guide_type) : []);
+                                            @endphp
+                                            <select name="guide_type[]" id="guide_type" multiple class="chosen-select" required>
+                                                <option value="Local" {{ in_array('Local', $selectedGuideTypes) ? 'selected' : '' }}>Local</option>
+                                                <option value="Outstation" {{ in_array('Outstation', $selectedGuideTypes) ? 'selected' : '' }}>Outstation</option>
+                                            </select>
+                                            @error('guide_type')
+                                                <div style="color:red">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
 
                                     {{-- <div class="col-sm-6">
                                         <div class="form-floating">

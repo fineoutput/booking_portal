@@ -55,7 +55,31 @@
                             @csrf
 
                             <div class="form-group row">
+                                 <div class="col-sm-6">
+                                    {{-- <div class="form-floating"> --}}
+                                        <label for="start_month">Start Month <span style="color:red;">*</span></label>
+                                       <input type="date" class="form-control" name="start_month">
+                                    {{-- </div> --}}
+                                    @error('start_month')
+                                    <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
+                                 <div class="col-sm-6">
+                                    {{-- <div class="form-floating"> --}}
+                                        <label for="end_month">End Month <span style="color:red;">*</span></label>
+                                       <input type="date" class="form-control" name="end_month">
+                                    {{-- </div> --}}
+                                    @error('end_month')
+                                    <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+
+                               
                                 <div class="col-sm-6">
                                     {{-- <div class="form-floating"> --}}
                                         <label for="visitor_type">Visitor Type <span style="color:red;">*</span></label>
@@ -90,7 +114,7 @@
                                     {{-- <div class="form-floating"> --}}
                                         <label for="price_type">Price Type <span style="color:red;">*</span></label>
                                         <select class="form-control" name="price_type" id="">
-                                            <option value="Per_Seat">Per Seat</option>
+                                            <option value="Per_Seat">Per Seat Canter</option>
                                             <option value="Per_Jeep">Per Jeep</option>
                                         </select>
                                     {{-- </div> --}}

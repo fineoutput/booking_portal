@@ -41,6 +41,7 @@
                   <h4 class="mt-0 header-title">View Safari Price List</h4>
                 </div>
                 <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('safari_prices_create', $safari->id)}}" role="button" style="margin-left: 20px;"> Add Safari Price</a></div>
+                <div class="col-md-2"> <a class="btn btn-info cticket" href="{{route('wild_life_safari')}}" role="button" style="margin-left: 20px;"> Back</a></div>
               </div>
               <hr style="margin-bottom: 50px;background-color: darkgrey;">
               <div class="table-rep-plugin">
@@ -50,6 +51,8 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Safari</th>
+                        <th data-priority="1">Start Month</th>
+                        <th data-priority="1">End Month</th>
                         <th data-priority="1">Visitor Type</th>
                         <th data-priority="1">Day Type</th>
                         <th data-priority="1">Price Type</th>
@@ -62,6 +65,8 @@
                     <tr>
                         <td>{{ $key+1 }}</td> 
                         <td>{{ $hotel->safari->national_park ?? '' }}</td>
+                        <td>{{ $hotel->start_month ?? '' }}</td>
+                        <td>{{ $hotel->end_month ?? '' }}</td>
                         <td>{{ $hotel->visitor_type ?? '' }}</td>
                         <td>{{ $hotel->day_type ?? '' }}</td>
                         {{-- <td>{{ $hotel->location ?? '' }}</td> --}}

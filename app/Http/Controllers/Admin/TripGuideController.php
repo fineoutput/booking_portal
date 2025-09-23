@@ -86,6 +86,7 @@ class TripGuideController extends Controller
 
     function index() {
         $data['WildlifeSafari'] = TripGuide::orderBy('id','DESC')->get();
+        $data['languages'] = Languages::all();
         return view('admin/tripguide/index',$data);
     }
     
@@ -261,7 +262,7 @@ class TripGuideController extends Controller
             $agentCall = new TripGuide();
             $agentCall->location = $request->location;
             $agentCall->out_station_guide = $request->out_station_guide;
-            $agentCall->languages_id = $request->languages_id;
+            $agentCall->languages_id = is_array($request->languages_id) ? implode(',', $request->languages_id) : $request->languages_id;
             $agentCall->local_guide = $request->local_guide;
             $agentCall->city_id = $request->city_id;
             $agentCall->image = $imagePaths ? json_encode($imagePaths) : null; 

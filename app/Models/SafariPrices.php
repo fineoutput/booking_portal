@@ -11,6 +11,8 @@ class SafariPrices extends Model
     protected $table = 'safari_prices';
     protected $fillable = [
         'safari_id',
+        'start_month',
+        'end_month',
         'visitor_type',
         'day_type',
         'price_type',

@@ -68,17 +68,26 @@
                         <td>{{ $hotel->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->cities->city_name ?? '' }}</td>
                         {{-- <td>{{ $hotel->location ?? '' }}</td> --}}
-                        <td>{{ $hotel->languages->language_name ?? '' }}</td>
+                       <td>
+                            @php
+                                $languageIds = explode(',', $hotel->languages_id);
+                                $hotelLanguages = $languages->whereIn('id', $languageIds);
+                            @endphp
+
+                            @foreach($hotelLanguages as $language)
+                                {{ $language->language_name }}@if(!$loop->last), @endif
+                            @endforeach
+                        </td>
                         <td>
-            @if($hotel->guide_type)
-                @php
-                    $guideTypes = explode(',', $hotel->guide_type);
-                @endphp
-                {{ implode(', ', $guideTypes) }}
-            @else
-                N/A
-            @endif
-        </td>
+                            @if($hotel->guide_type)
+                                @php
+                                    $guideTypes = explode(',', $hotel->guide_type);
+                                @endphp
+                                {{ implode(', ', $guideTypes) }}
+                            @else
+                                N/A
+                            @endif
+                        </td>
                         <!-- <td>{{ $hotel->local_guide ?? '' }}</td>
                         <td>{{ $hotel->out_station_guide ?? '' }}</td> -->
                         <td>{{ $hotel->cost ?? '' }}</td>

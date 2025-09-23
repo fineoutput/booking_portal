@@ -55,6 +55,27 @@
                             @csrf
                             @method('PUT')
 
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="start_month">Start Month <span style="color:red;">*</span></label>
+                                    <input type="date" class="form-control" name="start_month" id="start_month"
+                                        value="{{ old('start_month', isset($SafariPrices) ? $SafariPrices->start_month : '') }}">
+                                    @error('start_month')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="end_month">End Month <span style="color:red;">*</span></label>
+                                    <input type="date" class="form-control" name="end_month" id="end_month"
+                                        value="{{ old('end_month', isset($SafariPrices) ? $SafariPrices->end_month : '') }}">
+                                    @error('end_month')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="form-group row">
 
                                 <div class="col-sm-6">

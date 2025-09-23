@@ -114,7 +114,8 @@
                                         
                                     <div class="col-sm-6">
                                         <label for="languages">Language</label>
-                                        <select data-placeholder="" class="form-control" id="languages" class="chosen-select" name="languages_id">
+                                           <div id="output"></div>
+                                        <select data-placeholder="" id="languages" name="languages_id[]" multiple class="chosen-select">
                                             @foreach($languages as $value)
                                             <option value="{{$value->id ?? ''}}">{{$value->language_name ?? ''}}</option>
                                             @endforeach
@@ -251,7 +252,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/booking_portal/public/admin/cities/' + stateId,
+                    url: '/admin/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;

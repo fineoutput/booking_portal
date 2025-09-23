@@ -44,14 +44,16 @@ class SafariPricesController extends Controller
                 'price' => 'required',
             ]);
 
-            $tripGuidePrice = new SafariPrices();
-            $tripGuidePrice->safari_id = $id;
-            $tripGuidePrice->visitor_type = $request->input('visitor_type');
-            $tripGuidePrice->day_type = $request->input('day_type');
-            $tripGuidePrice->price_type = $request->input('price_type');
-            $tripGuidePrice->price = $request->input('price');
+            $safari = new SafariPrices();
+            $safari->safari_id = $id;
+            $safari->start_month = $request->input('start_month');
+            $safari->end_month = $request->input('end_month');
+            $safari->visitor_type = $request->input('visitor_type');
+            $safari->day_type = $request->input('day_type');
+            $safari->price_type = $request->input('price_type');
+            $safari->price = $request->input('price');
 
-            $tripGuidePrice->save();
+            $safari->save();
 
             return redirect()->route('safari_prices',$id)->with('success', 'Safari Price added successfully!');
         }
@@ -93,7 +95,8 @@ class SafariPricesController extends Controller
         $safari = SafariPrices::findOrFail($id);
 
         $safari->safari_id = $id;
-        $safari->safari_id = $id;
+        $safari->start_month = $request->input('start_month');
+        $safari->end_month = $request->input('end_month');
         $safari->visitor_type = $request->input('visitor_type');
         $safari->day_type = $request->input('day_type');
         $safari->price_type = $request->input('price_type');
@@ -105,9 +108,9 @@ class SafariPricesController extends Controller
 
     public function updateStatus($id)
     {
-        $vehicle = SafariPrices::findOrFail($id);
-        $vehicle->status = ($vehicle->status == 1) ? 2 : 1;
-        $vehicle->save();
+        $safari = SafariPrices::findOrFail($id);
+        $safari->status = ($safari->status == 1) ? 2 : 1;
+        $safari->save();
 
         return redirect()->route('tripguide   ')->with('success', 'Outstation status updated successfully!');
     }
