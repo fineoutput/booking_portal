@@ -249,7 +249,15 @@ asset('frontend/images/hotel_main.avif')
                     </div>
                 </div>
             </div>
+            <div class="person_site">
+                <div class="lifes">
+                    <label for="">No of Persons</label>
+                    <div class="zimm">
 
+                        <input type="number" name="" id="">
+                    </div>
+                </div>
+            </div>
             <hr>
 
             {{-- Guide Type --}}
