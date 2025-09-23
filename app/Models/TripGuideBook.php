@@ -15,6 +15,7 @@ class TripGuideBook extends Model
         'user_id',
         'location',
         'guide_type',
+        'adults_count',
         'languages_id',
         'cost',
         'status',

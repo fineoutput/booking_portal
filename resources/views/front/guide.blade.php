@@ -240,6 +240,23 @@ asset('frontend/images/hotel_main.avif')
 
                 {{-- Language --}}
                 <div class="caranke">
+    <div class="filter-item_hotels sachi">
+        <div class="filter-label_hotels">Language</div>
+       <select name="languages_id" id="language" required>
+    <option value="" disabled selected>Select Language</option>
+    {{-- Optionally, you can load initial options from session or initial city --}}
+    @if(session('guide_languages'))
+        @foreach(session('guide_languages') as $lang)
+            <option value="{{ $lang['id'] }}"
+                {{ old('languages_id', session('guide_form_data.languages_id') ?? '') == $lang['id'] ? 'selected' : '' }}>
+                {{ $lang['name'] }}
+            </option>
+        @endforeach
+    @endif
+</select>
+    </div>
+</div>
+                {{-- <div class="caranke">
                     <div class="filter-item_hotels sachi">
                         <div class="filter-label_hotels">Language</div>
                         <select class="form-control" name="languages_id" id="language" required>
@@ -254,7 +271,9 @@ asset('frontend/images/hotel_main.avif')
                             @endif
                         </select>
                     </div>
-                </div>
+                </div> --}}
+
+
             </div>
             <div class="person_site">
                 <div class="lifes">
@@ -264,9 +283,9 @@ asset('frontend/images/hotel_main.avif')
                        <div class="guest-option_hotels">
                         <label>Adults</label>
                         <div class="counter_hotels">
-                            <button type="button" onclick="updateGuests('adults', -1)">-</button>
-                            <input type="number" id="adults-count" value="1" min="1">
-                            <button type="button" onclick="updateGuests('adults', 1)">+</button>
+                            <button type="button" onclick="updateGuestss('adults', -1)">-</button>
+                            <input type="number" name="adults_count" id="adults-count" value="1" min="1">
+                            <button type="button" onclick="updateGuestss('adults', 1)">+</button>
                         </div>
                     </div>
                     </div>
@@ -288,6 +307,7 @@ asset('frontend/images/hotel_main.avif')
                 </label>
             </div>
         </div>
+        <input type="hidden" name="price_id" value="">
 
         <div class="live_set mt-3">
             <button class="btn btn-info gggsd" type="submit">Reserve</button>
@@ -303,25 +323,37 @@ asset('frontend/images/hotel_main.avif')
     </div>
 </div>
 
+<script>
+      function updateGuestss(type, delta) {
+    guests[type] = Math.max(0, guests[type] + delta);
 
+    if (type === 'adults' || type === 'children' || type === 'infants') {
+        document.getElementById(`${type}-count`).value = guests[type]; // Update input field value
+    } else {
+        document.getElementById(`${type}-count`).textContent = guests[type]; // Update span text
+    }
+
+    const totalGuests = guests.adults + guests.children + guests.infants;
+    document.getElementById('guests-value').textContent =
+      `${totalGuests} guest${totalGuests !== 1 ? 's' : ''}`;
+}
+
+</script>
 
 <script>
   $(document).ready(function() {
     // Fetch languages when the city is selected
-    $('#city').change(function() {
+    $('#city').change(function(){
         var cityId = $(this).val();
-
-        if (cityId) {
-            // Call AJAX to get languages based on the selected city
+        if(cityId){
             $.ajax({
-                url: '/booking_portal/public/get-languages/' + cityId,
+                url: '/get-languages/' + cityId,
                 method: 'GET',
                 success: function(response) {
                     var languages = response.languages;
                     var languageSelect = $('#language');
-                    languageSelect.empty().append('<option value="" selected disabled>Select Language</option>');
-
-                    // Populate the language dropdown with options
+                    languageSelect.empty();
+                    languageSelect.append('<option value="" disabled selected>Select Language</option>');
                     $.each(languages, function(id, name) {
                         languageSelect.append('<option value="' + id + '">' + name + '</option>');
                     });
@@ -330,30 +362,36 @@ asset('frontend/images/hotel_main.avif')
                     alert('Error fetching languages.');
                 }
             });
+        } else {
+            $('#language').empty().append('<option value="" disabled selected>Select Language</option>');
         }
     });
 
-    $('#language').change(function() {
-        var cityId = $('#city').val();  // Get selected city
-        var languageId = $(this).val();  // Get selected language
+    var oldCity = "{{ old('city_id', session('guide_form_data.city_id') ?? '') }}";
+    if(oldCity){
+        $('#city').val(oldCity).trigger('change');
+    }
 
+
+    $('#language').change(function() {
+        var cityId = $('#city').val();  
+        var languageId = $(this).val();  
         if (cityId && languageId) {
             $.ajax({
-                url: '/booking_portal/public/get-tour-guide-details',  // Your backend route
+                url: '/get-tour-guide-details',  
                 method: 'GET',
                 data: {
                     city_id: cityId,
                     language_id: languageId
                 },
                 success: function(response) {
-                    // Assuming the response has `tour_guide_id` and `cost`
                     if (response.cost) {
-                        // Update the hidden input values
+                        console.log(response.cost);
                         $('#tour_guide_id').val(response.tour_guide_id);
                         $('#cost').val(response.cost);
+                        $('#price_id').val(response.trip_price.id);
                         
-                        // Update the price display
-                        $('#price-display').text('Price: ₹' + response.cost);
+                        $('#price-display').text('Price: ₹' + response.trip_price.price_1_to_4);
                     } else {
                         alert('No trip guide found for the selected city and language');
                     }

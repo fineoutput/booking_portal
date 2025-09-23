@@ -45,6 +45,7 @@ use App\Models\HotelsRoom;
 use App\Models\LocationCost;
 use App\Models\SafariPrices;
 use App\Models\Testimonials;
+use App\Models\TripGuidePrice;
 use App\Models\VehicleCost;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -2436,6 +2437,33 @@ public function getVehiclesByCity($cityId)
 
     // }
 
+    // public function guide(Request $request)
+    // {
+    //     $data['city'] = City::all();
+
+    //     if (session()->has('guide_form_data.city_id')) {
+    //         $cityId = session('guide_form_data.city_id');
+
+    //         $langs = TripGuide::where('city_id', $cityId)
+    //             ->pluck('languages_id')
+    //             ->unique();
+
+    //         $guide_languages = Languages::whereIn('id', $langs)
+    //             ->get()
+    //             ->map(fn($l) => ['id' => $l->id, 'name' => $l->language_name]);
+            
+    //         session(['guide_languages' => $guide_languages]);
+    //     }
+
+    //         $data['tripguide'] = TripGuide::latest()->get(); 
+    //         $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'guide')->get();
+    //         $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get(); 
+    //         $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get(); 
+
+    //     return view('front/guide', $data);
+    // }
+
+
     public function guide(Request $request)
     {
         $data['city'] = City::all();
@@ -2443,53 +2471,98 @@ public function getVehiclesByCity($cityId)
         if (session()->has('guide_form_data.city_id')) {
             $cityId = session('guide_form_data.city_id');
 
-            $langs = TripGuide::where('city_id', $cityId)
-                ->pluck('languages_id')
-                ->unique();
+            $tripGuides = TripGuide::where('city_id', $cityId)->get();
 
-            $guide_languages = Languages::whereIn('id', $langs)
+            $languageIds = $tripGuides->flatMap(function($tg) {
+                if (!$tg->languages_id) {
+                    return [];
+                }
+                $parts = collect(explode(',', $tg->languages_id))
+                            ->map(fn($p) => trim($p))
+                            ->filter(fn($p) => $p !== '');
+
+                return $parts;
+            })->unique()->values()->all(); 
+
+            $guide_languages = Languages::whereIn('id', $languageIds)
                 ->get()
                 ->map(fn($l) => ['id' => $l->id, 'name' => $l->language_name]);
-            
+
             session(['guide_languages' => $guide_languages]);
         }
 
-            $data['tripguide'] = TripGuide::latest()->get(); 
-            $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'guide')->get();
-            $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get(); 
-            $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get(); 
+        $data['tripguide'] = TripGuide::latest()->get();
+        $data['slider'] = Slider::orderBy('id', 'DESC')
+            ->where('type', 'guide')->get();
+        $data['city'] = City::whereIn('id', $data['tripguide']->pluck('city_id'))->get();
+        $data['state'] = State::whereIn('id', $data['tripguide']->pluck('state_id'))->get();
 
         return view('front/guide', $data);
     }
 
+
+    // public function getLanguagesByCity($cityId)
+    // {
+    //     $tripGuides = TripGuide::where('city_id', $cityId)->get();
+
+    //     $languages = $tripGuides->map(function ($guide) {
+    //         return $guide->languages_id;
+    //     })->unique();
+
+    //     $languageNames = Languages::whereIn('id', $languages)->pluck('language_name', 'id');
+
+    //     return response()->json(['languages' => $languageNames]);
+    // }
+
     public function getLanguagesByCity($cityId)
     {
+        // Find TripGuides belonging to this city
         $tripGuides = TripGuide::where('city_id', $cityId)->get();
 
-        $languages = $tripGuides->map(function ($guide) {
-            return $guide->languages_id;
-        })->unique();
+        // Collect all languages_id strings, split them
+        $languageIds = $tripGuides->flatMap(function($guide) {
+            $str = $guide->languages_id;   // example "1,2,3"
+            if (!$str) {
+                return []; 
+            }
+            // Explode by comma, trim spaces
+            return collect(explode(',', $str))
+                ->map(fn($id) => trim($id))
+                ->filter(fn($id) => is_numeric($id) && $id !== '')
+                ->all();
+        })
+        ->unique()
+        ->values()
+        ->all();
 
-        $languageNames = Languages::whereIn('id', $languages)->pluck('language_name', 'id');
+        // Then fetch language names
+        $languages = Languages::whereIn('id', $languageIds)
+            ->get()
+            ->mapWithKeys(fn($lang) => [$lang->id => $lang->language_name]);
 
-        return response()->json(['languages' => $languageNames]);
+        return response()->json([
+            'languages' => $languages,
+        ]);
     }
 
     public function getTourGuideDetails(Request $request)
     {
         $cityId = $request->city_id;
         $languageId = $request->language_id;
-    
-        // Query the TripGuide model based on city and language
+
         $tripguide = TripGuide::where('city_id', $cityId)
-                              ->where('languages_id', $languageId)
-                              ->first();
-    
+        ->where(function($q) use ($languageId) {
+            $q->whereRaw("FIND_IN_SET(?, languages_id)", [$languageId]);
+        })
+        ->first();
+
+        $trip_price = TripGuidePrice::where('trip_id',$tripguide->id)->first();
+
         if ($tripguide) {
-            // Return the tour guide ID and cost
             return response()->json([
                 'tour_guide_id' => $tripguide->id,
-                'cost' => $tripguide->cost
+                'cost' => $tripguide->cost,
+                'trip_price' => $trip_price
             ]);
         }
     
@@ -2531,6 +2604,7 @@ public function getVehiclesByCity($cityId)
 
   public function bookguide(Request $request)
     {
+        // return $request;
         // Validate required inputs first (only for session saving purpose)
         $validated = $request->validate([
             'city_id' => 'required',
@@ -2554,6 +2628,33 @@ public function getVehiclesByCity($cityId)
         if (!in_array($request->guide_type, $guideTypes)) {
             return back()->with('message', 'The selected guide type is not valid for this tour guide.');
         }
+        
+         $trip_price = TripGuidePrice::where('trip_id',$trip->id)->first();
+
+         if ($trip_price) {
+        $adults = (int)$request->adults_count;
+
+        if ($adults < 1) {
+            return redirect()->back()->with('message', 'Please Select At least 1 Adult');
+        }
+
+        if ($adults <= 4) {
+            $fine_price = $trip_price->price_1_to_4;
+        } elseif ($adults == 5) {
+            $fine_price = $trip_price->price_1_to_4 + $trip_price->price_5;
+        } elseif ($adults == 6) {
+            $fine_price = $trip_price->price_1_to_4 + $trip_price->price_5 + $trip_price->price_6;
+        } elseif ($adults >= 7 && $adults <= 10) {
+            $fine_price = $trip_price->price_1_to_4 + $trip_price->price_5 + $trip_price->price_6 + $trip_price->price_6_to_10;
+        } else { // $adults > 10
+            return redirect()->back()->with('message', 'Adults can not be more than 10');
+        }
+
+            // ab $fine_price use karo aage
+        } else {
+            return redirect()->back()->with('message', 'Price not found.');
+        }
+
 
         $booking = new TripGuideBook();
         $booking->user_id = Auth::guard('agent')->id();
@@ -2561,8 +2662,9 @@ public function getVehiclesByCity($cityId)
         $booking->languages_id = $request->languages_id;
         $booking->state_id = $request->state_id;
         $booking->location = $request->location;
+        $booking->adults_count = $request->adults_count;
         $booking->guide_type = $request->guide_type;
-        $booking->cost = $request->cost;
+        $booking->cost = $fine_price;
         $booking->status = 0;
         $booking->save();
 
