@@ -58,7 +58,8 @@
                         <th data-priority="1">Date</th>
                         <th data-priority="1">Timings</th>
                         <th data-priority="1">Vehicle</th>
-                        <th data-priority="1">Persons</th>
+                        <th data-priority="1">Children</th>
+                        <th data-priority="1">Children Ages</th>
                         <th data-priority="1">Adults</th>
                         <th data-priority="1">Kids</th>
                         <th data-priority="1">Agent Margin</th>
@@ -81,6 +82,19 @@
                         <td>{{ $hotel->safari_se->timings ?? '' }}</td>
                         <td>{{ $hotel->safari_se->vehicle ?? '' }}</td>
                         <td>{{ $hotel->safari_se->no_persons ?? '' }}</td>
+                        <td>
+                          @php
+                              $childAges = json_decode($hotel->safari_se->child_age ?? '[]', true);
+                          @endphp
+
+                          @if(is_array($childAges) && count($childAges) > 0)
+                              @foreach($childAges as $age)
+                                  {{ $age }}@if(!$loop->last), @endif
+                              @endforeach
+                          @else
+                              No Child Ages
+                          @endif
+                      </td>
                         <td>{{ $hotel->safari_se->no_adults ?? '' }}</td>
                         <td>{{ $hotel->safari_se->no_kids ?? '' }}</td>
                         <td>₹{{ $hotel->agent_margin ?? '' }}</td>

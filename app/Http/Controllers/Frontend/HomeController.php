@@ -43,6 +43,7 @@ use App\Models\Wallet;
 use App\Models\HotelPrefrence;
 use App\Models\HotelsRoom;
 use App\Models\LocationCost;
+use App\Models\SafariPrices;
 use App\Models\Testimonials;
 use App\Models\VehicleCost;
 use Carbon\Carbon;
@@ -2309,6 +2310,14 @@ public function getVehiclesByCity($cityId)
     {
         $id = base64_decode($id);
         $data['wildlife'] = WildlifeSafari::where('id',$id)->first();
+          $data['start_date'] =  Carbon::now()->format('Y-m-d') ?? null;
+        $data['end_date'] =  Carbon::now()->format('Y-m-d') ?? null;
+
+        $data['price'] = SafariPrices::where('safari_id', $id)
+                    ->where('start_month', '<=', $data['start_date'])
+                    ->where('end_month', '>=', $data['end_date'])
+                    ->first();
+
         return view('front/wildlife_detail',$data);
     }
 
@@ -2343,21 +2352,57 @@ public function getVehiclesByCity($cityId)
 
     public function add_wildlife_booking(Request $request,$id)
     {
-               if (!Auth::guard('agent')->check()) {
-        // Save form data to session before redirect to login
-        session(['wildlife_booking_form_data' => $request->all()]);
-        return redirect()->route('login');
-    }
+        // return $request;
 
+               if (!Auth::guard('agent')->check()) {
+                    session(['wildlife_booking_form_data' => $request->all()]);
+                    return redirect()->route('login');
+                }
+
+            $childrenCount = (int) $request->input('children_count', 0);
+
+            $childAges = [];
+
+            for ($i = 0; $i < $childrenCount; $i++) {
+                $key = 'child_age_' . $i;
+                if ($request->has($key)) {
+                    $childAges[] = $request->input($key);
+                }
+            }
+
+        $data['start_date'] = Carbon::now()->format('Y-m-d');
+        $data['end_date']   = Carbon::now()->format('Y-m-d');
+        
+        $dayType = Carbon::now()->isWeekend() ? 'Weekend' : 'Weekday';
+
+        if ($request->vehicle == 'Canter') {
+            $veh = 'Per_Seat';
+        } else {
+            $veh = 'Per_Jeep';
+        }
+
+        $price = SafariPrices::where('safari_id', $id)
+            ->where('start_month', '<=', $data['start_date'])
+            ->where('end_month', '>=', $data['end_date'])
+            ->where('visitor_type', $request->guest_type)
+            ->where('price_type', $veh)
+            ->where('day_type', $dayType)   // <--- yahi naya filter
+            ->first();
+
+        if (!$price) {
+            return redirect()->back()->with('message', 'Price not found.');
+        }
 
         $wildlife = new WildlifeSafariOrder();
         $wildlife->user_id = Auth::guard('agent')->id();
         $wildlife->safari_id = $id;
         $wildlife->date = $request->date;
         $wildlife->no_adults = $request->no_adults;
-        $wildlife->no_persons = $request->no_persons;
+        $wildlife->no_persons = $request->children_count;
         $wildlife->no_kids = $request->no_kids;
-        $wildlife->cost = $request->total_price;
+        $wildlife->child_age = json_encode($childAges);
+        $wildlife->guest_type = $request->guest_type;
+        $wildlife->cost = $price->price;
         $wildlife->vehicle = $request->vehicle;
         $wildlife->guest_count = $request->guest_count;
         $wildlife->timings = $request->selected_time;

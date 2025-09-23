@@ -285,217 +285,127 @@
                                             </span> --}}
                                             <span>₹<span id="final-price"></span></span>
                                         </div>
-                                        <form action="{{ route('add_wildlife_booking', ['id' => $wildlife->id]) }}"
-                                            method="POST">
-                                            @csrf
-                                            <div class="checks">
+                                       <form action="{{ route('add_wildlife_booking', ['id' => $wildlife->id]) }}" method="POST">
+    @csrf
+    <div class="checks">
 
+        <!-- Date -->
+        <div class="bors">
+            <div class="caranke">
+                <label><b>Date</b></label>
+                <input type="date" name="date" class="filter-value_hotels" placeholder="Check In">
+            </div>
 
-                                                <div class="bors">
-                                                    <div class="caranke">
-                                                        <label for=""><b>Date</b></label>
-                                                        <input type="date" name="date" class="filter-value_hotels"
-                                                            placeholder="Check In">
-                                                    </div>
-                                                    <div class="caranke">
-                                                        <div class="filter-item_hotels sachi"
-                                                            onclick="toggleDropdown('timing')">
-                                                            <div class="filter-label_hotels">Time</div>
-                                                            <div class="filter-value_hotels" id="timing-value">Select Time
-                                                            </div>
-                                                            <div class="dropdown_hotels timing-dropdown_hotels w-100"
-                                                                id="timing-dropdown">
-                                                                <div class="time_list_hotels">
-                                                                    <div class="brit_life">
-                                                                        <div class="ujale">
-                                                                            <img src="{{ asset('frontend/images/sunrise.png') }}"
-                                                                                alt="" style="width: 40px;">
-                                                                        </div>
-                                                                        <div class="time-option_hotels"
-                                                                            onclick="selectTimings('morning')">Morning</div>
-                                                                    </div>
-                                                                    <div class="brit_life mt-3">
-                                                                        <div class="ujale">
-                                                                            <img src="{{ asset('frontend/images/moon.png') }}"
-                                                                                alt="" style="width: 30px;">
-                                                                        </div>
-                                                                        <div class="time-option_hotels"
-                                                                            onclick="selectTimings('evening')">Evening</div>
-                                                                    </div>
-                                                                    <div class="brit_life mt-3">
-                                                                        <div class="ujale">
-                                                                            <img src="{{ asset('frontend/images/moon.png') }}"
-                                                                                alt="" style="width: 30px;">
-                                                                        </div>
-                                                                        <div class="time-option_hotels"
-                                                                            onclick="selectTimings('afternoon')">After-noon
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+            <!-- Time Selection -->
+            <div class="caranke">
+                <div class="filter-item_hotels sachi" onclick="toggleDropdown('timing')">
+                    <div class="filter-label_hotels">Time</div>
+                    <div class="filter-value_hotels" id="timing-value">Select Time</div>
+                    <div class="dropdown_hotels timing-dropdown_hotels w-100" id="timing-dropdown">
+                        <div class="time_list_hotels">
+                            <div class="brit_life">
+                                <div class="ujale">
+                                    <img src="{{ asset('frontend/images/sunrise.png') }}" alt="" style="width: 40px;">
+                                </div>
+                                <div class="time-option_hotels" onclick="selectTimings('morning')">Morning</div>
+                            </div>
+                            <div class="brit_life mt-3">
+                                <div class="ujale">
+                                    <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
+                                </div>
+                                <div class="time-option_hotels" onclick="selectTimings('evening')">Evening</div>
+                            </div>
+                            <div class="brit_life mt-3">
+                                <div class="ujale">
+                                    <img src="{{ asset('frontend/images/moon.png') }}" alt="" style="width: 30px;">
+                                </div>
+                                <div class="time-option_hotels" onclick="selectTimings('afternoon')">After-noon</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Guests Section -->
+        <div class="rivvsa">
+            <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
+                <div class="filter-label_hotels">Guests</div>
+                <div class="arrow">
+                    <div class="filter-value_hotels" id="guests-value">1 guest</div>
+                    <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
+                </div>
+                <div class="dropdown_hotels guests-dropdown_hotels w-100" id="guests-dropdown">
+                    <div class="guest-option_hotels">
+                        <label>Adults</label>
+                        <div class="counter_hotels">
+                            <button type="button" onclick="updateGuests('adults', -1)">-</button>
+                            <input type="number" id="adults-count" value="1" min="1" name="no_adults" onchange="updateTotal()">
+                            <button type="button" onclick="updateGuests('adults', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="guest-option_hotels">
+                        <label>Children</label>
+                        <div class="counter_hotels">
+                            <button type="button" onclick="updateChildren(-1)">-</button>
+                            <input type="number" id="children-count" name="children_count" value="0" min="0" onchange="updateChildrenAges(this.value)">
+                            <button type="button" onclick="updateChildren(1)">+</button>
+                        </div>
+                    </div>
 
-                                                <div class="rivvsa">
-                                                    <div class="filter-item_hotels sachi trnas"
-                                                        onclick="toggleDropdown('guests')">
-                                                        <div class="filter-label_hotels">Guests</div>
-                                                        <div class="arrow">
-                                                            <div class="filter-value_hotels" id="guests-value">1 guest</div>
-                                                            <img src="{{ asset('frontend/images/down.png') }}"
-                                                                style="width: 20px;" alt="">
-                                                        </div>
-                                                        <div class="dropdown_hotels guests-dropdown_hotels w-100"
-                                                            id="guests-dropdown">
-                                                            <div class="guest-option_hotels">
-                                                                <label>Adults</label>
-                                                                <div class="counter_hotels">
-                                                                    <button type="button"
-                                                                        onclick="updateGuests('adults', -1)">-</button>
-                                                                    <input type="number" id="adults-count" value="1" min="1"
-                                                                        name="no_adults" onchange="updateTotal()">
-                                                                    <button type="button"
-                                                                        onclick="updateGuests('adults', 1)">+</button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="guest-option_hotels">
-                                                                <label>Children</label>
-                                                                <div class="counter_hotels">
-                                                                    <button type="button"
-                                                                        onclick="updateChildren(-1)">-</button>
-                                                                    <input type="number" id="children-count" value="0"
-                                                                        min="0">
-                                                                    <button type="button"
-                                                                        onclick="updateChildren(1)">+</button>
-                                                                </div>
+                    <hr id="what">
 
-                                                                <!-- Dynamic child age dropdowns appear here -->
+                   <div id="children-age-label" style="display:none; font-weight:bold; margin-top:10px;">Children Ages</div>
+                    <div id="children-ages" style="margin-top:10px;"></div>
+                </div>
+            </div>
+        </div>
 
-                                                            </div>
-                                                            <hr id="what">
-                                                            <div id="children-age-label"
-                                                                style="margin-top:10px; display:none; font-weight:600;">
-                                                                Children age
-                                                            </div>
+        <!-- Guest Type -->
+        <div class="rivvsa">
+            <div class="side_ill" style="display: flex; flex-direction: column; padding: 10px;">
+                <label class="filter-label_hotels">Guest Type</label>
+                <select class="harkat" name="guest_type">
+                    <option value="" disabled selected>Type</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Foreigner">Foreigner</option>
+                </select>
+            </div>
+        </div>
 
-                                                            <!-- Dynamic child age dropdowns appear here -->
-                                                            <div id="children-ages"> </div>
+        <!-- Vehicle -->
+        <div class="rivvsa">
+            <div class="select_sect trnas">
+                <div class="side_ill" style="display: flex; flex-direction: column; padding: 10px;">
+                    <label class="form-label">Select Vehicle</label>
+                    <select class="harkat" name="vehicle">
+                        <option value="" selected disabled>Type</option>
+                        <option value="Jeep">Jeep</option>
+                        <option value="Canter">Canter</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-                                                            {{-- <div class="guest-option_hotels">
-                                                                <label>No. of Rooms</label>
-                                                                <div class="counter_hotels">
-                                                                    <button type="button"
-                                                                        onclick="updateGuests('infants', -1)">-</button>
-                                                                    <input name="no_kids" type="number" id="infants-count"
-                                                                        value="0" min="0" onchange="updateTotal()">
-                                                                    <button type="button"
-                                                                        onclick="updateGuests('infants', 1)">+</button>
-                                                                </div>
-                                                            </div> --}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="rivvsa">
-                                                    <div class="side_ill" style="
-                                                            display: flex;
-                                                            flex-direction: column;
-                                                            padding: 10px;
-                                                        ">
-                                                        <label class="filter-label_hotels" for="guest_type">Guest
-                                                            Type</label>
-                                                        <select class="harkat" name="guest_type" id="">
-                                                            <option value="indian" selected>Type</option>
-                                                            <option value="indian">Indian</option>
-                                                            <option value="angrez">Foreigner</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="rivvsa">
-                                                    <div class="select_sect trnas">
-                                                        <div class="side_ill" style="
-                                                                display: flex;
-                                                                flex-direction: column;
-                                                                padding: 10px;
-                                                                ">
-                                                            <label for="vehicle-round" class="form-label">Select
-                                                                Vehicle</label>
-                                                            <select class="harkat" name="guest_type" id="">
-                                                                <option value="indian" selected>Type</option>
-                                                                <option value="indian">Jeep</option>
-                                                                <option value="angrez">Canter</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    {{-- <input type="text" id="car-input-round"
-                                                        class="form-control car-input no-form"
-                                                        placeholder="Select a vehicle" readonly data-bs-toggle="modal"
-                                                        data-bs-target="#carModalRound">
+    </div>
 
-                                                    <!-- Modal for vehicle selection -->
-                                                    <div class="modal fade" id="carModalRound" tabindex="-1"
-                                                        aria-labelledby="carModalRoundLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="carModalRoundLabel">Select
-                                                                        Vehicle Type</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <div class="car_model">
-                                                                        <div class="frst_mes"
-                                                                            onclick="selectCar('Canter', 'car-input-round', 'carModalRound')"
-                                                                            style="cursor: pointer;">
-                                                                            <h6>Canter</h6>
-                                                                            <img style="width:50%;"
-                                                                                src="{{ asset('frontend/images/car_icons/suv.png') }}"
-                                                                                alt="Canter">
-                                                                        </div>
-                                                                        <div class="frst_mes" id="trav"
-                                                                            onclick="selectCar('Jeep','car-input-round', 'carModalRound')"
-                                                                            style="cursor: pointer;">
-                                                                            <h6>Jeep</h6>
-                                                                            <img style="width:50%;"
-                                                                                src="{{ asset('frontend/images/car_icons/traveller.png') }}"
-                                                                                alt="Jeep">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> --}}
+    <!-- Hidden Fields -->
+    <input type="hidden" name="total_price" id="total-price" value="{{ $wildlife->cost ?? '0' }}">
+    <input type="hidden" name="guest_count" id="guest-count" value="1">
+    <input type="hidden" name="selected_time" id="selected_time">
 
-                                                </div>
-                                            </div>
+    <!-- Submit -->
+    @if(Auth::guard('agent')->check())
+        <div class="live_set mt-3">
+            <button class="btn btn-info gggsd" type="submit">Reserve</button>
+        </div>
+    @else
+        <div class="live_set mt-3">
+            <a class="btn btn-info gggsd" href="{{ route('login') }}">Reserve</a>
+        </div>
+    @endif
+</form>
 
-                                            <!-- Hidden input fields to store total price, vehicle, and guest counts -->
-                                            <input type="hidden" name="total_price" id="total-price"
-                                                value="{{ $wildlife->cost ?? '0' }}">
-                                            <input type="hidden" name="vehicle" id="selected-vehicle" value="">
-                                            <input type="hidden" name="guest_count" id="guest-count" value="1">
-                                            <input type="hidden" name="selected_time" id="selected_time">
-                                            {{-- <input type="hidden" name="user_id"
-                                                value="{{Auth::guard('agent')->user()}}"> --}}
-
-                                            @if(Auth::guard('agent')->check())
-                                                <div class="live_set mt-3">
-                                                    <button class="btn btn-info gggsd" type="submit">
-                                                        Reserve
-                                                    </button>
-                                                </div>
-                                            @else
-                                                <div class="live_set mt-3">
-                                                    <a class="btn btn-info gggsd" href="{{route('login')}}">
-                                                        {{-- <button> --}}
-                                                            Reserve
-                                                            {{-- </button> --}}
-                                                    </a>
-                                                </div>
-                                            @endif
-                                        </form>
                                     </div>
 
                                 </div>
@@ -506,6 +416,81 @@
             </div>
         </div>
     </section>
+
+    <script>
+    function updateChildrenAges(count) {
+          console.log("updateChildrenAges called with count =", count);
+        const container = document.getElementById("children-ages");
+        const label = document.getElementById("children-age-label");
+
+        container.innerHTML = ""; // Clear existing
+
+        if (count > 0) {
+            label.style.display = "block";
+            container.style.display = "grid";
+            container.style.gridTemplateColumns = "1fr 1fr";
+            container.style.gap = "10px";
+            container.style.marginTop = "10px";
+        } else {
+            label.style.display = "none";
+            container.style.display = "none";
+        }
+
+        for (let i = 0; i < count; i++) {
+            let wrapper = document.createElement("div");
+            wrapper.style.display = "flex";
+            wrapper.style.alignItems = "center";
+            wrapper.style.gap = "8px";
+
+            let label = document.createElement("span");
+            label.innerText = `Child ${i + 1}`;
+            label.style.fontSize = "14px";
+
+            let select = document.createElement("select");
+            select.name = "child_ages[]";
+            select.classList.add("child-age-select");
+
+            for (let age = 0; age <= 17; age++) {
+                let option = document.createElement("option");
+                option.value = age;
+                option.text = `${age} years`;
+                select.appendChild(option);
+            }
+
+            wrapper.appendChild(label);
+            wrapper.appendChild(select);
+            container.appendChild(wrapper);
+        }
+    }
+
+    function updateChildren(change) {
+        let input = document.getElementById("children-count");
+        let current = parseInt(input.value || 0);
+        let newCount = Math.max(0, current + change);
+        input.value = newCount;
+        updateChildrenAges(newCount);
+    }
+
+    function selectTimings(value) {
+        document.getElementById('timing-value').innerText = value.charAt(0).toUpperCase() + value.slice(1);
+        document.getElementById('selected_time').value = value;
+    }
+
+    function updateGuests(type, change) {
+        const inputId = type === 'adults' ? 'adults-count' : 'children-count';
+        const input = document.getElementById(inputId);
+        const newVal = Math.max(0, parseInt(input.value) + change);
+        input.value = newVal;
+
+        if (type === 'children') {
+            updateChildrenAges(newVal);
+        }
+    }
+
+    function updateTotal() {
+        // Update logic if needed
+    }
+</script>
 
 
     <script>
@@ -547,6 +532,7 @@
             document.getElementById('total-price').value = totalPrice;
             document.getElementById('selected-vehicle').value = vehicleType;
             document.getElementById('guest-count').value = adults + children;
+            // document.getElementById('children_count').value = children;
         }
 
         // Handle vehicle selection
