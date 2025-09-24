@@ -411,6 +411,8 @@ class HotelController extends Controller
                     'travelpackage' => $package->travelpackage,
                     'package_name' => $package->package_name,
                     'night_count' => $package->night_count,
+                    'holidaypackage' => $package->holidaypackage,
+                    'travelpackage' => $package->travelpackage,
                     'state_names' => $stateNames, 
                     'city_names' => $cityNames,
                     'image' => array_map(function($image) {
