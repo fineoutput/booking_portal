@@ -63,6 +63,7 @@
                                             <option value="guide" {{ $slider->type == 'guide' ? 'selected' : '' }}>Guide</option>
                                             <option value="hotel" {{ $slider->type == 'hotel' ? 'selected' : '' }}>Hotel</option>
                                             <option value="safari" {{ $slider->type == 'safari' ? 'selected' : '' }}>Safari</option>
+                                            <option value="taxi" {{ $slider->type == 'taxi' ? 'selected' : '' }}>Taxi</option>
                                         </select>
                                         @error('type')
                                             <div style="color:red">{{ $message }}</div>

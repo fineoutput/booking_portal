@@ -62,6 +62,7 @@
                                             <option value="guide">Guide</option>
                                             <option value="hotel">Hotel</option>
                                             <option value="safari">Safari</option>
+                                            <option value="taxi">Taxi</option>
                                         </select>
                                         @error('type')
                                         <div style="color:red">{{$message}}</div>
