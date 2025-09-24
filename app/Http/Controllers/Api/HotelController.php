@@ -44,6 +44,7 @@ use App\Models\HomeSlider;
 use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
 use App\Models\LocationCost;
+use App\Models\Slider;
 use App\Models\Tourist;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -4004,6 +4005,72 @@ public function getLanguages(Request $request)
                     'id' => $slider->id,
                     'type' => $slider->type,
                     'app_image_url' => $slider->Appimage ? asset($slider->Appimage) : null,
+
+                ];
+            });
+    
+            return response()->json([
+                'message' => 'Home sliders fetched successfully.',
+                'data' => $sliderDetails,
+                'status' => 200,
+            ]);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Internal Server Error.',
+                'error' => $e->getMessage(),
+                'status' => 500,
+            ]);
+        }
+    }
+
+
+
+    public function slider(Request $request)
+    {
+        try {
+            $token = $request->bearerToken();
+    
+            if (!$token) {
+                return response()->json([
+                    'message' => 'Unauthenticated.',
+                    'data' => [],
+                    'status' => 401,
+                ]);
+            }
+        
+            $decodedToken = base64_decode($token); 
+            list($email, $password) = explode(',', $decodedToken);
+        
+            $user = Agent::where('email', $email)->first();
+        
+            if (!$user || $password != $user->password) {
+                return response()->json([
+                    'message' => 'Invalid credentials.',
+                    'data' => [],
+                    'status' => 401,
+                ]);
+            }
+    
+            $type = $request->input('type');
+    
+            $query = Slider::orderBy('id', 'DESC');
+           
+    
+            $sliders = $query->get();
+            if ($sliders->isEmpty()) {
+                return response()->json([
+                    'message' => 'No sliders found.',
+                    'data' => [],
+                    'status' => 404,
+                ]);
+            }
+    
+            $sliderDetails = $sliders->map(function ($slider) {
+                return [
+                    'id' => $slider->id,
+                    'type' => $slider->type,
+                    'app_image_url' => $slider->image ? asset($slider->image) : null,
 
                 ];
             });

@@ -63,6 +63,7 @@ use App\Http\Controllers\Admin\PDFController;
     Route::post('/airport-vehicle', [HotelController::class, 'airport_vehicle']);
     Route::post('/local-vehicle', [HotelController::class, 'local_vehicle']);
     Route::get('/Appimage', [HotelController::class, 'Appimage']);
+    Route::get('/slider', [HotelController::class, 'slider']);
 
     Route::post('/taxi-booking', [HotelController::class, 'taxibooking']);
     Route::get('/constant', [HotelController::class, 'constant']);
