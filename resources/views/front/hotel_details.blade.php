@@ -889,8 +889,41 @@
                     </div>
                     <h3>{{ $value->title ?? '' }}</h3>
                     <div class="features">
+                        <label for=""><b>Nearby within Walking Distance</b></label>
                         <ul class="rmTypeList vertical appendTop10">
                             @foreach (explode(',', $value->nearby) as $amenity)
+                            @if (trim($amenity) !== '')
+                            <li class="rmTypeList__item">
+                                <span class="rmTypeList__item--icon appendRight10">
+                                    <img src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png"
+                                        alt="">
+                                </span>
+                                <span class="makeFlex column column-text">
+                                    <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
+                                </span>
+                            </li>
+                            @endif
+                            @endforeach
+                        </ul>
+                        <label for=""><b>Rules</b></label>
+                        <ul class="rmTypeList vertical appendTop10">
+                            @foreach (explode(',', $value->house_rules) as $amenity)
+                            @if (trim($amenity) !== '')
+                            <li class="rmTypeList__item">
+                                <span class="rmTypeList__item--icon appendRight10">
+                                    <img src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png"
+                                        alt="">
+                                </span>
+                                <span class="makeFlex column column-text">
+                                    <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
+                                </span>
+                            </li>
+                            @endif
+                            @endforeach
+                        </ul>
+                        <label for=""><b>Locality</b></label>
+                        <ul class="rmTypeList vertical appendTop10">
+                            @foreach (explode(',', $value->locality) as $amenity)
                             @if (trim($amenity) !== '')
                             <li class="rmTypeList__item">
                                 <span class="rmTypeList__item--icon appendRight10">
@@ -911,7 +944,7 @@
                     <h4 class="naxo">Room Amenities</h4>
                     <div class="skoot">
                         <div class="samrt">
-                            <p>Room facilities</p>
+                            <p><b>Room facilities</b></p>
                     <ul class="offers">
                         @foreach (explode(',', $value->room_amenities) as $amenity)
                         @if (trim($amenity) !== '')
@@ -922,9 +955,30 @@
                         </div>
 
                         <div class="tape_over">
-                            <p>Room Meal</p>
+                            <p><b>Room Meal</b></p>
                     <ul class="offers">
                         @foreach (explode(',', $value->meal_plan) as $amenity)
+                        @if (trim($amenity) !== '')
+                        <li>✔ {{ trim($amenity) }}</li>
+                        @endif
+                        @endforeach
+                    </ul>   
+                        </div>
+                        <div class="tape_over">
+                            <p><b>Hotel Amenities</b></p>
+                    <ul class="offers">
+                        @foreach (explode(',', $value->hotel_amenities) as $amenity)
+                        @if (trim($amenity) !== '')
+                        <li>✔ {{ trim($amenity) }}</li>
+                        @endif
+                        @endforeach
+                    </ul>   
+                        </div>
+                       
+                        <div class="tape_over">
+                            <p><b>Chains</b></p>
+                    <ul class="offers">
+                        @foreach (explode(',', $value->chains) as $amenity)
                         @if (trim($amenity) !== '')
                         <li>✔ {{ trim($amenity) }}</li>
                         @endif

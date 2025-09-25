@@ -71,20 +71,20 @@
                                         <label class="form-label" style="margin-left: 10px" for="meal_plan">Select Meal Multipal</label>
                                         <div id="output"></div>
                                         <select data-placeholder="" name="meal_plan[]" multiple class="chosen-select">
-                                            <option value="meal_plan_only_room" 
-                                                {{ in_array('meal_plan_only_room', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                            <option value="Only Room" 
+                                                {{ in_array('Only Room', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
                                                 Meal Plan (Only Room)
                                             </option>
-                                            <option value="meal_plan_breakfast" 
-                                                {{ in_array('meal_plan_breakfast', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                            <option value="Breakfast" 
+                                                {{ in_array('Breakfast', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
                                                 Meal Plan (Breakfast)
                                             </option>
-                                            <option value="meal_plan_breakfast_lunch_dinner" 
-                                                {{ in_array('meal_plan_breakfast_lunch_dinner', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                            <option value="Breakfast,Lunch,Dinner" 
+                                                {{ in_array('Breakfast,Lunch,Dinner', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
                                                 Meal Plan (Breakfast + lunch/dinner)
                                             </option>
-                                            <option value="meal_plan_all_meals" 
-                                                {{ in_array('meal_plan_all_meals', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                            <option value="All Meals" 
+                                                {{ in_array('All Meals', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
                                                 Meal Plan (All meals)
                                             </option>
                                         </select>

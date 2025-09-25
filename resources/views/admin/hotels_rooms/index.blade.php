@@ -75,13 +75,13 @@
                       
                           @if(count($mealPlans) > 0)
                               @foreach($mealPlans as $plan)
-                                  @if($plan == 'meal_plan_only_room')
+                                  @if($plan == 'Only Room')
                                       Meal Plan (Only Room)
-                                  @elseif($plan == 'meal_plan_breakfast')
+                                  @elseif($plan == 'Breakfast')
                                       Meal Plan (Breakfast)
-                                  @elseif($plan == 'meal_plan_all_meals')
+                                  @elseif($plan == 'Breakfast,Lunch,Dinner')
                                       Meal Plan (All Meals)
-                                  @elseif($plan == 'meal_plan_breakfast_lunch_dinner')
+                                  @elseif($plan == 'All Meals')
                                       Meal Plan (Breakfast + Lunch/Dinner)
                                   @else
                                       No Meals Selected
