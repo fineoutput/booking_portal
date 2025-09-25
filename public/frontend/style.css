@@ -47,7 +47,7 @@ img{
 .search-input {
   width: 0;
   opacity: 0;
-  padding: 8px 15px;
+  /* padding: 8px 15px; */
   border-radius: 20px;
   border: none;
   outline: none;
@@ -1864,16 +1864,24 @@ textarea.form-control {
   display: flex;
   border: 1px solid #dddddd;
   border-radius: 40px;
-  padding: 8px;
+  padding: 18px;
   gap: 8px;
   background: white;
   width: 100%;
   flex-wrap: wrap;
+  /* background-image: url('https://fineoutput.co.in/booking_portal/public/uploads/slider/Gqv9rdU5suEro68z6bkO.webp'); */
   align-items: center;
+  background-position: center;
+  background-size: cover;
 }
-
+.tsfm{
+  background-image: url('https://media.istockphoto.com/id/157739460/photo/tiger-country.jpg?s=612x612&w=0&k=20&c=dOrx-TdIqOipg43SfvYqxnnbin4MaH9yF-7wkZYHotk=');
+}
+.msfm{
+background-image: url('https://fineoutput.co.in/booking_portal/public/uploads/slider/Gqv9rdU5suEro68z6bkO.webp');
+}
 .filter-item_hotels {
-  padding: 12px 10px;
+  padding: 15px 10px;
   border-radius: 30px;
   cursor: pointer;
   transition: background 0.2s;
@@ -2029,6 +2037,8 @@ textarea.form-control {
 .sachi {
     border-right: 1px solid rgb(0 0 0 / 11%);
     border-radius: 0;
+    background-color: #ffffff;
+    border-radius: 20px;
 }
 .size {
   font-size: 17px;
@@ -2778,7 +2788,7 @@ ul.rmTypeList.vertical.appendTop10 {
     border-radius: 5px;
 }
 .jets{
-  background-image: url('https://worldexpeditions.com/croppedImages/Africa/Namibia/Chobe-National-Park-Namibia-Africa-306672-1920px-16x7.jpg?');
+  /* background-image: url('https://worldexpeditions.com/croppedImages/Africa/Namibia/Chobe-National-Park-Namibia-Africa-306672-1920px-16x7.jpg?'); */
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

@@ -178,7 +178,7 @@
 
 <div class="header-container_hotels">
 
-  <div class="search-header_hotels">
+  <div class="search-header_hotels msfm">
     <!-- Destination Dropdown -->
     <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
       <div class="filter-label_hotels">Destination</div>

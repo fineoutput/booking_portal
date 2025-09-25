@@ -90,7 +90,7 @@
 
   <section class="wildlife_tallimala jets">
     <div class="header-container_hotels">
-    <div class="search-header_hotels">
+    <div class="search-header_hotels tsfm">
       <!-- Destination Dropdown -->
 
       <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
