@@ -2032,6 +2032,11 @@ background-image: url('https://fineoutput.co.in/booking_portal/public/uploads/sl
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+}
+.ttiel_head .size{
+  margin: 0
+  ;
 }
 }
 .sachi {
