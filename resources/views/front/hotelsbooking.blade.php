@@ -31,7 +31,7 @@
     /* width: 80px; */
     height: 80px;
     margin-top: -56px;
-    background: #F1F9FF;
+    /* background: #F1F9FF; */
     /* border: 1px solid #eee; */
     border-radius: 50%;
     display: flex;
