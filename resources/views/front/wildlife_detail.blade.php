@@ -119,9 +119,8 @@
                         </div>
                     </div>
                 </div> --}}
-
-                <div id="phlGlb" class="splide">
-                    <div class="splide__track d-lg-none">
+                <div id="bnjrop" class="splide d-lg-none">
+                    <div class="splide__track">
                         <ul class="splide__list">
                             {{-- <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt="">
                             </li>
@@ -145,6 +144,31 @@
                         </ul>
                     </div>
                 </div>
+                {{-- <div id="phlGlb" class="splide d-lg-none">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            {{-- <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt="">
+                            </li>
+                            <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
+                            <li class="splide__slide"><img src="{{ asset('frontend/images/hotel_main.avif') }}" alt=""></li>
+                            
+                            @php
+                                $images = json_decode($wildlife->image);
+                            @endphp
+
+                            @if($images && is_array($images))
+                                @foreach($images as $image)
+                                    <li class="splide__slide">
+                                        <img src="{{ asset($image) }}" alt="">
+                                    </li>
+                                @endforeach
+                            @else
+                                <p>No images available.</p>
+                            @endif
+
+                        </ul>
+                    </div>
+                </div> --}}
             </div>
 
             <div class="other_dets mt-5">
@@ -423,7 +447,30 @@
             </div>
         </div>
     </section>
+   <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new Splide('#bnjrop', {
+                type: 'loop',
+                perPage: 3,
+                perMove: 1,
+                gap: '1rem',
+                autoplay: true,
+                interval: 3000,
+                pauseOnHover: true,
+                breakpoints: {
+                    768: {
+                        perPage: 2
+                    },
+                    480: {
+                        perPage: 1
+                    }
+                }
+            }).mount();
+        });
 
+       
+           
+    </script>
     <script>
     function updateChildrenAges(count) {
           console.log("updateChildrenAges called with count =", count);
@@ -577,7 +624,7 @@
     </script>
 
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             new Splide('#phlGlb', {
                 type: 'loop',
@@ -614,6 +661,6 @@
                 console.error(`Modal element with ID "${modalId}" not found!`);
             }
         };
-    </script>
+    </script> --}}
 
 @endsection
