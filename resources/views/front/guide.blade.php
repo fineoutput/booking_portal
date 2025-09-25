@@ -27,7 +27,9 @@ asset('frontend/images/hotel_main.avif')
 .lifes {
     padding: 10px;
 }
-
+.sachi{
+    background-color: unset !important;
+}
 .person_site {
     border-top: 1px solid #cccccc;
 }
@@ -242,7 +244,7 @@ asset('frontend/images/hotel_main.avif')
                 <div class="caranke">
     <div class="filter-item_hotels sachi">
         <div class="filter-label_hotels">Language</div>
-       <select name="languages_id" id="language" required>
+       <select class="form-control" name="languages_id" id="language" required>
     <option value="" disabled selected>Select Language</option>
     {{-- Optionally, you can load initial options from session or initial city --}}
     @if(session('guide_languages'))
