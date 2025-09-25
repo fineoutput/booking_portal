@@ -50,7 +50,7 @@
                                 <!-- Loop through the remaining images -->
                                 @foreach(array_slice($images, 1) as $image)
                                     <div class="col-lg-6">
-                                        <div class="side_masic">
+                                        <div class="side_masic p-1">
                                             <img src="{{ asset($image) }}" alt="">
                                         </div>
                                     </div>
