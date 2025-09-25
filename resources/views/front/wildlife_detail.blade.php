@@ -60,9 +60,9 @@
                             @endif
                         </div>
 
-                        <hr>
+                      
 
-                        <div class="row">
+                        {{-- <div class="row">
                             @if($images && is_array($images) && count($images) > 2)
                                 <!-- Loop through the remaining images (after the first two) -->
                                 @foreach(array_slice($images, 2) as $image)
@@ -75,7 +75,8 @@
                             @else
                                 <p>No additional images available.</p>
                             @endif
-                        </div>
+                        </div> --}}
+                          <hr>
                     </div>
                 </div>
 
