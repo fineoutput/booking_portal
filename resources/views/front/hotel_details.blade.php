@@ -138,7 +138,7 @@
                 </div>
               </div>
             </div>
-            <p id="no_city">no city found</p>
+            <p id="no_city"></p>
           </label>
           @endforeach
 
@@ -1263,11 +1263,25 @@ document.getElementById('guests-value').innerText = totalGuests + (totalGuests =
   const form = document.getElementById('filter-form');
   const formKey = 'hotelFormData';
 
+  function updateCityDisplay(cityId) {
+  const selectedCityInput = document.querySelector(`input[name="city_id"][value="${cityId}"]`);
+  const destinationValueEl = document.getElementById('destination-value');
+  if (selectedCityInput && destinationValueEl) {
+    const label = selectedCityInput.closest('label'); // assumes city name is in label
+    const cityName = label ? label.textContent.trim() : selectedCityInput.dataset.cityName || 'Unknown';
+    destinationValueEl.textContent = cityName;
+  }
+}
+
   const savedData = JSON.parse(localStorage.getItem(formKey));
   if (savedData) {
+
     if (savedData.city_id) {
       const selectedCity = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
-      if (selectedCity) selectedCity.checked = true;
+      if (selectedCity) {
+        selectedCity.checked = true;
+        updateCityDisplay(savedData.city_id); // update city name on load
+      }
     }
 
     if (savedData.start_date) document.getElementById('start_date').value = savedData.start_date;
@@ -1323,6 +1337,11 @@ document.getElementById('guests-value').innerText = totalGuests + (totalGuests =
     updateChildAgeDropdown(parseInt(document.getElementById('children-count').value) || 0);
   });
 });
+document.querySelectorAll('input[name="city_id"]').forEach(input => {
+  input.addEventListener('change', () => {
+    updateCityDisplay(input.value);
+  });
+});
   // Optional: Update children age dropdowns on count change
   function updateChildren(delta) {
     const countInput = document.getElementById('children-count');
@@ -1368,6 +1387,7 @@ document.getElementById('guests-value').innerText = totalGuests + (totalGuests =
   }
 }
 </script>
+
 
 
 
