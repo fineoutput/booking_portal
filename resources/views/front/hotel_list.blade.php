@@ -94,6 +94,23 @@
   input[type="checkbox"] {
     /* margin-right: 6px; */
   }
+  @media (max-width: 991px) {
+  .collapsible-content {
+    display: none;
+  }
+  .collapsible-content.active {
+    display: block;
+  }
+
+  .filter-toggle-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+}
 </style>
 
 
@@ -255,8 +272,11 @@
       <div class="col-lg-3 col-sm-12 col-md-12 param">
         <div class="left_navi_det">
           <h6><b>Get the perfect package</b></h6>
-
+          <button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#filterSidebar" aria-expanded="false" aria-controls="filterSidebar">
+      Show Filters
+    </button>
         </div>
+          <div class="collapse d-lg-block" id="filterSidebar">
         <div class="navi_full_list">
 <form id="filter-form" action="{{ url('filter-hotels') }}" method="GET">
 
@@ -473,6 +493,7 @@
 
 
         </div>
+        </div>
       </div>
       <!-- <div class="col-lg-1"></div> -->
       <div class="col-lg-9 col-sm-12 col-md-12">
@@ -542,7 +563,21 @@
     </div>
 </section>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.querySelector(".filter-toggle-btn");
+    const collapsibleContent = document.querySelector(".collapsible-content");
 
+    toggleBtn.addEventListener("click", function () {
+      collapsibleContent.classList.toggle("active");
+      if (collapsibleContent.classList.contains("active")) {
+        toggleBtn.textContent = "Hide Filters";
+      } else {
+        toggleBtn.textContent = "Show Filters";
+      }
+    });
+  });
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     new Splide('#responsive-slider', {
