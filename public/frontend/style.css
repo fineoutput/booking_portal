@@ -2030,9 +2030,10 @@ background-image: url('https://fineoutput.co.in/booking_portal/public/uploads/sl
   }
   .ttiel_head {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
 }
 .ttiel_head .size{
   margin: 0
