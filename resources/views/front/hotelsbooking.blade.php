@@ -171,9 +171,10 @@
 
   .leking {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-  }
+    padding-bottom: 10px;
+}
 </style>
 
 <div class="header-container_hotels">
@@ -483,12 +484,7 @@
       <h2>Why Book Hotels with <img class="jsay" src="{{asset('frontend/images/black.png')}}" alt="">?</h2>
 
       <!-- Trustpilot -->
-      <div class="trust-box">
-        <span>Great</span>
-        <img src="stars.png" alt="Trustpilot Rating" />
-        <a href="#">14,255 reviews on</a>
-        <img src="trustpilot.png" alt="Trustpilot" class="trust-logo" />
-      </div>
+      
     </div>
     <!-- Features -->
     <div class="features">
