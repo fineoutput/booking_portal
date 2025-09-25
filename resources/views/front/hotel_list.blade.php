@@ -162,7 +162,7 @@
 @endphp
 
 @foreach($cities as $value)
-    <label class="d-flex" for="city_{{ $value->id }}" class="city-label orSamar" style="border-bottom: 1px solid #00000033; padding: 10px;">
+    <label class="d-flex" for="city_{{ $value->id }}" class="city-label orSamar" style="border-bottom: 1px solid #00000033; cursor: pointer; padding: 10px;">
         <div class="city_list_htotle city-item mb-2">
             <div class="desMund d-flex align-items-center gap-2">
                 <div class="sizemaze">

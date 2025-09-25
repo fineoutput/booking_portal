@@ -121,7 +121,7 @@
                         {{-- @foreach($cities as $value) --}}
                           @foreach($cities as $value)
           <label class="d-flex " for="city_{{ $value->id }}" class="city-label orSamar" style="
-              border-bottom: 1px solid #00000033;     padding: 10px;">
+              border-bottom: 1px solid #00000033; cursor: pointer;    padding: 10px;">
             <div class="city_list_htotle city-item mb-2">
               <div class="desMund d-flex align-items-center gap-2">
                 <div class="sizemaze">
@@ -811,9 +811,9 @@
              @foreach ($hotel_room as $value)
             <div class="room-card">
                 <!-- Upgrade Banner -->
-                <div class="upgrade-banner">
+                {{-- <div class="upgrade-banner">
                     Upgrade to a room with larger size for ₹287
-                </div>
+                </div> --}}
 
                 <div class="room-content">
                     <!-- Left Side -->
@@ -1014,9 +1014,9 @@
                         <button class="select-btn">
                             <a href="{{ route('final_booking',$value->id) }}" class="text-light">SELECT ROOM</a>
                         </button>
-                        <div class="exclusive-offer">
-                            Exclusive Offer - DBS Credit Card, Get 693 Off
-                        </div>
+                        {{-- <div class="exclusive-offer">
+                            Premium Rooms - We Provide you with the best comfort and style
+                        </div> --}}
                     </div>
                 </div>
             </div>
