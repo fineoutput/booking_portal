@@ -1751,7 +1751,7 @@ public function getVehiclesByCity($cityId)
 
             if (empty($existsDate)) {
                 $msg = "Price Not Available.";
-            }
+            }   
 
              if (empty($existsDate)) {
                 return redirect()->back()->with('message', $msg);

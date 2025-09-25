@@ -807,277 +807,221 @@
 
                 </div>
             </div>
+@foreach ($hotel_room as $value)
+    @php
+        $images = json_decode($value->images, true) ?: [];
+    @endphp
 
-             @foreach ($hotel_room as $value)
-            <div class="room-card">
-                <!-- Upgrade Banner -->
-                {{-- <div class="upgrade-banner">
-                    Upgrade to a room with larger size for ₹287
-                </div> --}}
+    <div class="room-card" id="room-card-{{ $value->id }}">
+        <!-- Upgrade Banner -->
+        <div class="upgrade-banner">
+            Upgrade to a room with larger size for ₹287
+        </div>
 
-                <div class="room-content">
-                    <!-- Left Side -->
-                    <div class="room-left">
-                        <div class="jules">
+        <div class="room-content">
+            <div class="room-left">
+                <div class="jules">
+                    <!-- Room Slider -->
+                    <div id="room-slider-{{ $value->id }}" class="splide room-slider" style="height: 100%; width: 100%;">
+                        <div class="splide__track" style="height: 100%; width: 100%;">
+                            <ul class="splide__list">
+                                @if (count($images))
+                                    @foreach ($images as $image)
+                                        <li class="splide__slide">
+                                            <img src="{{ asset($image) }}" alt=""
+                                                 style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;"
+                                                 class="open-modal">
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li class="splide__slide">
+                                        <img src="{{ asset('images/no-image.jpg') }}" alt="No image available"
+                                             style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                        <div class="splide__arrows">
+                            <button class="splide__arrow splide__arrow--prev">‹</button>
+                            <button class="splide__arrow splide__arrow--next">›</button>
+                        </div>
+                    </div>
 
-
-                            <div id="room-slider" class="splide" style="height: 100%; width: 100%">
-                                <div class="splide__track" style="height: 100% !important; width: 100%">
-                                    <ul class="splide__list">
-                                                @php
-                                                    $images = json_decode($value->images, true);
-                                                @endphp
-
-                                                @if (is_array($images))
-                                                    @foreach ($images as $image)
-                                                        <li class="splide__slide">
-                                                            <img src="{{ asset($image) }}" alt=""
-                                                                style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;" 
-                                                                class="open-modal">
-                                                        </li>
-                                                    @endforeach
-                                                @else
-                                                    {{-- Optional: Fallback message or default image --}}
+                    <!-- Modal -->
+                    <div id="imageModal-{{ $value->id }}" class="modal" style="display:none; align-items:center; justify-content:center;">
+                        <div style="background:#fff; border-radius:16px; max-width:900px; width:95vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.25);">
+                            <span class="close" style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">&times;</span>
+                            <div style="padding:32px 32px 16px 32px;">
+                                <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">{{ $value->title ?? '' }}</h2>
+                                <div id="modal-slider-{{ $value->id }}" class="splide modal-slider" style="margin-bottom:24px;">
+                                    <div class="splide__track">
+                                        <ul class="splide__list">
+                                            @if (count($images))
+                                                @foreach ($images as $image)
                                                     <li class="splide__slide">
-                                                        <img src="{{ asset('images/no-image.jpg') }}" alt="No image available"
-                                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                                        <img src="{{ asset($image) }}" alt=""
+                                                             style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;"
+                                                             class="modal-image">
                                                     </li>
-                                                @endif
-                                    </ul>
-                                </div>
-                                <div class="splide__arrows">
-                                    <button class="splide__arrow splide__arrow--prev">‹</button>
-                                    <button class="splide__arrow splide__arrow--next">›</button>
-                                </div>
-                            </div>
-
-
-                            <!-- Redesigned Modal -->
-                            <div id="imageModal" class="modal"
-                                style="display:none; align-items:center; justify-content:center; justify-items:center; ">
-                                <div
-                                    style="background:#fff; border-radius:16px; max-width:900px; width:95vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.25);">
-                                    <span class="close"
-                                        style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">&times;</span>
-                                    <div style="padding:32px 32px 16px 32px;">
-                                        <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">{{$value->title ?? ''}}</h2>
-                                        <div id="modal-slider" class="splide" style="margin-bottom:24px;">
-                                            <div class="splide__track">
-                                                <ul class="splide__list">
-                                                   @php
-                                                        $images = json_decode($value->images, true);
-                                                    @endphp
-                                                    @if (is_array($images))
-                                                        @foreach ($images as $image)
-                                                            <li class="splide__slide">
-                                                                <img src="{{ asset($image) }}" alt=""
-                                                                    style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;" 
-                                                                    class="open-modal">
-                                                            </li>
-                                                        @endforeach
-                                                    @else
-                                                        {{-- Optional: Fallback message or default image --}}
-                                                        <li class="splide__slide">
-                                                            <img src="{{ asset('images/no-image.jpg') }}" alt="No image available"
-                                                                style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
-                                                        </li>
-                                                    @endif
-                                                    {{-- <li class="splide__slide">
-                                                        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
-                                                            alt=""
-                                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
-                                                    </li>
-                                                    <li class="splide__slide">
-                                                        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
-                                                            alt=""
-                                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
-                                                    </li>
-                                                    <li class="splide__slide">
-                                                        <img src="https://fineoutput.co.in/booking_portal/public/hotels/images/1757499045_30.webp"
-                                                            alt=""
-                                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
-                                                    </li> --}}
-                                                </ul>
-                                            </div>
-                                            <div class="splide__arrows">
-                                                <button class="splide__arrow splide__arrow--prev">‹</button>
-                                                <button class="splide__arrow splide__arrow--next">›</button>
-                                            </div>
-                                        </div>
-                                        {{-- <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
-                                            <div style="flex:2; min-width:260px;">
-                                                <div
-                                                    style="display:flex; gap:16px; align-items:center; margin-bottom:12px;">
-                                                    <span>📐 220 sq.ft (20 sq.mt)</span>
-                                                    <span>🌆 City View</span>
-                                                </div>
-                                                <div
-                                                    style="display:flex; gap:16px; align-items:center; margin-bottom:12px;">
-                                                    <span>🛏 1 King Bed</span>
-                                                    <span>🛁 1 Bathroom</span>
-                                                </div>
-                                                <div style="margin-bottom:16px;">
-                                                    <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:8px;">Room
-                                                        Amenities</h4>
-                                                    <ul
-                                                        style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px 24px; padding-left:18px;">
-                                                        <li>❄ Air Conditioning</li>
-                                                        <li>📶 Wi-Fi</li>
-                                                        <li>🚬 Smoking Room</li>
-                                                        <li>✔ Mineral Water - additional charge</li>
-                                                        <li>🧹 Daily Housekeeping</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex:1; min-width:200px; background:#f7f7f7; border-radius:8px; padding:16px;">
-                                                <div
-                                                    style="font-size:1.2rem; font-weight:700; color:#222; margin-bottom:8px;">
-                                                    ₹ 1,663</div>
-                                                <div style="color:#888; font-size:1rem; margin-bottom:8px;">+ ₹ 427 Taxes &
-                                                    Fees per night</div>
-                                                <button class="select-btn"
-                                                    style="width:100%; background:#007bff; color:#fff; border:none; border-radius:6px; padding:10px 0; font-size:1rem; font-weight:600; margin-bottom:8px;">SELECT
-                                                    ROOM</button>
-                                                <div class="exclusive-offer" style="color:#0a66c2; font-size:0.95rem;">
-                                                    Exclusive Offer - DBS Credit Card, Get 693 Off</div>
-                                            </div>
-                                        </div>
-                                        <div style="margin-top:24px;">
-                                            <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:8px;">Room Only</h4>
-                                            <ul class="offers" style="padding-left:18px;">
-                                                <li>✔ Enjoy 20% off on drinks.</li>
-                                                <li>✔ Non-Refundable</li>
-                                            </ul>
-                                        </div> --}}
+                                                @endforeach
+                                            @else
+                                                <li class="splide__slide">
+                                                    <img src="{{ asset('images/no-image.jpg') }}" alt="No image available"
+                                                         style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                    <div class="splide__arrows">
+                                        <button class="splide__arrow splide__arrow--prev">‹</button>
+                                        <button class="splide__arrow splide__arrow--next">›</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <h3>{{$value->title ?? ''}}</h3>
-                        <div class="features">
+                    </div>
 
-                            <ul class="rmTypeList vertical appendTop10 ">
-                                 @foreach(explode(',', $value->nearby) as $amenity)
-                                    @if(trim($amenity) !== '')
-                                        {{-- <li>✔ {{ trim($amenity) }}</li> --}}
-                                        <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
-                                            src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png"
-                                            alt="220 sq.ft (20 sq.mt)"></span><span
-                                        class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span></li>
-                                    @endif
-                                @endforeach
-                                
-                                {{-- <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
-                                            src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/view.png"
-                                            alt="City View"></span><span class="makeFlex column column-text"><span
-                                            class="rmTypeList__item--text">City View</span></span></li>
-                                <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
-                                            src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/bed.png"
-                                            alt="1 King Bed"></span><span class="makeFlex column column-text"><span
-                                            class="rmTypeList__item--text">1 King Bed</span></span></li>
-                                <li class="rmTypeList__item"><span class="rmTypeList__item--icon appendRight10"><img
-                                            src="https://promos.makemytrip.com/hotelfacilities/bathroom.png"
-                                            alt="1 Bathroom"></span><span class="makeFlex column column-text"><span
-                                            class="rmTypeList__item--text">1 Bathroom</span></span></li> --}}
-                            </ul>
-                        </div>
-                        <a href="#" class="more-link" id="open-modal-details">More Details</a>
-                    </div>
-                    <div class="room_Center">
-                        <h4 class="naxo">Room Only</h4>
-                        <ul class="offers">
-                              @foreach(explode(',', $value->room_amenities) as $amenity)
-                                    @if(trim($amenity) !== '')
-                                        <li>✔ {{ trim($amenity) }}</li>
-                                    @endif
-                                @endforeach
-                        </ul>
-                    </div>
-                    <!-- Right Side -->
-                    <div class="room-right">
-
-                        <div class="old-price">@if ($value->price)
-                                ₹{{ $value->price->night_cost + 613 }} 
-                            @else
-                                0
+                </div>
+                <h3>{{ $value->title ?? '' }}</h3>
+                <div class="features">
+                    <ul class="rmTypeList vertical appendTop10">
+                        @foreach (explode(',', $value->nearby) as $amenity)
+                            @if (trim($amenity) !== '')
+                                <li class="rmTypeList__item">
+                                    <span class="rmTypeList__item--icon appendRight10">
+                                        <img src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png" alt="">
+                                    </span>
+                                    <span class="makeFlex column column-text">
+                                        <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
+                                    </span>
+                                </li>
                             @endif
-                        </div>
-                        <div class="price">
-                           @if ($value->price)
-                                <p>₹{{ $value->price->night_cost }} / night</p>
-                            @else
-                                <p><em>Price not available for selected dates.</em></p>
-                            @endif
-                         </div>
-                        {{-- <div class="tax">+ ₹ 427 Taxes & Fees per night</div> --}}
-                        <button class="select-btn">
-                            <a href="{{ route('final_booking',$value->id) }}" class="text-light">SELECT ROOM</a>
-                        </button>
-                        {{-- <div class="exclusive-offer">
-                            Premium Rooms - We Provide you with the best comfort and style
-                        </div> --}}
-                    </div>
+                        @endforeach
+                    </ul>
+                </div>
+                <a href="#" class="more-link" id="open-modal-details-{{ $value->id }}">More Details</a>
+            </div>
+            <div class="room_Center">
+                <h4 class="naxo">Room Only</h4>
+                <ul class="offers">
+                    @foreach (explode(',', $value->room_amenities) as $amenity)
+                        @if (trim($amenity) !== '')
+                            <li>✔ {{ trim($amenity) }}</li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+            <div class="room-right">
+                <div class="old-price">
+                    @if ($value->price)
+                        ₹{{ $value->price->night_cost + 613 }}
+                    @else
+                        0
+                    @endif
+                </div>
+                <div class="price">
+                    @if ($value->price)
+                        <p>₹{{ $value->price->night_cost }} / night</p>
+                    @else
+                        <p><em>Price not available for selected dates.</em></p>
+                    @endif
+                </div>
+                <button class="select-btn">
+                    <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                </button>
+                <div class="exclusive-offer">
+                    Exclusive Offer - DBS Credit Card, Get 693 Off
                 </div>
             </div>
-              @endforeach
+        </div>
+    </div>
+@endforeach
+
         </div>
     </section>
-    <script>
-        
-        document.addEventListener('DOMContentLoaded', function () {
-            // Main slider
-            new Splide('#room-slider', {
-                type: 'loop',
-                arrows: true,
-                pagination: false,
-                drag: false,
-            }).mount();
-
-            // Modal slider
-            var modalSlider = new Splide('#modal-slider', {
-                type: 'loop',
-                arrows: true,
-                pagination: false,
-                drag: false,
-            });
-
-            // Modal
-            var modal = document.getElementById("imageModal");
-            var closeBtn = document.querySelector(".close");
 
 
-            // Open modal when any image clicked
-            document.querySelectorAll('.open-modal').forEach((img, index) => {
-                img.addEventListener('click', () => {
-                    modal.style.display = "block";
-                    modalSlider.mount();
-                    modalSlider.go(index); // start from clicked image
-                });
-            });
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.room-card').forEach((roomCard) => {
+        // Extract room ID from the slider ID (assumes “room-slider-<id>”)
+        let sliderDiv = roomCard.querySelector('.room-slider');
+        if (!sliderDiv) {
+            return; // no slider found
+        }
+        let sliderIdParts = sliderDiv.id.split('-');
+        let roomId = sliderIdParts[sliderIdParts.length - 1];
 
-            // Open modal when 'More Details' link is clicked
-            var moreDetailsBtn = document.getElementById('open-modal-details');
-            if (moreDetailsBtn) {
-                moreDetailsBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    modal.style.display = "block";
-                    modalSlider.mount();
-                    modalSlider.go(0); // start from first image
-                });
-            }
+        const roomSliderSelector = `#room-slider-${roomId}`;
+        const modalSliderSelector = `#modal-slider-${roomId}`;
+        const modalSelector = `#imageModal-${roomId}`;
 
-            // Close modal
-            closeBtn.onclick = function () {
-                modal.style.display = "none";
-            }
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
+        // Initialize main room slider
+        new Splide(roomSliderSelector, {
+            type: 'loop',
+            perPage: 1,
+            arrows: true,
+            pagination: false,
+        }).mount();
+
+        const modal = document.querySelector(modalSelector);
+        const closeBtn = modal.querySelector('.close');
+        const openImages = roomCard.querySelectorAll('.open-modal');
+        const moreDetailsBtn = roomCard.querySelector(`#open-modal-details-${roomId}`);
+
+        let modalSlider = null;
+
+        // Open modal via image click
+        openImages.forEach((imgEl, index) => {
+            imgEl.addEventListener('click', () => {
+                modal.style.display = 'flex';
+
+                if (!modalSlider) {
+                    modalSlider = new Splide(modalSliderSelector, {
+                        type: 'loop',
+                        perPage: 1,
+                        arrows: true,
+                        pagination: false,
+                    }).mount();
                 }
+
+                modalSlider.go(index);
+            });
+        });
+
+        // Open modal via “More Details” link
+        if (moreDetailsBtn) {
+            moreDetailsBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.style.display = 'flex';
+
+                if (!modalSlider) {
+                    modalSlider = new Splide(modalSliderSelector, {
+                        type: 'loop',
+                        perPage: 1,
+                        arrows: true,
+                        pagination: false,
+                    }).mount();
+                }
+
+                modalSlider.go(0);
+            });
+        }
+
+        // Close modal
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Click outside modal to close
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
             }
         });
-    </script>
+    });
+});
+</script>
   
 
     <script>
