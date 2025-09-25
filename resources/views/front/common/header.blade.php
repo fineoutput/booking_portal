@@ -51,7 +51,7 @@
 .navbar.scrolled {
   position: sticky;
   top: 0;
-  background-color: white !important;
+  background-color: white ;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   animation: slideDown 0.4s ease-in-out;
 }

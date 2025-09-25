@@ -458,6 +458,9 @@ img{
 .navbar.seltitude {
     background-color: #cb3502 !important;
 }
+  .navbar.scrolled{
+     background-color: #cb3502 !important;
+  }
 }
 @media (max-width: 767px){
   .world_upper_txt h2{
