@@ -49,6 +49,7 @@ use App\Models\Tourist;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use App\Models\HotelsRoom;
 
 
 
@@ -4531,6 +4532,52 @@ public function updateStatus(Request $request)
     ]);
 }
     
+
+public function hotel_room(Request $request)
+{
+    $hotelId = $request->input('hotel_id');
+
+    if (!$hotelId) {
+        return response()->json([
+            'message' => 'Hotel ID is required.',
+            'data' => [],
+            'status' => 400,
+        ], 400);
+    }
+
+    $rooms = HotelsRoom::where('hotel_id', $hotelId)->get();
+
+    if ($rooms->isEmpty()) {
+        return response()->json([
+            'message' => 'No rooms found for the given hotel ID.',
+            'data' => [],
+            'status' => 404,
+        ], 404);
+    }
+
+    // Convert comma-separated fields to arrays
+    $processedRooms = $rooms->map(function ($room) {
+        return [
+            'id' => $room->id,
+            'title' => $room->title,
+            'images' => array_map(fn($img) => url($img), json_decode($room->images, true) ?? []),
+            'hotel_id' => $room->hotel_id,
+            'meal_plan' => explode(',', $room->meal_plan ?? ''),
+            'nearby' => explode(',', $room->nearby ?? ''),
+            'locality' => explode(',', $room->locality ?? ''),
+            'chains' => explode(',', $room->chains ?? ''),
+            'hotel_amenities' => explode(',', $room->hotel_amenities ?? ''),
+            'room_amenities' => explode(',', $room->room_amenities ?? ''),
+            'house_rules' => explode(',', $room->house_rules ?? ''),
+        ];
+    });
+
+    return response()->json([
+        'message' => 'Hotel rooms fetched successfully.',
+        'data' => $processedRooms,
+        'status' => 200,
+    ], 200);
+}
 
     
  
