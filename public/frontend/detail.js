@@ -90,3 +90,22 @@ function updateChildAgeDropdown(count) {
                 document.getElementById("child_no_bed").value = 0;
             }
         }
+
+
+
+
+
+        //////////Hotel filter mobile toggle
+         document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.querySelector(".filter-toggle-btn");
+    const collapsibleContent = document.querySelector(".collapsible-content");
+
+    toggleBtn.addEventListener("click", function () {
+      collapsibleContent.classList.toggle("active");
+      if (collapsibleContent.classList.contains("active")) {
+        toggleBtn.textContent = "Hide Filters";
+      } else {
+        toggleBtn.textContent = "Show Filters";
+      }
+    });
+  });

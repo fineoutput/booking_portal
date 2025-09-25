@@ -278,215 +278,215 @@
         </div>
           <div class="collapse d-lg-block" id="filterSidebar">
         <div class="navi_full_list">
-<form id="filter-form" action="{{ url('filter-hotels') }}" method="GET">
+          <form id="filter-form" action="{{ url('filter-hotels') }}" method="GET">
 
-  <!-- 1. Star Category -->
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>Star Category</h5>
-      @php $stars = request()->input('star', []); @endphp
-      <label><input type="checkbox" name="star[]" value="5 Star" {{ in_array('5 Star', $stars) ? 'checked' : '' }}> 5 Star</label><br>
-      <label><input type="checkbox" name="star[]" value="4 Star" {{ in_array('4 Star', $stars) ? 'checked' : '' }}> 4 Star</label><br>
-      <label><input type="checkbox" name="star[]" value="3 Star" {{ in_array('3 Star', $stars) ? 'checked' : '' }}> 3 Star</label><br>
-      <label><input type="checkbox" name="star[]" value="2 Star" {{ in_array('2 Star', $stars) ? 'checked' : '' }}> 2 Star</label><br>
-      <label><input type="checkbox" name="star[]" value="Dormetry" {{ in_array('Dormetry', $stars) ? 'checked' : '' }}> Dormetry</label><br>
-      <label><input type="checkbox" name="star[]" value="Villas / Homestay" {{ in_array('Villas / Homestay', $stars) ? 'checked' : '' }}> Villas / Homestay</label><br>
-      <label><input type="checkbox" name="star[]" value="Hostels" {{ in_array('Hostels', $stars) ? 'checked' : '' }}> Hostels</label><br>
-    </div>
-  </div>
+            <!-- 1. Star Category -->
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>Star Category</h5>
+                @php $stars = request()->input('star', []); @endphp
+                <label><input type="checkbox" name="star[]" value="5 Star" {{ in_array('5 Star', $stars) ? 'checked' : '' }}> 5 Star</label><br>
+                <label><input type="checkbox" name="star[]" value="4 Star" {{ in_array('4 Star', $stars) ? 'checked' : '' }}> 4 Star</label><br>
+                <label><input type="checkbox" name="star[]" value="3 Star" {{ in_array('3 Star', $stars) ? 'checked' : '' }}> 3 Star</label><br>
+                <label><input type="checkbox" name="star[]" value="2 Star" {{ in_array('2 Star', $stars) ? 'checked' : '' }}> 2 Star</label><br>
+                <label><input type="checkbox" name="star[]" value="Dormetry" {{ in_array('Dormetry', $stars) ? 'checked' : '' }}> Dormetry</label><br>
+                <label><input type="checkbox" name="star[]" value="Villas / Homestay" {{ in_array('Villas / Homestay', $stars) ? 'checked' : '' }}> Villas / Homestay</label><br>
+                <label><input type="checkbox" name="star[]" value="Hostels" {{ in_array('Hostels', $stars) ? 'checked' : '' }}> Hostels</label><br>
+              </div>
+            </div>
 
-  <!-- 2. MEAL PLAN -->
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>MEAL PLAN</h5>
-      @php $meals = request()->input('meal_plan', []); @endphp
-      <label><input type="checkbox" name="meal_plan[]" value="meal_plan_breakfast_lunch_dinner" {{ in_array('meal_plan_breakfast_lunch_dinner', $meals) ? 'checked' : '' }}> Breakfast + Lunch/Dinner Included</label><br>
-      <label><input type="checkbox" name="meal_plan[]" value="meal_plan_all_meals" {{ in_array('meal_plan_all_meals', $meals) ? 'checked' : '' }}> All Meals Included</label><br>
-      <label><input type="checkbox" name="meal_plan[]" value="meal_plan_only_room" {{ in_array('meal_plan_only_room', $meals) ? 'checked' : '' }}> Only rooms</label><br>
-      <label><input type="checkbox" name="meal_plan[]" value="meal_plan_breakfast" {{ in_array('meal_plan_breakfast', $meals) ? 'checked' : '' }}> Breakfast Included</label><br>
-    </div>
-  </div>
+            <!-- 2. MEAL PLAN -->
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>MEAL PLAN</h5>
+                @php $meals = request()->input('meal_plan', []); @endphp
+                <label><input type="checkbox" name="meal_plan[]" value="meal_plan_breakfast_lunch_dinner" {{ in_array('meal_plan_breakfast_lunch_dinner', $meals) ? 'checked' : '' }}> Breakfast + Lunch/Dinner Included</label><br>
+                <label><input type="checkbox" name="meal_plan[]" value="meal_plan_all_meals" {{ in_array('meal_plan_all_meals', $meals) ? 'checked' : '' }}> All Meals Included</label><br>
+                <label><input type="checkbox" name="meal_plan[]" value="meal_plan_only_room" {{ in_array('meal_plan_only_room', $meals) ? 'checked' : '' }}> Only rooms</label><br>
+                <label><input type="checkbox" name="meal_plan[]" value="meal_plan_breakfast" {{ in_array('meal_plan_breakfast', $meals) ? 'checked' : '' }}> Breakfast Included</label><br>
+              </div>
+            </div>
 
-  <!-- 3. Nearby -->
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>Nearby within Walking Distance</h5>
-      @php $nearby = request()->input('nearby', []); @endphp
-      <label><input type="checkbox" name="nearby[]" value="Public transport within 1 km" {{ in_array('Public transport within 1 km', $nearby) ? 'checked' : '' }}> Public transport within 1 km</label><br>
-      <label><input type="checkbox" name="nearby[]" value="Shopping centers within 1 km" {{ in_array('Shopping centers within 1 km', $nearby) ? 'checked' : '' }}> Shopping centers within 1 km</label><br>
-    </div>
-  </div>
+            <!-- 3. Nearby -->
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>Nearby within Walking Distance</h5>
+                @php $nearby = request()->input('nearby', []); @endphp
+                <label><input type="checkbox" name="nearby[]" value="Public transport within 1 km" {{ in_array('Public transport within 1 km', $nearby) ? 'checked' : '' }}> Public transport within 1 km</label><br>
+                <label><input type="checkbox" name="nearby[]" value="Shopping centers within 1 km" {{ in_array('Shopping centers within 1 km', $nearby) ? 'checked' : '' }}> Shopping centers within 1 km</label><br>
+              </div>
+            </div>
 
-  <!-- 4. Locality -->
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>Locality</h5>
-      @php $localities = request()->input('locality', []); @endphp
-      <label><input type="checkbox" name="locality[]" value="Other Popular Areas" {{ in_array('Other Popular Areas', $localities) ? 'checked' : '' }}> Other Popular Areas</label><br>
-      <label><input type="checkbox" name="locality[]" value="Near Popular Attractions" {{ in_array('Near Popular Attractions', $localities) ? 'checked' : '' }}> Near Popular Attractions</label><br>
-      <label><input type="checkbox" name="locality[]" value="Near Transit Hub(s)" {{ in_array('Near Transit Hub(s)', $localities) ? 'checked' : '' }}> Near Transit Hub(s)</label><br>
-    </div>
-  </div>
+            <!-- 4. Locality -->
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>Locality</h5>
+                @php $localities = request()->input('locality', []); @endphp
+                <label><input type="checkbox" name="locality[]" value="Other Popular Areas" {{ in_array('Other Popular Areas', $localities) ? 'checked' : '' }}> Other Popular Areas</label><br>
+                <label><input type="checkbox" name="locality[]" value="Near Popular Attractions" {{ in_array('Near Popular Attractions', $localities) ? 'checked' : '' }}> Near Popular Attractions</label><br>
+                <label><input type="checkbox" name="locality[]" value="Near Transit Hub(s)" {{ in_array('Near Transit Hub(s)', $localities) ? 'checked' : '' }}> Near Transit Hub(s)</label><br>
+              </div>
+            </div>
 
-  <!-- 5. Price -->
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>Total Price With Tax</h5>
-      @php
-          $min = request()->input('min_price');
-          $max = request()->input('max_price');
-      @endphp
-      <label><input type="radio" name="min_price" value="0" {{ $min == 0 && $max == 2500 ? 'checked' : '' }}><input type="radio" name="max_price" value="2500" style="display:none;"> ₹ 0 - ₹ 2500</label><br>
-      <label><input type="radio" name="min_price" value="2500" {{ $min == 2500 && $max == 4500 ? 'checked' : '' }}><input type="radio" name="max_price" value="4500" style="display:none;"> ₹ 2500 - ₹ 4500</label><br>
-      <label><input type="radio" name="min_price" value="4500" {{ $min == 4500 && $max == 7000 ? 'checked' : '' }}><input type="radio" name="max_price" value="7000" style="display:none;"> ₹ 4500 - ₹ 7000</label><br>
-      <label><input type="radio" name="min_price" value="9500" {{ $min == 9500 && $max == 11000 ? 'checked' : '' }}><input type="radio" name="max_price" value="11000" style="display:none;"> ₹ 9500 - ₹ 11000</label><br>
-      <label><input type="radio" name="min_price" value="11000" {{ $min == 11000 && $max == 49000 ? 'checked' : '' }}><input type="radio" name="max_price" value="49000" style="display:none;"> ₹ 11000 - ₹ 49000</label><br>
-      <label><input type="radio" name="min_price" value="49000" {{ $min == 49000 && $max == 1000000 ? 'checked' : '' }}><input type="radio" name="max_price" value="1000000" style="display:none;"> ₹ 49000+</label><br>
-    </div>
-  </div>
+            <!-- 5. Price -->
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>Total Price With Tax</h5>
+                @php
+                    $min = request()->input('min_price');
+                    $max = request()->input('max_price');
+                @endphp
+                <label><input type="radio" name="min_price" value="0" {{ $min == 0 && $max == 2500 ? 'checked' : '' }}><input type="radio" name="max_price" value="2500" style="display:none;"> ₹ 0 - ₹ 2500</label><br>
+                <label><input type="radio" name="min_price" value="2500" {{ $min == 2500 && $max == 4500 ? 'checked' : '' }}><input type="radio" name="max_price" value="4500" style="display:none;"> ₹ 2500 - ₹ 4500</label><br>
+                <label><input type="radio" name="min_price" value="4500" {{ $min == 4500 && $max == 7000 ? 'checked' : '' }}><input type="radio" name="max_price" value="7000" style="display:none;"> ₹ 4500 - ₹ 7000</label><br>
+                <label><input type="radio" name="min_price" value="9500" {{ $min == 9500 && $max == 11000 ? 'checked' : '' }}><input type="radio" name="max_price" value="11000" style="display:none;"> ₹ 9500 - ₹ 11000</label><br>
+                <label><input type="radio" name="min_price" value="11000" {{ $min == 11000 && $max == 49000 ? 'checked' : '' }}><input type="radio" name="max_price" value="49000" style="display:none;"> ₹ 11000 - ₹ 49000</label><br>
+                <label><input type="radio" name="min_price" value="49000" {{ $min == 49000 && $max == 1000000 ? 'checked' : '' }}><input type="radio" name="max_price" value="1000000" style="display:none;"> ₹ 49000+</label><br>
+              </div>
+            </div>
 
-  <!-- 6. Chains -->
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>Chains</h5>
-      @php $chains = request()->input('chains', []); @endphp
-      <label><input type="checkbox" name="chains[]" value="Marriott" {{ in_array('Marriott', $chains) ? 'checked' : '' }}> Marriott, Westin & Le Meridien</label><br>
-      <label><input type="checkbox" name="chains[]" value="Moustache" {{ in_array('Moustache', $chains) ? 'checked' : '' }}> Moustache</label><br>
-      <label><input type="checkbox" name="chains[]" value="Oyo Hotels" {{ in_array('Oyo Hotels', $chains) ? 'checked' : '' }}> Oyo Hotels</label><br>
-      <label><input type="checkbox" name="chains[]" value="Sarovar" {{ in_array('Sarovar', $chains) ? 'checked' : '' }}> Sarovar</label><br>
-      <label><input type="checkbox" name="chains[]" value="StayVista" {{ in_array('StayVista', $chains) ? 'checked' : '' }}> StayVista</label><br>
-      <label><input type="checkbox" name="chains[]" value="Sterling Holiday resorts" {{ in_array('Sterling Holiday resorts', $chains) ? 'checked' : '' }}> Sterling Holiday resorts</label><br>
-      <label><input type="checkbox" name="chains[]" value="Taj" {{ in_array('Taj', $chains) ? 'checked' : '' }}> Taj</label><br>
-      <label><input type="checkbox" name="chains[]" value="Treebo Hotels" {{ in_array('Treebo Hotels', $chains) ? 'checked' : '' }}> Treebo Hotels</label><br>
-      <label><input type="checkbox" name="chains[]" value="Zostel" {{ in_array('Zostel', $chains) ? 'checked' : '' }}> Zostel</label><br>
-    </div>
-  </div>
+            <!-- 6. Chains -->
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>Chains</h5>
+                @php $chains = request()->input('chains', []); @endphp
+                <label><input type="checkbox" name="chains[]" value="Marriott" {{ in_array('Marriott', $chains) ? 'checked' : '' }}> Marriott, Westin & Le Meridien</label><br>
+                <label><input type="checkbox" name="chains[]" value="Moustache" {{ in_array('Moustache', $chains) ? 'checked' : '' }}> Moustache</label><br>
+                <label><input type="checkbox" name="chains[]" value="Oyo Hotels" {{ in_array('Oyo Hotels', $chains) ? 'checked' : '' }}> Oyo Hotels</label><br>
+                <label><input type="checkbox" name="chains[]" value="Sarovar" {{ in_array('Sarovar', $chains) ? 'checked' : '' }}> Sarovar</label><br>
+                <label><input type="checkbox" name="chains[]" value="StayVista" {{ in_array('StayVista', $chains) ? 'checked' : '' }}> StayVista</label><br>
+                <label><input type="checkbox" name="chains[]" value="Sterling Holiday resorts" {{ in_array('Sterling Holiday resorts', $chains) ? 'checked' : '' }}> Sterling Holiday resorts</label><br>
+                <label><input type="checkbox" name="chains[]" value="Taj" {{ in_array('Taj', $chains) ? 'checked' : '' }}> Taj</label><br>
+                <label><input type="checkbox" name="chains[]" value="Treebo Hotels" {{ in_array('Treebo Hotels', $chains) ? 'checked' : '' }}> Treebo Hotels</label><br>
+                <label><input type="checkbox" name="chains[]" value="Zostel" {{ in_array('Zostel', $chains) ? 'checked' : '' }}> Zostel</label><br>
+              </div>
+            </div>
 
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>Hotel Amenities</h5>
-      @php $hotel_amenities = request()->input('hotel_amenities', []); @endphp
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Room Service" {{ in_array('Room Service', $hotel_amenities) ? 'checked' : '' }}> Room Service</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Balcony/Terrace" {{ in_array('Balcony/Terrace', $hotel_amenities) ? 'checked' : '' }}> Balcony/Terrace</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Barbeque" {{ in_array('Barbeque', $hotel_amenities) ? 'checked' : '' }}> Barbeque</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Cafe" {{ in_array('Cafe', $hotel_amenities) ? 'checked' : '' }}> Cafe</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="EV Charging Station" {{ in_array('EV Charging Station', $hotel_amenities) ? 'checked' : '' }}> EV Charging Station</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Restaurant" {{ in_array('Restaurant', $hotel_amenities) ? 'checked' : '' }}> Restaurant</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Bar" {{ in_array('Bar', $hotel_amenities) ? 'checked' : '' }}> Bar</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Parking" {{ in_array('Parking', $hotel_amenities) ? 'checked' : '' }}> Parking</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Bonfire" {{ in_array('Bonfire', $hotel_amenities) ? 'checked' : '' }}> Bonfire</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Kitchenette" {{ in_array('Kitchenette', $hotel_amenities) ? 'checked' : '' }}> Kitchenette</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Elevator/Lift" {{ in_array('Elevator/Lift', $hotel_amenities) ? 'checked' : '' }}> Elevator/Lift</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Indoor Games" {{ in_array('Indoor Games', $hotel_amenities) ? 'checked' : '' }}> Indoor Games</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Living Room" {{ in_array('Living Room', $hotel_amenities) ? 'checked' : '' }}> Living Room</label>
-        <br>
-      <label>
-        <input type="checkbox" name="hotel_amenities[]" value="Caretaker" {{ in_array('Caretaker', $hotel_amenities) ? 'checked' : '' }}> Caretaker</label>
-        <br>
-    </div>
-  </div>
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>Hotel Amenities</h5>
+                @php $hotel_amenities = request()->input('hotel_amenities', []); @endphp
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Room Service" {{ in_array('Room Service', $hotel_amenities) ? 'checked' : '' }}> Room Service</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Balcony/Terrace" {{ in_array('Balcony/Terrace', $hotel_amenities) ? 'checked' : '' }}> Balcony/Terrace</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Barbeque" {{ in_array('Barbeque', $hotel_amenities) ? 'checked' : '' }}> Barbeque</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Cafe" {{ in_array('Cafe', $hotel_amenities) ? 'checked' : '' }}> Cafe</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="EV Charging Station" {{ in_array('EV Charging Station', $hotel_amenities) ? 'checked' : '' }}> EV Charging Station</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Restaurant" {{ in_array('Restaurant', $hotel_amenities) ? 'checked' : '' }}> Restaurant</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Bar" {{ in_array('Bar', $hotel_amenities) ? 'checked' : '' }}> Bar</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Parking" {{ in_array('Parking', $hotel_amenities) ? 'checked' : '' }}> Parking</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Bonfire" {{ in_array('Bonfire', $hotel_amenities) ? 'checked' : '' }}> Bonfire</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Kitchenette" {{ in_array('Kitchenette', $hotel_amenities) ? 'checked' : '' }}> Kitchenette</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Elevator/Lift" {{ in_array('Elevator/Lift', $hotel_amenities) ? 'checked' : '' }}> Elevator/Lift</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Indoor Games" {{ in_array('Indoor Games', $hotel_amenities) ? 'checked' : '' }}> Indoor Games</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Living Room" {{ in_array('Living Room', $hotel_amenities) ? 'checked' : '' }}> Living Room</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Caretaker" {{ in_array('Caretaker', $hotel_amenities) ? 'checked' : '' }}> Caretaker</label>
+                  <br>
+              </div>
+            </div>
 
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>Room Amenities</h5>
-      @php $room_amenities = request()->input('room_amenities', []); @endphp
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Fireplace" {{ in_array('Fireplace', $room_amenities) ? 'checked' : '' }}> Fireplace</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Interconnected Room" {{ in_array('Interconnected Room', $room_amenities) ? 'checked' : '' }}> Interconnected Room</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Bathtub" {{ in_array('Bathtub', $room_amenities) ? 'checked' : '' }}> Bathtub</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Kitchenette" {{ in_array('Kitchenette', $room_amenities) ? 'checked' : '' }}> Kitchenette</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Smoking Room" {{ in_array('Smoking Room', $room_amenities) ? 'checked' : '' }}> Smoking Room</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Private Pool" {{ in_array('Private Pool', $room_amenities) ? 'checked' : '' }}> Private Pool</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Balcony" {{ in_array('Balcony', $room_amenities) ? 'checked' : '' }}> Balcony</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Cook & Butler Service" {{ in_array('Cook & Butler Service', $room_amenities) ? 'checked' : '' }}> Cook & Butler Service</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Heater" {{ in_array('Heater', $room_amenities) ? 'checked' : '' }}> Heater</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Jacuzzi" {{ in_array('Jacuzzi', $room_amenities) ? 'checked' : '' }}> Jacuzzi</label>
-        <br>
-      <label>
-        <input type="checkbox" name="room_amenities[]" value="Living Area" {{ in_array('Living Area', $room_amenities) ? 'checked' : '' }}> Living Area</label>
-        <br>
-    </div>
-  </div>
-
-
-  <div class="filter-box">
-    <div class="filter-group">
-      <h5>House Rules</h5>
-      @php $house_rules = request()->input('house_rules', []); @endphp
-      <label>
-        <input type="checkbox" name="house_rules[]" value="Smoking Allowed" {{ in_array('Smoking Allowed', $house_rules) ? 'checked' : '' }}> Smoking Allowed</label>
-        <br>
-      <label>
-        <input type="checkbox" name="house_rules[]" value="Unmarried Couples Allowed" {{ in_array('Unmarried Couples Allowed', $house_rules) ? 'checked' : '' }}> Unmarried Couples Allowed</label>
-        <br>
-      <label>
-        <input type="checkbox" name="house_rules[]" value="Pets Allowed" {{ in_array('Pets Allowed', $house_rules) ? 'checked' : '' }}> Pets Allowed</label>
-        <br>
-      <label>
-        <input type="checkbox" name="house_rules[]" value="Alcohol Allowed" {{ in_array('Alcohol Allowed', $house_rules) ? 'checked' : '' }}> Alcohol Allowed</label>
-        <br>
-      <label>
-        <input type="checkbox" name="house_rules[]" value="Non Veg Allowed" {{ in_array('Non Veg Allowed', $house_rules) ? 'checked' : '' }}> Non Veg Allowed</label>
-        <br>
-     
-    </div>
-  </div>
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>Room Amenities</h5>
+                @php $room_amenities = request()->input('room_amenities', []); @endphp
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Fireplace" {{ in_array('Fireplace', $room_amenities) ? 'checked' : '' }}> Fireplace</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Interconnected Room" {{ in_array('Interconnected Room', $room_amenities) ? 'checked' : '' }}> Interconnected Room</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Bathtub" {{ in_array('Bathtub', $room_amenities) ? 'checked' : '' }}> Bathtub</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Kitchenette" {{ in_array('Kitchenette', $room_amenities) ? 'checked' : '' }}> Kitchenette</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Smoking Room" {{ in_array('Smoking Room', $room_amenities) ? 'checked' : '' }}> Smoking Room</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Private Pool" {{ in_array('Private Pool', $room_amenities) ? 'checked' : '' }}> Private Pool</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Balcony" {{ in_array('Balcony', $room_amenities) ? 'checked' : '' }}> Balcony</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Cook & Butler Service" {{ in_array('Cook & Butler Service', $room_amenities) ? 'checked' : '' }}> Cook & Butler Service</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Heater" {{ in_array('Heater', $room_amenities) ? 'checked' : '' }}> Heater</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Jacuzzi" {{ in_array('Jacuzzi', $room_amenities) ? 'checked' : '' }}> Jacuzzi</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Living Area" {{ in_array('Living Area', $room_amenities) ? 'checked' : '' }}> Living Area</label>
+                  <br>
+              </div>
+            </div>
 
 
+            <div class="filter-box">
+              <div class="filter-group">
+                <h5>House Rules</h5>
+                @php $house_rules = request()->input('house_rules', []); @endphp
+                <label>
+                  <input type="checkbox" name="house_rules[]" value="Smoking Allowed" {{ in_array('Smoking Allowed', $house_rules) ? 'checked' : '' }}> Smoking Allowed</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="house_rules[]" value="Unmarried Couples Allowed" {{ in_array('Unmarried Couples Allowed', $house_rules) ? 'checked' : '' }}> Unmarried Couples Allowed</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="house_rules[]" value="Pets Allowed" {{ in_array('Pets Allowed', $house_rules) ? 'checked' : '' }}> Pets Allowed</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="house_rules[]" value="Alcohol Allowed" {{ in_array('Alcohol Allowed', $house_rules) ? 'checked' : '' }}> Alcohol Allowed</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="house_rules[]" value="Non Veg Allowed" {{ in_array('Non Veg Allowed', $house_rules) ? 'checked' : '' }}> Non Veg Allowed</label>
+                  <br>
+              
+              </div>
+            </div>
 
 
 
 
-  <!-- Submit -->
-  <div class="d-flex justify-content-center ">
-    <button class="mt-2 _btn" type="submit">Apply Filter</button>
-     <a href="{{ url('filter-hotels') }}" class="mt-2 ms-2 _btn btn-danger">Clear Filters</a>
-  </div>
 
-</form>
+
+            <!-- Submit -->
+            <div class="d-flex justify-content-center ">
+              <button class="mt-2 _btn" type="submit">Apply Filter</button>
+              <a href="{{ url('filter-hotels') }}" class="mt-2 ms-2 _btn btn-danger">Clear Filters</a>
+            </div>
+
+          </form>
 
 
 
@@ -563,21 +563,7 @@
     </div>
 </section>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const toggleBtn = document.querySelector(".filter-toggle-btn");
-    const collapsibleContent = document.querySelector(".collapsible-content");
 
-    toggleBtn.addEventListener("click", function () {
-      collapsibleContent.classList.toggle("active");
-      if (collapsibleContent.classList.contains("active")) {
-        toggleBtn.textContent = "Hide Filters";
-      } else {
-        toggleBtn.textContent = "Show Filters";
-      }
-    });
-  });
-</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     new Splide('#responsive-slider', {
