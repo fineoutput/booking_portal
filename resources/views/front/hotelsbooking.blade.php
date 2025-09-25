@@ -832,103 +832,118 @@
 
 
 
+
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('filter-form');
-    const formKey = 'hotelFormData'; // Unique key for LocalStorage
+ document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('filter-form');
+  const formKey = 'hotelFormData';
 
-    // Restore data if exists
-    const savedData = JSON.parse(localStorage.getItem(formKey));
-    if (savedData) {
-        // Restore city radio
-        if (savedData.city_id) {
-            const selectedCity = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
-            if (selectedCity) {
-                selectedCity.checked = true;
-            }
-        }
-
-        // Restore dates
-        if (savedData.start_date) document.getElementById('start_date').value = savedData.start_date;
-        if (savedData.end_date) document.getElementById('end_date').value = savedData.end_date;
-        if (savedData.date_range) document.getElementById('date-range').value = savedData.date_range;
-
-        // Restore guest counts
-        if (savedData.infants !== undefined) document.getElementById('infants-count').value = savedData.infants;
-        if (savedData.adults !== undefined) document.getElementById('adults-count').value = savedData.adults;
-        if (savedData.children !== undefined) document.getElementById('children-count').value = savedData.children;
-
-        // Restore children ages if any
-        if (savedData.childrenAges && Array.isArray(savedData.childrenAges)) {
-            setTimeout(() => {
-                updateChildAgeDropdown(savedData.children); // Ensure age dropdowns rendered first
-                savedData.childrenAges.forEach((age, index) => {
-                    const select = document.getElementById(`child-age-${index}`);
-                    if (select) select.value = age;
-                });
-            }, 100);
-        }
+  const savedData = JSON.parse(localStorage.getItem(formKey));
+  if (savedData) {
+    if (savedData.city_id) {
+      const selectedCity = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
+      if (selectedCity) selectedCity.checked = true;
     }
 
-    // Save on form submit
-    form.addEventListener('submit', function (e) {
-        // You can optionally prevent default for testing without server
-        // e.preventDefault();
+    if (savedData.start_date) document.getElementById('start_date').value = savedData.start_date;
+    if (savedData.end_date) document.getElementById('end_date').value = savedData.end_date;
+    if (savedData.date_range) document.getElementById('date-range').value = savedData.date_range;
 
-        const data = {
-            city_id: form.city_id?.value,
-            start_date: document.getElementById('start_date').value,
-            end_date: document.getElementById('end_date').value,
-            date_range: document.getElementById('date-range').value,
-            infants: document.getElementById('infants-count').value,
-            adults: document.getElementById('adults-count').value,
-            children: document.getElementById('children-count').value,
-            childrenAges: []
-        };
+    if (savedData.infants !== undefined) document.getElementById('infants-count').value = savedData.infants;
+    if (savedData.adults !== undefined) document.getElementById('adults-count').value = savedData.adults;
+    if (savedData.children !== undefined) document.getElementById('children-count').value = savedData.children;
 
-        // Collect child age dropdowns
-        const ageDropdowns = document.querySelectorAll('#children-ages select');
-        ageDropdowns.forEach((dropdown) => {
-            data.childrenAges.push(dropdown.value);
+    if (savedData.childrenAges && Array.isArray(savedData.childrenAges)) {
+      setTimeout(() => {
+        updateChildAgeDropdown(savedData.children);
+        savedData.childrenAges.forEach((age, index) => {
+          const select = document.getElementById(`child-age-${index}`);
+          if (select) select.value = age;
         });
+      }, 100);
+    }
 
-        localStorage.setItem(formKey, JSON.stringify(data));
+    // 🧠 Update guest display after restoring data
+    updateGuestDisplay();
+  }
+
+  // Save on submit
+  form.addEventListener('submit', function (e) {
+    const data = {
+      city_id: form.city_id?.value,
+      start_date: document.getElementById('start_date').value,
+      end_date: document.getElementById('end_date').value,
+      date_range: document.getElementById('date-range').value,
+      infants: document.getElementById('infants-count').value,
+      adults: document.getElementById('adults-count').value,
+      children: document.getElementById('children-count').value,
+      childrenAges: []
+    };
+
+    const ageDropdowns = document.querySelectorAll('#children-ages select');
+    ageDropdowns.forEach((dropdown) => {
+      data.childrenAges.push(dropdown.value);
     });
-});
 
-// Optional: Update children age dropdowns on count change
-function updateChildren(delta) {
+    localStorage.setItem(formKey, JSON.stringify(data));
+
+    // 🧠 Also update guest count before submitting
+    updateGuestDisplay();
+  });
+
+  // Optional: Live update guest count if user interacts with inputs
+  document.getElementById('adults-count').addEventListener('input', updateGuestDisplay);
+  document.getElementById('children-count').addEventListener('input', () => {
+    updateGuestDisplay();
+    updateChildAgeDropdown(parseInt(document.getElementById('children-count').value) || 0);
+  });
+});
+  // Optional: Update children age dropdowns on count change
+  function updateChildren(delta) {
     const countInput = document.getElementById('children-count');
     let count = parseInt(countInput.value) || 0;
     count = Math.max(0, count + delta);
     countInput.value = count;
 
     updateChildAgeDropdown(count);
-}
+  }
 
-function updateChildAgeDropdown(count) {
+  function updateChildAgeDropdown(count) {
     const container = document.getElementById('children-ages');
     const label = document.getElementById('children-age-label');
     container.innerHTML = ''; // Clear old
 
     if (count > 0) {
-        label.style.display = 'block';
-        for (let i = 0; i < count; i++) {
-            const select = document.createElement('select');
-            select.id = `child-age-${i}`;
-            select.name = `child_age_${i}`;
-            for (let age = 0; age <= 17; age++) {
-                const option = document.createElement('option');
-                option.value = age;
-                option.textContent = `${age} years`;
-                select.appendChild(option);
-            }
-            container.appendChild(select);
+      label.style.display = 'block';
+      for (let i = 0; i < count; i++) {
+        const select = document.createElement('select');
+        select.id = `child-age-${i}`;
+        select.name = `child_age_${i}`;
+        for (let age = 0; age <= 17; age++) {
+          const option = document.createElement('option');
+          option.value = age;
+          option.textContent = `${age} years`;
+          select.appendChild(option);
         }
+        container.appendChild(select);
+      }
     } else {
-        label.style.display = 'none';
+      label.style.display = 'none';
     }
+  }
+
+  function updateGuestDisplay() {
+  const adults = parseInt(document.getElementById('adults-count')?.value) || 0;
+  const children = parseInt(document.getElementById('children-count')?.value) || 0;
+  const totalGuests = adults + children;
+
+  const guestValueEl = document.getElementById('guests-value');
+  if (guestValueEl) {
+    guestValueEl.textContent = `${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
+  }
 }
 </script>
+
 
 @endsection
