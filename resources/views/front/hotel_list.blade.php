@@ -528,17 +528,18 @@
 
                   <h3>{{ \Illuminate\Support\Str::limit($value->name ?? '', 30) }}</h3>
 
-                  <div class="itineraryashEs">
+                  {{-- <div class="itineraryashEs">
                     <span>{{ $value->cities->city_name ?? '' }}</span>
                     <span>⭐️⭐️⭐️⭐️⭐️ (2 reviews)</span>
-                  </div>
+                  </div> --}}
 
                   <div class="detailsashEs">
                     <div class="durationashEs">
-                      <span>All Inclusive</span>
+                     
+                   <span>📍 {{ $value->cities->city_name ?? '' }}</span>
                     </div>
                     <div class="locationashEs">
-                      <span>📍 {{ $value->name ?? '' }}</span>
+                      
                     </div>
                   </div>
                   <div class="options_btns d-flex justify-content-center mt-2">
