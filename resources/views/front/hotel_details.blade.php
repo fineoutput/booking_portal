@@ -814,9 +814,9 @@
 
     <div class="room-card mb-3" id="room-card-{{ $value->id }}">
         <!-- Upgrade Banner -->
-        <div class="upgrade-banner">
+        {{-- <div class="upgrade-banner">
             Upgrade to a room with larger size for ₹287
-        </div>
+        </div> --}}
 
         <div class="room-content">
             <div class="room-left">
@@ -929,9 +929,9 @@
                 <button class="select-btn">
                     <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                 </button>
-                <div class="exclusive-offer">
+                {{-- <div class="exclusive-offer">
                     Exclusive Offer - DBS Credit Card, Get 693 Off
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
