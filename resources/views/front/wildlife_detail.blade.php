@@ -15,7 +15,7 @@
             width: 100%;
         }
         .sachi {
-    background-color:none !important;
+    background-color:unset !important;
 }
     </style>
     <section class="detail_htels mt-5">
