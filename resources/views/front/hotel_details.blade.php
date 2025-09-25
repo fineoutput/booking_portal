@@ -813,7 +813,7 @@
         <div class="room-card" id="room-card-{{ $value->id }}">
             <!-- Upgrade Banner -->
             <div class="upgrade-banner">
-                Upgrade to a room with larger size for ₹287
+                {{-- Upgrade to a room with larger size for ₹287 --}}
             </div>
 
             <div class="room-content">
@@ -908,7 +908,7 @@
                     <a href="#" class="more-link" id="open-modal-details-{{ $value->id }}">More Details</a>
                 </div>
                 <div class="room_Center">
-                    <h4 class="naxo">Room Only</h4>
+                    <h4 class="naxo">Room Amenities</h4>
                     <ul class="offers">
                         @foreach (explode(',', $value->room_amenities) as $amenity)
                         @if (trim($amenity) !== '')
@@ -935,9 +935,9 @@
                     <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                     </button>
-                    <div class="exclusive-offer">
+                    {{-- <div class="exclusive-offer">
                         Exclusive Offer - DBS Credit Card, Get 693 Off
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
