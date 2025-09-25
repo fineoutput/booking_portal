@@ -1,4 +1,4 @@
-<footer class="cater text-light pt-5 mt-5">
+<footer class="cater text-light pt-5">
   <div class="container">
     <div class="row" style="
     color: #000;

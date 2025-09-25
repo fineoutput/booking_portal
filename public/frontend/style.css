@@ -2039,6 +2039,10 @@ background-image: url('https://fineoutput.co.in/booking_portal/public/uploads/sl
   margin: 0
   ;
 }
+.last_fest {
+    background-size: cover !important;
+    height: 10vh !important;
+}
 }
 .sachi {
     border-right: 1px solid rgb(0 0 0 / 11%);
