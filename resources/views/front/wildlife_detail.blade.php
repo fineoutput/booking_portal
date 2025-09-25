@@ -11,6 +11,9 @@
             justify-content: space-evenly;
             align-items: baseline;
         }
+        .mirror_maxe{
+            width: 100%;
+        }
     </style>
     <section class="detail_htels mt-5">
         <div class="comp-container">

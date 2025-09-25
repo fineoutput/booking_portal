@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="head_incldes mt-5 d-flex gap-5 flex-wrap">
-                    <div class="sonnn">
+                    <div class="sonnn p-2">
                         <div class="head_incldes_left">
                             <h4>About Package</h4>
                         </div>
