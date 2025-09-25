@@ -909,6 +909,9 @@
                 </div>
                 <div class="room_Center">
                     <h4 class="naxo">Room Amenities</h4>
+                    <div class="skoot">
+                        <div class="samrt">
+                            <p>Room facilities</p>
                     <ul class="offers">
                         @foreach (explode(',', $value->room_amenities) as $amenity)
                         @if (trim($amenity) !== '')
@@ -916,6 +919,19 @@
                         @endif
                         @endforeach
                     </ul>
+                        </div>
+
+                        <div class="tape_over">
+                            <p>Room Meal</p>
+                    <ul class="offers">
+                        @foreach (explode(',', $value->meal_plan) as $amenity)
+                        @if (trim($amenity) !== '')
+                        <li>✔ {{ trim($amenity) }}</li>
+                        @endif
+                        @endforeach
+                    </ul>   
+                        </div>
+                    </div>
                 </div>
                 <div class="room-right">
                     <div class="old-price">
