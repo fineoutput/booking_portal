@@ -812,7 +812,7 @@
         $images = json_decode($value->images, true) ?: [];
     @endphp
 
-    <div class="room-card" id="room-card-{{ $value->id }}">
+    <div class="room-card mb-3" id="room-card-{{ $value->id }}">
         <!-- Upgrade Banner -->
         <div class="upgrade-banner">
             Upgrade to a room with larger size for ₹287
