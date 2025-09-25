@@ -14,6 +14,9 @@
         .mirror_maxe{
             width: 100%;
         }
+        .sachi {
+    background-color:none !important;
+}
     </style>
     <section class="detail_htels mt-5">
         <div class="comp-container">
