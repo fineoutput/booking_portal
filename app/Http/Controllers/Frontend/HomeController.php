@@ -1822,9 +1822,10 @@ public function getVehiclesByCity($cityId)
 
         // return $request->children_ages_array;
 
+        // return  $id;
         $wildlife = new HotelBooking();
         $wildlife->user_id = Auth::guard('agent')->id();
-        $wildlife->hotel_id = $id;
+        $wildlife->hotel_id = $hotel_room->hotel_id;
         $wildlife->check_in_date = $request->check_in_date;
         $wildlife->check_out_date = $request->check_out_date;
         $wildlife->no_occupants = $request->guest_count;

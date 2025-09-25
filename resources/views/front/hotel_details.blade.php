@@ -696,7 +696,7 @@
 
                         <div class="sides_maxe">
                             <div class="aaeheads">
-                                <p class="hoses tarati">{!!$hotel->text_description !!}
+                                <p class="hoses tarati">{!!$hotel->text_description!!}
                                 </p>
                                 <span class="sabke">
                                     <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
