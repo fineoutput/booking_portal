@@ -895,8 +895,7 @@
                             @if (trim($amenity) !== '')
                             <li class="rmTypeList__item">
                                 <span class="rmTypeList__item--icon appendRight10">
-                                    <img src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png"
-                                        alt="">
+                                   <i class="fa-solid fa-person-walking"></i>
                                 </span>
                                 <span class="makeFlex column column-text">
                                     <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
@@ -927,8 +926,7 @@
                             @if (trim($amenity) !== '')
                             <li class="rmTypeList__item">
                                 <span class="rmTypeList__item--icon appendRight10">
-                                    <img src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png"
-                                        alt="">
+                                   <i class="fa-solid fa-archway"></i>
                                 </span>
                                 <span class="makeFlex column column-text">
                                     <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
@@ -994,7 +992,7 @@
                     <ul class="offers">
                         @foreach (explode(',', $value->hotel_amenities) as $amenity)
                         @if (trim($amenity) !== '')
-                        <li>✔ {{ trim($amenity) }}</li>
+                        <li><i class="fa-solid fa-dice"></i> {{ trim($amenity) }}</li>
                         @endif
                         @endforeach
                     </ul>   
@@ -1007,7 +1005,7 @@
                     <ul class="offers">
                         @foreach (explode(',', $value->chains) as $amenity)
                         @if (trim($amenity) !== '')
-                        <li>✔ {{ trim($amenity) }}</li>
+                        <li><i class="fa-solid fa-snowflake"></i> {{ trim($amenity) }}</li>
                         @endif
                         @endforeach
                     </ul>   
