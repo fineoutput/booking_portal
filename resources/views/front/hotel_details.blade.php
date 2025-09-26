@@ -943,6 +943,7 @@
                 <div class="room_Center">
                     <h4 class="naxo">Room Amenities</h4>
                     <div class="skoot">
+                        @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
                         <div class="samrt">
                             <p><b>Room facilities</b></p>
                     <ul class="offers">
@@ -953,7 +954,9 @@
                         @endforeach
                     </ul>
                         </div>
+                        @endif
 
+                        @if (!empty($value->meal_plan) && trim($value->meal_plan) !== '')
                         <div class="tape_over">
                             <p><b>Room Meal</b></p>
                     <ul class="offers">
@@ -982,6 +985,9 @@
 
                     </ul>   
                         </div>
+                        @endif
+
+                        @if (!empty($value->hotel_amenities) && trim($value->hotel_amenities) !== '')
                         <div class="tape_over">
                             <p><b>Hotel Amenities</b></p>
                     <ul class="offers">
@@ -992,7 +998,9 @@
                         @endforeach
                     </ul>   
                         </div>
-                       
+                       @endif
+
+                       @if (!empty($value->chains) && trim($value->chains) !== '')
                         <div class="tape_over">
                             <p><b>Chains</b></p>
                     <ul class="offers">
@@ -1003,6 +1011,7 @@
                         @endforeach
                     </ul>   
                         </div>
+                        @endif
                     </div>
                 </div>
                 <div class="room-right">
