@@ -965,19 +965,20 @@
                                 <li>
                                     @switch(trim($amenity))
                                         @case('meal_plan_only_room')
-                                            ✔ Only room
+                                            <i class="fa-solid fa-utensils"></i> Only room
                                             @break
                                         @case('meal_plan_breakfast')
-                                            ✔ Breakfast
+                                            <i class="fa-solid fa-utensils"></i> Breakfast
+                                            @break
+                                             @case('meal_plan_all_meals')
+                                            <i class="fa-solid fa-utensils"></i> All meals
                                             @break
                                         @case('meal_plan_breakfast_lunch_dinner')
-                                            ✔ Breakfast + Lunch/Dinner
+                                            <i class="fa-solid fa-utensils"></i> Breakfast + Lunch/Dinner
                                             @break
-                                        @case('meal_plan_all_meals')
-                                            ✔ All meals
-                                            @break
+                                       
                                         @default
-                                            ✔ {{ trim($amenity) }}
+                                            <i class="fa-solid fa-utensils"></i> {{ trim($amenity) }}
                                     @endswitch
                                 </li>
                             @endif
