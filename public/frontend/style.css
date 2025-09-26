@@ -1881,7 +1881,7 @@ textarea.form-control {
   background-image: url('https://media.istockphoto.com/id/157739460/photo/tiger-country.jpg?s=612x612&w=0&k=20&c=dOrx-TdIqOipg43SfvYqxnnbin4MaH9yF-7wkZYHotk=');
 }
 .msfm{
-background-image: url('https://fineoutput.co.in/booking_portal/public/uploads/slider/Gqv9rdU5suEro68z6bkO.webp');
+/* background-image: url('https://fineoutput.co.in/booking_portal/public/uploads/slider/Gqv9rdU5suEro68z6bkO.webp'); */
 }
 .filter-item_hotels {
   padding: 15px 10px;
@@ -2687,6 +2687,7 @@ background-image: url('https://fineoutput.co.in/booking_portal/public/uploads/sl
       flex: 1;
       min-width: 280px;
       padding: 10px 10px;
+      text-align: right;
     }
     .room-right h4 {
       font-size: 18px;
