@@ -373,7 +373,7 @@ img{
   text-decoration: none;
 }
 ._btn {
-  width: 250px;
+  width: 100%;
   background-color: #fcc100;
   padding: 10px 0px;
   border: none;
