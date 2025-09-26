@@ -117,27 +117,26 @@
 
 <div class="header-container_hotels">
 
-  <div class="search-header_hotels">
+    <div class="search-header_hotels msfm">
     <!-- Destination Dropdown -->
     <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
       <div class="filter-label_hotels">Destination</div>
-      <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search"
-          onkeyup="filterCities()" placeholder="Search cities..." class="search-input"></div>
-      <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
 
-        <form action="" method="POST" id="filter-form">
-          @csrf
 
+      <form action="" method="POST" id="filter-form">
+        @csrf
+        <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search"
+            onkeyup="filterCities()" placeholder="Search cities..." class="search-input" readonly></div>
+        <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
           <!-- Search input added here -->
           <div class="search-container">
             {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
               class="search-input"> --}}
           </div>
 
-
-          {{-- <label class="d-flex " class="city-label orSamar" style="
-    border-bottom: 1px solid #00000033;     padding: 10px;
-">
+          @foreach($cities as $value)
+          <label class="d-flex " for="city_{{ $value->id }}" class="city-label orSamar" style="
+              border-bottom: 1px solid #00000033;  cursor: pointer;   padding: 10px;">
             <div class="city_list_htotle city-item mb-2">
               <div class="desMund d-flex align-items-center gap-2">
                 <div class="sizemaze">
@@ -148,49 +147,46 @@
 
                 <div class="hotel_place">
                   <!-- Input field for the city selection -->
-                  <input type="radio" name="city_id" class="destination-option_hotels opacity-0" onclick>
+                  <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
+                    class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->city_name }}')">
 
                   <span class="hotels_spn"></span>
                 </div>
               </div>
             </div>
-            <p id="no_city">no city found</p>
-          </label> --}}
+            <p id="no_city"></p>
+          </label>
+          @endforeach
 
-        @php
-    $selectedCityId = request()->get('city_id');
-@endphp
-
-@foreach($cities as $value)
-    <label class="d-flex" for="city_{{ $value->id }}" class="city-label orSamar" style="border-bottom: 1px solid #00000033; cursor: pointer; padding: 10px;">
-        <div class="city_list_htotle city-item mb-2">
-            <div class="desMund d-flex align-items-center gap-2">
-                <div class="sizemaze">
-                    <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
-                </div>
-                <p class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></p>
-
-                <div class="hotel_place">
-                    <input
-                        type="radio"
-                        id="city_{{ $value->id }}"
-                        name="city_id"
-                        value="{{ $value->id }}"
-                        class="destination-option_hotels opacity-0"
-                        onclick="selectDestination('{{ $value->city_name }}')"
-                        {{ $selectedCityId == $value->id ? 'checked' : '' }}
-                    >
-                    <span class="hotels_spn"></span>
-                </div>
-            </div>
         </div>
-    </label>
-@endforeach
+    </div>
+    {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+      <div class="filter-label_hotels">Destination</div>
+      <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
+      <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
 
+        <form action="" method="POST" id="filter-form">
+          @csrf
+
+          @foreach($cities as $value)
+          <div class="city_list_htotle">
+            <div class="sizemaze">
+              <!-- Image representing the city -->
+              <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+            </div>
+            <div class="hotel_place">
+              <!-- Input field for the city selection -->
+              <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
+                class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+              <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available'
+                }}</label>
+              <span class="hotels_spn"></span>
+            </div>
+          </div>
+          @endforeach
 
       </div>
-    </div>
-
+    </div> --}}
 
 
     <!-- Check-in Date -->
@@ -245,7 +241,6 @@
 
       </div>
     </div>
-
     <button type="submit" class="cutPiece" style="border: none; background: none;">
       <div class="search_sba">
         <div class="sba_center_Sarch">
@@ -1001,5 +996,140 @@
       }
   }
 </script>
+
+
+
+
+
+<script>
+ document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('filter-form');
+  const formKey = 'hotelFormData';
+
+  function updateCityDisplay(cityId) {
+  const selectedCityInput = document.querySelector(`input[name="city_id"][value="${cityId}"]`);
+  const destinationValueEl = document.getElementById('destination-value');
+  if (selectedCityInput && destinationValueEl) {
+    const label = selectedCityInput.closest('label'); // assumes city name is in label
+    const cityName = label ? label.textContent.trim() : selectedCityInput.dataset.cityName || 'Unknown';
+    destinationValueEl.textContent = cityName;
+  }
+}
+
+  const savedData = JSON.parse(localStorage.getItem(formKey));
+  if (savedData) {
+
+    if (savedData.city_id) {
+      const selectedCity = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
+      if (selectedCity) {
+        selectedCity.checked = true;
+        updateCityDisplay(savedData.city_id); // update city name on load
+      }
+    }
+
+    if (savedData.start_date) document.getElementById('start_date').value = savedData.start_date;
+    if (savedData.end_date) document.getElementById('end_date').value = savedData.end_date;
+    if (savedData.date_range) document.getElementById('date-range').value = savedData.date_range;
+
+    if (savedData.infants !== undefined) document.getElementById('infants-count').value = savedData.infants;
+    if (savedData.adults !== undefined) document.getElementById('adults-count').value = savedData.adults;
+    if (savedData.children !== undefined) document.getElementById('children-count').value = savedData.children;
+
+    if (savedData.childrenAges && Array.isArray(savedData.childrenAges)) {
+      setTimeout(() => {
+        updateChildAgeDropdown(savedData.children);
+        savedData.childrenAges.forEach((age, index) => {
+          const select = document.getElementById(`child-age-${index}`);
+          if (select) select.value = age;
+        });
+      }, 100);
+    }
+
+    // 🧠 Update guest display after restoring data
+    updateGuestDisplay();
+  }
+
+  // Save on submit
+  form.addEventListener('submit', function (e) {
+    const data = {
+      city_id: form.city_id?.value,
+      start_date: document.getElementById('start_date').value,
+      end_date: document.getElementById('end_date').value,
+      date_range: document.getElementById('date-range').value,
+      infants: document.getElementById('infants-count').value,
+      adults: document.getElementById('adults-count').value,
+      children: document.getElementById('children-count').value,
+      childrenAges: []
+    };
+
+    const ageDropdowns = document.querySelectorAll('#children-ages select');
+    ageDropdowns.forEach((dropdown) => {
+      data.childrenAges.push(dropdown.value);
+    });
+
+    localStorage.setItem(formKey, JSON.stringify(data));
+
+    // 🧠 Also update guest count before submitting
+    updateGuestDisplay();
+  });
+
+  // Optional: Live update guest count if user interacts with inputs
+  document.getElementById('adults-count').addEventListener('input', updateGuestDisplay);
+  document.getElementById('children-count').addEventListener('input', () => {
+    updateGuestDisplay();
+    updateChildAgeDropdown(parseInt(document.getElementById('children-count').value) || 0);
+  });
+});
+document.querySelectorAll('input[name="city_id"]').forEach(input => {
+  input.addEventListener('change', () => {
+    updateCityDisplay(input.value);
+  });
+});
+  // Optional: Update children age dropdowns on count change
+  function updateChildren(delta) {
+    const countInput = document.getElementById('children-count');
+    let count = parseInt(countInput.value) || 0;
+    count = Math.max(0, count + delta);
+    countInput.value = count;
+
+    updateChildAgeDropdown(count);
+  }
+
+  function updateChildAgeDropdown(count) {
+    const container = document.getElementById('children-ages');
+    const label = document.getElementById('children-age-label');
+    container.innerHTML = ''; // Clear old
+
+    if (count > 0) {
+      label.style.display = 'block';
+      for (let i = 0; i < count; i++) {
+        const select = document.createElement('select');
+        select.id = `child-age-${i}`;
+        select.name = `child_age_${i}`;
+        for (let age = 0; age <= 17; age++) {
+          const option = document.createElement('option');
+          option.value = age;
+          option.textContent = `${age} years`;
+          select.appendChild(option);
+        }
+        container.appendChild(select);
+      }
+    } else {
+      label.style.display = 'none';
+    }
+  }
+
+  function updateGuestDisplay() {
+  const adults = parseInt(document.getElementById('adults-count')?.value) || 0;
+  const children = parseInt(document.getElementById('children-count')?.value) || 0;
+  const totalGuests = adults + children;
+
+  const guestValueEl = document.getElementById('guests-value');
+  if (guestValueEl) {
+    guestValueEl.textContent = `${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
+  }
+}
+</script>
+
 
 @endsection
