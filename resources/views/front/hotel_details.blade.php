@@ -958,10 +958,28 @@
                             <p><b>Room Meal</b></p>
                     <ul class="offers">
                         @foreach (explode(',', $value->meal_plan) as $amenity)
-                        @if (trim($amenity) !== '')
-                        <li>✔ {{ trim($amenity) }}</li>
-                        @endif
+                            @if (trim($amenity) !== '')
+                                <li>
+                                    @switch(trim($amenity))
+                                        @case('meal_plan_only_room')
+                                            ✔ Only room
+                                            @break
+                                        @case('meal_plan_breakfast')
+                                            ✔ Breakfast
+                                            @break
+                                        @case('meal_plan_breakfast_lunch_dinner')
+                                            ✔ Breakfast + Lunch/Dinner
+                                            @break
+                                        @case('meal_plan_all_meals')
+                                            ✔ All meals
+                                            @break
+                                        @default
+                                            ✔ {{ trim($amenity) }}
+                                    @endswitch
+                                </li>
+                            @endif
                         @endforeach
+
                     </ul>   
                         </div>
                         <div class="tape_over">
