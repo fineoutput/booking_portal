@@ -917,7 +917,7 @@
                                 <span class="makeFlex column column-text">
                                     <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
                                 </span>
-                            </li>
+                            </li> 
                             @endif
                             @endforeach
                         </ul>
@@ -949,7 +949,7 @@
                     <ul class="offers">
                         @foreach (explode(',', $value->room_amenities) as $amenity)
                         @if (trim($amenity) !== '')
-                        <li>✔ {{ trim($amenity) }}</li>
+                        <li><i class="fa-solid fa-spa"></i> {{ trim($amenity) }}</li>
                         @endif
                         @endforeach
                     </ul>
