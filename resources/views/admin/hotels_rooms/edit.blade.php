@@ -79,14 +79,15 @@
                                                 {{ in_array('meal_plan_breakfast', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
                                                 Meal Plan (Breakfast)
                                             </option>
-                                            <option value="meal_plan_breakfast_lunch_dinner" 
-                                                {{ in_array('meal_plan_breakfast_lunch_dinner', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
-                                                Meal Plan (Breakfast + lunch/dinner)
-                                            </option>
                                             <option value="meal_plan_all_meals" 
                                                 {{ in_array('meal_plan_all_meals', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
                                                 Meal Plan (All meals)
                                             </option>
+                                            <option value="meal_plan_breakfast_lunch_dinner" 
+                                                {{ in_array('meal_plan_breakfast_lunch_dinner', explode(',', (is_array(old('meal_plan', $hotel_room->meal_plan ?? '')) ? implode(',', old('meal_plan', $hotel_room->meal_plan ?? '')) : (string) old('meal_plan', $hotel_room->meal_plan ?? '')))) ? 'selected' : '' }}>
+                                                Meal Plan (Breakfast + lunch/dinner)
+                                            </option>
+                                            
                                         </select>
                                         @error('meal_plan')
                                             <div style="color:red;">{{ $message }}</div>
