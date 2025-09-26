@@ -2258,6 +2258,97 @@ public function getVehiclesByCity($cityId)
         return view('front/wildlife',$data);
     }
 
+
+
+
+
+
+    public function getLivePrice(Request $request)
+    {
+        try {
+            $start_dates = $request->check_in_date ? Carbon::parse($request->check_in_date)->format('Y-m-d') : null;
+            $end_dates = $request->check_out_date ? Carbon::parse($request->check_out_date)->format('Y-m-d') : null;
+
+            $roomId = $request->room_id;
+            $hotel_room = HotelsRoom::find($roomId);
+
+            $existsDate = HotelPrice::where('room_id', $roomId)
+                ->where('start_date', '<=', $start_dates)
+                ->where('end_date', '>=', $end_dates)
+                ->first();
+
+            if (!$existsDate) {
+                return response()->json([
+                    'message' => 'Price Not Available.',
+                    'total' => 0,
+                    'status' => 404
+                ]);
+            }
+
+            $checkIn = Carbon::parse($start_dates);
+            $checkOut = Carbon::parse($end_dates);
+            $numberOfNights = $checkOut->diffInDays($checkIn);
+
+            $roomCount = (int) $request->room_count ?? 0;
+            $beds = (int) $request->beds ?? 0;
+            $nobed = (int) $request->nobed ?? 0;
+            $meal = $request->meal ?? 'no_meal';
+
+            // Meal cost
+            if ($meal == 'no_meal') {
+                $meal_cost = 0;
+            } elseif ($meal == 'breakfast') {
+                $meal_cost = $existsDate->meal_plan_breakfast_cost ?? 0;
+            } elseif ($meal == 'breakfast_dinner') {
+                $meal_cost = $existsDate->meal_plan_breakfast_lunch_dinner_cost ?? 0;
+            } else {
+                $meal_cost = $existsDate->meal_plan_all_meals_cost ?? 0;
+            }
+
+            // Extra bed
+            if ($meal == 'no_meal') {
+                $extra_meal_cost = $existsDate->extra_bed_cost ?? 0;
+            } elseif ($meal == 'breakfast') {
+                $extra_meal_cost = $existsDate->extra_breakfast_cost ?? 0;
+            } elseif ($meal == 'breakfast_dinner') {
+                $extra_meal_cost = $existsDate->extra_breakfast_lunch_dinner_cost ?? 0;
+            } else {
+                $extra_meal_cost = $existsDate->extra_all_meals_cost ?? 0;
+            }
+
+            // No bed child
+            if ($meal == 'no_meal') {
+                $nochild_meal_cost = $existsDate->child_no_bed_infant_cost ?? 0;
+            } elseif ($meal == 'breakfast') {
+                $nochild_meal_cost = $existsDate->child_breakfast_cost ?? 0;
+            } elseif ($meal == 'breakfast_dinner') {
+                $nochild_meal_cost = $existsDate->child_breakfast_lunch_dinner_cost ?? 0;
+            } else {
+                $nochild_meal_cost = $existsDate->child_all_meals_cost ?? 0;
+            }
+
+            // Final total
+            $meal_cost_total = $meal_cost * $roomCount * $numberOfNights;
+            $extra_meal_cost_total = $extra_meal_cost * $numberOfNights * $beds;
+            $nochild_meal_cost_total = $nochild_meal_cost * $numberOfNights * $nobed;
+
+            $total = $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
+
+            return response()->json([
+                'total' => $total,
+                'status' => 200
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage(),
+                'status' => 500
+            ]);
+        }
+    }
+
+
+
     public function filtersafari(Request $request)
     {
 

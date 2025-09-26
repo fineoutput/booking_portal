@@ -340,6 +340,60 @@
 <div class="comp-container">
    
 </div>
+
+
+
+<script>
+    // Watch for any input changes
+    document.querySelectorAll('#check_in_date, #check_out_date, #meals, #infants-count, #adults-count, #children-count, #beds, #nobed')
+        .forEach(input => {
+            input.addEventListener('change', calculateLivePrice);
+        });
+
+    function calculateLivePrice() {
+        let roomId = {{ $hotel_room_1->id }}; // pass room ID from blade
+        let checkInDate = document.getElementById('check_in_date').value;
+        let checkOutDate = document.getElementById('check_out_date').value;
+        let meals = document.getElementById('meals').value;
+        let beds = document.getElementById('beds').value;
+        let nobed = document.getElementById('nobed').value;
+        let roomCount = document.getElementById('infants-count').value;
+
+        // Skip request if no check-in/out selected
+        if (!checkInDate || !checkOutDate) return;
+
+        fetch("{{ route('get.live.price') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                check_in_date: checkInDate,
+                check_out_date: checkOutDate,
+                meal: meals,
+                beds: beds,
+                nobed: nobed,
+                room_count: roomCount,
+                room_id: roomId
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 200) {
+                document.getElementById('dynamic-price').textContent = `₹${data.total}`;
+                document.getElementById('total-cost-input').value = data.total;
+            } else {
+                document.getElementById('dynamic-price').textContent = data.message || '₹0';
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+        });
+    }
+</script>
+
+
   <script>
     function toggleInfo(element) {
       const infoList = element.previousElementSibling;
@@ -599,73 +653,83 @@
   populateBookingDates();
 </script>
 
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const formDataStr = localStorage.getItem("hotelFormData");
-        if (!formDataStr) return;
+document.addEventListener("DOMContentLoaded", function () {
+    const formDataStr = localStorage.getItem("hotelFormData");
+    if (!formDataStr) return;
 
-        try {
-            const formData = JSON.parse(formDataStr);
+    try {
+        const formData = JSON.parse(formDataStr);
 
-            // Set check-in and check-out dates
-            document.getElementById("check_in_date").value = formatToInputDate(formData.start_date);
-            document.getElementById("check_out_date").value = formatToInputDate(formData.end_date);
+        // Set check-in and check-out dates
+        document.getElementById("check_in_date").value = formatToInputDate(formData.start_date);
+        document.getElementById("check_out_date").value = formatToInputDate(formData.end_date);
 
-            // Rooms = infants
-            document.getElementById("infants-count").value = formData.infants || 0;
+        // Rooms = infants
+        document.getElementById("infants-count").value = formData.infants || 0;
 
-            // Adults
-            document.getElementById("adults-count").value = formData.adults || 1;
+        // Adults
+        document.getElementById("adults-count").value = formData.adults || 1;
 
-            // Children
-            document.getElementById("children-count").value = formData.children || 0;
+        // Children
+        const childrenCount = parseInt(formData.children) || 0;
+        document.getElementById("children-count").value = childrenCount;
 
-            // Guest display
-            const totalGuests = parseInt(formData.adults || 1) + parseInt(formData.children || 0);
-            document.getElementById("guests-value").innerText = `${totalGuests} Guest${totalGuests > 1 ? 's' : ''}`;
+        // Guest display
+        const totalGuests = parseInt(formData.adults || 1) + parseInt(formData.children || 0);
+        document.getElementById("guests-value").innerText = `${totalGuests} Guest${totalGuests > 1 ? 's' : ''}`;
 
-            // Children Ages
-            if (formData.childrenAges && formData.childrenAges.length > 0) {
-                document.getElementById("children-age-label").style.display = 'block';
-                const ageContainer = document.getElementById("children-ages");
-                ageContainer.innerHTML = ''; // clear previous inputs
+        // Children Ages
+        const ageLabel = document.getElementById("children-age-label");
+        const ageContainer = document.getElementById("children-ages");
+        ageContainer.innerHTML = '';
 
-                const ageInputs = [];
+        if (childrenCount > 0) {
+            ageLabel.style.display = 'block';
 
-                formData.childrenAges.forEach((age, index) => {
-                    const input = document.createElement("input");
-                    input.type = "number";
-                    input.min = "0";
-                    input.max = "17";
-                    input.value = age;
-                    input.name = `child_age_${index + 1}`;
-                    input.style.marginRight = "5px";
-                    input.classList.add("child-age");
-                    ageInputs.push(age);
-                    ageContainer.appendChild(input);
-                });
+            for (let i = 0; i < childrenCount; i++) {
+                const select = document.createElement("select");
+                select.id = `child-age-${i}`;
+                select.name = `child_age_${i}`;
+                select.classList.add('child-age');
 
-                // Store in hidden field
-                document.getElementById("children-ages-array").value = JSON.stringify(ageInputs);
+                for (let age = 0; age <= 17; age++) {
+                    const option = document.createElement("option");
+                    option.value = age;
+                    option.textContent = `${age} years`;
+                    select.appendChild(option);
+                }
+
+                // Set selected value from stored data
+                if (formData.childrenAges && formData.childrenAges[i] !== undefined) {
+                    select.value = formData.childrenAges[i];
+                }
+
+                ageContainer.appendChild(select);
             }
 
-            // Optional fields — leave as blank or select defaults (you can skip if not pre-filled)
-            document.getElementById("meals").value = formData.meals || '';
-            document.getElementById("beds").value = formData.beds || '';
-            document.getElementById("nobed").value = formData.nobed || '';
-
-        } catch (error) {
-            console.error("Error parsing hotelFormData from localStorage:", error);
+            // Store childrenAges array in hidden field
+            document.getElementById("children-ages-array").value = JSON.stringify(formData.childrenAges || []);
+        } else {
+            ageLabel.style.display = 'none';
         }
 
-        function formatToInputDate(dateStr) {
-            // Convert from MM-DD-YYYY to YYYY-MM-DD for input type=date
-            const parts = dateStr.split("-");
-            if (parts.length !== 3) return '';
-            return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
-        }
-    });
+        // Optional fields
+        document.getElementById("meals").value = formData.meals || '';
+        document.getElementById("beds").value = formData.beds || '';
+        document.getElementById("nobed").value = formData.nobed || '';
+
+    } catch (error) {
+        console.error("Error parsing hotelFormData from localStorage:", error);
+    }
+
+    function formatToInputDate(dateStr) {
+        // Convert from MM-DD-YYYY to YYYY-MM-DD for input type=date
+        const parts = dateStr.split("-");
+        if (parts.length !== 3) return '';
+        return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+    }
+});
 </script>
 
 @endsection

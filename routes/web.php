@@ -121,6 +121,8 @@ Route::group(['prefix' => '/'], function () {
 
 
 
+    Route::post('/get-live-price', [HomeController::class, 'getLivePrice'])->name('get.live.price');
+
 
 
     Route::get('hotel_details/{id}', [HomeController::class, 'hotel_details'])->name('hotel_details');
