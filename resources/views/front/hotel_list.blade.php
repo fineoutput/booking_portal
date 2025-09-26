@@ -271,6 +271,10 @@
       Show Filters
     </button>
         </div>
+         <div class="d-flex justify-content-center ">
+              <button class="mt-2 _btn" type="submit">Apply Filter</button>
+              <a href="{{ url('filter-hotels') }}" class="mt-2 ms-2 _btn btn-danger">Clear Filters</a>
+            </div>  
           <div class="collapse d-lg-block" id="filterSidebar">
         <div class="navi_full_list">
           <form id="filter-form" action="{{ url('filter-hotels') }}" method="GET">
@@ -511,11 +515,11 @@
                   @php
                   $hotelPrice = $hotel_prices[$value->id] ?? null;
                   @endphp
-                  @if($hotelPrice)
+                  {{-- @if($hotelPrice)
                   ₹{{ number_format($hotelPrice->night_cost ?? 0, 2) }} onwards
                   @else
                   Price Not Available
-                  @endif
+                  @endif --}}
                 </div>
 
                 <div class="gradient-overlayashEs"></div>
@@ -534,7 +538,7 @@
                    <span>📍 {{ $value->cities->city_name ?? '' }}</span>
                     </div>
                     <div class="locationashEs">
-                      
+                      <span>₹ {{ number_format($hotelPrice->night_cost ?? 0, 2) }} onwards</span>
                     </div>
                   </div>
                   <div class="options_btns d-flex justify-content-center mt-2">
