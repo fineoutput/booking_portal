@@ -68,10 +68,10 @@
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Meal Multipal</label>
                                             <div id="output"></div>
                                             <select data-placeholder="" name="meal_plan[]" multiple class="chosen-select">
-                                                <option value="Only Room">Meal Plan (Only Room)</option>
-                                                <option value="Breakfast">Meal Plan (Breakfast)</option>
-                                                <option value="Breakfast,Lunch,Dinner">Meal Plan (Breakfast + lunch/dinner)</option>
-                                                <option value="All Meals">Meal Plan (All meals)</option>
+                                                <option value="meal_plan_only_room">Meal Plan (Only Room)</option>
+                                                <option value="meal_plan_breakfast">Meal Plan (Breakfast)</option>
+                                                <option value="meal_plan_breakfast_lunch_dinner">Meal Plan (Breakfast + lunch/dinner)</option>
+                                                <option value="meal_plan_all_meals">Meal Plan (All meals)</option>
                                             </select>
                                             @error('meal_plan')
                                                 <div style="color:red;">{{ $message }}</div>
