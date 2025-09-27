@@ -216,96 +216,222 @@ class HotelController extends Controller
     }
 
 
-    public function filterHotels(Request $request)
-{
-    // Extract the token for authentication
-    $token = $request->bearerToken();
-    
-    // Check if the token exists
-    if (!$token) {
-        return response()->json([
-            'message' => 'Unauthenticated.',
-            'data' => [],
-            'status' => 201,
-        ], 401);
-    }
+    // public function filterHotels(Request $request)
+    // {
+    //     // Extract the token for authentication
+    //     $token = $request->bearerToken();
+        
+    //     // Check if the token exists
+    //     if (!$token) {
+    //         return response()->json([
+    //             'message' => 'Unauthenticated.',
+    //             'data' => [],
+    //             'status' => 201,
+    //         ], 401);
+    //     }
 
-    // Decode the token to get the email and password
-    $decodedToken = base64_decode($token);
-    list($email, $password) = explode(',', $decodedToken);
+    //     // Decode the token to get the email and password
+    //     $decodedToken = base64_decode($token);
+    //     list($email, $password) = explode(',', $decodedToken);
 
-    // Find the user based on the email
-    $user = Agent::where('email', $email)->first();
+    //     // Find the user based on the email
+    //     $user = Agent::where('email', $email)->first();
 
-    // If user exists and password matches
-    if ($user && $password == $user->password) {
+    //     // If user exists and password matches
+    //     if ($user && $password == $user->password) {
 
-        // Get state_id and city_id from the form data
-        $stateId = $request->input('state_id');
-        $cityId = $request->input('city_id');
+    //         // Get state_id and city_id from the form data
+    //         $stateId = $request->input('state_id');
+    //         $cityId = $request->input('city_id');
 
-        // Query hotels, applying filters for state_id and city_id if they are provided
-        $query = Hotels::query();
+    //         // Query hotels, applying filters for state_id and city_id if they are provided
+    //         $query = Hotels::query();
 
-        if ($stateId) {
-            // Filter hotels by state_id if provided
-            $query->where('state_id', $stateId);
+    //         if ($stateId) {
+    //             // Filter hotels by state_id if provided
+    //             $query->where('state_id', $stateId);
+    //         }
+
+    //         if ($cityId) {
+    //             // Filter hotels by city_id if provided
+    //             $query->where('city_id', $cityId);
+    //         }
+
+    //         // Get the filtered hotels
+    //         $hotels = $query->get();
+
+    //         // Map the hotels data to the required format
+    //         $hotelsData = $hotels->map(function ($hotel) {
+    //             $baseUrl = url('');
+                
+    //             $stateName = $hotel->state ? $hotel->state->state_name : null;
+    //             $cityName = $hotel->cities ? $hotel->cities->city_name : null;
+
+    //             $hotelPrices = $hotel->prices;
+
+    //             $pricesData = $hotelPrices->map(function ($price) {
+    //                 return [
+    //                     'id' => $price->id,
+    //                     'night_cost' => $price->night_cost,
+    //                     'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+    //                     'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+    //                 ];
+    //             });
+
+    //             return [
+    //                 'id' => $hotel->id,
+    //                 'name' => $hotel->name,
+    //                 'state' => $stateName, 
+    //                 'city' => $cityName, 
+    //                 'images' => $this->generateImageUrls($hotel->images, $baseUrl),
+    //                 'location' => $hotel->location,
+    //                 'hotel_category' => $hotel->hotel_category,
+    //                 'package_id' => $hotel->package_id,
+    //                 'prices' => $pricesData,  
+    //             ];
+    //         });
+
+    //         // Return the filtered hotels data with a success message
+    //         return response()->json([
+    //             'message' => 'Filtered hotels fetched successfully.',
+    //             'data' => $hotelsData,
+    //             'status' => 200
+    //         ], 200);
+    //     }
+
+    //     // If user is unauthenticated
+    //     return response()->json([
+    //         'message' => 'Unauthenticated',
+    //         'data' => [],
+    //         'status' => 201,
+    //     ], 401);
+    // }
+
+
+
+  public function filterHotels(Request $request)
+    {
+        $city_id = $request->query('city_id');
+        $start_date = $request->query('start_date');
+        $end_date = $request->query('end_date');
+        $min_price = $request->query('min_price');
+        $max_price = $request->query('max_price');
+
+        $stars = $request->query('star', []);
+        $meal_plans = $request->query('meal_plan', []);
+        $nearby = $request->query('nearby', []);
+        $localities = $request->query('locality', []);
+        $chains = $request->query('chains', []);
+        $house_rules = $request->query('house_rules', []);
+        $room_amenities = $request->query('room_amenities', []);
+        $hotel_amenities = $request->query('hotel_amenities', []);
+
+        $query = Hotels::where('show_front', 1);
+
+        if ($city_id) {
+            $query->where('city_id', $city_id);
         }
 
-        if ($cityId) {
-            // Filter hotels by city_id if provided
-            $query->where('city_id', $cityId);
+        if (!empty($stars)) {
+            $query->whereIn('hotel_category', $stars);
         }
 
-        // Get the filtered hotels
+        if (!empty($meal_plans)) {
+            $query->whereIn('meal_plan', $meal_plans);
+        }
+
+        if (!empty($nearby)) {
+            $query->whereIn('nearby', $nearby);
+        }
+
+        if (!empty($localities)) {
+            $query->whereIn('locality', $localities);
+        }
+
+        if (!empty($chains)) {
+            $query->whereIn('chains', $chains);
+        }
+
+        if (!empty($house_rules)) {
+            $query->whereIn('house_rules', $house_rules);
+        }
+
+        if (!empty($room_amenities)) {
+            $query->whereIn('room_amenities', $room_amenities);
+        }
+
+        if (!empty($hotel_amenities)) {
+            $query->whereIn('hotel_amenities', $hotel_amenities);
+        }
+
         $hotels = $query->get();
+        $hotel_ids = $hotels->pluck('id');
 
-        // Map the hotels data to the required format
-        $hotelsData = $hotels->map(function ($hotel) {
-            $baseUrl = url('');
-            
-            $stateName = $hotel->state ? $hotel->state->state_name : null;
-            $cityName = $hotel->cities ? $hotel->cities->city_name : null;
+        $formatted_start_date = null;
+        $formatted_end_date = null;
+        try {
+            if (!empty($start_date)) {
+                $formatted_start_date = Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d');
+            }
+            if (!empty($end_date)) {
+                $formatted_end_date = Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d');
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Invalid date format. Use mm-dd-yyyy.',
+                'status' => 422
+            ], 422);
+        }
 
-            $hotelPrices = $hotel->prices;
+        $filtered_hotels = $hotels;
+        $hotel_prices = collect();
 
-            $pricesData = $hotelPrices->map(function ($price) {
-                return [
-                    'id' => $price->id,
-                    'night_cost' => $price->night_cost,
-                    'start_date' => Carbon::parse($price->start_date)->format('F Y'),
-                    'end_date' => Carbon::parse($price->end_date)->format('F Y'),
-                ];
+        if ($formatted_start_date && $formatted_end_date) {
+            $price_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+                ->where('start_date', '<=', $formatted_start_date)
+                ->where('end_date', '>=', $formatted_end_date);
+
+            if ($min_price) {
+                $price_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
+            }
+
+            if ($max_price) {
+                $price_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
+            }
+
+            $hotel_prices = $price_query->get()->keyBy('hotel_id');
+
+            $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices, $min_price, $max_price) {
+                $min = $min_price ?? 0;
+                $max = $max_price ?? 1000000;
+
+                return isset($hotel_prices[$hotel->id]) &&
+                    $hotel_prices[$hotel->id]->night_cost >= $min &&
+                    $hotel_prices[$hotel->id]->night_cost <= $max;
             });
+        }
 
+        $data = $filtered_hotels->map(function ($hotel) use ($hotel_prices) {
+            $baseUrl = url('');
             return [
                 'id' => $hotel->id,
                 'name' => $hotel->name,
-                'state' => $stateName, 
-                'city' => $cityName, 
+                'state' => optional($hotel->state)->state_name,
+                'city' => optional($hotel->cities)->city_name,
                 'images' => $this->generateImageUrls($hotel->images, $baseUrl),
                 'location' => $hotel->location,
                 'hotel_category' => $hotel->hotel_category,
                 'package_id' => $hotel->package_id,
-                'prices' => $pricesData,  
+                'price' => $hotel_prices[$hotel->id]->night_cost ?? null,
             ];
-        });
+        })->values();
 
-        // Return the filtered hotels data with a success message
         return response()->json([
             'message' => 'Filtered hotels fetched successfully.',
-            'data' => $hotelsData,
-            'status' => 200
-        ], 200);
+            'status' => 200,
+            'data' => $data,
+        ]);
     }
-
-    // If user is unauthenticated
-    return response()->json([
-        'message' => 'Unauthenticated',
-        'data' => [],
-        'status' => 201,
-    ], 401);
-}
 
 
 
@@ -1765,92 +1891,267 @@ public function hotelcitys(Request $request)
 // }
 
 
-public function hotelBooking(Request $request) {
+// public function hotelBooking(Request $request) {
 
-    $token = $request->bearerToken();
+//     $token = $request->bearerToken();
 
-    if (!$token) {
-        return response()->json([
-            'message' => 'Unauthenticated.',
-            'data' => [],
-            'status' => 201,
-        ], 401);
-    }
+//     if (!$token) {
+//         return response()->json([
+//             'message' => 'Unauthenticated.',
+//             'data' => [],
+//             'status' => 201,
+//         ], 401);
+//     }
 
-    $decodedToken = base64_decode($token);
-    list($email, $password) = explode(',', $decodedToken);
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
 
-    $user = Agent::where('email', $email)->first();
+//     $user = Agent::where('email', $email)->first();
 
-    if (!$user || $password != $user->password) {
-        return response()->json([
-            'message' => 'Unauthorized. Invalid credentials.',
-            'data' => [],
-            'status' => 201,
-        ], 401);
-    }
+//     if (!$user || $password != $user->password) {
+//         return response()->json([
+//             'message' => 'Unauthorized. Invalid credentials.',
+//             'data' => [],
+//             'status' => 201,
+//         ], 401);
+//     }
 
-    $validatedData = $request->validate([
-        'hotel_id' => 'required',
-        'city_id' => 'nullable', 
-        'check_in_date' => 'required|date',
-        'check_out_date' => 'required|date|after_or_equal:check_in_date',
-        'no_occupants' => 'required',
-    ]);
+//     $validatedData = $request->validate([
+//         'hotel_id' => 'required',
+//         'city_id' => 'nullable', 
+//         'check_in_date' => 'required|date',
+//         'check_out_date' => 'required|date|after_or_equal:check_in_date',
+//         'no_occupants' => 'required',
+//     ]);
 
-    $checkInDate = Carbon::parse($request->check_in_date);
-    $checkOutDate = Carbon::parse($request->check_out_date);
-    $nightCount = $checkInDate->diffInDays($checkOutDate);  
+//     $checkInDate = Carbon::parse($request->check_in_date);
+//     $checkOutDate = Carbon::parse($request->check_out_date);
+//     $nightCount = $checkInDate->diffInDays($checkOutDate);  
 
-    $totalPrice = 0;
-    $currentDate = $checkInDate->copy();
-    $hotelPrices = HotelPrice::where('hotel_id', $request->hotel_id)
-                             ->where('start_date', '<=', $checkOutDate)
-                             ->where('end_date', '>=', $checkInDate)
-                             ->get();
-    foreach ($hotelPrices as $price) {
-        $overlapStart = max($currentDate, Carbon::parse($price->start_date));
-        $overlapEnd = min($checkOutDate, Carbon::parse($price->end_date));
+//     $totalPrice = 0;
+//     $currentDate = $checkInDate->copy();
+//     $hotelPrices = HotelPrice::where('hotel_id', $request->hotel_id)
+//                              ->where('start_date', '<=', $checkOutDate)
+//                              ->where('end_date', '>=', $checkInDate)
+//                              ->get();
+//     foreach ($hotelPrices as $price) {
+//         $overlapStart = max($currentDate, Carbon::parse($price->start_date));
+//         $overlapEnd = min($checkOutDate, Carbon::parse($price->end_date));
 
-        if ($overlapStart->lt($overlapEnd)) {
-            $priceNights = $overlapStart->diffInDays($overlapEnd);
-            $totalPrice += $priceNights * $price->night_cost; 
+//         if ($overlapStart->lt($overlapEnd)) {
+//             $priceNights = $overlapStart->diffInDays($overlapEnd);
+//             $totalPrice += $priceNights * $price->night_cost; 
+//         }
+
+//         $currentDate = $overlapEnd->addDay();
+//     }
+
+//     // return $totalPrice;
+
+//     $hotelBooking = new HotelBooking();
+//     $hotelBooking->hotel_id = $request->hotel_id;
+//     $hotelBooking->city_id = $request->city_id;
+//     $hotelBooking->check_in_date = $request->check_in_date;
+//     $hotelBooking->check_out_date = $request->check_out_date;
+//     $hotelBooking->no_occupants = $request->no_occupants;
+//     $hotelBooking->user_id = $user->id;
+//     $hotelBooking->status = 0;
+//     $hotelBooking->night_count = $nightCount; 
+//     $hotelBooking->cost = $totalPrice;
+//     $hotelBooking->save();
+
+//     return response()->json([
+//         'message' => 'Hotel booking successfully created.',
+//         'data' => [
+//             'id' => $hotelBooking->id,
+//             'hotel_id' => $hotelBooking->hotel_id,
+//             'city_id' => $hotelBooking->city_id,
+//             'check_in_date' => $hotelBooking->check_in_date,
+//             'check_out_date' => $hotelBooking->check_out_date,
+//             'no_occupants' => $hotelBooking->no_occupants,
+//             'user_id' => $hotelBooking->user_id,
+//             'status' => $hotelBooking->status,
+//             'night_count' => $hotelBooking->night_count, 
+//             'cost' => $hotelBooking->cost, 
+//         ],
+//         'status' => 200,
+//     ], 200);
+// }
+
+
+ public function hotelBooking(Request $request)
+    {
+        $token = $request->bearerToken();
+
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401,
+            ], 401);
         }
 
-        $currentDate = $overlapEnd->addDay();
+        $decodedToken = base64_decode($token);
+        list($email, $password) = explode(',', $decodedToken);
+        $user = Agent::where('email', $email)->first();
+
+        if (!$user || $user->password !== $password) {
+            return response()->json([
+                'message' => 'Unauthorized. Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ], 401);
+        }
+
+        $validatedData = $request->validate([
+            'room_id' => 'required',
+            'check_in_date' => 'required',
+            'check_out_date' => 'required',
+            'guest_count' => 'required',
+            'child_count' => 'nullable',
+            'room_count' => 'required',
+            'meals' => 'required',
+            'beds' => 'nullable',
+            'nobed' => 'nullable',
+            'children_ages_array' => 'nullable',
+        ]);
+
+        $room = HotelsRoom::find($request->room_id);
+
+        if (!$room) {
+            return response()->json([
+                'message' => 'Room not found.',
+                'status' => 404
+            ], 404);
+        }
+
+        $checkIn = Carbon::parse($request->check_in_date);
+        $checkOut = Carbon::parse($request->check_out_date);
+        $nightCount = $checkOut->diffInDays($checkIn);
+
+        $price = HotelPrice::where('room_id', $request->room_id)
+            ->where('start_date', '<=', $checkIn)
+            ->where('end_date', '>=', $checkOut)
+            ->first();
+
+        if (!$price) {
+            return response()->json([
+                'message' => 'Price not available for selected dates.',
+                'status' => 422,
+            ], 422);
+        }
+
+        // -------------------------------
+        // Meal Cost Calculation
+        // -------------------------------
+        $meal_cost = 0;
+        switch ($request->meals) {
+            case 'breakfast':
+                $meal_cost = $price->meal_plan_breakfast_cost ?? 0;
+                break;
+            case 'breakfast_lunch':
+            case 'breakfast_dinner':
+                $meal_cost = $price->meal_plan_breakfast_lunch_dinner_cost ?? 0;
+                break;
+            case 'all_meals':
+                $meal_cost = $price->meal_plan_all_meals_cost ?? 0;
+                break;
+            default:
+                $meal_cost = 0;
+        }
+
+        // -------------------------------
+        // Extra Bed Cost
+        // -------------------------------
+        $extra_bed = $request->beds ?? 0;
+        $extra_bed_cost = 0;
+
+        switch ($request->meals) {
+            case 'breakfast':
+                $extra_bed_cost = $price->extra_breakfast_cost ?? 0;
+                break;
+            case 'breakfast_dinner':
+            case 'breakfast_lunch':
+                $extra_bed_cost = $price->extra_breakfast_lunch_dinner_cost ?? 0;
+                break;
+            case 'all_meals':
+                $extra_bed_cost = $price->extra_all_meals_cost ?? 0;
+                break;
+            default:
+                $extra_bed_cost = $price->extra_bed_cost ?? 0;
+        }
+
+        // -------------------------------
+        // No Bed Child Cost
+        // -------------------------------
+        $nobed = $request->nobed ?? 0;
+        $no_bed_child_cost = 0;
+
+        switch ($request->meals) {
+            case 'breakfast':
+                $no_bed_child_cost = $price->child_breakfast_cost ?? 0;
+                break;
+            case 'breakfast_dinner':
+            case 'breakfast_lunch':
+                $no_bed_child_cost = $price->child_breakfast_lunch_dinner_cost ?? 0;
+                break;
+            case 'all_meals':
+                $no_bed_child_cost = $price->child_all_meals_cost ?? 0;
+                break;
+            default:
+                $no_bed_child_cost = $price->child_no_bed_infant_cost ?? 0;
+        }
+
+        // -------------------------------
+        // Final Calculations
+        // -------------------------------
+        $meal_cost_total = $meal_cost * $request->room_count * $nightCount;
+        $extra_bed_total = $extra_bed_cost * $extra_bed * $nightCount;
+        $child_nobed_total = $no_bed_child_cost * $nobed * $nightCount;
+        $base_room_cost = $request->room_count * $price->night_cost * $nightCount;
+
+        $final_cost = $meal_cost_total + $extra_bed_total + $child_nobed_total + $base_room_cost;
+
+        // -------------------------------
+        // Save Booking
+        // -------------------------------
+        $booking = new HotelBooking();
+        $booking->user_id = $user->id;
+        $booking->hotel_id = $room->hotel_id;
+        $booking->room_id = $room->id;
+        $booking->check_in_date = $checkIn->toDateString();
+        $booking->check_out_date = $checkOut->toDateString();
+        $booking->night_count = $nightCount;
+        $booking->no_occupants = $request->guest_count;
+        $booking->child_count = $request->child_count ?? 0;
+        $booking->room_count = $request->room_count;
+        $booking->meals = $request->meals;
+        $booking->beds = $extra_bed;
+        $booking->nobed = $nobed;
+        $booking->children_ages = $request->children_ages_array ?? '';
+        $booking->cost = $final_cost;
+        $booking->status = 0;
+        $booking->save();
+
+        return response()->json([
+            'message' => 'Hotel booking successfully created.',
+            'status' => 200,
+            'data' => [
+                'booking_id' => $booking->id,
+                'hotel_id' => $booking->hotel_id,
+                'room_id' => $booking->room_id,
+                'check_in' => $booking->check_in_date,
+                'check_out' => $booking->check_out_date,
+                'night_count' => $booking->night_count,
+                'guest_count' => $booking->no_occupants,
+                'child_count' => $booking->child_count,
+                'meals' => $booking->meals,
+                'beds' => $booking->beds,
+                'nobed' => $booking->nobed,
+                'cost' => $booking->cost,
+            ]
+        ]);
     }
-
-    // return $totalPrice;
-
-    $hotelBooking = new HotelBooking();
-    $hotelBooking->hotel_id = $request->hotel_id;
-    $hotelBooking->city_id = $request->city_id;
-    $hotelBooking->check_in_date = $request->check_in_date;
-    $hotelBooking->check_out_date = $request->check_out_date;
-    $hotelBooking->no_occupants = $request->no_occupants;
-    $hotelBooking->user_id = $user->id;
-    $hotelBooking->status = 0;
-    $hotelBooking->night_count = $nightCount; 
-    $hotelBooking->cost = $totalPrice;
-    $hotelBooking->save();
-
-    return response()->json([
-        'message' => 'Hotel booking successfully created.',
-        'data' => [
-            'id' => $hotelBooking->id,
-            'hotel_id' => $hotelBooking->hotel_id,
-            'city_id' => $hotelBooking->city_id,
-            'check_in_date' => $hotelBooking->check_in_date,
-            'check_out_date' => $hotelBooking->check_out_date,
-            'no_occupants' => $hotelBooking->no_occupants,
-            'user_id' => $hotelBooking->user_id,
-            'status' => $hotelBooking->status,
-            'night_count' => $hotelBooking->night_count, 
-            'cost' => $hotelBooking->cost, 
-        ],
-        'status' => 200,
-    ], 200);
-}
 
 
     
