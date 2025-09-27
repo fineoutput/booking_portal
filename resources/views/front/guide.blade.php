@@ -348,8 +348,12 @@ asset('frontend/images/hotel_main.avif')
     $('#city').change(function(){
         var cityId = $(this).val();
         if(cityId){
+
+             var url = "{{ route('get_languages', ':id') }}";
+            url = url.replace(':id', cityId);
+
             $.ajax({
-                url: '/get-languages/' + cityId,
+               url: url,
                 method: 'GET',
                 success: function(response) {
                     var languages = response.languages;

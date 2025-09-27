@@ -141,7 +141,7 @@ Route::group(['prefix' => '/'], function () {
 
     Route::get('guide', [HomeController::class, 'guide'])->name('guide');
     Route::get('guide-cities/{stateId}', [HomeController::class, 'guide_cities'])->name('guide_cities');
-    Route::get('/get-languages/{cityId}', [HomeController::class, 'getLanguagesByCity']);
+    Route::get('/get-languages/{cityId}', [HomeController::class, 'getLanguagesByCity'])->name('get_languages');
     Route::get('/get-tour-guide-details', [HomeController::class, 'getTourGuideDetails'])->name('get_tour_guide_details');
 
 });
