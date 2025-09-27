@@ -452,22 +452,15 @@ public function alldata(Request $request)
         'date'           => 'required',
         'timings'        => 'required',
         'no_adults'      => 'required',
-        'no_kids'        => 'required',
+        // 'no_kids'        => 'required',
         'vehicle'        => 'required',
         'guest_type'     => 'required',
         'guest_count'    => 'required',
         'children_count' => 'nullable',
+        'child_ages' => 'nullable',
     ]);
 
-    $childrenCount = (int) $request->input('children_count', 0);
-    $childAges = [];
 
-    for ($i = 0; $i < $childrenCount; $i++) {
-        $key = 'child_age_' . $i;
-        if ($request->has($key)) {
-            $childAges[] = $request->input($key);
-        }
-    }
 
     $start_date = Carbon::parse($request->date)->format('Y-m-d');
     $dayType = Carbon::parse($request->date)->isWeekend() ? 'Weekend' : 'Weekday';
@@ -501,8 +494,8 @@ public function alldata(Request $request)
     $order->timings     = $request->timings;
     $order->no_adults   = $request->no_adults;
     $order->no_kids     = $request->no_kids;
-    $order->no_persons  = $childrenCount;
-    $order->child_age   = json_encode($childAges);
+    $order->no_persons  = $request->children_count;
+    $order->child_age   = $request->child_ages;
     $order->guest_type  = $request->guest_type;
     $order->vehicle     = $request->vehicle;
     $order->guest_count = $request->guest_count;
@@ -517,7 +510,7 @@ public function alldata(Request $request)
         'timings'       => $order->timings,
         'no_adults'     => $order->no_adults,
         'no_kids'       => $order->no_kids,
-        'child_ages'    => $childAges,
+        'child_ages'    => $order->child_ages,
         'guest_type'    => $order->guest_type,
         'guest_count'   => $order->guest_count,
         'vehicle'       => $order->vehicle,
