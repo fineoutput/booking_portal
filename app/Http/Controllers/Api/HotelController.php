@@ -1987,8 +1987,8 @@ public function hotelcitys(Request $request)
             return response()->json([
                 'message' => 'Unauthenticated.',
                 'data' => [],
-                'status' => 401,
-            ], 401);
+                'status' => 201,
+            ], 201);
         }
 
         $decodedToken = base64_decode($token);
@@ -1999,8 +1999,8 @@ public function hotelcitys(Request $request)
             return response()->json([
                 'message' => 'Unauthorized. Invalid credentials.',
                 'data' => [],
-                'status' => 401,
-            ], 401);
+                'status' => 201,
+            ], 200);
         }
 
         $validatedData = $request->validate([
@@ -2021,8 +2021,8 @@ public function hotelcitys(Request $request)
         if (!$room) {
             return response()->json([
                 'message' => 'Room not found.',
-                'status' => 404
-            ], 404);
+                'status' => 204
+            ], 200);
         }
 
         $checkIn = Carbon::parse($request->check_in_date);
@@ -2037,8 +2037,8 @@ public function hotelcitys(Request $request)
         if (!$price) {
             return response()->json([
                 'message' => 'Price not available for selected dates.',
-                'status' => 422,
-            ], 422);
+                'status' => 203,
+            ], 200);
         }
 
         // -------------------------------
