@@ -379,8 +379,9 @@ asset('frontend/images/hotel_main.avif')
         var cityId = $('#city').val();  
         var languageId = $(this).val();  
         if (cityId && languageId) {
+             var url = "{{ route('get_tour_guide_details') }}";
             $.ajax({
-                url: '/get-tour-guide-details',  
+                  url: url,
                 method: 'GET',
                 data: {
                     city_id: cityId,
