@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Mail\OtpMail;
-
+use App\Models\SafariPrices;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
@@ -331,89 +331,206 @@ public function alldata(Request $request)
 
 
 
+    // public function wildsafaribooked(Request $request)
+    // {
+    //     $token = $request->bearerToken();
+
+    //     if (!$token) {
+    //         return response()->json([
+    //             'message' => 'Unauthenticated.',
+    //             'data' => [],
+    //             'status' => 201,
+    //         ], 401);
+    //     }
+
+    //     $decodedToken = base64_decode($token);
+
+    //     if (strpos($decodedToken, ',') === false) {
+    //         return response()->json([
+    //             'message' => 'Invalid token format.',
+    //             'data' => [],
+    //             'status' => 201,
+    //         ], 400);
+    //     }
+
+    //     list($email, $password) = explode(',', $decodedToken);
+
+    //     $user = Agent::where('email', $email)->first();
+
+    //     if ($user && $password == $user->password) {
+
+    //         $validatedData = $request->validate([
+    //             'safari_id' => 'required', 
+    //             // 'national_park' => 'required|string|max:255',
+    //             'date' => 'required|date',
+    //             'timings' => 'required|string|max:255',
+    //             'no_persons' => 'required|integer|min:1',
+    //             'no_adults' => 'required|integer|min:0',
+    //             'no_kids' => 'required|integer|min:0',
+    //             // 'vehicle' => 'required|string|max:255',
+    //             'cost' => 'nullable|numeric|min:0',
+    //         ]);
+
+    //         $order = new WildlifeSafariOrder();
+    //         $order->safari_id = $request->safari_id;
+    //         $order->user_id = $user->id;
+    //         $order->national_park = $request->national_park;
+    //         $order->date = $request->date;
+    //         $order->timings = $request->timings;
+    //         $order->no_persons = $request->no_persons;
+    //         $order->no_adults = $request->no_adults;
+    //         $order->no_kids = $request->no_kids;
+    //         $order->vehicle = $request->vehicle;
+    //         $order->cost = $request->cost;
+    //         $order->status = 0;
+
+    //         $order->save();
+
+    //         $orderData = [
+    //             'id' => $order->id,
+    //             'safari_id' => $order->safari_id,
+    //             'agent_name' => $order->user->name,
+    //             // 'national_park' => $order->national_park,
+    //             // 'date' => $order->date,
+    //             'timings' => $order->timings,
+    //             'no_persons' => $order->no_persons,
+    //             'no_adults' => $order->no_adults,
+    //             'no_kids' => $order->no_kids,
+    //             'vehicle' => $order->vehicle,
+    //             'cost' => $order->cost,
+    //         ];
+
+    //         return response()->json([
+    //             'message' => 'Wildlife safari order booked successfully.',
+    //             'data' => $orderData,
+    //             'status' => 200
+    //         ], 200);
+    //     }
+
+    //     return response()->json([
+    //         'message' => 'Unauthenticated',
+    //         'data' => [],
+    //         'status' => 201,
+    //     ], 401);
+    // }
+
     public function wildsafaribooked(Request $request)
-    {
-        $token = $request->bearerToken();
+{
+    $token = $request->bearerToken();
 
-        if (!$token) {
-            return response()->json([
-                'message' => 'Unauthenticated.',
-                'data' => [],
-                'status' => 201,
-            ], 401);
-        }
-
-        $decodedToken = base64_decode($token);
-
-        if (strpos($decodedToken, ',') === false) {
-            return response()->json([
-                'message' => 'Invalid token format.',
-                'data' => [],
-                'status' => 201,
-            ], 400);
-        }
-
-        list($email, $password) = explode(',', $decodedToken);
-
-        $user = Agent::where('email', $email)->first();
-
-        if ($user && $password == $user->password) {
-
-            $validatedData = $request->validate([
-                'safari_id' => 'required', 
-                // 'national_park' => 'required|string|max:255',
-                'date' => 'required|date',
-                'timings' => 'required|string|max:255',
-                'no_persons' => 'required|integer|min:1',
-                'no_adults' => 'required|integer|min:0',
-                'no_kids' => 'required|integer|min:0',
-                // 'vehicle' => 'required|string|max:255',
-                'cost' => 'nullable|numeric|min:0',
-            ]);
-
-            $order = new WildlifeSafariOrder();
-            $order->safari_id = $request->safari_id;
-            $order->user_id = $user->id;
-            $order->national_park = $request->national_park;
-            $order->date = $request->date;
-            $order->timings = $request->timings;
-            $order->no_persons = $request->no_persons;
-            $order->no_adults = $request->no_adults;
-            $order->no_kids = $request->no_kids;
-            $order->vehicle = $request->vehicle;
-            $order->cost = $request->cost;
-            $order->status = 0;
-
-            $order->save();
-
-            $orderData = [
-                'id' => $order->id,
-                'safari_id' => $order->safari_id,
-                'agent_name' => $order->user->name,
-                // 'national_park' => $order->national_park,
-                // 'date' => $order->date,
-                'timings' => $order->timings,
-                'no_persons' => $order->no_persons,
-                'no_adults' => $order->no_adults,
-                'no_kids' => $order->no_kids,
-                'vehicle' => $order->vehicle,
-                'cost' => $order->cost,
-            ];
-
-            return response()->json([
-                'message' => 'Wildlife safari order booked successfully.',
-                'data' => $orderData,
-                'status' => 200
-            ], 200);
-        }
-
+    if (!$token) {
         return response()->json([
-            'message' => 'Unauthenticated',
+            'message' => 'Unauthenticated.',
             'data' => [],
-            'status' => 201,
+            'status' => 401,
         ], 401);
     }
 
+    $decodedToken = base64_decode($token);
+
+    if (strpos($decodedToken, ',') === false) {
+        return response()->json([
+            'message' => 'Invalid token format.',
+            'data' => [],
+            'status' => 400,
+        ], 400);
+    }
+
+    list($email, $password) = explode(',', $decodedToken);
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $user->password !== $password) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 401,
+        ], 401);
+    }
+
+    $validatedData = $request->validate([
+        'safari_id'      => 'required',
+        'date'           => 'required',
+        'timings'        => 'required',
+        'no_adults'      => 'required',
+        'no_kids'        => 'required',
+        'vehicle'        => 'required',
+        'guest_type'     => 'required',
+        'guest_count'    => 'required',
+        'children_count' => 'nullable',
+    ]);
+
+    $childrenCount = (int) $request->input('children_count', 0);
+    $childAges = [];
+
+    for ($i = 0; $i < $childrenCount; $i++) {
+        $key = 'child_age_' . $i;
+        if ($request->has($key)) {
+            $childAges[] = $request->input($key);
+        }
+    }
+
+    $start_date = Carbon::parse($request->date)->format('Y-m-d');
+    $dayType = Carbon::parse($request->date)->isWeekend() ? 'Weekend' : 'Weekday';
+
+    $vehicleType = ($request->vehicle === 'Canter') ? 'Per_Seat' : 'Per_Jeep';
+
+    $price = SafariPrices::where('safari_id', $request->safari_id)
+        ->where('start_month', '<=', $start_date)
+        ->where('end_month', '>=', $start_date)
+        ->where('visitor_type', $request->guest_type)
+        ->where('price_type', $vehicleType)
+        ->where('day_type', $dayType)
+        ->first();
+
+    if (!$price) {
+        return response()->json([
+            'message' => 'Price not found for the selected safari.',
+            'data' => [],
+            'status' => 404,
+        ], 404);
+    }
+
+    $finalCost = ($vehicleType === 'Per_Seat') 
+        ? ($price->price * $request->no_adults)
+        : $price->price;
+
+    $order = new WildlifeSafariOrder();
+    $order->safari_id   = $request->safari_id;
+    $order->user_id     = $user->id;
+    $order->date        = $request->date;
+    $order->timings     = $request->timings;
+    $order->no_adults   = $request->no_adults;
+    $order->no_kids     = $request->no_kids;
+    $order->no_persons  = $childrenCount;
+    $order->child_age   = json_encode($childAges);
+    $order->guest_type  = $request->guest_type;
+    $order->vehicle     = $request->vehicle;
+    $order->guest_count = $request->guest_count;
+    $order->cost        = $finalCost;
+    $order->status      = 0;
+    $order->save();
+
+    $orderData = [
+        'id'            => $order->id,
+        'safari_id'     => $order->safari_id,
+        'agent_name'    => $user->name,
+        'timings'       => $order->timings,
+        'no_adults'     => $order->no_adults,
+        'no_kids'       => $order->no_kids,
+        'child_ages'    => $childAges,
+        'guest_type'    => $order->guest_type,
+        'guest_count'   => $order->guest_count,
+        'vehicle'       => $order->vehicle,
+        'cost'          => $order->cost,
+        'status'        => $order->status,
+    ];
+
+    return response()->json([
+        'message' => 'Wildlife safari booked successfully.',
+        'data' => $orderData,
+        'status' => 200
+    ], 200);
+}
 
 
 
