@@ -173,7 +173,7 @@
                                 <div class="col-lg-6">
                                     <div class="rivvsa">
                                 <div class="filter-item_hotels sachi trnas" onclick="toggleDropdown('guests')">
-                                    <div class="filter-label_hotels">Guests</div>
+                                    <div class="filter-label_hotels">Guests & Meal Plan</div>
                                     <div class="arrow">
                                         <div class="filter-value_hotels" id="guests-value">1 guest</div>
                                         <img src="{{ asset('frontend/images/down.png') }}" style="width: 20px;" alt="">
