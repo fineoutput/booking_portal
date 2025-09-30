@@ -3092,17 +3092,111 @@ public function city(Request $request)
 }
 
 
+// public function bookGuide(Request $request)
+// {
+    
+//     $token = $request->bearerToken();
+
+//     if (!$token) {
+//         return response()->json([
+//             'message' => 'Unauthenticated.',
+//             'data' => [],
+//             'status' => 201,
+//         ], 401);
+//     }
+
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
+
+//     $user = Agent::where('email', $email)->first();
+
+//     if ($user && $password == $user->password) {
+
+//     // If authentication is successful, proceed with the booking process
+//     $validator = Validator::make($request->all(), [
+//         // 'state_id' => 'required',
+//         'city_id' => 'required',
+//         'languages_id' => 'required',
+//         // 'tour_guide_id' => 'required',
+//         'guide_type' => 'required',
+//         // 'cost' => 'required|numeric',
+//     ]);
+
+//     if ($validator->fails()) {
+//         return response()->json([
+//             'status' => 201,
+//             'message' => 'Validation Error',
+//             'errors' => $validator->errors()
+//         ], 422);
+//     }
+
+//     try {
+
+//         $cityId = $request->city_id;
+//         $languageId = $request->languages_id;
+    
+//         // Query the TripGuide model based on city and language
+//         $tripguide = TripGuide::where('city_id', $cityId)
+//                               ->where('languages_id', $languageId)
+//                               ->first();
+    
+    
+//         if ($tripguide) {
+//             $guideTypes = explode(',', $tripguide->guide_type);
+
+//         $tripGuide = new TripGuideBook();
+
+//         $tripGuide->user_id = $user->id;
+//         $tripGuide->tour_guide_id = $tripguide->id;
+//         $tripGuide->languages_id = $request->languages_id;
+//         $tripGuide->state_id = $request->state_id;
+//         $tripGuide->location = $request->location;
+//         $tripGuide->guide_type = $request->guide_type;
+//         $tripGuide->cost = $tripguide->cost;
+//         $tripGuide->status = 0; 
+//         }else{
+//             return response()->json([
+//             'status' => 200,
+//             'message' => 'The selected guide type is not valid for this tour guide!',
+//             'data' => []
+//         ], 201);
+//         }
+
+//         $tripGuide->save();
+//         $tripGuide->makeHidden('updated_at','created_at');
+
+//         return response()->json([
+//             'status' => 200,
+//             'message' => 'Tour Guide Booked Successfully!',
+//             'data' => $tripGuide
+//         ], 201);
+
+//     } catch (\Exception $e) {
+//         return response()->json([
+//             'status' => 201,
+//             'message' => 'Failed to book the tour guide. Please try again later.',
+//             'error' => $e->getMessage()
+//         ], 500);
+//     }
+// }
+// return response()->json([
+//     'message' => 'Unauthenticated',
+//     'data' => [],
+//     'status' => 201,
+// ], 401);
+// }
+
+
 public function bookGuide(Request $request)
 {
-    
     $token = $request->bearerToken();
 
     if (!$token) {
         return response()->json([
             'message' => 'Unauthenticated.',
             'data' => [],
-            'status' => 201,
-        ], 401);
+            'status' => 401,
+        ]);
     }
 
     $decodedToken = base64_decode($token);
@@ -3110,81 +3204,110 @@ public function bookGuide(Request $request)
 
     $user = Agent::where('email', $email)->first();
 
-    if ($user && $password == $user->password) {
+    if (!$user || $user->password !== $password) {
+        return response()->json([
+            'message' => 'Invalid credentials.',
+            'data' => [],
+            'status' => 401,
+        ]);
+    }
 
-    // If authentication is successful, proceed with the booking process
+    // Validate input
     $validator = Validator::make($request->all(), [
-        // 'state_id' => 'required',
-        'city_id' => 'required',
-        'languages_id' => 'required',
-        // 'tour_guide_id' => 'required',
-        'guide_type' => 'required',
-        // 'cost' => 'required|numeric',
+        'city_id' => 'required|numeric',
+        'languages_id' => 'required|numeric',
+        'guide_type' => 'required|string',
+        'tour_guide_id' => 'required|numeric',
+        'adults_count' => 'required|numeric|min:1|max:10',
     ]);
 
     if ($validator->fails()) {
         return response()->json([
-            'status' => 201,
+            'status' => 422,
             'message' => 'Validation Error',
             'errors' => $validator->errors()
         ], 422);
     }
 
     try {
-
-        $cityId = $request->city_id;
-        $languageId = $request->languages_id;
-    
-        // Query the TripGuide model based on city and language
-        $tripguide = TripGuide::where('city_id', $cityId)
-                              ->where('languages_id', $languageId)
-                              ->first();
-    
-    
-        if ($tripguide) {
-            $guideTypes = explode(',', $tripguide->guide_type);
-
-        $tripGuide = new TripGuideBook();
-
-        $tripGuide->user_id = $user->id;
-        $tripGuide->tour_guide_id = $tripguide->id;
-        $tripGuide->languages_id = $request->languages_id;
-        $tripGuide->state_id = $request->state_id;
-        $tripGuide->location = $request->location;
-        $tripGuide->guide_type = $request->guide_type;
-        $tripGuide->cost = $tripguide->cost;
-        $tripGuide->status = 0; 
-        }else{
+        // Fetch the guide by ID
+        $trip = TripGuide::find($request->tour_guide_id);
+        if (!$trip) {
             return response()->json([
-            'status' => 200,
-            'message' => 'The selected guide type is not valid for this tour guide!',
-            'data' => []
-        ], 201);
+                'status' => 404,
+                'message' => 'Tour guide not found.',
+                'data' => []
+            ], 404);
         }
 
-        $tripGuide->save();
-        $tripGuide->makeHidden('updated_at','created_at');
+        // Check guide type
+        $guideTypes = explode(',', $trip->guide_type);
+        if (!in_array($request->guide_type, $guideTypes)) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'The selected guide type is not valid for this tour guide.',
+                'data' => []
+            ], 400);
+        }
+
+        // Get pricing
+        $trip_price = TripGuidePrice::where('trip_id', $trip->id)->first();
+        if (!$trip_price) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Price not found for the selected tour guide.',
+                'data' => []
+            ], 404);
+        }
+
+        // Cost calculation based on adults
+        $adults = (int) $request->adults_count;
+        if ($adults <= 4) {
+            $fine_price = $trip_price->price_1_to_4;
+        } elseif ($adults == 5) {
+            $fine_price = $trip_price->price_1_to_4 + $trip_price->price_5;
+        } elseif ($adults == 6) {
+            $fine_price = $trip_price->price_1_to_4 + $trip_price->price_5 + $trip_price->price_6;
+        } elseif ($adults >= 7 && $adults <= 10) {
+            $fine_price = $trip_price->price_1_to_4 + $trip_price->price_5 + $trip_price->price_6 + $trip_price->price_6_to_10;
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Adults count cannot exceed 10.',
+                'data' => []
+            ], 400);
+        }
+
+        // Save booking
+        $booking = new TripGuideBook();
+        $booking->user_id = $user->id;
+        $booking->tour_guide_id = $trip->id;
+        $booking->languages_id = $request->languages_id;
+        $booking->state_id = $request->state_id ?? null;
+        $booking->location = $request->location ?? null;
+        $booking->adults_count = $adults;
+        $booking->guide_type = $request->guide_type;
+        $booking->cost = $fine_price;
+        $booking->status = 0;
+        $booking->save();
+
+        $booking->makeHidden(['created_at', 'updated_at']);
 
         return response()->json([
             'status' => 200,
-            'message' => 'Tour Guide Booked Successfully!',
-            'data' => $tripGuide
-        ], 201);
+            'message' => 'Tour guide booked successfully!',
+            'data' => $booking
+        ], 200);
 
     } catch (\Exception $e) {
         return response()->json([
-            'status' => 201,
-            'message' => 'Failed to book the tour guide. Please try again later.',
+            'status' => 500,
+            'message' => 'Booking failed. Please try again later.',
             'error' => $e->getMessage()
         ], 500);
     }
 }
-return response()->json([
-    'message' => 'Unauthenticated',
-    'data' => [],
-    'status' => 201,
-], 401);
-}
+
 
 
 public function guideCity(Request $request)

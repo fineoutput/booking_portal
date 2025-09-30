@@ -17,11 +17,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Add Safari</h4>
+                    <h4 class="page-title">Add Trip Guide</h4>
                     <ol class="breadcrumb" style="display:none">
                         <!-- <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li> -->
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Safari</a></li>
-                        <li class="breadcrumb-item active">Add Safari</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Trip Guide</a></li>
+                        <li class="breadcrumb-item active">Add Trip Guide</li>
                     </ol>
                 </div>
             </div>
@@ -284,6 +284,8 @@
         });
 
         function loadCities(stateId, selectedCity = null) {
+            console.log(selectedCity);
+            
             if (stateId) {
                 $.ajax({
                     url: '/booking_portal/public/admin/cities/' + stateId,
