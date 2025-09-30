@@ -50,8 +50,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HotelsRoom;
-
-
+use App\Models\TripGuidePrice;
 
 class HotelController extends Controller
 {
@@ -3217,7 +3216,7 @@ public function bookGuide(Request $request)
         'city_id' => 'required|numeric',
         'languages_id' => 'required|numeric',
         'guide_type' => 'required|string',
-        'tour_guide_id' => 'required|numeric',
+        // 'tour_guide_id' => 'required|numeric',
         'adults_count' => 'required|numeric|min:1|max:10',
     ]);
 
@@ -3229,9 +3228,16 @@ public function bookGuide(Request $request)
         ], 422);
     }
 
+
     try {
+        $languageId = $request->languages_id;
+          $tripguide = TripGuide::where('city_id', $request->cityId)
+        ->where(function($q) use ($languageId) {
+            $q->whereRaw("FIND_IN_SET(?, languages_id)", [$languageId]);
+        })
+        ->first();
         // Fetch the guide by ID
-        $trip = TripGuide::find($request->tour_guide_id);
+        $trip = TripGuide::find($tripguide->id);
         if (!$trip) {
             return response()->json([
                 'status' => 404,
