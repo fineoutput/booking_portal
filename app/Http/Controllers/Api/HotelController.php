@@ -3229,10 +3229,10 @@ public function bookGuide(Request $request)
 
     if($request->adults_count > 10){
         return response()->json([
-            'status' => 400,
+            'status' => 201,
             'message' => 'Adults count cannot exceed 10.',
             'data' => []
-        ], 400);
+        ], 201);
     }
 
     try {
