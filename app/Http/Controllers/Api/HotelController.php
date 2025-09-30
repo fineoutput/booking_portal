@@ -3213,10 +3213,9 @@ public function bookGuide(Request $request)
 
     // Validate input
     $validator = Validator::make($request->all(), [
-        'city_id' => 'required|numeric',
-        'languages_id' => 'required|numeric',
-        'guide_type' => 'required|string',
-        // 'tour_guide_id' => 'required|numeric',
+        'city_id' => 'required',
+        'languages_id' => 'required',
+        'guide_type' => 'required',
         'adults_count' => 'required|numeric|min:1|max:10',
     ]);
 
@@ -3231,13 +3230,14 @@ public function bookGuide(Request $request)
 
     try {
         $languageId = $request->languages_id;
-          $tripguide = TripGuide::where('city_id', $request->cityId)
+
+          $trip = TripGuide::where('city_id', $request->city_id)
         ->where(function($q) use ($languageId) {
             $q->whereRaw("FIND_IN_SET(?, languages_id)", [$languageId]);
         })
         ->first();
-        // Fetch the guide by ID
-        $trip = TripGuide::find($tripguide->id);
+
+        // $trip = TripGuide::find($tripguide->id);
         if (!$trip) {
             return response()->json([
                 'status' => 404,
@@ -3246,7 +3246,6 @@ public function bookGuide(Request $request)
             ], 404);
         }
 
-        // Check guide type
         $guideTypes = explode(',', $trip->guide_type);
         if (!in_array($request->guide_type, $guideTypes)) {
             return response()->json([
@@ -3256,8 +3255,8 @@ public function bookGuide(Request $request)
             ], 400);
         }
 
-        // Get pricing
         $trip_price = TripGuidePrice::where('trip_id', $trip->id)->first();
+        
         if (!$trip_price) {
             return response()->json([
                 'status' => 404,
