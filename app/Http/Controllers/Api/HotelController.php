@@ -3216,7 +3216,7 @@ public function bookGuide(Request $request)
         'city_id' => 'required',
         'languages_id' => 'required',
         'guide_type' => 'required',
-        'adults_count' => 'required|numeric|min:1|max:10',
+        'adults_count' => 'required|numeric',
     ]);
 
     if ($validator->fails()) {
@@ -3227,6 +3227,13 @@ public function bookGuide(Request $request)
         ], 422);
     }
 
+    if($request->adults_count > 10){
+        return response()->json([
+            'status' => 400,
+            'message' => 'Adults count cannot exceed 10.',
+            'data' => []
+        ], 400);
+    }
 
     try {
         $languageId = $request->languages_id;
