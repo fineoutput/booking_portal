@@ -84,7 +84,7 @@
       $total_price = round($basePrice + $margin, 2);
   @endphp
 
-  <p><strong>Total Price (INR):</strong> ₹{{ number_format($total_price, 2) }} /- (exc. GST)</p>
+  <p><strong>Total Price (INR):</strong> {{ number_format($total_price, 2) }} /- (exc. GST)</p>
 
   <!-- Hotels List -->
   @if(!empty($hotels) && $hotels->count())
