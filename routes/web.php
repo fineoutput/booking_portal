@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Admin\PushNotificationController;
 use App\Http\Controllers\Admin\PDFController;
 use App\Http\Controllers\Admin\PasswordController;
+use App\Http\Controllers\Admin\LogController;
 use setasign\Fpdi\Fpdi;
 
 
@@ -55,6 +56,8 @@ use setasign\Fpdi\Fpdi;
     Route::post('password/email', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
     // Route::get('password/reset/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('password/reset', [PasswordController::class, 'reset'])->name('password.update');
+// routes/web.php
+Route::get('/logs', [LogController::class, 'index']);
 
 
 Route::group(['prefix' => '/'], function () {
