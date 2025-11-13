@@ -78,65 +78,54 @@ class PDFController extends Controller
     set_time_limit(300);
 
     try {
-        $data['user'] = Agent::where('id', Auth::id())->first();
-        $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('id', $booking_id)->first();
+        $data['user'] = Auth::guard('agent')->user();
+$data['booking'] = PackageBooking::with('tourists', 'hotels', 'package', 'packagetemp')
+                    ->where('user_id', $data['user']->id)
+                    ->where('id', $booking_id)
+                    ->first();
 
-        $pdf = new Fpdi();
-          $data['user'] = Auth::guard('agent')->user();
+if (!$data['booking']) {
+    return abort(404, 'Booking not found.');
+}
 
-         $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $data['user']->id)->where('id',$booking_id)->first();
-            
-            $packageIds = $data['booking']->pluck('package_id')->map(function($id) {
-                return (int)$id;
-            })->toArray();
+$packageIds = [$data['booking']->package_id]; // single booking
+$data['hotels'] = Hotels::where(function ($query) use ($packageIds) {
+    foreach ($packageIds as $id) {
+        $query->orWhereRaw("FIND_IN_SET(?, package_id)", [$id]);
+    }
+})->get();
 
-            $data['hotels'] = Hotels::where(function ($query) use ($packageIds) {
-                foreach ($packageIds as $id) {
-                    $query->orWhereRaw("FIND_IN_SET(?, package_id)", [$id]);
-                }
-            })->get();
+// Invoice PDF
+$invoiceHtml = view('front.invoice', $data)->render();
+$tempPdf = PDF::loadHTML($invoiceHtml);
+$tempPdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
+$tempPdf->save($tempPdfPath);
 
-        // 1. Generate invoice page and add to PDF
-        $invoiceHtml = view('front.invoice', $data)->render();
-        $tempPdf = PDF::loadHTML($invoiceHtml);
-        $tempPdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
-        $tempPdf->save($tempPdfPath);
+$pdf = new \setasign\Fpdi\Fpdi();
+$invoicePageCount = $pdf->setSourceFile($tempPdfPath);
+for ($i = 1; $i <= $invoicePageCount; $i++) {
+    $template = $pdf->importPage($i);
+    $size = $pdf->getTemplateSize($template);
+    $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+    $pdf->useTemplate($template);
+}
+unlink($tempPdfPath);
 
-        $invoicePageCount = $pdf->setSourceFile($tempPdfPath);
-        for ($i = 1; $i <= $invoicePageCount; $i++) {
+// Additional PDF
+$additionalPdfPath = public_path('packages/pdf/' . urldecode($pdf_name));
+if (file_exists($additionalPdfPath)) {
+    try {
+        $additionalPageCount = $pdf->setSourceFile($additionalPdfPath);
+        for ($i = 1; $i <= $additionalPageCount; $i++) {
             $template = $pdf->importPage($i);
             $size = $pdf->getTemplateSize($template);
             $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
             $pdf->useTemplate($template);
         }
-
-        unlink($tempPdfPath); // Clean up temp file
-
-        // 2. Add additional PDF page from packages/pdf
-        $additionalPdfPath = public_path('packages/pdf/' . urldecode($pdf_name));
-        if (file_exists($additionalPdfPath)) {
-            $additionalPageCount = $pdf->setSourceFile($additionalPdfPath);
-            for ($i = 1; $i <= $additionalPageCount; $i++) {
-                $template = $pdf->importPage($i);
-                $size = $pdf->getTemplateSize($template);
-                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-                $pdf->useTemplate($template);
-            }
-        } else {
-            \Log::warning("Additional PDF not found: " . $additionalPdfPath);
-        }
-
-        return response()->stream(function () use ($pdf) {
-            $pdf->Output('D', 'customized_with_invoice.pdf');
-        }, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="customized_with_invoice.pdf"'
-        ]);
-
     } catch (\Exception $e) {
-        \Log::error('PDF generation failed: ' . $e->getMessage());
-        return abort(500, 'Something went wrong generating the PDF.');
+        \Log::error("FPDI cannot import compressed PDF: " . $e->getMessage());
     }
+
 }
 
 
