@@ -8,7 +8,7 @@
     body { font-family: Arial, sans-serif; margin: 30px; font-size: 14px; color: #000; line-height: 1.6; }
     .header, .footer { text-align: center; }
     .invoice-box { border: 1px solid #000; padding: 20px; }
-    .company-logo { float: right; width: 100px; }
+    .company-logo { float: right; width: 100px; max-height: 80px; object-fit: contain; }
     .clearfix::after { content: ""; display: table; clear: both; }
     .bold { font-weight: bold; }
     .section-title { font-size: 16px; margin-top: 20px; font-weight: bold; text-decoration: underline; }
@@ -21,13 +21,14 @@
   <div class="clearfix">
     <div style="float: left;">
       <p><br/>
-      <strong>{{ $user->business_name ?? '' }}</strong><br/>
-      {{ $user->cities->city_name ?? '' }}, {{ $user->state->state_name ?? '' }}<br/>
-      GSTIN: {{ $user->GST_number ?? '' }}<br/>
+      <strong>{{ $user->business_name ?? 'N/A' }}</strong><br/>
+      {{ optional($user->cities)->city_name ?? '' }}, {{ optional($user->state)->state_name ?? '' }}<br/>
+      GSTIN: {{ $user->GST_number ?? 'N/A' }}<br/>
       E-mail: <a href="mailto:{{ $user->email ?? '' }}">{{ $user->email ?? '' }}</a>
       </p>
     </div>
-    @if(!empty($user->logo))
+
+    @if(!empty($user->logo) && file_exists(public_path($user->logo)))
       <img src="{{ public_path($user->logo) }}" class="company-logo" alt="Company Logo"/>
     @endif
   </div>
@@ -44,83 +45,57 @@
   <!-- Main Content -->
   <p>Hi Sir/Madam,</p>
 
-  <p>Greetings from <strong>{{ $user->business_name ?? '' }}</strong>.</p>
+  <p>Greetings from <strong>{{ $user->business_name ?? 'Our Company' }}</strong>.</p>
 
   <p>Thank you for your query with us. As per your requirements, following are the package details.</p>
 
   <!-- Trip Info -->
   <p><strong>Trip ID:</strong> {{ $booking->id ?? 'N/A' }}</p>
-  <p><strong>{{ $booking->package->package_name ?? 'Package Name' }}</strong></p>
+  <p><strong>{{ optional($booking->package)->package_name ?? 'Package Name' }}</strong></p>
   
-    <p> CHECK IN - {{ optional($booking->packagetemp)->start_date ? \Carbon\Carbon::parse  ($booking->packagetemp->start_date)->format('d-F-Y') : 'N/A' }}<br/>
-      CHECK OUT - {{ optional($booking->packagetemp)->end_date ? \Carbon\Carbon::parse($booking->packagetemp->end_date)->format('d-F-Y') : 'N/A' }}
-    </p>
+  <p> CHECK IN - {{ optional($booking->packagetemp)->start_date ? \Carbon\Carbon::parse(optional($booking->packagetemp)->start_date)->format('d-F-Y') : 'N/A' }}<br/>
+      CHECK OUT - {{ optional($booking->packagetemp)->end_date ? \Carbon\Carbon::parse(optional($booking->packagetemp)->end_date)->format('d-F-Y') : 'N/A' }}
+  </p>
 
-    <p> {{ $booking->packagetemp->adults_count ?? 0 }} Adults,
-      {{ $booking->packagetemp->children_5_11 ?? 0 }} Children 
-   </p>
+  <p> {{ optional($booking->packagetemp)->adults_count ?? 0 }} Adults,
+      {{ optional($booking->packagetemp)->children_5_11 ?? 0 }} Children 
+  </p>
 
-  <!-- OPTION 1 -->
-  <p class="section-title">Price Details: 
-     @switch($booking->packagetemp->hotel_preference)
-                                @case('standard_cost')
-                                    Standard Hotel
-                                    @break
-                                @case('deluxe_cost')
-                                    Deluxe Hotel
-                                    @break
-                                @case('premium_3_cost')
-                                    Premium (3 star)
-                                    @break
-                                @case('super_deluxe_cost')
-                                    Super Deluxe Hotel
-                                    @break
-                                @case('premium_cost')
-                                    Premium (4 star)
-                                    @break
-                                @case('luxury_cost')
-                                    Deluxe (4 star) Hotel
-                                    @break
-                                @case('premium_5_cost')
-                                    Premium (5 star)
-                                    @break
-                                @case('hostels')
-                                    Hostels
-                                    @break
-                                @default
-                                    NO DATA
-                            @endswitch
-
-    ,{{ $booking->packagetemp->hotel_category ?? '' }}Room Package</p>
+  <!-- Price Details -->
+  <p class="section-title">
+      Price Details: 
+      @switch(optional($booking->packagetemp)->hotel_preference)
+          @case('standard_cost') Standard Hotel @break
+          @case('deluxe_cost') Deluxe Hotel @break
+          @case('premium_3_cost') Premium (3 star) @break
+          @case('super_deluxe_cost') Super Deluxe Hotel @break
+          @case('premium_cost') Premium (4 star) @break
+          @case('luxury_cost') Deluxe (4 star) Hotel @break
+          @case('premium_5_cost') Premium (5 star) @break
+          @case('hostels') Hostels @break
+          @default NO DATA
+      @endswitch
+      , {{ optional($booking->packagetemp)->hotel_category ?? '' }} Room Package
+  </p>
 
   @php
       $basePrice = $booking->fetched_price ?? 0;
       $margin = $booking->agent_margin ?? 0;
-      // $tax_amount = $basePrice * 0.18;
       $total_price = round($basePrice + $margin, 2);
   @endphp
 
-  <p><strong>Total Price (INR):</strong> <i class="fas fa-rupee-sign"></i>{{ number_format($total_price, 2) }} /- (exc. GST)</p>
+  <p><strong>Total Price (INR):</strong> ₹{{ number_format($total_price, 2) }} /- (exc. GST)</p>
 
+  <!-- Hotels List -->
+  @if(!empty($hotels) && $hotels->count())
+      <p><strong>Hotels Available:</strong></p>
+      @foreach($hotels as $hotel)
+          <p>{{ $hotel->name ?? 'Unnamed Hotel' }}</p>
+      @endforeach
+  @else
+      <p><strong>No Hotels Available</strong></p>
+  @endif
 
-  @if($hotels && count($hotels))
-  <p><strong><i class="fa-solid fa-hotel"></i> Hotels Available</strong></p>
-  @foreach($hotels as $hotel)
-    <p>{{ $hotel->name ?? 'Unnamed Hotel' }}</p>
-  @endforeach
-@else
-  <p><strong>No Hotels Available</strong></p>
-@endif
-
-  {{-- @foreach ($hotels as $index => $hotel)
-    @php
-      $hotelName = $hotel->name ?? 'Hotel Name';
-    @endphp
-
-    <p>
-      <strong>{{ ordinal($index + 1) }} {{$hotelName ?? ''}}
-    </p>
-  @endforeach --}}
 </div>
 
 </body>
