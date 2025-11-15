@@ -1011,6 +1011,19 @@
                     </ul>   
                         </div>
                         @endif
+                        
+                       @if (!empty($value->description))
+                        <div class="tape_over">
+                            <p><b>Description</b></p>
+                    <ul class="offers">
+                        <div class="desc_hotl">
+                            @if($value->description)
+                            <p>{!! $value->description !!}</p>
+                            @endif
+                        </div>
+                    </ul>   
+                        </div>
+                        @endif
                     </div>
                 </div>
                 <div class="room-right">
@@ -1034,6 +1047,7 @@
                     {{-- <div class="exclusive-offer">
                         Exclusive Offer - DBS Credit Card, Get 693 Off
                     </div> --}}
+                     
                 </div>
             </div>
         </div>

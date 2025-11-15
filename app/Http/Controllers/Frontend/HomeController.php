@@ -98,9 +98,9 @@ class HomeController extends Controller
 {
     $data['packages'] = Package::get();
     $data['slider'] = Slider::where('type','home_slider')->get();
-    $data['offer'] = HomeSlider::orderBy('id','DESC')->where('type','Offer')->get();
-    $data['bottom'] = HomeSlider::orderBy('id','DESC')->where('type','Bottom')->get();
-    $data['banner'] = HomeSlider::orderBy('id','DESC')->where('type','Banner')->get();
+    $data['offer'] = HomeSlider::orderBy('id','DESC')->where('type_2','package')->where('type','Offer')->get();
+    $data['bottom'] = HomeSlider::orderBy('id','DESC')->where('type_2','package')->where('type','Bottom')->get();
+    $data['banner'] = HomeSlider::orderBy('id','DESC')->where('type_2','package')->where('type','Banner')->get();
 
     $formatted_date = Carbon::now()->format('Y-m-d'); 
 
