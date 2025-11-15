@@ -14,6 +14,14 @@
                 <input type="text" name="fetched_price" id="fetchedPrice" class="form-control"
                  value="{{$packagebookingtemp->cost ?? '0'}}" readonly>
             </div>
+
+            @if($packagebookingtemp->jeep_count !== null && $packagebookingtemp->jeep_count > 0)
+            <div class="mb-3">
+                <label for="fetchedPrice" class="form-label">Jeep Count</label>
+                <input type="text" name="fetched_price" id="fetchedPrice" class="form-control"
+                 value="{{$packagebookingtemp->jeep_count ?? '0'}}" readonly>
+            </div>
+            @endif
         
             <div class="mb-3">
                 <label for="agentMargin" class="form-label">Add Agent Margin (₹)</label>

@@ -2491,7 +2491,14 @@ public function getVehiclesByCity($cityId)
         if($price->price_type == 'Per_Seat'){
             $finPrice = $price->price * $request->no_adults;
         }else{
-            $finPrice = $price->price;
+              // Per Jeep (6 persons max per jeep)
+            $totalPersons = (int)$request->no_adults + (int)$childrenCount;
+
+            // Minimum 1 jeep
+            $jeepCount = max(1, ceil($totalPersons / 6));
+
+            // Total cost based on jeep count
+            $finPrice = $price->price * $jeepCount;
         }
 
         $wildlife = new WildlifeSafariOrder();
@@ -2504,6 +2511,7 @@ public function getVehiclesByCity($cityId)
         $wildlife->child_age = json_encode($childAges);
         $wildlife->guest_type = $request->guest_type;
         $wildlife->cost = $finPrice;
+        $wildlife->jeep_count = $jeepCount ?? 0;
         $wildlife->vehicle = $request->vehicle;
         $wildlife->guest_count = $request->guest_count;
         $wildlife->timings = $request->selected_time;

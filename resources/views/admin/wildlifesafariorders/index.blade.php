@@ -62,6 +62,7 @@
                         <th data-priority="1">Children Ages</th>
                         <th data-priority="1">Adults</th>
                         <th data-priority="1">Kids</th>
+                        <th data-priority="1">Jeep Count</th>
                         <th data-priority="1">Agent Margin</th>
                         <th data-priority="1">Final Cost</th>
                         <th data-priority="1">Transfer User</th>
@@ -97,6 +98,7 @@
                       </td>
                         <td>{{ $hotel->safari_se->no_adults ?? '' }}</td>
                         <td>{{ $hotel->safari_se->no_kids ?? '' }}</td>
+                        <td>{{ $hotel->safari_se->jeep_count ?? '' }}</td>
                         <td>₹{{ $hotel->agent_margin ?? '' }}</td>
                         <td>₹{{ $hotel->final_price ?? '' }}</td>
                         <td>{{ $hotel->transfer->team->name ?? '' }}</td>

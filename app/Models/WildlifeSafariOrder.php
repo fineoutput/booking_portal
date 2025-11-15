@@ -26,6 +26,7 @@ class WildlifeSafariOrder extends Model
         'vehicle',
         'guest_count',
         'cost',
+        'jeep_count',
         'status',
         'description',
     ];
