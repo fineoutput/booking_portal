@@ -216,11 +216,27 @@
     </div>
 @endif
 
+
+
         {{-- Upload new images --}}
         <div class="col-sm-6 mt-4">
             <label class="form-label" for="images">Upload More Images</label>
             <input class="form-control" type="file" id="images" name="images[]" multiple>
         </div>
+
+        <div class="col-sm-12 mt-3">
+    <label class="form-label" for="power">
+        Description <span style="color:red;">*</span>
+    </label>
+
+    <textarea class="form-control" name="description" id="description" required>
+        {{ old('description', $hotel_room->description ?? '') }}
+    </textarea>
+
+    @error('description')
+        <div style="color:red">{{ $message }}</div>
+    @enderror
+</div>
 
         {{-- Submit --}}
         <div class="form-group col-12 text-center mt-4">
@@ -242,9 +258,27 @@
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+
 <script>
     document.getElementById('output').innerHTML = location.search;
     $(".chosen-select").chosen();
+</script>
+
+
+<script>
+
+    CKEDITOR.replace('description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
 </script>
 
 @endsection

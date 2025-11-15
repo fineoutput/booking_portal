@@ -228,30 +228,6 @@
 </script>
 
 <script>
-    CKEDITOR.replace('text_description', {
-        toolbar: [
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
-            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
-            { name: 'insert', items: ['Link', 'Unlink'] },
-            { name: 'styles', items: ['Format', 'FontSize'] },
-            { name: 'colors', items: ['TextColor', 'BGColor'] },
-            { name: 'tools', items: ['Maximize'] }
-        ],
-        height: 200
-    });
-
-    // Initialize CKEditor for long description
-    CKEDITOR.replace('text_description_2', {
-        toolbar: [
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'] },
-            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
-            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
-            { name: 'styles', items: ['Format', 'FontSize'] },
-            { name: 'colors', items: ['TextColor', 'BGColor'] },
-            { name: 'tools', items: ['Maximize'] }
-        ],
-        height: 300
-    });
 
     CKEDITOR.replace('description', {
         toolbar: [
