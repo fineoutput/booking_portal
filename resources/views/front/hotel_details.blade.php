@@ -1049,19 +1049,51 @@
                     </div> --}}
                     <div class="desc_hotl mt-5">
                         <p> <b>With</b> </p>
-                           <ul>
-                            <li>Meal Plan (Breakfast) {{$value->price->meal_plan_all_meals_cost ?? 0}}</li>
-                            <li>Meal Plan (Breakfast + lunch/dinner) {{$value->price->meal_plan_breakfast_lunch_dinner_cost ?? 0}}</li>
-                            <li>Meal Plan (All meals) {{$value->price->meal_plan_all_meals_cost ?? 0}}</li>
-                            <li>Extra Bed + Meal Plan (All meals) {{$value->price->extra_all_meals_cost ?? 0}}</li>
-                            <li>Extra Bed + Meal Plan (Breakfast){{$value->price->extra_breakfast_cost ?? 0}}</li>
-                            <li>Extra Bed + Meal Plan (Breakfast + lunch/dinner) {{$value->price->extra_breakfast_lunch_dinner_cost ?? 0}}</li>
-                            <li>Extra Bed + No Meal Plan {{$value->price->extra_bed_cost ?? 0}}</li>
-                            <li>Child With No Bed + Meal Plan (All meals) {{$value->price->child_all_meals_cost ?? 0}}</li>
-                            <li>Child With No Bed + Meal Plan (Breakfast)  {{$value->price->child_breakfast_cost ?? 0}}</li>
-                            <li>Child With No Bed + Meal Plan (Breakfast + lunch/dinner)  {{$value->price->child_breakfast_lunch_dinner_cost ?? 0}}</li>
-                            <li>Child With No Bed  {{$value->price->child_no_bed_infant_cost ?? 0}}</li>
-                           </ul>
+                         <ul>
+                            @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
+                                <li>Meal Plan (Breakfast) {{ $value->price->meal_plan_all_meals_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
+                                <li>Meal Plan (Breakfast + lunch/dinner) {{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
+                                <li>Meal Plan (All meals) {{ $value->price->meal_plan_all_meals_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->extra_all_meals_cost) && $value->price->extra_all_meals_cost > 0)
+                                <li>Extra Bed + Meal Plan (All meals) {{ $value->price->extra_all_meals_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->extra_breakfast_cost) && $value->price->extra_breakfast_cost > 0)
+                                <li>Extra Bed + Meal Plan (Breakfast) {{ $value->price->extra_breakfast_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->extra_breakfast_lunch_dinner_cost) && $value->price->extra_breakfast_lunch_dinner_cost > 0)
+                                <li>Extra Bed + Meal Plan (Breakfast + lunch/dinner) {{ $value->price->extra_breakfast_lunch_dinner_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->extra_bed_cost) && $value->price->extra_bed_cost > 0)
+                                <li>Extra Bed + No Meal Plan {{ $value->price->extra_bed_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->child_all_meals_cost) && $value->price->child_all_meals_cost > 0)
+                                <li>Child With No Bed + Meal Plan (All meals) {{ $value->price->child_all_meals_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->child_breakfast_cost) && $value->price->child_breakfast_cost > 0)
+                                <li>Child With No Bed + Meal Plan (Breakfast) {{ $value->price->child_breakfast_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->child_breakfast_lunch_dinner_cost) && $value->price->child_breakfast_lunch_dinner_cost > 0)
+                                <li>Child With No Bed + Meal Plan (Breakfast + lunch/dinner) {{ $value->price->child_breakfast_lunch_dinner_cost }}</li>
+                            @endif
+
+                            @if(!empty($value->price->child_no_bed_infant_cost) && $value->price->child_no_bed_infant_cost > 0)
+                                <li>Child With No Bed {{ $value->price->child_no_bed_infant_cost }}</li>
+                            @endif
+                        </ul>
                         </div>
                      
                 </div>
