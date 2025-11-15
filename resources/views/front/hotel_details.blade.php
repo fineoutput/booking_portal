@@ -468,15 +468,15 @@
                                     </div>
                                     <div class="site_pricwe">
                                         <delt class="pii">
-                                            <del>₹
+                                            <del class="hotel-price" id="price_{{ $value->id }}" >₹
                                                 @if($hotel_room_1 && $hotel_room_1->price)
                                                 {{ $hotel_room_1->price->night_cost + 613 }}
                                                 @else
                                                 Price not available
-                                                @endif</del> <span> Per night</span>
+                                                @endif</del> <span > Per night</span>
                                         </delt>
                                         <div class="andy_time d-flex">
-                                            <p style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">
+                                            <p class="hotel-price" id="price_{{ $value->id }}" style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">
                                                 ₹ @if ($hotel_room_1 && $hotel_room_1->price)
                                                 {{ $hotel_room_1->price->night_cost }}
                                                 @else
@@ -1036,7 +1036,7 @@
                     </div>
                     <div class="price">
                         @if ($value->price)
-                        <p>₹{{ $value->price->night_cost }} / night</p>
+                        <p class="hotel-price" id="price_{{ $value->id }}">₹{{ $value->price->night_cost }}</p>
                         @else
                         <p><em>Price not available for selected dates.</em></p>
                         @endif
@@ -1047,6 +1047,22 @@
                     {{-- <div class="exclusive-offer">
                         Exclusive Offer - DBS Credit Card, Get 693 Off
                     </div> --}}
+                    <div class="desc_hotl mt-5">
+                        <p> <b>With</b> </p>
+                           <ul>
+                            <li>Meal Plan (Breakfast) {{$value->price->meal_plan_all_meals_cost ?? 0}}</li>
+                            <li>Meal Plan (Breakfast + lunch/dinner) {{$value->price->meal_plan_breakfast_lunch_dinner_cost ?? 0}}</li>
+                            <li>Meal Plan (All meals) {{$value->price->meal_plan_all_meals_cost ?? 0}}</li>
+                            <li>Extra Bed + Meal Plan (All meals) {{$value->price->extra_all_meals_cost ?? 0}}</li>
+                            <li>Extra Bed + Meal Plan (Breakfast){{$value->price->extra_breakfast_cost ?? 0}}</li>
+                            <li>Extra Bed + Meal Plan (Breakfast + lunch/dinner) {{$value->price->extra_breakfast_lunch_dinner_cost ?? 0}}</li>
+                            <li>Extra Bed + No Meal Plan {{$value->price->extra_bed_cost ?? 0}}</li>
+                            <li>Child With No Bed + Meal Plan (All meals) {{$value->price->child_all_meals_cost ?? 0}}</li>
+                            <li>Child With No Bed + Meal Plan (Breakfast)  {{$value->price->child_breakfast_cost ?? 0}}</li>
+                            <li>Child With No Bed + Meal Plan (Breakfast + lunch/dinner)  {{$value->price->child_breakfast_lunch_dinner_cost ?? 0}}</li>
+                            <li>Child With No Bed  {{$value->price->child_no_bed_infant_cost ?? 0}}</li>
+                           </ul>
+                        </div>
                      
                 </div>
             </div>
@@ -1055,7 +1071,37 @@
 
     </div>
 </section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    let data = localStorage.getItem("hotelFormData");
+    if (!data) return;
+
+    data = JSON.parse(data);
+    let infants = parseInt(data.infants ?? 0);
+
+    document.querySelectorAll(".hotel-price").forEach(function(priceElement) {
+
+        // Extract night cost from HTML
+        let nightCost = parseFloat(
+            priceElement.textContent.replace("₹", "").replace("/ night", "").trim()
+        );
+
+        let newPrice = nightCost;
+
+        // IF infants > 0 → multiply
+        if (infants > 0) {
+            newPrice = nightCost * infants;
+            priceElement.textContent = `₹${newPrice} starting from`;
+        } 
+        // ELSE → normal price
+        else {
+            priceElement.textContent = `₹${nightCost} / night`;
+        }
+    });
+
+});
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
