@@ -66,6 +66,20 @@
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
+
+                                    <div class="col-sm-6">
+                                        <select class="form-control" name="type" id="type" required>
+                                            <option value="">Select Type 2</option>
+                                            <option value="taxi">Taxi</option>
+                                            <option value="guide">Guide</option>
+                                            <option value="Package">Package</option>
+                                            <option value="safari">Safari</option>
+                                            <option value="hotel">Hotel</option>
+                                        </select>
+                                        @error('type')
+                                        <div style="color:red">{{$message}}</div>
+                                        @enderror
+                                    </div>
                                     
                                     <div class="col-sm-4">
                                         <label for="state">Select Image</label>

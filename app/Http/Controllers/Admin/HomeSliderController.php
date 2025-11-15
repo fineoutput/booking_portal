@@ -26,6 +26,7 @@ class HomeSliderController extends Controller
         if ($request->method() == 'POST') {
             $validated = $request->validate([
                 'type' => 'required',
+                'type_2' => 'required',
                 'image' => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
                 'Appimage' => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
                 'video' => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200', 
@@ -56,6 +57,7 @@ class HomeSliderController extends Controller
 
             $agentCall = new HomeSlider();
             $agentCall->type = $request->type;
+            $agentCall->type_2 = $request->type_2;
             $agentCall->image = 'uploads/homeslider/' . $imageName;
             $agentCall->Appimage = 'uploads/homeslider/' . $appImageName;
             $agentCall->video = $videoName ? 'uploads/homeslider/' . $videoName : null;
@@ -96,12 +98,14 @@ class HomeSliderController extends Controller
 
         $request->validate([
             'type' => 'required',
+            'type_2' => 'required',
             'image' => 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048',
             'Appimage' => 'nullable|file|mimes:jpeg,png,jpg,webp',
             'video' => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200', 
         ]);
 
         $slider->type = $request->type;
+        $slider->type_2 = $request->type_2;
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $image = $request->file('image');

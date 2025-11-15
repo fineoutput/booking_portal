@@ -4660,6 +4660,7 @@ public function getLanguages(Request $request)
                 return [
                     'id' => $slider->id,
                     'type' => $slider->type,
+                    'type_2' => $slider->type_2,
                     'app_image_url' => $slider->Appimage ? asset($slider->Appimage) : null,
 
                 ];

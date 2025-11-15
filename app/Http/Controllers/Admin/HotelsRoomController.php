@@ -53,6 +53,7 @@ class HotelsRoomController extends Controller
 
         HotelsRoom::create([
             'title' => $request->title,
+            'description' => $request->description,
             'hotel_id' => $hotel->id,
             'images' => json_encode($imagePaths),
             'meal_plan' => is_array($request->meal_plan) ? implode(',', $request->meal_plan) : null,
@@ -116,6 +117,7 @@ class HotelsRoomController extends Controller
 
         // Update room
         $room->title = $request->title;
+        $room->description = $request->description;
         $room->hotel_id = $request->hotel_id ?? $room->hotel_id;
 
         $room->meal_plan = !empty($request->meal_plan) ? implode(',', $request->meal_plan) : null;

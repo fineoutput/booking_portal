@@ -51,6 +51,7 @@
                       <tr>
                         <th>#</th>
                         <th data-priority="1">Type</th>
+                        <th data-priority="1">Type 2</th>
                         <th data-priority="1">Image</th>
                         <th data-priority="1">App Image</th>
                         <th data-priority="1">Video</th>
@@ -62,6 +63,7 @@
                         <tr>
                           <td>{{$key+1}}</td>
                           <td>{{$value->type ?? ''}}</td>
+                          <td>{{$value->type_2 ?? ''}}</td>
                           <td>
                               @if($value->image)
                                   <img src="{{ asset($value->image) }}" alt="Image" style="max-width: 100px; height: auto;">

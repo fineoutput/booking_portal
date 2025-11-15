@@ -21,6 +21,7 @@ class HotelsRoom extends Model
         'hotel_amenities',
         'room_amenities',
         'house_rules',
+        'description',
     ];
 
     public function package()

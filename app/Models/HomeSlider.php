@@ -11,6 +11,7 @@ class HomeSlider extends Model
     protected $table = 'home_slider';
     protected $fillable = [
         'type',
+        'type_2',
         'image',
         'Appimage',
         'video',

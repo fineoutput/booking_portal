@@ -18,11 +18,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Add Vehicle Price Edit</h4>
+                    <h4 class="page-title">Add Slider Edit</h4>
                     <ol class="breadcrumb" style="display:none">
                         <!-- <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li> -->
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Vehicle Price Edit </a></li>
-                        <li class="breadcrumb-item active">Add Vehicle</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Slider Edit </a></li>
+                        <li class="breadcrumb-item active">Add Slider</li>
                     </ol>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                             </div>
                             @endif
                             <!-- End show success and error messages -->
-                            <h4 class="mt-0 header-title">Add Vehicle Price Form</h4>
+                            <h4 class="mt-0 header-title">Add Slider Form</h4>
                             <hr style="margin-bottom: 50px;background-color: darkgrey;">
                             <form action="{{ route('home_slider.update', $slider->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
@@ -65,6 +65,27 @@
                                             <option value="Offer" {{ $slider->type == 'Offer' ? 'selected' : '' }}>Offer</option>
 
                                             <option value="Bottom" {{ $slider->type == 'Bottom' ? 'selected' : '' }}>Bottom</option>
+
+
+                                        </select>
+                                        @error('type')
+                                            <div style="color:red">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <select class="form-control" name="type_2" id="type_2" required>
+                                            <option value="">Select Type 2</option>
+
+                                            <option value="taxi" {{ $slider->type == 'taxi' ? 'selected' : '' }}>Taxi</option>
+
+                                            <option value="guide" {{ $slider->type == 'guide' ? 'selected' : '' }}>Guide</option>
+
+                                            <option value="package" {{ $slider->type == 'package' ? 'selected' : '' }}>Package</option>
+
+                                            <option value="safari" {{ $slider->type == 'safari' ? 'selected' : '' }}>safari</option>
+
+                                            <option value="hotel" {{ $slider->type == 'hotel' ? 'selected' : '' }}>Hotel</option>
 
 
                                         </select>
