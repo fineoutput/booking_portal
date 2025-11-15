@@ -1097,7 +1097,30 @@
                         </div>
                      
                 </div>
+                
             </div>
+            <hr>
+            <div class="d-flex space">
+                 @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
+                              
+            <div class="left2 room-left"></div>
+                <div class="center2 room_Center">
+                    <div class="triangle"><p><b>Room With(Breakfast)</b></p></div>
+                </div>
+                <div class="right2 room-right">
+                    <div class="price">
+
+                        <p>
+                    ₹{{ $value->price->meal_plan_all_meals_cost }}
+                           
+                            </p>
+                                            </div>
+                                            <button class="select-btn">
+                        <a href="#" class="text-light">SELECT ROOM</a>
+                    </button>
+                        </div>
+                         @endif
+                </div>
         </div>
         @endforeach
 
