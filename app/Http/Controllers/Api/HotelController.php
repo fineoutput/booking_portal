@@ -5071,7 +5071,18 @@ public function hotel_room(Request $request)
             'hotel_amenities' => explode(',', $room->hotel_amenities ?? ''),
             'room_amenities' => explode(',', $room->room_amenities ?? ''),
             'house_rules' => explode(',', $room->house_rules ?? ''),
-            'room_cost' => $price?->night_cost, // Optional chaining to avoid error if no price found
+            'room_cost' => $price?->night_cost, 
+            'breakfast' => $price?->meal_plan_breakfast_cost ?? null, 
+            'Breakfast_lunch_dinner' => $price?->meal_plan_breakfast_cost ?? null, 
+            'All_meals' => $price?->meal_plan_breakfast_cost ?? null, 
+            'extra_bed_all_meals' => $price?->extra_all_meals_cost ?? null, 
+            'extra_bed_breakfast' => $price?->extra_breakfast_cost ?? null, 
+            'extra_bed_Breakfast_lunch_dinner' => $price?->extra_breakfast_lunch_dinner_cost ?? null, 
+            'extra_bed_cost' => $price?->extra_bed_cost ?? null, 
+            'cnb_all_meals' => $price?->child_all_meals_cost ?? null, 
+            'cnb_breakfast' => $price?->child_breakfast_cost ?? null, 
+            'cnb_Breakfast_lunch_dinner' => $price?->child_breakfast_lunch_dinner_cost ?? null, 
+            'cnb_no_bed' => $price?->child_no_bed_infant_cost ?? null, 
         ];
     });
 
