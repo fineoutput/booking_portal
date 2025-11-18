@@ -538,7 +538,8 @@
                    <span>📍 {{ $value->cities->city_name ?? '' }}</span>
                     </div>
                     <div class="locationashEs">
-                      <span>₹ {{ number_format($hotelPrice->night_cost ?? 0, 2) }} onwards</span>
+                      {{-- <h3>{{$value->room_name ?? ''}}</h3> --}}
+                      <span>₹ {{ number_format($value->night_cost ?? 0, 2) }} onwards</span>
                     </div>
                   </div>
                   <div class="options_btns d-flex justify-content-center mt-2">
