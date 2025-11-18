@@ -63,6 +63,9 @@
           <li class="py-1"><a style="
             color: #000;
         " href="{{ route('privacy_policy') }}">Privacy Policy</a></li>
+          <li class="py-1"><a style="
+            color: #000;
+        " href="{{ route('contact_us') }}">Contact Us</a></li>
         </ul>
       </div>
       <div class="col-md-2 col-lg-2 col-sm-12">

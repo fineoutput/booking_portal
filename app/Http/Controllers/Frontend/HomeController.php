@@ -232,6 +232,10 @@ class HomeController extends Controller
     {
         return view('front/privacy_policy');
     }
+    public function contact_us()
+    {
+        return view('front/contact_us');
+    }
    
     
 
