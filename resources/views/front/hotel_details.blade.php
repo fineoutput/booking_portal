@@ -1121,7 +1121,7 @@
                         @endif
                             </div>
                              
-@if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
+
                              <div class="price">
 
                         <p>
