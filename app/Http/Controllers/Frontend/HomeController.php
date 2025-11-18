@@ -224,6 +224,11 @@ class HomeController extends Controller
     {
         return view('front/terms_condition');
     }
+    public function cancelation_policy()
+    {
+        return view('front/cancelation_policy');
+    }
+   
     
 
    
