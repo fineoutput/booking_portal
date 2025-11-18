@@ -60,6 +60,7 @@
                         <th data-priority="3">Room Amenities</th>
                         <th data-priority="3">House Rules</th>
                         <th data-priority="3">Image</th>
+                        <th data-priority="3">Show Front</th>
                         <th data-priority="6">Action</th>
                       </tr>
                     </thead>
@@ -194,6 +195,9 @@
                         @else
                             <span>No images available</span>
                         @endif
+                    </td>
+                      <td>
+                        <p>{{$hotel->show_front}}</p>
                     </td>
 
 

@@ -12,6 +12,7 @@ class HotelsRoom extends Model
     protected $table = 'hotels_rooms';
     protected $fillable = [
         'title',
+        'show_front',
         'images',
         'hotel_id',
         'meal_plan',

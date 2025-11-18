@@ -53,6 +53,7 @@ class HotelsRoomController extends Controller
 
         HotelsRoom::create([
             'title' => $request->title,
+            'show_front' => $request->show_front,
             'description' => $request->description,
             'hotel_id' => $hotel->id,
             'images' => json_encode($imagePaths),
@@ -117,6 +118,7 @@ class HotelsRoomController extends Controller
 
         // Update room
         $room->title = $request->title;
+        $room->show_front = $request->show_front;
         $room->description = $request->description;
         $room->hotel_id = $request->hotel_id ?? $room->hotel_id;
 
