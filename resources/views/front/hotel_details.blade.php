@@ -1121,7 +1121,7 @@
                         @endif
                             </div>
                              
-
+@if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
                              <div class="price">
 
                         <p>
@@ -1485,26 +1485,40 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!data) return;
 
     data = JSON.parse(data);
+
     let infants = parseInt(data.infants ?? 0);
 
-    document.querySelectorAll(".hotel-price").forEach(function(priceElement) {
+    // 1️⃣ Get date range
+    let dateRange = data.date_range;  // "09-04-2025 - 09-14-2025"
+    let nights = 1; // default
 
-        // Extract night cost from HTML
+    if (dateRange) {
+        const [start, end] = dateRange.split(" - ");
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+
+        nights = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+    }
+
+    // 2️⃣ Loop through all price elements
+    document.querySelectorAll(".hotel-price").forEach(function (priceElement) {
+
+        // Extract night cost
         let nightCost = parseFloat(
             priceElement.textContent.replace("₹", "").replace("/ night", "").trim()
         );
 
-        let newPrice = nightCost;
+        let newPrice = nightCost * nights;  // base = cost * nights
 
-        // IF infants > 0 → multiply
+        // If infants > 0
         if (infants > 0) {
-            newPrice = nightCost * infants;
+            newPrice = nightCost * nights * infants;
             priceElement.textContent = `₹${newPrice} starting from`;
-        } 
-        // ELSE → normal price
-        else {
-            priceElement.textContent = `₹${nightCost} / night`;
         }
+        else {
+            priceElement.textContent = `₹${newPrice}`;
+        }
+
     });
 
 });
