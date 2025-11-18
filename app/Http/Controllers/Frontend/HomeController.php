@@ -1608,8 +1608,66 @@ public function getVehiclesByCity($cityId)
 
         $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
 
-        return view('front.hotel_list', [
-            'hotels' => $filtered_hotels,
+
+       $roomsWithPrice = []; // final data array
+
+        foreach ($filtered_hotels as $hotel) {
+
+            // Get first room with show_front = 'Yes'
+            $room = HotelsRoom::where('hotel_id', $hotel->id)
+                ->where('show_front', 'Yes')
+                ->first();
+
+            if ($room) {
+
+                // Get room price based on date range
+                $roomPrice = HotelPrice::where('room_id', $room->id)
+                    ->when($formatted_start_date, function($query) use ($formatted_start_date) {
+                        $query->where('start_date', '<=', $formatted_start_date);
+                    })
+                    ->when($formatted_end_date, function($query) use ($formatted_end_date) {
+                        $query->where('end_date', '>=', $formatted_end_date);
+                    })
+                    ->first();
+
+                $roomsWithPrice[] = [
+                    'hotel_id'   => $hotel->id,
+                    'hotel_name' => $hotel->name,
+                    'room_id'    => $room->id,
+                    'room_name'  => $room->title,
+                    'night_cost' => $roomPrice->night_cost ?? null,
+                    'start_date' => $roomPrice->start_date ?? null,
+                    'end_date'   => $roomPrice->end_date ?? null,
+                ];
+            }
+        }
+
+        
+        $roomsCollection = collect($roomsWithPrice)->keyBy('hotel_id');
+
+        // Attach night_cost and room info to each hotel in the filtered collection
+        $hotelsWithPrice = $filtered_hotels->map(function ($hotel) use ($roomsCollection) {
+            if (isset($roomsCollection[$hotel->id])) {
+                $room = $roomsCollection[$hotel->id]; // array
+
+                $hotel->room_id    = $room['room_id'];
+                $hotel->room_name  = $room['room_name'];
+                $hotel->night_cost = $room['night_cost'];
+                $hotel->start_date = $room['start_date'];
+                $hotel->end_date   = $room['end_date'];
+            } else {
+                $hotel->room_id = null;
+                $hotel->room_name = null;
+                $hotel->night_cost = null;
+                $hotel->start_date = null;
+                $hotel->end_date = null;
+            }
+            return $hotel;
+        });
+
+        // return $hotelsWithPrice;
+    return view('front.hotel_list', [
+        'hotels' => $hotelsWithPrice,
             'hotel_prices' => $hotel_prices,
             'start_date' => $start_date,
             'end_date' => $end_date,
@@ -1618,6 +1676,7 @@ public function getVehiclesByCity($cityId)
             'min_price' => $min_price,
             'max_price' => $max_price,
             'cities' => $cities,
+            // 'rooms' => $roomsWithPrice,
         ]);
     }
         
