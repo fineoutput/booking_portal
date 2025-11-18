@@ -49,7 +49,16 @@
 
 
 
+    .center2.room_Center {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 120px;
+}
 
+.right2 {
+    height: 120px;
+}
 
 
 
@@ -98,6 +107,17 @@
     .splide__track {
         height: 100%;
     }
+
+    .room-right .main-price {
+     display: flex;
+     flex-direction: column;
+     /* justify-content: space-between; */
+     height: 100%;
+   }
+
+   .room_Center .skoot {
+     height: auto;
+   }
 </style>
 <div class="header-container_hotels">
 
@@ -1025,8 +1045,47 @@
                         </div>
                         @endif
                     </div>
+
+                    <div class="small_go d-none d-lg-block">
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Room With(Breakfast)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Meal Plan (All meals)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Extra Bed + Meal Plan (All meals)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Extra Bed + Meal Plan (Breakfast)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Extra Bed + Meal Plan (Breakfast + lunch/dinner)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Extra Bed + No Meal Plan</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Child With No Bed + Meal Plan (All meals)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Child With No Bed + Meal Plan (Breakfast)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Child With No Bed + Meal Plan (Breakfast + lunch/dinner)</b></p></div>
+                    </div>
+                    <div class="center2 room_Center">
+                        <div class="triangle"><p><b>Child With No Bed</b></p></div>
+                    </div>
+                    </div>
                 </div>
                 <div class="room-right">
+                    <div class="main-price">
+
+                    
                     <div class="old-price">
                         @if ($value->price)
                         ₹{{ $value->price->night_cost + 613 }}
@@ -1044,6 +1103,132 @@
                     <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                     </button>
+                </div>
+
+                <div class="small_go d-none d-lg-block">
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
+                        <div class="price">
+    
+                            <p>
+                        ₹{{ $value->price->meal_plan_breakfast_cost }}
+                               
+                                </p>
+                                                </div>
+                                                 <button class="select-btn">
+                            <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                        </button>
+                        @endif
+                            </div>
+                             
+
+                             <div class="price">
+
+                        <p>
+                    ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
+                           
+                            </p>
+                                            </div>
+                                             <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
+                        <div class="price">
+    
+                            <p>
+                        ₹{{ $value->price->meal_plan_all_meals_cost }}
+                               
+                                </p>
+                                                </div>
+                                                 <button class="select-btn">
+                            <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                        </button>
+                        @endif
+                    </div>
+                    
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->extra_all_meals_cost) && $value->price->extra_all_meals_cost > 0)
+                        <div class="price">
+                            <p>₹{{ $value->price->extra_all_meals_cost }}</p>
+                        </div>
+                        <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                    @endif
+                    </div>
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->extra_breakfast_cost) && $value->price->extra_breakfast_cost > 0)
+                        <div class="price">
+                            <p>₹{{ $value->price->extra_breakfast_cost }}</p>
+                        </div>
+                        <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                    @endif
+                    </div>
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->extra_breakfast_lunch_dinner_cost) && $value->price->extra_breakfast_lunch_dinner_cost > 0)
+                        <div class="price">
+                            <p>₹{{ $value->price->extra_breakfast_lunch_dinner_cost }}</p>
+                        </div>
+                        <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                    @endif
+                    </div>
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->extra_bed_cost) && $value->price->extra_bed_cost > 0)
+                        <div class="price">
+                            <p>₹{{ $value->price->extra_bed_cost }}</p>
+                        </div>
+                        <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                    @endif
+                    </div>
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->child_all_meals_cost) && $value->price->child_all_meals_cost > 0)
+                        <div class="price">
+                            <p>₹{{ $value->price->child_all_meals_cost }}</p>
+                        </div>
+                        <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                    @endif
+                    </div>
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->child_breakfast_cost) && $value->price->child_breakfast_cost > 0)
+                        <div class="price">
+                            <p>₹{{ $value->price->child_breakfast_cost }}</p>
+                        </div>
+                        <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                    @endif
+                    </div>
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->child_breakfast_lunch_dinner_cost) && $value->price->child_breakfast_lunch_dinner_cost > 0)
+                        <div class="price">
+                            <p>₹{{ $value->price->child_breakfast_lunch_dinner_cost }}</p>
+                        </div>
+                        <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                    @endif
+                    </div>
+                    <div class="right2 room-right">
+                        @if(!empty($value->price->child_no_bed_infant_cost) && $value->price->child_no_bed_infant_cost > 0)
+                        <div class="price">
+                            <p>₹{{ $value->price->child_no_bed_infant_cost }}</p>
+                        </div>
+                        <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                    @endif
+                    </div>
+                    </div>
                     {{-- <div class="exclusive-offer">
                         Exclusive Offer - DBS Credit Card, Get 693 Off
                     </div> --}}
@@ -1053,10 +1238,14 @@
                 
             </div>
             <hr>
-            <div class="d-flex space">
+            
+<div class="secound_t d-lg-none">
+
+
+<div class="d-flex space">
                  @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
                               
-            <div class="left2 room-left"></div>
+            
                 <div class="center2 room_Center">
                     <div class="triangle"><p><b>Room With(Breakfast)</b></p></div>
                 </div>
@@ -1078,7 +1267,7 @@
             <div class="d-flex space">
                  @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
                               
-            <div class="left2 room-left"></div>
+            
                 <div class="center2 room_Center">
                     <div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div>
                 </div>
@@ -1100,7 +1289,7 @@
             <div class="d-flex space">
                  @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
                               
-            <div class="left2 room-left"></div>
+            
                 <div class="center2 room_Center">
                     <div class="triangle"><p><b> Meal Plan (All meals) </b></p></div>
                 </div>
@@ -1121,7 +1310,7 @@
             <hr>
             <div class="d-flex space">
                 @if(!empty($value->price->extra_all_meals_cost) && $value->price->extra_all_meals_cost > 0)
-                    <div class="left2 room-left"></div>
+                    
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Extra Bed + Meal Plan (All meals)</b></p></div>
                     </div>
@@ -1139,7 +1328,7 @@
             <hr>
             <div class="d-flex space">
                 @if(!empty($value->price->extra_breakfast_cost) && $value->price->extra_breakfast_cost > 0)
-                    <div class="left2 room-left"></div>
+                    
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Extra Bed + Meal Plan (Breakfast)</b></p></div>
                     </div>
@@ -1157,7 +1346,7 @@
             <hr>
             <div class="d-flex space">
                 @if(!empty($value->price->extra_breakfast_lunch_dinner_cost) && $value->price->extra_breakfast_lunch_dinner_cost > 0)
-                    <div class="left2 room-left"></div>
+                    
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Extra Bed + Meal Plan (Breakfast + lunch/dinner)</b></p></div>
                     </div>
@@ -1175,7 +1364,7 @@
             <hr>
             <div class="d-flex space">
                 @if(!empty($value->price->extra_bed_cost) && $value->price->extra_bed_cost > 0)
-                    <div class="left2 room-left"></div>
+                    
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Extra Bed + No Meal Plan</b></p></div>
                     </div>
@@ -1194,7 +1383,7 @@
             <hr>
             <div class="d-flex space">
                 @if(!empty($value->price->child_all_meals_cost) && $value->price->child_all_meals_cost > 0)
-                    <div class="left2 room-left"></div>
+                    
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Child With No Bed + Meal Plan (All meals)</b></p></div>
                     </div>
@@ -1212,7 +1401,7 @@
             <hr>
             <div class="d-flex space">
                 @if(!empty($value->price->child_breakfast_cost) && $value->price->child_breakfast_cost > 0)
-                    <div class="left2 room-left"></div>
+                    
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Child With No Bed + Meal Plan (Breakfast)</b></p></div>
                     </div>
@@ -1230,7 +1419,7 @@
             <hr>
             <div class="d-flex space">
                 @if(!empty($value->price->child_breakfast_lunch_dinner_cost) && $value->price->child_breakfast_lunch_dinner_cost > 0)
-                    <div class="left2 room-left"></div>
+                    
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Child With No Bed + Meal Plan (Breakfast + lunch/dinner)</b></p></div>
                     </div>
@@ -1248,7 +1437,7 @@
             <hr>
             <div class="d-flex space">
                 @if(!empty($value->price->child_no_bed_infant_cost) && $value->price->child_no_bed_infant_cost > 0)
-                    <div class="left2 room-left"></div>
+                    
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Child With No Bed</b></p></div>
                     </div>
@@ -1263,8 +1452,7 @@
                 @endif
             </div>
 
-
-
+</div>
 
 
         </div>
@@ -1272,6 +1460,24 @@
 
     </div>
 </section>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.room-card').forEach((card) => {
+        const skoot = card.querySelector('.skoot');
+        const mainPrice = card.querySelector('.main-price');
+
+        if (!skoot || !mainPrice) return;
+
+        const updateHeight = () => {
+          mainPrice.style.height = skoot.offsetHeight + 'px';
+        };
+
+        // Initial sync + respond to content changes
+        updateHeight();
+        new ResizeObserver(updateHeight).observe(skoot);
+      });
+    });
+  </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
