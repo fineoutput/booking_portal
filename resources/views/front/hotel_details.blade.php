@@ -1120,8 +1120,8 @@
                         </button>
                         @endif
                             </div>
-                             
-
+                            <div class="right2 room-right">
+@if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
                              <div class="price">
 
                         <p>
@@ -1132,7 +1132,8 @@
                                              <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                     </button>
-
+                    @endif
+                    </div>
                     <div class="right2 room-right">
                         @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
                         <div class="price">
