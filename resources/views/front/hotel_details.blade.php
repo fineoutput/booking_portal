@@ -1047,9 +1047,11 @@
                     </div>
 
                     <div class="small_go d-none d-lg-block">
+                        @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Room With(Breakfast)</b></p></div>
                     </div>
+                    @endif
                     <div class="center2 room_Center">
                         <div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div>
                     </div>
