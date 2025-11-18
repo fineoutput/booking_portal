@@ -238,6 +238,24 @@
     @enderror
 </div>
 
+    <div class="col-sm-4 mt-3">
+    <label class="form-label" for="power">
+        Show Front <span style="color:red;">*</span>
+    </label>
+
+    <select class="form-control" name="show_front">
+        <option disabled value="">Select</option>
+
+        <option value="Yes" {{ $hotel_room->show_front == 'Yes' ? 'selected' : '' }}>Yes</option>
+        <option value="No"  {{ $hotel_room->show_front == 'No'  ? 'selected' : '' }}>No</option>
+    </select>
+
+
+    @error('show_front')
+        <div style="color:red">{{ $message }}</div>
+    @enderror
+</div>
+
         {{-- Submit --}}
         <div class="form-group col-12 text-center mt-4">
             <button type="submit" class="btn btn-primary">Update Room</button>

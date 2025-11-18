@@ -202,6 +202,24 @@
                                             @enderror
                                         </div>
 
+                                        
+                                    <div class="col-sm-4 mt-3">
+                                    <label class="form-label" for="power">
+                                        Show Front <span style="color:red;">*</span>
+                                    </label>
+
+                                    <select class="form-control" name="show_front" id="">
+                                        <option selected disabled value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+
+                                    @error('show_front')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+
                                     <div class="form-group">
                                         <div class="w-100 text-center">
                                             <button type="submit" style="margin-top: 10px;" class="btn btn-danger"><i class="fa fa-user"></i> Submit</button>
