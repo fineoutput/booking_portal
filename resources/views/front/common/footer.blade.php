@@ -60,6 +60,9 @@
           <li class="py-1"><a style="
             color: #000;
         " href="{{ route('cancelation_policy') }}">Cancelation Policy</a></li>
+          <li class="py-1"><a style="
+            color: #000;
+        " href="{{ route('privacy_policy') }}">Privacy Policy</a></li>
         </ul>
       </div>
       <div class="col-md-2 col-lg-2 col-sm-12">

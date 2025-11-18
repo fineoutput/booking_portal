@@ -228,6 +228,10 @@ class HomeController extends Controller
     {
         return view('front/cancelation_policy');
     }
+    public function privacy_policy()
+    {
+        return view('front/privacy_policy');
+    }
    
     
 
