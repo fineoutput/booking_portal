@@ -1112,10 +1112,11 @@
                         @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
                         <div class="price">
     
-                            <p>
-                        ₹{{ $value->price->meal_plan_breakfast_cost }}
-                               
-                                </p>
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->meal_plan_breakfast_cost }}"
+   data-label="Breakfast">
+   ₹{{ $value->price->meal_plan_breakfast_cost }}
+</p>
                                                 </div>
                                                  <button class="select-btn">
                             <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1126,10 +1127,11 @@
 @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
                              <div class="price">
 
-                        <p>
-                    ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
-                           
-                            </p>
+                        <p class="dynamic-price"
+   data-base-price="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
+   data-label="Breakfast-Lunch-Dinner">
+   ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
+</p>
                                             </div>
                                              <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1140,10 +1142,12 @@
                         @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
                         <div class="price">
     
-                            <p>
-                        ₹{{ $value->price->meal_plan_all_meals_cost }}
-                               
-                                </p>
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->meal_plan_all_meals_cost }}"
+   data-label="All Meals">
+   ₹{{ $value->price->meal_plan_all_meals_cost }}
+</p>
+
                                                 </div>
                                                  <button class="select-btn">
                             <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1154,7 +1158,13 @@
                     <div class="right2 room-right">
                         @if(!empty($value->price->extra_all_meals_cost) && $value->price->extra_all_meals_cost > 0)
                         <div class="price">
-                            <p>₹{{ $value->price->extra_all_meals_cost }}</p>
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->extra_all_meals_cost }}"
+   data-no-infant="true"
+   data-label="Something">
+   ₹{{ $value->price->extra_all_meals_cost }}
+</p>
+
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1164,7 +1174,12 @@
                     <div class="right2 room-right">
                         @if(!empty($value->price->extra_breakfast_cost) && $value->price->extra_breakfast_cost > 0)
                         <div class="price">
-                            <p>₹{{ $value->price->extra_breakfast_cost }}</p>
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->extra_breakfast_cost }}"
+   data-no-infant="true"
+   data-label="Something">
+   ₹{{ $value->price->extra_breakfast_cost }}
+</p>
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1174,7 +1189,13 @@
                     <div class="right2 room-right">
                         @if(!empty($value->price->extra_breakfast_lunch_dinner_cost) && $value->price->extra_breakfast_lunch_dinner_cost > 0)
                         <div class="price">
-                            <p>₹{{ $value->price->extra_breakfast_lunch_dinner_cost }}</p>
+                                                
+<p class="dynamic-price"
+   data-base-price="{{ $value->price->extra_breakfast_lunch_dinner_cost }}"
+   data-no-infant="true"
+   data-label="Something">
+   ₹{{ $value->price->extra_breakfast_lunch_dinner_cost }}
+</p>
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1184,7 +1205,12 @@
                     <div class="right2 room-right">
                         @if(!empty($value->price->extra_bed_cost) && $value->price->extra_bed_cost > 0)
                         <div class="price">
-                            <p>₹{{ $value->price->extra_bed_cost }}</p>
+                             <p class="dynamic-price"
+   data-base-price="{{ $value->price->extra_bed_cost }}"
+   data-no-infant="true"
+   data-label="Something">
+   ₹{{ $value->price->extra_bed_cost }}
+</p>
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1194,7 +1220,11 @@
                     <div class="right2 room-right">
                         @if(!empty($value->price->child_all_meals_cost) && $value->price->child_all_meals_cost > 0)
                         <div class="price">
-                            <p>₹{{ $value->price->child_all_meals_cost }}</p>
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->child_all_meals_cost }}"
+   data-child="true">
+   ₹{{ $value->price->child_all_meals_cost }}
+</p>
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1204,7 +1234,11 @@
                     <div class="right2 room-right">
                         @if(!empty($value->price->child_breakfast_cost) && $value->price->child_breakfast_cost > 0)
                         <div class="price">
-                            <p>₹{{ $value->price->child_breakfast_cost }}</p>
+                            <p class="dynamic-price"
+   data-base-price="{{  $value->price->child_breakfast_cost  }}"
+   data-child="true">
+   ₹{{$value->price->child_breakfast_cost }}
+</p>
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1214,7 +1248,12 @@
                     <div class="right2 room-right">
                         @if(!empty($value->price->child_breakfast_lunch_dinner_cost) && $value->price->child_breakfast_lunch_dinner_cost > 0)
                         <div class="price">
-                            <p>₹{{ $value->price->child_breakfast_lunch_dinner_cost }}</p>
+                            
+                            <p class="dynamic-price"
+   data-base-price="{{  $value->price->child_breakfast_lunch_dinner_cost  }}"
+   data-child="true">
+   ₹{{$value->price->child_breakfast_lunch_dinner_cost }}
+</p>
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1224,7 +1263,11 @@
                     <div class="right2 room-right">
                         @if(!empty($value->price->child_no_bed_infant_cost) && $value->price->child_no_bed_infant_cost > 0)
                         <div class="price">
-                            <p>₹{{ $value->price->child_no_bed_infant_cost }}</p>
+                            <p class="dynamic-price"
+   data-base-price="{{  $value->price->child_no_bed_infant_cost  }}"
+   data-child="true">
+   ₹{{$value->price->child_no_bed_infant_cost }}
+</p>
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1255,10 +1298,11 @@
                 <div class="right2 room-right">
                     <div class="price">
 
-                        <p>
-                    ₹{{ $value->price->meal_plan_breakfast_cost }}
-                           
-                            </p>
+                        <p class="dynamic-price"
+   data-base-price="{{ $value->price->meal_plan_breakfast_cost }}"
+   data-label="Breakfast">
+   ₹{{ $value->price->meal_plan_breakfast_cost }}
+</p>
                                             </div>
                                              <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1277,10 +1321,11 @@
                 <div class="right2 room-right">
                     <div class="price">
 
-                        <p>
-                    ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
-                           
-                            </p>
+                        <p class="dynamic-price"
+   data-base-price="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
+   data-label="Breakfast-Lunch-Dinner">
+   ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
+</p>
                                             </div>
                                              <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1299,10 +1344,12 @@
                 <div class="right2 room-right">
                     <div class="price">
 
-                        <p>
-                    ₹{{ $value->price->meal_plan_all_meals_cost }}
-                           
-                            </p>
+                        <p class="dynamic-price"
+   data-base-price="{{ $value->price->meal_plan_all_meals_cost }}"
+   data-label="All Meals">
+   ₹{{ $value->price->meal_plan_all_meals_cost }}
+</p>
+
                                             </div>
                                              <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1319,7 +1366,13 @@
                     </div>
                     <div class="right2 room-right">
                         <div class="price">
-                            <p>₹{{ $value->price->extra_all_meals_cost }}</p>
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->extra_all_meals_cost }}"
+   data-no-infant="true"
+   data-label="Something">
+   ₹{{ $value->price->extra_all_meals_cost }}
+</p>
+
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1337,7 +1390,13 @@
                     </div>
                     <div class="right2 room-right">
                         <div class="price">
-                            <p>₹{{ $value->price->extra_breakfast_cost }}</p>
+                                        
+<p class="dynamic-price"
+   data-base-price="{{ $value->price->extra_breakfast_cost }}"
+   data-no-infant="true"
+   data-label="Something">
+   ₹{{ $value->price->extra_breakfast_cost }}
+</p>
                         </div>
                          <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1355,7 +1414,12 @@
                     </div>
                     <div class="right2 room-right">
                         <div class="price">
-                            <p>₹{{ $value->price->extra_breakfast_lunch_dinner_cost }}</p>
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->extra_breakfast_lunch_dinner_cost }}"
+   data-no-infant="true"
+   data-label="Something">
+   ₹{{ $value->price->extra_breakfast_lunch_dinner_cost }}
+</p>
                         </div>
                          <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1373,7 +1437,14 @@
                     </div>
                     <div class="right2 room-right">
                         <div class="price">
-                            <p>₹{{ $value->price->extra_bed_cost }}</p>
+                            
+
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->extra_bed_cost }}"
+   data-no-infant="true"
+   data-label="Something">
+   ₹{{ $value->price->extra_bed_cost }}
+</p>
                         </div>
                          <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1392,7 +1463,12 @@
                     </div>
                     <div class="right2 room-right">
                         <div class="price">
-                            <p>₹{{ $value->price->child_all_meals_cost }}</p>
+                            
+                            <p class="dynamic-price"
+   data-base-price="{{ $value->price->child_all_meals_cost }}"
+   data-child="true">
+   ₹{{ $value->price->child_all_meals_cost }}
+</p>
                         </div>
                          <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1410,7 +1486,12 @@
                     </div>
                     <div class="right2 room-right">
                         <div class="price">
-                            <p>₹{{ $value->price->child_breakfast_cost }}</p>
+                            
+                            <p class="dynamic-price"
+   data-base-price="{{  $value->price->child_breakfast_cost  }}"
+   data-child="true">
+   ₹{{$value->price->child_breakfast_cost }}
+</p>
                         </div>
                          <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1428,7 +1509,11 @@
                     </div>
                     <div class="right2 room-right">
                         <div class="price">
-                            <p>₹{{ $value->price->child_breakfast_lunch_dinner_cost }}</p>
+                            <p class="dynamic-price"
+   data-base-price="{{  $value->price->child_breakfast_lunch_dinner_cost  }}"
+   data-child="true">
+   ₹{{$value->price->child_breakfast_lunch_dinner_cost }}
+</p>
                         </div>
                         <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1446,7 +1531,12 @@
                     </div>
                     <div class="right2 room-right">
                         <div class="price">
-                            <p>₹{{ $value->price->child_no_bed_infant_cost }}</p>
+
+                            <p class="dynamic-price"
+   data-base-price="{{  $value->price->child_no_bed_infant_cost  }}"
+   data-child="true">
+   ₹{{$value->price->child_no_bed_infant_cost }}
+</p>
                         </div>
                          <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1490,7 +1580,9 @@ document.addEventListener("DOMContentLoaded", function () {
     data = JSON.parse(data);
 
     let infants = parseInt(data.infants ?? 0);
-
+    let children = parseInt(data.children ?? 0);
+    console.log(children, '..............................................................');
+    
     // 1️⃣ Get date range
     let dateRange = data.date_range;  // "09-04-2025 - 09-14-2025"
     let nights = 1; // default
@@ -1523,6 +1615,35 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     });
+
+    document.querySelectorAll(".dynamic-price").forEach(function (el) {
+
+    let basePrice = parseFloat(el.dataset.basePrice || 0);
+    let noInfant = el.dataset.noInfant === "true"; 
+    let isChildPrice = el.dataset.child === "true";
+    let price;
+
+    // NEW CONDITION — ignore infants
+    if (isChildPrice && children > 0) {
+            price = basePrice * nights * children;
+        
+        }
+        
+        
+    if (noInfant) {
+        price = basePrice * nights;
+    }
+    else if (infants > 0) {
+        price = basePrice * nights * infants;
+    }
+    else {
+        price = basePrice * nights;
+    }
+
+    el.textContent = `₹${price}`;
+});
+
+
 
 });
 </script>
