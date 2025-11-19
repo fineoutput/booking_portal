@@ -350,7 +350,7 @@
 
       {{-- DESKTOP ONLY --}}
       <div class="row d-none d-lg-flex">
-        @foreach ($hotel as $key => $value)
+        @foreach ($hotelsWithPrice as $key => $value)
         @php
         $images = json_decode($value->images);
         $hotelPrice = $hotel_prices[$value->id] ?? null;
@@ -381,11 +381,11 @@
                 <div class="ttiel_head">
                   <h4 class="key">{{ $value->location ?? '' }}</h4>
                   <h4 class="key">
-                    @if($hotelPrice)
-                    ₹{{ $hotelPrice->night_cost ?? '0' }}
-                    @else
+                    {{-- @if($hotelPrice) --}}
+                    ₹{{ $value->night_cost ?? '0' }}
+                    {{-- @else
                     Price Not Available
-                    @endif
+                    @endif --}}
                   </h4>
                 </div>
               </div>

@@ -1341,85 +1341,110 @@ public function getVehiclesByCity($cityId)
 }
 
 
-    // public function detail($id)
-    // {
-    //     $id = base64_decode($id);
 
-    //     $data['packages'] = Package::where('id',$id)->first();
-    //     $data['packagesprices'] = PackagePrice::where('package_id',$data['packages']->id)->get();
+  public function hotelsbooking()
+    {
+        // Current date set for checking room price validity
+        $formatted_start_date = Carbon::now()->format('Y-m-d');
+        $formatted_end_date   = Carbon::now()->format('Y-m-d');
 
-    //     $formatted_date = Carbon::now()->format('Y-m-d');
+        $data['hotel'] = Hotels::where('show_front',1)->get();
+        $roomsWithPrice = [];
 
-    //     // Get packages for the selected city
-    //     $query = Package::whereRaw("FIND_IN_SET(?, city_id)", [$id]);
+        foreach ($data['hotel'] as $hotel) {
 
-    //     $data['packages'] = $query->with(['packagePrices' => function ($q) use ($formatted_date) {
-    //         $q->where('start_date', '<=', $formatted_date)
-    //         ->where('end_date', '>=', $formatted_date)
-    //         ->orderBy('start_date', 'asc');
-    //     }])->get();
+            $room = HotelsRoom::where('hotel_id', $hotel->id)
+                ->where('show_front', 'Yes')
+                ->first();
 
-    //     foreach ($data['packages'] as $package) {
-    //         $package_price = $package->packagePrices->first();
+            if ($room) {
 
-    //         if (!$package_price) {
-    //             $package_price = PackagePrice::where('package_id', $package->id)
-    //                 ->where('start_date', '>', $formatted_date)
-    //                 ->orderBy('start_date', 'asc')
-    //                 ->first();
-    //         }
+                // PRICE FOR CURRENT DATE
+                $roomPrice = HotelPrice::where('room_id', $room->id)
+                    ->where('start_date', '<=', $formatted_start_date)
+                    ->where('end_date', '>=', $formatted_end_date)
+                    ->first();
 
-    //         $package->prices = $package_price;
-    //     }
+                $roomsWithPrice[] = [
+                    'hotel_id'   => $hotel->id,
+                    'hotel_name' => $hotel->name,
+                    'room_id'    => $room->id,
+                    'room_name'  => $room->title,
+                    'night_cost' => $roomPrice->night_cost ?? null,
+                    'start_date' => $roomPrice->start_date ?? null,
+                    'end_date'   => $roomPrice->end_date ?? null,
+                ];
+            }
+        }
 
+        $roomsCollection = collect($roomsWithPrice)->keyBy('hotel_id');
 
-    //     return view('front/detail',$data);
-    // }
+        $data['hotelsWithPrice'] = $data['hotel']->map(function ($hotel) use ($roomsCollection) {
+            if (isset($roomsCollection[$hotel->id])) {
+                $room = $roomsCollection[$hotel->id];
+
+                $hotel->room_id    = $room['room_id'];
+                $hotel->room_name  = $room['night_cost'];
+                $hotel->night_cost = $room['night_cost'];
+                $hotel->start_date = $room['start_date'];
+                $hotel->end_date   = $room['end_date'];
+            } else {
+                $hotel->room_id    = null;
+                $hotel->room_name  = null;
+                $hotel->night_cost = null;
+                $hotel->start_date = null;
+                $hotel->end_date   = null;
+            }
+            return $hotel;
+        });
+
+        // SLIDERS
+        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+
+        // CURRENT DATE PRICE COLLECTION
+        $formatted_date = Carbon::now()->format('Y-m-d');
+
+        $data['hotel_prices'] = HotelPrice::where('start_date', '<=', $formatted_date)
+            ->where('end_date', '>=', $formatted_date)
+            ->whereIn('hotel_id', $data['hotel']->pluck('id'))
+            ->get()
+            ->keyBy('hotel_id');
+
+        // CITIES
+        $cityIds = $data['hotel']->pluck('city_id')->unique();
+        $data['cities'] = City::whereIn('id', $cityIds)->get();
+
+        return view('front/hotelsbooking', $data);
+    }
 
 
     // public function hotelsbooking()
     // {
-    //     $data['hotel'] = Hotels::all();
+    //     // Get all hotels
+    //     $data['hotel'] = Hotels::where('show_front',1)->get();
+    
+    //     // Get all sliders for hotels
     //     $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
-
-    //     // Fetch prices for each hotel using a map
+    
+    //     // Get today's date in the required format
     //     $formatted_date = Carbon::now()->format('Y-m-d');
-
+    
+    //     // Get hotel prices that are valid for today
     //     $data['hotel_prices'] = HotelPrice::where('start_date', '<=', $formatted_date)
-    //                 ->where('end_date', '>=', $formatted_date)->whereIn('hotel_id', $data['hotel']->pluck('id'))->get()->keyBy('hotel_id');
+    //                     ->where('end_date', '>=', $formatted_date)
+    //                     ->whereIn('hotel_id', $data['hotel']->pluck('id'))
+    //                     ->get()
+    //                     ->keyBy('hotel_id');
         
+                        
+    //     $cityIds = $data['hotel']->pluck('city_id')->unique();
+    
+    //     // Fetch city names by using the city_ids from the Cities table
+    //     $data['cities'] = City::whereIn('id', $cityIds)->get();
+    
+    //     // Pass the data to the view
     //     return view('front/hotelsbooking', $data);
     // }
-
-
-
-    public function hotelsbooking()
-    {
-        // Get all hotels
-        $data['hotel'] = Hotels::where('show_front',1)->get();
-    
-        // Get all sliders for hotels
-        $data['slider'] = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
-    
-        // Get today's date in the required format
-        $formatted_date = Carbon::now()->format('Y-m-d');
-    
-        // Get hotel prices that are valid for today
-        $data['hotel_prices'] = HotelPrice::where('start_date', '<=', $formatted_date)
-                        ->where('end_date', '>=', $formatted_date)
-                        ->whereIn('hotel_id', $data['hotel']->pluck('id'))
-                        ->get()
-                        ->keyBy('hotel_id');
-        
-        // Get unique city_ids from hotels
-        $cityIds = $data['hotel']->pluck('city_id')->unique();
-    
-        // Fetch city names by using the city_ids from the Cities table
-        $data['cities'] = City::whereIn('id', $cityIds)->get();
-    
-        // Pass the data to the view
-        return view('front/hotelsbooking', $data);
-    }
 
    
 
