@@ -1562,23 +1562,26 @@
     document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll(".room-right .select-btn a").forEach(function(anchor){
-        anchor.addEventListener("click", function(e){
+        anchor.addEventListener("click", function(){
 
-            // find dynamic price in the same room block
             let priceEl = this.closest(".room-right").querySelector(".dynamic-price");
 
             if (priceEl) {
-                let selectedMeal = priceEl.getAttribute("data-label");
+                let mealType = priceEl.getAttribute("data-label"); // breakfast/no_meal/etc.
 
-                // store in localStorage
-                localStorage.setItem("selectedMealPlan", selectedMeal);
+                // GET PRINTED VALUE (example: "₹1500")
+                let printedPrice = priceEl.textContent.trim();
 
-                console.log("Stored:", selectedMeal);
+                // Save in localStorage
+                localStorage.setItem("selectedMealPlan", mealType);
+                localStorage.setItem("selectedPrintedPrice", printedPrice);
             }
         });
     });
 
 });
+
+
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {

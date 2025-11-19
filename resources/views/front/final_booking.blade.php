@@ -143,14 +143,14 @@
                 <div class="outer_box">
                     <div class="inner_box">
 
-                        <siv class="room_check d-flex justify-content-between align-items-center">
+                        <div class="room_check d-flex justify-content-between align-items-center">
                             <div class="inner_price">
                                 <span style="color: rgb(106, 106, 106);"><del></del></span>
-                                <span id="dynamic-price">₹</span>
+                                <span id="dynamic-price">₹ </span>
                                 <span></span>
                             </div>
 
-                        </siv>
+                        </div>
 
                         <div class="checks d-flex">
                             <div class="row" style="width: 100%;">
@@ -340,7 +340,16 @@
 <div class="comp-container">
    
 </div>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    let printedPrice = localStorage.getItem("selectedPrintedPrice");
 
+    if (printedPrice) {
+        document.getElementById("dynamic-price").textContent = printedPrice;
+    }
+});
+
+    </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
     let savedMeal = localStorage.getItem("selectedMealPlan");
