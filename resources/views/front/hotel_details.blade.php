@@ -1633,7 +1633,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // NEW CONDITION — ignore infants
     if (isChildPrice && children > 0) {
-            price = basePrice * nights * children;
+            price = basePrice * nights ;
         }
     else if (noInfant) {
         price = basePrice * nights;
