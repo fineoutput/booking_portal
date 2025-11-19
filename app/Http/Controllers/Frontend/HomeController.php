@@ -1544,7 +1544,7 @@ public function getVehiclesByCity($cityId)
         $query2 = HotelsRoom::where('show_front', 1);
 
         if ($city_id) {
-            $query2->where('city_id', $city_id);
+            $query->where('city_id', $city_id);
         }
 
         if (!empty($stars)) {
