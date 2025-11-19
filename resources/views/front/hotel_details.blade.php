@@ -1465,10 +1465,10 @@
                         <div class="price">
                             
                             <p class="dynamic-price"
-   data-base-price="{{ $value->price->child_all_meals_cost }}"
-   data-child="true">
-   ₹{{ $value->price->child_all_meals_cost }}
-</p>
+                                data-base-price="{{ $value->price->child_all_meals_cost }}"
+                                data-child="true">
+                                ₹{{ $value->price->child_all_meals_cost }}
+                                </p>
                         </div>
                          <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
@@ -1629,15 +1629,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let noInfant = el.dataset.noInfant === "true"; 
     let isChildPrice = el.dataset.child === "true";
     let price;
+        
 
     // NEW CONDITION — ignore infants
     if (isChildPrice && children > 0) {
             price = basePrice * nights * children;
-        
         }
-        
-        
-    if (noInfant) {
+    else if (noInfant) {
         price = basePrice * nights;
     }
     else if (infants > 0) {
