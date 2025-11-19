@@ -280,7 +280,7 @@
                   <a href="{{ url('filter-hotels') }}" class="mt-2 ms-2 _btn btn-danger">Clear Filters</a>
             </div>  
             <!-- 1. Star Category -->
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>Star Category</h5>
                 @php $stars = request()->input('star', []); @endphp
@@ -295,7 +295,7 @@
             </div>
 
             <!-- 2. MEAL PLAN -->
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>MEAL PLAN</h5>
                 @php $meals = request()->input('meal_plan', []); @endphp
@@ -307,7 +307,7 @@
             </div>
 
             <!-- 3. Nearby -->
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>Nearby within Walking Distance</h5>
                 @php $nearby = request()->input('nearby', []); @endphp
@@ -317,7 +317,7 @@
             </div>
 
             <!-- 4. Locality -->
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>Locality</h5>
                 @php $localities = request()->input('locality', []); @endphp
@@ -328,7 +328,7 @@
             </div>
 
             <!-- 5. Price -->
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>Total Price With Tax</h5>
                 @php
@@ -345,7 +345,7 @@
             </div>
 
             <!-- 6. Chains -->
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>Chains</h5>
                 @php $chains = request()->input('chains', []); @endphp
@@ -361,7 +361,7 @@
               </div>
             </div>
 
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>Hotel Amenities</h5>
                 @php $hotel_amenities = request()->input('hotel_amenities', []); @endphp
@@ -410,7 +410,7 @@
               </div>
             </div>
 
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>Room Amenities</h5>
                 @php $room_amenities = request()->input('room_amenities', []); @endphp
@@ -451,7 +451,7 @@
             </div>
 
 
-            <div class="filter-box">
+            <div class="filter-box mt-2">
               <div class="filter-group">
                 <h5>House Rules</h5>
                 @php $house_rules = request()->input('house_rules', []); @endphp
