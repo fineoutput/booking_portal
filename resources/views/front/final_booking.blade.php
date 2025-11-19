@@ -640,7 +640,7 @@
       })();
 
       const adults = formData.adults || 1;
-      const rooms = 1; // Static or pull from another field if available
+      const rooms = formData.infants || 1; // Static or pull from another field if available
 
       document.getElementById("checkInDate").innerHTML = checkInFormatted;
       document.getElementById("checkOutDate").innerHTML = checkOutFormatted;
