@@ -1580,6 +1580,9 @@ document.addEventListener("DOMContentLoaded", function () {
     data = JSON.parse(data);
 
     let infants = parseInt(data.infants ?? 0);
+
+    console.log(infants, 'no of rooms...................////////........................');
+    
     let children = parseInt(data.children ?? 0);
     console.log(children, '..............................................................');
     
@@ -1593,6 +1596,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const endDate = new Date(end);
 
         nights = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+
+        console.log(nights, 'this is the night............00000000...............');
+        
     }
 
     // 2️⃣ Loop through all price elements
