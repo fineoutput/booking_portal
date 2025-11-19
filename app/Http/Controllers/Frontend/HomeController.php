@@ -1581,7 +1581,7 @@ public function getVehiclesByCity($cityId)
 
         $hotels = $query->get();
         $hotel_ids = $hotels->pluck('id');
-
+$filtered_hotels = $query->get();
         // Dates
         $formatted_start_date = null;
         $formatted_end_date = null;
@@ -1691,18 +1691,18 @@ public function getVehiclesByCity($cityId)
         });
 
         // return $hotelsWithPrice;
-    return view('front.hotel_list', [
-        'hotels' => $hotelsWithPrice,
-            'hotel_prices' => $hotel_prices,
-            'start_date' => $start_date,
-            'end_date' => $end_date,
-            'slider' => $slider,
-            'city_id' => $city_id,
-            'min_price' => $min_price,
-            'max_price' => $max_price,
-            'cities' => $cities,
-            // 'rooms' => $roomsWithPrice,
-        ]);
+        return view('front.hotel_list', [
+            'hotels' => $hotelsWithPrice,
+                'hotel_prices' => $hotel_prices,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'slider' => $slider,
+                'city_id' => $city_id,
+                'min_price' => $min_price,
+                'max_price' => $max_price,
+                'cities' => $cities,
+                // 'rooms' => $roomsWithPrice,
+            ]);
     }
         
 

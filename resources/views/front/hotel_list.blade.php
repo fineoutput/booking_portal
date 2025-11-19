@@ -271,14 +271,14 @@
       Show Filters
     </button>
         </div>
-         <div class="d-flex justify-content-center ">
-              <button class="mt-2 _btn" type="submit">Apply Filter</button>
-              <a href="{{ url('filter-hotels') }}" class="mt-2 ms-2 _btn btn-danger">Clear Filters</a>
-            </div>  
+         
           <div class="collapse d-lg-block" id="filterSidebar">
         <div class="navi_full_list">
           <form id="filter-form" action="{{ url('filter-hotels') }}" method="GET">
-
+          <div class="d-flex justify-content-center ">
+              <button class="mt-2 _btn" type="submit">Apply Filter</button>
+                  <a href="{{ url('filter-hotels') }}" class="mt-2 ms-2 _btn btn-danger">Clear Filters</a>
+            </div>  
             <!-- 1. Star Category -->
             <div class="filter-box">
               <div class="filter-group">
