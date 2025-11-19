@@ -341,7 +341,20 @@
    
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    let savedMeal = localStorage.getItem("selectedMealPlan");
 
+    if (savedMeal) {
+        let mealDropdown = document.getElementById("meals");
+
+        if (mealDropdown) {
+            mealDropdown.value = savedMeal; // auto select
+        }
+    }
+});
+
+</script>
 
 <script>
     // Watch for any input changes
