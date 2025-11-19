@@ -308,6 +308,159 @@ class HotelController extends Controller
 
 
 
+    public function hotelBookingPreview(Request $request)
+{
+    $token = $request->bearerToken();
+
+    if (!$token) {
+        return response()->json([
+            'message' => 'Unauthenticated.',
+            'data' => [],
+            'status' => 201,
+        ], 201);
+    }
+
+    $decodedToken = base64_decode($token);
+    list($email, $password) = explode(',', $decodedToken);
+    $user = Agent::where('email', $email)->first();
+
+    if (!$user || $user->password !== $password) {
+        return response()->json([
+            'message' => 'Unauthorized. Invalid credentials.',
+            'data' => [],
+            'status' => 201,
+        ], 200);
+    }
+
+    $validatedData = $request->validate([
+        'room_id' => 'required',
+        'check_in_date' => 'required',
+        'check_out_date' => 'required',
+        'guest_count' => 'required',
+        'child_count' => 'nullable',
+        'room_count' => 'required',
+        'meals' => 'required',
+        'beds' => 'nullable',
+        'nobed' => 'nullable',
+        'children_ages_array' => 'nullable',
+    ]);
+
+    $room = HotelsRoom::find($request->room_id);
+
+    if (!$room) {
+        return response()->json([
+            'message' => 'Room not found.',
+            'status' => 204
+        ], 200);
+    }
+
+    $checkIn = Carbon::parse($request->check_in_date);
+    $checkOut = Carbon::parse($request->check_out_date);
+    $nightCount = $checkOut->diffInDays($checkIn);
+
+    $price = HotelPrice::where('room_id', $request->room_id)
+        ->where('start_date', '<=', $checkIn)
+        ->where('end_date', '>=', $checkOut)
+        ->first();
+
+    if (!$price) {
+        return response()->json([
+            'message' => 'Price not available for selected dates.',
+            'status' => 203,
+        ], 200);
+    }
+
+    // -------------------------------
+    // Meal Cost Calculation
+    // -------------------------------
+    $meal_cost = 0;
+    switch ($request->meals) {
+        case 'breakfast':
+            $meal_cost = $price->meal_plan_breakfast_cost ?? 0;
+            break;
+        case 'breakfast_lunch':
+        case 'breakfast_dinner':
+            $meal_cost = $price->meal_plan_breakfast_lunch_dinner_cost ?? 0;
+            break;
+        case 'all_meals':
+            $meal_cost = $price->meal_plan_all_meals_cost ?? 0;
+            break;
+        default:
+            $meal_cost = 0;
+    }
+
+    // -------------------------------
+    // Extra Bed Cost
+    // -------------------------------
+    $extra_bed = $request->beds ?? 0;
+    $extra_bed_cost = 0;
+
+    switch ($request->meals) {
+        case 'breakfast':
+            $extra_bed_cost = $price->extra_breakfast_cost ?? 0;
+            break;
+        case 'breakfast_dinner':
+        case 'breakfast_lunch':
+            $extra_bed_cost = $price->extra_breakfast_lunch_dinner_cost ?? 0;
+            break;
+        case 'all_meals':
+            $extra_bed_cost = $price->extra_all_meals_cost ?? 0;
+            break;
+        default:
+            $extra_bed_cost = $price->extra_bed_cost ?? 0;
+    }
+
+    // -------------------------------
+    // No Bed Child Cost
+    // -------------------------------
+    $nobed = $request->nobed ?? 0;
+    $no_bed_child_cost = 0;
+
+    switch ($request->meals) {
+        case 'breakfast':
+            $no_bed_child_cost = $price->child_breakfast_cost ?? 0;
+            break;
+        case 'breakfast_dinner':
+        case 'breakfast_lunch':
+            $no_bed_child_cost = $price->child_breakfast_lunch_dinner_cost ?? 0;
+            break;
+        case 'all_meals':
+            $no_bed_child_cost = $price->child_all_meals_cost ?? 0;
+            break;
+        default:
+            $no_bed_child_cost = $price->child_no_bed_infant_cost ?? 0;
+    }
+
+    // -------------------------------
+    // Final Calculations
+    // -------------------------------
+    $meal_cost_total = $meal_cost * $request->room_count * $nightCount;
+    $extra_bed_total = $extra_bed_cost * $extra_bed * $nightCount;
+    $child_nobed_total = $no_bed_child_cost * $nobed * $nightCount;
+
+    $final_cost = $meal_cost_total + $extra_bed_total + $child_nobed_total;
+
+    // Return the calculated data in the response
+    return response()->json([
+        'message' => 'Hotel booking preview calculated successfully.',
+        'status' => 200,
+        'data' => [
+            'room_id' => $room->id,
+            'check_in' => $checkIn->toDateString(),
+            'check_out' => $checkOut->toDateString(),
+            'night_count' => $nightCount,
+            'guest_count' => $request->guest_count,
+            'child_count' => $request->child_count ?? 0,
+            'room_count' => $request->room_count,
+            'meals' => $request->meals,
+            'beds' => $request->beds,
+            'nobed' => $request->nobed,
+            'cost' => $final_cost,
+        ]
+    ]);
+}
+
+
   public function filterHotels(Request $request)
     {
         $city_id = $request->query('city_id');

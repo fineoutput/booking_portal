@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\PDFController;
     Route::post('password/reset', [PasswordController::class, 'reset']);
 
     Route::get('hotel', [HotelController::class, 'hotel']);
+    Route::get('calculate-price', [HotelController::class, 'hotelBookingPreview']);
     Route::post('hotel-room', [HotelController::class, 'hotel_room']);
     Route::post('filter-hotel', [HotelController::class, 'filterHotels']);
     Route::post('packages', [HotelController::class, 'package']);
