@@ -1304,7 +1304,7 @@
 
                         <p class="dynamic-price"
    data-base-price="{{ $value->price->meal_plan_breakfast_cost }}"
-   data-label="Breakfast">
+   data-label="breakfast">
    ₹{{ $value->price->meal_plan_breakfast_cost }}
 </p>
                                             </div>
@@ -1327,7 +1327,7 @@
 
                         <p class="dynamic-price"
    data-base-price="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
-   data-label="Breakfast-Lunch-Dinner">
+   data-label="breakfast_dinner">
    ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
 </p>
                                             </div>
@@ -1350,7 +1350,7 @@
 
                         <p class="dynamic-price"
    data-base-price="{{ $value->price->meal_plan_all_meals_cost }}"
-   data-label="All Meals">
+   data-label="all_meals">
    ₹{{ $value->price->meal_plan_all_meals_cost }}
 </p>
 
@@ -1373,7 +1373,7 @@
                             <p class="dynamic-price"
    data-base-price="{{ $value->price->extra_all_meals_cost }}"
    data-no-infant="true"
-   data-label="Something">
+   data-label="all_meals">
    ₹{{ $value->price->extra_all_meals_cost }}
 </p>
 
@@ -1398,7 +1398,7 @@
 <p class="dynamic-price"
    data-base-price="{{ $value->price->extra_breakfast_cost }}"
    data-no-infant="true"
-   data-label="Something">
+   data-label="breakfast">
    ₹{{ $value->price->extra_breakfast_cost }}
 </p>
                         </div>
@@ -1421,7 +1421,7 @@
                             <p class="dynamic-price"
    data-base-price="{{ $value->price->extra_breakfast_lunch_dinner_cost }}"
    data-no-infant="true"
-   data-label="Something">
+   data-label="breakfast">
    ₹{{ $value->price->extra_breakfast_lunch_dinner_cost }}
 </p>
                         </div>
@@ -1446,7 +1446,7 @@
                             <p class="dynamic-price"
    data-base-price="{{ $value->price->extra_bed_cost }}"
    data-no-infant="true"
-   data-label="Something">
+   data-label="no_meal">
    ₹{{ $value->price->extra_bed_cost }}
 </p>
                         </div>
@@ -1470,7 +1470,8 @@
                             
                             <p class="dynamic-price"
                                 data-base-price="{{ $value->price->child_all_meals_cost }}"
-                                data-child="true">
+                                data-child="true"
+                                data-label="all_meals">
                                 ₹{{ $value->price->child_all_meals_cost }}
                                 </p>
                         </div>
@@ -1493,7 +1494,8 @@
                             
                             <p class="dynamic-price"
    data-base-price="{{  $value->price->child_breakfast_cost  }}"
-   data-child="true">
+   data-child="true"
+   data-label="breakfast">
    ₹{{$value->price->child_breakfast_cost }}
 </p>
                         </div>
@@ -1515,7 +1517,8 @@
                         <div class="price">
                             <p class="dynamic-price"
    data-base-price="{{  $value->price->child_breakfast_lunch_dinner_cost  }}"
-   data-child="true">
+   data-child="true"
+   data-label="all_meals">
    ₹{{$value->price->child_breakfast_lunch_dinner_cost }}
 </p>
                         </div>
@@ -1538,7 +1541,8 @@
 
                             <p class="dynamic-price"
    data-base-price="{{  $value->price->child_no_bed_infant_cost  }}"
-   data-child="true">
+   data-child="true"
+   data-label="all_meals">
    ₹{{$value->price->child_no_bed_infant_cost }}
 </p>
                         </div>
