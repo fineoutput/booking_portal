@@ -539,7 +539,7 @@
                     </div>
                     <div class="locationashEs">
                       {{-- <h3>{{$value->room_name ?? ''}}</h3> --}}
-                      <span>₹ {{ number_format($value->night_cost ?? 0, 2) }} onwards</span>
+                      <span>₹ {{ number_format($value->night_cost ?? 0, 2) }} per night</span>
                     </div>
                   </div>
                   <div class="options_btns d-flex justify-content-center mt-2">
