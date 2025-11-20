@@ -113,6 +113,7 @@
      flex-direction: column;
      /* justify-content: space-between; */
      height: 100%;
+     align-items: end;
    }
 
    .room_Center .skoot {
