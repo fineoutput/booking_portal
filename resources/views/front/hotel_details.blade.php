@@ -1306,79 +1306,63 @@ document.addEventListener("DOMContentLoaded", function () {
     data = JSON.parse(data);
 
     let infants = parseInt(data.infants ?? 0);
-
-    console.log(infants, 'no of rooms...................////////........................');
-    
     let children = parseInt(data.children ?? 0);
-    console.log(children, '..............................................................');
-    
-    // 1️⃣ Get date range
-    let dateRange = data.date_range;  // "09-04-2025 - 09-14-2025"
-    let nights = 1; // default
 
+    // Date difference
+    let dateRange = data.date_range;
+    let nights = 1;
     if (dateRange) {
         const [start, end] = dateRange.split(" - ");
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-
-        nights = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
-
-
-        console.log(nights, 'this is the night............00000000...............');
-        
+        nights = Math.round((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
     }
 
-    // 2️⃣ Loop through all price elements
+    // ------------------------------------------
+    // 1️⃣ CALCULATE TOTAL HOTEL PRICE FIRST
+    // ------------------------------------------
+
+    let hotelBaseNightCost = 0;
+    let hotelTotalPrice = 0;
+
     document.querySelectorAll(".hotel-price").forEach(function (priceElement) {
 
-        // Extract night cost
         let nightCost = parseFloat(
             priceElement.textContent.replace("₹", "").replace("/ night", "").trim()
         );
 
-        let newPrice = nightCost * nights;  // base = cost * nights
+        hotelBaseNightCost = nightCost;
 
-        // If infants > 0
+        let calculated = nightCost * nights;
+
         if (infants > 0) {
-            newPrice = nightCost * nights * infants;
-            priceElement.textContent = `₹${newPrice} starting from`;
-        }
-        else {
-            priceElement.textContent = `₹${newPrice}`;
+            calculated = nightCost * nights * infants;
         }
 
+        hotelTotalPrice = calculated;   // store for reuse
+
+        priceElement.textContent = infants > 0
+            ? `₹${calculated} starting from`
+            : `₹${calculated}`;
     });
+
+    // ------------------------------------------
+    // 2️⃣ APPLY TO dynamic-price USING hotelTotalPrice
+    // ------------------------------------------
 
     document.querySelectorAll(".dynamic-price").forEach(function (el) {
 
-    let basePrice = parseFloat(el.dataset.basePrice || 0);
-    let noInfant = el.dataset.noInfant === "true"; 
-    let isChildPrice = el.dataset.child === "true";
-    let price;
-        
+        let basePrice = parseFloat(el.dataset.basePrice || 0);
 
-    // NEW CONDITION — ignore infants
-    if (isChildPrice && children > 0) {
-            price = basePrice * nights ;
+        let price;
+
+        if (infants > 0) {
+            // 🔥 FIX: NOW hotelTotalPrice IS AVAILABLE
+            price = basePrice * nights * infants + hotelTotalPrice;
+        } else {
+            price = basePrice * nights;
         }
-    else if (noInfant) {
-        price = basePrice * nights;
-    }
-    else if (infants > 0) {
-        price = basePrice * nights * infants;
-    }
-    else {
-        price = basePrice * nights;
-    }
 
-    el.textContent = `₹${price}`;
-});
-
-
-
-
-
-
+        el.textContent = `₹${price}`;
+    });
 
 });
 </script>
