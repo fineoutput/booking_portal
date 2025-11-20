@@ -1362,7 +1362,7 @@ document.addEventListener("DOMContentLoaded", function () {
             price = basePrice * nights;
         }
 
-        el.textContent = `₹${price}`;
+        el.textContent = `₹${price} onwards`;
     });
 
 });
