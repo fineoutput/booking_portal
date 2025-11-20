@@ -1920,7 +1920,7 @@ public function statecityhotel(Request $request)
                         'start_date' => Carbon::parse($price->start_date)->format('F Y'),
                         'end_date' => Carbon::parse($price->end_date)->format('F Y'),
                     ];
-                });
+                })->values();;
 
                 return [
                     'id' => $hotel->id,
