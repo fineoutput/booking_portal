@@ -437,8 +437,10 @@ class HotelController extends Controller
     $meal_cost_total = $meal_cost * $request->room_count * $nightCount;
     $extra_bed_total = $extra_bed_cost * $extra_bed * $nightCount;
     $child_nobed_total = $no_bed_child_cost * $nobed * $nightCount;
+    $base_room_cost =  $price->night_cost * $nightCount;
 
-    $final_cost = $meal_cost_total + $extra_bed_total + $child_nobed_total;
+
+    $final_cost = $meal_cost_total + $extra_bed_total + $child_nobed_total + $base_room_cost;
 
     // Return the calculated data in the response
     return response()->json([
@@ -2260,9 +2262,9 @@ public function hotelcitys(Request $request)
         $meal_cost_total = $meal_cost * $request->room_count * $nightCount;
         $extra_bed_total = $extra_bed_cost * $extra_bed * $nightCount;
         $child_nobed_total = $no_bed_child_cost * $nobed * $nightCount;
-        // $base_room_cost = $request->room_count * $price->night_cost * $nightCount;
+        $base_room_cost =  $price->night_cost * $nightCount;
 
-        $final_cost = $meal_cost_total + $extra_bed_total + $child_nobed_total;
+        $final_cost = $meal_cost_total + $extra_bed_total + $child_nobed_total + $base_room_cost;
 
         // -------------------------------
         // Save Booking

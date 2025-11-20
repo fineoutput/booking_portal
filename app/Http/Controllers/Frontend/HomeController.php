@@ -1839,7 +1839,6 @@ $filtered_hotels = $query->get();
                 ->where('end_date', '>=', $end_dates)
                 ->first();
 
-
             $checkIn = Carbon::parse($request->check_in_date);
             $checkOut = Carbon::parse($request->check_out_date);
 
@@ -1856,20 +1855,21 @@ $filtered_hotels = $query->get();
 
 
         // Meals
+        // return $request->meals;
 
-        if($request->meal == 'no_meal'){
+        if($request->meals == 'no_meal'){
 
            $meal_cost =  0;
 
-        }elseif($request->meal == 'breakfast'){
+        }elseif($request->meals == 'breakfast'){
 
             $meal_cost = $existsDate->meal_plan_breakfast_cost ?? 0;
 
-        }elseif($request->meal == 'breakfast_lunch'){
+        }elseif($request->meals == 'breakfast_lunch'){
 
             $meal_cost = $existsDate->meal_plan_breakfast_lunch_dinner_cost ?? 0;
 
-        }elseif($request->meal == 'breakfast_dinner'){
+        }elseif($request->meals == 'breakfast_dinner'){
 
             $meal_cost = $existsDate->meal_plan_breakfast_lunch_dinner_cost ?? 0;
 
@@ -1880,15 +1880,15 @@ $filtered_hotels = $query->get();
 
      // extra bed cost
 
-        if($request->meal == 'no_meal'){
+        if($request->meals == 'no_meal'){
 
             $extra_meal_cost = $existsDate->extra_bed_cost ?? 0;
 
-        }elseif($request->meal == 'breakfast'){
+        }elseif($request->meals == 'breakfast'){
 
             $extra_meal_cost = $existsDate->extra_breakfast_cost ?? 0;
 
-        }elseif($request->meal == 'breakfast_dinner'){
+        }elseif($request->meals == 'breakfast_dinner'){
 
             $extra_meal_cost = $existsDate->extra_breakfast_lunch_dinner_cost ?? 0;
 
@@ -1900,15 +1900,15 @@ $filtered_hotels = $query->get();
 
         // Child With No Bed
 
-         if($request->meal == 'no_meal'){
+         if($request->meals == 'no_meal'){
 
            $nochild_meal_cost = $existsDate->child_no_bed_infant_cost ?? 0;
 
-        }elseif($request->meal == 'breakfast'){
+        }elseif($request->meals == 'breakfast'){
 
             $nochild_meal_cost = $existsDate->child_breakfast_cost ?? 0;
 
-        }elseif($request->meal == 'breakfast_dinner'){
+        }elseif($request->meals == 'breakfast_dinner'){
 
             $nochild_meal_cost = $existsDate->child_breakfast_lunch_dinner_cost ?? 0;
 
@@ -1939,8 +1939,10 @@ $filtered_hotels = $query->get();
         $meal_cost_total = $meal_cost * $request->room_count * $numberOfNights;
         $extra_meal_cost_total = $extra_meal_cost * $numberOfNights * $request->beds;
         $nochild_meal_cost_total = $nochild_meal_cost * $numberOfNights * $request->nobed;
+        $base_room_cost =  $existsDate->night_cost * $numberOfNights;
 
-        $total = $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
+
+        $total = $base_room_cost + $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
 // return $request->nobed;
         $finel = $request->room_count * $existsDate->night_cost * $numberOfNights;
         $wildlife->cost = $total;
