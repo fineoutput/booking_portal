@@ -75,6 +75,12 @@
                                         @error('night_cost') <div style="color:red;">{{ $message }}</div> @enderror
                                     </div>
 
+                                    <div class="col-sm-6">
+                                        <label for="mrp" class="form-label">Hotel MRP <span style="color:red;">*</span></label>
+                                        <input type="number" class="form-control" name="mrp" value="{{ old('mrp', $package->mrp) }}">
+                                        @error('mrp') <div style="color:red;">{{ $message }}</div> @enderror
+                                    </div>
+
                                     {{-- <div class="col-sm-6">
                                         <label for="room_category" class="form-label">Room Category <span style="color:red;">*</span></label>
                                         <select class="form-control" name="room_category">

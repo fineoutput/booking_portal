@@ -490,10 +490,10 @@
                                         <delt class="pii">
                                             <del class="hotel-price" id="price_{{ $value->id }}" >₹
                                                 @if($hotel_room_1 && $hotel_room_1->price)
-                                                {{ $hotel_room_1->price->night_cost + 613 }}
+                                                {{ $hotel_room_1->price->mrp }}
                                                 @else
                                                 Price not available
-                                                @endif</del> <span > Per night</span>
+                                                @endif</del> <span ></span>
                                         </delt>
                                         <div class="andy_time d-flex">
                                             <p class="hotel-price" id="price_{{ $value->id }}" style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">
@@ -1090,7 +1090,7 @@
                     
                     <div class="old-price">
                         @if ($value->price)
-                        ₹{{ $value->price->night_cost + 613 }}
+                        <p class="hotel-price" id="price_{{ $value->id }}">₹{{ $value->price->mrp }}</p>
                         @else
                         0
                         @endif

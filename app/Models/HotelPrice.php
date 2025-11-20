@@ -14,6 +14,7 @@ class HotelPrice extends Model
         'hotel_id',
         'room_id',
         'night_cost',
+        'mrp',
         'start_date',
         'end_date',
         'room_category',
