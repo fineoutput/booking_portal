@@ -965,7 +965,7 @@
                 </div>
                 <div class="room_Center">
                     <h4 class="naxo">Room Amenities</h4>
-                    <div class="skoot">
+                    <div class="skoot mb-5">
                         @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
                         <div class="samrt">
                             <p><b>Room facilities</b></p>
@@ -1090,7 +1090,7 @@
                     </div>
                 </div>
                 <div class="room-right">
-                    <div class="main-price">
+                    <div class="main-price mb-5">
 
                     
                     <div class="old-price">
