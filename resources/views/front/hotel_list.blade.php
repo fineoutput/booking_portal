@@ -824,10 +824,7 @@
   }
 
 </script>
-<script>
-// Datepicker is initialized globally in `public/frontend/detail.js` (included in footer),
-// duplicate initializers removed to avoid conflicts.
-</script>
+
 
 
 

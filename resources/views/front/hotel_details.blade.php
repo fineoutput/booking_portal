@@ -9,7 +9,11 @@
     .wast {
         border-top: 1px solid #b0b0b0;
     }
-
+    p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 15px;
+}
     .form-group {
         display: flex;
         align-items: center;
