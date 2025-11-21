@@ -825,36 +825,8 @@
 
 </script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const picker = new Litepicker({
-      element: document.getElementById('date-range'),
-      singleMode: false,
-      numberOfMonths: 2,
-      numberOfColumns: 2,
-      format: 'MM-DD-YYYY',
-      autoApply: true,
-      showTooltip: true,
-      tooltipText: {
-        one: 'day',
-        other: 'days'
-      },
-      setup: (picker) => {
-        picker.on('selected', (date1, date2) => {
-          document.getElementById('start_date').value = date1.format('MM-DD-YYYY');
-          document.getElementById('end_date').value = date2.format('MM-DD-YYYY');
-        });
-
-        // Add labels after calendar is rendered
-        picker.on('render', () => {
-          const months = picker.ui.querySelectorAll('.container__months > .month-item');
-          if (months.length === 2) {
-            months[0].insertAdjacentHTML('afterbegin', '<div class="month-label" style="text-align:center; font-weight:bold; padding:5px;">Start Date</div>');
-            months[1].insertAdjacentHTML('afterbegin', '<div class="month-label" style="text-align:center; font-weight:bold; padding:5px;">End Date</div>');
-          }
-        });
-      }
-    });
-  });
+// Datepicker is initialized globally in `public/frontend/detail.js` (included in footer),
+// duplicate initializers removed to avoid conflicts.
 </script>
 
 
