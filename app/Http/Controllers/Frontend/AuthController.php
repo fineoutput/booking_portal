@@ -393,34 +393,42 @@ private function sendOtp($phone = null, $email = null)
 
 
  public function agentLoginWithEmail(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required',
+        'password' => 'required',
+    ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $credentials = $request->only('email', 'password');
-
-        if (!Auth::guard('agent')->attempt($credentials)) {
-            return redirect()->back()->with('error', 'Invalid credentials. Please check your email and password.');
-        }
-
-        $user = Auth::guard('agent')->user();
-         Auth::login($user);
-
-        if ($user->approved != 1) {
-            Auth::guard('agent')->logout(); // Make sure unapproved user is logged out
-            return redirect()->back()->with('error', 'Your account is not approved by the admin.');
-        }
-
-         $redirectUrl = session()->pull('redirect_after_login');
-          return redirect()->to($redirectUrl ?: route('index'))
-                    ->with('message', 'Login successful.');
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
     }
+
+    $credentials = $request->only('email', 'password');
+
+    if (!Auth::guard('agent')->attempt($credentials)) {
+        return redirect()->back()->with('error', 'Invalid credentials. Please check your email and password.');
+    }
+
+    $user = Auth::guard('agent')->user();
+
+    Auth::login($user);
+
+    if ($user->approved != 1) {
+        Auth::guard('agent')->logout();
+        return redirect()->back()->with('error', 'Your account is not approved by the admin.');
+    }
+
+    // If URL saved before login, use that
+    $redirectUrl = session()->pull('redirect_after_login');
+
+if ($redirectUrl) {
+    return redirect()->to($redirectUrl)->with('message', 'Login successful.');
+}
+
+return redirect()->route('index')->with('message', 'Login successful.');
+}
+
+
 
 // public function agentLoginWithEmail(Request $request)
 // {

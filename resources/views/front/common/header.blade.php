@@ -167,7 +167,9 @@
     @else
 
         <div class="musq">
-          <a href="{{ route('login') }}" class="dotts"><b>Log in/Sign up</b></a>
+         <a href="{{ route('login') }}"
+            onclick="localStorage.setItem('redirect_after_login', window.location.href)"class="dotts"><b>Log in/Sign up</b>
+          </a>
         </div>
         
     @endif
@@ -264,6 +266,26 @@
  
   </div>
 </nav>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    let url = localStorage.getItem("redirect_after_login");
+
+    if (url) {
+        fetch("{{ route('save.redirect.url') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ redirect_url: url })
+        });
+
+        // Clear only after saving
+        localStorage.removeItem("redirect_after_login");
+    }
+});
+</script>
+
 <script>
   window.addEventListener('scroll', function () {
     const navbar = document.querySelector('.navbar');

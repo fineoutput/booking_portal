@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\PDFController;
 use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\LogController;
 use setasign\Fpdi\Fpdi;
+use Illuminate\Http\Request;
 
 
 
@@ -59,7 +60,10 @@ use setasign\Fpdi\Fpdi;
 // routes/web.php
 Route::get('/logs', [LogController::class, 'index']);
 
-
+Route::post('/save-redirect', function (Request $request) {
+    session(['redirect_after_login' => $request->redirect_url]);
+    return response()->json(['saved' => true]);
+})->name('save.redirect.url');
 Route::group(['prefix' => '/'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('login', [HomeController::class, 'login'])->name('login');
