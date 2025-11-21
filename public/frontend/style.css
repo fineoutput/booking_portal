@@ -2655,7 +2655,7 @@ textarea.form-control {
     .room-left {
       flex: 1;
       min-width: 300px;
-      border-right: 1px solid #eee;
+      /* border-right: 1px solid #eee; */
       padding: 15px;
     }
     .room-left img {
@@ -2676,7 +2676,7 @@ textarea.form-control {
     .room-left {
       flex: 1;
       min-width: 300px;
-      border-right: 1px solid #eee;
+      /* border-right: 1px solid #eee; */
       padding: 15px;
       position: sticky;
       top: 0;
@@ -2727,10 +2727,14 @@ textarea.form-control {
       margin-bottom: 5px;
     }
     .price {
-      font-size: 22px;
-      font-weight: bold;
-      color: #111;
-    }
+    font-size: 22px;
+    font-weight: bold;
+    color: #111;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
     .old-price {
       text-decoration: line-through;
       font-size: 14px;
@@ -2741,12 +2745,12 @@ textarea.form-control {
       color: #555;
       margin-bottom: 15px;
     }
-    .select-btn {
+   .select-btn {
     background: #2563eb;
     color: #fff;
     border: none;
     padding: 10px 10px;
-    font-size: 13px;
+    font-size: 11px;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.2s;
@@ -2755,8 +2759,8 @@ textarea.form-control {
     box-shadow: 0 1px 7px 0 #0003;
     /* font-size: 16px; */
     /* margin-top: auto; */
-    width: 50%;
-    padding: 8px 20px;
+    width: 34%;
+    padding: 8px 12px;
 }
     .select-btn:hover {
       background: #1746a2;
@@ -2789,10 +2793,10 @@ textarea.form-control {
 .room_Center {
     flex: 1;
     padding: 10px 10px;
-    /* border-right: 1px solid #8080804a; */
+    border-left: 1px solid #8080804a;
 }
 .room-left {
-    border-right: 1px solid #8080804a;
+    /* border-right: 1px solid #8080804a; */
 }
 .rmTypeList__item--icon img {
     width: 22px;

@@ -53,7 +53,7 @@
 
 
 
-    .center2.room_Center {
+    .center2 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -62,6 +62,10 @@
 
 .right2 {
     height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
 }
 
 
@@ -1053,14 +1057,14 @@
 
                     <div class="small_go d-none d-lg-block">
                         @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
-                    <div class="center2 room_Center">
+                    <div class="center2">
                         <div class="triangle"><p><b>Room With(Breakfast)</b></p></div>
                     </div>
                     @endif
-                    <div class="center2 room_Center">
+                    <div class="center2">
                         <div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div>
                     </div>
-                    <div class="center2 room_Center">
+                    <div class="center2">
                         <div class="triangle"><p><b>Meal Plan (All meals)</b></p></div>
                     </div>
                     {{-- <div class="center2 room_Center">
@@ -1366,7 +1370,7 @@ document.addEventListener("DOMContentLoaded", function () {
             price = basePrice * nights;
         }
 
-        el.textContent = `₹${price} onwards`;
+        el.textContent = `₹${price}`;
     });
 
 });
