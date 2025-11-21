@@ -1521,189 +1521,362 @@ public function getVehiclesByCity($cityId)
 //         ]);
 //     }
   
-    
- public function filterHotels(Request $request)
-    {
-        $city_id = $request->query('city_id');
-        $start_date = $request->query('start_date');
-        $end_date = $request->query('end_date');
-        $min_price = $request->query('min_price');
-        $max_price = $request->query('max_price');
-$params = $request->query();
-        // NEW FILTERS
-        $stars = $request->query('star'); // array
-        $meal_plans = $request->query('meal_plan'); // array
-        $nearby = $request->query('nearby'); // array
-        $localities = $request->query('locality'); // array
-        $chains = $request->query('chains'); // array
-        $house_rules = $request->query('house_rules'); // array
-        $house_rules = $request->query('room_amenities'); // array
-        $house_rules = $request->query('hotel_amenities'); // array
+public function filterHotels(Request $request)
+{
+    // Basic filters
+    $city_id = $request->query('city_id');
+    $start_date = $request->query('start_date');
+    $end_date = $request->query('end_date');
+    $min_price = $request->query('min_price');
+    $max_price = $request->query('max_price');
 
-        $query = Hotels::where('show_front', 1);
-        $query2 = HotelsRoom::where('show_front', 1);
+    // New filters
+    $stars = $request->query('star');
+    $meal_plans = $request->query('meal_plan');
+    $nearby = $request->query('nearby');
+    $localities = $request->query('locality');
+    $chains = $request->query('chains');
+    $house_rules = $request->query('house_rules');
+    $room_amenities = $request->query('room_amenities');
+    $hotel_amenities = $request->query('hotel_amenities');
 
-        if ($city_id) {
-            $query->where('city_id', $city_id);
+    // Hotels base query
+    $query = Hotels::where('show_front', 1);
+
+    if ($city_id) {
+        $query->where('city_id', $city_id);
+    }
+
+    // -----------------------------
+    //  FIX ROOM FILTERS APPLY LOGIC
+    // -----------------------------
+    $roomQuery = HotelsRoom::where('show_front', 'Yes');
+
+   if (!empty($stars)) {
+    $query->whereIn('hotel_category', $stars); // hotels table
+}
+
+    if (!empty($meal_plans)) {
+        $roomQuery->whereIn('meal_plan', $meal_plans);
+    }
+
+    if (!empty($nearby)) {
+        $roomQuery->whereIn('nearby', $nearby);
+    }
+
+    if (!empty($localities)) {
+        $roomQuery->whereIn('locality', $localities);
+    }
+
+    if (!empty($chains)) {
+        $roomQuery->whereIn('chains', $chains);
+    }
+
+    if (!empty($house_rules)) {
+        $roomQuery->whereIn('house_rules', $house_rules);
+    }
+
+    if (!empty($room_amenities)) {
+        $roomQuery->whereIn('room_amenities', $room_amenities);
+    }
+
+    if (!empty($hotel_amenities)) {
+        $roomQuery->whereIn('hotel_amenities', $hotel_amenities);
+    }
+
+    // Get hotel IDs that match room filters
+    $filteredRoomHotelIDs = $roomQuery->pluck('hotel_id')->unique();
+
+    // Apply room filters to hotel query
+    if ($filteredRoomHotelIDs->count()) {
+        $query->whereIn('id', $filteredRoomHotelIDs);
+    }
+
+    // Final hotels list after applying filters
+    $hotels = $query->get();
+    $hotel_ids = $hotels->pluck('id');
+
+
+    // -----------------------------
+    // DATE + PRICE FILTERS
+    // -----------------------------
+    $formatted_start_date = $formatted_end_date = null;
+
+    try {
+        if (!empty($start_date)) {
+            $formatted_start_date = Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d');
+        }
+        if (!empty($end_date)) {
+            $formatted_end_date = Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d');
+        }
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors(['Invalid date format provided.']);
+    }
+
+    $hotel_prices = collect();
+    $filtered_hotels = $hotels;
+
+    if ($formatted_start_date && $formatted_end_date) {
+        $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+            ->where('start_date', '<=', $formatted_start_date)
+            ->where('end_date', '>=', $formatted_end_date);
+
+        if ($min_price) {
+            $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
         }
 
-        if (!empty($stars)) {
-            $query2->whereIn('hotel_category', $stars);
+        if ($max_price) {
+            $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
         }
 
-        if (!empty($meal_plans)) {
-            $query2->whereIn('meal_plan', $meal_plans);
-        }
+        $hotel_prices = $hotel_prices_query->get()->keyBy('hotel_id');
 
-        if (!empty($nearby)) {
-            $query2->whereIn('nearby', $nearby);
-        }
+        $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices, $min_price, $max_price) {
+            return isset($hotel_prices[$hotel->id]) &&
+                $hotel_prices[$hotel->id]->night_cost >= ($min_price ?? 0) &&
+                $hotel_prices[$hotel->id]->night_cost <= ($max_price ?? 999999);
+        });
+    }
 
-        if (!empty($localities)) {
-            $query2->whereIn('locality', $localities);
-        }
+    // Common data
+    $data['hotel'] = Hotels::where('show_front', 1)->get();
+    $cityIds = $data['hotel']->pluck('city_id')->unique();
+    $cities = City::whereIn('id', $cityIds)->get();
+    $slider = Slider::where('type', 'hotel')->orderBy('id', 'DESC')->get();
 
-        if (!empty($chains)) {
-            $query2->whereIn('chains', $chains);
-        }
+    // Add room price for hotels
+    $roomsWithPrice = [];
 
-        if (!empty($house_rules)) {
-            $query2->whereIn('house_rules', $house_rules);
-        }
+    foreach ($filtered_hotels as $hotel) {
+        $room = HotelsRoom::where('hotel_id', $hotel->id)
+            ->where('show_front', 'Yes')
+            ->first();
 
-        if (!empty($room_amenities)) {
-            $query2->whereIn('room_amenities', $room_amenities);
-        }
-
-        if (!empty($hotel_amenities)) {
-            $query2->whereIn('hotel_amenities', $hotel_amenities);
-        }
-
-        $hotels = $query->get();
-        $hotel_ids = $hotels->pluck('id');
-      $filtered_hotels = $query->get();
-        // Dates
-        $formatted_start_date = null;
-        $formatted_end_date = null;
-
-        try {
-            if (!empty($start_date)) {
-                $formatted_start_date = Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d');
-            }
-            if (!empty($end_date)) {
-                $formatted_end_date = Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d');
-            }
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['Invalid date format provided.']);
-        }
-
-        $hotel_prices = collect();
-        $filtered_hotels = $hotels;
-
-        if ($formatted_start_date && $formatted_end_date) {
-            $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
-                ->where('start_date', '<=', $formatted_start_date)
-                ->where('end_date', '>=', $formatted_end_date);
-
-            if ($min_price) {
-                $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
-            }
-
-            if ($max_price) {
-                $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
-            }
-
-            $hotel_prices = $hotel_prices_query->get()->keyBy('hotel_id');
-
-            $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices, $min_price, $max_price) {
-                $min = $min_price ?? 0;
-                $max = $max_price ?? 1000000;
-
-                return isset($hotel_prices[$hotel->id]) &&
-                    $hotel_prices[$hotel->id]->night_cost >= $min &&
-                    $hotel_prices[$hotel->id]->night_cost <= $max;
-            });
-        }
-
-        $data['hotel'] = Hotels::where('show_front',1)->get();
-  
-        $cityIds = $data['hotel']->pluck('city_id')->unique();
-    
-        $cities = City::whereIn('id', $cityIds)->get();
-
-        $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
-
-
-       $roomsWithPrice = []; // final data array
-
-        foreach ($filtered_hotels as $hotel) {
-
-            // Get first room with show_front = 'Yes'
-            $room = HotelsRoom::where('hotel_id', $hotel->id)
-                ->where('show_front', 'Yes')
+        if ($room) {
+            $roomPrice = HotelPrice::where('room_id', $room->id)
+                ->when($formatted_start_date, fn($q) => $q->where('start_date', '<=', $formatted_start_date))
+                ->when($formatted_end_date, fn($q) => $q->where('end_date', '>=', $formatted_end_date))
                 ->first();
 
-            if ($room) {
+            $roomsWithPrice[] = [
+                'hotel_id'   => $hotel->id,
+                'hotel_name' => $hotel->name,
+                'room_id'    => $room->id,
+                'room_name'  => $room->title,
+                'night_cost' => $roomPrice->night_cost ?? null,
+                'start_date' => $roomPrice->start_date ?? null,
+                'end_date'   => $roomPrice->end_date ?? null,
+            ];
+        }
+    }
 
-                // Get room price based on date range
-                $roomPrice = HotelPrice::where('room_id', $room->id)
-                    ->when($formatted_start_date, function($query) use ($formatted_start_date) {
-                        $query->where('start_date', '<=', $formatted_start_date);
-                    })
-                    ->when($formatted_end_date, function($query) use ($formatted_end_date) {
-                        $query->where('end_date', '>=', $formatted_end_date);
-                    })
-                    ->first();
+    $roomsCollection = collect($roomsWithPrice)->keyBy('hotel_id');
 
-                $roomsWithPrice[] = [
-                    'hotel_id'   => $hotel->id,
-                    'hotel_name' => $hotel->name,
-                    'room_id'    => $room->id,
-                    'room_name'  => $room->title,
-                    'night_cost' => $roomPrice->night_cost ?? null,
-                    'start_date' => $roomPrice->start_date ?? null,
-                    'end_date'   => $roomPrice->end_date ?? null,
-                ];
+    $hotelsWithPrice = $filtered_hotels->map(function ($hotel) use ($roomsCollection) {
+        if (isset($roomsCollection[$hotel->id])) {
+            foreach ($roomsCollection[$hotel->id] as $k => $v) {
+                $hotel->$k = $v;
             }
         }
+        return $hotel;
+    });
+
+    return view('front.hotel_list', [
+        'hotels' => $hotelsWithPrice,
+        'hotel_prices' => $hotel_prices,
+        'start_date' => $start_date,
+        'end_date' => $end_date,
+        'slider' => $slider,
+        'city_id' => $city_id,
+        'min_price' => $min_price,
+        'max_price' => $max_price,
+        'cities' => $cities
+    ]);
+}
+
+    
+//  public function filterHotels(Request $request)
+//     {
+//         $city_id = $request->query('city_id');
+//         $start_date = $request->query('start_date');
+//         $end_date = $request->query('end_date');
+//         $min_price = $request->query('min_price');
+//         $max_price = $request->query('max_price');
+//        $params = $request->query();
+//         // NEW FILTERS
+//         $stars = $request->query('star'); // array
+//         $meal_plans = $request->query('meal_plan'); // array
+//         $nearby = $request->query('nearby'); // array
+//         $localities = $request->query('locality'); // array
+//         $chains = $request->query('chains'); // array
+//         $house_rules = $request->query('house_rules'); // array
+//         $room_amenities = $request->query('room_amenities'); // array
+//         $hotel_amenities = $request->query('hotel_amenities'); // array
+
+//         $query = Hotels::where('show_front', 1);
+//         $query2 = HotelsRoom::where('show_front', 1);
+
+//         if ($city_id) {
+//             $query->where('city_id', $city_id);
+//         }
+
+//         if (!empty($stars)) {
+//             $query2->whereIn('hotel_category', $stars);
+//         }
+
+//         if (!empty($meal_plans)) {
+//             $query2->whereIn('meal_plan', $meal_plans);
+//         }
+
+//         if (!empty($nearby)) {
+//             $query2->whereIn('nearby', $nearby);
+//         }
+
+//         if (!empty($localities)) {
+//             $query2->whereIn('locality', $localities);
+//         }
+
+//         if (!empty($chains)) {
+//             $query2->whereIn('chains', $chains);
+//         }
+
+//         if (!empty($house_rules)) {
+//             $query2->whereIn('house_rules', $house_rules);
+//         }
+
+//         if (!empty($room_amenities)) {
+//             $query2->whereIn('room_amenities', $room_amenities);
+//         }
+
+//         if (!empty($hotel_amenities)) {
+//             $query2->whereIn('hotel_amenities', $hotel_amenities);
+//         }
+
+//         $hotels = $query->get();
+//         $hotel_ids = $hotels->pluck('id');
+//       $filtered_hotels = $query->get();
+//         // Dates
+//         $formatted_start_date = null;
+//         $formatted_end_date = null;
+
+//         try {
+//             if (!empty($start_date)) {
+//                 $formatted_start_date = Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d');
+//             }
+//             if (!empty($end_date)) {
+//                 $formatted_end_date = Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d');
+//             }
+//         } catch (\Exception $e) {
+//             return redirect()->back()->withErrors(['Invalid date format provided.']);
+//         }
+
+//         $hotel_prices = collect();
+//         $filtered_hotels = $hotels;
+
+//         if ($formatted_start_date && $formatted_end_date) {
+//             $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+//                 ->where('start_date', '<=', $formatted_start_date)
+//                 ->where('end_date', '>=', $formatted_end_date);
+
+//             if ($min_price) {
+//                 $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
+//             }
+
+//             if ($max_price) {
+//                 $hotel_prices_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
+//             }
+
+//             $hotel_prices = $hotel_prices_query->get()->keyBy('hotel_id');
+
+//             $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices, $min_price, $max_price) {
+//                 $min = $min_price ?? 0;
+//                 $max = $max_price ?? 1000000;
+
+//                 return isset($hotel_prices[$hotel->id]) &&
+//                     $hotel_prices[$hotel->id]->night_cost >= $min &&
+//                     $hotel_prices[$hotel->id]->night_cost <= $max;
+//             });
+//         }
+
+//         $data['hotel'] = Hotels::where('show_front',1)->get();
+  
+//         $cityIds = $data['hotel']->pluck('city_id')->unique();
+    
+//         $cities = City::whereIn('id', $cityIds)->get();
+
+//         $slider = Slider::orderBy('id', 'DESC')->where('type', 'hotel')->get();
+
+
+//        $roomsWithPrice = []; // final data array
+
+//         foreach ($filtered_hotels as $hotel) {
+
+//             // Get first room with show_front = 'Yes'
+//             $room = HotelsRoom::where('hotel_id', $hotel->id)
+//                 ->where('show_front', 'Yes')
+//                 ->first();
+
+//             if ($room) {
+
+//                 // Get room price based on date range
+//                 $roomPrice = HotelPrice::where('room_id', $room->id)
+//                     ->when($formatted_start_date, function($query) use ($formatted_start_date) {
+//                         $query->where('start_date', '<=', $formatted_start_date);
+//                     })
+//                     ->when($formatted_end_date, function($query) use ($formatted_end_date) {
+//                         $query->where('end_date', '>=', $formatted_end_date);
+//                     })
+//                     ->first();
+
+//                 $roomsWithPrice[] = [
+//                     'hotel_id'   => $hotel->id,
+//                     'hotel_name' => $hotel->name,
+//                     'room_id'    => $room->id,
+//                     'room_name'  => $room->title,
+//                     'night_cost' => $roomPrice->night_cost ?? null,
+//                     'start_date' => $roomPrice->start_date ?? null,
+//                     'end_date'   => $roomPrice->end_date ?? null,
+//                 ];
+//             }
+//         }
 
         
-        $roomsCollection = collect($roomsWithPrice)->keyBy('hotel_id');
+//         $roomsCollection = collect($roomsWithPrice)->keyBy('hotel_id');
 
-        // Attach night_cost and room info to each hotel in the filtered collection
-        $hotelsWithPrice = $filtered_hotels->map(function ($hotel) use ($roomsCollection) {
-            if (isset($roomsCollection[$hotel->id])) {
-                $room = $roomsCollection[$hotel->id]; // array
+//         // Attach night_cost and room info to each hotel in the filtered collection
+//         $hotelsWithPrice = $filtered_hotels->map(function ($hotel) use ($roomsCollection) {
+//             if (isset($roomsCollection[$hotel->id])) {
+//                 $room = $roomsCollection[$hotel->id]; // array
 
-                $hotel->room_id    = $room['room_id'];
-                $hotel->room_name  = $room['room_name'];
-                $hotel->night_cost = $room['night_cost'];
-                $hotel->start_date = $room['start_date'];
-                $hotel->end_date   = $room['end_date'];
-            } else {
-                $hotel->room_id = null;
-                $hotel->room_name = null;
-                $hotel->night_cost = null;
-                $hotel->start_date = null;
-                $hotel->end_date = null;
-            }
-            return $hotel;
-        });
+//                 $hotel->room_id    = $room['room_id'];
+//                 $hotel->room_name  = $room['room_name'];
+//                 $hotel->night_cost = $room['night_cost'];
+//                 $hotel->start_date = $room['start_date'];
+//                 $hotel->end_date   = $room['end_date'];
+//             } else {
+//                 $hotel->room_id = null;
+//                 $hotel->room_name = null;
+//                 $hotel->night_cost = null;
+//                 $hotel->start_date = null;
+//                 $hotel->end_date = null;
+//             }
+//             return $hotel;
+//         });
 
-        // return $hotelsWithPrice;
-        return view('front.hotel_list', [
-            'hotels' => $hotelsWithPrice,
-                'hotel_prices' => $hotel_prices,
-                'start_date' => $start_date,
-                'end_date' => $end_date,
-                'slider' => $slider,
-                'city_id' => $city_id,
-                'min_price' => $min_price,
-                'max_price' => $max_price,
-                'cities' => $cities,
-                // 'rooms' => $roomsWithPrice,
-            ]);
-    }
+//         // return $hotelsWithPrice;
+//         return view('front.hotel_list', [
+//             'hotels' => $hotelsWithPrice,
+//                 'hotel_prices' => $hotel_prices,
+//                 'start_date' => $start_date,
+//                 'end_date' => $end_date,
+//                 'slider' => $slider,
+//                 'city_id' => $city_id,
+//                 'min_price' => $min_price,
+//                 'max_price' => $max_price,
+//                 'cities' => $cities,
+//                 // 'rooms' => $roomsWithPrice,
+//             ]);
+//     }
         
 
 
