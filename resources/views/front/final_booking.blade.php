@@ -222,7 +222,7 @@
                                         <div id="premium-fields" class="wast" style=" margin-top:15px;">
                                     <div class="form-group samule">
                                         <label class="filter-label_hotels" for="meals">Meals</label>
-                                        <select class="need hato" name="meals" id="meals" class="filter-value_hotels">
+                                        <select name="meals" id="meals" class="need hato filter-value_hotels">
                                             <option value="">-- Select --</option>
                                             <option value="breakfast">Breakfast</option>
                                             <option value="breakfast_dinner">Breakfast + Lunch/Dinner
@@ -273,6 +273,11 @@
                             <input type="hidden" name="child_count" id="child_count">
                         </div>
 
+                        <button type="button" class="btn btn-warning" onclick="calculatePrice()">
+    Calculate Price
+</button>
+
+                        <div id="calculated-cost" style="margin-top:10px; font-weight:bold; font-size:18px; color:#d9534f;"></div>
 
                         <div class="live_set mt-3">
                             @if(Auth::guard('agent')->check())
@@ -340,6 +345,7 @@
 <div class="comp-container">
    
 </div>
+
     <script>
 document.addEventListener("DOMContentLoaded", function () {
     let printedPrice = localStorage.getItem("selectedPrintedPrice");
@@ -365,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 
-<script>
+{{-- <script>
     // Watch for any input changes
     document.querySelectorAll('#check_in_date, #check_out_date, #meals, #infants-count, #adults-count, #children-count, #beds, #nobed')
         .forEach(input => {
@@ -413,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('Error:', err);
         });
     }
-</script>
+</script> --}}
 
 
   <script>
@@ -751,6 +757,62 @@ document.addEventListener("DOMContentLoaded", function () {
         if (parts.length !== 3) return '';
         return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
     }
+});
+</script>
+
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+
+    window.calculatePrice = function() {
+
+        let checkIn = document.getElementById("check_in_date")?.value || "";
+        let checkOut = document.getElementById("check_out_date")?.value || "";
+        let meals = document.getElementById("meals")?.value || "";
+        let rooms = document.getElementById("infants-count")?.value || 0;
+        let beds = document.getElementById("beds")?.value || 0;
+        let nobed = document.getElementById("nobed")?.value || 0;
+
+        if (!checkIn || !checkOut) {
+            alert("Please select check-in & check-out dates");
+            return;
+        }
+
+        // Static hotel id for console testing
+        let hotelId = {{$hotel_room_1->id}};
+        let url = "/hotel/calculate-price/" + hotelId;
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                check_in_date: checkIn,
+                check_out_date: checkOut,
+                meals: meals,
+                room_count: rooms,
+                beds: beds,
+                nobed: nobed
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Response data:", data); 
+
+            if (data.status) {
+                let priceContainer = document.getElementById("dynamic-price");
+                // ✅ Clear previous value first
+                priceContainer.innerHTML = "";
+                // Append new price
+                priceContainer.innerHTML = `₹ ${data.total_cost}`;
+            } else {
+                console.error(data.message || "Something went wrong!");
+            }
+        })
+        .catch(err => console.error(err));
+    };
+
 });
 </script>
 

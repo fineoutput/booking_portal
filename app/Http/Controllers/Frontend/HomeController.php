@@ -1800,7 +1800,80 @@ $filtered_hotels = $query->get();
         return view('front/final_booking',$data);
     }
 
+public function calculatePrice(Request $request, $id)
+{
+    $start_dates = $request->check_in_date ? Carbon::parse($request->check_in_date)->format('Y-m-d') : null;
+    $end_dates   = $request->check_out_date ? Carbon::parse($request->check_out_date)->format('Y-m-d') : null;
 
+    $existsDate = HotelPrice::where('room_id', $id)
+        ->where('start_date', '<=', $start_dates)
+        ->where('end_date', '>=', $end_dates)
+        ->first();
+
+    if (!$existsDate) {
+        return response()->json([
+            'status' => false,
+            'message' => "Price Not Available."
+        ]);
+    }
+
+    $checkIn  = Carbon::parse($request->check_in_date);
+    $checkOut = Carbon::parse($request->check_out_date);
+    $numberOfNights = $checkOut->diffInDays($checkIn);
+
+    // 🍽 Meals cost
+    if ($request->meals == 'no_meal') {
+        $meal_cost = 0;
+    } elseif ($request->meals == 'breakfast') {
+        $meal_cost = $existsDate->meal_plan_breakfast_cost ?? 0;
+    } elseif ($request->meals == 'breakfast_dinner') {
+        $meal_cost = $existsDate->meal_plan_breakfast_lunch_dinner_cost ?? 0;
+    } else {
+        $meal_cost = $existsDate->meal_plan_all_meals_cost ?? 0;
+    }
+
+    // 🛏 Extra Bed
+    if ($request->meals == 'no_meal') {
+        $extra_meal_cost = $existsDate->extra_bed_cost ?? 0;
+    } elseif ($request->meals == 'breakfast') {
+        $extra_meal_cost = $existsDate->extra_breakfast_cost ?? 0;
+    } elseif ($request->meals == 'breakfast_dinner') {
+        $extra_meal_cost = $existsDate->extra_breakfast_lunch_dinner_cost ?? 0;
+    } else {
+        $extra_meal_cost = $existsDate->extra_all_meals_cost ?? 0;
+    }
+
+    // 👶 Child No Bed
+    if ($request->meals == 'no_meal') {
+        $nochild_meal_cost = $existsDate->child_no_bed_infant_cost ?? 0;
+    } elseif ($request->meals == 'breakfast') {
+        $nochild_meal_cost = $existsDate->child_breakfast_cost ?? 0;
+    } elseif ($request->meals == 'breakfast_dinner') {
+        $nochild_meal_cost = $existsDate->child_breakfast_lunch_dinner_cost ?? 0;
+    } else {
+        $nochild_meal_cost = $existsDate->child_all_meals_cost ?? 0;
+    }
+
+    // ✔ Total Calculation
+    $meal_cost_total = $meal_cost * $request->room_count * $numberOfNights;
+    $extra_meal_cost_total = $extra_meal_cost * $numberOfNights * $request->beds;
+    $nochild_meal_cost_total = $nochild_meal_cost * $numberOfNights * $request->nobed;
+
+    $base_room_cost = $existsDate->night_cost * $numberOfNights;
+
+    $total = $base_room_cost + $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
+
+    return response()->json([
+        'status' => true,
+        'total_cost' => $total,
+        'meal_cost_total' => $meal_cost_total,
+        'extra_meal_cost_total' => $extra_meal_cost_total,
+        'request->meals' => $request->meals,
+        'nochild_meal_cost_total' => $nochild_meal_cost_total,
+        'base_room_cost' => $base_room_cost,
+        'nights' => $numberOfNights
+    ]);
+}
 
     public function add_hotel_confirm_booking(Request $request,$id)
     {
