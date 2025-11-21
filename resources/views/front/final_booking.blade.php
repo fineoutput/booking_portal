@@ -273,7 +273,7 @@
                             <input type="hidden" name="child_count" id="child_count">
                         </div>
 
-                        <button type="button" class="btn btn-warning" onclick="calculatePrice()">
+                        <button type="button" class="btn btn-warning mt-2" onclick="calculatePrice()">
     Calculate Price
 </button>
 
