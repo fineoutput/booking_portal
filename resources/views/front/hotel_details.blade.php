@@ -1766,27 +1766,40 @@ document.querySelectorAll('input[name="city_id"]').forEach(input => {
   }
 
   function updateChildAgeDropdown(count) {
-    const container = document.getElementById('children-ages');
-    const label = document.getElementById('children-age-label');
-    container.innerHTML = ''; // Clear old
+        const container = document.getElementById('children-ages');
+        const label = document.getElementById('children-age-label');
 
-    if (count > 0) {
-      label.style.display = 'block';
-      for (let i = 0; i < count; i++) {
-        const select = document.createElement('select');
-        select.id = `child-age-${i}`;
-        select.name = `child_age_${i}`;
-        for (let age = 0; age <= 17; age++) {
-          const option = document.createElement('option');
-          option.value = age;
-          option.textContent = `${age} years`;
-          select.appendChild(option);
+        // Preserve existing selected values
+        const previousValues = [];
+        container.querySelectorAll('select').forEach((sel) => previousValues.push(sel.value));
+
+        container.innerHTML = ''; // Clear old
+
+        if (count > 0) {
+            label.style.display = 'block';
+            for (let i = 0; i < count; i++) {
+                const select = document.createElement('select');
+                select.id = `child-age-${i}`;
+                select.name = `child_age_${i}`;
+                select.classList.add('child-age-select');
+                for (let age = 0; age <= 17; age++) {
+                    const option = document.createElement('option');
+                    option.value = age;
+                    option.textContent = `${age} years`;
+                    select.appendChild(option);
+                }
+
+                if (previousValues[i] !== undefined) {
+                    const prev = previousValues[i];
+                    const opt = Array.from(select.options).find(o => o.value == prev);
+                    if (opt) select.value = prev;
+                }
+
+                container.appendChild(select);
+            }
+        } else {
+            label.style.display = 'none';
         }
-        container.appendChild(select);
-      }
-    } else {
-      label.style.display = 'none';
-    }
   }
 
   function updateGuestDisplay() {

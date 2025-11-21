@@ -440,6 +440,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const container = document.getElementById("children-ages");
             const label = document.getElementById("children-age-label");
 
+            // Preserve previous selections
+            const previousValues = [];
+            container.querySelectorAll('select').forEach(sel => previousValues.push(sel.value));
+
             container.innerHTML = ""; // Clear old dropdowns
 
             if (count > 0) {
@@ -489,6 +493,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     option.value = age;
                     option.text = `${age} years`;
                     select.appendChild(option);
+                }
+
+                // Restore previous value if present
+                if (previousValues[i - 1] !== undefined) {
+                    const prev = previousValues[i - 1];
+                    const opt = Array.from(select.options).find(o => o.value == prev);
+                    if (opt) select.value = prev;
                 }
 
                 // Listen to change event to update hidden input
@@ -565,6 +576,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const container = document.getElementById("children-ages");
             const label = document.getElementById("children-age-label");
 
+            // Preserve previous selections
+            const previousValues = [];
+            container.querySelectorAll('select').forEach(sel => previousValues.push(sel.value));
+
             container.innerHTML = ""; // Clear old dropdowns
 
             if (count > 0) {
@@ -614,6 +629,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     option.value = age;
                     option.text = `${age} years`;
                     select.appendChild(option);
+                }
+
+                // Restore previous value if present
+                if (previousValues[i - 1] !== undefined) {
+                    const prev = previousValues[i - 1];
+                    const opt = Array.from(select.options).find(o => o.value == prev);
+                    if (opt) select.value = prev;
                 }
 
                 // Listen to change event to update hidden input

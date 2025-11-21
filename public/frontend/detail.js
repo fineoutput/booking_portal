@@ -50,25 +50,41 @@
 function updateChildAgeDropdown(count) {
     const container = document.getElementById('children-ages');
     const label = document.getElementById('children-age-label');
-    container.innerHTML = ''; // Clear old
+  // Preserve existing selected values so user input isn't lost when count changes
+  const previousValues = [];
+  container.querySelectorAll('select').forEach((sel) => previousValues.push(sel.value));
 
-    if (count > 0) {
-        label.style.display = 'block';
-        for (let i = 0; i < count; i++) {
-            const select = document.createElement('select');
-            select.id = `child-age-${i}`;
-            select.name = `child_age_${i}`;
-            for (let age = 0; age <= 17; age++) {
-                const option = document.createElement('option');
-                option.value = age;
-                option.textContent = `${age} years`;
-                select.appendChild(option);
-            }
-            container.appendChild(select);
-        }
-    } else {
-        label.style.display = 'none';
+  container.innerHTML = ''; // Clear old
+
+  if (count > 0) {
+    label.style.display = 'block';
+    for (let i = 0; i < count; i++) {
+      const select = document.createElement('select');
+      select.id = `child-age-${i}`;
+      select.name = `child_age_${i}`;
+      select.classList.add('child-age-select');
+
+      for (let age = 0; age <= 17; age++) {
+        const option = document.createElement('option');
+        option.value = age;
+        option.textContent = `${age} years`;
+        select.appendChild(option);
+      }
+
+      // Restore previous value if present (keep within bounds)
+      if (previousValues[i] !== undefined) {
+        // If previous value is a number-like string, ensure option exists
+        const prev = previousValues[i];
+        // If an option matches, set it
+        const opt = Array.from(select.options).find(o => o.value == prev);
+        if (opt) select.value = prev;
+      }
+
+      container.appendChild(select);
     }
+  } else {
+    label.style.display = 'none';
+  }
 }
 
 

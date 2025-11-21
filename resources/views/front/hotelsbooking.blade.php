@@ -379,7 +379,8 @@
                 <h4 class="path key">{{ $value->name ?? '' }}</h4>
                 <h4 class="size">{{ $value->hotel_category ?? '' }}</h4>
                 <div class="ttiel_head">
-                  <h4 class="key">{{ $value->location ?? '' }}</h4>
+                  <h4 class="key">{{ \Illuminate\Support\Str::words($value->location, 6, '...') }}</h4>
+
                   <h4 class="key">
                     {{-- @if($hotelPrice) --}}
                     ₹{{ $value->night_cost ?? '0' }}
@@ -536,10 +537,10 @@
     const container = document.getElementById("children-ages");
     const label = document.getElementById("children-age-label");
 
-    container.innerHTML = ""; // Clear old dropdowns
 
     if (count > 0) {
-      label.style.display = "block"; // show label when children exist
+      container.innerHTML = ""; // Clear old dropdowns
+      label.style.display = "block"; 
       container.style.display = "grid";
       container.style.gridTemplateColumns = "1fr 1fr"; // 2 columns
       container.style.gap = "10px";
@@ -903,6 +904,11 @@ document.querySelectorAll('input[name="city_id"]').forEach(input => {
   function updateChildAgeDropdown(count) {
     const container = document.getElementById('children-ages');
     const label = document.getElementById('children-age-label');
+
+    // Preserve existing selected values
+    const previousValues = [];
+    container.querySelectorAll('select').forEach((sel) => previousValues.push(sel.value));
+
     container.innerHTML = ''; // Clear old
 
     if (count > 0) {
@@ -911,12 +917,20 @@ document.querySelectorAll('input[name="city_id"]').forEach(input => {
         const select = document.createElement('select');
         select.id = `child-age-${i}`;
         select.name = `child_age_${i}`;
+        select.classList.add('child-age-select');
         for (let age = 0; age <= 17; age++) {
           const option = document.createElement('option');
           option.value = age;
           option.textContent = `${age} years`;
           select.appendChild(option);
         }
+
+        if (previousValues[i] !== undefined) {
+          const prev = previousValues[i];
+          const opt = Array.from(select.options).find(o => o.value == prev);
+          if (opt) select.value = prev;
+        }
+
         container.appendChild(select);
       }
     } else {
@@ -935,7 +949,6 @@ document.querySelectorAll('input[name="city_id"]').forEach(input => {
   }
 }
 </script>
-
 
 
 @endsection
