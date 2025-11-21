@@ -279,6 +279,10 @@
               <button class="mt-2 _btn" type="submit">Apply Filter</button>
                   <a href="{{ url('filter-hotels') }}" class="mt-2 ms-2 _btn btn-danger">Clear Filters</a>
             </div>  
+            <input type="hidden" name="city_id" value="{{ request('city_id') }}">
+<input type="hidden" name="start_date" value="{{ request('start_date') }}">
+<input type="hidden" name="end_date" value="{{ request('end_date') }}">
+
             <!-- 1. Star Category -->
             <div class="filter-box mt-2">
               <div class="filter-group">

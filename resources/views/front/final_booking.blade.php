@@ -285,7 +285,7 @@
                                 Reserve
                             </button>
                             @else
-                            <a href="{{ route('login') }}" class="btn btn-primary">Book Now</a>
+                            <a href="{{ route('login') }}"  onclick="localStorage.setItem('redirect_after_login', window.location.href)" class="btn btn-primary">Book Now</a>
                             @endif
 
                         </div>
@@ -345,6 +345,27 @@
 <div class="comp-container">
    
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    let url = localStorage.getItem("redirect_after_login");
+
+    if (url) {
+        fetch("{{ route('save.redirect.url') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ redirect_url: url })
+        });
+
+        // Clear only after saving
+        localStorage.removeItem("redirect_after_login");
+    }
+});
+</script>
+
 
     <script>
 document.addEventListener("DOMContentLoaded", function () {

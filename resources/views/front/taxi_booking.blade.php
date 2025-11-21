@@ -247,7 +247,7 @@
                 @if(Auth::guard('agent')->check())
                   <button type="submit" class="btn btn-primary">Send Request to Admin</button>
                 @else
-                  <a href="{{ route('login') }}" class="btn btn-primary">Send Request to Admin</a>
+                  <a href="{{ route('login') }}"  onclick="localStorage.setItem('redirect_after_login', window.location.href)" class="btn btn-primary">Send Request to Admin</a>
                 @endif
                 </div>
               </form>
@@ -370,7 +370,7 @@
                 @if(Auth::guard('agent')->check())
                   <button type="submit" class="btn btn-primary">Send Request to Admin</button>
                 @else
-                  <a href="{{ route('login') }}" class="btn btn-primary">Send Request to Admin</a>
+                  <a href="{{ route('login') }}"  onclick="localStorage.setItem('redirect_after_login', window.location.href)" class="btn btn-primary">Send Request to Admin</a>
                 @endif
                  </div>
               </form>
@@ -545,7 +545,7 @@
                 @if(Auth::guard('agent')->check())
                   <button type="submit" class="btn btn-primary">Send Request to Admin</button>
                 @else
-                  <a href="{{ route('login') }}" class="btn btn-primary">Send Request to Admin</a>
+                  <a href="{{ route('login') }}" onclick="localStorage.setItem('redirect_after_login', window.location.href)" class="btn btn-primary">Send Request to Admin</a>
                 @endif
                  </div>
               </form>
@@ -710,6 +710,26 @@
 </div>
 
 <!-- /* //////////////form ends///////////// */ -->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    let url = localStorage.getItem("redirect_after_login");
+
+    if (url) {
+        fetch("{{ route('save.redirect.url') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ redirect_url: url })
+        });
+
+        // Clear only after saving
+        localStorage.removeItem("redirect_after_login");
+    }
+});
+</script>
 
 <script>
   // Function to change background image based on active tab

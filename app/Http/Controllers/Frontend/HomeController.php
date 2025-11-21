@@ -1529,7 +1529,7 @@ public function getVehiclesByCity($cityId)
         $end_date = $request->query('end_date');
         $min_price = $request->query('min_price');
         $max_price = $request->query('max_price');
-
+$params = $request->query();
         // NEW FILTERS
         $stars = $request->query('star'); // array
         $meal_plans = $request->query('meal_plan'); // array
@@ -1581,7 +1581,7 @@ public function getVehiclesByCity($cityId)
 
         $hotels = $query->get();
         $hotel_ids = $hotels->pluck('id');
-$filtered_hotels = $query->get();
+      $filtered_hotels = $query->get();
         // Dates
         $formatted_start_date = null;
         $formatted_end_date = null;

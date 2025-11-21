@@ -432,7 +432,7 @@
         </div>
     @else
         <div class="live_set mt-3">
-            <a class="btn btn-info gggsd" href="{{ route('login') }}">Reserve</a>
+            <a class="btn btn-info gggsd" href="{{ route('login') }}"  onclick="localStorage.setItem('redirect_after_login', window.location.href)">Reserve</a>
         </div>
     @endif
 </form>
@@ -447,6 +447,27 @@
             </div>
         </div>
     </section>
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    let url = localStorage.getItem("redirect_after_login");
+
+    if (url) {
+        fetch("{{ route('save.redirect.url') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ redirect_url: url })
+        });
+
+        // Clear only after saving
+        localStorage.removeItem("redirect_after_login");
+    }
+});
+</script>
+
    <script>
         document.addEventListener('DOMContentLoaded', function () {
             new Splide('#bnjrop', {
