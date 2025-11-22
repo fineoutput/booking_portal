@@ -1924,9 +1924,8 @@ public function statecityhotel(Request $request)
                     'room_id' => $room->id,
                     'room_name' => $room->title,
                     'meal_plan' => $room->meal_plan,
-                    'room_type' => $room->room_type,
-                    'max_person' => $room->max_person,
-                    'prices' => $prices, // room-wise prices
+                    'hotel_amenities' => $room->hotel_amenities,
+                    'prices' => $prices, 
                 ];
             });
 
