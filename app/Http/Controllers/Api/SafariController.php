@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Mail\OtpMail;
+use App\Models\HotelPrice;
+use App\Models\HotelsRoom;
 use App\Models\SafariPrices;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -181,34 +183,62 @@ public function alldata(Request $request)
 
     // ================= HOTEL DATA ================= //
     $hotels = Hotels::all();
+    $formatted_start_date = Carbon::now()->format('Y-m-d');
+        $formatted_end_date = Carbon::now()->format('Y-m-d');
+    $hotel_prices_query = HotelPrice::where('start_date', '<=', $formatted_start_date)
+                                        ->where('end_date', '>=', $formatted_end_date)
+                                        ->get();
 
-    $hotelData = $hotels->map(function ($hotel) {
-        $baseUrl = url('');
-        $stateName = $hotel->state->state_name ?? null;
-        $cityName = $hotel->cities->city_name ?? null;
+    $hotelData = $hotels->map(function ($hotel) use ($hotel_prices_query) {
 
-        $hotelPrices = $hotel->prices;
-        $pricesData = $hotelPrices->map(function ($price) {
+            $baseUrl = url('');
+
+            $stateName = $hotel->state ? $hotel->state->state_name : null;
+            $cityName  = $hotel->cities ? $hotel->cities->city_name : null;
+
+            // 🔥 Get All Rooms of the Hotel
+            $rooms = HotelsRoom::where('hotel_id', $hotel->id)->get();
+
+            // 🔥 Create Room-wise Price Array
+            $roomArray = $rooms->map(function ($room) use ($hotel_prices_query) {
+
+                // Filter by room_id
+                $roomPrices = $hotel_prices_query->where('room_id', $room->id);
+
+                // Price array inside each room
+                $prices = $roomPrices->map(function ($price) {
+                    return [
+                        'id' => $price->id,
+                        'night_cost' => $price->night_cost,
+                        'mrp' => $price->mrp,
+                        'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+                        'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+                    ];
+                })->values();
+
+                return [
+                    'room_id' => $room->id,
+                    'room_name' => $room->title,
+                    'meal_plan' => $room->meal_plan,
+                    'hotel_amenities' => $room->hotel_amenities,
+                    'prices' => $prices, 
+                ];
+            });
+
             return [
-                'id' => $price->id,
-                'night_cost' => $price->night_cost,
-                'start_date' => \Carbon\Carbon::parse($price->start_date)->format('F Y'),
-                'end_date' => \Carbon\Carbon::parse($price->end_date)->format('F Y'),
+                'id' => $hotel->id,
+                'name' => $hotel->name,
+                'text_description' => str_replace(['<p>', '</p>'], '', $hotel->text_description),
+                'state' => $stateName,
+                'city' => $cityName,
+                'images' => $this->generateImageUrls($hotel->images, $baseUrl),
+                'location' => $hotel->location,
+                'hotel_category' => $hotel->hotel_category,
+                'package_id' => $hotel->package_id,
+                'rooms' => $roomArray, // 🔥 Added full room details + room prices
             ];
-        });
 
-        return [
-            'id' => $hotel->id,
-            'name' => $hotel->name,
-            'state' => $stateName,
-            'city' => $cityName,
-            'images' => array_map(fn($img) => url('') . '/' . $img, is_array($images = json_decode($hotel->images, true)) ? $images : []),
-            'location' => $hotel->location,
-            'hotel_category' => $hotel->hotel_category,
-            'package_id' => $hotel->package_id,
-            'prices' => $pricesData,
-        ];
-    });
+        });
 
     // ========== FINAL RESPONSE ========== //
     return response()->json([
@@ -223,7 +253,26 @@ public function alldata(Request $request)
 }
 
 
+private function generateImageUrls($images, $baseUrl)
+{
+    // Check if the images are empty or null
+    if (is_null($images) || empty($images)) {
+        return [];  // Return an empty array if images is null or empty
+    }
 
+    // Decode the JSON string into an array
+    $imagePaths = json_decode($images);
+
+    // Check if decoding returns an array, if not return an empty array
+    if (!is_array($imagePaths)) {
+        return [];
+    }
+
+    // Map over the image paths to generate full URLs
+    return array_map(function($image) use ($baseUrl) {
+        return url($baseUrl . '/' . $image); 
+    }, $imagePaths);
+}
 
     public function wildsafari(Request $request)
     {
