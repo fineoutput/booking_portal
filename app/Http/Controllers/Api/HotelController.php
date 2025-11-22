@@ -1919,6 +1919,7 @@ public function statecityhotel(Request $request)
                     return [
                         'id' => $price->id,
                         'night_cost' => $price->night_cost,
+                        'night_cost' => $price->mrp,
                         'start_date' => Carbon::parse($price->start_date)->format('F Y'),
                         'end_date' => Carbon::parse($price->end_date)->format('F Y'),
                     ];
@@ -1927,6 +1928,7 @@ public function statecityhotel(Request $request)
                 return [
                     'id' => $hotel->id,
                     'name' => $hotel->name,
+                    'text_description' => str_replace(['<p>', '</p>'], '', $hotel->text_description),
                     'state' => $stateName, 
                     'city' => $cityName, 
                     'images' => $this->generateImageUrls($hotel->images, $baseUrl),
