@@ -1919,7 +1919,7 @@ public function statecityhotel(Request $request)
                     return [
                         'id' => $price->id,
                         'night_cost' => $price->night_cost,
-                        'night_cost' => $price->mrp,
+                        'mrp' => $price->mrp,
                         'start_date' => Carbon::parse($price->start_date)->format('F Y'),
                         'end_date' => Carbon::parse($price->end_date)->format('F Y'),
                     ];
