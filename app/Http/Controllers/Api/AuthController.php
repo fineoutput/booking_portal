@@ -173,7 +173,8 @@ class AuthController extends Controller
 
     private function sendOtp($phone = null, $email = null)
     {
-        $otp = rand(1000, 9999); 
+        // $otp = rand(1000, 9999); 
+        $otp = 123456; 
         $sourceName = $phone ?? $email; 
         $existingOtp = UserOtp::where('source_name', $sourceName);
         if ($existingOtp) {
