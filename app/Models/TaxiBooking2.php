@@ -16,10 +16,14 @@ class TaxiBooking2 extends Model
         'agent_margin',
         'final_price',
         'salesman_name',
+        'tour_type',
         'salesman_mobile',
         'status',
     ];
-
+  public function tourists()
+    {
+        return $this->hasMany(Tourist::class,'booking_id','id');
+    }
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id'); 
