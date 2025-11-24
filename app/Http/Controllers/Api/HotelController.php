@@ -3521,20 +3521,20 @@ public function bookGuide(Request $request)
         $guideTypes = explode(',', $trip->guide_type);
         if (!in_array($request->guide_type, $guideTypes)) {
             return response()->json([
-                'status' => 400,
+                'status' => 201,
                 'message' => 'The selected guide type is not valid for this tour guide.',
                 'data' => []
-            ], 400);
+            ], 201);
         }
 
         $trip_price = TripGuidePrice::where('trip_id', $trip->id)->first();
         
         if (!$trip_price) {
             return response()->json([
-                'status' => 404,
+                'status' => 201,
                 'message' => 'Price not found for the selected tour guide.',
                 'data' => []
-            ], 404);
+            ], 201);
         }
 
         // Cost calculation based on adults
@@ -3549,7 +3549,7 @@ public function bookGuide(Request $request)
             $fine_price = $trip_price->price_1_to_4 + $trip_price->price_5 + $trip_price->price_6 + $trip_price->price_6_to_10;
         } else {
             return response()->json([
-                'status' => 400,
+                'status' => 201,
                 'message' => 'Adults count cannot exceed 10.',
                 'data' => []
             ], 400);
