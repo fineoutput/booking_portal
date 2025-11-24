@@ -51,6 +51,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HotelsRoom;
 use App\Models\TripGuidePrice;
+use App\Models\WalletTransactions;
 
 class HotelController extends Controller
 {
@@ -4627,9 +4628,10 @@ public function getLanguages(Request $request)
             ]);
         }
 
-        $transactions = Wallet::where('user_id', $user->id)->get();
+        $transactions = WalletTransactions::where('user_id', $user->id)->get();
 
-        $totalAmount = $transactions->where('transaction_type', 'recharge')->sum('amount');
+        $totalAmount = Wallet::where('user_id',$user->id)->first();
+        $userdata = Agent::where('id',$user->id)->first();
 
         $transactionData = $transactions->map(function($transaction) {
             $formattedTransaction = [
@@ -4663,7 +4665,10 @@ public function getLanguages(Request $request)
             'message' => 'Transactions fetched successfully.',
             'data' => [
                 'transactions' => $transactionData,
-                'total_amount' => $totalAmount,
+                'total_amount' => [$totalAmount],
+                'userdata' => [
+                    $userdata
+                ],
             ],
             'status' => 200,
         ]);
