@@ -595,37 +595,41 @@
                                                 <div class="modal-body suther">
                                                     <input type="hidden" id="bookingIdss" name="booking_id" value="{{ $value->id ?? ''}}">
                                                     <h6 class="fw-bold suther">Tourists Information</h6>
-                                                    <div id="touristContainer" class="mb-3 suther">
-                                                        <div class="tourist-section suther mb-4">
-                                                            <h6 class="fw-bold suther">Tourist 1</h6>
+                                                    <div id="hotelTouristContainer{{ $value->id }}" class="mb-3 suther">
+                                                        <div class="tourist-section suther mb-4" data-tourist-id="1">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <h6 class="fw-bold suther">Tourist 1</h6>
+                                                                <button type="button" class="btn btn-danger btn-sm remove-tourist suther" style="display: none;">Remove</button>
+                                                            </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristName" class="form-label suther">Name</label>
-                                                                    <input type="text" class="form-control suther touristName" name="name" placeholder="Enter Name">
+                                                                    <label for="touristName1" class="form-label suther">Name</label>
+                                                                    <input type="text" class="form-control suther touristName" name="tourist[1][name]" id="touristName1" placeholder="Enter Name">
                                                                 </div>
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristAge" class="form-label suther">Age</label>
-                                                                    <input type="number" class="form-control suther touristAge" name="age" placeholder="Enter Age">
+                                                                    <label for="touristAge1" class="form-label suther">Age</label>
+                                                                    <input type="number" class="form-control suther touristAge" name="tourist[1][age]" id="touristAge1" placeholder="Enter Age">
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristPhone" class="form-label suther">Phone No.</label>
-                                                                    <input type="text" class="form-control suther touristPhone" name="phone" placeholder="Enter Phone No.">
+                                                                    <label for="touristPhone1" class="form-label suther">Phone No.</label>
+                                                                    <input type="text" class="form-control suther touristPhone" name="tourist[1][phone]" id="touristPhone1" placeholder="Enter Phone No.">
                                                                 </div>
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="aadharUploadFront" class="form-label suther">Aadhaar Card (Front)</label>
-                                                                    <input id="aadhar_front" type="file" class="form-control suther touristAadharFront" name="aadhar_front">
+                                                                    <label for="aadharUploadFront1" class="form-label suther">Aadhaar Card (Front)</label>
+                                                                    <input id="aadharUploadFront1" type="file" class="form-control suther touristAadharFront" name="tourist[1][aadhar_front]">
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="aadharUploadBack" class="form-label suther">Aadhaar Card (Back)</label>
-                                                                    <input id="aadhar_back" type="file" class="form-control suther touristAadharBack" name="aadhar_back">
+                                                                    <label for="aadharUploadBack1" class="form-label suther">Aadhaar Card (Back)</label>
+                                                                    <input id="aadharUploadBack1" type="file" class="form-control suther touristAadharBack" name="tourist[1][aadhar_back]">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <button type="button" class="btn btn-success suther mb-3" id="addHotelTourist{{ $value->id }}">Add Tourist</button>
                                                     <h6 class="fw-bold suther mt-4">Additional Information</h6>
                                                     <div class="mb-3 suther">
                                                         <label for="additionalInfo" class="form-label suther">Details</label>
@@ -841,42 +845,46 @@
                                                 <h5 class="modal-title suther" id="safariDetailsModalLabel3001">Enter Safari Booking Details</h5>
                                                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveTouristDetailssafari')}}" class="suther" id="safariTouristForm">
+                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveTouristDetailssafari')}}" class="suther" id="safariTouristForm{{ $value->id ?? '' }}">
                                                 @csrf
                                                 <div class="modal-body suther">
                                                     <input type="hidden" id="bookingIdss" name="booking_id" value="{{$value->id ?? ''}}">
                                                     <h6 class="fw-bold suther">Tourists Information</h6>
-                                                    <div id="touristContainer" class="mb-3 suther">
-                                                        <div class="tourist-section suther mb-4">
-                                                            <h6 class="fw-bold suther">Tourist 1</h6>
+                                                    <div id="safariTouristContainer{{ $value->id ?? '' }}" class="mb-3 suther">
+                                                        <div class="tourist-section suther mb-4" data-tourist-id="1">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <h6 class="fw-bold suther">Tourist 1</h6>
+                                                                <button type="button" class="btn btn-danger btn-sm remove-tourist suther" style="display: none;">Remove</button>
+                                                            </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristName" class="form-label suther">Name</label>
-                                                                    <input type="text" class="form-control suther touristName" name="name" placeholder="Enter Name">
+                                                                    <label for="touristName1" class="form-label suther">Name</label>
+                                                                    <input type="text" class="form-control suther touristName" name="tourist[1][name]" id="touristName1" placeholder="Enter Name">
                                                                 </div>
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristAge" class="form-label suther">Age</label>
-                                                                    <input type="number" class="form-control suther touristAge" name="age" placeholder="Enter Age">
+                                                                    <label for="touristAge1" class="form-label suther">Age</label>
+                                                                    <input type="number" class="form-control suther touristAge" name="tourist[1][age]" id="touristAge1" placeholder="Enter Age">
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristPhone" class="form-label suther">Phone No.</label>
-                                                                    <input type="text" class="form-control suther touristPhone" name="phone" placeholder="Enter Phone No.">
+                                                                    <label for="touristPhone1" class="form-label suther">Phone No.</label>
+                                                                    <input type="text" class="form-control suther touristPhone" name="tourist[1][phone]" id="touristPhone1" placeholder="Enter Phone No.">
                                                                 </div>
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="aadharUploadFront" class="form-label suther">Aadhaar Card (Front)</label>
-                                                                    <input id="aadhar_front" type="file" class="form-control suther touristAadharFront" name="aadhar_front">
+                                                                    <label for="aadharUploadFront1" class="form-label suther">Aadhaar Card (Front)</label>
+                                                                    <input id="aadharUploadFront1" type="file" class="form-control suther touristAadharFront" name="tourist[1][aadhar_front]">
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="aadharUploadBack" class="form-label suther">Aadhaar Card (Back)</label>
-                                                                    <input id="aadhar_back" type="file" class="form-control suther touristAadharBack" name="aadhar_back">
+                                                                    <label for="aadharUploadBack1" class="form-label suther">Aadhaar Card (Back)</label>
+                                                                    <input id="aadharUploadBack1" type="file" class="form-control suther touristAadharBack" name="tourist[1][aadhar_back]">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <button type="button" class="btn btn-success suther mb-3" id="addSafariTourist{{ $value->id ?? '' }}">Add Tourist</button>
                                                     <h6 class="fw-bold suther mt-4">Additional Information</h6>
                                                     <div class="mb-3 suther">
                                                         <label for="additionalInfo" class="form-label suther">Details</label>
@@ -1094,42 +1102,46 @@
                                                 <h5 class="modal-title suther" id="safariDetailsModalLabel3001">Enter Taxi Booking Details</h5>
                                                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveTouristDetailsTaxi')}}" class="suther" id="taxiTouristForm">
+                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveTouristDetailsTaxi')}}" class="suther" id="taxiTouristForm{{ $value->id ?? '' }}">
                                                 @csrf
                                                 <div class="modal-body suther">
                                                     <input type="hidden" id="bookingIdss" name="booking_id" value="{{$value->id ?? ''}}">
                                                     <h6 class="fw-bold suther">Tourists Information</h6>
-                                                    <div id="touristContainer" class="mb-3 suther">
-                                                        <div class="tourist-section suther mb-4">
-                                                            <h6 class="fw-bold suther">Tourist 1</h6>
+                                                    <div id="taxiTouristContainer{{ $value->id ?? '' }}" class="mb-3 suther">
+                                                        <div class="tourist-section suther mb-4" data-tourist-id="1">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <h6 class="fw-bold suther">Tourist 1</h6>
+                                                                <button type="button" class="btn btn-danger btn-sm remove-tourist suther" style="display: none;">Remove</button>
+                                                            </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristName" class="form-label suther">Name</label>
-                                                                    <input type="text" class="form-control suther touristName" name="name" placeholder="Enter Name">
+                                                                    <label for="touristName1" class="form-label suther">Name</label>
+                                                                    <input type="text" class="form-control suther touristName" name="tourist[1][name]" id="touristName1" placeholder="Enter Name">
                                                                 </div>
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristAge" class="form-label suther">Age</label>
-                                                                    <input type="number" class="form-control suther touristAge" name="age" placeholder="Enter Age">
+                                                                    <label for="touristAge1" class="form-label suther">Age</label>
+                                                                    <input type="number" class="form-control suther touristAge" name="tourist[1][age]" id="touristAge1" placeholder="Enter Age">
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="touristPhone" class="form-label suther">Phone No.</label>
-                                                                    <input type="text" class="form-control suther touristPhone" name="phone" placeholder="Enter Phone No.">
+                                                                    <label for="touristPhone1" class="form-label suther">Phone No.</label>
+                                                                    <input type="text" class="form-control suther touristPhone" name="tourist[1][phone]" id="touristPhone1" placeholder="Enter Phone No.">
                                                                 </div>
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="aadharUploadFront" class="form-label suther">Aadhaar Card (Front)</label>
-                                                                    <input id="aadhar_front" type="file" class="form-control suther touristAadharFront" name="aadhar_front">
+                                                                    <label for="aadharUploadFront1" class="form-label suther">Aadhaar Card (Front)</label>
+                                                                    <input id="aadharUploadFront1" type="file" class="form-control suther touristAadharFront" name="tourist[1][aadhar_front]">
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3 suther">
                                                                 <div class="col-md-6 suther">
-                                                                    <label for="aadharUploadBack" class="form-label suther">Aadhaar Card (Back)</label>
-                                                                    <input id="aadhar_back" type="file" class="form-control suther touristAadharBack" name="aadhar_back">
+                                                                    <label for="aadharUploadBack1" class="form-label suther">Aadhaar Card (Back)</label>
+                                                                    <input id="aadharUploadBack1" type="file" class="form-control suther touristAadharBack" name="tourist[1][aadhar_back]">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <button type="button" class="btn btn-success suther mb-3" id="addTaxiTourist{{ $value->id ?? '' }}">Add Tourist</button>
                                                     <h6 class="fw-bold suther mt-4">Additional Information</h6>
                                                     <div class="mb-3 suther">
                                                         <label for="additionalInfo" class="form-label suther">Details</label>
@@ -1334,95 +1346,77 @@
         }
     }
 
-    // Dynamic Tourist Addition/Removal for Package Bookings
-    @foreach($booking as $value)
-        $(document).ready(function() {
-            let touristCount{{ $value->id }} = 1;
+    $(document).ready(function() {
+        const touristFormConfigs = [];
 
-            $('#addTourist{{ $value->id }}').click(function() {
-                touristCount{{ $value->id }}++;
-                let newTouristSection = `
-                    <div class="tourist-section suther mb-4" data-tourist-id="${touristCount{{ $value->id }}}">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6 class="fw-bold suther">Tourist ${touristCount{{ $value->id }}}</h6>
-                            <button type="button" class="btn btn-danger btn-sm remove-tourist suther">Remove</button>
-                        </div>
-                        <div class="row mb-3 suther">
-                            <div class="col-md-6 suther">
-                                <label for="touristName${touristCount{{ $value->id }}}" class="form-label suther">Name</label>
-                                <input type="text" class="form-control suther touristName" name="tourist[${touristCount{{ $value->id }}}][name]" id="touristName${touristCount{{ $value->id }}}" placeholder="Enter Name">
-                            </div>
-                            <div class="col-md-6 suther">
-                                <label for="touristAge${touristCount{{ $value->id }}}" class="form-label suther">Age</label>
-                                <input type="number" class="form-control suther touristAge" name="tourist[${touristCount{{ $value->id }}}][age]" id="touristAge${touristCount{{ $value->id }}}" placeholder="Enter Age">
-                            </div>
-                        </div>
-                        <div class="row mb-3 suther">
-                            <div class="col-md-6 suther">
-                                <label for="touristPhone${touristCount{{ $value->id }}}" class="form-label suther">Phone No.</label>
-                                <input type="text" class="form-control suther touristPhone" name="tourist[${touristCount{{ $value->id }}}][phone]" id="touristPhone${touristCount{{ $value->id }}}" placeholder="Enter Phone No.">
-                            </div>
-                            <div class="col-md-6 suther">
-                                <label for="aadharUploadFront${touristCount{{ $value->id }}}" class="form-label suther">Aadhaar Card (Front)</label>
-                                <input id="aadharUploadFront${touristCount{{ $value->id }}}" type="file" class="form-control suther touristAadharFront" name="tourist[${touristCount{{ $value->id }}}][aadhar_front]">
-                            </div>
-                        </div>
-                        <div class="row mb-3 suther">
-                            <div class="col-md-6 suther">
-                                <label for="aadharUploadBack${touristCount{{ $value->id }}}" class="form-label suther">Aadhaar Card (Back)</label>
-                                <input id="aadharUploadBack${touristCount{{ $value->id }}}" type="file" class="form-control suther touristAadharBack" name="tourist[${touristCount{{ $value->id }}}][aadhar_back]">
-                            </div>
-                        </div>
-                    </div>
-                `;
-                $('#touristContainer{{ $value->id }}').append(newTouristSection);
-                updateRemoveButtons{{ $value->id }}();
+        @foreach($booking as $value)
+            touristFormConfigs.push({
+                addButtonId: 'addTourist{{ $value->id }}',
+                containerId: 'touristContainer{{ $value->id }}',
+                formId: 'touristForm{{ $value->id }}',
+                modalId: 'packageDetailsModal{{ $value->id }}',
+                ajax: true
             });
+        @endforeach
 
-            $(document).on('click', '#touristContainer{{ $value->id }} .remove-tourist', function() {
-                $(this).closest('.tourist-section').remove();
-                updateTouristNumbers{{ $value->id }}();
-                updateRemoveButtons{{ $value->id }}();
+        @foreach($hotels_data as $value)
+            touristFormConfigs.push({
+                addButtonId: 'addHotelTourist{{ $value->id }}',
+                containerId: 'hotelTouristContainer{{ $value->id }}',
+                formId: 'hotelTouristForm{{ $value->id }}'
             });
+        @endforeach
 
-            function updateTouristNumbers{{ $value->id }}() {
-                const touristSections = $('#touristContainer{{ $value->id }} .tourist-section');
-                touristCount{{ $value->id }} = touristSections.length;
-                touristSections.each((index, section) => {
-                    const newId = index + 1;
-                    $(section).attr('data-tourist-id', newId);
-                    $(section).find('h6').text(`Tourist ${newId}`);
-                    const inputs = $(section).find('input');
-                    inputs[0].name = `tourist[${newId}][name]`;
-                    inputs[0].id = `touristName${newId}`;
-                    inputs[1].name = `tourist[${newId}][age]`;
-                    inputs[1].id = `touristAge${newId}`;
-                    inputs[2].name = `tourist[${newId}][phone]`;
-                    inputs[2].id = `touristPhone${newId}`;
-                    inputs[3].name = `tourist[${newId}][aadhar_front]`;
-                    inputs[3].id = `aadharUploadFront${newId}`;
-                    inputs[4].name = `tourist[${newId}][aadhar_back]`;
-                    inputs[4].id = `aadharUploadBack${newId}`;
-                    $(section).find('label').eq(0).attr('for', `touristName${newId}`);
-                    $(section).find('label').eq(1).attr('for', `touristAge${newId}`);
-                    $(section).find('label').eq(2).attr('for', `touristPhone${newId}`);
-                    $(section).find('label').eq(3).attr('for', `aadharUploadFront${newId}`);
-                    $(section).find('label').eq(4).attr('for', `aadharUploadBack${newId}`);
-                });
-            }
+        @foreach($WildlifeSafari_data as $value)
+            touristFormConfigs.push({
+                addButtonId: 'addSafariTourist{{ $value->id }}',
+                containerId: 'safariTouristContainer{{ $value->id }}',
+                formId: 'safariTouristForm{{ $value->id }}'
+            });
+        @endforeach
 
-            function updateRemoveButtons{{ $value->id }}() {
-                const removeButtons = $('#touristContainer{{ $value->id }} .remove-tourist');
-                removeButtons.each(function() {
-                    $(this).css('display', touristCount{{ $value->id }} > 1 ? 'block' : 'none');
-                });
-            }
+        @foreach($Taxi_data as $value)
+            touristFormConfigs.push({
+                addButtonId: 'addTaxiTourist{{ $value->id }}',
+                containerId: 'taxiTouristContainer{{ $value->id }}',
+                formId: 'taxiTouristForm{{ $value->id }}'
+            });
+        @endforeach
 
-            $('#touristForm{{ $value->id }}').submit(function(e) {
+        touristFormConfigs.forEach(config => initDynamicTouristForm(config));
+    });
+
+    function initDynamicTouristForm(config) {
+        const container = $('#' + config.containerId);
+        const addButton = $('#' + config.addButtonId);
+
+        if (!container.length || !addButton.length) {
+            return;
+        }
+
+        addButton.on('click', function() {
+            const newIndex = container.find('.tourist-section').length + 1;
+            container.append(getTouristSectionTemplate(newIndex));
+            updateRemoveButtons(container);
+        });
+
+        container.on('click', '.remove-tourist', function() {
+            $(this).closest('.tourist-section').remove();
+            updateTouristNumbers(container);
+            updateRemoveButtons(container);
+        });
+
+        updateRemoveButtons(container);
+
+        if (config.ajax && config.formId && config.modalId) {
+            const form = $('#' + config.formId);
+
+            form.on('submit', function(e) {
                 e.preventDefault();
                 let formData = new FormData(this);
+
                 $.ajax({
-                    url: "{{ route('saveTouristDetails') }}",
+                    url: form.attr('action'),
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -1430,9 +1424,13 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    success: function(response) {
+                    success: function() {
                         alert('Tourist details saved successfully!');
-                        $('#packageDetailsModal{{ $value->id }}').modal('hide');
+                        $('#' + config.modalId).modal('hide');
+                        form.trigger('reset');
+                        container.find('.tourist-section').not(':first').remove();
+                        updateTouristNumbers(container);
+                        updateRemoveButtons(container);
                     },
                     error: function(xhr, status, error) {
                         alert('An error occurred while saving tourist details');
@@ -1442,7 +1440,71 @@
                     }
                 });
             });
+        }
+    }
+
+    function getTouristSectionTemplate(index) {
+        return `
+            <div class="tourist-section suther mb-4" data-tourist-id="${index}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="fw-bold suther">Tourist ${index}</h6>
+                    <button type="button" class="btn btn-danger btn-sm remove-tourist suther">Remove</button>
+                </div>
+                <div class="row mb-3 suther">
+                    <div class="col-md-6 suther">
+                        <label for="touristName${index}" class="form-label suther">Name</label>
+                        <input type="text" class="form-control suther touristName" name="tourist[${index}][name]" id="touristName${index}" placeholder="Enter Name">
+                    </div>
+                    <div class="col-md-6 suther">
+                        <label for="touristAge${index}" class="form-label suther">Age</label>
+                        <input type="number" class="form-control suther touristAge" name="tourist[${index}][age]" id="touristAge${index}" placeholder="Enter Age">
+                    </div>
+                </div>
+                <div class="row mb-3 suther">
+                    <div class="col-md-6 suther">
+                        <label for="touristPhone${index}" class="form-label suther">Phone No.</label>
+                        <input type="text" class="form-control suther touristPhone" name="tourist[${index}][phone]" id="touristPhone${index}" placeholder="Enter Phone No.">
+                    </div>
+                    <div class="col-md-6 suther">
+                        <label for="aadharUploadFront${index}" class="form-label suther">Aadhaar Card (Front)</label>
+                        <input id="aadharUploadFront${index}" type="file" class="form-control suther touristAadharFront" name="tourist[${index}][aadhar_front]">
+                    </div>
+                </div>
+                <div class="row mb-3 suther">
+                    <div class="col-md-6 suther">
+                        <label for="aadharUploadBack${index}" class="form-label suther">Aadhaar Card (Back)</label>
+                        <input id="aadharUploadBack${index}" type="file" class="form-control suther touristAadharBack" name="tourist[${index}][aadhar_back]">
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function updateTouristNumbers(container) {
+        const touristSections = container.find('.tourist-section');
+        touristSections.each((index, section) => {
+            const newId = index + 1;
+            const $section = $(section);
+            $section.attr('data-tourist-id', newId);
+            $section.find('h6').first().text(`Tourist ${newId}`);
+            const inputs = $section.find('input');
+            inputs.eq(0).attr({ name: `tourist[${newId}][name]`, id: `touristName${newId}` });
+            inputs.eq(1).attr({ name: `tourist[${newId}][age]`, id: `touristAge${newId}` });
+            inputs.eq(2).attr({ name: `tourist[${newId}][phone]`, id: `touristPhone${newId}` });
+            inputs.eq(3).attr({ name: `tourist[${newId}][aadhar_front]`, id: `aadharUploadFront${newId}` });
+            inputs.eq(4).attr({ name: `tourist[${newId}][aadhar_back]`, id: `aadharUploadBack${newId}` });
+            const labels = $section.find('label');
+            labels.eq(0).attr('for', `touristName${newId}`);
+            labels.eq(1).attr('for', `touristAge${newId}`);
+            labels.eq(2).attr('for', `touristPhone${newId}`);
+            labels.eq(3).attr('for', `aadharUploadFront${newId}`);
+            labels.eq(4).attr('for', `aadharUploadBack${newId}`);
         });
-    @endforeach
+    }
+
+    function updateRemoveButtons(container) {
+        const removeButtons = container.find('.remove-tourist');
+        removeButtons.toggle(container.find('.tourist-section').length > 1);
+    }
 </script>
 @endsection

@@ -615,60 +615,59 @@ public function saveTouristDetails(Request $request)
   public function saveTouristDetailshotel(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required',
-            'age' => 'required',
-            'phone' => 'required',
-            'aadhar_front' => 'required|file',
-            'aadhar_back' => 'required|file',
+            'tourist.*.name' => 'required',
+            'tourist.*.age' => 'required',
+            'tourist.*.phone' => 'required',
+            'tourist.*.aadhar_front' => 'required|file',
+            'tourist.*.aadhar_back' => 'required|file',
             'additional_info' => 'nullable',
             'booking_id' => 'required',
         ]);
 
-        $aadharFrontPath = null;
-        $aadharBackPath = null;
+        foreach ($request->tourist as $touristData) {
+            $aadharFrontPath = null;
+            $aadharBackPath = null;
 
-        // Upload Aadhar Front
-        if ($request->hasFile('aadhar_front')) {
-            $file = $request->file('aadhar_front');
-            $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
-            $destination = public_path('uploads/tourist');
+            if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
+                $file = $touristData['aadhar_front'];
+                $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
+                $destination = public_path('uploads/tourist');
 
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
+
+                $file->move($destination, $filename);
+                $aadharFrontPath = 'uploads/tourist/' . $filename;
             }
 
-            $file->move($destination, $filename);
-            $aadharFrontPath = 'uploads/tourist/' . $filename;
-        }
+            if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
+                $file = $touristData['aadhar_back'];
+                $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
+                $destination = public_path('uploads/tourist');
 
-        // Upload Aadhar Back
-        if ($request->hasFile('aadhar_back')) {
-            $file = $request->file('aadhar_back');
-            $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
-            $destination = public_path('uploads/tourist');
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
 
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
+                $file->move($destination, $filename);
+                $aadharBackPath = 'uploads/tourist/' . $filename;
             }
 
-            $file->move($destination, $filename);
-            $aadharBackPath = 'uploads/tourist/' . $filename;
+            $tourist = new Tourist([
+                'user_id' => Auth::guard('agent')->id(),
+                'name' => $touristData['name'],
+                'age' => $touristData['age'],
+                'phone' => $touristData['phone'],
+                'aadhar_front' => $aadharFrontPath,
+                'aadhar_back' => $aadharBackPath,
+                'additional_info' => $request->additional_info,
+                'booking_id' => $request->booking_id,
+                'type' => 'hotel',
+            ]);
+
+            $tourist->save();
         }
-
-        // Save to DB
-        $tourist = new Tourist([
-            'user_id' => Auth::guard('agent')->id(),
-            'name' => $request->name,
-            'age' => $request->age,
-            'phone' => $request->phone,
-            'aadhar_front' => $aadharFrontPath,
-            'aadhar_back' => $aadharBackPath,
-            'additional_info' => $request->additional_info,
-            'booking_id' => $request->booking_id,
-            'type' => 'hotel',
-        ]);
-
-        $tourist->save();
 
         return redirect()->back()->with([
             'message' => 'Tourist details saved successfully!'
@@ -679,60 +678,59 @@ public function saveTouristDetails(Request $request)
   public function saveTouristDetailssafari(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required',
-            'age' => 'required',
-            'phone' => 'required',
-            'aadhar_front' => 'required|file',
-            'aadhar_back' => 'required|file',
+            'tourist.*.name' => 'required',
+            'tourist.*.age' => 'required',
+            'tourist.*.phone' => 'required',
+            'tourist.*.aadhar_front' => 'required|file',
+            'tourist.*.aadhar_back' => 'required|file',
             'additional_info' => 'nullable',
             'booking_id' => 'required',
         ]);
 
-        $aadharFrontPath = null;
-        $aadharBackPath = null;
+        foreach ($request->tourist as $touristData) {
+            $aadharFrontPath = null;
+            $aadharBackPath = null;
 
-        // Upload Aadhar Front
-        if ($request->hasFile('aadhar_front')) {
-            $file = $request->file('aadhar_front');
-            $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
-            $destination = public_path('uploads/tourist');
+            if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
+                $file = $touristData['aadhar_front'];
+                $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
+                $destination = public_path('uploads/tourist');
 
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
+
+                $file->move($destination, $filename);
+                $aadharFrontPath = 'uploads/tourist/' . $filename;
             }
 
-            $file->move($destination, $filename);
-            $aadharFrontPath = 'uploads/tourist/' . $filename;
-        }
+            if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
+                $file = $touristData['aadhar_back'];
+                $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
+                $destination = public_path('uploads/tourist');
 
-        // Upload Aadhar Back
-        if ($request->hasFile('aadhar_back')) {
-            $file = $request->file('aadhar_back');
-            $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
-            $destination = public_path('uploads/tourist');
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
 
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
+                $file->move($destination, $filename);
+                $aadharBackPath = 'uploads/tourist/' . $filename;
             }
 
-            $file->move($destination, $filename);
-            $aadharBackPath = 'uploads/tourist/' . $filename;
+            $tourist = new Tourist([
+                'user_id' => Auth::guard('agent')->id(),
+                'name' => $touristData['name'],
+                'age' => $touristData['age'],
+                'phone' => $touristData['phone'],
+                'aadhar_front' => $aadharFrontPath,
+                'aadhar_back' => $aadharBackPath,
+                'additional_info' => $request->additional_info,
+                'booking_id' => $request->booking_id,
+                'type' => 'safari',
+            ]);
+
+            $tourist->save();
         }
-
-        // Save to DB
-        $tourist = new Tourist([
-            'user_id' => Auth::guard('agent')->id(),
-            'name' => $request->name,
-            'age' => $request->age,
-            'phone' => $request->phone,
-            'aadhar_front' => $aadharFrontPath,
-            'aadhar_back' => $aadharBackPath,
-            'additional_info' => $request->additional_info,
-            'booking_id' => $request->booking_id,
-            'type' => 'safari',
-        ]);
-
-        $tourist->save();
 
         return redirect()->back()->with([
             'message' => 'Tourist details saved successfully!'
@@ -742,60 +740,59 @@ public function saveTouristDetails(Request $request)
     public function saveTouristDetailsTaxi(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required',
-            'age' => 'required',
-            'phone' => 'required',
-            'aadhar_front' => 'required|file',
-            'aadhar_back' => 'required|file',
+            'tourist.*.name' => 'required',
+            'tourist.*.age' => 'required',
+            'tourist.*.phone' => 'required',
+            'tourist.*.aadhar_front' => 'required|file',
+            'tourist.*.aadhar_back' => 'required|file',
             'additional_info' => 'nullable',
             'booking_id' => 'required',
         ]);
 
-        $aadharFrontPath = null;
-        $aadharBackPath = null;
+        foreach ($request->tourist as $touristData) {
+            $aadharFrontPath = null;
+            $aadharBackPath = null;
 
-        // Upload Aadhar Front
-        if ($request->hasFile('aadhar_front')) {
-            $file = $request->file('aadhar_front');
-            $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
-            $destination = public_path('uploads/tourist');
+            if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
+                $file = $touristData['aadhar_front'];
+                $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
+                $destination = public_path('uploads/tourist');
 
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
+
+                $file->move($destination, $filename);
+                $aadharFrontPath = 'uploads/tourist/' . $filename;
             }
 
-            $file->move($destination, $filename);
-            $aadharFrontPath = 'uploads/tourist/' . $filename;
-        }
+            if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
+                $file = $touristData['aadhar_back'];
+                $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
+                $destination = public_path('uploads/tourist');
 
-        // Upload Aadhar Back
-        if ($request->hasFile('aadhar_back')) {
-            $file = $request->file('aadhar_back');
-            $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
-            $destination = public_path('uploads/tourist');
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
 
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
+                $file->move($destination, $filename);
+                $aadharBackPath = 'uploads/tourist/' . $filename;
             }
 
-            $file->move($destination, $filename);
-            $aadharBackPath = 'uploads/tourist/' . $filename;
+            $tourist = new Tourist([
+                'user_id' => Auth::guard('agent')->id(),
+                'name' => $touristData['name'],
+                'age' => $touristData['age'],
+                'phone' => $touristData['phone'],
+                'aadhar_front' => $aadharFrontPath,
+                'aadhar_back' => $aadharBackPath,
+                'additional_info' => $request->additional_info,
+                'booking_id' => $request->booking_id,
+                'type' => 'Taxi',
+            ]);
+
+            $tourist->save();
         }
-
-        // Save to DB
-        $tourist = new Tourist([
-            'user_id' => Auth::guard('agent')->id(),
-            'name' => $request->name,
-            'age' => $request->age,
-            'phone' => $request->phone,
-            'aadhar_front' => $aadharFrontPath,
-            'aadhar_back' => $aadharBackPath,
-            'additional_info' => $request->additional_info,
-            'booking_id' => $request->booking_id,
-            'type' => 'Taxi',
-        ]);
-
-        $tourist->save();
 
         return redirect()->back()->with([
             'message' => 'Tourist details saved successfully!'
