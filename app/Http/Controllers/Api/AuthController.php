@@ -936,7 +936,7 @@ public function add_wallet_api(Request $request)
                 ], 400);
             }
 
-            $wallet->balance -= $request->amount;
+            // $wallet->balance -= $request->amount;
             $wallet->save();
 
             $transaction->status = 0;
