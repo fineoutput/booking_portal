@@ -877,16 +877,6 @@ public function add_wallet_api(Request $request)
     try {
         $userId = $user->id; 
         $userdata = $user; 
-
-        $filtereduser = collect($userdata)->map(function ($user) {
-            return [
-                'name'   => $user->name ?? null,
-                'email'  => $user->email ?? null,
-                'number' => $user->number ?? null,
-                'set_limit_amount' => $user->set_limit_amount ?? null,
-            ];
-        })->filter();
-
         Log::info("Authenticated User ID: {$userId}");
 
         // Create Wallet Transaction
@@ -927,7 +917,11 @@ public function add_wallet_api(Request $request)
                 'data' => [
                     'wallet_transaction' => $transaction,
                     'razorpay_order' => $razorpayOrder,
-                    'userdata' => $filtereduser,
+                    'userdata' => [
+                       'name' => $userdata->name,
+                       'email' => $userdata->email,
+                       'number' => $userdata->number,
+                    ],
                 ],
             ], 200);
 
