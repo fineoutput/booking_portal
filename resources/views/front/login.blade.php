@@ -488,7 +488,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/booking_portal/public/cities/' + stateId,
+                    url: '/cities/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;

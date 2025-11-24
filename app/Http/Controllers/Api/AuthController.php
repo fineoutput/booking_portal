@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 use Carbon\Carbon;
 use App\Mail\OtpMail;
-
+use App\Models\TempUser;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log; 
+
 
 
 
@@ -30,145 +33,334 @@ class AuthController extends Controller
         ], $statusCode);
     }
 
-    public function signup(Request $request)
-    {
-        $validationRules = [
-            'number' => 'required|string|unique:agent,number|regex:/^\d{10}$/',
+    // public function signup(Request $request)
+    // {
+    //     $validationRules = [
+    //         'number' => 'required|string|unique:agent,number|regex:/^\d{10}$/',
 
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:agent,email', 
-            'password' => 'required|string|min:6',
-            'business_name' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'aadhar_image' => 'required',
-            'aadhar_image_back' => 'required',
-            'pan_image' => 'required',
-            'GST_number' => 'required',
-            'logo' => 'required',
-            'registration_charge' => 'nullable',
-        ];
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|string|email|max:255|unique:agent,email', 
+    //         'password' => 'required|string|min:6',
+    //         'business_name' => 'required',
+    //         'state' => 'required',
+    //         'city' => 'required',
+    //         'aadhar_image' => 'required',
+    //         'aadhar_image_back' => 'required',
+    //         'pan_image' => 'required',
+    //         'GST_number' => 'required',
+    //         'logo' => 'required',
+    //         'registration_charge' => 'nullable',
+    //     ];
     
-        // Validate the request input
-        $validator = Validator::make($request->all(), $validationRules);
-        if ($validator->fails()) {
-            $errors = [];
-            foreach ($validator->errors()->getMessages() as $field => $messages) {
-                $errors[$field] = $messages[0]; 
-            }
-            return response()->json([
-                'message' => $errors,
-                'status' => 201,
-                'data' => [],
-            ], 400);
-        }
+    //     // Validate the request input
+    //     $validator = Validator::make($request->all(), $validationRules);
+    //     if ($validator->fails()) {
+    //         $errors = [];
+    //         foreach ($validator->errors()->getMessages() as $field => $messages) {
+    //             $errors[$field] = $messages[0]; 
+    //         }
+    //         return response()->json([
+    //             'message' => $errors,
+    //             'status' => 201,
+    //             'data' => [],
+    //         ], 400);
+    //     }
     
-        // Step 1: Store user data in UnverifyUser (initially with number_verify = 0)
-        if ($request->number) {
-            // $aadharImagePath = $request->file('aadhar_image')->store('uploads/aadhar_images', 'public');
-            // $aadharImageBackPath = $request->file('aadhar_image_back')->store('uploads/aadhar_images', 'public');
-            // $logoPath = $request->file('logo')->store('uploads/logos', 'public');
-            // $panImagePath = $request->file('pan_image')->store('uploads/pan_images', 'public');
+    //     // Step 1: Store user data in UnverifyUser (initially with number_verify = 0)
+    //     if ($request->number) {
+    //         // $aadharImagePath = $request->file('aadhar_image')->store('uploads/aadhar_images', 'public');
+    //         // $aadharImageBackPath = $request->file('aadhar_image_back')->store('uploads/aadhar_images', 'public');
+    //         // $logoPath = $request->file('logo')->store('uploads/logos', 'public');
+    //         // $panImagePath = $request->file('pan_image')->store('uploads/pan_images', 'public');
 
                         
-                $aadharImage = $request->file('aadhar_image');
-                $aadharImageBack = $request->file('aadhar_image_back');
-                $logo = $request->file('logo');
-                $panImage = $request->file('pan_image');
+    //             $aadharImage = $request->file('aadhar_image');
+    //             $aadharImageBack = $request->file('aadhar_image_back');
+    //             $logo = $request->file('logo');
+    //             $panImage = $request->file('pan_image');
 
-                // Define paths for storing the files in the public directory
-                $aadharImagePath = 'uploads/aadhar_images/' . $aadharImage->getClientOriginalName();
-                $aadharImageBackPath = 'uploads/aadhar_images/' . $aadharImageBack->getClientOriginalName();
-                $logoPath = 'uploads/logos/' . $logo->getClientOriginalName();
-                $panImagePath = 'uploads/pan_images/' . $panImage->getClientOriginalName();
+    //             // Define paths for storing the files in the public directory
+    //             $aadharImagePath = 'uploads/aadhar_images/' . $aadharImage->getClientOriginalName();
+    //             $aadharImageBackPath = 'uploads/aadhar_images/' . $aadharImageBack->getClientOriginalName();
+    //             $logoPath = 'uploads/logos/' . $logo->getClientOriginalName();
+    //             $panImagePath = 'uploads/pan_images/' . $panImage->getClientOriginalName();
 
-                // Move the files to the public directory
-                $aadharImage->move(public_path('uploads/aadhar_images'), $aadharImage->getClientOriginalName());
-                $aadharImageBack->move(public_path('uploads/aadhar_images'), $aadharImageBack->getClientOriginalName());
-                $logo->move(public_path('uploads/logos'), $logo->getClientOriginalName());
-                $panImage->move(public_path('uploads/pan_images'), $panImage->getClientOriginalName());
+    //             // Move the files to the public directory
+    //             $aadharImage->move(public_path('uploads/aadhar_images'), $aadharImage->getClientOriginalName());
+    //             $aadharImageBack->move(public_path('uploads/aadhar_images'), $aadharImageBack->getClientOriginalName());
+    //             $logo->move(public_path('uploads/logos'), $logo->getClientOriginalName());
+    //             $panImage->move(public_path('uploads/pan_images'), $panImage->getClientOriginalName());
 
-            $user = Agent::create([
-                'number' => $request->number,
-                'number_verify' => 0, 
-                'email' => $request->email, 
-                'name' => $request->name,
-                'business_name' => $request->business_name,
-                'state_id' => $request->state,
-                'city' => $request->city,
-                'registration_charge' => $request->registration_charge,
-                'GST_number' => $request->GST_number,
-                'password' =>  Hash::make($request->password),
-                'aadhar_image' => $aadharImagePath,
-                'aadhar_image_back' => $aadharImageBackPath, 
-                'logo' => $logoPath,
-                'pan_image' => $panImagePath,
-                'approved' => 0,
-            ]);
+    //         $user = Agent::create([
+    //             'number' => $request->number,
+    //             'number_verify' => 0, 
+    //             'email' => $request->email, 
+    //             'name' => $request->name,
+    //             'business_name' => $request->business_name,
+    //             'state_id' => $request->state,
+    //             'city' => $request->city,
+    //             'registration_charge' => $request->registration_charge,
+    //             'GST_number' => $request->GST_number,
+    //             'password' =>  Hash::make($request->password),
+    //             'aadhar_image' => $aadharImagePath,
+    //             'aadhar_image_back' => $aadharImageBackPath, 
+    //             'logo' => $logoPath,
+    //             'pan_image' => $panImagePath,
+    //             'approved' => 0,
+    //         ]);
 
-            // $otp = $this->sendOtp($request->number);
-            return response()->json([
-                'message' => 'Agent Created, Waiting for Admin Approval!',
-                'data' => [],
-                'status' => 200,
-            ]);
-        }
+    //         // $otp = $this->sendOtp($request->number);
+    //         return response()->json([
+    //             'message' => 'Agent Created, Waiting for Admin Approval!',
+    //             'data' => [],
+    //             'status' => 200,
+    //         ]);
+    //     }
     
-        if ($request->otp && $request->number) {
-            $user = UnverifyUser::where('number', $request->number)->first();
+    //     if ($request->otp && $request->number) {
+    //         $user = UnverifyUser::where('number', $request->number)->first();
             
-            if (!$user) {
-                return response()->json([
-                    'message' => 'User not found.',
-                    'data' => [],
-                    'status' => 201,
-                ], 404);
-            }
+    //         if (!$user) {
+    //             return response()->json([
+    //                 'message' => 'User not found.',
+    //                 'data' => [],
+    //                 'status' => 201,
+    //             ], 404);
+    //         }
     
-            $existingOtp = UserOtp::where('source_name', $request->number)
-                ->where('otp', $request->otp)
-                ->where('expires_at', '>=', now()) 
-                ->first();
+    //         $existingOtp = UserOtp::where('source_name', $request->number)
+    //             ->where('otp', $request->otp)
+    //             ->where('expires_at', '>=', now()) 
+    //             ->first();
     
-            if (!$existingOtp) {
-                return response()->json([
-                    'message' => 'Invalid OTP or OTP has expired.',
-                    'data' => [],
-                    'status' => 201,
-                ], 400);
-            }
+    //         if (!$existingOtp) {
+    //             return response()->json([
+    //                 'message' => 'Invalid OTP or OTP has expired.',
+    //                 'data' => [],
+    //                 'status' => 201,
+    //             ], 400);
+    //         }
 
-            $user->number_verify = 1;
-            $user->save();
+    //         $user->number_verify = 1;
+    //         $user->save();
 
-            $newUser = Agent::create([
-                'number' => $user->number,
-                'email' => $user->email,
-                'password' => $user->password,
-                'name' => $user->name,
-                'profile_image' => $user->profile_image, 
-                'state_id' => $user->state, 
-                'city' => $user->city, 
-                'age' => $user->age, 
-                'gender' => $user->gender, 
-                'looking_for' => $user->looking_for, 
-                'interest' => $user->interest, 
+    //         $newUser = Agent::create([
+    //             'number' => $user->number,
+    //             'email' => $user->email,
+    //             'password' => $user->password,
+    //             'name' => $user->name,
+    //             'profile_image' => $user->profile_image, 
+    //             'state_id' => $user->state, 
+    //             'city' => $user->city, 
+    //             'age' => $user->age, 
+    //             'gender' => $user->gender, 
+    //             'looking_for' => $user->looking_for, 
+    //             'interest' => $user->interest, 
+    //         ]);
+
+    //         UnverifyUser::where('number', $request->number)->delete();
+
+    //         $token = $newUser->createToken('token')->plainTextToken;
+    
+    //         return response()->json([
+    //             'message' => 'User verified and moved to Agent table successfully!', 'token' => $token], 200);
+    //     }
+    
+    //     return response()->json([
+    //         'message' => 'OTP not provided or invalid.',
+    //         'status' => 201,
+    //         'data' => [],
+    //     ], 400);
+    // }
+
+    public function signup(Request $request)
+{
+    $validationRules = [
+        'number' => 'required|string|unique:agent,number|regex:/^\d{10}$/',
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:agent,email', 
+        'password' => 'required|string|min:6',
+        'business_name' => 'required',
+        'state' => 'required',
+        'city' => 'required',
+        'aadhar_image' => 'required',
+        'aadhar_image_back' => 'required',
+        'pan_image' => 'required',
+        'GST_number' => 'required',
+        'logo' => 'required',
+        'registration_charge' => 'required|numeric',
+    ];
+
+    $validator = Validator::make($request->all(), $validationRules);
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => false,
+            'message' => $validator->errors()
+        ]);
+    }
+
+    /* -------------------------
+        1. Upload Files
+    ------------------------- */
+    $aadhar = $request->file('aadhar_image');
+    $aadhar_back = $request->file('aadhar_image_back');
+    $logo = $request->file('logo');
+    $pan = $request->file('pan_image');
+
+    $aadhar_path = 'uploads/aadhar/' . time() . '_' . $aadhar->getClientOriginalName();
+    $aadhar_back_path = 'uploads/aadhar/' . time() . '_' . $aadhar_back->getClientOriginalName();
+    $logo_path = 'uploads/logo/' . time() . '_' . $logo->getClientOriginalName();
+    $pan_path = 'uploads/pan/' . time() . '_' . $pan->getClientOriginalName();
+
+    $aadhar->move(public_path('uploads/aadhar'), basename($aadhar_path));
+    $aadhar_back->move(public_path('uploads/aadhar'), basename($aadhar_back_path));
+    $logo->move(public_path('uploads/logo'), basename($logo_path));
+    $pan->move(public_path('uploads/pan'), basename($pan_path));
+
+    /* -------------------------
+        2. Create Razorpay Order
+    ------------------------- */
+    $api = new \Razorpay\Api\Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+
+    $order = $api->order->create([
+        'receipt' => 'AGENT_API_' . time(),
+        'amount' => $request->registration_charge * 100,
+        'currency' => 'INR'
+    ]);
+
+    /* -------------------------
+        3. Save PENDING Transaction
+    ------------------------- */
+    Transaction::create([
+        'order_id' => $order->id,
+        'amount' => $request->registration_charge,
+        'status' => 'pending'
+    ]);
+
+    /* -------------------------
+        4. Save Temp User
+    ------------------------- */
+    $tempUser = TempUser::create([
+        'number' => $request->number,
+        'email' => $request->email,
+        'name' => $request->name,
+        'password' => Hash::make($request->password),
+        'business_name' => $request->business_name,
+        'state' => $request->state,
+        'city' => $request->city,
+        'registration_charge' => $request->registration_charge,
+        'GST_number' => $request->GST_number,
+        'aadhar_image' => $aadhar_path,
+        'aadhar_image_back' => $aadhar_back_path,
+        'logo' => $logo_path,
+        'pan_image' => $pan_path,
+        'razorpay_order_id' => $order->id
+    ]);
+
+    /* -------------------------
+        5. Return Razorpay Data to Mobile APP
+    ------------------------- */
+    return response()->json([
+        'status' => true,
+        'message' => "Order Created",
+        'order_id' => $order->id,
+        'razorpay_key' => env('RAZORPAY_KEY'),
+        'amount' => $request->registration_charge * 100,
+        'currency' => "INR"
+    ]);
+}
+
+
+
+public function razorpayCallbackApi(Request $request)
+{
+    Log::info("📥 API Callback Received", $request->all());
+
+    $api = new \Razorpay\Api\Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+
+    try {
+
+        $attributes = [
+            'razorpay_order_id' => $request->razorpay_order_id,
+            'razorpay_payment_id' => $request->razorpay_payment_id,
+            'razorpay_signature' => $request->razorpay_signature
+        ];
+
+        Log::info("✔ Verifying signature");
+        $api->utility->verifyPaymentSignature($attributes);
+
+        $payment = $api->payment->fetch($request->razorpay_payment_id);
+
+        Log::info("Payment Data:", $payment->toArray());
+
+        /* FIX → Don't capture twice */
+        if (!$payment['captured']) {
+            $payment->capture(['amount' => $payment['amount']]);
+            Log::info("✔ Payment Captured Now");
+        } else {
+            Log::info("✔ Payment Already Captured — Skipping");
+        }
+
+        /* Fetch temp user */
+        $temp = TempUser::where('razorpay_order_id', $request->razorpay_order_id)->first();
+
+        if (!$temp) {
+            return response()->json([
+                'status' => false,
+                'message' => "Temporary user not found"
+            ]);
+        }
+
+        /* Create Agent */
+        $agent = Agent::create([
+            'number' => $temp->number,
+            'email' => $temp->email,
+            'name' => $temp->name,
+            'password' => $temp->password,
+            'business_name' => $temp->business_name,
+            'state_id' => $temp->state,
+            'city' => $temp->city,
+            'registration_charge' => $temp->registration_charge,
+            'GST_number' => $temp->GST_number,
+            'aadhar_image' => $temp->aadhar_image,
+            'aadhar_image_back' => $temp->aadhar_image_back,
+            'logo' => $temp->logo,
+            'pan_image' => $temp->pan_image,
+            'approved' => 0,
+        ]);
+
+        /* Update Transaction */
+        Transaction::where('order_id', $request->razorpay_order_id)
+            ->update([
+                'payment_id' => $request->razorpay_payment_id,
+                'status' => 'success',
+                'agent_id' => $agent->id
             ]);
 
-            UnverifyUser::where('number', $request->number)->delete();
+        /* cleanup */
+        $temp->delete();
 
-            $token = $newUser->createToken('token')->plainTextToken;
-    
-            return response()->json([
-                'message' => 'User verified and moved to Agent table successfully!', 'token' => $token], 200);
-        }
-    
         return response()->json([
-            'message' => 'OTP not provided or invalid.',
-            'status' => 201,
-            'data' => [],
-        ], 400);
+            'status' => true,
+            'message' => "Payment Successful, Agent Created",
+            'agent_id' => $agent->id
+        ]);
+
+    } catch (\Exception $e) {
+
+        Log::error("❌ API Payment Error", [$e->getMessage()]);
+
+        Transaction::where('order_id', $request->razorpay_order_id)
+            ->update(['status' => 'failed']);
+
+        return response()->json([
+            'status' => false,
+            'message' => "Payment Failed",
+            'error' => $e->getMessage()
+        ]);
     }
+}
+
     
 
     private function sendOtp($phone = null, $email = null)

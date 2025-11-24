@@ -87,6 +87,7 @@ use App\Http\Controllers\Admin\PDFController;
 // });
 
 Route::post('signup', [AuthController::class, 'signup']);
+Route::post('/razorpay/callback', [AuthController::class, 'razorpayCallbackApi']);
 Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
