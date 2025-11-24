@@ -1256,8 +1256,8 @@
                                     <div class="mb-3 suther">
                                         <label for="transactionType" class="form-label suther">Transaction Type</label>
                                         <select name="transaction_type" class="form-control suther" id="transactionType">
-                                            <option value="refund">Refund</option>
-                                            <option value="recharge">Recharge</option>
+                                            <option value="debit">Refund</option>
+                                            <option value="credit">Recharge</option>
                                         </select>
                                     </div>
                                 </div>
