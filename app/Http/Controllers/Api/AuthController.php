@@ -20,6 +20,8 @@ use App\Models\WalletTransactions;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; 
+use Razorpay\Api\Api;
+
 
 
 
@@ -829,61 +831,182 @@ public function logout(Request $request)
 
 
 
-    public function add_wallet_api(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'transaction_type' => 'required|string|in:credit,debit',
-            'amount' => 'required|numeric|min:1',
-            'note' => 'nullable|string',
-        ]);
+public function add_wallet_api(Request $request)
+{
+    Log::info("------ Add Wallet API Hit ------");
+    Log::info("Request Data: ", $request->all());
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'message' => $validator->errors()->first(),
-                'data' => [],
-            ], 400);
-        }
+    $validator = Validator::make($request->all(), [
+        'transaction_type' => 'required|string|in:credit,debit',
+        'amount' => 'required|numeric|min:1',
+        'note' => 'nullable|string',
+    ]);
 
-        try {
-            $userId = Auth::guard('agent')->id(); 
+    if ($validator->fails()) {
+        Log::error("Validation Failed: ", $validator->errors()->toArray());
+        return response()->json([
+            'status' => 400,
+            'message' => $validator->errors()->first(),
+            'data' => [],
+        ], 400);
+    }
 
-            $transaction = new WalletTransactions();
-            $transaction->user_id = $userId;
-            $transaction->transaction_type = $request->transaction_type;
-            $transaction->amount = $request->amount;
-            $transaction->note = $request->note ?? '';
-            $transaction->status = 0; 
+    try {
+        $userId = Auth::guard('agent')->id(); 
+        Log::info("Authenticated User ID: {$userId}");
+
+        // Create Wallet Transaction
+        $transaction = new WalletTransactions();
+        $transaction->user_id = $userId;
+        $transaction->transaction_type = $request->transaction_type;
+        $transaction->amount = $request->amount;
+        $transaction->note = $request->note ?? '';
+        $transaction->status = 0; // pending
+        $transaction->save();
+
+        Log::info("Wallet Transaction Created: ", $transaction->toArray());
+
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => $userId],
+            ['balance' => 0]
+        );
+        Log::info("Current Wallet Balance: {$wallet->balance}");
+
+        if ($request->transaction_type === 'credit') {
+            // Razorpay order creation
+            Log::info("Creating Razorpay Order for credit transaction...");
+            $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+            $orderData = [
+                'receipt' => 'wallet_txn_' . $transaction->id,
+                'amount' => $request->amount * 100,
+                'currency' => 'INR',
+            ];
+            $razorpayOrder = $api->order->create($orderData);
+            Log::info("Razorpay Order Created: ", $razorpayOrder->toArray());
+
+            $transaction->razorpay_order_id = $razorpayOrder->id;
             $transaction->save();
-            $wallet = Wallet::firstOrCreate(
-                ['user_id' => $userId],
-                ['balance' => 0]
-            );
-
-            if ($request->transaction_type === 'credit') {
-                $wallet->balance += $request->amount;
-            }
-
-            $wallet->save();
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Wallet transaction added successfully.',
+                'message' => 'Credit transaction created. Complete payment.',
                 'data' => [
-                    'wallet' => $wallet,
-                    'transaction' => $transaction
+                    'wallet_transaction' => $transaction,
+                    'razorpay_order_id' => $razorpayOrder,
                 ],
             ], 200);
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 500,
-                'message' => 'Something went wrong: ' . $e->getMessage(),
-                'data' => [],
-            ], 500);
-        }
-    }
+        } else {
+            // Debit transaction
+            if ($wallet->balance < $request->amount) {
+                Log::error("Insufficient balance for debit! Wallet balance: {$wallet->balance}, requested: {$request->amount}");
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Insufficient wallet balance for debit!',
+                    'data' => [],
+                ], 400);
+            }
 
+            $wallet->balance -= $request->amount;
+            $wallet->save();
+
+            $transaction->status = 1;
+            $transaction->save();
+
+            Log::info("Debit transaction completed. Updated Wallet Balance: {$wallet->balance}");
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Debit transaction completed successfully.',
+                'data' => [
+                    'wallet_transaction' => $transaction,
+                    'wallet' => $wallet,
+                ],
+            ], 200);
+        }
+
+    } catch (\Exception $e) {
+        Log::error("Exception in Add Wallet API: " . $e->getMessage());
+        Log::error("Trace: ", $e->getTrace());
+        return response()->json([
+            'status' => 500,
+            'message' => 'Something went wrong: ' . $e->getMessage(),
+            'data' => [],
+        ], 500);
+    }
+}
+
+
+
+public function walletRazorpayCallback(Request $request)
+{
+    Log::info("------ Wallet Razorpay Callback Hit ------");
+    Log::info("Callback Request Data: ", $request->all());
+
+    $request->validate([
+        'razorpay_payment_id' => 'required',
+        'razorpay_order_id' => 'required',
+        'razorpay_signature' => 'required',
+    ]);
+
+    $api = new \Razorpay\Api\Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+
+    try {
+        Log::info("Verifying Razorpay Signature...");
+        $attributes = [
+            'razorpay_order_id' => $request->razorpay_order_id,
+            'razorpay_payment_id' => $request->razorpay_payment_id,
+            'razorpay_signature' => $request->razorpay_signature,
+        ];
+        $api->utility->verifyPaymentSignature($attributes);
+        Log::info("Signature verified successfully.");
+
+        $transaction = WalletTransactions::where('razorpay_order_id', $request->razorpay_order_id)->firstOrFail();
+        Log::info("Wallet Transaction Found: ", $transaction->toArray());
+
+        $payment = $api->payment->fetch($request->razorpay_payment_id);
+        Log::info("Razorpay Payment Fetched: ", $payment->toArray());
+
+        if ($payment->status !== 'captured') {
+            Log::info("Capturing payment...");
+            $payment->capture(['amount' => $payment['amount']]);
+        }
+
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => $transaction->user_id],
+            ['balance' => 0]
+        );
+
+        $wallet->balance += $transaction->amount;
+        $wallet->save();
+
+        $transaction->status = 1;
+        $transaction->payment_id = $request->razorpay_payment_id;
+        $transaction->save();
+
+        Log::info("Wallet credited successfully. New balance: {$wallet->balance}");
+        Log::info("Transaction updated: ", $transaction->toArray());
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Payment successful and wallet credited!',
+            'data' => [
+                'wallet' => $wallet,
+                'transaction' => $transaction,
+            ],
+        ], 200);
+
+    } catch (\Exception $e) {
+        Log::error("Payment verification failed: " . $e->getMessage());
+        Log::error("Trace: ", $e->getTrace());
+
+        return response()->json([
+            'status' => 400,
+            'message' => 'Payment verification failed: ' . $e->getMessage(),
+            'data' => [],
+        ], 400);
+    }
+}
 
 
 }

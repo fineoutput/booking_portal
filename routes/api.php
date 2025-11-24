@@ -91,4 +91,5 @@ Route::post('/razorpay/callback', [AuthController::class, 'razorpayCallbackApi']
 Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
-Route::post('add-wallet-amount', [AuthController::class, 'add_wallet_api']);
+Route::post('/wallet/add', [AuthController::class, 'add_wallet_api'])->name('wallet.add.api');
+Route::post('/wallet/razorpay/callback', [AuthController::class, 'walletRazorpayCallback'])->name('wallet.razorpay.callback');
