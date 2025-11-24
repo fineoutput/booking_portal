@@ -3177,7 +3177,7 @@ public function confirm(Request $request)
         $packagebooking = new HotelBooking2();
         $packagebooking->hotel_order_id = $request->hotel_id;
         $packagebooking->user_id = $packagetempbooking->user_id;
-        $packagebooking->hotel_id = $packagetempbooking->package_id;
+        $packagebooking->hotel_id = $packagetempbooking->hotel_id;
         $packagebooking->fetched_price = $packagetempbooking->total_cost;
         $packagebooking->agent_margin = $request->agent_margin;
         $packagebooking->final_price = $final_price;
