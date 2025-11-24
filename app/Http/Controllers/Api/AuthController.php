@@ -16,6 +16,7 @@ use App\Mail\OtpMail;
 use App\Models\TempUser;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use App\Models\WalletTransactions;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; 
@@ -828,11 +829,11 @@ public function logout(Request $request)
 
 
 
-  public function add_wallet_api(Request $request)
+    public function add_wallet_api(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'transaction_type' => 'required|string',
-            'amount' => 'required|numeric',
+            'transaction_type' => 'required|string|in:credit,debit',
+            'amount' => 'required|numeric|min:1',
             'note' => 'nullable|string',
         ]);
 
@@ -845,18 +846,33 @@ public function logout(Request $request)
         }
 
         try {
-            $wallet = new Wallet();
-            $wallet->user_id = Auth::guard('agent')->id(); // Ensure agent is authenticated
-            $wallet->transaction_type = $request->transaction_type;
-            $wallet->amount = $request->amount;
-            $wallet->note = $request->note ?? '';
-            $wallet->status = 0; // Pending/Processing
+            $userId = Auth::guard('agent')->id(); 
+
+            $transaction = new WalletTransactions();
+            $transaction->user_id = $userId;
+            $transaction->transaction_type = $request->transaction_type;
+            $transaction->amount = $request->amount;
+            $transaction->note = $request->note ?? '';
+            $transaction->status = 0; 
+            $transaction->save();
+            $wallet = Wallet::firstOrCreate(
+                ['user_id' => $userId],
+                ['balance' => 0]
+            );
+
+            if ($request->transaction_type === 'credit') {
+                $wallet->balance += $request->amount;
+            }
+
             $wallet->save();
 
             return response()->json([
                 'status' => 200,
                 'message' => 'Wallet transaction added successfully.',
-                'data' => $wallet,
+                'data' => [
+                    'wallet' => $wallet,
+                    'transaction' => $transaction
+                ],
             ], 200);
 
         } catch (\Exception $e) {
@@ -867,6 +883,7 @@ public function logout(Request $request)
             ], 500);
         }
     }
+
 
 
 }
