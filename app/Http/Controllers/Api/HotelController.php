@@ -3204,13 +3204,13 @@ public function confirm(Request $request)
             return response()->json(['message' => 'Package booking not found', 'status' => 201], 404);
         }
     
-        $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
+        $final_price = ($packagetempbooking->cost ?? 0) + ($request->agent_margin ?? 0);
     
         $packagebooking = new WildlifeSafariOrder2();
         $packagebooking->safari_order_id = $request->safari_id;
         $packagebooking->user_id = $packagetempbooking->user_id;
         $packagebooking->safari_id = $packagetempbooking->safari_id;
-        $packagebooking->fetched_price = $packagetempbooking->total_cost;
+        $packagebooking->fetched_price = $packagetempbooking->cost;
         $packagebooking->agent_margin = $request->agent_margin;
         $packagebooking->final_price = $final_price;
         $packagebooking->salesman_name = $request->salesman_name;
