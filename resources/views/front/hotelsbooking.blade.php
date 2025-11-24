@@ -188,7 +188,7 @@
 <form action="" method="POST" id="filter-form">
           @csrf
 <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search"
-          onkeyup="filterCities()" placeholder="Search cities..." class="search-input" readonly></div>
+            onkeyup="filterCities()" placeholder="Search cities..." class="search-input"></div>
       <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
           <!-- Search input added here -->
           <div class="search-container">
