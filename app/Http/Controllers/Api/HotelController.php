@@ -4667,7 +4667,8 @@ public function getLanguages(Request $request)
                 'transactions' => $transactionData,
                 'total_amount' => [$totalAmount],
                 'userdata' => [
-                    $userdata
+                   'set_limit_amount' => $userdata->set_limit_amount,
+                   'negative_limit_amount' => $userdata->negative_limit_amount,
                 ],
             ],
             'status' => 200,
