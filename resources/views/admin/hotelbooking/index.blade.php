@@ -86,7 +86,7 @@
                         <td>{{ $hotel->hotel_se->no_occupants ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->child_count ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->night_count ?? '' }}</td>
-                        <td>{{ $hotel->hotel_se->room_type ?? '' }}</td>
+                        <td>{{ $hotel->hotel_se->room->title ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->nobed ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->beds ?? '' }}</td>
                         <td>{{ $hotel->hotel_se->meals ?? '' }}</td>

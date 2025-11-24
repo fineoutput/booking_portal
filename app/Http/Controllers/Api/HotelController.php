@@ -1869,7 +1869,7 @@ public function statecityhotel(Request $request)
     $user = Agent::where('email', $email)->first();
 
     if ($user && $password == $user->password) {
-        // Get state_id and city_id from the request
+
         $stateId = $request->input('state_id');
         $cityId = $request->input('city_id');
         $start_date = $request->input('start_date');
@@ -1877,66 +1877,72 @@ public function statecityhotel(Request $request)
 
         $hotelsQuery = Hotels::query();
 
-        // Filter by state_id if provided
-        if ($stateId) {
-            $hotelsQuery->where('state_id', $stateId);
-        }
-
-        // Filter by city_id if provided
-        if ($cityId) {
-            $hotelsQuery->where('city_id', $cityId);
-        }
+        if ($stateId) $hotelsQuery->where('state_id', $stateId);
+        if ($cityId) $hotelsQuery->where('city_id', $cityId);
 
         $hotels = $hotelsQuery->get();
 
         $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
         $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
 
-        // Get hotel ids for price querying
         $hotel_ids = $hotels->pluck('id');
 
-        // Fetch hotel prices within the given date range
-        $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
-                                        ->where('start_date', '<=', $formatted_start_date)
+        $hotel_prices_query = HotelPrice::where('start_date', '<=', $formatted_start_date)
                                         ->where('end_date', '>=', $formatted_end_date)
                                         ->get();
 
-        // If no hotel prices are found, set hotels data to null
         $hotelsData = [];
 
-        // If there are hotels and prices found, proceed to map data
-        if ($hotel_prices_query->isNotEmpty()) {
-            $hotelsData = $hotels->map(function ($hotel) use ($hotel_prices_query) {
-                $baseUrl = url('');
-                
-                $stateName = $hotel->state ? $hotel->state->state_name : null;
-                $cityName = $hotel->cities ? $hotel->cities->city_name : null;
+        $hotelsData = $hotels->map(function ($hotel) use ($hotel_prices_query) {
 
-                // Filter the prices related to the current hotel
-                $hotelPrices = $hotel_prices_query->where('hotel_id', $hotel->id);
+            $baseUrl = url('');
 
-                $pricesData = $hotelPrices->map(function($price) {
+            $stateName = $hotel->state ? $hotel->state->state_name : null;
+            $cityName  = $hotel->cities ? $hotel->cities->city_name : null;
+
+            // 🔥 Get All Rooms of the Hotel
+            $rooms = HotelsRoom::where('hotel_id', $hotel->id)->get();
+
+            // 🔥 Create Room-wise Price Array
+            $roomArray = $rooms->map(function ($room) use ($hotel_prices_query) {
+
+                // Filter by room_id
+                $roomPrices = $hotel_prices_query->where('room_id', $room->id);
+
+                // Price array inside each room
+                $prices = $roomPrices->map(function ($price) {
                     return [
                         'id' => $price->id,
                         'night_cost' => $price->night_cost,
+                        'mrp' => $price->mrp,
                         'start_date' => Carbon::parse($price->start_date)->format('F Y'),
                         'end_date' => Carbon::parse($price->end_date)->format('F Y'),
                     ];
-                })->values();;
+                })->values();
 
                 return [
-                    'id' => $hotel->id,
-                    'name' => $hotel->name,
-                    'state' => $stateName, 
-                    'city' => $cityName, 
-                    'images' => $this->generateImageUrls($hotel->images, $baseUrl),
-                    'location' => $hotel->location,
-                    'hotel_category' => $hotel->hotel_category,
-                    'package_id' => $hotel->package_id,
-                    'prices' => $pricesData,
+                    'room_id' => $room->id,
+                    'room_name' => $room->title,
+                    'meal_plan' => $room->meal_plan,
+                    'hotel_amenities' => $room->hotel_amenities,
+                    'prices' => $prices, 
                 ];
             });
-        }
+
+            return [
+                'id' => $hotel->id,
+                'name' => $hotel->name,
+                'text_description' => str_replace(['<p>', '</p>'], '', $hotel->text_description),
+                'state' => $stateName,
+                'city' => $cityName,
+                'images' => $this->generateImageUrls($hotel->images, $baseUrl),
+                'location' => $hotel->location,
+                'hotel_category' => $hotel->hotel_category,
+                'package_id' => $hotel->package_id,
+                'rooms' => $roomArray, // 🔥 Added full room details + room prices
+            ];
+
+        });
 
         return response()->json([
             'message' => 'Hotels fetched successfully.',
@@ -1951,6 +1957,110 @@ public function statecityhotel(Request $request)
         'status' => 401,
     ], 401);
 }
+
+
+// public function statecityhotel(Request $request)
+// {
+//     $token = $request->bearerToken();
+
+//     if (!$token) {
+//         return response()->json([
+//             'message' => 'Unauthenticated.',
+//             'data' => [],
+//             'status' => 401,
+//         ], 401);
+//     }
+
+//     $decodedToken = base64_decode($token);
+//     list($email, $password) = explode(',', $decodedToken);
+
+//     $user = Agent::where('email', $email)->first();
+
+//     if ($user && $password == $user->password) {
+//         // Get state_id and city_id from the request
+//         $stateId = $request->input('state_id');
+//         $cityId = $request->input('city_id');
+//         $start_date = $request->input('start_date');
+//         $end_date = $request->input('end_date');
+
+//         $hotelsQuery = Hotels::query();
+
+//         // Filter by state_id if provided
+//         if ($stateId) {
+//             $hotelsQuery->where('state_id', $stateId);
+//         }
+
+//         // Filter by city_id if provided
+//         if ($cityId) {
+//             $hotelsQuery->where('city_id', $cityId);
+//         }
+
+//         $hotels = $hotelsQuery->get();
+
+//         $formatted_start_date = Carbon::parse($start_date)->format('Y-m-d');
+//         $formatted_end_date = Carbon::parse($end_date)->format('Y-m-d');
+
+//         // Get hotel ids for price querying
+//         $hotel_ids = $hotels->pluck('id');
+
+//         // Fetch hotel prices within the given date range
+//         $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+//                                         ->where('start_date', '<=', $formatted_start_date)
+//                                         ->where('end_date', '>=', $formatted_end_date)
+//                                         ->get();
+
+//         // If no hotel prices are found, set hotels data to null
+//         $hotelsData = [];
+
+//         // If there are hotels and prices found, proceed to map data
+//         if ($hotel_prices_query->isNotEmpty()) {
+//             $hotelsData = $hotels->map(function ($hotel) use ($hotel_prices_query) {
+//                 $baseUrl = url('');
+                
+//                 $stateName = $hotel->state ? $hotel->state->state_name : null;
+//                 $cityName = $hotel->cities ? $hotel->cities->city_name : null;
+
+//                 // Filter the prices related to the current hotel
+//                 $hotelPrices = $hotel_prices_query->where('hotel_id', $hotel->id);
+
+//                 $pricesData = $hotelPrices->map(function($price) {
+//                     return [
+//                         'id' => $price->id,
+//                         'night_cost' => $price->night_cost,
+//                         'mrp' => $price->mrp,
+//                         'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+//                         'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+//                     ];
+//                 })->values();;
+
+//                 return [
+//                     'id' => $hotel->id,
+//                     'name' => $hotel->name,
+//                     'text_description' => str_replace(['<p>', '</p>'], '', $hotel->text_description),
+//                     'state' => $stateName, 
+//                     'city' => $cityName, 
+//                     'images' => $this->generateImageUrls($hotel->images, $baseUrl),
+//                     'location' => $hotel->location,
+//                     'hotel_category' => $hotel->hotel_category,
+//                     'package_id' => $hotel->package_id,
+//                     'prices' => $pricesData,
+//                 ];
+//             });
+//         }
+
+//         return response()->json([
+//             'message' => 'Hotels fetched successfully.',
+//             'data' => $hotelsData,
+//             'status' => 200
+//         ], 200);
+//     }
+
+//     return response()->json([
+//         'message' => 'Unauthenticated',
+//         'data' => [],
+//         'status' => 401,
+//     ], 401);
+// }
 
 
 public function hotelcitys(Request $request)
@@ -3062,13 +3172,13 @@ public function confirm(Request $request)
             return response()->json(['message' => 'Package booking not found', 'status' => 201], 404);
         }
     
-        $final_price = ($packagetempbooking->total_cost ?? 0) + ($request->agent_margin ?? 0);
+        $final_price = ($packagetempbooking->cost ?? 0) + ($request->agent_margin ?? 0);
     
         $packagebooking = new HotelBooking2();
         $packagebooking->hotel_order_id = $request->hotel_id;
         $packagebooking->user_id = $packagetempbooking->user_id;
-        $packagebooking->hotel_id = $packagetempbooking->package_id;
-        $packagebooking->fetched_price = $packagetempbooking->total_cost;
+        $packagebooking->hotel_id = $packagetempbooking->hotel_id;
+        $packagebooking->fetched_price = $packagetempbooking->cost;
         $packagebooking->agent_margin = $request->agent_margin;
         $packagebooking->final_price = $final_price;
         $packagebooking->salesman_name = $request->salesman_name;
