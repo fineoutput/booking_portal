@@ -57,7 +57,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Console\Repl;
-
+use Razorpay\Api\Api;
 class HomeController extends Controller
 {
     // ============================= START INDEX ============================ 
@@ -2133,60 +2133,27 @@ public function calculatePrice(Request $request, $id)
     ]);
 }
 
-    // public function add_hotel_confirm_booking(Request $request,$id)
-    // {
-    //     $packagetempbooking = HotelBooking::where('id',$id)->first();
-
-
-    //     $packagebooking = new HotelBooking2();
-    //     $packagebooking->hotel_order_id = $id;
-    //     $packagebooking->user_id = $packagetempbooking->user_id;
-    //     $packagebooking->hotel_id = $packagetempbooking->hotel_id;
-    //     $packagebooking->fetched_price = $request->fetched_price;
-    //     $packagebooking->agent_margin = $request->agent_margin;
-    //     $packagebooking->final_price = $request->final_price;
-    //     $packagebooking->salesman_name = $request->salesman_name;
-    //     $packagebooking->salesman_mobile = $request->salesman_mobile;
-    //     $packagebooking->status = 0;
-    //     $packagebooking->save();
-
-    //     $packagetempbooking->update(['status' => 1]);
-
-    //     return redirect()->route('index')->with('message', 'Hotel Booking Created Successfully');
-    // }
-
-
-    public function add_hotel_confirm_booking(Request $request, $id)
+    public function add_hotel_confirm_booking(Request $request,$id)
     {
-        $packagetempbooking = HotelBooking::where('id', $id)->first();
+        $packagetempbooking = HotelBooking::where('id',$id)->first();
 
-        $request->validate([
-            'agent_margin' => 'required|numeric|min:0',
-            'salesman_name' => 'required|string',
-            'salesman_mobile' => 'required|digits:10',
-        ]);
 
-        $api = new \Razorpay\Api\Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-        $amount = $packagetempbooking->cost * 100;
+        $packagebooking = new HotelBooking2();
+        $packagebooking->hotel_order_id = $id;
+        $packagebooking->user_id = $packagetempbooking->user_id;
+        $packagebooking->hotel_id = $packagetempbooking->hotel_id;
+        $packagebooking->fetched_price = $request->fetched_price;
+        $packagebooking->agent_margin = $request->agent_margin;
+        $packagebooking->final_price = $request->final_price;
+        $packagebooking->salesman_name = $request->salesman_name;
+        $packagebooking->salesman_mobile = $request->salesman_mobile;
+        $packagebooking->status = 0;
+        $packagebooking->save();
 
-        $razorpayOrder = $api->order->create([
-            'receipt' => 'hotel_booking_' . $id,
-            'amount' => $amount,
-            'currency' => 'INR',
-        ]);
+        $packagetempbooking->update(['status' => 1]);
 
-        $packagetempbooking->razorpay_order_id = $razorpayOrder->id;
-        $packagetempbooking->save();
-
-        return view('hotel.payment', [
-            'razorpayOrder' => $razorpayOrder,
-            'packageBookingTemp' => $packagetempbooking,
-            'agent_margin' => $request->agent_margin,
-            'salesman_name' => $request->salesman_name,
-            'salesman_mobile' => $request->salesman_mobile,
-        ]);
+        return redirect()->route('index')->with('message', 'Hotel Booking Created Successfully');
     }
-
 
     public function add_hotel_booking(Request $request,$id)
     {
@@ -2307,7 +2274,7 @@ public function calculatePrice(Request $request, $id)
 
 
         $total = $base_room_cost + $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
-// return $request->nobed;
+       // return $request->nobed;
         $finel = $request->room_count * $existsDate->night_cost * $numberOfNights;
         $wildlife->cost = $total;
 
