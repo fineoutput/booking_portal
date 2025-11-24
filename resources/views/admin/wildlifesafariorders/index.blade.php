@@ -79,7 +79,7 @@
                         <td>{{ $hotel->safari->state->state_name ?? '' }}</td>
                         <td>{{ $hotel->safari->cities->city_name ?? '' }}</td>
                         <td>{{ $hotel->safari->national_park ?? '' }}</td>
-                        <td>{{ $hotel->safari->date ?? '' }}</td>
+                        <td>{{ $hotel->safari_se->date ?? '' }}</td>
                         <td>{{ $hotel->safari_se->timings ?? '' }}</td>
                         <td>{{ $hotel->safari_se->vehicle ?? '' }}</td>
                         <td>{{ $hotel->safari_se->no_persons ?? '' }}</td>
