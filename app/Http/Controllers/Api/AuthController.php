@@ -892,7 +892,7 @@ public function add_wallet_api(Request $request)
                 'message' => 'Credit transaction created. Complete payment.',
                 'data' => [
                     'wallet_transaction' => $transaction,
-                    'razorpay_order_id' => $razorpayOrder,
+                    'razorpay_order' => $razorpayOrder,
                 ],
             ], 200);
 
