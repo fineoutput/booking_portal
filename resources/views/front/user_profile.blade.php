@@ -160,6 +160,10 @@
                 <li class="nav-item suther">
                     <a class="nav-link suther" style="color: #000;" href="#taxibooking" data-bs-toggle="tab">Taxi Bookings</a>
                 </li>
+                
+                <li class="nav-item suther">
+                    <a class="nav-link suther" style="color: #000;" href="#guidebooking" data-bs-toggle="tab">Guide Bookings</a>
+                </li>
             </ul>
 
             <!-- Sub-tab Content -->
@@ -989,6 +993,282 @@
                                     <td class="suther">#{{$value->id}}</td>
                                     <td class="suther">{{$value->taxi_se->admincity->city_name ?? ''}}</td>
                                     <td class="suther">{{$value->tour_type ?? ''}}</td>
+                                    <td class="suther">{{ \Carbon\Carbon::parse($value->created_at)->format('d F Y') }}</td>
+                                      <td class="suther">
+                                            @if($value->status == 0)
+                                                Pending
+                                            @elseif($value->status == 1)
+                                                Complete
+                                            @elseif($value->status == 2)
+                                                Reject
+                                            @elseif($value->status == 3)
+                                                Under Inquiry
+                                            @else
+                                                Under Process
+                                            @endif
+                                        </td>
+                                        <td class="suther">
+                                            @if($value->status == 0 || $value->status == 2 || $value->status == 1)
+                                                <!-- No action for Pending, Reject, or Complete -->
+                                            @else
+                                                <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#taxiDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
+                                            @endif
+                                        </td>
+                                        <td class="suther">
+                                            @if($value->status == 0 || $value->status == 2)
+                                                <!-- No tourist list for Pending or Reject -->
+                                            @else
+                                                <button class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#taxiTouristListModal3001{{ $value->id }}" onclick="showTouristList({{ $value->id }})">View List</button>
+                                            @endif
+                                        </td>
+                                        {{-- <th class="suther">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#hotelPreferenceModal2001{{ $value->id }}">Hotel Preference</button>
+                                        </th> --}}
+                                        {{-- <td class="suther">
+                                            @if($value->status == 0 || $value->status == 2 || $value->status == 1)
+                                                <!-- No upgrade request for Pending, Reject, or Complete -->
+                                            @else
+                                                <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#hotelUpgradeRequestModal2001{{ $value->id }}">Request Upgrade</button>
+                                            @endif
+                                        </td> --}}
+                                        <td class="suther">
+                                            @if($value->package->pdf ?? '')
+                                                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'booking_id' => $value->id, 'pdf_name' => urlencode(basename($value->package->pdf))]) }}'">Download PDF</button>
+                                            @else
+                                                <p>No PDF available for download.</p>
+                                            @endif
+                                        </td>
+                                
+                                <!-- Modals for Safari Booking #3001 -->
+                                <!-- Safari Upgrade Request Modal -->
+                                <div class="modal fade suther" id="taxiUpgradeRequestModal3001" tabindex="-1" aria-labelledby="taxiUpgradeRequestModalLabel3001" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg suther">
+                                        <div class="modal-content suther">
+                                            <div class="modal-header suther">
+                                                <h5 class="modal-title suther" id="taxiUpgradeRequestModalLabel3001">Request Safari Upgrade</h5>
+                                                <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body suther">
+                                                <form action="/upgrade_request" class="suther" method="POST">
+                                                    <h6 class="fw-bold suther">Upgrade Request Details</h6>
+                                                    <div class="mb-3 suther">
+                                                        <label for="bookingId" class="form-label suther">Booking ID</label>
+                                                        <input name="booking_id" value="3001" type="text" class="form-control suther" readonly id="bookingId" placeholder="Enter Booking ID">
+                                                    </div>
+                                                    <div class="mb-3 suther">
+                                                        <label for="upgradeDetails" class="form-label suther">Upgrade Details</label>
+                                                        <textarea name="upgrade_details" class="form-control suther" id="upgradeDetails" rows="3" placeholder="Enter Upgrade Details"></textarea>
+                                                    </div>
+                                                    <div class="mb-3 suther">
+                                                        <label for="upgradeNotes" class="form-label suther">Notes</label>
+                                                        <textarea name="notes" class="form-control suther" id="upgradeNotes" rows="3" placeholder="Enter Notes (Optional)"></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-success suther">Submit Request</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Safari Tourist List Modal -->
+                                <div class="modal fade suther" id="taxiTouristListModal3001{{$value->id ?? ''}}" tabindex="-1" aria-labelledby="taxiTouristListModalLabel3001" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg suther">
+                                        <div class="modal-content suther">
+                                            <div class="modal-header suther">
+                                                <h5 class="modal-title suther" id="taxiTouristListModalLabel3001">Tourist List for Safari Booking #{{$value->id ?? ''}}</h5>
+                                                <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body suther">
+                                                <div class="suther" id="touristListContainersafari">
+                                                    <div class="tourist-table">
+                                                        <div class="tourist-table-header">
+                                                            <div class="tourist-table-cell fw-bold">Name</div>
+                                                            <div class="tourist-table-cell fw-bold">Age</div>
+                                                            <div class="tourist-table-cell fw-bold">Phone</div>
+                                                        </div>
+                                                       @foreach($value->tourists->where('type','Taxi') as $tourist)
+                                                                    <div class="tourist-table-row">
+                                                                        <div class="tourist-table-cell">{{ $tourist->name }}</div>
+                                                                        <div class="tourist-table-cell">{{ $tourist->age }}</div>
+                                                                        <div class="tourist-table-cell">{{ $tourist->phone }}</div>
+                                                                    </div>
+                                                                @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Safari Details Modal -->
+                                <div class="modal fade suther" id="taxiDetailsModal3001{{$value->id ?? ''}}" tabindex="-1" aria-labelledby="safariDetailsModalLabel3001" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg suther">
+                                        <div class="modal-content suther">
+                                            <div class="modal-header suther">
+                                                <h5 class="modal-title suther" id="safariDetailsModalLabel3001">Enter Taxi Booking Details</h5>
+                                                <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveTouristDetailsTaxi')}}" class="suther" id="taxiTouristForm{{ $value->id ?? '' }}">
+                                                @csrf
+                                                <div class="modal-body suther">
+                                                    <input type="hidden" id="bookingIdss" name="booking_id" value="{{$value->id ?? ''}}">
+                                                    <h6 class="fw-bold suther">Tourists Information</h6>
+                                                    <div id="taxiTouristContainer{{ $value->id ?? '' }}" class="mb-3 suther">
+                                                        <div class="tourist-section suther mb-4" data-tourist-id="1">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <h6 class="fw-bold suther">Tourist 1</h6>
+                                                                <button type="button" class="btn btn-danger btn-sm remove-tourist suther" style="display: none;">Remove</button>
+                                                            </div>
+                                                            <div class="row mb-3 suther">
+                                                                <div class="col-md-6 suther">
+                                                                    <label for="touristName1" class="form-label suther">Name</label>
+                                                                    <input type="text" class="form-control suther touristName" name="tourist[1][name]" id="touristName1" placeholder="Enter Name">
+                                                                </div>
+                                                                <div class="col-md-6 suther">
+                                                                    <label for="touristAge1" class="form-label suther">Age</label>
+                                                                    <input type="number" class="form-control suther touristAge" name="tourist[1][age]" id="touristAge1" placeholder="Enter Age">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3 suther">
+                                                                <div class="col-md-6 suther">
+                                                                    <label for="touristPhone1" class="form-label suther">Phone No.</label>
+                                                                    <input type="text" class="form-control suther touristPhone" name="tourist[1][phone]" id="touristPhone1" placeholder="Enter Phone No.">
+                                                                </div>
+                                                                <div class="col-md-6 suther">
+                                                                    <label for="aadharUploadFront1" class="form-label suther">Aadhaar Card (Front)</label>
+                                                                    <input id="aadharUploadFront1" type="file" class="form-control suther touristAadharFront" name="tourist[1][aadhar_front]">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3 suther">
+                                                                <div class="col-md-6 suther">
+                                                                    <label for="aadharUploadBack1" class="form-label suther">Aadhaar Card (Back)</label>
+                                                                    <input id="aadharUploadBack1" type="file" class="form-control suther touristAadharBack" name="tourist[1][aadhar_back]">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-success suther mb-3" id="addTaxiTourist{{ $value->id ?? '' }}">Add Tourist</button>
+                                                    <h6 class="fw-bold suther mt-4">Additional Information</h6>
+                                                    <div class="mb-3 suther">
+                                                        <label for="additionalInfo" class="form-label suther">Details</label>
+                                                        <textarea class="form-control suther" id="additionalInfo" name="additional_info" rows="2" placeholder="Enter Additional Information"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer suther">
+                                                    <button type="button" class="btn btn-secondary suther" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary suther">Save Changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Safari Hotel Preference Modal -->
+                                <div class="modal fade" id="safariHotelPreferenceModal3001" tabindex="-1" aria-labelledby="safariHotelPreferenceModalLabel3001" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="safariHotelPreferenceModalLabel3001">Select Hotels</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="/hotel_prefrence" method="POST">
+                                                <div class="modal-body">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item d-flex align-items-center row">
+                                                            <div class="col-2">
+                                                                <img src="hotel1.jpg" class="rounded me-3" alt="Hotel Image">
+                                                            </div>
+                                                            <div class="col-8" style="text-align: center; justify-content: center;">
+                                                                <div class="flex-grow-1">
+                                                                    <h6 class="mb-0">Grand Hotel</h6>
+                                                                    <small>Deluxe ⭐⭐⭐ (3 star)</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2" style="text-align: right;">
+                                                                <label>
+                                                                    <input type="checkbox" name="hotel_id[]" value="1" class="form-check-input ms-auto">
+                                                                    <input type="hidden" name="booking_id" value="3001">
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        <li class="list-group-item d-flex align-items-center row">
+                                                            <div class="col-2">
+                                                                <img src="hotel2.jpg" class="rounded me-3" alt="Hotel Image">
+                                                            </div>
+                                                            <div class="col-8" style="text-align: center; justify-content: center;">
+                                                                <div class="flex-grow-1">
+                                                                    <h6 class="mb-0">Luxury Resort</h6>
+                                                                    <small>Deluxe ⭐⭐⭐⭐⭐ (5 star)</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2" style="text-align: right;">
+                                                                <label>
+                                                                    <input type="checkbox" disabled class="form-check-input ms-auto" />
+                                                                    <span class="text-muted">Already Added</span>
+                                                                    <input type="hidden" name="booking_id" value="3001">
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-success">Submit</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                
+                <!-- Guide Bookings Tab -->
+                <div class="tab-pane fade suther" id="guidebooking">
+                    <h5 class="fw-bold suther">Guide Bookings</h5>
+                    <p class="suther">View your Guide booking history and manage reservations.</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered suther">
+                            <thead class="suther">
+                                <tr class="suther">
+                                    <th class="suther">#</th>
+                                    <th class="suther">Booking ID</th>
+                                    <th class="suther">Salesman Name</th>
+                                    <th class="suther">Salesman Phone</th>
+                                    <th class="suther">State</th>
+                                    <th class="suther">City</th>
+                                    <th class="suther">Language</th>
+                                    <th class="suther">Guide Type</th>
+                                    <th class="suther">Date</th>
+                                    <th class="suther">Status</th>
+                                    <th class="suther">Action</th>
+                                    <th class="suther">Tourist List</th>
+                                    {{-- <th class="suther">Hotel Preference</th>
+                                    <th class="suther">Request Upgrade</th> --}}1
+                                    <th class="suther">Download PDF</th>
+                                </tr>
+                            </thead>
+                            <tbody class="suther">
+                                    @foreach ($Guide_data as $index => $value)
+                                <tr class="suther">
+                                    <td class="suther">{{$index+1}}</td>
+                                    <td class="suther">#{{$value->id}}</td>
+                                    <td class="suther">{{$value->salesman_name ?? ''}}</td>
+                                    <td class="suther">{{$value->salesman_mobile ?? ''}}</td>
+                                    <td class="suther">{{$value->guide->state->state_name ?? '' }}</td>
+                                   
+                                    <td class="suther">{{$value->guide->cities->city_name ?? '' }}</td>
+                                    <td class="suther">{{$value->guide_se->languages->language_name ?? ''}}</td>
+                                    <td>
+                                        @if($value->guide_se->guide_type ?? '')
+                                            @php
+                                                $guideTypes = explode(',', $value->guide_se->guide_type);
+                                            @endphp
+                                            {{ implode(', ', $guideTypes) }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
                                     <td class="suther">{{ \Carbon\Carbon::parse($value->created_at)->format('d F Y') }}</td>
                                       <td class="suther">
                                             @if($value->status == 0)

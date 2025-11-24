@@ -492,12 +492,15 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
             
             $data['Taxi_data'] = TaxiBooking2::with('tourists')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
             
+            $data['Guide_data'] = TripGuideBook2::with('tourists')->where('user_id', $data['user']->id)->orderBy('id','DESC')->get();
+            
             
 
             $user_id = Auth::guard('agent')->id();
 
             $data['wallet'] = Wallet::where('user_id', $user_id)
-            ->first()->select('balance');
+    ->select('balance')
+    ->first() ?? null;
         
             $totalAmount = $data['wallet'];
         

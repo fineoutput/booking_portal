@@ -22,6 +22,10 @@ class TripGuideBook2 extends Model
         'status',
     ];
 
+     public function tourists()
+    {
+        return $this->hasMany(Tourist::class,'booking_id','id');
+    }
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id'); 
