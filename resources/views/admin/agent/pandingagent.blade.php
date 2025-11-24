@@ -62,6 +62,7 @@
                         <th data-priority="3">Pancard Image</th>
                         <th data-priority="3">Logo</th>
                         <th data-priority="3">Status</th>
+                        <th data-priority="3">Amounts</th>
                         <th data-priority="3">Action</th>
                       </tr>
                     </thead>
@@ -120,7 +121,23 @@
           @else
           <p class="text-success">Active</p>
           @endif
+          
         </td>
+
+        <td>
+         <button class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#setLimitModal{{ $value->id }}">
+                    Set Limit
+                </button>
+
+                <!-- Set Negative Limit Button -->
+                <button class="btn btn-danger mt-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#setNegativeModal{{ $value->id }}">
+                    Set Negative Limit
+                </button>
+       </td>
 
         <td>
             <form action="{{ route('agent.updateStatus', $value->id) }}" method="POST" style="display:inline;">
@@ -149,9 +166,62 @@
         @endif
     </form>
     
-    
        </td>
+       
     </tr>
+
+     <div class="modal fade" id="setLimitModal{{ $value->id }}">
+            <div class="modal-dialog">
+                <form method="POST" action="{{ route('agents.setLimit', $value->id) }}">
+                    @csrf
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Set Limit Amount</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <input type="number" name="set_limit_amount" class="form-control"
+                                   value="{{ $value->set_limit_amount }}" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-success">Save</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Set Negative Modal -->
+        <div class="modal fade" id="setNegativeModal{{ $value->id }}">
+            <div class="modal-dialog">
+                <form method="POST" action="{{ route('agents.setNegativeLimit', $value->id) }}">
+                    @csrf
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Set Negative Limit</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <input type="number" name="negative_limit_amount"
+                                   class="form-control"
+                                   value="{{ $value->negative_limit_amount }}" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-success">Save</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
 @endforeach
 

@@ -555,6 +555,7 @@ private function generateImageUrls($images, $baseUrl)
     $orderData = [
         'id'            => $order->id,
         'safari_id'     => $order->safari_id,
+        'date'          => $order->date,
         'agent_name'    => $user->name,
         'timings'       => $order->timings,
         'no_adults'     => $order->no_adults,

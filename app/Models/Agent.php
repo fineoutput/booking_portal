@@ -28,6 +28,8 @@ class Agent extends Authenticatable
         'logo',
         'registration_charge',
         'approved',
+        'set_limit_amount',
+        'negative_limit_amount',
         'status',
         'fcm_token',
     ];

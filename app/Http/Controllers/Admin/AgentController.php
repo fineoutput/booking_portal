@@ -24,6 +24,34 @@ class AgentController extends Controller
     }
 
 
+
+     public function setLimit(Request $request, $id)
+    {
+        $request->validate([
+            'set_limit_amount' => 'required|numeric'
+        ]);
+
+        Agent::findOrFail($id)->update([
+            'set_limit_amount' => $request->set_limit_amount
+        ]);
+
+        return back()->with('success', 'Set Limit Amount Updated');
+    }
+
+    public function setNegativeLimit(Request $request, $id)
+    {
+        $request->validate([
+            'negative_limit_amount' => 'required|numeric'
+        ]);
+
+        Agent::findOrFail($id)->update([
+            'negative_limit_amount' => $request->negative_limit_amount
+        ]);
+
+        return back()->with('success', 'Negative Limit Updated');
+    }
+
+
     public function updateStatus($id)
     {
         $vehicle = Agent::findOrFail($id);

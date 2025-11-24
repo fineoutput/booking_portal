@@ -280,6 +280,10 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
 
     Route::get('/panding-agent', [AgentController::class, 'pandingagent'])->name('pandingagent');
     Route::get('/complete-agent', [AgentController::class, 'completeagent'])->name('completegagent');
+    
+    Route::post('/agents/set-limit/{id}', [AgentController::class, 'setLimit'])->name('agents.setLimit');
+    Route::post('/agents/set-negative-limit/{id}', [AgentController::class, 'setNegativeLimit'])->name('agents.setNegativeLimit');
+
     Route::match(['put', 'patch'], '/agent/{id}/status', [AgentController::class, 'updateStatus'])->name('agent.updateStatus');
     Route::match(['put', 'patch'], '/agent/{id}/changeStatus', [AgentController::class, 'changeStatus'])->name('agent.changeStatus');
 
