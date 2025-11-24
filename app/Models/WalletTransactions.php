@@ -14,6 +14,7 @@ class WalletTransactions extends Model
         'user_id',
         'transaction_type',
         'amount',
+        'razorpay_order_id',
         'note',
         'status',
     ];
