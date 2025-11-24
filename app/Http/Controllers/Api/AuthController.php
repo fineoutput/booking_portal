@@ -1006,7 +1006,7 @@ public function walletRazorpayCallback(Request $request)
             ['balance' => 0]
         );
 
-        $wallet->balance += $transaction->amount;
+        $wallet->balance += $transaction->amount; 
         $wallet->save();
 
         $transaction->status = 1;
