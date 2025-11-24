@@ -47,6 +47,7 @@ use App\Models\SafariPrices;
 use App\Models\Testimonials;
 use App\Models\TripGuidePrice;
 use App\Models\VehicleCost;
+use App\Models\WalletTransactions;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Redirect;
@@ -178,26 +179,45 @@ class HomeController extends Controller
 
 
 
-    public function add_wallet(Request $request)
+   public function add_wallet(Request $request)
     {
         $request->validate([
-            'transaction_type' => 'required|string',
-            'amount' => 'required',
+            'transaction_type' => 'required|string|in:credit,debit',
+            'amount' => 'required|numeric|min:1',
             'note' => 'nullable|string',
         ]);
 
-        $wallet = new Wallet;
+        $userId = Auth::guard('agent')->id();
 
-        $wallet->user_id = Auth::guard('agent')->id();
+        // Create wallet transaction entry
+        $transaction = new WalletTransactions();
+        $transaction->user_id = $userId;
+        $transaction->transaction_type = $request->transaction_type;
+        $transaction->amount = $request->amount;
+        $transaction->note = $request->note ?? '';
+        $transaction->status = 0; // directly mark complete
+        $transaction->save();
 
-        $wallet->transaction_type = $request->transaction_type;
-        $wallet->amount = $request->amount;
-        $wallet->note = $request->note ?? '';
-        $wallet->status = 0;
+        // Update user wallet balance
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => $userId],
+            ['balance' => 0]
+        );
+
+        if ($request->transaction_type == 'credit') {
+            $wallet->balance += $request->amount;
+        } else { // debit
+            if ($wallet->balance < $request->amount) {
+                return redirect()->back()->with('error', 'Insufficient balance!');
+            }
+            // $wallet->balance -= $request->amount;
+        }
+
         $wallet->save();
 
         return redirect()->back()->with('message', 'Wallet transaction added successfully.');
     }
+
 
 
     public function getCitiesByState($stateId)
@@ -477,22 +497,22 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
             $user_id = Auth::guard('agent')->id();
 
             $data['wallet'] = Wallet::where('user_id', $user_id)
-            ->where('transaction_type', 'recharge')
-            ->get();
+            ->first()->select('balance');
         
-            $totalAmount = $data['wallet']->sum('amount');
+            $totalAmount = $data['wallet'];
         
-            $lastRecharge = Wallet::where('user_id', $user_id)
-                ->where('transaction_type', 'recharge')
+            $lastRecharge = WalletTransactions::where('user_id', $user_id)
+                ->where('transaction_type', 'credit')
                 ->latest('created_at')
                 ->first();
         
             $lastRechargeAmount = $lastRecharge ? $lastRecharge->amount : 0;
             $lastRechargeDate = $lastRecharge ? $lastRecharge->created_at->format('Y-m-d H:i:s') : 'No recharges found';
         
-            $data['totalAmount'] = $totalAmount;
-            $data['lastRechargeAmount'] = $lastRechargeAmount;
-            $data['lastRechargeDate'] = $lastRechargeDate;
+            $data['totalAmount'] = Wallet::where('user_id', $user_id)
+            ->first();
+            $data['lastRechargeAmount'] = $lastRecharge;
+            $data['lastRechargeDate'] = $lastRecharge;
 
             return view('front/user_profile',$data);
         }

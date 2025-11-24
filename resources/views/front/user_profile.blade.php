@@ -1227,11 +1227,11 @@
             <div class="row suther">
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">Balance:</label>
-                    <p class="suther">₹{{ $totalAmount ?? '0' }}</p>
+                    <p class="suther">₹{{ $totalAmount->balance ?? '0' }}</p>
                 </div>
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">Last Transaction:</label>
-                    <p class="suther">₹{{ $lastRechargeAmount ?? '0' }} on {{ $lastRechargeDate ?? '' }}</p>
+                    <p class="suther">₹{{ $lastRechargeAmount->amount ?? '0' }} on {{ $lastRechargeDate->created_at ?? '' }}</p>
                 </div>
             </div>
             <div class="mt-3">

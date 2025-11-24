@@ -65,35 +65,36 @@
                                 <td>₹{{$value->amount ?? '0'}}</td>
                                 <td>{!!$value->note !!}</td>
                                 <td>
-                                    @if($value->transaction_type == 'refund')
-                                    <form action="{{ route('wallet.updateStatus', $value->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('PUT') 
-                                        
-                                        @if($value->status == 0) 
-                                            <!-- If status is 0 (pending), show Accept and Reject buttons -->
-                                            <button type="submit" class="btn btn-info" 
-                                                    name="status_action" value="complete" 
-                                                    onclick="return confirm('Are you sure you want to change the status to Accept?')">
-                                                Accept
-                                            </button>
-                                
-                                            <button type="submit" class="btn btn-danger" 
-                                                    name="status_action" value="cancel" 
-                                                    onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                                Reject
-                                            </button>
-                                        
-                                        @elseif($value->status == 1) 
-                                            <!-- If status is 1 (accepted), display Accepted message -->
-                                            <p class="text-success">Accepted</p>
-                                        
-                                        @elseif($value->status == 2) 
-                                            <!-- If status is 2 (rejected), display Rejected message -->
-                                            <p class="text-danger">Rejected</p>
-                                        
-                                        @endif
-                                    </form>
+                                    @if($value->transaction_type == 'debit')
+                                      <form action="{{ route('wallet.updateStatus', $value->id) }}" method="POST" style="display:inline;">
+                                          @csrf
+                                          @method('PUT') 
+
+                                          @if($value->status == 0) 
+                                              <!-- Amount field hidden for deduction -->
+                                              <input type="hidden" name="amount" value="{{ $value->amount }}">
+
+                                              <!-- Accept button -->
+                                              <button type="submit" class="btn btn-info" 
+                                                      name="status_action" value="complete" 
+                                                      onclick="return confirm('Are you sure you want to change the status to Accept?')">
+                                                  Accept
+                                              </button>
+
+                                              <!-- Reject button -->
+                                              <button type="submit" class="btn btn-danger" 
+                                                      name="status_action" value="cancel" 
+                                                      onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                                  Reject
+                                              </button>
+
+                                          @elseif($value->status == 1) 
+                                              <p class="text-success">Accepted</p>
+                                          @elseif($value->status == 2) 
+                                              <p class="text-danger">Rejected</p>
+                                          @endif
+                                      </form>
+
                                 @else
                                     <!-- If it's not a refund transaction, just show Recharge -->
                                     <p class="text-success">Recharge</p>

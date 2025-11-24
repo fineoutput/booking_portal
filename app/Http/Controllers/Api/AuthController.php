@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use App\Mail\OtpMail;
 use App\Models\TempUser;
 use App\Models\Transaction;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; 
@@ -824,6 +825,48 @@ public function logout(Request $request)
         'status' => 200
     ], 200);
 }
+
+
+
+  public function add_wallet_api(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'transaction_type' => 'required|string',
+            'amount' => 'required|numeric',
+            'note' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->errors()->first(),
+                'data' => [],
+            ], 400);
+        }
+
+        try {
+            $wallet = new Wallet();
+            $wallet->user_id = Auth::guard('agent')->id(); // Ensure agent is authenticated
+            $wallet->transaction_type = $request->transaction_type;
+            $wallet->amount = $request->amount;
+            $wallet->note = $request->note ?? '';
+            $wallet->status = 0; // Pending/Processing
+            $wallet->save();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Wallet transaction added successfully.',
+                'data' => $wallet,
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Something went wrong: ' . $e->getMessage(),
+                'data' => [],
+            ], 500);
+        }
+    }
 
 
 }

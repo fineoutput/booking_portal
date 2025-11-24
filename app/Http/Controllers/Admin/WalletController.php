@@ -12,19 +12,19 @@ use App\Models\WildlifeSafari;
 use App\Models\Wallet;
 use App\Models\State;
 use App\Models\City;
-
+use App\Models\WalletTransactions;
 
 class WalletController extends Controller
 {
     function rechargewallet() {
-        $data['wallet'] = Wallet::orderBy('id','DESC')->where('transaction_type','recharge')->get();
+        $data['wallet'] = WalletTransactions::orderBy('id','DESC')->where('transaction_type','credit')->get();
 
         $data['title'] = 'Recharge';
         return view('admin/wallet/index',$data);
     }
 
     function index() {
-        $data['wallet'] = Wallet::orderBy('id','DESC')->where('transaction_type','refund')
+        $data['wallet'] = WalletTransactions::orderBy('id','DESC')->where('transaction_type','debit')
         ->where('status',0)->get();
 
         $data['title'] = 'Panding';
@@ -32,7 +32,7 @@ class WalletController extends Controller
     }
 
     function accept() {
-        $data['wallet'] = Wallet::orderBy('id','DESC')->where('transaction_type','refund')
+        $data['wallet'] = WalletTransactions::orderBy('id','DESC')->where('transaction_type','debit')
         ->where('status',1)->get();
 
         $data['title'] = 'Accept';
@@ -40,7 +40,7 @@ class WalletController extends Controller
         return view('admin/wallet/index',$data);
     }
     function reject() {
-        $data['wallet'] = Wallet::orderBy('id','DESC')->where('transaction_type','refund')
+        $data['wallet'] = WalletTransactions::orderBy('id','DESC')->where('transaction_type','debit')
         ->where('status',2)->get();
 
         $data['title'] = 'Reject';
@@ -48,24 +48,46 @@ class WalletController extends Controller
         return view('admin/wallet/index',$data);
     }
 
-    public function updateStatus($id, Request $request)
+   public function updateStatus(Request $request, $id)
     {
-        // Find the wallet transaction by its ID
-        $vehicle = Wallet::findOrFail($id);
-        
-        // Check the value of 'status_action' and update the status accordingly
+        // 1️⃣ Get the transaction from WalletTransactions
+        $transaction = WalletTransactions::findOrFail($id);
+
+        $userId = $transaction->user_id;
+        $amountToDeduct = $transaction->amount; // Use transaction's amount, not request
+
+        // 2️⃣ Get or create the user's wallet
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => $userId],
+            ['balance' => 0]
+        );
+
+        // 3️⃣ Handle status actions
         if ($request->status_action == 'complete') {
-            $vehicle->status = 1; // Accept the refund (status 1)
+
+            // Check if balance is sufficient
+            if ($wallet->balance < $amountToDeduct) {
+                return redirect()->back()->with('error', 'Insufficient wallet balance!');
+            }
+
+            // Deduct from wallet
+            $wallet->balance -= $amountToDeduct;
+            $wallet->save();
+
+            // Update transaction status to complete
+            $transaction->status = 1;
+
         } elseif ($request->status_action == 'cancel') {
-            $vehicle->status = 2; // Reject the refund (status 2)
+            // Mark transaction as canceled
+            $transaction->status = 2;
         }
-    
-        // Save the updated status
-        $vehicle->save();
-    
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Status updated successfully!');
+
+        $transaction->save();
+
+        return redirect()->route('panding.wallet')->with('success', 'Status updated successfully!');
     }
+
+
     
 
 
