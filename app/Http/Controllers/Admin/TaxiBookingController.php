@@ -23,7 +23,7 @@ class TaxiBookingController extends Controller
       
     function customer(Request $request ,$id){
 
-        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','taxi')->get();
+        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','Taxi')->get();
 
        return view('admin.textbooking.customer', $data);
     }

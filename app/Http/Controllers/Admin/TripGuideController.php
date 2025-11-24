@@ -29,7 +29,7 @@ class TripGuideController extends Controller
     
     function customer(Request $request ,$id){
 
-        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','guide')->get();
+        $data['tourist'] = Tourist::where('booking_id', $id)->where('type','Guide')->get();
 
        return view('admin.tripguide.customer', $data);
     }
