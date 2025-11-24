@@ -836,6 +836,29 @@ public function add_wallet_api(Request $request)
     Log::info("------ Add Wallet API Hit ------");
     Log::info("Request Data: ", $request->all());
 
+     $token = $request->bearerToken();
+
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+
+        $decodedToken = base64_decode($token); 
+        list($email, $password) = explode(',', $decodedToken);
+    
+        $user = Agent::where('email', $email)->first();
+    
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+
     $validator = Validator::make($request->all(), [
         'transaction_type' => 'required|string|in:credit,debit',
         'amount' => 'required|numeric|min:1',
@@ -852,7 +875,8 @@ public function add_wallet_api(Request $request)
     }
 
     try {
-        $userId = Auth::guard('agent')->id(); 
+        $userId = $user->id; 
+        $userdata = $user; 
         Log::info("Authenticated User ID: {$userId}");
 
         // Create Wallet Transaction
@@ -893,6 +917,7 @@ public function add_wallet_api(Request $request)
                 'data' => [
                     'wallet_transaction' => $transaction,
                     'razorpay_order' => $razorpayOrder,
+                    'userdata' => $userdata,
                 ],
             ], 200);
 
