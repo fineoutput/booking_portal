@@ -939,7 +939,7 @@ public function add_wallet_api(Request $request)
             $wallet->balance -= $request->amount;
             $wallet->save();
 
-            $transaction->status = 1;
+            $transaction->status = 0;
             $transaction->save();
 
             Log::info("Debit transaction completed. Updated Wallet Balance: {$wallet->balance}");
