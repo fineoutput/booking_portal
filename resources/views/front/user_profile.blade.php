@@ -1564,8 +1564,8 @@
                 <label for="transactionType" class="form-label suther">Transaction Type</label>
                 <select name="transaction_type" class="form-control suther" id="transactionType" required>
                     <option value="">-- Select Type --</option>
-                    <option value="debit">Refund (Debit from Wallet)</option>
-                    <option value="credit">Recharge (Add to Wallet)</option>
+                    <option value="debit">Debit</option>
+                    <option value="credit">Credit</option>
                 </select>
             </div>
         </div>
