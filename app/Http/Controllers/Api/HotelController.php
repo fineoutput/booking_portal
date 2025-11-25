@@ -3834,8 +3834,8 @@ public function getLanguages(Request $request)
         }
 
         // Guide bookings
-        $taxiBookings = TripGuideBook2::where('user_id', $user->id)->get();
-        foreach ($taxiBookings as $booking) {
+        $guidebooking = TripGuideBook2::where('user_id', $user->id)->get();
+        foreach ($guidebooking as $booking) {
             $vehicleId = $booking->guide_id;
 
             $vehicle = TripGuide::find($vehicleId);

@@ -953,7 +953,7 @@ public function saveTouristDetails(Request $request)
         ]);
     }
     
-    public function saveTouristDetailsGuide(Request $request)
+    public function saveGuideTouristDetails(Request $request)
     {
         $validated = $request->validate([
             'tourist.*.name' => 'required',
