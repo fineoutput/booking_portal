@@ -348,18 +348,22 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     let savedMeal = localStorage.getItem("selectedMealPlan");
+    console.log("Saved Meal:", savedMeal);
+
     let mealDropdown = document.getElementById("meals");
 
-    if (mealDropdown && savedMeal) {
-        mealDropdown.value = savedMeal;
+    if (savedMeal && mealDropdown) {
 
-        // force repaint hack
-        mealDropdown.selectedIndex = mealDropdown.selectedIndex;
-        mealDropdown.dispatchEvent(new Event('change'));
-        mealDropdown.blur();
-        mealDropdown.focus();
+        let optionExists = Array.from(mealDropdown.options).some(
+            opt => opt.value === savedMeal
+        );
 
-        console.log("FORCED SELECT:", savedMeal);
+        if (optionExists) {
+            mealDropdown.value = savedMeal;
+            console.log("Dropdown updated with:", savedMeal);
+        } else {
+            console.log("Option not found in dropdown");
+        }
     }
 
     mealDropdown.addEventListener("change", function () {
@@ -821,7 +825,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
         let checkIn = document.getElementById("check_in_date")?.value || "";
         let checkOut = document.getElementById("check_out_date")?.value || "";
-        // let meals = document.getElementById("meals")?.value || "";
+        let meals = document.getElementById("meals")?.value || "";
         let rooms = document.getElementById("infants-count")?.value || 0;
         let beds = document.getElementById("beds")?.value || 0;
         let nobed = document.getElementById("nobed")?.value || 0;

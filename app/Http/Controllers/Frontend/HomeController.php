@@ -2339,7 +2339,8 @@ public function calculatePrice(Request $request, $id)
         'request->meals' => $request->meals,
         'nochild_meal_cost_total' => $nochild_meal_cost_total,
         'base_room_cost' => $base_room_cost,
-        'nights' => $numberOfNights
+        'nights' => $numberOfNights,
+        'meal_cost' => $request->meals,
     ]);
 }
 
