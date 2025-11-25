@@ -109,6 +109,8 @@ Route::group(['prefix' => '/'], function () {
  
 
     Route::get('user_profile', [HomeController::class, 'user_profile'])->name('user_profile');
+    
+    Route::get('transcation_history', [HomeController::class, 'transcation_history'])->name('transcation_history');
 
     // Route::post('/save-tourist-details/{id}', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
 

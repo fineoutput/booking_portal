@@ -1618,8 +1618,10 @@ public function getVehiclesByCity($cityId)
     return view('front/detail', $data);
 }
 
-
-
+public function transcation_history()
+    {
+return view('front/transcation_history');
+}
   public function hotelsbooking()
     {
         // Current date set for checking room price validity
