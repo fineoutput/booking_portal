@@ -93,40 +93,19 @@ table th, table td {
             </tr>
         </thead>
         <tbody id="tableBody">
-                   <tr>
-                <td style="padding: 10px;">2025-11-25</td>
-                <td style="padding: 10px;">Salary Credited</td>
-                <td style="padding: 10px; color: green; font-weight: bold;">CREDIT</td>
-                <td style="padding: 10px;">₹ 25000</td>
-            </tr>
+                   @foreach ($transactions as $t)
+        <tr>
+            <td style="padding: 10px;">{{ $t->created_at->format('Y-m-d') }}</td>
 
-            <tr>
-                <td style="padding: 10px;">2025-11-23</td>
-                <td style="padding: 10px;">ATM Withdrawal</td>
-                <td style="padding: 10px; color: red; font-weight: bold;">DEBIT</td>
-                <td style="padding: 10px;">₹ 2000</td>
-            </tr>
+            <td style="padding: 10px;">{{ $t->note ?? 'N/A' }}</td>
 
-            <tr>
-                <td style="padding: 10px;">2025-11-22</td>
-                <td style="padding: 10px;">UPI Payment - Grocery</td>
-                <td style="padding: 10px; color: red; font-weight: bold;">DEBIT</td>
-                <td style="padding: 10px;">₹ 850</td>
-            </tr>
+            <td style="padding: 10px; font-weight: bold; color: {{ $t->transaction_type == 'CREDIT' ? 'green' : 'red' }}">
+                {{ strtoupper($t->transaction_type) }}
+            </td>
 
-            <tr>
-                <td style="padding: 10px;">2025-11-20</td>
-                <td style="padding: 10px;">Refund Received</td>
-                <td style="padding: 10px; color: green; font-weight: bold;">CREDIT</td>
-                <td style="padding: 10px;">₹ 499</td>
-            </tr>
-
-            <tr>
-                <td style="padding: 10px;">2025-11-18</td>
-                <td style="padding: 10px;">Electricity Bill</td>
-                <td style="padding: 10px; color: red; font-weight: bold;">DEBIT</td>
-                <td style="padding: 10px;">₹ 1450</td>
-            </tr>
+            <td style="padding: 10px;">₹ {{ number_format($t->amount, 2) }}</td>
+        </tr>
+    @endforeach
         </tbody>
     </table>
 </div>
