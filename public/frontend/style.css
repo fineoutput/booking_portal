@@ -2735,8 +2735,9 @@ textarea.form-control {
     color: #111;
     width: 50%;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
+    flex-direction: column;
 }
     .old-price {
       text-decoration: line-through;
@@ -2762,7 +2763,7 @@ textarea.form-control {
     box-shadow: 0 1px 7px 0 #0003;
     /* font-size: 16px; */
     /* margin-top: auto; */
-    width: 34%;
+    width: 60%;
     padding: 8px 12px;
 }
     .select-btn:hover {

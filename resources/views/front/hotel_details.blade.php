@@ -29,7 +29,7 @@
         border: 1px solid #b0b0b0;
         border-radius: 5px;
     }
-
+    
     .tarati {
         margin-bottom: 5rem !important;
     }
@@ -1111,10 +1111,12 @@
                         @else
                         <p><em>Price not available for selected dates.</em></p>
                         @endif
-                    </div>
-                    <button class="select-btn">
+
+                        <button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                     </button>
+                    </div>
+                    
                 </div>
 
                 <div class="small_go d-none d-lg-block">
@@ -1123,14 +1125,15 @@
                         <div class="price">
     
                             <p class="dynamic-price"
-   data-base-price="{{ $value->price->meal_plan_breakfast_cost }}"
-   data-label="breakfast">
-   ₹{{ $value->price->meal_plan_breakfast_cost }}
-</p>
-                                                </div>
-                                                 <button class="select-btn">
+                                data-base-price="{{ $value->price->meal_plan_breakfast_cost }}"
+                                data-label="breakfast">
+                                ₹{{ $value->price->meal_plan_breakfast_cost }}
+                            </p>   
+                             <button class="select-btn">
                             <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                         </button>
+                                                </div>
+                                             
                         @endif
                             </div>
                             <div class="right2 room-right">
@@ -1142,10 +1145,11 @@
    data-label="breakfast_dinner">
    ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
 </p>
-                                            </div>
-                                             <button class="select-btn">
+<button class="select-btn">
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                     </button>
+                                            </div>
+                                             
                     @endif
                     </div>
                     <div class="right2 room-right">
@@ -1157,11 +1161,12 @@
    data-label="all_meals">
    ₹{{ $value->price->meal_plan_all_meals_cost }}
 </p>
-
-                                                </div>
-                                                 <button class="select-btn">
+<button class="select-btn">
                             <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                         </button>
+
+                                                </div>
+                                                 
                         @endif
                     </div>
                     
