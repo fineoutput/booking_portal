@@ -57,7 +57,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Console\Repl;
-use Razorpay\Api\Api;
+
 class HomeController extends Controller
 {
     // ============================= START INDEX ============================ 
@@ -821,8 +821,8 @@ public function saveTouristDetails(Request $request)
             'message' => 'Tourist details saved successfully!'
         ]);
     }
-  
-    public function saveGuideTouristDetails(Request $request)
+    
+    public function saveTouristDetailsGuide(Request $request)
     {
         $validated = $request->validate([
             'tourist.*.name' => 'required',
@@ -1119,24 +1119,7 @@ public function getVehiclesByCity($cityId)
     public function add_taxi_confirm_booking(Request $request,$id)
     {
         $packagetempbooking = TaxiBooking::where('id',$id)->first();
-         $user = Auth::guard('agent')->user();
 
-        $wallet = Wallet::where('user_id', $user->id)->first();
-
-        if (!$wallet) {
-            return redirect()->back()->with('message', 'Wallet not found!');
-        }
-
-        $deductAmount = floatval($request->fetched_price); 
-
-        $newBalance = $wallet->balance - $deductAmount;
-
-        if ($newBalance < -$user->negative_limit_amount) {
-            return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
-        }
-
-        $wallet->balance = $newBalance;
-        $wallet->save();
 
         $packagebooking = new TaxiBooking2();
         $packagebooking->taxi_order_id = $id;
@@ -2212,57 +2195,11 @@ public function calculatePrice(Request $request, $id)
     ]);
 }
 
-    // public function add_hotel_confirm_booking(Request $request,$id)
-    // {
-    //     $packagetempbooking = HotelBooking::where('id',$id)->first();
-    //     $user =  Auth::guard('agent')->user();
-    //     $wallet =  Wallet::where('user_id',$user->id)->first();
-
-    //     $packagebooking = new HotelBooking2();
-    //     $packagebooking->hotel_order_id = $id;
-    //     $packagebooking->user_id = $packagetempbooking->user_id;
-    //     $packagebooking->hotel_id = $packagetempbooking->hotel_id;
-    //     $packagebooking->fetched_price = $request->fetched_price;
-    //     $packagebooking->agent_margin = $request->agent_margin;
-    //     $packagebooking->final_price = $request->final_price;
-    //     $packagebooking->salesman_name = $request->salesman_name;
-    //     $packagebooking->salesman_mobile = $request->salesman_mobile;
-    //     $packagebooking->status = 0;
-    //     $packagebooking->save();
-
-    //     $packagetempbooking->update(['status' => 1]);
-
-    //     return redirect()->route('index')->with('message', 'Hotel Booking Created Successfully');
-    // }
-
-    public function add_hotel_confirm_booking(Request $request, $id)
+    public function add_hotel_confirm_booking(Request $request,$id)
     {
-        $packagetempbooking = HotelBooking::where('id', $id)->first();
-        $user = Auth::guard('agent')->user();
+        $packagetempbooking = HotelBooking::where('id',$id)->first();
 
-        // Fetch wallet
-        $wallet = Wallet::where('user_id', $user->id)->first();
 
-        if (!$wallet) {
-            return redirect()->back()->with('message', 'Wallet not found!');
-        }
-
-        // Amount to deduct
-        $deductAmount = floatval($request->fetched_price); // only fetched price deducted
-
-        // New balance (can go negative)
-        $newBalance = $wallet->balance - $deductAmount;
-
-        // Check negative limit
-        if ($newBalance < -$user->negative_limit_amount) {
-            return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
-        }
-
-        // Update wallet balance
-        $wallet->balance = $newBalance;
-        $wallet->save();
-
-        // Save booking
         $packagebooking = new HotelBooking2();
         $packagebooking->hotel_order_id = $id;
         $packagebooking->user_id = $packagetempbooking->user_id;
@@ -2275,12 +2212,10 @@ public function calculatePrice(Request $request, $id)
         $packagebooking->status = 0;
         $packagebooking->save();
 
-        // Update temp booking status
         $packagetempbooking->update(['status' => 1]);
 
-        return redirect()->route('index')->with('message', 'Hotel Booking Created Successfully & Wallet Updated');
+        return redirect()->route('index')->with('message', 'Hotel Booking Created Successfully');
     }
-
 
     public function add_hotel_booking(Request $request,$id)
     {
@@ -2766,24 +2701,8 @@ public function calculatePrice(Request $request, $id)
     {
             // return $request;
             $packagetempbooking = PackageBookingTemp::where('id',$id)->first();
-             $user = Auth::guard('agent')->user();
 
-            $wallet = Wallet::where('user_id', $user->id)->first();
-
-            if (!$wallet) {
-                return redirect()->back()->with('message', 'Wallet not found!');
-            }
-
-            $deductAmount = floatval($request->fetched_price); 
-
-            $newBalance = $wallet->balance - $deductAmount;
-
-            if ($newBalance < -$user->negative_limit_amount) {
-                return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
-            }
-
-            $wallet->balance = $newBalance;
-            $wallet->save();
+            // return $packagetempbooking;
 
             $packagebooking = new PackageBooking();
             $packagebooking->package_temp_id = $id;
@@ -2997,24 +2916,7 @@ public function calculatePrice(Request $request, $id)
     public function add_confirm_wildlife_booking(Request $request,$id) {
 
         $packagetempbooking = WildlifeSafariOrder::where('id',$id)->first();
-        $user = Auth::guard('agent')->user();
 
-        $wallet = Wallet::where('user_id', $user->id)->first();
-
-        if (!$wallet) {
-            return redirect()->back()->with('message', 'Wallet not found!');
-        }
-
-        $deductAmount = floatval($request->fetched_price);
-
-        $newBalance = $wallet->balance - $deductAmount;
-
-        if ($newBalance < -$user->negative_limit_amount) {
-            return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
-        }
-
-        $wallet->balance = $newBalance;
-        $wallet->save();
 
         $packagebooking = new WildlifeSafariOrder2();
         $packagebooking->safari_order_id = $id;
@@ -3271,24 +3173,6 @@ public function calculatePrice(Request $request, $id)
     public function add_confirm_guide_booking(Request $request,$id) {
 
         $packagetempbooking = TripGuideBook::where('id',$id)->first();
-         $user = Auth::guard('agent')->user();
-
-        $wallet = Wallet::where('user_id', $user->id)->first();
-
-        if (!$wallet) {
-            return redirect()->back()->with('message', 'Wallet not found!');
-        }
-
-        $deductAmount = floatval($request->fetched_price);
-
-        $newBalance = $wallet->balance - $deductAmount;
-
-        if ($newBalance < -$user->negative_limit_amount) {
-            return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
-        }
-
-        $wallet->balance = $newBalance;
-        $wallet->save();
 
         $packagebooking = new TripGuideBook2();
         $packagebooking->guide_order_id = $id;
