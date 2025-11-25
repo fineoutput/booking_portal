@@ -88,8 +88,7 @@ table th, table td {
             <tr>
                 <th>Date</th>
                 <th>Details</th>
-                <th>Transaction Type</th>
-                <th>Status</th>
+                <th>Type</th>
                 <th>Amount</th>
             </tr>
         </thead>
@@ -102,10 +101,6 @@ table th, table td {
 
             <td style="padding: 10px; font-weight: bold; color: {{ $t->transaction_type == 'CREDIT' ? 'green' : 'red' }}">
                 {{ strtoupper($t->transaction_type) }}
-            </td>
-
-            <td>
-                
             </td>
 
             <td style="padding: 10px;">₹ {{ number_format($t->amount, 2) }}</td>
