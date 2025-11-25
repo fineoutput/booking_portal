@@ -1097,16 +1097,17 @@
                     <div class="main-price mb-5">
 
                     
-                    <div class="old-price">
+                    
+                    <div class="price" style="flex-direction: column">
+                        <div class="old-price">
                         @if ($value->price)
-                        <p class="hotel-price" id="price_{{ $value->id }}">₹{{ $value->price->mrp }}</p>
+                        <p style="margin: 0;" class="hotel-price" id="price_{{ $value->id }}">₹{{ $value->price->mrp }}</p>
                         @else
                         0
                         @endif
                     </div>
-                    <div class="price">
                         @if ($value->price)
-                        <p class="hotel-price" id="price_{{ $value->id }}">₹{{ $value->price->night_cost }}</p>
+                        <p class="hotel-price dynamic-price" data-label="no_meal" id="price_{{ $value->id }}">₹{{ $value->price->night_cost }}</p>
                         @else
                         <p><em>Price not available for selected dates.</em></p>
                         @endif
