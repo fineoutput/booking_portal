@@ -3929,6 +3929,7 @@ public function allbookings(Request $request)
         $hotel = Hotels::find($booking->hotel_se->hotel_id);
         $images = $hotel ? $normalizeImages($hotel->images) : [];
         return [
+            'id' => $booking->id ?? null,
             'title' => $hotel->name ?? null,
             'start_date' => $booking->hotel_se->check_in_date ?? null,
             'end_date' => $booking->hotel_se->check_out_date ?? null,
@@ -3958,6 +3959,7 @@ public function allbookings(Request $request)
         ]) : null;
           $packagetemp = $booking->packagetemp;
         return [
+            'id' => $booking->id ?? null,
             'title' => $package->package_name ?? null,
             'start_date' => $booking->packagetemp->start_date,
             'end_date' => $booking->packagetemp->end_date,
@@ -3993,6 +3995,7 @@ public function allbookings(Request $request)
         $images = $safari ? $normalizeImages($safari->image) : [];
         $bookingtemp = $booking->safari_se;
         return [
+            'id' => $booking->id ?? null,
             'title' => $safari->national_park ?? null,
             'timings' => $$bookingtemp->timings ?? null,
             'time' => $bookingtemp->time ?? null,
@@ -4021,6 +4024,7 @@ public function allbookings(Request $request)
         $vehicle = $vehicleId ? Vehicle::find($vehicleId) : null;
         $images = $vehicle && $vehicle->image ? [$normalizeImages($vehicle->image)[0]] : [];
         return [
+            'id' => $booking->id ?? null,
             'title' => $vehicle->name ?? null,
             'final_price' => $booking->final_price ?? null,
             'dates' => date('d-m-Y', strtotime($booking->created_at)),
@@ -4068,6 +4072,7 @@ public function allbookings(Request $request)
         $guide = TripGuide::find($booking->guide_se->guide_id);
         $images = $guide ? $normalizeImages($guide->image) : [];
         return [
+            'id' => $booking->id ?? null,
             'title' => $guide->location ?? null,
             'final_price' => $booking->final_price ?? null,
             'tour_type' => $booking->tour_type ?? null,
