@@ -821,6 +821,68 @@ public function saveTouristDetails(Request $request)
             'message' => 'Tourist details saved successfully!'
         ]);
     }
+  
+    public function saveGuideTouristDetails(Request $request)
+    {
+        $validated = $request->validate([
+            'tourist.*.name' => 'required',
+            'tourist.*.age' => 'required',
+            'tourist.*.phone' => 'required',
+            'tourist.*.aadhar_front' => 'required|file',
+            'tourist.*.aadhar_back' => 'required|file',
+            'additional_info' => 'nullable',
+            'booking_id' => 'required',
+        ]);
+
+        foreach ($request->tourist as $touristData) {
+            $aadharFrontPath = null;
+            $aadharBackPath = null;
+
+            if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
+                $file = $touristData['aadhar_front'];
+                $filename = time() . '_aadhar_front.' . $file->getClientOriginalExtension();
+                $destination = public_path('uploads/tourist');
+
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
+
+                $file->move($destination, $filename);
+                $aadharFrontPath = 'uploads/tourist/' . $filename;
+            }
+
+            if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
+                $file = $touristData['aadhar_back'];
+                $filename = time() . '_aadhar_back.' . $file->getClientOriginalExtension();
+                $destination = public_path('uploads/tourist');
+
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
+
+                $file->move($destination, $filename);
+                $aadharBackPath = 'uploads/tourist/' . $filename;
+            }
+
+            $tourist = new Tourist([
+                'user_id' => Auth::guard('agent')->id(),
+                'name' => $touristData['name'],
+                'age' => $touristData['age'],
+                'phone' => $touristData['phone'],
+                'aadhar_front' => $aadharFrontPath,
+                'aadhar_back' => $aadharBackPath,
+                'additional_info' => $request->additional_info,
+                'booking_id' => $request->booking_id,
+                'type' => 'Guide',
+            ]);
+
+            $tourist->save();
+        }
+
+        return redirect()->back()->with([
+            'message' => 'Tourist details saved successfully!'
+        ]);
+    }
 
 
     public function invoice(Request $request, $id){

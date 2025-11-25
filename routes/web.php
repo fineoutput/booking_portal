@@ -88,6 +88,7 @@ Route::group(['prefix' => '/'], function () {
     Route::post('/save-tourist-details-hotel', [HomeController::class, 'saveTouristDetailshotel'])->name('saveTouristDetailshotel');
     Route::post('/save-tourist-details-safari', [HomeController::class, 'saveTouristDetailssafari'])->name('saveTouristDetailssafari');
     Route::post('/save-tourist-details-taxi', [HomeController::class, 'saveTouristDetailsTaxi'])->name('saveTouristDetailsTaxi');
+    Route::post('/save-tourist-details-guide', [HomeController::class, 'saveGuideTouristDetails'])->name('saveGuideTouristDetails');
 
     // Route for downloading PDF with logo
     // Route::get('/download-pdf-with-logo/{user_id}/{pdf_name}', [PDFController::class, 'downloadWithLogo'])->name('pdf.download');

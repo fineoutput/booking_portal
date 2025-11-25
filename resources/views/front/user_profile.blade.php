@@ -1287,14 +1287,14 @@
                                             @if($value->status == 0 || $value->status == 2 || $value->status == 1)
                                                 <!-- No action for Pending, Reject, or Complete -->
                                             @else
-                                                <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#taxiDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
+                                                <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#guideDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
                                             @endif
                                         </td>
                                         <td class="suther">
                                             @if($value->status == 0 || $value->status == 2)
                                                 <!-- No tourist list for Pending or Reject -->
                                             @else
-                                                <button class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#taxiTouristListModal3001{{ $value->id }}" onclick="showTouristList({{ $value->id }})">View List</button>
+                                                <button class="btn btn-secondary suther" data-bs-toggle="modal" data-bs-target="#guideTouristListModal3001{{ $value->id }}" onclick="showTouristList({{ $value->id }})">View List</button>
                                             @endif
                                         </td>
                                         {{-- <th class="suther">
@@ -1317,7 +1317,7 @@
                                 
                                 <!-- Modals for Safari Booking #3001 -->
                                 <!-- Safari Upgrade Request Modal -->
-                                <div class="modal fade suther" id="taxiUpgradeRequestModal3001" tabindex="-1" aria-labelledby="taxiUpgradeRequestModalLabel3001" aria-hidden="true">
+                                {{-- <div class="modal fade suther" id="taxiUpgradeRequestModal3001" tabindex="-1" aria-labelledby="taxiUpgradeRequestModalLabel3001" aria-hidden="true">
                                     <div class="modal-dialog modal-lg suther">
                                         <div class="modal-content suther">
                                             <div class="modal-header suther">
@@ -1344,9 +1344,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!-- Safari Tourist List Modal -->
-                                <div class="modal fade suther" id="taxiTouristListModal3001{{$value->id ?? ''}}" tabindex="-1" aria-labelledby="taxiTouristListModalLabel3001" aria-hidden="true">
+                                <div class="modal fade suther" id="guideTouristListModal3001{{$value->id ?? ''}}" tabindex="-1" aria-labelledby="taxiTouristListModalLabel3001" aria-hidden="true">
                                     <div class="modal-dialog modal-lg suther">
                                         <div class="modal-content suther">
                                             <div class="modal-header suther">
@@ -1361,7 +1361,7 @@
                                                             <div class="tourist-table-cell fw-bold">Age</div>
                                                             <div class="tourist-table-cell fw-bold">Phone</div>
                                                         </div>
-                                                       @foreach($value->tourists->where('type','Taxi') as $tourist)
+                                                       @foreach($value->tourists->where('type','Guide') as $tourist)
                                                                     <div class="tourist-table-row">
                                                                         <div class="tourist-table-cell">{{ $tourist->name }}</div>
                                                                         <div class="tourist-table-cell">{{ $tourist->age }}</div>
@@ -1374,20 +1374,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Safari Details Modal -->
-                                <div class="modal fade suther" id="taxiDetailsModal3001{{$value->id ?? ''}}" tabindex="-1" aria-labelledby="safariDetailsModalLabel3001" aria-hidden="true">
+                                <!-- Guide Details Modal -->
+                                <div class="modal fade suther" id="guideDetailsModal{{$value->id ?? ''}}" tabindex="-1" aria-labelledby="guideDetailsModalLabel{{$value->id ?? ''}}" aria-hidden="true">
                                     <div class="modal-dialog modal-lg suther">
                                         <div class="modal-content suther">
                                             <div class="modal-header suther">
-                                                <h5 class="modal-title suther" id="safariDetailsModalLabel3001">Enter Taxi Booking Details</h5>
+                                                <h5 class="modal-title suther" id="guideDetailsModalLabel{{$value->id ?? ''}}">Enter Guide Booking Details</h5>
                                                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveTouristDetailsTaxi')}}" class="suther" id="taxiTouristForm{{ $value->id ?? '' }}">
+                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveGuideTouristDetails')}}" class="suther" id="guideTouristForm{{ $value->id ?? '' }}">
                                                 @csrf
                                                 <div class="modal-body suther">
                                                     <input type="hidden" id="bookingIdss" name="booking_id" value="{{$value->id ?? ''}}">
                                                     <h6 class="fw-bold suther">Tourists Information</h6>
-                                                    <div id="taxiTouristContainer{{ $value->id ?? '' }}" class="mb-3 suther">
+                                                    <div id="guideTouristContainer{{ $value->id ?? '' }}" class="mb-3 suther">
                                                         <div class="tourist-section suther mb-4" data-tourist-id="1">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <h6 class="fw-bold suther">Tourist 1</h6>
@@ -1421,7 +1421,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <button type="button" class="btn btn-success suther mb-3" id="addTaxiTourist{{ $value->id ?? '' }}">Add Tourist</button>
+                                                    <button type="button" class="btn btn-success suther mb-3" id="addGuideTourist{{ $value->id ?? '' }}">Add Tourist</button>
                                                     <h6 class="fw-bold suther mt-4">Additional Information</h6>
                                                     <div class="mb-3 suther">
                                                         <label for="additionalInfo" class="form-label suther">Details</label>
