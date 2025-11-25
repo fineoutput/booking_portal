@@ -9,11 +9,13 @@
     .wast {
         border-top: 1px solid #b0b0b0;
     }
+
     p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 15px;
-}
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 15px;
+    }
+
     .form-group {
         display: flex;
         align-items: center;
@@ -29,7 +31,7 @@
         border: 1px solid #b0b0b0;
         border-radius: 5px;
     }
-    
+
     .tarati {
         margin-bottom: 5rem !important;
     }
@@ -54,19 +56,19 @@
 
 
     .center2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 120px;
-}
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 120px;
+    }
 
-.right2 {
-    height: 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: end;
-}
+    .right2 {
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: end;
+    }
 
 
 
@@ -117,156 +119,160 @@
     }
 
     .room-right .main-price {
-     display: flex;
-     flex-direction: column;
-     /* justify-content: space-between; */
-     height: 100%;
-     align-items: end;
-   }
+        display: flex;
+        flex-direction: column;
+        /* justify-content: space-between; */
+        height: 100%;
+        align-items: end;
+    }
 
-   .room_Center .skoot {
-     height: auto;
-   }
+    .room_Center .skoot {
+        height: auto;
+    }
 </style>
 <div class="header-container_hotels">
 
     <div class="search-header_hotels msfm">
-    <!-- Destination Dropdown -->
-    <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-      <div class="filter-label_hotels">Destination</div>
+        <!-- Destination Dropdown -->
+        <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+            <div class="filter-label_hotels">Destination</div>
 
 
-      <form action="" method="POST" id="filter-form">
-        @csrf
-        <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search"
-            onkeyup="filterCities()" placeholder="Search cities..." class="search-input" readonly></div>
-        <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
-          <!-- Search input added here -->
-          <div class="search-container">
-            {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
-              class="search-input"> --}}
-          </div>
+            <form action="" method="POST" id="filter-form">
+                @csrf
+                <div class="filter-value_hotels" id="destination-value"> <input type="text" id="city-search"
+                        onkeyup="filterCities()" placeholder="Search cities..." class="search-input" readonly></div>
+                <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+                    <!-- Search input added here -->
+                    <div class="search-container">
+                        {{-- <input type="text" id="city-search" onkeyup="filterCities()" placeholder="Search cities..."
+                            class="search-input"> --}}
+                    </div>
 
-          @foreach($cities as $value)
-          <label class="d-flex " for="city_{{ $value->id }}" class="city-label orSamar" style="
+                    @foreach($cities as $value)
+                    <label class="d-flex " for="city_{{ $value->id }}" class="city-label orSamar" style="
               border-bottom: 1px solid #00000033;  cursor: pointer;   padding: 10px;">
-            <div class="city_list_htotle city-item mb-2">
-              <div class="desMund d-flex align-items-center gap-2">
-                <div class="sizemaze">
-                  <!-- Image representing the city -->
-                  <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+                        <div class="city_list_htotle city-item mb-2">
+                            <div class="desMund d-flex align-items-center gap-2">
+                                <div class="sizemaze">
+                                    <!-- Image representing the city -->
+                                    <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="City Image" />
+                                </div>
+                                <p class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not
+                                        available' }}</b></p>
+
+                                <div class="hotel_place">
+                                    <!-- Input field for the city selection -->
+                                    <input type="radio" id="city_{{ $value->id }}" name="city_id"
+                                        value="{{ $value->id }}" class="destination-option_hotels opacity-0"
+                                        onclick="selectDestination('{{ $value->city_name }}')">
+
+                                    <span class="hotels_spn"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <p id="no_city"></p>
+                    </label>
+                    @endforeach
+
                 </div>
-                <p class="text-bold text-dark" href="#"><b>{{ $value->city_name ?? 'City name not available' }}</b></p>
+        </div>
+        {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
+            <div class="filter-label_hotels">Destination</div>
+            <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
+            <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
 
-                <div class="hotel_place">
-                  <!-- Input field for the city selection -->
-                  <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
-                    class="destination-option_hotels opacity-0" onclick="selectDestination('{{ $value->city_name }}')">
+                <form action="" method="POST" id="filter-form">
+                    @csrf
 
-                  <span class="hotels_spn"></span>
+                    @foreach($cities as $value)
+                    <div class="city_list_htotle">
+                        <div class="sizemaze">
+                            <!-- Image representing the city -->
+                            <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}"
+                                alt="City Image" />
+                        </div>
+                        <div class="hotel_place">
+                            <!-- Input field for the city selection -->
+                            <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
+                                class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
+                            <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not
+                                available'
+                                }}</label>
+                            <span class="hotels_spn"></span>
+                        </div>
+                    </div>
+                    @endforeach
+
+            </div>
+        </div> --}}
+
+
+        <!-- Check-in Date -->
+        <div class="filter-item_hotels sachi">
+            <div class="filter-label_hotels">Select Dates</div>
+            <input type="text" id="date-range" class="filter-value_hotels" placeholder="Choose date range" readonly>
+            <input type="hidden" name="start_date" id="start_date">
+            <input type="hidden" name="end_date" id="end_date">
+        </div>
+
+        <!-- Guests Dropdown -->
+        <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
+            <div class="filter-label_hotels">Guests</div>
+
+            <div class="filter-value_hotels" id="guests-value">1 guest</div>
+
+            <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
+                <div class="guest-option_hotels">
+                    <label>No. of Rooms</label>
+                    <div class="counter_hotels">
+                        <button type="button" onclick="updateGuests('infants', -1)">-</button>
+                        <input type="number" id="infants-count" value="1" min="1">
+                        <button type="button" onclick="updateGuests('infants', 1)">+</button>
+                    </div>
                 </div>
-              </div>
+                <div class="guest-option_hotels">
+                    <label>Adults</label>
+                    <div class="counter_hotels">
+                        <button type="button" onclick="updateGuests('adults', -1)">-</button>
+                        <input type="number" id="adults-count" value="1" min="1">
+                        <button type="button" onclick="updateGuests('adults', 1)">+</button>
+                    </div>
+                </div>
+                <div class="guest-option_hotels">
+                    <label>Children</label>
+                    <div class="counter_hotels">
+                        <button type="button" onclick="updateChildren(-1)">-</button>
+                        <input type="number" id="children-count" value="0" min="0">
+                        <button type="button" onclick="updateChildren(1)">+</button>
+                    </div>
+
+                    <!-- Dynamic child age dropdowns appear here -->
+
+                </div>
+                <hr id="what">
+                <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
+                    Children age
+                </div>
+
+                <!-- Dynamic child age dropdowns appear here -->
+                <div id="children-ages"> </div>
+
             </div>
-            <p id="no_city"></p>
-          </label>
-          @endforeach
-
         </div>
-    </div>
-    {{-- <div class="filter-item_hotels sachi" onclick="toggleDropdown('destination')">
-      <div class="filter-label_hotels">Destination</div>
-      <div class="filter-value_hotels" id="destination-value">Where are you going?</div>
-      <div class="dropdown_hotels destination-dropdown_hotels" id="destination-dropdown">
+        <button type="submit" class="cutPiece" style="border: none; background: none;">
+            <div class="search_sba">
+                <div class="sba_center_Sarch">
 
-        <form action="" method="POST" id="filter-form">
-          @csrf
+                    search
+                    {{-- <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;"> --}}
 
-          @foreach($cities as $value)
-          <div class="city_list_htotle">
-            <div class="sizemaze">
-              <!-- Image representing the city -->
-              <img src="{{ asset('frontend/images/75e4a98d-2598-4693-ae1b-d8c9d98c3bfc.png') }}" alt="City Image" />
+                </div>
             </div>
-            <div class="hotel_place">
-              <!-- Input field for the city selection -->
-              <input type="radio" id="city_{{ $value->id }}" name="city_id" value="{{ $value->id }}"
-                class="destination-option_hotels" onclick="selectDestination('{{ $value->id }}')">
-              <label for="city_{{ $value->id }}" class="city-label">{{ $value->city_name ?? 'City name not available'
-                }}</label>
-              <span class="hotels_spn"></span>
-            </div>
-          </div>
-          @endforeach
+        </button>
+        </form>
 
-      </div>
-    </div> --}}
-
-
-    <!-- Check-in Date -->
-    <div class="filter-item_hotels sachi">
-      <div class="filter-label_hotels">Select Dates</div>
-      <input type="text" id="date-range" class="filter-value_hotels" placeholder="Choose date range" readonly>
-      <input type="hidden" name="start_date" id="start_date">
-      <input type="hidden" name="end_date" id="end_date">
     </div>
-
-    <!-- Guests Dropdown -->
-    <div class="filter-item_hotels sachi" onclick="toggleDropdown('guests')">
-      <div class="filter-label_hotels">Guests</div>
-
-      <div class="filter-value_hotels" id="guests-value">1 guest</div>
-
-      <div class="dropdown_hotels guests-dropdown_hotels" id="guests-dropdown">
-        <div class="guest-option_hotels">
-          <label>No. of Rooms</label>
-          <div class="counter_hotels">
-            <button type="button" onclick="updateGuests('infants', -1)">-</button>
-            <input type="number" id="infants-count" value="1" min="1">
-            <button type="button" onclick="updateGuests('infants', 1)">+</button>
-          </div>
-        </div>
-        <div class="guest-option_hotels">
-          <label>Adults</label>
-          <div class="counter_hotels">
-            <button type="button" onclick="updateGuests('adults', -1)">-</button>
-            <input type="number" id="adults-count" value="1" min="1">
-            <button type="button" onclick="updateGuests('adults', 1)">+</button>
-          </div>
-        </div>
-        <div class="guest-option_hotels">
-          <label>Children</label>
-          <div class="counter_hotels">
-            <button type="button" onclick="updateChildren(-1)">-</button>
-            <input type="number" id="children-count" value="0" min="0">
-            <button type="button" onclick="updateChildren(1)">+</button>
-          </div>
-
-          <!-- Dynamic child age dropdowns appear here -->
-
-        </div>
-        <hr id="what">
-        <div id="children-age-label" style="margin-top:10px; display:none; font-weight:600;">
-          Children age
-        </div>
-
-        <!-- Dynamic child age dropdowns appear here -->
-        <div id="children-ages"> </div>
-
-      </div>
-    </div>
-    <button type="submit" class="cutPiece" style="border: none; background: none;">
-      <div class="search_sba">
-        <div class="sba_center_Sarch">
-
-          search
-          {{-- <img src="{{ asset('frontend/images/searchblue.png') }}" alt="" style="width: 80%;"> --}}
-
-        </div>
-      </div>
-    </button>
-    </form>
-
-  </div>
 </div>
 
 {{-- <form action="{{ route('add_hotel_booking',['id'=>$hotel->id]) }}" method="POST">
@@ -497,15 +503,16 @@
                                     </div>
                                     <div class="site_pricwe">
                                         <delt class="pii">
-                                            <del class="hotel-price" id="price_{{ $value->id }}" >₹
+                                            <del class="hotel-price" id="price_{{ $value->id }}">₹
                                                 @if($hotel_room_1 && $hotel_room_1->price)
                                                 {{ $hotel_room_1->price->mrp }}
                                                 @else
                                                 Price not available
-                                                @endif</del> <span ></span>
+                                                @endif</del> <span></span>
                                         </delt>
                                         <div class="andy_time d-flex">
-                                            <p class="hotel-price" id="price_{{ $value->id }}" style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">
+                                            <p class="hotel-price" id="price_{{ $value->id }}"
+                                                style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">
                                                 ₹ @if ($hotel_room_1 && $hotel_room_1->price)
                                                 {{ $hotel_room_1->price->night_cost }}
                                                 @else
@@ -834,437 +841,326 @@
 
             </div>
         </div>
-        @foreach ($hotel_room as $value)
-        @php
-        $images = json_decode($value->images, true) ?: [];
-        @endphp
+@foreach ($hotel_room as $value)
+    @php $images = json_decode($value->images, true) ?: []; @endphp
 
-        <div class="room-card mb-2" id="room-card-{{ $value->id }}">
-            <!-- Upgrade Banner -->
-            <div class="upgrade-banner">
-                {{-- Upgrade to a room with larger size for ₹287 --}}
-            </div>
+    <div class="room-card mb-2" id="room-card-{{ $value->id }}">
+        <!-- Upgrade Banner -->
+        <div class="upgrade-banner"></div>
 
-            <div class="room-content">
-                <div class="room-left">
-                    <div class="jules">
-                        <!-- Room Slider -->
-                        <div id="room-slider-{{ $value->id }}" class="splide room-slider"
-                            style="height: 100%; width: 100%;">
-                            <div class="splide__track" style="height: 100%; width: 100%;">
-                                <ul class="splide__list">
-                                    @if (count($images))
+        <div class="room-content">
+            <div class="room-left">
+                <div class="jules">
+                    <!-- Room Slider -->
+                    <div id="room-slider-{{ $value->id }}" class="splide room-slider" style="height: 100%; width: 100%;">
+                        <div class="splide__track" style="height: 100%; width: 100%;">
+                            <ul class="splide__list">
+                                @if (count($images))
                                     @foreach ($images as $image)
                                     <li class="splide__slide">
-                                        <img src="{{ asset($image) }}" alt=""
-                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;"
-                                            class="open-modal">
+                                        <img src="{{ asset($image) }}" alt="" class="open-modal"
+                                            style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
                                     </li>
                                     @endforeach
-                                    @else
+                                @else
                                     <li class="splide__slide">
                                         <img src="{{ asset('images/no-image.jpg') }}" alt="No image available"
                                             style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
                                     </li>
-                                    @endif
-                                </ul>
-                            </div>
-                            <div class="splide__arrows">
-                                <button class="splide__arrow splide__arrow--prev">‹</button>
-                                <button class="splide__arrow splide__arrow--next">›</button>
-                            </div>
+                                @endif
+                            </ul>
                         </div>
+                        <div class="splide__arrows">
+                            <button class="splide__arrow splide__arrow--prev">‹</button>
+                            <button class="splide__arrow splide__arrow--next">›</button>
+                        </div>
+                    </div>
 
-                        <!-- Modal -->
-                        <div id="imageModal-{{ $value->id }}" class="modal"
-                            style="display:none; align-items:center; justify-content:center;">
-                            <div
-                                style="background:#fff; border-radius:16px; max-width:900px; width:95vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.25);">
-                                <span class="close"
-                                    style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">&times;</span>
-                                <div style="padding:32px 32px 16px 32px;">
-                                    <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">{{ $value->title ??
-                                        '' }}</h2>
-                                    <div id="modal-slider-{{ $value->id }}" class="splide modal-slider"
-                                        style="margin-bottom:24px;">
-                                        <div class="splide__track">
-                                            <ul class="splide__list">
-                                                @if (count($images))
+                    <!-- Modal -->
+                    <div id="imageModal-{{ $value->id }}" class="modal" style="display:none; align-items:center; justify-content:center;">
+                        <div style="background:#fff; border-radius:16px; max-width:900px; width:95vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.25);">
+                            <span class="close" style="position:absolute; top:15px; right:35px; color:#333; font-size:40px; font-weight:bold; cursor:pointer; z-index:999;">×</span>
+                            <div style="padding:32px 32px 16px 32px;">
+                                <h2 style="font-size:2rem; font-weight:700; margin-bottom:16px;">{{ $value->title ?? '' }}</h2>
+                                <div id="modal-slider-{{ $value->id }}" class="splide modal-slider" style="margin-bottom:24px;">
+                                    <div class="splide__track">
+                                        <ul class="splide__list">
+                                            @if (count($images))
                                                 @foreach ($images as $image)
                                                 <li class="splide__slide">
                                                     <img src="{{ asset($image) }}" alt=""
-                                                        style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;"
-                                                        class="modal-image">
-                                                </li>
-                                                @endforeach
-                                                @else
-                                                <li class="splide__slide">
-                                                    <img src="{{ asset('images/no-image.jpg') }}"
-                                                        alt="No image available"
                                                         style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
                                                 </li>
-                                                @endif
-                                            </ul>
-                                        </div>
-                                        <div class="splide__arrows">
-                                            <button class="splide__arrow splide__arrow--prev">‹</button>
-                                            <button class="splide__arrow splide__arrow--next">›</button>
-                                        </div>
+                                                @endforeach
+                                            @else
+                                                <li class="splide__slide">
+                                                    <img src="{{ asset('images/no-image.jpg') }}" alt="No image available"
+                                                        style="max-width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin:auto; display:block;">
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                    <div class="splide__arrows">
+                                        <button class="splide__arrow splide__arrow--prev">‹</button>
+                                        <button class="splide__arrow splide__arrow--next">›</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <h3>{{ $value->title ?? '' }}</h3>
-                    <div class="features">
-                        <label for=""><b>Nearby within Walking Distance</b></label>
-                        <ul class="rmTypeList vertical appendTop10">
-                            @foreach (explode(',', $value->nearby) as $amenity)
-                            @if (trim($amenity) !== '')
-                            <li class="rmTypeList__item">
-                                <span class="rmTypeList__item--icon appendRight10">
-                                   <i class="fa-solid fa-person-walking"></i>
-                                </span>
-                                <span class="makeFlex column column-text">
-                                    <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
-                                </span>
-                            </li>
-                            @endif
-                            @endforeach
-                        </ul>
-                        <label for=""><b>Rules</b></label>
-                        <ul class="rmTypeList vertical appendTop10">
-                            @foreach (explode(',', $value->house_rules) as $amenity)
-                            @if (trim($amenity) !== '')
-                            <li class="rmTypeList__item">
-                                <span class="rmTypeList__item--icon appendRight10">
-                                    <img src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png"
-                                        alt="">
-                                </span>
-                                <span class="makeFlex column column-text">
-                                    <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
-                                </span>
-                            </li> 
-                            @endif
-                            @endforeach
-                        </ul>
-                        <label for=""><b>Locality</b></label>
-                        <ul class="rmTypeList vertical appendTop10">
-                            @foreach (explode(',', $value->locality) as $amenity)
-                            @if (trim($amenity) !== '')
-                            <li class="rmTypeList__item">
-                                <span class="rmTypeList__item--icon appendRight10">
-                                   <i class="fa-solid fa-archway"></i>
-                                </span>
-                                <span class="makeFlex column column-text">
-                                    <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
-                                </span>
-                            </li>
-                            @endif
-                            @endforeach
-                        </ul>
-                    </div>
-                    <a href="#" class="more-link" id="open-modal-details-{{ $value->id }}">More Details</a>
                 </div>
-                <div class="room_Center">
-                    <h4 class="naxo">Room Amenities</h4>
-                    <div class="skoot mb-5">
-                        @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
-                        <div class="samrt">
-                            <p><b>Room facilities</b></p>
-                    <ul class="offers">
-                        @foreach (explode(',', $value->room_amenities) as $amenity)
-                        @if (trim($amenity) !== '')
-                        <li><i class="fa-solid fa-spa"></i> {{ trim($amenity) }}</li>
-                        @endif
+
+                <h3>{{ $value->title ?? '' }}</h3>
+                <div class="features">
+                    <!-- Nearby, Rules, Locality - same -->
+                    <label for=""><b>Nearby within Walking Distance</b></label>
+                    <ul class="rmTypeList vertical appendTop10">
+                        @foreach (explode(',', $value->nearby) as $amenity)
+                            @if (trim($amenity) !== '')
+                            <li class="rmTypeList__item">
+                                <span class="rmTypeList__item--icon appendRight10"><i class="fa-solid fa-person-walking"></i></span>
+                                <span class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span>
+                            </li>
+                            @endif
                         @endforeach
                     </ul>
-                        </div>
-                        @endif
+                    <label for=""><b>Rules</b></label>
+                    <ul class="rmTypeList vertical appendTop10">
+                        @foreach (explode(',', $value->house_rules) as $amenity)
+                            @if (trim($amenity) !== '')
+                            <li class="rmTypeList__item">
+                                <span class="rmTypeList__item--icon appendRight10">
+                                    <img src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png" alt="">
+                                </span>
+                                <span class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span>
+                            </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                    <label for=""><b>Locality</b></label>
+                    <ul class="rmTypeList vertical appendTop10">
+                        @foreach (explode(',', $value->locality) as $amenity)
+                            @if (trim($amenity) !== '')
+                            <li class="rmTypeList__item">
+                                <span class="rmTypeList__item--icon appendRight10"><i class="fa-solid fa-archway"></i></span>
+                                <span class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span>
+                            </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+                <a href="#" class="more-link" id="open-modal-details-{{ $value->id }}">More Details</a>
+            </div>
 
-                        @if (!empty($value->meal_plan) && trim($value->meal_plan) !== '')
-                        <div class="tape_over">
-                            <p><b>Room Meal</b></p>
-                    <ul class="offers">
+            <div class="room_Center">
+                <h4 class="naxo">Room Amenities</h4>
+                <div class="skoot mb-5">
+                    <!-- All amenities same -->
+                    @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
+                    <div class="samrt"><p><b>Room facilities</b></p><ul class="offers">
+                        @foreach (explode(',', $value->room_amenities) as $amenity)
+                            @if (trim($amenity) !== '') <li><i class="fa-solid fa-spa"></i> {{ trim($amenity) }}</li> @endif
+                        @endforeach
+                    </ul></div>
+                    @endif
+
+                    @if (!empty($value->meal_plan) && trim($value->meal_plan) !== '')
+                    <div class="tape_over"><p><b>Room Meal</b></p><ul class="offers">
                         @foreach (explode(',', $value->meal_plan) as $amenity)
                             @if (trim($amenity) !== '')
-                                <li>
-                                    @switch(trim($amenity))
-                                        @case('meal_plan_only_room')
-                                            <i class="fa-solid fa-utensils"></i> Only room
-                                            @break
-                                        @case('meal_plan_breakfast')
-                                            <i class="fa-solid fa-utensils"></i> Breakfast
-                                            @break
-                                             @case('meal_plan_all_meals')
-                                            <i class="fa-solid fa-utensils"></i> All meals
-                                            @break
-                                        @case('meal_plan_breakfast_lunch_dinner')
-                                            <i class="fa-solid fa-utensils"></i> Breakfast + Lunch/Dinner
-                                            @break
-                                       
-                                        @default
-                                            <i class="fa-solid fa-utensils"></i> {{ trim($amenity) }}
-                                    @endswitch
-                                </li>
+                            <li>
+                                @switch(trim($amenity))
+                                    @case('meal_plan_only_room') <i class="fa-solid fa-utensils"></i> Only room @break
+                                    @case('meal_plan_breakfast') <i class="fa-solid fa-utensils"></i> Breakfast @break
+                                    @case('meal_plan_all_meals') <i class="fa-solid fa-utensils"></i> All meals @break
+                                    @case('meal_plan_breakfast_lunch_dinner') <i class="fa-solid fa-utensils"></i> Breakfast + Lunch/Dinner @break
+                                    @default <i class="fa-solid fa-utensils"></i> {{ trim($amenity) }}
+                                @endswitch
+                            </li>
                             @endif
                         @endforeach
-
-                    </ul>   
-                        </div>
-                        @endif
-
-                        @if (!empty($value->hotel_amenities) && trim($value->hotel_amenities) !== '')
-                        <div class="tape_over">
-                            <p><b>Hotel Amenities</b></p>
-                    <ul class="offers">
-                        @foreach (explode(',', $value->hotel_amenities) as $amenity)
-                        @if (trim($amenity) !== '')
-                        <li><i class="fa-solid fa-dice"></i> {{ trim($amenity) }}</li>
-                        @endif
-                        @endforeach
-                    </ul>   
-                        </div>
-                       @endif
-
-                       @if (!empty($value->chains) && trim($value->chains) !== '')
-                        <div class="tape_over">
-                            <p><b>Chains</b></p>
-                    <ul class="offers">
-                        @foreach (explode(',', $value->chains) as $amenity)
-                        @if (trim($amenity) !== '')
-                        <li><i class="fa-solid fa-snowflake"></i> {{ trim($amenity) }}</li>
-                        @endif
-                        @endforeach
-                    </ul>   
-                        </div>
-                        @endif
-                        
-                       @if (!empty($value->description))
-                        <div class="tape_over">
-                            <p><b>Description</b></p>
-                    <ul class="offers">
-                        <div class="desc_hotl">
-                            @if($value->description)
-                            <p>{!! $value->description !!}</p>
-                            @endif
-                        </div>
-                    </ul>   
-                        </div>
-                        @endif
-                    </div>
-
-                    <div class="small_go d-none d-lg-block">
-                        @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
-                    <div class="center2">
-                        <div class="triangle"><p><b>Room With(Breakfast)</b></p></div>
-                    </div>
+                    </ul></div>
                     @endif
-                    <div class="center2">
-                        <div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div>
-                    </div>
-                    <div class="center2">
-                        <div class="triangle"><p><b>Meal Plan (All meals)</b></p></div>
-                    </div>
-                    {{-- <div class="center2 room_Center">
-                        <div class="triangle"><p><b>Extra Bed + Meal Plan (All meals)</b></p></div>
-                    </div>
-                    <div class="center2 room_Center">
-                        <div class="triangle"><p><b>Extra Bed + Meal Plan (Breakfast)</b></p></div>
-                    </div>
-                    <div class="center2 room_Center">
-                        <div class="triangle"><p><b>Extra Bed + Meal Plan (Breakfast + lunch/dinner)</b></p></div>
-                    </div>
-                    <div class="center2 room_Center">
-                        <div class="triangle"><p><b>Extra Bed + No Meal Plan</b></p></div>
-                    </div>
-                    <div class="center2 room_Center">
-                        <div class="triangle"><p><b>Child With No Bed + Meal Plan (All meals)</b></p></div>
-                    </div>
-                    <div class="center2 room_Center">
-                        <div class="triangle"><p><b>Child With No Bed + Meal Plan (Breakfast)</b></p></div>
-                    </div>
-                    <div class="center2 room_Center">
-                        <div class="triangle"><p><b>Child With No Bed + Meal Plan (Breakfast + lunch/dinner)</b></p></div>
-                    </div>
-                    <div class="center2 room_Center">
-                        <div class="triangle"><p><b>Child With No Bed</b></p></div>
-                    </div> --}}
-                    </div>
-                </div>
-                <div class="room-right">
-                    <div class="main-price mb-5">
 
-                    
-                    
+                    @if (!empty($value->hotel_amenities) && trim($value->hotel_amenities) !== '')
+                    <div class="tape_over"><p><b>Hotel Amenities</b></p><ul class="offers">
+                        @foreach (explode(',', $value->hotel_amenities) as $amenity)
+                            @if (trim($amenity) !== '') <li><i class="fa-solid fa-dice"></i> {{ trim($amenity) }}</li> @endif
+                        @endforeach
+                    </ul></div>
+                    @endif
+
+                    @if (!empty($value->chains) && trim($value->chains) !== '')
+                    <div class="tape_over"><p><b>Chains</b></p><ul class="offers">
+                        @foreach (explode(',', $value->chains) as $amenity)
+                            @if (trim($amenity) !== '') <li><i class="fa-solid fa-snowflake"></i> {{ trim($amenity) }}</li> @endif
+                        @endforeach
+                    </ul></div>
+                    @endif
+
+                    @if (!empty($value->description))
+                    <div class="tape_over"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div>
+                    @endif
+                </div>
+
+                <div class="small_go d-none d-lg-block">
+                    @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
+                    <div class="center2"><div class="triangle"><p><b>Room With(Breakfast)</b></p></div></div>
+                    @endif
+                    <div class="center2"><div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div></div>
+                    <div class="center2"><div class="triangle"><p><b>Meal Plan (All meals)</b></p></div></div>
+                </div>
+            </div>
+
+            <div class="room-right">
+                <div class="main-price mb-5">
                     <div class="price" style="flex-direction: column">
                         <div class="old-price">
+                            @if ($value->price)
+                            <p 
+                             data-room-id="{{ $value->id }}"
+                           data-base-price-mrp="{{ $value->price->mrp }}"
+                            style="margin: 0;" class="hotel-mrp" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
+                            @endif
+                        </div>
+
                         @if ($value->price)
-                        <p style="margin: 0;" class="hotel-price" id="price_{{ $value->id }}">₹{{ $value->price->mrp }}</p>
-                        @else
-                        0
-                        @endif
-                    </div>
-                        @if ($value->price)
-                        <p class="hotel-price dynamic-price" data-label="no_meal" id="price_{{ $value->id }}">₹{{ $value->price->night_cost }}</p>
+                        <p class="hotel-price"
+                           id="base-price-{{ $value->id }}"
+                           data-room-id="{{ $value->id }}"
+                           data-base-price-night="{{ $value->price->night_cost }}"
+                           data-label="no_meal">
+                           ₹{{ $value->price->night_cost }}
+                        </p>
                         @else
                         <p><em>Price not available for selected dates.</em></p>
                         @endif
 
                         <button class="select-btn">
-                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
-                    </button>
+                            <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                        </button>
                     </div>
-                    
                 </div>
 
+                <!-- Desktop Meal Plans -->
                 <div class="small_go d-none d-lg-block">
+                    @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
                     <div class="right2 room-right">
-                        @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
                         <div class="price">
-    
                             <p class="dynamic-price"
-                                data-base-price="{{ $value->price->meal_plan_breakfast_cost }}"
-                                data-label="breakfast">
-                                ₹{{ $value->price->meal_plan_breakfast_cost }}
-                            </p>   
-                             <button class="select-btn">
-                            <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
-                        </button>
-                                                </div>
-                                             
-                        @endif
-                            </div>
-                            <div class="right2 room-right">
-@if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
-                             <div class="price">
-
-                        <p class="dynamic-price"
-   data-base-price="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
-   data-label="breakfast_dinner">
-   ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
-</p>
-<button class="select-btn">
-                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
-                    </button>
-                                            </div>
-                                             
-                    @endif
-                    </div>
-                    <div class="right2 room-right">
-                        @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
-                        <div class="price">
-    
-                            <p class="dynamic-price"
-   data-base-price="{{ $value->price->meal_plan_all_meals_cost }}"
-   data-label="all_meals">
-   ₹{{ $value->price->meal_plan_all_meals_cost }}
-</p>
-<button class="select-btn">
-                            <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
-                        </button>
-
-                                                </div>
-                                                 
-                        @endif
-                    </div>
-                    
-
-                    </div>
-                    {{-- <div class="exclusive-offer">
-                        Exclusive Offer - DBS Credit Card, Get 693 Off
-                    </div> --}}
-                  
-                     
-                </div>
-                
-            </div>
-            <hr>
-            
-<div class="secound_t d-lg-none">
-
-
-<div class="d-flex space">
-                 @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
-                              
-            
-                <div class="center2 room_Center">
-                    <div class="triangle"><p><b>Room With(Breakfast)</b></p></div>
-                </div>
-                <div class="right2 room-right">
-                    <div class="price">
-
-                        <p class="dynamic-price"
-                            data-base-price="{{ $value->price->meal_plan_breakfast_cost }}"
-                            data-label="breakfast">
-                            ₹{{ $value->price->meal_plan_breakfast_cost }}
+                               id="bf-price-{{ $value->id }}"
+                               data-room-id="{{ $value->id }}"
+                               data-base-price-meal="{{ $value->price->meal_plan_breakfast_cost }}"
+                               data-label="breakfast">
+                               ₹{{ $value->price->meal_plan_breakfast_cost }}
                             </p>
-                                            </div>
-                                             <button class="select-btn">
-                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
-                    </button>
+                            <button class="select-btn">
+                                <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                            </button>
                         </div>
-                         @endif
-                </div>
-            <hr>
-            <div class="d-flex space">
-                 @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
-                              
-            
-                <div class="center2 room_Center">
-                    <div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div>
-                </div>
-                <div class="right2 room-right">
-                    <div class="price">
+                    </div>
+                    @endif
 
-                        <p class="dynamic-price"
-   data-base-price="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
-   data-label="breakfast_dinner">
-   ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
-</p>
-                                            </div>
-                                             <button class="select-btn">
-                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
-                    </button>
+                    @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
+                    <div class="right2 room-right">
+                        <div class="price">
+                            <p class="dynamic-price"
+                               id="bd-price-{{ $value->id }}"
+                               data-room-id="{{ $value->id }}"
+                               data-base-price-meal="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
+                               data-label="breakfast_dinner">
+                               ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
+                            </p>
+                            <button class="select-btn">
+                                <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                            </button>
                         </div>
-                         @endif
-                </div>
-            <hr>
-            <div class="d-flex space">
-                 @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
-                              
-            
-                <div class="center2 room_Center">
-                    <div class="triangle"><p><b> Meal Plan (All meals) </b></p></div>
-                </div>
-                <div class="right2 room-right">
-                    <div class="price">
+                    </div>
+                    @endif
 
-                        <p class="dynamic-price"
-   data-base-price="{{ $value->price->meal_plan_all_meals_cost }}"
-   data-label="all_meals">
-   ₹{{ $value->price->meal_plan_all_meals_cost }}
-</p>
-
-                                            </div>
-                                             <button class="select-btn">
-                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
-                    </button>
+                    @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
+                    <div class="right2 room-right">
+                        <div class="price">
+                            <p class="dynamic-price"
+                               id="all-price-{{ $value->id }}"
+                               data-room-id="{{ $value->id }}"
+                               data-base-price-meal="{{ $value->price->meal_plan_all_meals_cost }}"
+                               data-label="all_meals">
+                               ₹{{ $value->price->meal_plan_all_meals_cost }}
+                            </p>
+                            <button class="select-btn">
+                                <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                            </button>
                         </div>
-                         @endif
+                    </div>
+                    @endif
                 </div>
-            <hr>
-
-           
-            {{-- Child Plans --}}
-          
-
-</div>
-
-
+            </div>
         </div>
-        @endforeach
+
+        <hr>
+
+        <!-- Mobile View -->
+        <div class="secound_t d-lg-none">
+            @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
+            <div class="d-flex space">
+                <div class="center2 room_Center"><div class="triangle"><p><b>Room With(Breakfast)</b></p></div></div>
+                <div class="right2 room-right">
+                    <div class="price">
+                        <p class="dynamic-price"
+                           id="mobile-bf-{{ $value->id }}"
+                           data-room-id="{{ $value->id }}"
+                           data-base-price-meal="{{ $value->price->meal_plan_breakfast_cost }}">
+                           ₹{{ $value->price->meal_plan_breakfast_cost }}
+                        </p>
+                    </div>
+                    <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                </div>
+            </div><hr>
+            @endif
+
+            @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
+            <div class="d-flex space">
+                <div class="center2 room_Center"><div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div></div>
+                <div class="right2 room-right">
+                    <div class="price">
+                        <p class="dynamic-price"
+                           id="mobile-bd-{{ $value->id }}"
+                           data-room-id="{{ $value->id }}"
+                           data-base-price-meal="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}">
+                           ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
+                        </p>
+                    </div>
+                    <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                </div>
+            </div><hr>
+            @endif
+
+            @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
+            <div class="d-flex space">
+                <div class="center2 room_Center"><div class="triangle"><p><b>Meal Plan (All meals)</b></p></div></div>
+                <div class="right2 room-right">
+                    <div class="price">
+                        <p class="dynamic-price"
+                           id="mobile-all-{{ $value->id }}"
+                           data-room-id="{{ $value->id }}"
+                           data-base-price-meal="{{ $value->price->meal_plan_all_meals_cost }}">
+                           ₹{{ $value->price->meal_plan_all_meals_cost }}
+                        </p>
+                    </div>
+                    <button class="select-btn">
+                        <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                    </button>
+                </div>
+            </div><hr>
+            @endif
+        </div>
+    </div>
+@endforeach
 
     </div>
 </section>
@@ -1272,115 +1168,246 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-    document.querySelectorAll(".room-right .select-btn a").forEach(function(anchor){
-        anchor.addEventListener("click", function(){
+        document.querySelectorAll(".room-right .select-btn a").forEach(function (anchor) {
+            anchor.addEventListener("click", function () {
 
-            let priceEl = this.closest(".room-right").querySelector(".dynamic-price");
+                let priceEl = this.closest(".room-right").querySelector(".dynamic-price");
 
-            if (priceEl) {
-                let mealType = priceEl.getAttribute("data-label"); // breakfast/no_meal/etc.
+                if (priceEl) {
+                    let mealType = priceEl.getAttribute("data-label"); // breakfast/no_meal/etc.
 
-                // GET PRINTED VALUE (example: "₹1500")
-                let printedPrice = priceEl.textContent.trim();
+                    // GET PRINTED VALUE (example: "₹1500")
+                    let printedPrice = priceEl.textContent.trim();
 
-                // Save in localStorage
-                localStorage.setItem("selectedMealPlan", mealType);
-                localStorage.setItem("selectedPrintedPrice", printedPrice);
-            }
+                    // Save in localStorage
+                    localStorage.setItem("selectedMealPlan", mealType);
+                    localStorage.setItem("selectedPrintedPrice", printedPrice);
+                }
+            });
         });
+
     });
-
-});
-
 
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.room-card').forEach((card) => {
-        const skoot = card.querySelector('.skoot');
-        const mainPrice = card.querySelector('.main-price');
+        document.querySelectorAll('.room-card').forEach((card) => {
+            const skoot = card.querySelector('.skoot');
+            const mainPrice = card.querySelector('.main-price');
 
-        if (!skoot || !mainPrice) return;
+            if (!skoot || !mainPrice) return;
 
-        const updateHeight = () => {
-          mainPrice.style.height = skoot.offsetHeight + 'px';
-        };
+            const updateHeight = () => {
+                mainPrice.style.height = skoot.offsetHeight + 'px';
+            };
 
-        // Initial sync + respond to content changes
-        updateHeight();
-        new ResizeObserver(updateHeight).observe(skoot);
-      });
+            // Initial sync + respond to content changes
+            updateHeight();
+            new ResizeObserver(updateHeight).observe(skoot);
+        });
     });
-  </script>
+</script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
+    // Get saved form data
     let data = localStorage.getItem("hotelFormData");
     if (!data) return;
 
     data = JSON.parse(data);
 
+    // Infants count
     let infants = parseInt(data.infants ?? 0);
-    let children = parseInt(data.children ?? 0);
+    if (isNaN(infants) || infants < 1) infants = 1;
 
-    // Date difference
+    // Nights calculation
+    let nights = 1;
+    if (data.date_range) {
+        const [start, end] = data.date_range.split(" - ");
+        nights = Math.round((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
+        if (nights < 1) nights = 1;
+    }
+
+    // Calculate hotel-price first and store in map
+    const hotelPriceMap = {};
+    document.querySelectorAll('.hotel-price').forEach(function(el) {
+        const roomId = el.dataset.roomId;
+        const basePriceNight = parseFloat(el.dataset.basePriceNight) || 0;
+        const basePriceMeal  = parseFloat(el.dataset.basePriceMeal) || 0;
+
+        let total = 0;
+        if (basePriceMeal > 0) {
+            total = (basePriceMeal * nights * infants) + (basePriceNight * nights);
+        } else if (basePriceNight > 0) {
+            total = basePriceNight * nights * infants;
+        } else {
+            el.textContent = 'Price not available';
+            return;
+        }
+
+        hotelPriceMap[roomId] = total;
+
+        el.textContent = `₹${Math.round(total)} Starting from`;
+    });
+
+    // Update dynamic-price elements by adding corresponding hotel-price
+    document.querySelectorAll('.dynamic-price').forEach(function(el) {
+        const roomId = el.dataset.roomId;
+        const basePriceNight = parseFloat(el.dataset.basePriceNight) || 0;
+        const basePriceMeal  = parseFloat(el.dataset.basePriceMeal) || 0;
+
+        let dynamicTotal = 0;
+        if (basePriceMeal > 0) {
+            dynamicTotal = (basePriceMeal * nights * infants) + (basePriceNight * nights);
+        } else if (basePriceNight > 0) {
+            dynamicTotal = basePriceNight * nights * infants;
+        } else {
+            el.textContent = 'Price not available';
+            return;
+        }
+
+        // Add hotel-price if exists
+        if (hotelPriceMap[roomId]) {
+            dynamicTotal += hotelPriceMap[roomId];
+        }
+
+        el.textContent = `₹${Math.round(dynamicTotal)}`;
+    });
+
+    // MRP prices
+    document.querySelectorAll('.hotel-mrp').forEach(function(el) {
+        const basePriceMRP = parseFloat(el.dataset.basePriceMrp) || 0;
+        if (basePriceMRP > 0) {
+            let total = basePriceMRP * nights;
+            el.textContent = `₹${Math.round(total)}`;
+        } else {
+            el.textContent = 'Price not available';
+        }
+    });
+});
+</script>
+
+
+
+{{-- finel js  --}}
+{{-- <script>
+document.addEventListener("DOMContentLoaded", function () {
+    let data = localStorage.getItem("hotelFormData");
+    if (!data) return;
+
+    data = JSON.parse(data);
+    let infants = parseInt(data.infants ?? 0) || 0;
     let dateRange = data.date_range;
+
     let nights = 1;
     if (dateRange) {
         const [start, end] = dateRange.split(" - ");
         nights = Math.round((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
     }
 
-    // ------------------------------------------
-    // 1️⃣ CALCULATE TOTAL HOTEL PRICE FIRST
-    // ------------------------------------------
+    // Target dono classes
+    document.querySelectorAll('.dynamic-price, .hotel-price').forEach(function(el) {
+        // data-base-price attribute se price lo
+        let basePrice = parseFloat(el.dataset.basePrice);
 
-    let hotelBaseNightCost = 0;
-    let hotelTotalPrice = 0;
-
-    document.querySelectorAll(".hotel-price").forEach(function (priceElement) {
-
-        let nightCost = parseFloat(
-            priceElement.textContent.replace("₹", "").replace("/ night", "").trim()
-        );
-
-        hotelBaseNightCost = nightCost;
-
-        let calculated = nightCost * nights;
-
-        if (infants > 0) {
-            calculated = nightCost * nights * infants;
+        // Agar data-base-price nahi hai to text se extract kar lo
+        if (isNaN(basePrice) || basePrice <= 0) {
+            const text = el.textContent || el.innerText;
+            basePrice = parseFloat(text.replace(/[^\d.-]/g, '')); // ₹, commas, spaces hata de
         }
 
-        hotelTotalPrice = calculated;   // store for reuse
+        if (isNaN(basePrice) || basePrice <= 0) {
+            el.textContent = 'Price not available';
+            return;
+        }
 
-        priceElement.textContent = infants > 0
-            ? `₹${calculated} starting from`
-            : `₹${calculated}`;
-    });
-
-    // ------------------------------------------
-    // 2️⃣ APPLY TO dynamic-price USING hotelTotalPrice
-    // ------------------------------------------
-
-    document.querySelectorAll(".dynamic-price").forEach(function (el) {
-
-        let basePrice = parseFloat(el.dataset.basePrice || 0);
-
-        let price;
-
+        // Calculation
+        let total = basePrice * nights;
         if (infants > 0) {
-            // 🔥 FIX: NOW hotelTotalPrice IS AVAILABLE
-            price = basePrice * nights * infants + hotelTotalPrice;
+            total = basePrice * nights * infants;
+        }
+
+        // Final display text
+        if (el.classList.contains('hotel-price')) {
+            el.textContent = `₹${Math.round(total)} Starting from`;
         } else {
-            price = basePrice * nights;
+            el.textContent = `₹${Math.round(total)}`;
+        }
+    });
+});
+</script> --}}
+
+{{-- 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        let data = localStorage.getItem("hotelFormData");
+        if (!data) return;
+
+        data = JSON.parse(data);
+
+        let infants = parseInt(data.infants ?? 0);
+        let children = parseInt(data.children ?? 0);
+
+        // Date difference
+        let dateRange = data.date_range;
+        let nights = 1;
+        if (dateRange) {
+            const [start, end] = dateRange.split(" - ");
+            nights = Math.round((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
         }
 
-        el.textContent = `₹${price}`;
-    });
+        // ------------------------------------------
+        // 1️⃣ CALCULATE TOTAL HOTEL PRICE FIRST
+        // ------------------------------------------
 
-});
-</script>
+        let hotelBaseNightCost = 0;
+        let hotelTotalPrice = 0;
+
+        document.querySelectorAll(".hotel-price").forEach(function (priceElement) {
+
+            let nightCost = parseFloat(
+                priceElement.textContent.replace("₹", "").replace("/ night", "").trim()
+            );
+
+            hotelBaseNightCost = nightCost;
+
+            let calculated = nightCost * nights;
+
+            if (infants > 0) {
+                calculated = nightCost * nights * infants;
+            }
+
+            hotelTotalPrice = calculated;   // store for reuse
+
+            priceElement.textContent = infants > 0
+                ? `₹${calculated} starting from`
+                : `₹${calculated}`;
+        });
+
+        // ------------------------------------------
+        // 2️⃣ APPLY TO dynamic-price USING hotelTotalPrice
+        // ------------------------------------------
+
+        document.querySelectorAll(".dynamic-price").forEach(function (el) {
+
+            let basePrice = parseFloat(el.dataset.basePrice || 0);
+
+            let price;
+
+            if (infants > 0) {
+                // 🔥 FIX: NOW hotelTotalPrice IS AVAILABLE
+                price = basePrice * nights * infants + hotelTotalPrice;
+            } else {
+                price = basePrice * nights;
+            }
+
+            el.textContent = `₹${price}`;
+        });
+
+    });
+</script> --}}
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -1552,7 +1579,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalGuests = adultsCount;
         const child_count = childrenCount;
 
-document.getElementById('guests-value').innerText = totalGuests + (totalGuests === 1 ? 'guest' : 'guests');
+        document.getElementById('guests-value').innerText = totalGuests + (totalGuests === 1 ? 'guest' : 'guests');
 
         document.getElementById('guest_count').value = totalGuests;
         document.getElementById('child_count').value = child_count;
@@ -1678,100 +1705,100 @@ document.getElementById('guests-value').innerText = totalGuests + (totalGuests =
 
 
 <script>
- document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('filter-form');
-  const formKey = 'hotelFormData';
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('filter-form');
+        const formKey = 'hotelFormData';
 
-  function updateCityDisplay(cityId) {
-  const selectedCityInput = document.querySelector(`input[name="city_id"][value="${cityId}"]`);
-  const destinationValueEl = document.getElementById('destination-value');
-  if (selectedCityInput && destinationValueEl) {
-    const label = selectedCityInput.closest('label'); // assumes city name is in label
-    const cityName = label ? label.textContent.trim() : selectedCityInput.dataset.cityName || 'Unknown';
-    destinationValueEl.textContent = cityName;
-  }
-}
+        function updateCityDisplay(cityId) {
+            const selectedCityInput = document.querySelector(`input[name="city_id"][value="${cityId}"]`);
+            const destinationValueEl = document.getElementById('destination-value');
+            if (selectedCityInput && destinationValueEl) {
+                const label = selectedCityInput.closest('label'); // assumes city name is in label
+                const cityName = label ? label.textContent.trim() : selectedCityInput.dataset.cityName || 'Unknown';
+                destinationValueEl.textContent = cityName;
+            }
+        }
 
-  const savedData = JSON.parse(localStorage.getItem(formKey));
-  if (savedData) {
+        const savedData = JSON.parse(localStorage.getItem(formKey));
+        if (savedData) {
 
-    if (savedData.city_id) {
-      const selectedCity = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
-      if (selectedCity) {
-        selectedCity.checked = true;
-        updateCityDisplay(savedData.city_id); // update city name on load
-      }
-    }
+            if (savedData.city_id) {
+                const selectedCity = document.querySelector(`input[name="city_id"][value="${savedData.city_id}"]`);
+                if (selectedCity) {
+                    selectedCity.checked = true;
+                    updateCityDisplay(savedData.city_id); // update city name on load
+                }
+            }
 
-    if (savedData.start_date) document.getElementById('start_date').value = savedData.start_date;
-    if (savedData.end_date) document.getElementById('end_date').value = savedData.end_date;
-    if (savedData.date_range) document.getElementById('date-range').value = savedData.date_range;
+            if (savedData.start_date) document.getElementById('start_date').value = savedData.start_date;
+            if (savedData.end_date) document.getElementById('end_date').value = savedData.end_date;
+            if (savedData.date_range) document.getElementById('date-range').value = savedData.date_range;
 
-    if (savedData.infants !== undefined) document.getElementById('infants-count').value = savedData.infants;
-    if (savedData.adults !== undefined) document.getElementById('adults-count').value = savedData.adults;
-    if (savedData.children !== undefined) document.getElementById('children-count').value = savedData.children;
+            if (savedData.infants !== undefined) document.getElementById('infants-count').value = savedData.infants;
+            if (savedData.adults !== undefined) document.getElementById('adults-count').value = savedData.adults;
+            if (savedData.children !== undefined) document.getElementById('children-count').value = savedData.children;
 
-    if (savedData.childrenAges && Array.isArray(savedData.childrenAges)) {
-      setTimeout(() => {
-        updateChildAgeDropdown(savedData.children);
-        savedData.childrenAges.forEach((age, index) => {
-          const select = document.getElementById(`child-age-${index}`);
-          if (select) select.value = age;
+            if (savedData.childrenAges && Array.isArray(savedData.childrenAges)) {
+                setTimeout(() => {
+                    updateChildAgeDropdown(savedData.children);
+                    savedData.childrenAges.forEach((age, index) => {
+                        const select = document.getElementById(`child-age-${index}`);
+                        if (select) select.value = age;
+                    });
+                }, 100);
+            }
+
+            // 🧠 Update guest display after restoring data
+            updateGuestDisplay();
+        }
+
+        // Save on submit
+        form.addEventListener('submit', function (e) {
+            const data = {
+                city_id: form.city_id?.value,
+                start_date: document.getElementById('start_date').value,
+                end_date: document.getElementById('end_date').value,
+                date_range: document.getElementById('date-range').value,
+                infants: document.getElementById('infants-count').value,
+                adults: document.getElementById('adults-count').value,
+                children: document.getElementById('children-count').value,
+                childrenAges: []
+            };
+
+            const ageDropdowns = document.querySelectorAll('#children-ages select');
+            ageDropdowns.forEach((dropdown) => {
+                data.childrenAges.push(dropdown.value);
+            });
+
+            localStorage.setItem(formKey, JSON.stringify(data));
+
+            // 🧠 Also update guest count before submitting
+            updateGuestDisplay();
         });
-      }, 100);
+
+        // Optional: Live update guest count if user interacts with inputs
+        document.getElementById('adults-count').addEventListener('input', updateGuestDisplay);
+        document.getElementById('children-count').addEventListener('input', () => {
+            updateGuestDisplay();
+            updateChildAgeDropdown(parseInt(document.getElementById('children-count').value) || 0);
+        });
+    });
+    document.querySelectorAll('input[name="city_id"]').forEach(input => {
+        input.addEventListener('change', () => {
+            updateCityDisplay(input.value);
+        });
+    });
+    // Optional: Update children age dropdowns on count change
+    function updateChildren(delta) {
+        const countInput = document.getElementById('children-count');
+        let count = parseInt(countInput.value) || 0;
+        count = Math.max(0, count + delta);
+        countInput.value = count;
+
+        updateChildAgeDropdown(count);
     }
 
-    // 🧠 Update guest display after restoring data
-    updateGuestDisplay();
-  }
-
-  // Save on submit
-  form.addEventListener('submit', function (e) {
-    const data = {
-      city_id: form.city_id?.value,
-      start_date: document.getElementById('start_date').value,
-      end_date: document.getElementById('end_date').value,
-      date_range: document.getElementById('date-range').value,
-      infants: document.getElementById('infants-count').value,
-      adults: document.getElementById('adults-count').value,
-      children: document.getElementById('children-count').value,
-      childrenAges: []
-    };
-
-    const ageDropdowns = document.querySelectorAll('#children-ages select');
-    ageDropdowns.forEach((dropdown) => {
-      data.childrenAges.push(dropdown.value);
-    });
-
-    localStorage.setItem(formKey, JSON.stringify(data));
-
-    // 🧠 Also update guest count before submitting
-    updateGuestDisplay();
-  });
-
-  // Optional: Live update guest count if user interacts with inputs
-  document.getElementById('adults-count').addEventListener('input', updateGuestDisplay);
-  document.getElementById('children-count').addEventListener('input', () => {
-    updateGuestDisplay();
-    updateChildAgeDropdown(parseInt(document.getElementById('children-count').value) || 0);
-  });
-});
-document.querySelectorAll('input[name="city_id"]').forEach(input => {
-  input.addEventListener('change', () => {
-    updateCityDisplay(input.value);
-  });
-});
-  // Optional: Update children age dropdowns on count change
-  function updateChildren(delta) {
-    const countInput = document.getElementById('children-count');
-    let count = parseInt(countInput.value) || 0;
-    count = Math.max(0, count + delta);
-    countInput.value = count;
-
-    updateChildAgeDropdown(count);
-  }
-
-  function updateChildAgeDropdown(count) {
+    function updateChildAgeDropdown(count) {
         const container = document.getElementById('children-ages');
         const label = document.getElementById('children-age-label');
 
@@ -1806,18 +1833,18 @@ document.querySelectorAll('input[name="city_id"]').forEach(input => {
         } else {
             label.style.display = 'none';
         }
-  }
+    }
 
-  function updateGuestDisplay() {
-  const adults = parseInt(document.getElementById('adults-count')?.value) || 0;
-  const children = parseInt(document.getElementById('children-count')?.value) || 0;
-  const totalGuests = adults + children;
+    function updateGuestDisplay() {
+        const adults = parseInt(document.getElementById('adults-count')?.value) || 0;
+        const children = parseInt(document.getElementById('children-count')?.value) || 0;
+        const totalGuests = adults + children;
 
-  const guestValueEl = document.getElementById('guests-value');
-  if (guestValueEl) {
-    guestValueEl.textContent = `${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
-  }
-}
+        const guestValueEl = document.getElementById('guests-value');
+        if (guestValueEl) {
+            guestValueEl.textContent = `${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
+        }
+    }
 </script>
 
 
