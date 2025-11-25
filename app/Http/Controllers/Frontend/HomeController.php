@@ -2327,7 +2327,7 @@ public function calculatePrice(Request $request, $id)
     $extra_meal_cost_total = $extra_meal_cost * $numberOfNights * $request->beds;
     $nochild_meal_cost_total = $nochild_meal_cost * $numberOfNights * $request->nobed;
 
-    $base_room_cost = $existsDate->night_cost * $numberOfNights;
+    $base_room_cost = $existsDate->night_cost * $numberOfNights * $request->room_count;
 
     $total = $base_room_cost + $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
 
@@ -2529,7 +2529,7 @@ public function calculatePrice(Request $request, $id)
         $meal_cost_total = $meal_cost * $request->room_count * $numberOfNights;
         $extra_meal_cost_total = $extra_meal_cost * $numberOfNights * $request->beds;
         $nochild_meal_cost_total = $nochild_meal_cost * $numberOfNights * $request->nobed;
-        $base_room_cost =  $existsDate->night_cost * $numberOfNights;
+        $base_room_cost =  $existsDate->night_cost * $numberOfNights * $request->room_count;
 
 
         $total = $base_room_cost + $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
