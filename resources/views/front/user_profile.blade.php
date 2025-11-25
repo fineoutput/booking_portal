@@ -1528,7 +1528,7 @@
                         <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body suther">
-                        <form action="{{ route('wallet.store') }}" class="suther" method="POST">
+                        {{-- <form action="{{ route('wallet.store') }}" class="suther" method="POST">
                             @csrf
                             <h6 class="fw-bold suther">Refund/Recharge Details</h6>
                             <div class="row">
@@ -1553,7 +1553,48 @@
                                 <textarea name="note" class="form-control suther" id="notes" rows="3" placeholder="Enter Notes (Optional)"></textarea>
                             </div>
                             <button type="submit" class="btn btn-success suther">Submit</button>
-                        </form>
+                        </form> --}}
+
+<form id="walletForm" class="suther">
+    @csrf
+    <h6 class="fw-bold suther">Refund/Recharge Details</h6>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="mb-3 suther">
+                <label for="transactionType" class="form-label suther">Transaction Type</label>
+                <select name="transaction_type" class="form-control suther" id="transactionType" required>
+                    <option value="">-- Select Type --</option>
+                    <option value="debit">Refund (Debit from Wallet)</option>
+                    <option value="credit">Recharge (Add to Wallet)</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="mb-3 suther">
+                <label for="amount" class="form-label suther">Amount</label>
+                <input name="amount" type="number" class="form-control suther" id="amount" 
+                       placeholder="Enter Amount" min="1" step="0.01" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3 suther">
+        <label for="notes" class="form-label suther">Notes (Optional)</label>
+        <textarea name="note" class="form-control suther" id="notes" rows="3" 
+                  placeholder="Enter Notes"></textarea>
+    </div>
+
+    <button type="submit" id="submitBtn" class="btn btn-success suther btn-lg px-5">
+        <span id="btnDefault">
+            <i class="fas fa-paper-plane me-2"></i> Submit Transaction
+        </span>
+        <span id="btnProcessing" class="d-none">
+            <i class="fas fa-spinner fa-spin"></i> Processing...
+        </span>
+    </button>
+</form>
+                        
+
                     </div>
                 </div>
             </div>
@@ -1578,6 +1619,139 @@
         </div>
     </div>
 </div>
+
+
+<!-- Scripts -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+// CSRF Token
+const csrfToken = '{{ csrf_token() }}';
+
+document.getElementById('walletForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const type = formData.get('transaction_type');
+    const amount = formData.get('amount');
+
+    if (!type || !amount || amount <= 0) {
+        Swal.fire('Invalid Input', 'Please select type and enter valid amount.', 'warning');
+        return;
+    }
+
+    const btnDefault = document.getElementById('btnDefault');
+    const btnProcessing = document.getElementById('btnProcessing');
+    const submitBtn = document.getElementById('submitBtn');
+
+    btnDefault.classList.add('d-none');
+    btnProcessing.classList.remove('d-none');
+    submitBtn.disabled = true;
+
+    try {
+        const response = await fetch('{{ route('wallet.store') }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.status === 200) {
+
+            if (type === 'debit') {
+                // Debit Success → Direct
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Your refund request has been sent to the admin successfully!',
+                    text: `₹${amount} debited from wallet.`,
+                    timer: 2500,
+                    showConfirmButton: false
+                }).then(() => location.reload());
+
+            } else if (type === 'credit') {
+                // Credit → Open Razorpay
+                openRazorpay(result.data);
+            }
+
+        } else {
+            Swal.fire('Failed', result.message || 'Something went wrong!', 'error');
+        }
+
+    } catch (err) {
+        Swal.fire('Error', 'Network issue. Please try again.', 'error');
+    } finally {
+        btnDefault.classList.remove('d-none');
+        btnProcessing.classList.add('d-none');
+        submitBtn.disabled = false;
+    }
+});
+
+// Razorpay Open
+function openRazorpay(data) {
+    const options = {
+        key: '{{ env('RAZORPAY_KEY') }}',
+        amount: data.razorpay_order.amount,
+        currency: 'INR',
+        name: 'Wallet Recharge',
+        description: 'Add money to your wallet',
+        order_id: data.razorpay_order.id,
+        handler: function (response) {
+            verifyPayment(response, data.transaction_id);
+        },
+        prefill: {
+            name: '{{ Auth::guard('agent')->user()->name }}',
+            email: '{{ Auth::guard('agent')->user()->email }}',
+            contact: '{{ Auth::guard('agent')->user()->number ?? "" }}'
+        },
+        theme: { color: '#28a745' },
+        modal: {
+            ondismiss: function() {
+                Swal.fire('Payment Cancelled', 'You closed the payment window.', 'info');
+            }
+        }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+}
+
+// Verify Payment
+async function verifyPayment(response, transactionId) {
+    const verifyRes = await fetch('{{ route('wallet.razorpay.callback') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            wallet_transaction_id: transactionId
+        })
+    });
+
+    const result = await verifyRes.json();
+
+    if (result.status === 200) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Payment Successful!',
+            text: `₹${result.data.transaction.amount} added to your wallet!`,
+            timer: 3000,
+            showConfirmButton: false
+        }).then(() => location.reload());
+    } else {
+        Swal.fire('Payment Failed', result.message || 'Verification failed', 'error');
+    }
+}
+</script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
