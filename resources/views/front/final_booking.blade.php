@@ -345,6 +345,39 @@
 <div class="comp-container">
    
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    let savedMeal = localStorage.getItem("selectedMealPlan");
+
+    if (savedMeal) {
+        let mealDropdown = document.getElementById("meals");
+
+        if (mealDropdown) {
+            mealDropdown.value = savedMeal; // auto select
+        }
+    }
+
+    // Listen for changes in meal selection and save to localStorage
+    let mealDropdown = document.getElementById("meals");
+    if (mealDropdown) {
+        mealDropdown.addEventListener("change", function() {
+            localStorage.setItem("selectedMealPlan", this.value);
+            console.log("Meal plan saved to localStorage:", this.value);
+        });
+    }
+});
+
+</script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    let printedPrice = localStorage.getItem("selectedPrintedPrice");
+
+    if (printedPrice) {
+        document.getElementById("dynamic-price").textContent = printedPrice;
+    }
+});
+
+    </script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -367,30 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-    let printedPrice = localStorage.getItem("selectedPrintedPrice");
 
-    if (printedPrice) {
-        document.getElementById("dynamic-price").textContent = printedPrice;
-    }
-});
-
-    </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    let savedMeal = localStorage.getItem("selectedMealPlan");
-
-    if (savedMeal) {
-        let mealDropdown = document.getElementById("meals");
-
-        if (mealDropdown) {
-            mealDropdown.value = savedMeal; // auto select
-        }
-    }
-});
-
-</script>
 
 {{-- <script>
     // Watch for any input changes

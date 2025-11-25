@@ -841,6 +841,14 @@
     if (savedData.adults !== undefined) document.getElementById('adults-count').value = savedData.adults;
     if (savedData.children !== undefined) document.getElementById('children-count').value = savedData.children;
 
+    const mealsEl = document.getElementById('meals');
+    const bedsEl = document.getElementById('beds');
+    const nobedEl = document.getElementById('nobed');
+
+    if (savedData.meals && mealsEl) mealsEl.value = savedData.meals;
+    if (savedData.beds !== undefined && bedsEl) bedsEl.value = savedData.beds;
+    if (savedData.nobed !== undefined && nobedEl) nobedEl.value = savedData.nobed;
+
     if (savedData.childrenAges && Array.isArray(savedData.childrenAges)) {
       setTimeout(() => {
         updateChildAgeDropdown(savedData.children);
@@ -857,6 +865,10 @@
 
   // Save on submit
   form.addEventListener('submit', function (e) {
+    const mealsEl = document.getElementById('meals');
+    const bedsEl = document.getElementById('beds');
+    const nobedEl = document.getElementById('nobed');
+
     const data = {
       city_id: form.city_id?.value,
       start_date: document.getElementById('start_date').value,
@@ -865,7 +877,10 @@
       infants: document.getElementById('infants-count').value,
       adults: document.getElementById('adults-count').value,
       children: document.getElementById('children-count').value,
-      childrenAges: []
+      childrenAges: [],
+      meals: mealsEl ? mealsEl.value : '',
+      beds: bedsEl ? bedsEl.value : '',
+      nobed: nobedEl ? nobedEl.value : ''
     };
 
     const ageDropdowns = document.querySelectorAll('#children-ages select');
@@ -874,6 +889,7 @@
     });
 
     localStorage.setItem(formKey, JSON.stringify(data));
+    if (mealsEl) localStorage.setItem('selectedMealPlan', mealsEl.value);
 
     // 🧠 Also update guest count before submitting
     updateGuestDisplay();
