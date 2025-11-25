@@ -59,7 +59,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Console\Repl;
-
+use Razorpay\Api\Api;
 class HomeController extends Controller
 {
     // ============================= START INDEX ============================ 
@@ -696,7 +696,6 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
 //     return response()->json(['message' => 'Tourist details saved successfully!']);
 // }
 
-
 public function saveTouristDetails(Request $request)
 {
     $request->validate([
@@ -711,66 +710,39 @@ public function saveTouristDetails(Request $request)
     ]);
 
     $userId = Auth::guard('agent')->id();
+
     if (!$userId) {
-        return $request->expectsJson()
-            ? response()->json(['message' => 'Authentication required.'], 401)
-            : redirect()->route('login')->with('error', 'Authentication required.');
+        return response()->json(['message' => 'Authentication required'], 401);
     }
 
-    $touristInputs = $request->input('tourist', []);
     $uploadDirectory = public_path('uploads/tourist');
+    if (!is_dir($uploadDirectory)) mkdir($uploadDirectory, 0777, true);
 
-    if (!is_dir($uploadDirectory)) {
-        mkdir($uploadDirectory, 0777, true);
-    }
+    foreach ($request->tourist as $index => $tourist) {
 
-    Log::info('saveTouristDetails payload received', [
-        'booking_id' => $request->booking_id,
-        'tourist_count' => count($touristInputs),
-        'tourist_keys' => array_keys($touristInputs),
-    ]);
+        $frontFile = $request->file("tourist.$index.aadhar_front");
+        $backFile  = $request->file("tourist.$index.aadhar_back");
 
-    foreach ($touristInputs as $index => $touristData) {
-        $aadharFrontFile = $request->file("tourist.$index.aadhar_front");
-        $aadharBackFile = $request->file("tourist.$index.aadhar_back");
+        $frontName = time() . "_front_" . $frontFile->getClientOriginalName();
+        $backName  = time() . "_back_" . $backFile->getClientOriginalName();
 
-        $aadharFrontPath = $this->storeTouristDocument(
-            $aadharFrontFile,
-            $uploadDirectory,
-            'aadhar_front'
-        );
-
-        $aadharBackPath = $this->storeTouristDocument(
-            $aadharBackFile,
-            $uploadDirectory,
-            'aadhar_back'
-        );
+        $frontFile->move($uploadDirectory, $frontName);
+        $backFile->move($uploadDirectory, $backName);
 
         Tourist::create([
             'user_id' => $userId,
-            'name' => $touristData['name'],
-            'age' => $touristData['age'],
-            'phone' => $touristData['phone'],
-            'aadhar_front' => $aadharFrontPath,
-            'aadhar_back' => $aadharBackPath,
+            'booking_id' => $request->booking_id,
+            'name' => $tourist['name'],
+            'age' => $tourist['age'],
+            'phone' => $tourist['phone'],
+            'aadhar_front' => "uploads/tourist/$frontName",
+            'aadhar_back' => "uploads/tourist/$backName",
             'additional_info' => $request->additional_info,
-            'booking_id' => $request->booking_id,
             'type' => 'package',
-        ]);
-
-        Log::info('Tourist record stored', [
-            'booking_id' => $request->booking_id,
-            'tourist_index' => $index,
-            'has_front' => (bool) $aadharFrontPath,
-            'has_back' => (bool) $aadharBackPath,
         ]);
     }
 
-    $responsePayload = ['message' => 'Tourist details saved successfully!'];
-
-    return $request->expectsJson()
-        ? response()->json($responsePayload)
-        : redirect()->back()->with($responsePayload);
+    return response()->json(['message' => 'Tourist details saved successfully!']);
 }
 
 protected function storeTouristDocument($file, string $destination, string $label): ?string
@@ -783,6 +755,33 @@ protected function storeTouristDocument($file, string $destination, string $labe
     $file->move($destination, $filename);
 
     return 'uploads/tourist/' . $filename;
+}
+
+public function store(Request $request)
+{
+    foreach ($request->tourists as $tourist) {
+
+        // Upload aadhar files
+        $front = isset($tourist['aadhar_front'])
+                    ? $tourist['aadhar_front']->store('aadhar', 'public')
+                    : null;
+
+        $back  = isset($tourist['aadhar_back'])
+                    ? $tourist['aadhar_back']->store('aadhar', 'public')
+                    : null;
+
+        // Save to DB
+        Tourist::create([
+            'name'           => $tourist['name'],
+            'age'            => $tourist['age'],
+            'phone'          => $tourist['phone'],
+            'aadhar_front'   => $front,
+            'aadhar_back'    => $back,
+            'additional_info'=> $tourist['additional_info']
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'All tourists saved!');
 }
 
 
