@@ -179,46 +179,177 @@ class HomeController extends Controller
 
 
 
-   public function add_wallet(Request $request)
-    {
-        $request->validate([
-            'transaction_type' => 'required|string|in:credit,debit',
-            'amount' => 'required|numeric|min:1',
-            'note' => 'nullable|string',
-        ]);
+//    public function add_wallet(Request $request)
+//     {
+//         $request->validate([
+//             'transaction_type' => 'required|string|in:credit,debit',
+//             'amount' => 'required|numeric|min:1',
+//             'note' => 'nullable|string',
+//         ]);
 
-        $userId = Auth::guard('agent')->id();
+//         $userId = Auth::guard('agent')->id();
 
-        // Create wallet transaction entry
-        $transaction = new WalletTransactions();
-        $transaction->user_id = $userId;
-        $transaction->transaction_type = $request->transaction_type;
-        $transaction->amount = $request->amount;
-        $transaction->note = $request->note ?? '';
-        $transaction->status = 0; // directly mark complete
-        $transaction->save();
+//         $transaction = new WalletTransactions();
+//         $transaction->user_id = $userId;
+//         $transaction->transaction_type = $request->transaction_type;
+//         $transaction->amount = $request->amount;
+//         $transaction->note = $request->note ?? '';
+//         $transaction->status = 0; // directly mark complete
+//         $transaction->save();
 
-        // Update user wallet balance
-        $wallet = Wallet::firstOrCreate(
-            ['user_id' => $userId],
-            ['balance' => 0]
-        );
+//         $wallet = Wallet::firstOrCreate(
+//             ['user_id' => $userId],
+//             ['balance' => 0]
+//         );
 
-        if ($request->transaction_type == 'credit') {
-            $wallet->balance += $request->amount;
-        } else { // debit
-            if ($wallet->balance < $request->amount) {
-                return redirect()->back()->with('error', 'Insufficient balance!');
-            }
-            // $wallet->balance -= $request->amount;
+//         if ($request->transaction_type == 'credit') {
+//             $wallet->balance += $request->amount;
+//         } else { 
+//             if ($wallet->balance < $request->amount) {
+//                 return redirect()->back()->with('error', 'Insufficient balance!');
+//             }
+//             // $wallet->balance -= $request->amount;
+//         }
+
+//         $wallet->save();
+
+//         return redirect()->back()->with('message', 'Wallet transaction added successfully.');
+//     }
+
+
+public function addWalletWeb(Request $request)
+{
+    $request->validate([
+        'transaction_type' => 'required|in:credit,debit',
+        'amount'          => 'required|numeric|min:0.01',
+        'note'            => 'nullable|string|max:500',
+    ]);
+
+    $user = Auth::guard('agent')->user();
+
+    // Create transaction record
+    $transaction = WalletTransactions::create([
+        'user_id'          => $user->id,
+        'transaction_type' => $request->transaction_type,
+        'amount'           => $request->amount,
+        'note'             => $request->note ?? '',
+        'status'           => 0, // pending
+    ]);
+
+    $wallet = Wallet::firstOrCreate(['user_id' => $user->id], ['balance' => 0]);
+
+    // DEBIT (Refund) → Direct deduct
+    if ($request->transaction_type === 'debit') {
+        
+        if ($wallet->balance < $request->amount) {
+            return response()->json([
+                'status'  => 400,
+                'message' => 'Insufficient wallet balance for refund!'
+            ], 400);
         }
 
-        $wallet->save();
+        // $wallet->decrement('balance', $request->amount);
 
-        return redirect()->back()->with('message', 'Wallet transaction added successfully.');
+        // Transaction complete kar do
+        $transaction->status = 0;
+        $transaction->save();
+
+        return response()->json([
+            'status'  => 200,
+            'message' => 'Refund processed successfully! ₹' . $request->amount . ' debited.'
+        ]);
     }
 
+    $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+    $order = $api->order->create([
+        'receipt'  => 'wallet_' . $transaction->id,
+        'amount'   => $request->amount * 100,
+        'currency' => 'INR'
+    ]);
 
+    $transaction->razorpay_order_id = $order->id;
+    $transaction->save();
+
+    return response()->json([
+        'status'  => 200,
+        'message' => 'Proceed to payment',
+        'data'    => [
+            'transaction_id'  => $transaction->id,
+            'razorpay_order'  => $order->toArray(),
+            'amount'          => $request->amount
+        ]
+    ]);
+}
+
+public function walletRazorpayCallback(Request $request)
+{
+    $request->validate([
+        'razorpay_payment_id' => 'required',
+        'razorpay_order_id'   => 'required',
+        'razorpay_signature'  => 'required',
+        'wallet_transaction_id' => 'required|exists:wallet_transactions,id'
+    ]);
+
+    $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+
+    try {
+        // Verify signature
+        $api->utility->verifyPaymentSignature([
+            'razorpay_order_id' => $request->razorpay_order_id,
+            'razorpay_payment_id' => $request->razorpay_payment_id,
+            'razorpay_signature' => $request->razorpay_signature
+        ]);
+
+        // Find transaction
+        $transaction = WalletTransactions::findOrFail($request->wallet_transaction_id);
+
+        // Prevent double credit
+        if ($transaction->status == 1) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Already processed',
+                'data' => []
+            ]);
+        }
+
+        // Fetch payment details
+        $payment = $api->payment->fetch($request->razorpay_payment_id);
+
+        // Capture if not captured
+        if ($payment->status === 'authorized') {
+            $payment->capture(['amount' => $payment->amount]);
+        }
+
+        // Get wallet
+        $wallet = Wallet::firstOrCreate(['user_id' => $transaction->user_id], ['balance' => 0]);
+
+        // YEH LINE → Balance add hoga sirf success pe!
+        $wallet->increment('balance', $transaction->amount);
+
+        // Update transaction
+        $transaction->status = 1; // completed
+        $transaction->payment_id = $request->razorpay_payment_id;
+        $transaction->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Payment successful! Wallet credited.',
+            'data' => [
+                'transaction' => $transaction,
+                'new_balance' => $wallet->balance
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        \Log::error("Razorpay Callback Failed: " . $e->getMessage());
+
+        return response()->json([
+            'status' => 400,
+            'message' => 'Payment verification failed: ' . $e->getMessage(),
+            'data' => []
+        ], 400);
+    }
+}
 
     public function getCitiesByState($stateId)
     {
@@ -2179,7 +2310,7 @@ public function calculatePrice(Request $request, $id)
     $extra_meal_cost_total = $extra_meal_cost * $numberOfNights * $request->beds;
     $nochild_meal_cost_total = $nochild_meal_cost * $numberOfNights * $request->nobed;
 
-    $base_room_cost = $existsDate->night_cost * $numberOfNights;
+    $base_room_cost = $existsDate->night_cost * $numberOfNights * $request->room_count;
 
     $total = $base_room_cost + $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;
 
@@ -2191,7 +2322,8 @@ public function calculatePrice(Request $request, $id)
         'request->meals' => $request->meals,
         'nochild_meal_cost_total' => $nochild_meal_cost_total,
         'base_room_cost' => $base_room_cost,
-        'nights' => $numberOfNights
+        'nights' => $numberOfNights,
+        'meal_cost' => $request->meals,
     ]);
 }
 
@@ -2332,7 +2464,7 @@ public function calculatePrice(Request $request, $id)
         $meal_cost_total = $meal_cost * $request->room_count * $numberOfNights;
         $extra_meal_cost_total = $extra_meal_cost * $numberOfNights * $request->beds;
         $nochild_meal_cost_total = $nochild_meal_cost * $numberOfNights * $request->nobed;
-        $base_room_cost =  $existsDate->night_cost * $numberOfNights;
+        $base_room_cost =  $existsDate->night_cost * $numberOfNights * $request->room_count;
 
 
         $total = $base_room_cost + $meal_cost_total + $extra_meal_cost_total + $nochild_meal_cost_total;

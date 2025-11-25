@@ -223,13 +223,12 @@
                                     <div class="form-group samule">
                                         <label class="filter-label_hotels" for="meals">Meals</label>
                                         <select name="meals" id="meals" class="need hato filter-value_hotels">
-                                            <option value="">-- Select --</option>
-                                            <option value="breakfast">Breakfast</option>
-                                            <option value="breakfast_dinner">Breakfast + Lunch/Dinner
-                                            </option>
-                                            <option value="all_meals">All Meals</option>
-                                            <option value="no_meal">No Meals</option>
-                                        </select>
+    <option value="">-- Select --</option>
+    <option value="breakfast">Breakfast</option>
+    <option value="breakfast_dinner">Breakfast + Lunch/Dinner</option>
+    <option value="all_meals">All Meals</option>
+    <option value="no_meal">No Meals</option>
+</select>
                                     </div>
 
                                     <div class="form-group mt-2 samule">
@@ -345,29 +344,35 @@
 <div class="comp-container">
    
 </div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     let savedMeal = localStorage.getItem("selectedMealPlan");
+    console.log("Saved Meal:", savedMeal);
 
-    if (savedMeal) {
-        let mealDropdown = document.getElementById("meals");
+    let mealDropdown = document.getElementById("meals");
 
-        if (mealDropdown) {
-            mealDropdown.value = savedMeal; // auto select
+    if (savedMeal && mealDropdown) {
+
+        let optionExists = Array.from(mealDropdown.options).some(
+            opt => opt.value === savedMeal
+        );
+
+        if (optionExists) {
+            mealDropdown.value = savedMeal;
+            console.log("Dropdown updated with:", savedMeal);
+        } else {
+            console.log("Option not found in dropdown");
         }
     }
 
-    // Listen for changes in meal selection and save to localStorage
-    let mealDropdown = document.getElementById("meals");
-    if (mealDropdown) {
-        mealDropdown.addEventListener("change", function() {
-            localStorage.setItem("selectedMealPlan", this.value);
-            console.log("Meal plan saved to localStorage:", this.value);
-        });
-    }
+    mealDropdown.addEventListener("change", function () {
+        localStorage.setItem("selectedMealPlan", this.value);
+    });
 });
-
 </script>
+
+
     <script>
 document.addEventListener("DOMContentLoaded", function () {
     let printedPrice = localStorage.getItem("selectedPrintedPrice");
@@ -796,7 +801,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Optional fields
-        document.getElementById("meals").value = formData.meals || '';
+        // document.getElementById("meals").value = formData.meals || '';
         document.getElementById("beds").value = formData.beds || '';
         document.getElementById("nobed").value = formData.nobed || '';
 
