@@ -267,6 +267,11 @@ class AuthController extends Controller
     return response()->json([
         'status' => true,
         'message' => "Order Created",
+        'data' => [
+            'number' => $request->number,
+            'email' => $request->email,
+            'name' => $request->name,
+        ],
         'order_id' => $order->id,
         'razorpay_key' => env('RAZORPAY_KEY'),
         'amount' => $request->registration_charge * 100,
