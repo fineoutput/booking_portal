@@ -1382,7 +1382,7 @@
                                                 <h5 class="modal-title suther" id="safariDetailsModalLabel3001">Enter Guide Booking Details</h5>
                                                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveTouristDetailsGuide')}}" class="suther" id="guideTouristForm{{ $value->id ?? '' }}">
+                                            <form enctype="multipart/form-data" method="POST" action="{{route('saveTouristDetailssafari')}}" class="suther" id="guideTouristForm{{ $value->id ?? '' }}">
                                                 @csrf
                                                 <div class="modal-body suther">
                                                     <input type="hidden" id="bookingIdss" name="booking_id" value="{{$value->id ?? ''}}">
