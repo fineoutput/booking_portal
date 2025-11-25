@@ -53,6 +53,8 @@ use Illuminate\Support\Facades\Hash;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -697,56 +699,55 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
 
 public function saveTouristDetails(Request $request)
 {
-    $validated = $request->validate([
-        'tourist.*.name' => 'required',
+    $request->validate([
+        'booking_id' => 'required',
+        'tourist' => 'required|array|min:1',
+        'tourist.*.name' => 'required|string',
         'tourist.*.age' => 'required',
         'tourist.*.phone' => 'required',
-        'tourist.*.aadhar_front' => 'required|file',  
-        'tourist.*.aadhar_back' => 'required|file', 
+        'tourist.*.aadhar_front' => 'required|file',
+        'tourist.*.aadhar_back' => 'required|file',
         'additional_info' => 'nullable',
     ]);
 
-    foreach ($request->tourist as $touristData) {
-        $aadharFrontPath = null;
-        $aadharBackPath = null;
+    $userId = Auth::guard('agent')->id();
+    if (!$userId) {
+        return $request->expectsJson()
+            ? response()->json(['message' => 'Authentication required.'], 401)
+            : redirect()->route('login')->with('error', 'Authentication required.');
+    }
 
-        // if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
-        //     $aadharFrontPath = $touristData['aadhar_front']->store('uploads/tourist');
-        // }
+    $touristInputs = $request->input('tourist', []);
+    $uploadDirectory = public_path('uploads/tourist');
 
-        // if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
-        //     $aadharBackPath = $touristData['aadhar_back']->store('uploads/tourist');
-        // }
+    if (!is_dir($uploadDirectory)) {
+        mkdir($uploadDirectory, 0777, true);
+    }
 
-        if (isset($touristData['aadhar_front']) && $touristData['aadhar_front']) {
-            $file = $touristData['aadhar_front'];
-            $filename = time().'_aadhar_front.'.$file->getClientOriginalExtension();
-            $destination = public_path('uploads/tourist');
+    Log::info('saveTouristDetails payload received', [
+        'booking_id' => $request->booking_id,
+        'tourist_count' => count($touristInputs),
+        'tourist_keys' => array_keys($touristInputs),
+    ]);
 
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true); // Folder create if not exists
-            }
+    foreach ($touristInputs as $index => $touristData) {
+        $aadharFrontFile = $request->file("tourist.$index.aadhar_front");
+        $aadharBackFile = $request->file("tourist.$index.aadhar_back");
 
-            $file->move($destination, $filename);
-            $aadharFrontPath = 'uploads/tourist/' . $filename; // Save this to DB
-        }
+        $aadharFrontPath = $this->storeTouristDocument(
+            $aadharFrontFile,
+            $uploadDirectory,
+            'aadhar_front'
+        );
 
-        if (isset($touristData['aadhar_back']) && $touristData['aadhar_back']) {
-            $file = $touristData['aadhar_back'];
-            $filename = time().'_aadhar_back.'.$file->getClientOriginalExtension();
-            $destination = public_path('uploads/tourist');
+        $aadharBackPath = $this->storeTouristDocument(
+            $aadharBackFile,
+            $uploadDirectory,
+            'aadhar_back'
+        );
 
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true); // No need to repeat if already done
-            }
-
-            $file->move($destination, $filename);
-            $aadharBackPath = 'uploads/tourist/' . $filename; // Save this to DB
-        }
-
-
-        $tourist = new Tourist([
-            'user_id' => Auth::guard('agent')->id(),
+        Tourist::create([
+            'user_id' => $userId,
             'name' => $touristData['name'],
             'age' => $touristData['age'],
             'phone' => $touristData['phone'],
@@ -757,11 +758,31 @@ public function saveTouristDetails(Request $request)
             'type' => 'package',
         ]);
 
-        $tourist->save();
+        Log::info('Tourist record stored', [
+            'booking_id' => $request->booking_id,
+            'tourist_index' => $index,
+            'has_front' => (bool) $aadharFrontPath,
+            'has_back' => (bool) $aadharBackPath,
+        ]);
     }
 
-    return redirect()->back()->with([
-        'message' => 'Tourist details saved successfully!']);
+    $responsePayload = ['message' => 'Tourist details saved successfully!'];
+
+    return $request->expectsJson()
+        ? response()->json($responsePayload)
+        : redirect()->back()->with($responsePayload);
+}
+
+protected function storeTouristDocument($file, string $destination, string $label): ?string
+{
+    if (!$file) {
+        return null;
+    }
+
+    $filename = now()->format('YmdHis') . '_' . Str::random(8) . '_' . $label . '.' . $file->getClientOriginalExtension();
+    $file->move($destination, $filename);
+
+    return 'uploads/tourist/' . $filename;
 }
 
 
@@ -1620,7 +1641,11 @@ public function getVehiclesByCity($cityId)
 
 public function transcation_history()
     {
-return view('front/transcation_history');
+ $transactions = WalletTransactions::where('user_id', auth()->id())
+        ->orderBy('id', 'DESC')
+        ->get();
+
+    return view('front.transcation_history', compact('transactions'));
 }
   public function hotelsbooking()
     {
