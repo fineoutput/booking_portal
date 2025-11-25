@@ -4665,9 +4665,12 @@ public function getLanguages(Request $request)
             'message' => 'Transactions fetched successfully.',
             'data' => [
                 'transactions' => $transactionData,
-                'total_amount' => [$totalAmount],
+                'total_amount' => [
+                   'balance' => $totalAmount->balance,
+                ],
                 'userdata' => [
-                    $userdata
+                   'set_limit_amount' => $userdata->set_limit_amount,
+                   'negative_limit_amount' => $userdata->negative_limit_amount,
                 ],
             ],
             'status' => 200,

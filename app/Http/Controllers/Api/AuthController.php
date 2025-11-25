@@ -267,6 +267,11 @@ class AuthController extends Controller
     return response()->json([
         'status' => true,
         'message' => "Order Created",
+        'data' => [
+            'number' => $request->number,
+            'email' => $request->email,
+            'name' => $request->name,
+        ],
         'order_id' => $order->id,
         'razorpay_key' => env('RAZORPAY_KEY'),
         'amount' => $request->registration_charge * 100,
@@ -836,6 +841,29 @@ public function add_wallet_api(Request $request)
     Log::info("------ Add Wallet API Hit ------");
     Log::info("Request Data: ", $request->all());
 
+     $token = $request->bearerToken();
+
+        if (!$token) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+
+        $decodedToken = base64_decode($token); 
+        list($email, $password) = explode(',', $decodedToken);
+    
+        $user = Agent::where('email', $email)->first();
+    
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+                'data' => [],
+                'status' => 401,
+            ]);
+        }
+
     $validator = Validator::make($request->all(), [
         'transaction_type' => 'required|string|in:credit,debit',
         'amount' => 'required|numeric|min:1',
@@ -852,7 +880,8 @@ public function add_wallet_api(Request $request)
     }
 
     try {
-        $userId = Auth::guard('agent')->id(); 
+        $userId = $user->id; 
+        $userdata = $user; 
         Log::info("Authenticated User ID: {$userId}");
 
         // Create Wallet Transaction
@@ -893,6 +922,11 @@ public function add_wallet_api(Request $request)
                 'data' => [
                     'wallet_transaction' => $transaction,
                     'razorpay_order' => $razorpayOrder,
+                    'userdata' => [
+                       'name' => $userdata->name,
+                       'email' => $userdata->email,
+                       'number' => $userdata->number,
+                    ],
                 ],
             ], 200);
 
@@ -907,10 +941,10 @@ public function add_wallet_api(Request $request)
                 ], 400);
             }
 
-            $wallet->balance -= $request->amount;
-            $wallet->save();
+            // $wallet->balance -= $request->amount;
+            // $wallet->save();
 
-            $transaction->status = 1;
+            $transaction->status = 0;
             $transaction->save();
 
             Log::info("Debit transaction completed. Updated Wallet Balance: {$wallet->balance}");
@@ -977,7 +1011,7 @@ public function walletRazorpayCallback(Request $request)
             ['balance' => 0]
         );
 
-        $wallet->balance += $transaction->amount;
+        $wallet->balance += $transaction->amount; 
         $wallet->save();
 
         $transaction->status = 1;
