@@ -99,7 +99,7 @@ table th, table td {
 
             <td style="padding: 10px;">{{ $t->note ?? 'N/A' }}</td>
 
-            <td style="padding: 10px; font-weight: bold; color: {{ $t->transaction_type == 'CREDIT' ? 'green' : 'red' }}">
+            <td style="padding: 10px; font-weight: bold; color: {{ $t->transaction_type == 'credit' ? 'green' : 'red' }}">
                 {{ strtoupper($t->transaction_type) }}
             </td>
 
