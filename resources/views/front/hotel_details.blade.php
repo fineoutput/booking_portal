@@ -1189,6 +1189,30 @@
     });
 
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        document.querySelectorAll(".room-right .select-btn a").forEach(function (anchor) {
+            anchor.addEventListener("click", function () {
+
+                let priceEl = this.closest(".room-right").querySelector(".hotel-price");
+
+                if (priceEl) {
+                    let mealType = priceEl.getAttribute("data-label"); // breakfast/no_meal/etc.
+
+                    // GET PRINTED VALUE (example: "₹1500")
+                    let printedPrice = priceEl.textContent.trim();
+
+                    // Save in localStorage
+                    localStorage.setItem("selectedMealPlan", mealType);
+                    localStorage.setItem("selectedPrintedPrice", printedPrice);
+                }
+            });
+        });
+
+    });
+
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {

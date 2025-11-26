@@ -837,7 +837,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
         // Static hotel id for console testing
         let hotelId = {{$hotel_room_1->id}};
-        let url = "/hotel/calculate-price/" + hotelId;
+         let url = "{{ route('calculate_hotel_price', ':id') }}".replace(':id', hotelId);
 
         fetch(url, {
             method: "POST",
