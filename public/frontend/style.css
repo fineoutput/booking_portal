@@ -1321,8 +1321,9 @@ h2 {
     background: linear-gradient(45deg, #cb3502bf, #cb3502);
     border: none;
     border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 1.2rem;
+    padding: 5px 20px;
+    font-size: 1.1rem;
+    width: 100%;
     transition: all 0.3s ease;
     font-weight: bold;
 }

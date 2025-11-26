@@ -418,6 +418,22 @@
         </div>
     </div>
 </form> --}}
+@php
+$amenityIcons = [
+    'wifi' => '<i class="fa fa-wifi"></i>',
+    'parking' => '<i class="fa fa-car"></i>',
+    'swimming pool' => '<i class="fa fa-swimmer"></i>',
+    'ac' => '<i class="fa fa-snowflake"></i>',
+    'air conditioning' => '<i class="fa fa-snowflake"></i>',
+    'tv' => '<i class="fa fa-tv"></i>',
+    'restaurant' => '<i class="fa fa-utensils"></i>',
+    'spa' => '<i class="fa fa-spa"></i>',
+    'gym' => '<i class="fa fa-dumbbell"></i>',
+    'breakfast' => '<i class="fa fa-coffee"></i>',
+    'Parking' => '<i class="fa-solid fa-square-parking"></i>',
+];
+@endphp
+
 <section class="detail_htels mt-5">
     <div class="comp-container">
         <div class="upper_site_dets">
@@ -493,16 +509,25 @@
                                     </div>
                                     <div class="shawshank">
                                         <div class="shaw_list">
-                                            <ul> @if($hotel_room_1 && $hotel_room_1->hotel_amenities)
-                                                @foreach(explode(',', $hotel_room_1->hotel_amenities) as $amenity)
-                                                @if(trim($amenity) !== '')
-                                                <li>{{ trim($amenity) }}</li>
-                                                @endif
-                                                @endforeach
-                                                @endif
+                                            <ul style="list-style: none; padding: 0;">
+                                                @if($hotel_room_1 && $hotel_room_1->hotel_amenities)
+                                                    @foreach(explode(',', $hotel_room_1->hotel_amenities) as $amenity)
+                                                        @php
+                                                            $cleanAmenity = strtolower(trim($amenity));
+                                                            $icon = $amenityIcons[$cleanAmenity] ?? '<i class="fa fa-check"></i>'; // default icon
+                                                        @endphp
 
+                                                        @if($cleanAmenity !== '')
+                                                            <li>
+                                                            <span style="color: #43342f; margin-right:6px;">{!! $icon !!}</span>
+                                                            <span style="color: #1a7971;">{{ ucfirst($cleanAmenity) }}</span>
+                                                        </li>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
                                             </ul>
                                         </div>
+
                                     </div>
                                     <div class="site_pricwe">
                                         <delt class="pii">
@@ -916,7 +941,14 @@
                 <h3>{{ $value->title ?? '' }}</h3>
                 <div class="features">
                     <!-- Nearby, Rules, Locality - same -->
-                    <label for=""><b>Nearby within Walking Distance</b></label>
+                     @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
+                    <div class="samrt"><p><b>Room facilities</b></p><ul class="offers">
+                        @foreach (explode(',', $value->room_amenities) as $amenity)
+                            @if (trim($amenity) !== '') <li><i class="fa-solid fa-spa"></i> {{ trim($amenity) }}</li> @endif
+                        @endforeach
+                    </ul></div>
+                    @endif
+                    {{-- <label for=""><b>Nearby within Walking Distance</b></label>
                     <ul class="rmTypeList vertical appendTop10">
                         @foreach (explode(',', $value->nearby) as $amenity)
                             @if (trim($amenity) !== '')
@@ -926,7 +958,7 @@
                             </li>
                             @endif
                         @endforeach
-                    </ul>
+                    </ul> --}}
                     <label for=""><b>Rules</b></label>
                     <ul class="rmTypeList vertical appendTop10">
                         @foreach (explode(',', $value->house_rules) as $amenity)
@@ -959,15 +991,9 @@
                 <h4 class="naxo">Room Amenities</h4>
                 <div class="skoot mb-5">
                     <!-- All amenities same -->
-                    @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
-                    <div class="samrt"><p><b>Room facilities</b></p><ul class="offers">
-                        @foreach (explode(',', $value->room_amenities) as $amenity)
-                            @if (trim($amenity) !== '') <li><i class="fa-solid fa-spa"></i> {{ trim($amenity) }}</li> @endif
-                        @endforeach
-                    </ul></div>
-                    @endif
+                   
 
-                    @if (!empty($value->meal_plan) && trim($value->meal_plan) !== '')
+                    {{-- @if (!empty($value->meal_plan) && trim($value->meal_plan) !== '')
                     <div class="tape_over"><p><b>Room Meal</b></p><ul class="offers">
                         @foreach (explode(',', $value->meal_plan) as $amenity)
                             @if (trim($amenity) !== '')
@@ -983,15 +1009,15 @@
                             @endif
                         @endforeach
                     </ul></div>
-                    @endif
+                    @endif --}}
 
-                    @if (!empty($value->hotel_amenities) && trim($value->hotel_amenities) !== '')
+                    {{-- @if (!empty($value->hotel_amenities) && trim($value->hotel_amenities) !== '')
                     <div class="tape_over"><p><b>Hotel Amenities</b></p><ul class="offers">
                         @foreach (explode(',', $value->hotel_amenities) as $amenity)
                             @if (trim($amenity) !== '') <li><i class="fa-solid fa-dice"></i> {{ trim($amenity) }}</li> @endif
                         @endforeach
                     </ul></div>
-                    @endif
+                    @endif --}}
 
                     @if (!empty($value->chains) && trim($value->chains) !== '')
                     <div class="tape_over"><p><b>Chains</b></p><ul class="offers">
@@ -1010,8 +1036,8 @@
                     @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
                     <div class="center2"><div class="triangle"><p><b>Room With(Breakfast)</b></p></div></div>
                     @endif
-                    <div class="center2"><div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div></div>
-                    <div class="center2"><div class="triangle"><p><b>Meal Plan (All meals)</b></p></div></div>
+                    <div class="center2"><div class="triangle"><p><b>Room with(Breakfast + lunch/dinner)</b></p></div></div>
+                    <div class="center2"><div class="triangle"><p><b>Room with(All meals)</b></p></div></div>
                 </div>
             </div>
 
@@ -1126,7 +1152,7 @@
 
             @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
             <div class="d-flex space">
-                <div class="center2 room_Center"><div class="triangle"><p><b>Meal Plan (Breakfast + lunch/dinner)</b></p></div></div>
+                <div class="center2 room_Center"><div class="triangle"><p><b>Room with(Breakfast + lunch/dinner)</b></p></div></div>
                 <div class="right2 room-right">
                     <div class="price">
                         <p class="dynamic-price"
@@ -1145,7 +1171,7 @@
 
             @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
             <div class="d-flex space">
-                <div class="center2 room_Center"><div class="triangle"><p><b>Meal Plan (All meals)</b></p></div></div>
+                <div class="center2 room_Center"><div class="triangle"><p><b>Room with(All meals)</b></p></div></div>
                 <div class="right2 room-right">
                     <div class="price">
                         <p class="dynamic-price"
