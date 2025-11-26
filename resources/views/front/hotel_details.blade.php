@@ -523,7 +523,7 @@ $amenityIcons = [
 
                                                         @if($cleanAmenity !== '')
                                                             <li>
-                                                            <span style="color: #43342f; margin-right:6px;">{!! $icon !!}</span>
+                                                            <span style="color: #8f8f8f; margin-right:6px;">{!! $icon !!}</span>
                                                             <span style="color: #1a7971;">{{ ucfirst($cleanAmenity) }}</span>
                                                         </li>
                                                         @endif
