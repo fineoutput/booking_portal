@@ -38,6 +38,11 @@ class Agent extends Authenticatable
 {
     return $this->belongsTo(State::class);
 }
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class, 'user_id', 'id');
+    }
     // public function state()
     // {
     //     return $this->hasOne(State::class, 'id', 'state');
