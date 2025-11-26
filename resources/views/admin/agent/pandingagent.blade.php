@@ -62,7 +62,8 @@
                         <th data-priority="3">Pancard Image</th>
                         <th data-priority="3">Logo</th>
                         <th data-priority="3">Status</th>
-                        <th data-priority="3">Wallet</th>
+                        <th data-priority="3">Wallet Amount</th>
+                        <th data-priority="3">Update Wallet</th>
                         <th data-priority="3">Amounts</th>
                         <th data-priority="3">Action</th>
                       </tr>
@@ -126,9 +127,16 @@
         </td>
 
         <td>
+           ₹{{ $value->wallet->balance ?? 0 }}
+        </td>
+        <td>
+            @if($value->approved == 1)
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#walletModal{{ $value->id }}">
-    Update Wallet
-</button>
+            Update Wallet
+        </button>
+        @else
+          <p>Wallet update available after approval</p>
+        @endif
         </td>
         <td>
          <button class="btn btn-primary"
