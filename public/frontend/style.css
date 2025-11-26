@@ -2682,7 +2682,7 @@ textarea.form-control {
       min-width: 300px;
       /* border-right: 1px solid #eee; */
       padding: 15px;
-      position: sticky;
+      /* position: sticky; */
       top: 0;
       align-self: flex-start;
       background: #fff;
