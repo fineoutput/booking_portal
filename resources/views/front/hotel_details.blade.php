@@ -15,7 +15,9 @@
         margin-bottom: 1rem;
         font-size: 15px;
     }
-
+    .btn-primary {
+        width: 100%;
+    }
     .form-group {
         display: flex;
         align-items: center;
