@@ -2059,7 +2059,10 @@ public function transcation_history()
     {
         $id = base64_decode($id);
         $data['hotel'] = Hotels::where('id', $id)->first();
-        $data['hotel_room'] = HotelsRoom::with('prices')->where('hotel_id', $id)->get();
+        $data['hotel_room'] = HotelsRoom::with('prices')
+    ->where('hotel_id', $id)
+    ->orderByRaw("CASE WHEN show_front = 'Yes' THEN 1 ELSE 2 END")
+    ->get();
         $data['hotel_room_1'] = HotelsRoom::with('prices')->where('show_front', 'Yes')->where('hotel_id', $id)->inRandomOrder()->first();
 
         $data['start_date'] =  Carbon::now()->format('Y-m-d') ?? null;
