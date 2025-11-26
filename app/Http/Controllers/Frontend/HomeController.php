@@ -759,12 +759,12 @@ protected function storeTouristDocument($file, string $destination, string $labe
 //     return redirect()->back()->with('success', 'All tourists saved!');
 // }
 
-public function touristscreate($bookingId)
+public function touristscreate($bookingId,$status)
     {
-        return view('front.tourists.create', compact('bookingId'));
+        return view('front.tourists.create', compact('bookingId','status'));
     }
 
-public function store(Request $request, $bookingId)
+public function store(Request $request, $bookingId,$status)
 {
     $tourists = $request->input('tourists', []);
 
@@ -775,7 +775,7 @@ public function store(Request $request, $bookingId)
         $tourist->age = $data['age'] ?? null;
         $tourist->phone = $data['phone'] ?? null;
         $tourist->additional_info = $request->additional_info;
-        $tourist->type = 'package';
+        $tourist->type = $status;
 
         // Aadhaar Front
         if ($request->hasFile("tourists.$index.aadhar_front")) {

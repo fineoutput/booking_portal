@@ -85,8 +85,9 @@ Route::group(['prefix' => '/'], function () {
     ->name('calculate_hotel_price');
 
     // routes/web.php
-Route::get('/add-tourists/{booking}', [HomeController::class, 'touristscreate'])->name('tourists.create');
-Route::post('/add-tourists/{booking}', [HomeController::class, 'store'])->name('tourists.store');
+Route::get('/add-tourists/{booking}/{status}', [HomeController::class, 'touristscreate'])->name('tourists.create');
+Route::post('/add-tourists/{booking}/{status}', [HomeController::class, 'store'])->name('tourists.store');
+
     Route::post('/save-tourist-details', [HomeController::class, 'saveTouristDetails'])->name('saveTouristDetails');
     Route::post('/tourist-store', [HomeController::class, 'store'])->name('tourist.store');
 

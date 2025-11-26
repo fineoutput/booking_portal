@@ -8,6 +8,7 @@
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
                     <h4>Add Tourists - Booking ID: {{ $bookingId }}</h4>
+                    <span class="badge bg-light text-dark ms-2">{{ ucfirst($status) }}</span>
                 </div>
                 <div class="card-body">
 
@@ -15,7 +16,7 @@
                         <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
 
-                    <form method="POST" action="{{ route('tourists.store', $bookingId) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('tourists.store', ['booking' => $bookingId, 'status' => $status]) }}"enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-4">

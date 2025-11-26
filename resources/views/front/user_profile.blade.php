@@ -213,7 +213,7 @@
                                                 <!-- No action for Pending, Reject, or Complete -->
                                             @else
                                                 {{-- <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#packageDetailsModal{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button> --}}
-                                                <a href="{{ route('tourists.create', $value->id) }}" class="btn btn-primary btn-sm">
+                                                <a href="{{ route('tourists.create', [$value->id, 'package']) }}" class="btn btn-primary btn-sm">
                                                     Enter Details
                                                 </a>
                                             @endif
@@ -507,7 +507,10 @@
                                             @if($value->status == 0 || $value->status == 2 || $value->status == 1)
                                                 <!-- No action for Pending, Reject, or Complete -->
                                             @else
-                                                <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#hotelDetailsModal2001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
+                                                {{-- <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#hotelDetailsModal2001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button> --}}
+                                                 <a href="{{ route('tourists.create', [$value->id, 'hotel']) }}" class="btn btn-primary btn-sm">
+                                                    Enter Details
+                                                </a>
                                             @endif
                                         </td>
                                         <td class="suther">
@@ -765,7 +768,10 @@
                                             @if($value->status == 0 || $value->status == 2 || $value->status == 1)
                                                 <!-- No action for Pending, Reject, or Complete -->
                                             @else
-                                                <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#safariDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
+                                                {{-- <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#safariDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button> --}}
+                                                 <a href="{{ route('tourists.create', [$value->id, 'safari']) }}" class="btn btn-primary btn-sm">
+                                                    Enter Details
+                                                </a>
                                             @endif
                                         </td>
                                         <td class="suther">
@@ -1022,7 +1028,10 @@
                                             @if($value->status == 0 || $value->status == 2 || $value->status == 1)
                                                 <!-- No action for Pending, Reject, or Complete -->
                                             @else
-                                                <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#taxiDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
+                                                {{-- <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#taxiDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button> --}}
+                                                 <a href="{{ route('tourists.create', [$value->id, 'Taxi']) }}" class="btn btn-primary btn-sm">
+                                                    Enter Details
+                                                </a>
                                             @endif
                                         </td>
                                         <td class="suther">
@@ -1085,7 +1094,7 @@
                                     <div class="modal-dialog modal-lg suther">
                                         <div class="modal-content suther">
                                             <div class="modal-header suther">
-                                                <h5 class="modal-title suther" id="taxiTouristListModalLabel3001">Tourist List for Safari Booking #{{$value->id ?? ''}}</h5>
+                                                <h5 class="modal-title suther" id="taxiTouristListModalLabel3001">Tourist List for Taxi Booking #{{$value->id ?? ''}}</h5>
                                                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body suther">
@@ -1298,7 +1307,10 @@
                                             @if($value->status == 0 || $value->status == 2 || $value->status == 1)
                                                 <!-- No action for Pending, Reject, or Complete -->
                                             @else
-                                                <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#guideDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button>
+                                                {{-- <button style="width: 100%;" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#guideDetailsModal3001{{ $value->id }}" onclick="setBookingId({{ $value->id }})">Enter Details</button> --}}
+                                                 <a href="{{ route('tourists.create', [$value->id, 'Guide']) }}" class="btn btn-primary btn-sm">
+                                                    Enter Details
+                                                </a>
                                             @endif
                                         </td>
                                         <td class="suther">
@@ -1361,7 +1373,7 @@
                                     <div class="modal-dialog modal-lg suther">
                                         <div class="modal-content suther">
                                             <div class="modal-header suther">
-                                                <h5 class="modal-title suther" id="taxiTouristListModalLabel3001">Tourist List for Safari Booking #{{$value->id ?? ''}}</h5>
+                                                <h5 class="modal-title suther" id="taxiTouristListModalLabel3001">Tourist List for Guide Booking #{{$value->id ?? ''}}</h5>
                                                 <button type="button" class="btn-close suther" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body suther">
