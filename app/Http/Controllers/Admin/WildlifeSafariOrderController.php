@@ -14,10 +14,12 @@ use App\Models\State;
 use App\Models\City;
 use App\Models\WildlifeSafariOrder2;
 use App\adminmodel\Team;
+use App\Models\Agent;
 use App\Models\RemarkSafariOrder;
 use App\Models\TransferSafariOrder;
 use App\Models\Tourist;
-
+use App\Models\Wallet;
+use App\Models\WalletTransactions;
 use Illuminate\Support\Facades\Auth;
 
 class WildlifeSafariOrderController extends Controller
@@ -251,13 +253,58 @@ class WildlifeSafariOrderController extends Controller
         $action = request()->input('status_action');
     
         if ($action == 'complete') {
-            // Change status to 1 (Confirmed)
             $vehicle->status = 1;
         } elseif ($action == 'cancel') {
+
+            if($vehicle->status == 3 || $vehicle->status == 4){
+            $user = Agent::where('id', $vehicle->user_id)->first();
+           $wallet = Wallet::where('user_id', $vehicle->user_id)->first();
+
+            $addAmount = floatval($vehicle->fetched_price);
+
+            $newBalance = $wallet->balance + $addAmount;
+
+            $wallet->balance = $newBalance;
+            $wallet->save();
+              $transaction = WalletTransactions::create([
+                    'user_id'          => $user->id,
+                    'transaction_type' => 'credit',
+                    'amount'           => $vehicle->fetched_price,
+                    'note'             => 'The refund for your Safari booking cancellation has been processed. #'.$vehicle->id,
+                    'status'           => 1,
+                ]);
+            }
 
             $vehicle->status = 2;
 
         } elseif ($action == 'accept') {
+
+            $user = Agent::where('id', $vehicle->user_id)->first();
+        $wallet = Wallet::where('user_id', $vehicle->user_id)->first();
+
+        if (!$wallet) {
+            return redirect()->back()->with('message', 'Wallet not found!');
+        }
+
+        $deductAmount = floatval($vehicle->fetched_price); 
+
+        $newBalance = $wallet->balance - $deductAmount;
+
+        if ($newBalance < -$user->negative_limit_amount) {
+            return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
+        }
+
+        $wallet->balance = $newBalance;
+        $wallet->save();
+
+        $transaction = WalletTransactions::create([
+                    'user_id'          => $user->id,
+                    'transaction_type' => 'debit',
+                    'amount'           => $vehicle->fetched_price,
+                    'note'             => 'The amount for your Safari booking has been deducted. #'.$vehicle->id,
+                    'status'           => 1,
+                ]);
+
 
             $vehicle->status = 3;
 

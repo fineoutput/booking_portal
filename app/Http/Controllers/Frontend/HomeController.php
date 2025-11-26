@@ -698,51 +698,26 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
 
 public function saveTouristDetails(Request $request)
 {
-    $request->validate([
-        'booking_id' => 'required',
-        'tourist' => 'required|array|min:1',
-        'tourist.*.name' => 'required|string',
-        'tourist.*.age' => 'required',
-        'tourist.*.phone' => 'required',
-        'tourist.*.aadhar_front' => 'required|file',
-        'tourist.*.aadhar_back' => 'required|file',
-        'additional_info' => 'nullable',
-    ]);
+    $tourists = $request->input('tourist', []);
 
-    $userId = Auth::guard('agent')->id();
+    foreach ($tourists as $index => $data) {
+        $t = new Tourist();
+        $t->booking_id = $request->booking_id;
+        $t->name = $data['name'];
+        $t->age = $data['age'];
+        $t->phone = $data['phone'];
+        $t->additional_info = $request->additional_info;
 
-    if (!$userId) {
-        return response()->json(['message' => 'Authentication required'], 401);
+        if ($request->hasFile("tourist.$index.aadhar_front")) {
+            $t->aadhar_front = $request->file("tourist.$index.aadhar_front")->store('aadhar_cards', 'public');
+        }
+        if ($request->hasFile("tourist.$index.aadhar_back")) {
+            $t->aadhar_back = $request->file("tourist.$index.aadhar_back")->store('aadhar_cards', 'public');
+        }
+        $t->save();
     }
 
-    $uploadDirectory = public_path('uploads/tourist');
-    if (!is_dir($uploadDirectory)) mkdir($uploadDirectory, 0777, true);
-
-    foreach ($request->tourist as $index => $tourist) {
-
-        $frontFile = $request->file("tourist.$index.aadhar_front");
-        $backFile  = $request->file("tourist.$index.aadhar_back");
-
-        $frontName = time() . "_front_" . $frontFile->getClientOriginalName();
-        $backName  = time() . "_back_" . $backFile->getClientOriginalName();
-
-        $frontFile->move($uploadDirectory, $frontName);
-        $backFile->move($uploadDirectory, $backName);
-
-        Tourist::create([
-            'user_id' => $userId,
-            'booking_id' => $request->booking_id,
-            'name' => $tourist['name'],
-            'age' => $tourist['age'],
-            'phone' => $tourist['phone'],
-            'aadhar_front' => "uploads/tourist/$frontName",
-            'aadhar_back' => "uploads/tourist/$backName",
-            'additional_info' => $request->additional_info,
-            'type' => 'package',
-        ]);
-    }
-
-    return response()->json(['message' => 'Tourist details saved successfully!']);
+    return back()->with('success', 'All tourists saved!');
 }
 
 protected function storeTouristDocument($file, string $destination, string $label): ?string
@@ -757,34 +732,72 @@ protected function storeTouristDocument($file, string $destination, string $labe
     return 'uploads/tourist/' . $filename;
 }
 
-public function store(Request $request)
-{
-    foreach ($request->tourists as $tourist) {
+// public function store(Request $request)
+// {
+//     foreach ($request->tourists as $tourist) {
 
-        // Upload aadhar files
-        $front = isset($tourist['aadhar_front'])
-                    ? $tourist['aadhar_front']->store('aadhar', 'public')
-                    : null;
+//         // Upload aadhar files
+//         $front = isset($tourist['aadhar_front'])
+//                     ? $tourist['aadhar_front']->store('aadhar', 'public')
+//                     : null;
 
-        $back  = isset($tourist['aadhar_back'])
-                    ? $tourist['aadhar_back']->store('aadhar', 'public')
-                    : null;
+//         $back  = isset($tourist['aadhar_back'])
+//                     ? $tourist['aadhar_back']->store('aadhar', 'public')
+//                     : null;
 
-        // Save to DB
-        Tourist::create([
-            'name'           => $tourist['name'],
-            'age'            => $tourist['age'],
-            'phone'          => $tourist['phone'],
-            'aadhar_front'   => $front,
-            'aadhar_back'    => $back,
-            'additional_info'=> $tourist['additional_info']
-        ]);
+//         // Save to DB
+//         Tourist::create([
+//             'name'           => $tourist['name'],
+//             'age'            => $tourist['age'],
+//             'phone'          => $tourist['phone'],
+//             'aadhar_front'   => $front,
+//             'aadhar_back'    => $back,
+//             'additional_info'=> $tourist['additional_info']
+//         ]);
+//     }
+
+//     return redirect()->back()->with('success', 'All tourists saved!');
+// }
+
+public function touristscreate($bookingId)
+    {
+        return view('front.tourists.create', compact('bookingId'));
     }
 
-    return redirect()->back()->with('success', 'All tourists saved!');
+public function store(Request $request, $bookingId)
+{
+    $tourists = $request->input('tourists', []);
+
+    foreach ($tourists as $index => $data) {
+        $tourist = new Tourist();
+        $tourist->booking_id = $bookingId;
+        $tourist->name = $data['name'] ?? null;
+        $tourist->age = $data['age'] ?? null;
+        $tourist->phone = $data['phone'] ?? null;
+        $tourist->additional_info = $request->additional_info;
+        $tourist->type = 'package';
+
+        // Aadhaar Front
+        if ($request->hasFile("tourists.$index.aadhar_front")) {
+            $file = $request->file("tourists.$index.aadhar_front");
+            $filename = time() . '_' . $index . '_front.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/aadhar_cards'), $filename);
+            $tourist->aadhar_front = 'uploads/aadhar_cards/' . $filename;
+        }
+
+        // Aadhaar Back
+        if ($request->hasFile("tourists.$index.aadhar_back")) {
+            $file = $request->file("tourists.$index.aadhar_back");
+            $filename = time() . '_' . $index . '_back.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/aadhar_cards'), $filename);
+            $tourist->aadhar_back = 'uploads/aadhar_cards/' . $filename;
+        }
+
+        $tourist->save();
+    }
+
+    return redirect()->route('user_profile')->with('success', 'All tourists saved successfully!');
 }
-
-
 
   public function saveTouristDetailshotel(Request $request)
     {
@@ -2195,7 +2208,6 @@ public function calculatePrice(Request $request, $id)
     public function add_hotel_confirm_booking(Request $request,$id)
     {
         $packagetempbooking = HotelBooking::where('id',$id)->first();
-
 
         $packagebooking = new HotelBooking2();
         $packagebooking->hotel_order_id = $id;
