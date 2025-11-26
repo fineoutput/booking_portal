@@ -473,6 +473,10 @@
                     </a>
                     
 
+                    <a href="{{ route('all_images', ['id' => base64_encode($hotel->id)]) }}">View All Images</a>
+                    <div class="bottom_description">
+                        <p>{{$hotel->description ?? 'none'}}</p>
+                    </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="sharan_side_box">
