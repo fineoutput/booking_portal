@@ -2796,8 +2796,8 @@ textarea.form-control {
     width: 300px;
 }
 .room_Center {
-    flex: 1;
-    padding: 10px 10px;
+    flex: 2;
+    /* padding: 10px 10px; */
     border-left: 1px solid #8080804a;
 }
 .room-left {
@@ -2871,4 +2871,36 @@ height: 40vh;
 }
 i.fa-solid {
     color: #808080;
+}
+
+
+
+
+
+
+
+
+
+
+
+.avatar {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.triangle {
+    width: 50%;
+}
+
+.baghi {
+    width: 50%;
+}
+
+.main-price {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
 }

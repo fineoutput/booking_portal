@@ -55,20 +55,24 @@
 
 
 
-    .center2 {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 120px;
-    }
+ .center2 {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    height: 120px;
+    align-items: center;
+    border-top: 1px solid #80808054;
+    padding: 10px;
+}
 
     .right2 {
-        height: 120px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: end;
-    }
+    height: 120px;  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+    /* width: 50%; */
+}
 
 
 
@@ -988,7 +992,40 @@ $amenityIcons = [
             </div>
 
             <div class="room_Center">
-                <h4 class="naxo">Room Only</h4>
+                <div class="avatar p-2">
+                    <div class="baghi">
+
+                        <h4 class="naxo">Room Only</h4>
+                    </div>
+                    <div class="main-price">
+                    <div class="price" style="flex-direction: column">
+                        <div class="old-price">
+                            @if ($value->price)
+                            <p 
+                             data-room-id="{{ $value->id }}"
+                           data-base-price-mrp="{{ $value->price->mrp }}"
+                            style="margin: 0;" class="hotel-mrp" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
+                            @endif
+                        </div>
+
+                        @if ($value->price)
+                        <p class="hotel-price"
+                           id="base-price-{{ $value->id }}"
+                           data-room-id="{{ $value->id }}"
+                           data-base-price-night="{{ $value->price->night_cost }}"
+                           data-label="no_meal">
+                           ₹{{ $value->price->night_cost }}
+                        </p>
+                        @else
+                        <p><em>Price not available for selected dates.</em></p>
+                        @endif
+
+                        <button class="select-btn">
+                            <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                        </button>
+                    </div>
+                </div>
+                </div>
                 <div class="skoot mb-5">
                     <!-- All amenities same -->
                    
@@ -1020,7 +1057,7 @@ $amenityIcons = [
                     @endif --}}
 
                     @if (!empty($value->chains) && trim($value->chains) !== '')
-                    <div class="tape_over"><p><b>Chains</b></p><ul class="offers">
+                    <div class="tape_over p-2"><p><b>Chains</b></p><ul class="offers">
                         @foreach (explode(',', $value->chains) as $amenity)
                             @if (trim($amenity) !== '') <li><i class="fa-solid fa-snowflake"></i> {{ trim($amenity) }}</li> @endif
                         @endforeach
@@ -1034,16 +1071,74 @@ $amenityIcons = [
 
                 <div class="small_go d-none d-lg-block">
                     @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
-                    <div class="center2"><div class="triangle"><p><b>Room With(Breakfast)</b></p></div></div>
-                    @endif
-                    <div class="center2"><div class="triangle"><p><b>Room with(Breakfast + lunch/dinner)</b></p></div></div>
                     <div class="center2">
-                        <div class="triangle"><p><b>Room with(All meals)</b></p></div>
+                        <div class="triangle">
+                            <p><b>Room With(Breakfast)</b></p>
+                        </div>
+                         @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
+                    <div class="right2 room-right">
+                        <div class="price">
+                            <p class="dynamic-price"
+                               id="bf-price-{{ $value->id }}"
+                               data-room-id="{{ $value->id }}"
+                               data-base-price-meal="{{ $value->price->meal_plan_breakfast_cost }}"
+                               data-label="breakfast">
+                               ₹{{ $value->price->meal_plan_breakfast_cost }}
+                            </p>
+                            <button class="select-btn">
+                                <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+                    @endif
+                    @endif
+                    <div class="center2">
+                        <div class="triangle">
+                            <p><b>Room with(Breakfast + lunch/dinner)</b></p>
+                        </div>
+                        @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
+                    <div class="right2 room-right">
+                        <div class="price">
+                            <p class="dynamic-price"
+                               id="bd-price-{{ $value->id }}"
+                               data-room-id="{{ $value->id }}"
+                               data-base-price-meal="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
+                               data-label="breakfast_dinner">
+                               ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
+                            </p>
+                            <button class="select-btn">
+                                <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                            </button>
+                        </div>
+                    </div>
+                    @endif
+                    </div>
+                    <div class="center2">
+                        <div class="triangle">
+                            <p><b>Room with(All meals)</b></p>
+                        </div>
+                         @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
+                    <div class="right2 room-right">
+                        <div class="price">
+                            <p class="dynamic-price"
+                               id="all-price-{{ $value->id }}"
+                               data-room-id="{{ $value->id }}"
+                               data-base-price-meal="{{ $value->price->meal_plan_all_meals_cost }}"
+                               data-label="all_meals">
+                               ₹{{ $value->price->meal_plan_all_meals_cost }}
+                            </p>
+                            <button class="select-btn">
+                                <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
+                            </button>
+                        </div>
+                    </div>
+                    @endif
                     </div>
                 </div>
             </div>
 
-            <div class="room-right">
+            {{-- <div class="room-right">
                 <div class="main-price mb-5">
                     <div class="price" style="flex-direction: column">
                         <div class="old-price">
@@ -1126,10 +1221,10 @@ $amenityIcons = [
                     </div>
                     @endif
                 </div>
-            </div>
+            </div> --}}
         </div>
 
-        <hr>
+        
 
         <!-- Mobile View -->
         <div class="secound_t d-lg-none">
@@ -1245,7 +1340,7 @@ $amenityIcons = [
 
 </script>
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.room-card').forEach((card) => {
             const skoot = card.querySelector('.skoot');
@@ -1262,7 +1357,7 @@ $amenityIcons = [
             new ResizeObserver(updateHeight).observe(skoot);
         });
     });
-</script>
+</script> --}}
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
