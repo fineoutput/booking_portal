@@ -62,6 +62,7 @@
                         <th data-priority="3">Pancard Image</th>
                         <th data-priority="3">Logo</th>
                         <th data-priority="3">Status</th>
+                        <th data-priority="3">Wallet</th>
                         <th data-priority="3">Amounts</th>
                         <th data-priority="3">Action</th>
                       </tr>
@@ -125,6 +126,11 @@
         </td>
 
         <td>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#walletModal{{ $value->id }}">
+    Update Wallet
+</button>
+        </td>
+        <td>
          <button class="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#setLimitModal{{ $value->id }}">
@@ -169,6 +175,46 @@
        </td>
        
     </tr>
+
+    <div class="modal fade" id="walletModal{{ $value->id }}" tabindex="-1" aria-labelledby="walletModalLabel{{ $value->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" action="{{ route('wallet.update', $value->id) }}">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="walletModalLabel{{ $value->id }}">Update Wallet for {{ $value->name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="transactionType{{ $value->id }}" class="form-label">Transaction Type</label>
+                        <select name="transaction_type" id="transactionType{{ $value->id }}" class="form-control" required>
+                            <option value="">-- Select --</option>
+                            <option value="credit">Credit</option>
+                            <option value="debit">Debit</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="amount{{ $value->id }}" class="form-label">Amount</label>
+                        <input type="number" name="amount" id="amount{{ $value->id }}" class="form-control" placeholder="Enter Amount" min="1" step="0.01" required>
+                    </div>
+{{-- 
+                    <div class="mb-3">
+                        <label for="note{{ $value->id }}" class="form-label">Notes (Optional)</label>
+                        <textarea name="note" id="note{{ $value->id }}" class="form-control" rows="2" placeholder="Enter Notes"></textarea>
+                    </div> --}}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Update Wallet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
      <div class="modal fade" id="setLimitModal{{ $value->id }}">
             <div class="modal-dialog">

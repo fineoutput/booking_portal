@@ -279,6 +279,7 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState']);
     Route::post('/agent/create', [AgentController::class, 'create'])->name('agent.create');
 
     Route::get('/panding-agent', [AgentController::class, 'pandingagent'])->name('pandingagent');
+    Route::post('/wallet/update/{user}', [AgentController::class, 'updateWallet'])->name('wallet.update');
     Route::get('/complete-agent', [AgentController::class, 'completeagent'])->name('completegagent');
     
     Route::post('/agents/set-limit/{id}', [AgentController::class, 'setLimit'])->name('agents.setLimit');
