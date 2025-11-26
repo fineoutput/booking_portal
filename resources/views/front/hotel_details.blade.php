@@ -937,10 +937,7 @@ $amenityIcons = [
                                         <button class="splide__arrow splide__arrow--next">›</button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <label for=""><b>Locality</b></label>
+                                <label for=""><b>Locality</b></label>
                     <ul class="rmTypeList vertical appendTop10">
                         @foreach (explode(',', $value->locality) as $amenity)
                             @if (trim($amenity) !== '')
@@ -951,6 +948,10 @@ $amenityIcons = [
                             @endif
                         @endforeach
                     </ul>
+                            </div>
+                        </div>
+
+                        
                     </div>
                 </div>
 
