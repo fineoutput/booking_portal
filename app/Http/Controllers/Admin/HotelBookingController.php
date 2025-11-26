@@ -17,8 +17,11 @@ use App\Models\HotelBooking2;
 use App\Models\RemarkHotelOrder;
 use App\Models\TransferHotelOrder;
 use App\adminmodel\Team;
+use App\Models\Agent;
 use App\Models\Tourist;
 use App\Models\UpgradeRequest;
+use App\Models\Wallet;
+use App\Models\WalletTransactions;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -273,8 +276,54 @@ class HotelBookingController extends Controller
             // Change status to 1 (Confirmed)
             $vehicle->status = 1;
         } elseif ($action == 'cancel') {
+
+            if($vehicle->status == 3 || $vehicle->status == 4){
+            $user = Agent::where('id', $vehicle->user_id)->first();
+           $wallet = Wallet::where('user_id', $vehicle->user_id)->first();
+
+            $addAmount = floatval($vehicle->fetched_price);
+
+            $newBalance = $wallet->balance + $addAmount;
+
+            $wallet->balance = $newBalance;
+            $wallet->save();
+              $transaction = WalletTransactions::create([
+                    'user_id'          => $user->id,
+                    'transaction_type' => 'credit',
+                    'amount'           => $vehicle->fetched_price,
+                    'note'             => 'The refund for your hotel booking cancellation has been processed. #'.$vehicle->id,
+                    'status'           => 1,
+                ]);
+            }
             $vehicle->status = 2;
         } elseif ($action == 'accept') {
+
+            $user = Agent::where('id', $vehicle->user_id)->first();
+        $wallet = Wallet::where('user_id', $vehicle->user_id)->first();
+
+        if (!$wallet) {
+            return redirect()->back()->with('message', 'Wallet not found!');
+        }
+
+        $deductAmount = floatval($vehicle->fetched_price); 
+
+        $newBalance = $wallet->balance - $deductAmount;
+
+        if ($newBalance < -$user->negative_limit_amount) {
+            return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
+        }
+
+        $wallet->balance = $newBalance;
+        $wallet->save();
+
+        $transaction = WalletTransactions::create([
+                    'user_id'          => $user->id,
+                    'transaction_type' => 'debit',
+                    'amount'           => $vehicle->fetched_price,
+                    'note'             => 'The amount for your hotel booking has been deducted. #'.$vehicle->id,
+                    'status'           => 1,
+                ]);
+
             $vehicle->status = 3;
         } elseif ($action == 'process') {
             $vehicle->status = 4;
