@@ -66,6 +66,9 @@
           <li class="py-1"><a style="
             color: #000;
         " href="{{ route('contact_us') }}">Contact Us</a></li>
+          <li class="py-1"><a style="
+            color: #000;
+        " href="{{ route('transcation_history') }}">Contact Us</a></li>
         </ul>
       </div>
       <div class="col-md-2 col-lg-2 col-sm-12">
@@ -118,6 +121,7 @@
   <script src="{{ asset('frontend/hotel.js') }}"></script>
   <script src="{{ asset('frontend/slider.js') }}"></script>
   <script src="{{ asset('frontend/detail.js') }}"></script>
+  <script src="{{ asset('frontend/transaction.js') }}"></script>
   </body>
 
 </html>
