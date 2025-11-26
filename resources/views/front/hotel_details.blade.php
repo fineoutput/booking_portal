@@ -1321,10 +1321,10 @@ $amenityIcons = [
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        document.querySelectorAll(".room-right .select-btn a").forEach(function (anchor) {
+        document.querySelectorAll(".main-price .select-btn a").forEach(function (anchor) {
             anchor.addEventListener("click", function () {
 
-                let priceEl = this.closest(".room-right").querySelector(".hotel-price");
+                let priceEl = this.closest(".main-price").querySelector(".hotel-price");
 
                 if (priceEl) {
                     let mealType = priceEl.getAttribute("data-label"); // breakfast/no_meal/etc.
