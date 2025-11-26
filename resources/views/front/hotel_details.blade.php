@@ -758,7 +758,7 @@ $amenityIcons = [
 
                     <div class="sides_maxe">
                         <div class="aaeheads">
-                            <p class="hoses tarati">{!!$hotel->text_description!!}
+                            <p class="hoses tarati">
                             </p>
                             <span class="sabke">
                                 <ol class="lgx66tx atm_gi_idpfg4 atm_l8_idpfg4 dir dir-ltr" style="
@@ -988,7 +988,7 @@ $amenityIcons = [
             </div>
 
             <div class="room_Center">
-                <h4 class="naxo">Room Amenities</h4>
+                <h4 class="naxo">Room Only</h4>
                 <div class="skoot mb-5">
                     <!-- All amenities same -->
                    
@@ -1037,7 +1037,9 @@ $amenityIcons = [
                     <div class="center2"><div class="triangle"><p><b>Room With(Breakfast)</b></p></div></div>
                     @endif
                     <div class="center2"><div class="triangle"><p><b>Room with(Breakfast + lunch/dinner)</b></p></div></div>
-                    <div class="center2"><div class="triangle"><p><b>Room with(All meals)</b></p></div></div>
+                    <div class="center2">
+                        <div class="triangle"><p><b>Room with(All meals)</b></p></div>
+                    </div>
                 </div>
             </div>
 
