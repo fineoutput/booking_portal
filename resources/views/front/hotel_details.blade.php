@@ -939,6 +939,18 @@ $amenityIcons = [
                                 </div>
                             </div>
                         </div>
+
+                        <label for=""><b>Locality</b></label>
+                    <ul class="rmTypeList vertical appendTop10">
+                        @foreach (explode(',', $value->locality) as $amenity)
+                            @if (trim($amenity) !== '')
+                            <li class="rmTypeList__item">
+                                <span class="rmTypeList__item--icon appendRight10"><i class="fa-solid fa-archway"></i></span>
+                                <span class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span>
+                            </li>
+                            @endif
+                        @endforeach
+                    </ul>
                     </div>
                 </div>
 
@@ -976,17 +988,7 @@ $amenityIcons = [
                             @endif
                         @endforeach
                     </ul>
-                    <label for=""><b>Locality</b></label>
-                    <ul class="rmTypeList vertical appendTop10">
-                        @foreach (explode(',', $value->locality) as $amenity)
-                            @if (trim($amenity) !== '')
-                            <li class="rmTypeList__item">
-                                <span class="rmTypeList__item--icon appendRight10"><i class="fa-solid fa-archway"></i></span>
-                                <span class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span>
-                            </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                    
                 </div>
                 <a href="#" class="more-link" id="open-modal-details-{{ $value->id }}">More Details</a>
             </div>
