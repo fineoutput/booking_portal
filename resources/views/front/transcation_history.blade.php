@@ -110,8 +110,9 @@ table th, table td {
 </table>
 
 {{-- Pagination --}}
-<div class="mt-3">
-    {{ $transactions->onEachSide(1)->links('pagination::bootstrap-5') }}
+<div class="d-flex justify-content-center mt-3">
+    {{ $transactions->onEachSide(1)->links('vendor.pagination.bootstrap-4') }}
+</div>
 </div>
 </div>
 
