@@ -80,7 +80,11 @@
     margin-bottom: 20px;
     font-weight: bold;
   }
-
+@media(max-width: 768px) {
+  .app-right h2 {
+    font-size: 25px;
+  
+}
   .app-buttons {
     display: flex;
     align-items: center;
