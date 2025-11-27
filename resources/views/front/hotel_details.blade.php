@@ -1070,7 +1070,7 @@ $amenityIcons = [
                     @endif
 
                     @if (!empty($value->description))
-                    <div class="tape_over"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div>
+                    <div class="tape_over p-2"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div>
                     @endif
                 </div>
 
