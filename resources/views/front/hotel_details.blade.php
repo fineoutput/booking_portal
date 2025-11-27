@@ -519,7 +519,36 @@ $amenityIcons = [
 
                     <a href="{{ route('all_images', ['id' => base64_encode($hotel->id)]) }}">View All Images</a>
                     <div class="bottom_description">
+                        <h2 class="htlAmenities__title">About Property</h2>
                         {!! $hotel->text_description ?? '' !!}
+                    </div>
+                    <div class="hotel_yosef">
+                        <div class="name_wick">
+                            <div class="amin">
+                                <h2 class="htlAmenities__title">Aminities</h2>    
+                            </div>    
+                        </div>
+
+                        <div class="icnons_tem_head">
+                            <ul class="htlAmenities" style="list-style: none; padding: 0;">
+                                                @if($hotel_room_1 && $hotel_room_1->hotel_amenities)
+                                                    @foreach(explode(',', $hotel_room_1->hotel_amenities) as $amenity)
+                                                        @php
+                                                            $cleanAmenity = strtolower(trim($amenity));
+                                                            $icon = $amenityIcons[$cleanAmenity] ?? '<i class="fa fa-check"></i>'; // default icon
+                                                        @endphp
+
+                                                        @if($cleanAmenity !== '')
+                                                            <li class="htlAmenities__item">
+                                                                <span style="color: #8f8f8f; margin-right:6px;">{!! $icon !!}</span>
+                                                                <span style="color: #1a7971;">{{ ucfirst($cleanAmenity) }}</span>
+                                                            </li>
+                                                        @endif
+
+                                                    @endforeach
+                                                @endif
+                                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
