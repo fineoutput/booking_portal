@@ -487,8 +487,10 @@
 
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
+                  let url = "{{ route('filter_city', ':id') }}";
+                  url = url.replace(':id', stateId);
                 $.ajax({
-                    url: '/cities/' + stateId,
+                    url: url,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;
