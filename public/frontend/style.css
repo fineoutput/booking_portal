@@ -2184,6 +2184,7 @@ textarea.form-control {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5px;
 }
 .trnas {
   padding: 12px 10px !important;

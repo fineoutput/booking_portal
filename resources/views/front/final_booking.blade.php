@@ -97,6 +97,11 @@
       cursor: pointer;
       font-size: 0.9rem;
     }
+    @media(max-width: 768px) {
+        .caranke:nth-child(2) {
+    border: 0;
+}
+    }
   </style>
 <section class="finalBooking">
     <div class="comp-container">
