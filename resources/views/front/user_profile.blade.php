@@ -1539,7 +1539,7 @@
                 </div>
             </div>
             <div class="mt-3">
-                <button class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#refundRechargeModal">Refund/Recharge</button>
+                <button style="width: 40%" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#refundRechargeModal">Refund/Recharge</button>
             </div>
         </div>
 
