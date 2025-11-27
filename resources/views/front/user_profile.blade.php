@@ -237,7 +237,7 @@
                                         </td>
                                         <td class="suther">
                                             @if($value->package->pdf ?? '')
-                                                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'booking_id' => $value->id, 'pdf_name' => urlencode(basename($value->package->pdf))]) }}'">Download PDF</button>
+                                                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::guard("agent")->id(), 'booking_id' => $value->id, 'pdf_name' => urlencode(basename($value->package->pdf))]) }}'">Download PDF</button>
                                             @else
                                                 <p>No PDF available for download.</p>
                                             @endif
