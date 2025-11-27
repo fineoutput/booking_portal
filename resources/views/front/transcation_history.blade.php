@@ -83,17 +83,17 @@ table th, table td {
         </div>
     </div>
 
-    <table id="transactionTable">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Details</th>
-                <th>Type</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-                   @foreach ($transactions as $t)
+<table id="transactionTable">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Details</th>
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @foreach ($transactions as $t)
         <tr>
             <td style="padding: 10px;">{{ $t->created_at->format('Y-m-d') }}</td>
 
@@ -105,9 +105,15 @@ table th, table td {
 
             <td style="padding: 10px;">₹ {{ number_format($t->amount, 2) }}</td>
         </tr>
-    @endforeach
-        </tbody>
-    </table>
+        @endforeach
+    </tbody>
+</table>
+
+{{-- Pagination --}}
+<div class="d-flex justify-content-center mt-3">
+    {{ $transactions->onEachSide(1)->links('vendor.pagination.bootstrap-4') }}
+</div>
+</div>
 </div>
 
 <script>

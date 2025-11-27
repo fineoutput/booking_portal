@@ -373,16 +373,20 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-    <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     let printedPrice = localStorage.getItem("selectedPrintedPrice");
 
     if (printedPrice) {
-        document.getElementById("dynamic-price").textContent = printedPrice;
+
+        // "Starting From" ko remove karo
+        let cleanPrice = printedPrice.replace(/starting from/gi, "").trim();
+
+        // Price set karo
+        document.getElementById("dynamic-price").textContent = cleanPrice;
     }
 });
-
-    </script>
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
