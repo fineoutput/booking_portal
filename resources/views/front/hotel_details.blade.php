@@ -547,16 +547,20 @@ $amenityIcons = [
 
                                                         @if($cleanAmenity !== '')
                                                             <li>
-                                                            <span style="color: #8f8f8f; margin-right:6px;">{!! $icon !!}</span>
-                                                            <span style="color: #1a7971;">{{ ucfirst($cleanAmenity) }}</span>
-                                                        </li>
+                                                                <span style="color: #8f8f8f; margin-right:6px;">{!! $icon !!}</span>
+                                                                <span style="color: #1a7971;">{{ ucfirst($cleanAmenity) }}</span>
+                                                            </li>
+                                                        @endif
+
+                                                        @if($loop->iteration == 4)
+                                                            @break
                                                         @endif
                                                     @endforeach
                                                 @endif
                                             </ul>
                                         </div>
-
                                     </div>
+
                                     <div class="site_pricwe">
                                         <delt class="pii">
                                             <del class="dis_price" id="price_{{ $value->id }}">₹
@@ -962,17 +966,7 @@ $amenityIcons = [
                                         <button class="splide__arrow splide__arrow--next">›</button>
                                     </div>
                                 </div>
-                                <label for=""><b>Locality</b></label>
-                    <ul class="rmTypeList vertical appendTop10">
-                        @foreach (explode(',', $value->locality) as $amenity)
-                            @if (trim($amenity) !== '')
-                            <li class="rmTypeList__item">
-                                <span class="rmTypeList__item--icon appendRight10"><i class="fa-solid fa-archway"></i></span>
-                                <span class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span>
-                            </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                                
                             </div>
                         </div>
 
@@ -1084,13 +1078,13 @@ $amenityIcons = [
                     </ul></div>
                     @endif --}}
 
-                    @if (!empty($value->chains) && trim($value->chains) !== '')
+                    {{-- @if (!empty($value->chains) && trim($value->chains) !== '')
                     <div class="tape_over p-2"><p><b>Chains</b></p><ul class="offers">
                         @foreach (explode(',', $value->chains) as $amenity)
                             @if (trim($amenity) !== '') <li><i class="fa-solid fa-snowflake"></i> {{ trim($amenity) }}</li> @endif
                         @endforeach
                     </ul></div>
-                    @endif
+                    @endif --}}
 
                     @if (!empty($value->description))
                     <div class="tape_over p-2"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div>
