@@ -111,7 +111,7 @@ table th, table td {
 
 {{-- Pagination --}}
 <div class="mt-3">
-    {{ $transactions->links() }}
+    {{ $transactions->onEachSide(1)->links('pagination::bootstrap-5') }}
 </div>
 </div>
 
