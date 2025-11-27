@@ -672,60 +672,50 @@ return redirect()->route('index')->with('message', 'Login successful.');
 public function verifyOtp(Request $request)
 {
     $validator = Validator::make($request->all(), [
-        'otp' => 'required|digits:4',  // Validate OTP (should be a 4-digit number)
-        'mobile_number' => 'required|string',  // Make sure the mobile number is provided
+        'otp' => 'required|digits:4',
+        'mobile_number' => 'required|string',
     ]);
 
     if ($validator->fails()) {
-        return response()->json([
-            'error' => 'Invalid OTP or phone number format.'
-        ]);
+        return response()->json(['error' => 'Invalid OTP or phone number format.']);
     }
 
-    // Get mobile number and OTP from the request
-    $mobile_number = $request->mobile_number;
-    $otp = $request->otp;
-
-    // Find the OTP record based on mobile number and OTP entered
-    $userOtp = UserOtp::where('source_name', $mobile_number)
-                     ->where('otp', $otp)
-                     ->first();
+    $userOtp = UserOtp::where('source_name', $request->mobile_number)
+                      ->where('otp', $request->otp)
+                      ->first();
 
     if (!$userOtp) {
-        // OTP is not valid
-        return response()->json([
-            'error' => 'Invalid OTP. Please try again.'
-        ]);
+        return response()->json(['error' => 'Invalid OTP. Please try again.']);
     }
 
-    // Check if OTP is expired
     if (Carbon::now()->greaterThan($userOtp->expires_at)) {
-        // OTP has expired
-        return response()->json([
-            'error' => 'OTP has expired. Please request a new one.'
-        ]);
+        return response()->json(['error' => 'OTP has expired. Please request a new one.']);
     }
 
-    // OTP is valid, so log the user in
-    $user = Agent::where('number', $mobile_number)->first();
+    $user = Agent::where('number', $request->mobile_number)->first();
 
     if (!$user) {
-        return response()->json([
-            'error' => 'User not found.'
-        ]);
+        return response()->json(['error' => 'User not found.']);
     }
 
-    // Optional: You can check if the user is approved or perform any other checks here
+    if ($user->approved != 1) {
+        return response()->json(['error' => 'Your account is not approved by the admin.']);
+    }
 
-    // Log the user in
+    // Log in the user using the same guard as email login
     Auth::guard('agent')->login($user);
 
-    // Return success response
+    // Optional: Clear OTP so it can't be reused
+    $userOtp->delete();
+
+    // Return redirect URL instead of just success message
     return response()->json([
         'success' => true,
-        'message' => 'OTP verified successfully. You are now logged in!'
+        'message' => 'OTP verified successfully! You are now logged in.',
+        'redirect' => route('index'), // or agent dashboard
     ]);
 }
+
 
 
 

@@ -366,40 +366,36 @@
     });
 
     // Handle OTP form submission via AJAX
-    $('#otpVerificationForm').on('submit', function (e) {
-        e.preventDefault(); // Prevent form submission
+   $('#otpVerificationForm').on('submit', function (e) {
+    e.preventDefault();
 
-        var otp = $('#otpLogin').val(); // Get the OTP entered by the user
-        var phone_number = $('#phoneLogin').val(); // Get the mobile number entered by the user
+    var otp = $('#otpLogin').val();
+    var phone_number = $('#phoneLogin').val();
 
-        $.ajax({
-            url: "{{ route('verifyOtp') }}", // URL for verifying OTP
-            method: "POST",
-            data: {
-                _token: $("input[name='_token']").val(),
-                otp: otp,  // OTP entered by the user
-                mobile_number: phone_number,  // Mobile number passed to backend for OTP verification
-            },
-            success: function (response) {
-                if (response.success) {
-                    $('#otpSuccessMessage').text(response.message); // Success message
-                    $('#otpSuccessMessage').show();
-
-                    // Optionally redirect or show another page
-                    window.location.href = "{{ route('index') }}"; // Redirect to the agent dashboard after success
-                } else {
-                    // OTP verification failed
-                    $('#otpErrorMessage').text(response.error);
-                    $('#otpErrorMessage').show();
-                }
-            },
-            error: function () {
-                // Handle error during OTP verification
-                $('#otpErrorMessage').text('An error occurred while verifying the OTP. Please try again.');
-                $('#otpErrorMessage').show();
+    $.ajax({
+        url: "{{ route('verifyOtp') }}",
+        method: "POST",
+        data: {
+            _token: $("input[name='_token']").val(),
+            otp: otp,
+            mobile_number: phone_number,
+        },
+        success: function (response) {
+            if (response.success) {
+                $('#otpSuccessMessage').text(response.message).show();
+                
+                // Redirect to the page like normal login
+                window.location.href = response.redirect;
+            } else {
+                $('#otpErrorMessage').text(response.error).show();
             }
-        });
+        },
+        error: function () {
+            $('#otpErrorMessage').text('An error occurred while verifying the OTP. Please try again.').show();
+        }
     });
+});
+
 });
 
 
