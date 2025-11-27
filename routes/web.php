@@ -173,7 +173,7 @@ Route::post('/agent/wallet/razorpay/callback', [HomeController::class, 'walletRa
 Route::post('signup', [AuthController::class, 'signup'])->name('signup_agent');
 Route::post('/razorpay/callback', [AuthController::class, 'razorpayCallback'])->name('razorpay.callback');
 
-Route::get('cities/{stateId}', [HomeController::class, 'getCitiesByState']);
+Route::get('cities/{stateId}', [HomeController::class, 'getCitiesByState'])->name('filter_city');
 Route::post('verify_auth_otp', [AuthController::class, 'verify_auth_otp'])->name('verify_auth_otp');
 Route::post('agentlogin', [AuthController::class, 'agentlogin'])->name('agentlogin');
 // routes/web.php
