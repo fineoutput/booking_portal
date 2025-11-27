@@ -145,9 +145,10 @@
 }
 .center2 {
     border-top:0;
+    padding: 0px 10px;
 }
 .right2 {
-    justify-content: center;
+    justify-content: start;
     align-items: start;
     /* width: 60%; */
 }
@@ -509,6 +510,7 @@ $houseRuleIcons = [
 
 
                             <div class="mirror_maxe">
+                                <a class="kaaas" href="{{ route('all_images', ['id' => base64_encode($hotel->id)]) }}">View All Images</a>
                                 @php
                                 // Assuming 'image' contains a JSON array of images
                                 $images = json_decode($hotel->images); // Decode the JSON to an array
@@ -549,7 +551,7 @@ $houseRuleIcons = [
                     </a>
                     
 
-                    <a href="{{ route('all_images', ['id' => base64_encode($hotel->id)]) }}">View All Images</a>
+                    
                     <div class="bottom_description">
                         <h2 class="htlAmenities__title">About Property</h2>
                         {!! $hotel->text_description ?? '' !!}

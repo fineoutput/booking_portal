@@ -2108,6 +2108,7 @@ textarea.form-control {
     height: 100%;
     width: 540px;
     height: 326px;
+    position: relative;
 }
 .mirror_maxe img {
   height: 100%;
@@ -2933,4 +2934,21 @@ i.fa-solid {
     font-weight: 700;
     line-height: 22px;
     position: relative;
+}
+
+.kaaas{
+
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    background-color: rgba(0, 0, 0, .5);
+    border: 1px solid #d8d8d8;
+    border-radius: 16px;
+    display: flex;
+    float: right;
+    margin-bottom: 3px;
+    padding: 6px 8px;
+    width: max-content;
+    color: #fff;
+
 }
