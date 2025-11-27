@@ -446,19 +446,51 @@
 </form> --}}
 @php
 $amenityIcons = [
-    'wifi' => '<i class="fa fa-wifi"></i>',
-    'parking' => '<i class="fa fa-car"></i>',
-    'swimming pool' => '<i class="fa fa-swimmer"></i>',
-    'ac' => '<i class="fa fa-snowflake"></i>',
-    'air conditioning' => '<i class="fa fa-snowflake"></i>',
-    'tv' => '<i class="fa fa-tv"></i>',
-    'restaurant' => '<i class="fa fa-utensils"></i>',
-    'spa' => '<i class="fa fa-spa"></i>',
-    'gym' => '<i class="fa fa-dumbbell"></i>',
-    'breakfast' => '<i class="fa fa-coffee"></i>',
-    'Parking' => '<i class="fa-solid fa-square-parking"></i>',
+    'room service'        => '<i class="fa-solid fa-bell"></i>',
+    'balcony/terrace'     => '<i class="fa-solid fa-building"></i>',
+    'barbeque'            => '<i class="fa-solid fa-fire"></i>',
+    'cafe'                => '<i class="fa-solid fa-mug-saucer"></i>',
+    'ev charging station' => '<i class="fa-solid fa-bolt"></i>',
+    'restaurant'          => '<i class="fa-solid fa-utensils"></i>',
+    'bar'                 => '<i class="fa-solid fa-wine-glass"></i>',
+    'parking'             => '<i class="fa-solid fa-square-parking"></i>',
+    'caretaker'           => '<i class="fa-solid fa-user"></i>',
+    'bonfire'             => '<i class="fa-solid fa-fire"></i>',
+    'kitchenette'         => '<i class="fa-solid fa-kitchen-set"></i>',
+    'elevator/lift'       => '<i class="fa-solid fa-arrow-up-long"></i>',
+    'indoor games'        => '<i class="fa-solid fa-chess-board"></i>',
+    'living room'         => '<i class="fa-solid fa-couch"></i>',
+
+    // existing free icons
+    'wifi'                => '<i class="fa-solid fa-wifi"></i>',
+    'swimming pool'       => '<i class="fa-solid fa-person-swimming"></i>',
+    'ac'                  => '<i class="fa-solid fa-snowflake"></i>',
+    'air conditioning'    => '<i class="fa-solid fa-snowflake"></i>',
+    'tv'                  => '<i class="fa-solid fa-tv"></i>',
+    'spa'                 => '<i class="fa-solid fa-spa"></i>',
+    'gym'                 => '<i class="fa-solid fa-dumbbell"></i>',
+    'breakfast'           => '<i class="fa-solid fa-mug-hot"></i>',
+
+    'fireplace'              => '<i class="fa-solid fa-fire"></i>',
+    'interconnected room'    => '<i class="fa-solid fa-door-open"></i>',
+    'bathtub'                => '<i class="fa-solid fa-bath"></i>',
+    'kitchenette'            => '<i class="fa-solid fa-kitchen-set"></i>',
+    'smoking room'           => '<i class="fa-solid fa-smoking"></i>',
+    'private pool'           => '<i class="fa-solid fa-person-swimming"></i>',
+    'balcony'                => '<i class="fa-solid fa-building"></i>',
+    'cook & butler service'  => '<i class="fa-solid fa-user-tie"></i>',
+    'heater'                 => '<i class="fa-solid fa-temperature-three-quarters"></i>',
+    'jacuzzi'                => '<i class="fa-solid fa-water-ladder"></i>',
+    'living area'            => '<i class="fa-solid fa-couch"></i>',
 ];
 
+$houseRuleIcons = [
+    'smoking allowed'            => '<i class="fa-solid fa-smoking"></i>',
+    'unmarried couples allowed'  => '<i class="fa-solid fa-user-group"></i>',
+    'pets allowed'               => '<i class="fa-solid fa-paw"></i>',
+    'alcohol allowed'            => '<i class="fa-solid fa-wine-bottle"></i>',
+    'non veg allowed'            => '<i class="fa-solid fa-drumstick-bite"></i>',
+];
 
 @endphp
 
@@ -1007,11 +1039,19 @@ $amenityIcons = [
                 <div class="features">
                     <!-- Nearby, Rules, Locality - same -->
                      @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
-                    <div class="samrt"><p><b>Room facilities</b></p><ul class="offers">
-                        @foreach (explode(',', $value->room_amenities) as $amenity)
-                            @if (trim($amenity) !== '') <li><i class="fa-solid fa-spa"></i> {{ trim($amenity) }}</li> @endif
-                        @endforeach
-                    </ul></div>
+                        <div class="samrt">
+                            <p><b>Room facilities</b></p>
+                            <ul class="offers">
+                                @foreach (explode(',', $value->room_amenities) as $amenity)
+                                    @php 
+                                        $key = strtolower(trim($amenity));
+                                        $icon = $amenityIcons[$key] ?? '<i class="fa-solid fa-circle-check"></i>';
+                                    @endphp
+
+                                    <li>{!! $icon !!} {{ trim($amenity) }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
                     {{-- <label for=""><b>Nearby within Walking Distance</b></label>
                     <ul class="rmTypeList vertical appendTop10">
@@ -1026,16 +1066,25 @@ $amenityIcons = [
                     </ul> --}}
                     <label for=""><b>Rules</b></label>
                     <ul class="rmTypeList vertical appendTop10">
+
                         @foreach (explode(',', $value->house_rules) as $amenity)
                             @if (trim($amenity) !== '')
-                            <li class="rmTypeList__item">
-                                <span class="rmTypeList__item--icon appendRight10">
-                                    <img src="https://promos.makemytrip.com/Hotels_product/Hotel_SR/Android/drawable-hdpi/size.png" alt="">
-                                </span>
-                                <span class="makeFlex column column-text"><span class="rmTypeList__item--text">{{ trim($amenity) }}</span></span>
-                            </li>
+                                @php 
+                                    $key = strtolower(trim($amenity));
+                                    $icon = $houseRuleIcons[$key] ?? '<i class="fa-solid fa-circle-check"></i>';
+                                @endphp
+
+                                <li class="rmTypeList__item">
+                                    <span class="rmTypeList__item--icon appendRight10">
+                                        {!! $icon !!}
+                                    </span>
+                                    <span class="makeFlex column column-text">
+                                        <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
+                                    </span>
+                                </li>
                             @endif
                         @endforeach
+
                     </ul>
                     
                 </div>
