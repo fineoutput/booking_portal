@@ -135,6 +135,26 @@
     .room_Center .skoot {
         height: auto;
     }
+
+    @media(max-width: 768px) {
+        .select-btn {
+        width: 90%;
+    }
+.main-price {
+    width: 70%;
+}
+.center2 {
+    border-top:0;
+}
+.right2 {
+    justify-content: center;
+    align-items: start;
+    /* width: 60%; */
+}
+.room-right {
+    min-width: 0;
+}
+    }
 </style>
 <div class="header-container_hotels">
 

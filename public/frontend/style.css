@@ -2904,3 +2904,10 @@ i.fa-solid {
     justify-content: center;
     align-items: end;
 }
+
+
+@media(max-width: 768px) {
+  .baghi {
+    width: 0%;
+}
+}
