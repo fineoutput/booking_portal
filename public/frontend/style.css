@@ -2687,7 +2687,7 @@ textarea.form-control {
       top: 0;
       align-self: flex-start;
       background: #fff;
-      z-index: 1;
+      /* z-index: 1; */
     }
     .room-left h3 {
       margin: 8px 0;
@@ -2712,7 +2712,7 @@ textarea.form-control {
     .room-right {
       flex: 1;
       min-width: 280px;
-      padding: 10px 10px;
+      /* padding: 10px 10px; */
       text-align: right;
     }
     .room-right h4 {

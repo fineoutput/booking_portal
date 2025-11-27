@@ -62,7 +62,7 @@
     /* flex-direction: column; */
     justify-content: space-between;
     height: 120px;
-    align-items: center;
+    align-items: start;
     border-top: 1px solid #80808054;
     padding: 10px;
 }
@@ -458,6 +458,8 @@ $amenityIcons = [
     'breakfast' => '<i class="fa fa-coffee"></i>',
     'Parking' => '<i class="fa-solid fa-square-parking"></i>',
 ];
+
+
 @endphp
 
 <section class="detail_htels mt-5">
