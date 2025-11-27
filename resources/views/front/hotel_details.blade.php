@@ -558,13 +558,14 @@ $amenityIcons = [
                                     <div class="pulp_fiction">
                                         <div class="last_ride">
                                             <div class="live_set mt-3">
-                                                @if($hotel_room_1->id ?? '')
-                                                <a href="#room-card-{{$hotel_room_1->id}}"
-                                                    class="btn btn-primary">Book
-                                                    Now</a>
-                                                @else
-                                                Room Not Found
-                                                @endif
+                                               @if($hotel_room_1->id ?? '')
+    <a href="#room-card-{{$hotel_room_1->id}}" 
+       class="btn btn-primary smooth-scroll">
+       Book Now
+    </a>
+@else
+    Room Not Found
+@endif
 
 
                                             </div>
@@ -2002,7 +2003,57 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 </script>
 
+<script>
+function smoothScrollTo(target, duration = 800) {
+    const start = window.pageYOffset;
+    const end = target.offsetTop - 20;
+    const distance = end - start;
+    let startTime = null;
 
+    function animation(currentTime) {
+        if (!startTime) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+
+        // Ease-out cubic transition
+        const progress = Math.min(timeElapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        window.scrollTo(0, start + distance * easeOut);
+
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+        } else {
+            highlightTarget(target);
+        }
+    }
+
+    requestAnimationFrame(animation);
+}
+
+function highlightTarget(element) {
+    element.style.transition = "background-color 0.5s ease";
+    element.style.backgroundColor = "#a5e3ff36"; // Light blue highlight
+
+    // Remove highlight smoothly
+    setTimeout(() => {
+        element.style.backgroundColor = "transparent";
+    }, 1500);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.smooth-scroll').forEach(btn => {
+        btn.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            const target = document.querySelector(targetId);
+            if (target) {
+                smoothScrollTo(target, 1000); // 1s smooth scroll
+            }
+        });
+    });
+});
+</script>
 
 
 
