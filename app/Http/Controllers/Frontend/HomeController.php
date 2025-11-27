@@ -1652,10 +1652,10 @@ public function getVehiclesByCity($cityId)
 }
 
 public function transcation_history()
-    {
- $transactions = WalletTransactions::where('user_id', auth()->id())
+{
+    $transactions = WalletTransactions::where('user_id', auth()->id())
         ->orderBy('id', 'DESC')
-        ->get();
+        ->paginate(10); // 10 records per page
 
     return view('front.transcation_history', compact('transactions'));
 }
