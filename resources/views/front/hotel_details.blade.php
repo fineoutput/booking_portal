@@ -559,7 +559,7 @@ $amenityIcons = [
                                         <div class="last_ride">
                                             <div class="live_set mt-3">
                                                 @if($hotel_room_1->id ?? '')
-                                                <a href="{{ route('final_booking',$hotel_room_1->id) }}"
+                                                <a href="#room-card-{{$hotel_room_1->id}}"
                                                     class="btn btn-primary">Book
                                                     Now</a>
                                                 @else
