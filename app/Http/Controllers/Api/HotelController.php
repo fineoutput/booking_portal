@@ -3286,6 +3286,11 @@ public function confirm(Request $request)
         'salesman_name' => $packagebooking->salesman_name,
         'salesman_mobile' => $packagebooking->salesman_mobile,
         'status' => $packagebooking->status,
+        'pdf_url' => route('pdf.download', [
+                    'user_id' => $packagebooking->user_id,
+                    'booking_id' => $packagebooking->id,
+                    'pdf_name' => urlencode(basename($packagebooking->package->pdf))
+                ])
     ];
     }elseif($hotel_id){
         $packagetempbooking = HotelBooking::where('id',$request->hotel_id)->first();
@@ -3350,11 +3355,7 @@ public function confirm(Request $request)
             'salesman_name' => $packagebooking->salesman_name,
             'salesman_mobile' => $packagebooking->salesman_mobile,
             'status' => $packagebooking->status,
-            'pdf_url' => route('pdf.download', [
-                    'user_id' => $packagebooking->user_id,
-                    'booking_id' => $packagebooking->id,
-                    'pdf_name' => urlencode(basename($packagebooking->package->pdf))
-                ])
+            
         ];
     }elseif($guide_id){
         $packagetempbooking = TripGuideBook::where('id',$request->guide_id)->first();
