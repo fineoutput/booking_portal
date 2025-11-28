@@ -839,8 +839,8 @@ public function package(Request $request)
                     return url('') . '/' . $video;
                 }, is_array($videos = json_decode($package->video, true)) ? $videos : []),
                 'pdf' => url('') . '/' . $package->pdf,
-                'text_description' => strip_tags($package->text_description),
-                'text_description_2' => strip_tags($package->text_description_2),
+                'text_description' => html_entity_decode(strip_tags($package->text_description)),
+'text_description_2' => html_entity_decode(strip_tags($package->text_description_2)),
                 'prices' => $prices,
             ];
         });
