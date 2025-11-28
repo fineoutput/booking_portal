@@ -48,9 +48,14 @@ class Agent extends Authenticatable
     //     return $this->hasOne(State::class, 'id', 'state');
     // }
 
+    // public function cities()
+    // {
+    //     return $this->belongsTo(City::class, 'city');
+    // }
+
     public function cities()
     {
-        return $this->belongsTo(City::class, 'city');
+        return $this->hasOne(City::class, 'id', 'city');
     }
 
 }
