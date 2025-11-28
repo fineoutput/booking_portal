@@ -629,13 +629,14 @@ public function filterHotels(Request $request)
     $hotel_ids = $hotels->pluck('id');
 
     // DATE FORMAT CHECK → default today
-    $formatted_start_date = $start_date
-        ? Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d')
-        : Carbon::now()->format('Y-m-d');
+   $formatted_start_date = $start_date
+    ? Carbon::parse($start_date)->format('Y-m-d')
+    : Carbon::now()->format('Y-m-d');
 
-    $formatted_end_date = $end_date
-        ? Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d')
-        : Carbon::now()->format('Y-m-d');
+$formatted_end_date = $end_date
+    ? Carbon::parse($end_date)->format('Y-m-d')
+    : Carbon::now()->format('Y-m-d');
+
 
     // FETCH ROOM-LEVEL PRICES
     $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
