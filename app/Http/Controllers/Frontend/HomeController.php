@@ -1966,6 +1966,7 @@ public function hotelsbooking()
         'slider'       => $slider,
     ]);
 }
+
 // public function filterHotels(Request $request)
 // {
 //     // Basic filters
