@@ -605,6 +605,7 @@ public function filterHotels(Request $request)
     $room_amenities = $request->query('room_amenities', []);
     $hotel_amenities = $request->query('hotel_amenities', []);
 
+    // Main Hotel Query
     $query = Hotels::where('show_front', 1);
 
     if ($city_id) $query->where('city_id', $city_id);
@@ -620,46 +621,50 @@ public function filterHotels(Request $request)
     $hotels = $query->get();
     $hotel_ids = $hotels->pluck('id');
 
-    // Date format fix
-    $formatted_start_date = $start_date ? Carbon::parse($start_date)->format('Y-m-d') : null;
-    $formatted_end_date = $end_date ? Carbon::parse($end_date)->format('Y-m-d') : null;
+    // DATE FORMAT CHECK
+   $formatted_start_date = $start_date
+    ? Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d')
+    : Carbon::now()->format('Y-m-d');
 
-    // Fetch Hotel Prices
+    $formatted_end_date = $end_date
+        ? Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d')
+        : Carbon::now()->format('Y-m-d');
+    
+    // return $formatted_start_date;
     $hotel_prices_query = collect();
-
     if ($formatted_start_date && $formatted_end_date) {
-        $price_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
-            ->where('start_date', '<=', $formatted_start_date)
-            ->where('end_date', '>=', $formatted_end_date);
 
-        if ($min_price) {
-            $price_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
+        $hotel_prices_query = HotelPrice::where('start_date', '<=', $formatted_start_date)
+            ->where('end_date', '>=', $formatted_end_date)
+            ->whereNotNull('room_id') // ⭐ Room wise price ensure
+            ->get();
+        // Apply min/max only if provided
+        if ($min_price || $max_price) {
+            $hotel_prices_query = $hotel_prices_query->filter(function ($price) use ($min_price, $max_price) {
+
+                if ($min_price && $price->night_cost < $min_price) return false;
+                if ($max_price && $price->night_cost > $max_price) return false;
+
+                return true;
+            });
         }
-
-        if ($max_price) {
-            $price_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
-        }
-
-        $hotel_prices_query = $price_query->get();
     }
 
-    // FINAL RESPONSE (same as first API)
+    // FINAL RESPONSE EXACT SAME STRUCTURE AS web API
     $data = $hotels->map(function ($hotel) use ($hotel_prices_query) {
 
         $baseUrl = url('');
 
-        // Get State & City
         $stateName = optional($hotel->state)->state_name;
         $cityName  = optional($hotel->cities)->city_name;
 
-        // Get all rooms
         $rooms = HotelsRoom::where('hotel_id', $hotel->id)->get();
 
-        // Each Room with Each Price (same structure as API #1)
         $roomArray = $rooms->map(function ($room) use ($hotel_prices_query) {
 
             $roomPrices = $hotel_prices_query->where('room_id', $room->id);
 
+            // EVEN IF NO MIN/MAX PRICE → PRICE WILL COME
             $prices = $roomPrices->map(function ($price) {
                 return [
                     'id' => $price->id,
@@ -689,7 +694,7 @@ public function filterHotels(Request $request)
             'location' => $hotel->location,
             'hotel_category' => $hotel->hotel_category,
             'package_id' => $hotel->package_id,
-            'rooms' => $roomArray,  // MATCHING FIRST API
+            'rooms' => $roomArray,
         ];
     })->values();
 
@@ -699,6 +704,8 @@ public function filterHotels(Request $request)
         'data' => $data,
     ]);
 }
+
+
 
 
 
