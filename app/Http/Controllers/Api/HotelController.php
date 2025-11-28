@@ -464,146 +464,143 @@ class HotelController extends Controller
 }
 
 
-//   public function filterHotels(Request $request)
-//     {
-//         $city_id = $request->query('city_id');
-//         $start_date = $request->query('start_date');
-//         $end_date = $request->query('end_date');
-//         $min_price = $request->query('min_price');
-//         $max_price = $request->query('max_price');
 
-//         $stars = $request->query('star', []);
-//         $meal_plans = $request->query('meal_plan', []);
-//         $nearby = $request->query('nearby', []);
-//         $localities = $request->query('locality', []);
-//         $chains = $request->query('chains', []);
-//         $house_rules = $request->query('house_rules', []);
-//         $room_amenities = $request->query('room_amenities', []);
-//         $hotel_amenities = $request->query('hotel_amenities', []);
+// public function filterHotels(Request $request)
+// {
+//     $city_id = $request->query('city_id');
+//     $start_date = $request->query('start_date');
+//     $end_date = $request->query('end_date');
+//     $min_price = $request->query('min_price');
+//     $max_price = $request->query('max_price');
 
-//         $query = Hotels::where('show_front', 1);
+//     $stars = $request->query('star', []);
+//     $meal_plans = $request->query('meal_plan', []);
+//     $nearby = $request->query('nearby', []);
+//     $localities = $request->query('locality', []);
+//     $chains = $request->query('chains', []);
+//     $house_rules = $request->query('house_rules', []);
+//     $room_amenities = $request->query('room_amenities', []);
+//     $hotel_amenities = $request->query('hotel_amenities', []);
 
-//         if ($city_id) {
-//             $query->where('city_id', $city_id);
-//         }
+//     //    return $request->all();
 
-//         if (!empty($stars)) {
-//             $query->whereIn('hotel_category', $stars);
-//         }
+//     // Main Hotel Query
+//     $query = Hotels::where('show_front', 1);
 
-//         if (!empty($meal_plans)) {
-//             $query->whereIn('meal_plan', $meal_plans);
-//         }
+//     if ($city_id) $query->where('city_id', $city_id);
+//     if (!empty($stars)) $query->whereIn('hotel_category', $stars);
+//     if (!empty($meal_plans)) $query->whereIn('meal_plan', $meal_plans);
+//     if (!empty($nearby)) $query->whereIn('nearby', $nearby);
+//     if (!empty($localities)) $query->whereIn('locality', $localities);
+//     if (!empty($chains)) $query->whereIn('chains', $chains);
+//     if (!empty($house_rules)) $query->whereIn('house_rules', $house_rules);
+//     if (!empty($room_amenities)) $query->whereIn('room_amenities', $room_amenities);
+//     if (!empty($hotel_amenities)) $query->whereIn('hotel_amenities', $hotel_amenities);
 
-//         if (!empty($nearby)) {
-//             $query->whereIn('nearby', $nearby);
-//         }
+//     $hotels = $query->get();
+//     return $hotels;
+//     $hotel_ids = $hotels->pluck('id');
 
-//         if (!empty($localities)) {
-//             $query->whereIn('locality', $localities);
-//         }
+//     // DATE FORMAT CHECK
+//    $formatted_start_date = $start_date
+//     ? Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d')
+//     : Carbon::now()->format('Y-m-d');
 
-//         if (!empty($chains)) {
-//             $query->whereIn('chains', $chains);
-//         }
+//     $formatted_end_date = $end_date
+//         ? Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d')
+//         : Carbon::now()->format('Y-m-d');
+    
+//     // return $formatted_start_date;
+//     $hotel_prices_query = collect();
+//     if ($formatted_start_date && $formatted_end_date) {
 
-//         if (!empty($house_rules)) {
-//             $query->whereIn('house_rules', $house_rules);
-//         }
+//         $hotel_prices_query = HotelPrice::where('start_date', '<=', $formatted_start_date)
+//             ->where('end_date', '>=', $formatted_end_date)
+//             ->whereNotNull('room_id') // ⭐ Room wise price ensure
+//             ->get();
+//         // Apply min/max only if provided
+//         if ($min_price || $max_price) {
+//             $hotel_prices_query = $hotel_prices_query->filter(function ($price) use ($min_price, $max_price) {
 
-//         if (!empty($room_amenities)) {
-//             $query->whereIn('room_amenities', $room_amenities);
-//         }
+//                 if ($min_price && $price->night_cost < $min_price) return false;
+//                 if ($max_price && $price->night_cost > $max_price) return false;
 
-//         if (!empty($hotel_amenities)) {
-//             $query->whereIn('hotel_amenities', $hotel_amenities);
-//         }
-
-//         $hotels = $query->get();
-//         $hotel_ids = $hotels->pluck('id');
-
-//         $formatted_start_date = null;
-//         $formatted_end_date = null;
-//         try {
-//             if (!empty($start_date)) {
-//                 $formatted_start_date = Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d');
-//             }
-//             if (!empty($end_date)) {
-//                 $formatted_end_date = Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d');
-//             }
-//         } catch (\Exception $e) {
-//             return response()->json([
-//                 'message' => 'Invalid date format. Use mm-dd-yyyy.',
-//                 'status' => 422
-//             ], 422);
-//         }
-
-//         $filtered_hotels = $hotels;
-//         $hotel_prices = collect();
-
-//         if ($formatted_start_date && $formatted_end_date) {
-//             $price_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
-//                 ->where('start_date', '<=', $formatted_start_date)
-//                 ->where('end_date', '>=', $formatted_end_date);
-
-//             if ($min_price) {
-//                 $price_query->whereRaw('CAST(night_cost AS UNSIGNED) >= ?', [$min_price]);
-//             }
-
-//             if ($max_price) {
-//                 $price_query->whereRaw('CAST(night_cost AS UNSIGNED) <= ?', [$max_price]);
-//             }
-
-//             $hotel_prices = $price_query->get()->keyBy('hotel_id');
-
-//             $filtered_hotels = $hotels->filter(function ($hotel) use ($hotel_prices, $min_price, $max_price) {
-//                 $min = $min_price ?? 0;
-//                 $max = $max_price ?? 1000000;
-
-//                 return isset($hotel_prices[$hotel->id]) &&
-//                     $hotel_prices[$hotel->id]->night_cost >= $min &&
-//                     $hotel_prices[$hotel->id]->night_cost <= $max;
+//                 return true;
 //             });
 //         }
-
-//         $data = $filtered_hotels->map(function ($hotel) use ($hotel_prices) {
-//             $baseUrl = url('');
-//             return [
-//                 'id' => $hotel->id,
-//                 'name' => $hotel->name,
-//                 'state' => optional($hotel->state)->state_name,
-//                 'city' => optional($hotel->cities)->city_name,
-//                 'images' => $this->generateImageUrls($hotel->images, $baseUrl),
-//                 'location' => $hotel->location,
-//                 'hotel_category' => $hotel->hotel_category,
-//                 'package_id' => $hotel->package_id,
-//                 'price' => $hotel_prices[$hotel->id]->night_cost ?? null,
-//             ];
-//         })->values();
-
-//         return response()->json([
-//             'message' => 'Filtered hotels fetched successfully.',
-//             'status' => 200,
-//             'data' => $data,
-//         ]);
 //     }
+
+//     // FINAL RESPONSE EXACT SAME STRUCTURE AS web API
+//     $data = $hotels->map(function ($hotel) use ($hotel_prices_query) {
+
+//         $baseUrl = url('');
+
+//         $stateName = optional($hotel->state)->state_name;
+//         $cityName  = optional($hotel->cities)->city_name;
+
+//         $rooms = HotelsRoom::where('hotel_id', $hotel->id)->get();
+
+//         $roomArray = $rooms->map(function ($room) use ($hotel_prices_query) {
+
+//             $roomPrices = $hotel_prices_query->where('room_id', $room->id);
+
+//             // EVEN IF NO MIN/MAX PRICE → PRICE WILL COME
+//             $prices = $roomPrices->map(function ($price) {
+//                 return [
+//                     'id' => $price->id,
+//                     'night_cost' => $price->night_cost,
+//                     'mrp' => $price->mrp,
+//                     'start_date' => Carbon::parse($price->start_date)->format('F Y'),
+//                     'end_date' => Carbon::parse($price->end_date)->format('F Y'),
+//                 ];
+//             })->values();
+
+//             return [
+//                 'room_id' => $room->id,
+//                 'room_name' => $room->title,
+//                 'meal_plan' => $room->meal_plan,
+//                 'hotel_amenities' => $room->hotel_amenities,
+//                 'prices' => $prices,
+//             ];
+//         });
+
+//         return [
+//             'id' => $hotel->id,
+//             'name' => $hotel->name,
+//             'text_description' => html_entity_decode(strip_tags($hotel->text_description)),
+//             'state' => $stateName,
+//             'city' => $cityName,
+//             'images' => $this->generateImageUrls($hotel->images, $baseUrl),
+//             'location' => $hotel->location,
+//             'hotel_category' => $hotel->hotel_category,
+//             'package_id' => $hotel->package_id,
+//             'rooms' => $roomArray,
+//         ];
+//     })->values();
+
+//     return response()->json([
+//         'message' => 'Filtered hotels fetched successfully.',
+//         'status' => 200,
+//         'data' => $data,
+//     ]);
+// }
 
 public function filterHotels(Request $request)
 {
-    $city_id = $request->query('city_id');
-    $start_date = $request->query('start_date');
-    $end_date = $request->query('end_date');
-    $min_price = $request->query('min_price');
-    $max_price = $request->query('max_price');
+    $city_id = $request->input('city_id');
+    $start_date = $request->input('start_date');
+    $end_date = $request->input('end_date');
+    $min_price = $request->input('min_price');
+    $max_price = $request->input('max_price');
 
-    $stars = $request->query('star', []);
-    $meal_plans = $request->query('meal_plan', []);
-    $nearby = $request->query('nearby', []);
-    $localities = $request->query('locality', []);
-    $chains = $request->query('chains', []);
-    $house_rules = $request->query('house_rules', []);
-    $room_amenities = $request->query('room_amenities', []);
-    $hotel_amenities = $request->query('hotel_amenities', []);
+    $stars = (array) $request->input('star', []);
+    $meal_plans = (array) $request->input('meal_plan', []);
+    $nearby = (array) $request->input('nearby', []);
+    $localities = (array) $request->input('locality', []);
+    $chains = (array) $request->input('chains', []);
+    $house_rules = (array) $request->input('house_rules', []);
+    $room_amenities = (array) $request->input('room_amenities', []);
+    $hotel_amenities = (array) $request->input('hotel_amenities', []);
 
     // Main Hotel Query
     $query = Hotels::where('show_front', 1);
@@ -619,52 +616,54 @@ public function filterHotels(Request $request)
     if (!empty($hotel_amenities)) $query->whereIn('hotel_amenities', $hotel_amenities);
 
     $hotels = $query->get();
+
+    // Agar filter ke hisaab se koi hotel nahi mila
+    if ($hotels->isEmpty()) {
+        return response()->json([
+            'message' => 'No hotels found for selected filters',
+            'status' => 200,
+            'data' => null,
+        ]);
+    }
+
     $hotel_ids = $hotels->pluck('id');
 
-    // DATE FORMAT CHECK
-   $formatted_start_date = $start_date
-    ? Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d')
-    : Carbon::now()->format('Y-m-d');
+    // DATE FORMAT CHECK → default today
+    $formatted_start_date = $start_date
+        ? Carbon::createFromFormat('m-d-Y', $start_date)->format('Y-m-d')
+        : Carbon::now()->format('Y-m-d');
 
     $formatted_end_date = $end_date
         ? Carbon::createFromFormat('m-d-Y', $end_date)->format('Y-m-d')
         : Carbon::now()->format('Y-m-d');
-    
-    // return $formatted_start_date;
-    $hotel_prices_query = collect();
-    if ($formatted_start_date && $formatted_end_date) {
 
-        $hotel_prices_query = HotelPrice::where('start_date', '<=', $formatted_start_date)
-            ->where('end_date', '>=', $formatted_end_date)
-            ->whereNotNull('room_id') // ⭐ Room wise price ensure
-            ->get();
-        // Apply min/max only if provided
-        if ($min_price || $max_price) {
-            $hotel_prices_query = $hotel_prices_query->filter(function ($price) use ($min_price, $max_price) {
+    // FETCH ROOM-LEVEL PRICES
+    $hotel_prices_query = HotelPrice::whereIn('hotel_id', $hotel_ids)
+        ->where('start_date', '<=', $formatted_start_date)
+        ->where('end_date', '>=', $formatted_end_date)
+        ->whereNotNull('room_id')
+        ->get();
 
-                if ($min_price && $price->night_cost < $min_price) return false;
-                if ($max_price && $price->night_cost > $max_price) return false;
-
-                return true;
-            });
-        }
+    // APPLY MIN/MAX PRICE FILTER
+    if ($min_price || $max_price) {
+        $hotel_prices_query = $hotel_prices_query->filter(function ($price) use ($min_price, $max_price) {
+            if ($min_price && $price->night_cost < $min_price) return false;
+            if ($max_price && $price->night_cost > $max_price) return false;
+            return true;
+        });
     }
 
-    // FINAL RESPONSE EXACT SAME STRUCTURE AS web API
+    // FINAL RESPONSE
     $data = $hotels->map(function ($hotel) use ($hotel_prices_query) {
-
         $baseUrl = url('');
-
         $stateName = optional($hotel->state)->state_name;
-        $cityName  = optional($hotel->cities)->city_name;
+        $cityName = optional($hotel->cities)->city_name;
 
         $rooms = HotelsRoom::where('hotel_id', $hotel->id)->get();
 
         $roomArray = $rooms->map(function ($room) use ($hotel_prices_query) {
-
             $roomPrices = $hotel_prices_query->where('room_id', $room->id);
 
-            // EVEN IF NO MIN/MAX PRICE → PRICE WILL COME
             $prices = $roomPrices->map(function ($price) {
                 return [
                     'id' => $price->id,
@@ -704,6 +703,7 @@ public function filterHotels(Request $request)
         'data' => $data,
     ]);
 }
+
 
 
 
