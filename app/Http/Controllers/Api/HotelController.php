@@ -3287,7 +3287,7 @@ public function confirm(Request $request)
         'salesman_mobile' => $packagebooking->salesman_mobile,
         'status' => $packagebooking->status,
         'pdf_url' => route('pdf.download', [
-                    'user_id' => $packagebooking->user_id,
+                    'user_id' => $user->id,
                     'booking_id' => $packagebooking->id,
                     'pdf_name' => urlencode(basename($packagebooking->package->pdf))
                 ])
