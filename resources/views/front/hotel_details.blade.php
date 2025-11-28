@@ -1229,7 +1229,7 @@ $houseRuleIcons = [
                             <p><b>Room With(Breakfast)</b></p>
                             @if (!empty($value->breakfast_description))
                             @php
-                                $plain = strip_tags($value->breakfast_description);  // remove HTML tags
+                                $plain = zhtml_entity_decode(strip_tags($value->breakfast_description));  // remove HTML tags
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
