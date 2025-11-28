@@ -1115,7 +1115,7 @@ $houseRuleIcons = [
                         <h4 class="naxo">Room Only</h4>
                         @if (!empty($value->room_only_description))
                             @php
-                                $plain = strip_tags($value->room_only_description);  // remove HTML tags
+                                $plain = html_entity_decode(strip_tags($value->room_only_description));  // remove HTML tags
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
