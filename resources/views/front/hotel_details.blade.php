@@ -1039,6 +1039,9 @@ $houseRuleIcons = [
 
                 <h3>{{ $value->title ?? '' }}</h3>
                 <div class="features">
+                     @if (!empty($value->description))
+                    <div class="tape_over p-2"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div>
+                    @endif
                     <!-- Nearby, Rules, Locality - same -->
                      @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
                         <div class="samrt">
@@ -1166,9 +1169,7 @@ $houseRuleIcons = [
                     </ul></div>
                     @endif --}}
 
-                    @if (!empty($value->description))
-                    <div class="tape_over p-2"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div>
-                    @endif
+                   
                 </div>
 
                 <div class="small_go d-none d-lg-block">
