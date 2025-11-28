@@ -51,6 +51,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HotelsRoom;
 use App\Models\TripGuidePrice;
+use Illuminate\Support\Facades\Log;
+
 use App\Models\WalletTransactions;
 
 class HotelController extends Controller
@@ -3277,6 +3279,7 @@ public function confirm(Request $request)
     $packagebooking->save();
     $packagetempbooking->update(['status' => 1]);
 
+    Log::info('PackageBooking:', ['user_id' => $user->id], ['booking_id' => $packagebooking->id]);
     $data = [
         'id' => $packagebooking->id,
         'package_temp_id' => $packagebooking->package_temp_id,
@@ -3292,6 +3295,7 @@ public function confirm(Request $request)
                     'pdf_name' => urlencode(basename($packagebooking->package->pdf))
                 ])
     ];
+    
     }elseif($hotel_id){
         $packagetempbooking = HotelBooking::where('id',$request->hotel_id)->first();
 
