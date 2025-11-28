@@ -2874,7 +2874,7 @@ public function packagebooking(Request $request)
             'message' => 'Unauthorized. Invalid credentials.',
             'data' => [],
             'status' => 201,
-        ], 401);
+        ], 201);
     }
 
     $validatedData = $request->validate([
@@ -2946,7 +2946,7 @@ public function packagebooking(Request $request)
                      'message' => $msg,
                      'data' => [],
                      'status' => 201,
-                ], 404);
+                ], 201);
                 //  return redirect()->back()->with('message', $msg);
             }
 
