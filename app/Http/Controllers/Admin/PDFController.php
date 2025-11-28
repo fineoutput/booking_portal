@@ -80,7 +80,7 @@ class PDFController extends Controller
     try {
         $data['user'] = Auth::guard('agent')->user();
         $data['booking'] = PackageBooking::with('tourists', 'hotels', 'package', 'packagetemp')
-                            ->where('user_id', $data['user']->id)
+                            ->where('user_id', $user_id)
                             ->where('id', $booking_id)
                             ->first();
 
