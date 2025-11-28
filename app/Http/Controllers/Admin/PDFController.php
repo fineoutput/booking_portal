@@ -80,10 +80,10 @@ class PDFController extends Controller
     set_time_limit(300);
        Log::info('downloadWithLogo:', [
             'user_id' => $user_id,
-            'booking_id' => $booking_id->id,
+            'booking_id' => $booking_id,
             'pdf_name' => $pdf_name
         ]);
-
+        // $booking_id = $booking_id;
     try {
         $data['user'] = Auth::guard('agent')->user();
         $data['booking'] = PackageBooking::with('tourists', 'hotels', 'package', 'packagetemp')
