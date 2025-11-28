@@ -3276,7 +3276,7 @@ public function confirm(Request $request)
     $packagebooking->status = 0; // assuming status 0 is default, change if needed
     $packagebooking->save();
     $packagetempbooking->update(['status' => 1]);
-//    return $packagebooking->id;
+
     $data = [
         'id' => $packagebooking->id,
         'package_temp_id' => $packagebooking->package_temp_id,
