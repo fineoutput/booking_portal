@@ -328,7 +328,7 @@ public function razorpayCallbackApi(Request $request)
             'password' => $temp->password,
             'business_name' => $temp->business_name,
             'state_id' => $temp->state,
-            'city' => $temp->city,
+            'city_id' => $temp->city,
             'registration_charge' => $temp->registration_charge,
             'GST_number' => $temp->GST_number,
             'aadhar_image' => $temp->aadhar_image,
