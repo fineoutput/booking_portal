@@ -203,7 +203,41 @@
                                         </div>
 
                                         
-                                    <div class="col-sm-4 mt-3">
+
+                                      <div class="col-sm-12 mt-3">
+                                            <label class="form-label" for="power">Room Only Description &nbsp;<span style="color:red;">*</span></label>
+                                            <textarea class="form-control" name="room_only_description" id="room_only_description" required>{{ old('room_only_description') }}</textarea>
+                                            @error('room_only_description')
+                                                <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div>
+
+                                      <div class="col-sm-12 mt-3">
+                                            <label class="form-label" for="power">Breakfast Description &nbsp;<span style="color:red;">*</span></label>
+                                            <textarea class="form-control" name="breakfast_description" id="breakfast_description" required>{{ old('breakfast_description') }}</textarea>
+                                            @error('breakfast_description')
+                                                <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div>
+
+                                      <div class="col-sm-12 mt-3">
+                                            <label class="form-label" for="power">Breakfast + lunch/dinner Description &nbsp;<span style="color:red;">*</span></label>
+                                            <textarea class="form-control" name="breakfast_lunch_description" id="breakfast_lunch_description" required>{{ old('breakfast_lunch_description') }}</textarea>
+                                            @error('breakfast_lunch_description')
+                                                <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div>
+
+                                      <div class="col-sm-12 mt-3">
+                                            <label class="form-label" for="power">All Meals Description &nbsp;<span style="color:red;">*</span></label>
+                                            <textarea class="form-control" name="all_meals_description" id="all_meals_description" required>{{ old('all_meals_description') }}</textarea>
+                                            @error('all_meals_description')
+                                                <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div>
+
+
+                            <div class="col-sm-4 mt-3">
                                     <label class="form-label" for="power">
                                         Show Front <span style="color:red;">*</span>
                                     </label>
@@ -218,7 +252,6 @@
                                         <div style="color:red">{{ $message }}</div>
                                     @enderror
                                 </div>
-
 
                                     <div class="form-group">
                                         <div class="w-100 text-center">
@@ -248,6 +281,50 @@
 <script>
 
     CKEDITOR.replace('description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
+    CKEDITOR.replace('room_only_description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
+    CKEDITOR.replace('breakfast_description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
+    CKEDITOR.replace('breakfast_lunch_description', {
+        toolbar: [
+            { name: 'basicstyles', items: ['Italic', 'Underline', 'Strike', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+            { name: 'insert', items: ['Link', 'Unlink', 'Image'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        height: 300
+    });
+    CKEDITOR.replace('all_meals_description', {
         toolbar: [
             { name: 'basicstyles', items: ['Italic', 'Underline', 'Strike', 'RemoveFormat'] },
             { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },

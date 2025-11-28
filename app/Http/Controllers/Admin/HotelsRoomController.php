@@ -55,6 +55,10 @@ class HotelsRoomController extends Controller
             'title' => $request->title,
             'show_front' => $request->show_front,
             'description' => $request->description,
+            'room_only_description' => $request->room_only_description,
+            'breakfast_description' => $request->breakfast_description,
+            'breakfast_lunch_description' => $request->breakfast_lunch_description,
+            'all_meals_description' => $request->all_meals_description,
             'hotel_id' => $hotel->id,
             'images' => json_encode($imagePaths),
             'meal_plan' => is_array($request->meal_plan) ? implode(',', $request->meal_plan) : null,
@@ -120,6 +124,10 @@ class HotelsRoomController extends Controller
         $room->title = $request->title;
         $room->show_front = $request->show_front;
         $room->description = $request->description;
+        $room->room_only_description = $request->room_only_description;
+        $room->breakfast_description = $request->breakfast_description;
+        $room->breakfast_lunch_description = $request->breakfast_lunch_description;
+        $room->all_meals_description = $request->all_meals_description;
         $room->hotel_id = $request->hotel_id ?? $room->hotel_id;
 
         $room->meal_plan = !empty($request->meal_plan) ? implode(',', $request->meal_plan) : null;
