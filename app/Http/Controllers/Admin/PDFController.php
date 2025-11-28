@@ -85,7 +85,7 @@ class PDFController extends Controller
         ]);
         // $booking_id = $booking_id;
     try {
-        $data['user'] = Auth::guard('agent')->user();
+        $data['user'] = Agent::where('id', $user_id)->first();
         $data['booking'] = PackageBooking::with('tourists', 'hotels', 'package', 'packagetemp')
                             ->where('user_id', $user_id)
                             ->where('id', $booking_id)
