@@ -487,7 +487,7 @@
                                     <th class="suther">Tourist List</th>
                                     {{-- <th class="suther">Hotel Preference</th> --}}
                                     <th class="suther">Request Upgrade</th>
-                                    <th class="suther">Download PDF</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody class="suther">
@@ -538,13 +538,7 @@
                                                 <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#hotelUpgradeRequestModal2001{{ $value->id }}">Request Upgrade</button>
                                             @endif
                                         </td>
-                                        <td class="suther">
-                                            @if($value->package->pdf ?? '')
-                                                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'booking_id' => $value->id, 'pdf_name' => urlencode(basename($value->package->pdf))]) }}'">Download PDF</button>
-                                            @else
-                                                <p>No PDF available for download.</p>
-                                            @endif
-                                        </td>
+                                      
                                 </tr>
                                
 
@@ -749,7 +743,7 @@
                                     <th class="suther">Tourist List</th>
                                     {{-- <th class="suther">Hotel Preference</th>
                                     <th class="suther">Request Upgrade</th> --}}
-                                    <th class="suther">Download PDF</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody class="suther">
@@ -799,13 +793,7 @@
                                                 <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#hotelUpgradeRequestModal2001{{ $value->id }}">Request Upgrade</button>
                                             @endif
                                         </td> --}}
-                                        <td class="suther">
-                                            @if($value->package->pdf ?? '')
-                                                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'booking_id' => $value->id, 'pdf_name' => urlencode(basename($value->package->pdf))]) }}'">Download PDF</button>
-                                            @else
-                                                <p>No PDF available for download.</p>
-                                            @endif
-                                        </td>
+                                       
                                 
                                 <!-- Modals for Safari Booking #3001 -->
                                 <!-- Safari Upgrade Request Modal -->
@@ -1008,7 +996,7 @@
                                     <th class="suther">Tourist List</th>
                                     {{-- <th class="suther">Hotel Preference</th>
                                     <th class="suther">Request Upgrade</th> --}}1
-                                    <th class="suther">Download PDF</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody class="suther">
@@ -1059,13 +1047,7 @@
                                                 <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#hotelUpgradeRequestModal2001{{ $value->id }}">Request Upgrade</button>
                                             @endif
                                         </td> --}}
-                                        <td class="suther">
-                                            @if($value->package->pdf ?? '')
-                                                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'booking_id' => $value->id, 'pdf_name' => urlencode(basename($value->package->pdf))]) }}'">Download PDF</button>
-                                            @else
-                                                <p>No PDF available for download.</p>
-                                            @endif
-                                        </td>
+                                       
                                 
                                 <!-- Modals for Safari Booking #3001 -->
                                 <!-- Safari Upgrade Request Modal -->
@@ -1273,7 +1255,7 @@
                                     <th class="suther">Tourist List</th>
                                     {{-- <th class="suther">Hotel Preference</th>
                                     <th class="suther">Request Upgrade</th> --}}1
-                                    <th class="suther">Download PDF</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody class="suther">
@@ -1338,13 +1320,7 @@
                                                 <button class="btn btn-warning suther" data-bs-toggle="modal" data-bs-target="#hotelUpgradeRequestModal2001{{ $value->id }}">Request Upgrade</button>
                                             @endif
                                         </td> --}}
-                                        <td class="suther">
-                                            @if($value->package->pdf ?? '')
-                                                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='{{ route('pdf.download', ['user_id' => Auth::id(), 'booking_id' => $value->id, 'pdf_name' => urlencode(basename($value->package->pdf))]) }}'">Download PDF</button>
-                                            @else
-                                                <p>No PDF available for download.</p>
-                                            @endif
-                                        </td>
+                                       
                                 
                                 <!-- Modals for Safari Booking #3001 -->
                                 <!-- Safari Upgrade Request Modal -->
