@@ -45,7 +45,7 @@
     .let_me {
         display: flex;
         justify-content: space-between;
-        gap: 10px;
+        /* gap: 10px; */
     }
 
     .her_back {
@@ -61,7 +61,7 @@
     display: flex;
     /* flex-direction: column; */
     justify-content: space-between;
-    height: 120px;
+    /* height: 120px; */
     align-items: start;
     border-top: 1px solid #80808054;
     padding: 10px;
@@ -1031,6 +1031,8 @@ $houseRuleIcons = [
                                 </div>
                                 
                             </div>
+                            
+                            @if (!empty($value->description)) <div class="tape_over giaan p-2"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div> @endif
                         </div>
 
                         
@@ -1039,8 +1041,18 @@ $houseRuleIcons = [
 
                 <h3>{{ $value->title ?? '' }}</h3>
                 <div class="features">
-                     @if (!empty($value->description))
-                    <div class="tape_over p-2"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div>
+                    @php
+                        $plainText = strip_tags($value->description);
+                        $shortText = Str::limit($plainText, 150); // limit to 150 characters
+                    @endphp
+
+                    @if (!empty($value->description))
+                    <div class="tape_over">
+                        <p><b>Description</b></p>
+                        <div class="desc_hotl">
+                            <p>{{ $shortText }}</p>
+                        </div>
+                    </div>
                     @endif
                     <!-- Nearby, Rules, Locality - same -->
                      @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
@@ -1101,6 +1113,44 @@ $houseRuleIcons = [
                     <div class="baghi">
 
                         <h4 class="naxo">Room Only</h4>
+                        @if (!empty($value->room_only_description))
+                            @php
+                                $plain = strip_tags($value->room_only_description);  // remove HTML tags
+                                $short = Str::limit($plain, 150); // limit to 150 characters
+                            @endphp
+
+                            <div class="tape_over p-2 d-lg-block d-none">
+                                <p><b>Description</b></p>
+                                <div class="desc_hotl">
+                                    <p>{{ $short }}</p>
+                                </div>
+                            </div>
+                        @endif
+
+
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#roomOnlyModal-{{ $value->id }}">View more</a>
+
+                        <!-- Room Only Description Modal -->
+                        <div class="modal fade" id="roomOnlyModal-{{ $value->id }}" tabindex="-1" aria-labelledby="roomOnlyModalLabel-{{ $value->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="roomOnlyModalLabel-{{ $value->id }}">Room Details - {{ $value->title ?? 'Room' }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @if(!empty($value->room_only_description))
+                                            {!! $value->room_only_description !!}
+                                        @else
+                                            <p>No additional details available.</p>
+                                        @endif
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="main-price">
                     <div class="price" style="flex-direction: column">
@@ -1177,7 +1227,45 @@ $houseRuleIcons = [
                     <div class="center2">
                         <div class="triangle">
                             <p><b>Room With(Breakfast)</b></p>
+                            @if (!empty($value->breakfast_description))
+                            @php
+                                $plain = strip_tags($value->breakfast_description);  // remove HTML tags
+                                $short = Str::limit($plain, 150); // limit to 150 characters
+                            @endphp
+
+                            <div class="tape_over p-2 d-lg-block d-none">
+                                <p><b>Description</b></p>
+                                <div class="desc_hotl">
+                                    <p>{{ $short }}</p>
+                                </div>
+                            </div>
+                        @endif
+                           
+                             <a href="#" data-bs-toggle="modal" data-bs-target="#breakfastDescModal-{{ $value->id }}">View More</a>
+
+                            <!-- Breakfast Description Modal -->
+                            <div class="modal fade" id="breakfastDescModal-{{ $value->id }}" tabindex="-1" aria-labelledby="breakfastDescModalLabel-{{ $value->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="breakfastDescModalLabel-{{ $value->id }}">Room With(Breakfast) - {{ $value->title ?? 'Room' }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if(!empty($value->breakfast_description))
+                                                {!! $value->breakfast_description !!}
+                                            @else
+                                                <p>No additional details available.</p>
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                       
                          @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
                     <div class="right2 room-right">
                         <div class="price">
@@ -1199,6 +1287,43 @@ $houseRuleIcons = [
                     <div class="center2">
                         <div class="triangle">
                             <p><b>Room with(Breakfast + lunch/dinner)</b></p>
+                            @if (!empty($value->breakfast_lunch_description))
+                            @php
+                                $plain = strip_tags($value->breakfast_lunch_description);  // remove HTML tags
+                                $short = Str::limit($plain, 150); // limit to 150 characters
+                            @endphp
+
+                            <div class="tape_over p-2 d-lg-block d-none">
+                                <p><b>Description</b></p>
+                                <div class="desc_hotl">
+                                    <p>{{ $short }}</p>
+                                </div>
+                            </div>
+                        @endif
+                             
+                             <a href="#" data-bs-toggle="modal" data-bs-target="#breakfastLunchDinnerDescModal-{{ $value->id }}">View More</a>
+
+                            <!-- Breakfast + Lunch/Dinner Description Modal -->
+                            <div class="modal fade" id="breakfastLunchDinnerDescModal-{{ $value->id }}" tabindex="-1" aria-labelledby="breakfastLunchDinnerDescModalLabel-{{ $value->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="breakfastLunchDinnerDescModalLabel-{{ $value->id }}">Room with(Breakfast + lunch/dinner) - {{ $value->title ?? 'Room' }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if(!empty($value->breakfast_lunch_description))
+                                                {!! $value->breakfast_lunch_description !!}
+                                            @else
+                                                <p>No additional details available.</p>
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
                     <div class="right2 room-right">
@@ -1220,6 +1345,43 @@ $houseRuleIcons = [
                     <div class="center2">
                         <div class="triangle">
                             <p><b>Room with(All meals)</b></p>
+                            @if (!empty($value->all_meals_description))
+                            @php
+                                $plain = strip_tags($value->all_meals_description);  // remove HTML tags
+                                $short = Str::limit($plain, 150); // limit to 150 characters
+                            @endphp
+
+                            <div class="tape_over p-2 d-lg-block d-none">
+                                <p><b>Description</b></p>
+                                <div class="desc_hotl">
+                                    <p>{{ $short }}</p>
+                                </div>
+                            </div>
+                        @endif
+                             
+                             <a href="#" data-bs-toggle="modal" data-bs-target="#allMealsDescModal-{{ $value->id }}">View More</a>
+
+                            <!-- All Meals Description Modal -->
+                            <div class="modal fade" id="allMealsDescModal-{{ $value->id }}" tabindex="-1" aria-labelledby="allMealsDescModalLabel-{{ $value->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="allMealsDescModalLabel-{{ $value->id }}">Room with(All meals) - {{ $value->title ?? 'Room' }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if(!empty($value->all_meals_description))
+                                                {!! $value->all_meals_description !!}
+                                            @else
+                                                <p>No additional details available.</p>
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                          @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
                     <div class="right2 room-right">

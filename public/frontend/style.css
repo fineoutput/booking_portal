@@ -2109,6 +2109,7 @@ textarea.form-control {
     width: 540px;
     height: 326px;
     position: relative;
+    margin-right: 5px;
 }
 .mirror_maxe img {
   height: 100%;
@@ -2951,4 +2952,19 @@ i.fa-solid {
     width: max-content;
     color: #fff;
 
+}
+
+.giaan {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+}
+.giaan p {
+    margin-bottom: 10px;
+}
+.modal-backdrop.fade.show {
+    display: none;
 }
