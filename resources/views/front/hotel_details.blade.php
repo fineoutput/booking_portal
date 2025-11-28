@@ -1500,7 +1500,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         hotelPriceMap[roomId] = total;
 
-        el.textContent = `₹${Math.round(total)} Starting from`;
+        el.textContent = `₹${Math.round(total)}`;
     });
 
     // Update dynamic-price elements by adding corresponding hotel-price

@@ -179,7 +179,8 @@
                                     <th class="suther">#</th>
                                     <th class="suther">Booking ID</th>
                                     <th class="suther">Package Name</th>
-                                    <th class="suther">Date</th>
+                                    <th class="suther">Booking Date</th>
+                                    <th class="suther">Travel Date</th>
                                     <th class="suther">Status</th>
                                     <th class="suther">Action</th>
                                     <th class="suther">Tourist List</th>
@@ -195,6 +196,11 @@
                                         <td class="suther">#{{ $value->id ?? '' }}</td>
                                         <td class="suther">{{ $value->package->package_name ?? '' }}</td>
                                         <td class="suther">{{ \Carbon\Carbon::parse($value->created_at)->format('d F Y') ?? '' }}</td>
+                                        <td class="suther">
+    {{ optional($value->packagetemp->start_date ? \Carbon\Carbon::parse($value->packagetemp->start_date) : null)->format('d F Y') }}
+    -
+    {{ optional($value->packagetemp->end_date ? \Carbon\Carbon::parse($value->packagetemp->end_date) : null)->format('d F Y') }}
+</td>
                                         <td class="suther">
                                             @if($value->status == 0)
                                                 Pending
@@ -474,7 +480,8 @@
                                     <th class="suther">#</th>
                                     <th class="suther">Booking ID</th>
                                     <th class="suther">Hotel Name</th>
-                                    <th class="suther">Date</th>
+                                    <th class="suther">Booking Date</th>
+                                    <th class="suther">Travel Date</th>
                                     <th class="suther">Status</th>
                                     <th class="suther">Action</th>
                                     <th class="suther">Tourist List</th>
@@ -490,6 +497,7 @@
                                     <td class="suther">#{{$value->id}}</td>
                                     <td class="suther">{{$value->hotel->name ?? ''}}</td>
                                     <td class="suther">{{ \Carbon\Carbon::parse($value->created_at)->format('d F Y') }}</td>
+                                    <td class="suther">{{ \Carbon\Carbon::parse($value->hotel_se->check_in_date)->format('d F Y') }}-{{ \Carbon\Carbon::parse($value->hotel_se->check_out_date)->format('d F Y') }}</td>
                                       <td class="suther">
                                             @if($value->status == 0)
                                                 Pending

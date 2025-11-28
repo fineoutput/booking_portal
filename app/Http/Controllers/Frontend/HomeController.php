@@ -1852,8 +1852,14 @@ public function hotelsbooking()
     if ($stars)   $hotelsQuery->whereIn('hotel_category', (array)$stars);
 
     $allHotels = $hotelsQuery->get();
+    $slider = Slider::where('type', 'hotel')->latest()->get();
+    $cities = City::whereIn('id', Hotels::where('show_front', 1)->pluck('city_id'))->get();
+
     if ($allHotels->isEmpty()) {
-        return view('front.hotel_list', [])->with('hotels', collect());
+        return view('front.hotel_list', [
+             'cities'       => $cities,
+             'slider'       => $slider,
+        ])->with('hotels', collect());
     }
 
     $hotelIds = $allHotels->pluck('id');
