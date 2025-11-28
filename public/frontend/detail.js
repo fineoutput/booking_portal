@@ -1,5 +1,8 @@
 
   document.addEventListener('DOMContentLoaded', function () {
+    // Ensure minDate is set to today's date at midnight so selecting today is allowed
+    const today = new Date();
+    today.setHours(0,0,0,0);
     const picker = new Litepicker({
       element: document.getElementById('date-range'),
       singleMode: false,
@@ -8,12 +11,15 @@
       format: 'MM-DD-YYYY',
       autoApply: true,
       showTooltip: true,
+      // Disable selection of past dates (before today). Use midnight to avoid timezone issues.
+      minDate: today,
       tooltipText: {
         one: 'day',
         other: 'days'
       },
       setup: (picker) => {
         picker.on('selected', (date1, date2) => {
+          // When user selects, write values in the same format
           document.getElementById('start_date').value = date1.format('MM-DD-YYYY');
           document.getElementById('end_date').value = date2.format('MM-DD-YYYY');
         });
