@@ -1032,7 +1032,7 @@ $houseRuleIcons = [
                                 
                             </div>
                             
-                            @if (!empty($value->description)) <div class="tape_over giaan p-2"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div> @endif
+                            @if (!empty($value->description)) <div class="tape_over giaan"><p><b>Description</b></p><div class="desc_hotl"><p>{!! $value->description !!}</p></div></div> @endif
                         </div>
 
                         
@@ -1119,7 +1119,7 @@ $houseRuleIcons = [
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
-                            <div class="tape_over p-2 d-lg-block d-none">
+                            <div class="tape_over d-lg-block d-none">
                                 <p><b>Description</b></p>
                                 <div class="desc_hotl">
                                     <p>{{ $short }}</p>
@@ -1233,7 +1233,7 @@ $houseRuleIcons = [
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
-                            <div class="tape_over p-2 d-lg-block d-none">
+                            <div class="tape_over d-lg-block d-none">
                                 <p><b>Description</b></p>
                                 <div class="desc_hotl">
                                     <p>{{ $short }}</p>
@@ -1293,7 +1293,7 @@ $houseRuleIcons = [
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
-                            <div class="tape_over p-2 d-lg-block d-none">
+                            <div class="tape_over d-lg-block d-none">
                                 <p><b>Description</b></p>
                                 <div class="desc_hotl">
                                     <p>{{ $short }}</p>
@@ -1351,7 +1351,7 @@ $houseRuleIcons = [
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
-                            <div class="tape_over p-2 d-lg-block d-none">
+                            <div class="tape_over d-lg-block d-none">
                                 <p><b>Description</b></p>
                                 <div class="desc_hotl">
                                     <p>{{ $short }}</p>
@@ -1495,7 +1495,13 @@ $houseRuleIcons = [
         <div class="secound_t d-lg-none">
             @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
             <div class="d-flex space">
-                <div class="center2 room_Center"><div class="triangle"><p><b>Room With(Breakfast)</b></p></div></div>
+                <div class="center2 room_Center"><div class="triangle"><p><b>Room With(Breakfast)</b></p>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#breakfastDescModal-{{ $value->id }}">View More</a>
+            
+                </div>
+                
+            </div>
+            
                 <div class="right2 room-right">
                     <div class="price">
                         <p class="dynamic-price"
@@ -1509,12 +1515,15 @@ $houseRuleIcons = [
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                     </button>
                 </div>
-            </div><hr>
+            </div>
+            <hr>
             @endif
 
             @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
             <div class="d-flex space">
-                <div class="center2 room_Center"><div class="triangle"><p><b>Room with(Breakfast + lunch/dinner)</b></p></div></div>
+                <div class="center2 room_Center"><div class="triangle"><p><b>Room with(Breakfast + lunch/dinner)</b></p>
+                 <a href="#" data-bs-toggle="modal" data-bs-target="#breakfastLunchDinnerDescModal-{{ $value->id }}">View More</a>
+                </div></div>
                 <div class="right2 room-right">
                     <div class="price">
                         <p class="dynamic-price"
@@ -1528,12 +1537,19 @@ $houseRuleIcons = [
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                     </button>
                 </div>
-            </div><hr>
+            </div>
+           
+            <hr>
             @endif
 
             @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
             <div class="d-flex space">
-                <div class="center2 room_Center"><div class="triangle"><p><b>Room with(All meals)</b></p></div></div>
+                <div class="center2 room_Center">
+                    <div class="triangle">
+                        <p><b>Room with(All meals)</b></p>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#allMealsDescModal-{{ $value->id }}">View More</a>
+                    </div>
+                </div>
                 <div class="right2 room-right">
                     <div class="price">
                         <p class="dynamic-price"
@@ -1547,7 +1563,9 @@ $houseRuleIcons = [
                         <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                     </button>
                 </div>
-            </div><hr>
+            </div>
+            
+            <hr>
             @endif
         </div>
     </div>
@@ -1555,7 +1573,38 @@ $houseRuleIcons = [
 
     </div>
 </section>
+<script>
+       // Move meal-plan modals to document.body to avoid clipping by parent containers (mobile fixes)
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            // Add a small z-index fix so Bootstrap modals appear above other UI
+            const style = document.createElement('style');
+            style.innerText = `
+                .modal { z-index: 2000 !important; }
+                .modal-backdrop { z-index: 1500 !important; }
+            `;
+            document.head.appendChild(style);
 
+            // Select the meal-plan modals by id prefix and move them to body
+            const selectors = [
+                '[id^="breakfastDescModal-"]',
+                '[id^="breakfastLunchDinnerDescModal-"]',
+                '[id^="allMealsDescModal-"]',
+                '[id^="roomOnlyModal-"]'
+            ];
+
+            selectors.forEach(sel => {
+                document.querySelectorAll(sel).forEach(modal => {
+                    if (modal && modal.parentNode !== document.body) {
+                        document.body.appendChild(modal);
+                    }
+                });
+            });
+        } catch (e) {
+            console.error('Error moving meal-plan modals to body:', e);
+        }
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
