@@ -17,7 +17,7 @@ class Agent extends Authenticatable
         'business_name',
         'auth',
         'state_id',
-        'city',
+        'city_id',
         'aadhar_image',
         'aadhar_image_back',
         'number',
@@ -55,7 +55,7 @@ class Agent extends Authenticatable
 
     public function cities()
     {
-        return $this->hasOne(City::class, 'id', 'city');
+        return $this->hasOne(City::class, 'id', 'city_id');
     }
 
 }
