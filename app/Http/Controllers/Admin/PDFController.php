@@ -78,8 +78,11 @@ class PDFController extends Controller
     public function downloadWithLogo($user_id, $booking_id, $pdf_name)
 {
     set_time_limit(300);
-        Log::info('downloadWithLogo:', ['user_id' => $user_id], ['booking_id' => $booking_id->id],
-        ['pdf_name' => $pdf_name]);
+       Log::info('downloadWithLogo:', [
+            'user_id' => $user_id,
+            'booking_id' => $booking_id->id,
+            'pdf_name' => $pdf_name
+        ]);
 
     try {
         $data['user'] = Auth::guard('agent')->user();

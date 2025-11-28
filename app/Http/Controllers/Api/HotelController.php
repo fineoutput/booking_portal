@@ -3279,7 +3279,10 @@ public function confirm(Request $request)
     $packagebooking->save();
     $packagetempbooking->update(['status' => 1]);
 
-    Log::info('PackageBooking:', ['user_id' => $user->id], ['booking_id' => $packagebooking->id]);
+    Log::info('PackageBooking:', [
+            'user_id' => $user->id,
+            'booking_id' => $packagebooking->id
+        ]);
     $data = [
         'id' => $packagebooking->id,
         'package_temp_id' => $packagebooking->package_temp_id,
