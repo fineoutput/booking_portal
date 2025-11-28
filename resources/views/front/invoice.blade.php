@@ -22,8 +22,9 @@
     <div style="float: left;">
       <p><br/>
       <strong>{{ $user->business_name ?? 'N/A' }}</strong><br/>
-      {{ optional($user->cities)->city_name ?? '' }},
-      {{ optional($user->state)->state_name ?? '' }}<br/>
+    {{ optional($user->cities)->city_name ? optional($user->cities)->city_name : '' }},
+    {{ optional($user->state)->state_name ? optional($user->state)->state_name : '' }}
+<br/>
       GSTIN: {{ $user->GST_number ?? 'N/A' }}<br/>
       E-mail: <a href="mailto:{{ $user->email ?? '' }}">{{ $user->email ?? '' }}</a>
       </p>
