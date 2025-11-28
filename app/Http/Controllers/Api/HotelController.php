@@ -5543,7 +5543,7 @@ public function hotel_room(Request $request)
         return [
             'id' => $room->id,
             'title' => $room->title,
-            'description' => strip_tags($room->description),
+            'description' =>  html_entity_decode(strip_tags($room->description)),
             'price_id' => $price->id,
             'images' => array_map(fn($img) => url($img), json_decode($room->images, true) ?? []),
             'hotel_id' => $room->hotel_id,
