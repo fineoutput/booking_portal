@@ -302,7 +302,7 @@ class HotelBookingController extends Controller
         $wallet = Wallet::where('user_id', $vehicle->user_id)->first();
 
         if (!$wallet) {
-            return redirect()->back()->with('message', 'Wallet not found!');
+            return redirect()->back()->with('error', 'Wallet not found!');
         }
 
         $deductAmount = floatval($vehicle->fetched_price); 
@@ -310,7 +310,7 @@ class HotelBookingController extends Controller
         $newBalance = $wallet->balance - $deductAmount;
 
         if ($newBalance < -$user->negative_limit_amount) {
-            return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
+            return redirect()->back()->with('error', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
         }
 
         $wallet->balance = $newBalance;
