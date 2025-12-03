@@ -157,6 +157,8 @@ class TaxiBookingController extends Controller
             $wallet->save();
               $transaction = WalletTransactions::create([
                     'user_id'          => $user->id,
+                    'booking_id'          => $vehicle->id,
+                    'booking_type'          => 'Texi',
                     'transaction_type' => 'credit',
                     'amount'           => $vehicle->fetched_price,
                     'note'             => 'The refund for your Taxi booking cancellation has been processed. #'.$vehicle->id,
@@ -187,6 +189,8 @@ class TaxiBookingController extends Controller
 
         $transaction = WalletTransactions::create([
                     'user_id'          => $user->id,
+                    'booking_id'          => $vehicle->id,
+                    'booking_type'          => 'Texi',
                     'transaction_type' => 'debit',
                     'amount'           => $vehicle->fetched_price,
                     'note'             => 'The amount for your Taxi booking has been deducted. #'.$vehicle->id,

@@ -196,6 +196,8 @@ class PackageController extends Controller
             $wallet->save();
               $transaction = WalletTransactions::create([
                     'user_id'          => $user->id,
+                    'booking_id'          => $vehicle->id,
+                    'booking_type'          => $vehicle->package->package_name ?? 'Package',
                     'transaction_type' => 'credit',
                     'amount'           => $vehicle->fetched_price,
                     'note'             => 'The refund for your Package booking cancellation has been processed. #'.$vehicle->id,
@@ -226,6 +228,8 @@ class PackageController extends Controller
 
         $transaction = WalletTransactions::create([
                     'user_id'          => $user->id,
+                    'booking_id'          => $vehicle->id,
+                    'booking_type'          => $vehicle->package->package_name ?? 'Package',
                     'transaction_type' => 'debit',
                     'amount'           => $vehicle->fetched_price,
                     'note'             => 'The amount for your Package booking has been deducted. #'.$vehicle->id,

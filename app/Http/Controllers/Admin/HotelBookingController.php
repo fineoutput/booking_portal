@@ -289,6 +289,8 @@ class HotelBookingController extends Controller
             $wallet->save();
               $transaction = WalletTransactions::create([
                     'user_id'          => $user->id,
+                    'booking_id'          => $vehicle->id,
+                    'booking_type'          => $vehicle->hotel->name ?? 'Hotel',
                     'transaction_type' => 'credit',
                     'amount'           => $vehicle->fetched_price,
                     'note'             => 'The refund for your hotel booking cancellation has been processed. #'.$vehicle->id,
@@ -318,6 +320,8 @@ class HotelBookingController extends Controller
 
         $transaction = WalletTransactions::create([
                     'user_id'          => $user->id,
+                    'booking_id'          => $vehicle->id,
+                    'booking_type'          => $vehicle->hotel->name ?? 'Hotel',
                     'transaction_type' => 'debit',
                     'amount'           => $vehicle->fetched_price,
                     'note'             => 'The amount for your hotel booking has been deducted. #'.$vehicle->id,

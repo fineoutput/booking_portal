@@ -4980,6 +4980,8 @@ public function allbookings(Request $request)
         $transactionData = $transactions->map(function($transaction) {
             $formattedTransaction = [
                 'transaction_id' => $transaction->id,
+                'booking_id' => $transaction->booking_id,
+                'booking_type' => $transaction->booking_type,
                 'transaction_type' => $transaction->transaction_type,
                 'amount' => $transaction->amount,
                 'note' => $transaction->note,
