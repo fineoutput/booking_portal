@@ -39,6 +39,52 @@
     .tourist-table-row:last-child .tourist-table-cell {
         border-bottom: none;
     }
+
+      .label {
+    font-size: 14px;
+    color: #777;
+  }
+
+  .balance {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 5px 0 20px 0;
+  }
+
+  /* Last transaction */
+  .last {
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #444;
+  }
+
+  /* Link */
+  .link {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #0066cc;
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .link:hover {
+    text-decoration: underline;
+  }
+
+  /* Button */
+  .btn {
+    width: 100%;
+    padding: 12px;
+    background:linear-gradient(45deg, #cb3502bf, #cb3502);
+    border: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background: #155db3;
+  }
 </style>
 
 <div class="container mt-5">
@@ -1509,22 +1555,23 @@
 
         <!-- Wallet Tab -->
         <div class="tab-pane fade suther" id="wallet">
-            <h5 class="fw-bold suther">Wallet</h5>
-            <p class="suther">Manage your wallet balance and transactions.</p>
-            <div class="row suther">
-                <div class="col-md-6 suther">
-                    <label class="fw-bold suther">Balance:</label>
-                    <p class="suther">₹{{ $totalAmount->balance ?? '0' }}</p>
-                </div>
-                <div class="col-md-6 suther">
-                    <label class="fw-bold suther">Last Transaction:</label>
-                    <p class="suther">₹{{ $lastRechargeAmount->amount ?? '0' }} on {{ $lastRechargeDate->created_at ?? '' }}</p>
-                    <a href="{{route('transcation_history')}}">View All Transaction</a>
-                </div>
-            </div>
-            <div class="mt-3">
-                <button style="width: 40%" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#refundRechargeModal">Refund/Recharge</button>
-            </div>
+            
+
+            <div class="container">
+  <h2>Wallet</h2>
+  <p class="sub">Manage your wallet balance and transactions.</p>
+
+  <div class="label">Balance:</div>
+  <div class="balance">₹{{ $totalAmount->balance ?? '0' }}</div>
+
+  <div class="last">
+    Last Transaction: <strong>₹{{ $lastRechargeAmount->amount ?? '0' }} </strong> on {{ $lastRechargeDate->created_at ?? '' }}
+  </div>
+
+  <a href="{{route('transcation_history')}}" class="link">View All Transactions</a>
+<br>
+  <button style="width: 20%" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#refundRechargeModal">Refund/Recharge</button>
+</div>
         </div>
 
         <!-- Refund/Recharge Modal -->
