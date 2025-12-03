@@ -59,8 +59,94 @@
       CHECK OUT - {{ optional($booking->packagetemp)->end_date ? \Carbon\Carbon::parse(optional($booking->packagetemp)->end_date)->format('d-F-Y') : 'N/A' }}
   </p>
 
-  <p> {{ optional($booking->packagetemp)->adults_count ?? 0 }} Adults,
-      {{ optional($booking->packagetemp)->children_5_11 ?? 0 }} Children 
+  <ul>
+    <li>
+      {{ optional($booking->packagetemp)->child_no_bed_child_count ?? 0 }} No. of Child Without Bed
+    </li>
+    <li>
+      {{ optional($booking->packagetemp)->extra_bed ?? 0 }} No. of Extra Bed
+    </li>
+    <li>
+      {{ optional($booking->packagetemp)->room_category ?? 0 }} Room Category
+    </li>
+<li>
+      {{ optional($booking->packagetemp)->adults_count ?? 0 }} Adults
+</li>
+<li>
+      @php
+    $vehicleLabels = [
+        'hatchback_cost'          => 'Hatchback',
+        'sedan_cost'              => 'Sedan',
+        'economy_suv_cost'        => 'Economy SUV',
+        'luxury_suv_cost'         => 'Premium SUV',
+        'traveller_mini_cost'     => 'Tempo Traveller (8-16 Seat)',
+        'traveller_big_cost'      => 'Tempo Traveller (17-25 Seat)',
+        'premium_traveller_cost'  => 'Urbania (12-17 Seat)',
+        'ac_coach_cost'           => 'Luxury Bus',
+        'bus_nonac_cost'          => 'Deluxe Bus',
+    ];
+
+    // null-safe value
+    $vehiclePref = optional($booking->packagetemp)->vehicle_options;
+@endphp
+
+{{ $vehicleLabels[$vehiclePref ?? ''] ?? 'NO DATA' }} Vehicle
+</li>
+<li>
+      {{ optional($booking->packagetemp)->vehicle_count ?? 0 }} No. of Vehicle 
+</li>
+<li>
+      {{ optional($booking->packagetemp)->pickup_location ?? 0 }} Pickup Location
+</li>
+<li>
+      {{ optional($booking->packagetemp)->children_1_5 ?? 0 }} Children (1-5 years)
+</li>
+<li>
+      {{ optional($booking->packagetemp)->children_5_11 ?? 0 }} Children (5-11 years)
+</li>
+<li>
+      {{ optional($booking->packagetemp)->number_of_rooms ?? 0 }} No. of Rooms
+</li>
+<li>
+      @php
+    $hotelLabels = [
+        'standard_cost'     => 'Standard Hotel',
+        'deluxe_cost'       => 'Deluxe Hotel',
+        'premium_3_cost'    => 'Premium (3 star)',
+        'super_deluxe_cost' => 'Super Deluxe Hotel',
+        'premium_cost'      => 'Premium (4 star)',
+        'luxury_cost'       => 'Deluxe (4 star) Hotel',
+        'premium_5_cost'    => 'Premium (5 star)',
+        'hostels'           => 'Hostels',
+    ];
+
+    // Hotel preference value (null-safe)
+    $hotelPref = optional($booking->packagetemp)->hotel_preference;
+@endphp
+
+{{ $hotelLabels[$hotelPref ?? ''] ?? 'NO DATA' }} Preference
+</li>
+<li>
+      @php
+    $labels = [
+        'breakfast'        => 'Breakfast',
+        'breakfast_dinner' => 'Breakfast + Dinner/Lunch',
+        'all_meals'        => 'All Meals',
+        'no_meal'          => 'No Meal',
+    ];
+
+    $meal = optional($booking->packagetemp)->meal;
+@endphp
+
+{{ $labels[$meal ?? ''] ?? 'No Meal' }}
+
+</li>
+
+  </ul>
+
+  <p>
+      Travel Insurance = {{ optional($booking->packagetemp)->travelinsurance ?? 0 }} /
+      Special Remarks :- {{ optional($booking->packagetemp)->specialremarks ?? 0 }} 
   </p>
 
   <!-- Price Details -->
