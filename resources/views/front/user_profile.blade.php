@@ -85,6 +85,18 @@
   .btn:hover {
     background: #155db3;
   }
+
+  .search{
+  width: 20%;
+}
+
+@media (max-width: 790px){
+
+.search{
+  width: 40% !important;
+  font-size: 12px !important;
+}
+}
 </style>
 
 <div class="container mt-5">
@@ -1570,7 +1582,7 @@
 
   <a href="{{route('transcation_history')}}" class="link">View All Transactions</a>
 <br>
-  <button style="width: 20%" class="btn btn-primary suther" data-bs-toggle="modal" data-bs-target="#refundRechargeModal">Refund/Recharge</button>
+  <button class="btn btn-primary suther search" data-bs-toggle="modal" data-bs-target="#refundRechargeModal">Refund/Recharge</button>
 </div>
         </div>
 
