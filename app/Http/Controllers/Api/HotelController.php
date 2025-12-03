@@ -3166,7 +3166,7 @@ public function packagebooking(Request $request)
 
         $room_cost =  $package_price->room_cost * $request->number_of_rooms;
 
-        $package_location_cost =  $package_location->cost * $request->vehicle_count;
+        $package_location_cost = ($package_location->cost ?? 0) * $request->vehicle_count;
 
         $extrabed_meal_cost = $extra_meal_cost * $request->extra_bed;
 
@@ -3181,7 +3181,7 @@ public function packagebooking(Request $request)
         
         $fin_price_01 = $child_meal_cost * $night_count;
 
-        $fin_price_4 =  $package_location_cost + $fin_price_01;
+        $fin_price_4 = ($package_location_cost ?? 0) + ($fin_price_01 ?? 0);
         
         $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
