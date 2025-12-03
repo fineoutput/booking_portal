@@ -51,6 +51,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HotelsRoom;
 use App\Models\TripGuidePrice;
+use Illuminate\Support\Facades\Log;
+
 use App\Models\WalletTransactions;
 
 class HotelController extends Controller
@@ -3164,7 +3166,7 @@ public function packagebooking(Request $request)
 
         $room_cost =  $package_price->room_cost * $request->number_of_rooms;
 
-        $package_location_cost =  $package_location->cost * $request->vehicle_count;
+        $package_location_cost = ($package_location->cost ?? 0) * $request->vehicle_count;
 
         $extrabed_meal_cost = $extra_meal_cost * $request->extra_bed;
 
@@ -3179,7 +3181,7 @@ public function packagebooking(Request $request)
         
         $fin_price_01 = $child_meal_cost * $night_count;
 
-        $fin_price_4 =  $package_location_cost + $fin_price_01;
+        $fin_price_4 = ($package_location_cost ?? 0) + ($fin_price_01 ?? 0);
         
         $total_price = $fin_price + $fin_price_1 + $fin_price_2 + $fin_price_3 + $fin_price_4;
 
@@ -3277,6 +3279,10 @@ public function confirm(Request $request)
     $packagebooking->save();
     $packagetempbooking->update(['status' => 1]);
 
+    Log::info('PackageBooking:', [
+            'user_id' => $user->id,
+            'booking_id' => $packagebooking->id
+        ]);
     $data = [
         'id' => $packagebooking->id,
         'package_temp_id' => $packagebooking->package_temp_id,
@@ -3287,11 +3293,12 @@ public function confirm(Request $request)
         'salesman_mobile' => $packagebooking->salesman_mobile,
         'status' => $packagebooking->status,
         'pdf_url' => route('pdf.download', [
-                    'user_id' => $packagebooking->user_id,
+                    'user_id' => $user->id,
                     'booking_id' => $packagebooking->id,
                     'pdf_name' => urlencode(basename($packagebooking->package->pdf))
                 ])
     ];
+    
     }elseif($hotel_id){
         $packagetempbooking = HotelBooking::where('id',$request->hotel_id)->first();
 
@@ -4856,6 +4863,7 @@ public function allbookings(Request $request)
             return [
                 'id' => $package->id,
                 'package_name' => $package->package_name,
+                'night_count' => $package->night_count,
                 'state_names' => $stateNames,
                 'city_names' => $cityNames,
                 'image' => array_map(function($image) {
@@ -4972,6 +4980,8 @@ public function allbookings(Request $request)
         $transactionData = $transactions->map(function($transaction) {
             $formattedTransaction = [
                 'transaction_id' => $transaction->id,
+                'booking_id' => $transaction->booking_id,
+                'booking_type' => $transaction->booking_type,
                 'transaction_type' => $transaction->transaction_type,
                 'amount' => $transaction->amount,
                 'note' => $transaction->note,

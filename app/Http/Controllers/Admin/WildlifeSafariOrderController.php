@@ -268,6 +268,8 @@ class WildlifeSafariOrderController extends Controller
             $wallet->save();
               $transaction = WalletTransactions::create([
                     'user_id'          => $user->id,
+                    'booking_id'          => $vehicle->id,
+                    'booking_type'          => $vehicle->safari->national_park ?? 'Safari',
                     'transaction_type' => 'credit',
                     'amount'           => $vehicle->fetched_price,
                     'note'             => 'The refund for your Safari booking cancellation has been processed. #'.$vehicle->id,
@@ -283,7 +285,7 @@ class WildlifeSafariOrderController extends Controller
         $wallet = Wallet::where('user_id', $vehicle->user_id)->first();
 
         if (!$wallet) {
-            return redirect()->back()->with('message', 'Wallet not found!');
+            return redirect()->back()->with('error', 'Wallet not found!');
         }
 
         $deductAmount = floatval($vehicle->fetched_price); 
@@ -291,7 +293,7 @@ class WildlifeSafariOrderController extends Controller
         $newBalance = $wallet->balance - $deductAmount;
 
         if ($newBalance < -$user->negative_limit_amount) {
-            return redirect()->back()->with('message', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
+            return redirect()->back()->with('error', 'Wallet limit exceeded! You cannot go beyond negative limit of ₹' . $user->negative_limit_amount);
         }
 
         $wallet->balance = $newBalance;
@@ -299,6 +301,8 @@ class WildlifeSafariOrderController extends Controller
 
         $transaction = WalletTransactions::create([
                     'user_id'          => $user->id,
+                    'booking_id'          => $vehicle->id,
+                    'booking_type'          => $vehicle->safari->national_park ?? 'Safari',
                     'transaction_type' => 'debit',
                     'amount'           => $vehicle->fetched_price,
                     'note'             => 'The amount for your Safari booking has been deducted. #'.$vehicle->id,

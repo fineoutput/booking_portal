@@ -1042,7 +1042,7 @@ $houseRuleIcons = [
                 <h3>{{ $value->title ?? '' }}</h3>
                 <div class="features">
                     @php
-                        $plainText = strip_tags($value->description);
+                        $plainText = html_entity_decode(strip_tags($value->description));
                         $shortText = Str::limit($plainText, 150); // limit to 150 characters
                     @endphp
 
@@ -1115,7 +1115,7 @@ $houseRuleIcons = [
                         <h4 class="naxo">Room Only</h4>
                         @if (!empty($value->room_only_description))
                             @php
-                                $plain = strip_tags($value->room_only_description);  // remove HTML tags
+                                $plain = html_entity_decode(strip_tags($value->room_only_description));  // remove HTML tags
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
@@ -1229,7 +1229,7 @@ $houseRuleIcons = [
                             <p><b>Room With(Breakfast)</b></p>
                             @if (!empty($value->breakfast_description))
                             @php
-                                $plain = strip_tags($value->breakfast_description);  // remove HTML tags
+                                $plain = html_entity_decode(strip_tags($value->breakfast_description));  // remove HTML tags
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
@@ -1269,6 +1269,14 @@ $houseRuleIcons = [
                          @if(!empty($value->price->meal_plan_breakfast_cost) && $value->price->meal_plan_breakfast_cost > 0)
                     <div class="right2 room-right">
                         <div class="price">
+                            <div class="old-price">
+                            @if ($value->price)
+                            <p 
+                             data-room-id="{{ $value->id }}"
+                           data-base-price-mrp="{{ $value->price->mrp }}"
+                            style="margin: 0;" class="hotel-mrp-meal" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
+                            @endif
+                        </div>
                             <p class="dynamic-price"
                                id="bf-price-{{ $value->id }}"
                                data-room-id="{{ $value->id }}"
@@ -1289,7 +1297,7 @@ $houseRuleIcons = [
                             <p><b>Room with(Breakfast + lunch/dinner)</b></p>
                             @if (!empty($value->breakfast_lunch_description))
                             @php
-                                $plain = strip_tags($value->breakfast_lunch_description);  // remove HTML tags
+                                $plain = html_entity_decode(strip_tags($value->breakfast_lunch_description));  // remove HTML tags
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
@@ -1328,6 +1336,14 @@ $houseRuleIcons = [
                         @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
                     <div class="right2 room-right">
                         <div class="price">
+                            <div class="old-price">
+                            @if ($value->price)
+                            <p 
+                             data-room-id="{{ $value->id }}"
+                           data-base-price-mrp="{{ $value->price->mrp }}"
+                            style="margin: 0;" class="hotel-mrp-meal" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
+                            @endif
+                        </div>
                             <p class="dynamic-price"
                                id="bd-price-{{ $value->id }}"
                                data-room-id="{{ $value->id }}"
@@ -1347,7 +1363,7 @@ $houseRuleIcons = [
                             <p><b>Room with(All meals)</b></p>
                             @if (!empty($value->all_meals_description))
                             @php
-                                $plain = strip_tags($value->all_meals_description);  // remove HTML tags
+                                $plain = html_entity_decode(strip_tags($value->all_meals_description));  // remove HTML tags
                                 $short = Str::limit($plain, 150); // limit to 150 characters
                             @endphp
 
@@ -1386,6 +1402,14 @@ $houseRuleIcons = [
                          @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
                     <div class="right2 room-right">
                         <div class="price">
+                            <div class="old-price">
+                            @if ($value->price)
+                            <p 
+                             data-room-id="{{ $value->id }}"
+                           data-base-price-mrp="{{ $value->price->mrp }}"
+                            style="margin: 0;" class="hotel-mrp-meal" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
+                            @endif
+                        </div>
                             <p class="dynamic-price"
                                id="all-price-{{ $value->id }}"
                                data-room-id="{{ $value->id }}"
@@ -1749,6 +1773,26 @@ document.addEventListener("DOMContentLoaded", function () {
             el.textContent = 'Price not available';
         }
     });
+
+      document.querySelectorAll('.hotel-mrp-meal').forEach(function(el) {
+        const roomId = el.dataset.roomId;
+        const basePriceMRP = parseFloat(el.dataset.basePriceMrp) || 0;
+        const basePriceNight = parseFloat(el.dataset.basePriceNight) || 0;
+        const basePriceMeal  = parseFloat(el.dataset.basePriceMeal) || 0;
+        if (basePriceMRP > 0) {
+            let total = basePriceMRP * nights + basePriceMeal;
+
+            if (hotelPriceMap[roomId]) {
+            total += hotelPriceMap[roomId];
+        }
+
+            el.textContent = `₹${Math.round(total)}`;
+
+        } else {
+            el.textContent = 'Price not available';
+        }
+    });
+
 });
 </script>
 

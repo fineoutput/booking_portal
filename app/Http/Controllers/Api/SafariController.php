@@ -142,6 +142,7 @@ public function alldata(Request $request)
         return [
             'id' => $package->id,
             'package_name' => $package->package_name,
+            'night_count' => $package->night_count,
             'holidaypackage' => $package->holidaypackage,
             'travelpackage' => $package->travelpackage,
             'state_names' => $stateNames,

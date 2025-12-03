@@ -16,6 +16,8 @@ class WalletTransactions extends Model
         'amount',
         'razorpay_order_id',
         'note',
+        'booking_id',
+        'booking_type',
         'status',
     ];
 

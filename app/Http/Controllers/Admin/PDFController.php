@@ -9,6 +9,8 @@ use App\Models\Hotels;
 use App\Models\PackageBooking;
 use setasign\Fpdi\Fpdi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 use PDF; 
 
 
@@ -76,9 +78,14 @@ class PDFController extends Controller
     public function downloadWithLogo($user_id, $booking_id, $pdf_name)
 {
     set_time_limit(300);
-
+       Log::info('downloadWithLogo:', [
+            'user_id' => $user_id,
+            'booking_id' => $booking_id,
+            'pdf_name' => $pdf_name
+        ]);
+        // $booking_id = $booking_id;
     try {
-        $data['user'] = Auth::guard('agent')->user();
+        $data['user'] = Agent::where('id', $user_id)->first();
         $data['booking'] = PackageBooking::with('tourists', 'hotels', 'package', 'packagetemp')
                             ->where('user_id', $user_id)
                             ->where('id', $booking_id)
