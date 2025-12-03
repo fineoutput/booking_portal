@@ -4863,6 +4863,7 @@ public function allbookings(Request $request)
             return [
                 'id' => $package->id,
                 'package_name' => $package->package_name,
+                'night_count' => $package->night_count,
                 'state_names' => $stateNames,
                 'city_names' => $cityNames,
                 'image' => array_map(function($image) {
