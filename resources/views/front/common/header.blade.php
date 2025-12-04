@@ -141,10 +141,10 @@
 
         </div>
         <div class="col-12 col-md-3 d-flex justify-content-end press_header" style="align-items: center">
-            <div class="search-bar" id="searchBar">
+            {{-- <div class="search-bar" id="searchBar">
   <input type="text" placeholder="Search 'Eiffel Tower'" class="search-input" id="searchInput">
   <button class="search-btn" id="searchBtn">🔍</button>
-</div>
+</div> --}}
           <div class="sign-in dropdown">
             <div class="else_prese">
               <img src="https://edge.ixigo.com/st/upahaar/_next/static/media/userFilled.12154510.svg" alt="">
