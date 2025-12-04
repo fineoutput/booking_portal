@@ -2078,4 +2078,65 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+<script>
+    // Activate tab based on `tab` and optional `sub` query parameters or hash
+    (function () {
+        function activateTabBySelector(selector) {
+            const el = document.querySelector(selector);
+            if (!el) return false;
+            try {
+                const tab = new bootstrap.Tab(el);
+                tab.show();
+                return true;
+            } catch (e) {
+                console.warn('Failed to show tab for', selector, e);
+                return false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const params = new URLSearchParams(window.location.search);
+            // prefer explicit ?tab= param; fallback to hash
+            let tab = params.get('tab') || (window.location.hash ? window.location.hash.replace('#', '') : null);
+            const sub = params.get('sub');
+
+            if (!tab) return;
+
+            // Try top-level tabs first (id: agentProfileTabs)
+            const topSelector = `#agentProfileTabs a[href="#${tab}"]`;
+            const activatedTop = activateTabBySelector(topSelector);
+
+            // If a subtab is requested (under bookings), activate it as well
+            if (sub) {
+                // ensure bookings parent is visible first
+                if (!activatedTop && tab !== 'bookings') {
+                    // try to activate the tab named by 'tab' then the sub
+                    activateTabBySelector(topSelector);
+                }
+
+                // small timeout to allow parent tab to render
+                setTimeout(function () {
+                    const subSelector = `#bookingTabs a[href="#${sub}"]`;
+                    activateTabBySelector(subSelector);
+                }, 100);
+            } else {
+                // If top-level not found, maybe the requested id is a bookings-subtab
+                if (!activatedTop) {
+                    const subSelector = `#bookingTabs a[href="#${tab}"]`;
+                    // show bookings parent then the subtab
+                    const bookingsParent = document.querySelector('#agentProfileTabs a[href="#bookings"]');
+                    if (bookingsParent) {
+                        activateTabBySelector('#agentProfileTabs a[href="#bookings"]');
+                        setTimeout(function () {
+                            activateTabBySelector(subSelector);
+                        }, 100);
+                    } else {
+                        // fallback: try to activate any matching anchor
+                        activateTabBySelector(`a[href="#${tab}"]`);
+                    }
+                }
+            }
+        });
+    })();
+</script>
 @endsection

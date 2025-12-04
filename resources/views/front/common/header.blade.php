@@ -41,6 +41,45 @@
   transition: all 0.4s ease-in-out;
   z-index: 999;
 }
+.btnds {
+  outline: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #cb3502;
+  min-width: 100px;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+  padding: 10px 10px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.btnds:hover {
+  opacity: .95;
+}
+
+.btnds .animation {
+  border-radius: 100%;
+  animation: ripple 0.6s linear infinite;
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1), 0 0 0 20px rgba(255, 255, 255, 0.1), 0 0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 60px rgba(255, 255, 255, 0.1);
+  }
+
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.1), 0 0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 60px rgba(255, 255, 255, 0.1), 0 0 0 80px rgba(255, 255, 255, 0);
+  }
+}
 /* .noPE{
   display: none
 }
@@ -141,10 +180,18 @@
 
         </div>
         <div class="col-12 col-md-3 d-flex justify-content-end press_header" style="align-items: center">
+          <div class="my_book">
+            <button class="btnds" onclick="window.location.href='{{ route('user_profile') }}?tab=bookings';"><i class="animation"></i>
+
+ My Bookings
+<i class="animation"></i>
+    </button>
+</div>            
             <div class="search-bar" id="searchBar">
   <input type="text" placeholder="Search 'Eiffel Tower'" class="search-input" id="searchInput">
   <button class="search-btn" id="searchBtn">🔍</button>
 </div>
+
           <div class="sign-in dropdown">
             <div class="else_prese">
               <img src="https://edge.ixigo.com/st/upahaar/_next/static/media/userFilled.12154510.svg" alt="">
@@ -156,6 +203,16 @@
         <ul class="dropdown-menu dropdown-menu-end whatis" aria-labelledby="userDropdown">
             <li>
                 <a class="dropdown-item" href="{{ route('user_profile') }}">Profile</a>
+            </li>
+           
+            <li>
+              <a class="dropdown-item" href="{{ route('user_profile') }}?tab=wallet">Wallet</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('user_profile') }}?tab=policies">Policies</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('user_profile') }}?tab=terms">T&C</a>
             </li>
             <li>
             <form method="POST" action="{{ route('logout') }}">
