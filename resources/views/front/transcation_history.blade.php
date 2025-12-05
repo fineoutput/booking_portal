@@ -87,6 +87,8 @@ table th, table td {
     <thead>
         <tr>
             <th>Date</th>
+            <th>Booking Id</th>
+            <th>Booking Type</th>
             <th>Details</th>
             <th>Type</th>
             <th>Amount</th>
@@ -97,6 +99,8 @@ table th, table td {
         <tr>
             <td style="padding: 10px;">{{ $t->created_at->format('Y-m-d') }}</td>
 
+            <td style="padding: 10px;">{{ $t->booking_id ?? 'N/A' }}</td>
+            <td style="padding: 10px;">{{ $t->booking_type ?? 'N/A' }}</td>
             <td style="padding: 10px;">{{ $t->note ?? 'N/A' }}</td>
 
             <td style="padding: 10px; font-weight: bold; color: {{ $t->transaction_type == 'credit' ? 'green' : 'red' }}">
