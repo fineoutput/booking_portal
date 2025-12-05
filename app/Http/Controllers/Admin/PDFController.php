@@ -77,7 +77,8 @@ class PDFController extends Controller
 
     public function downloadWithLogo($user_id, $booking_id, $pdf_name)
 {
-    set_time_limit(300);
+    ini_set('memory_limit', '4096M'); // or -1 for unlimited
+    set_time_limit(600);
        Log::info('downloadWithLogo:', [
             'user_id' => $user_id,
             'booking_id' => $booking_id,
