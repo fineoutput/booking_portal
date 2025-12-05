@@ -2001,7 +2001,7 @@ textarea.form-control {
 .whatis{
   width: 100%;
   text-align: center;
-  height: 20vh;
+  /* height: 20vh; */
   overflow-y: auto;
 }
 .counter_hotels button:hover {
@@ -2968,3 +2968,213 @@ i.fa-solid {
 .modal-backdrop.fade.show {
     display: none;
 }
+
+
+.kar_bayans{
+  width: 40px !important;
+}
+
+
+.mmt-dropdown-menu {
+    width: 320px;
+    padding: 15px 0;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+    list-style: none;
+}
+
+.mmt-item {
+    padding: 12px 18px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.mmt-item:last-child {
+    border-bottom: none;
+}
+
+.mmt-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.mmt-icon {
+    width: 28px;
+    height: 28px;
+    opacity: 0.8;
+}
+
+.mmt-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+    padding: 0;
+    text-decoration: none;
+}
+
+.mmt-title:hover {
+    color: #007bff;
+}
+
+.mmt-desc {
+    margin: 3px 0 0;
+    font-size: 12px;
+    color: #7b7b7b;
+    line-height: 1.3;
+}
+
+.mmt-wallet {
+    background: #00c853;
+    color: #fff;
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 10px;
+    margin-left: 6px;
+}
+
+.logout-item {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.mmt-logout-btn {
+    width: 90%;
+    background: #ff3b3b;
+    color: #fff;
+    padding: 8px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.mmt-logout-btn:hover {
+    background: #d92626;
+}
+.kya_kiya{
+  text-align: left;
+}
+
+
+   .wallet-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    display: flex;
+    gap: 30px;
+    box-shadow: 20px 12px 20px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;
+}
+        .main-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px;
+            flex: 2;
+            min-width: 300px;
+        }
+        .sidebar-card {
+    background: white;
+    border-radius: 16px;
+    /* box-shadow: 0 4px 20px rgba(0,0,0,0.08); */
+    padding: 25px;
+    flex: 1;
+    min-width: 300px;
+}
+        .total-balance {
+    background: linear-gradient(135deg, #d6633b, #cc3907);
+    color: white;
+    padding: 25px;
+    border-radius: 14px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+        .total-balance h1 {
+            font-size: 48px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .total-balance p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+            font-size: 15px;
+        }
+        .cash-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .cash-row:last-child { border-bottom: none; }
+        .cash-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .cash-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .my-cash .cash-icon    { background: #F9A825; }
+        .bonus .cash-icon      { background: #9C27B0; }
+        .cash-details h5 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .cash-details p {
+            margin: 4px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .amount {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge.unrestricted { background: #E0F7E9; color: #007B40; }
+        .badge.restricted   { background: #E1DEF8; color: #6A0DAD; }
+        .how-link {
+            color: #5B2AFF;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .how-link:hover { text-decoration: underline; }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .transaction-item:last-child { border-bottom: none; }
+        .positive { color: #28a745; }
+        .negative { color: #dc3545; }
+
+        .btn-recharge {
+            background: #5B2AFF;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+        }
+        .btn-recharge:hover {
+            background: #4a1fe0;
+        }
+        h2 { margin-top: 0; }
+        .sub { color: #777; margin-bottom: 20px; }

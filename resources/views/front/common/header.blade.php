@@ -153,17 +153,66 @@
         <a href="#" class="dropdown-toggle dotts" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             {{ Auth::guard('agent')->user()->name }}
         </a>
-        <ul class="dropdown-menu dropdown-menu-end whatis" aria-labelledby="userDropdown">
-            <li>
-                <a class="dropdown-item" href="{{ route('user_profile') }}">Profile</a>
-            </li>
-            <li>
-            <form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit" class="btn btn-danger">Logout</button>
-</form>
-            </li>
-        </ul>
+             <ul class="mmt-dropdown-menu dropdown-menu dropdown-menu-end whatis" aria-labelledby="userDropdown">
+    <li class="mmt-item">
+        <div class="mmt-row">
+            <img src="https://cdn-icons-png.flaticon.com/128/747/747376.png" class="mmt-icon">
+            <div class='kya_kiya'>
+                <a href="{{ route('user_profile') }}" class="mmt-title dropdown-item">My Profile</a>
+                <p class="mmt-desc">Manage your profile, traveller details, login details and password</p>
+            </div>
+        </div>
+    </li>
+
+    <li class="mmt-item">
+        <div class="mmt-row">
+            <img src="https://cdn-icons-png.flaticon.com/128/2460/2460737.png" class="mmt-icon">
+            <div class='kya_kiya'>
+                <a href="{{ route('user_profile') }}?tab=bookings" class="mmt-title dropdown-item">My Bookings</a>
+                <p class="mmt-desc">See booking details, Modify Booking, Refund Status & more</p>
+            </div>
+        </div>
+    </li>
+
+    <li class="mmt-item">
+        <div class="mmt-row">
+            <img src="https://cdn-icons-png.flaticon.com/128/482/482541.png" class="mmt-icon">
+            <div class='kya_kiya'>
+                <a href="{{ route('user_profile') }}?tab=wallet" class="mmt-title dropdown-item">
+                    My Wallet 
+                    {{-- <span class="mmt-wallet">₹{{ $totalAmount->balance ?? '0' }}</span> --}}
+                </a>
+                <p class="mmt-desc">Use your wallet money to avail even greater discounts</p>
+            </div>
+        </div>
+    </li>
+
+    <li class="mmt-item">
+        <div class="mmt-row">
+            <img src="https://cdn-icons-png.flaticon.com/128/8040/8040958.png" class="mmt-icon">
+            <div class='kya_kiya'>
+                <a href="{{ route('user_profile') }}?tab=policies" class="mmt-title dropdown-item">Policies</a>
+                <p class="mmt-desc">See the Company Policies</p>
+            </div>
+        </div>
+    </li>
+    <li class="mmt-item">
+        <div class="mmt-row">
+            <img src="https://cdn-icons-png.flaticon.com/128/4436/4436515.png" class="mmt-icon">
+            <div class='kya_kiya'>
+                <a href="{{ route('user_profile') }}?tab=terms" class="mmt-title dropdown-item">T&C</a>
+                <p class="mmt-desc">See the Company Terms</p>
+            </div>
+        </div>
+    </li>
+
+    <li class="mmt-item logout-item">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="mmt-logout-btn dropdown-item">Logout</button>
+        </form>
+    </li>
+</ul>
     @else
 
         <div class="musq">

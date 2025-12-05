@@ -649,7 +649,12 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
             ->first();
             $data['lastRechargeAmount'] = $lastRecharge;
             $data['lastRechargeDate'] = $lastRecharge;
+            $transactions = WalletTransactions::where('user_id', auth()->id())
+        ->orderBy('id', 'DESC')
+        ->take(5)
+        ->get();
 
+            $data['transactions'] = $transactions;
             return view('front/user_profile',$data);
         }
 
