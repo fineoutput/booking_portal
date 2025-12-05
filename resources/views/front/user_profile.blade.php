@@ -1635,31 +1635,18 @@
     <div class="sidebar-card">
         <h4 class="mb-4">Recent Transactions</h4>
 
-        <table id="transactionTable">
-    <thead>
-        <tr>
-            <th>Date</th>
-            {{-- <th>Details</th>
-            <th>Type</th> --}}
-            <th>Amount</th>
-        </tr>
-    </thead>
-    <tbody id="tableBody">
-        @foreach ($transactions as $t)
-        <tr>
-            <td style="padding-right: 40px">{{ $t->created_at->format('Y-m-d') }}</td>
+       @foreach ($transactions as $t)
+    <div class="transaction-card">
+        <div>
+            <p class="t-title">{{ $t->note ?? 'Transaction' }}</p>
+            <p class="t-date">{{ $t->created_at->format('Y-m-d • h:i A') }}</p>
+        </div>
 
-            {{-- <td style="padding-right: 40px">{{ $t->note ?? 'N/A' }}</td>
-
-            <td style="padding: 10px; font-weight: bold; color: {{ $t->transaction_type == 'credit' ? 'green' : 'red' }}">
-                {{ strtoupper($t->transaction_type) }}
-            </td> --}}
-
-            <td style="padding-right: 40px">₹ {{ number_format($t->amount, 2) }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+        <p class="t-amount {{ $t->transaction_type == 'credit' ? 'credit' : 'debit' }}">
+            {{ $t->transaction_type == 'credit' ? '+' : '-' }} ₹{{ number_format($t->amount, 2) }}
+        </p>
+    </div>
+@endforeach
 
     </div>
 
