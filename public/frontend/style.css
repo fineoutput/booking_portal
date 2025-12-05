@@ -2971,12 +2971,13 @@ i.fa-solid {
 
 
    .wallet-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
+    max-width: 1200px;
+    margin: 40px auto;
+    display: flex;
+    gap: 30px;
+    box-shadow: 20px 12px 20px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;
+}
         .main-card {
             background: white;
             border-radius: 16px;
@@ -2986,13 +2987,13 @@ i.fa-solid {
             min-width: 300px;
         }
         .sidebar-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 25px;
-            flex: 1;
-            min-width: 300px;
-        }
+    background: white;
+    border-radius: 16px;
+    /* box-shadow: 0 4px 20px rgba(0,0,0,0.08); */
+    padding: 25px;
+    flex: 1;
+    min-width: 300px;
+}
         .total-balance {
     background: linear-gradient(135deg, #d6633b, #cc3907);
     color: white;

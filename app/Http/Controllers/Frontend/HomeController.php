@@ -644,11 +644,18 @@ $query = Package::whereRaw("FIND_IN_SET(?, state_id)", [$id]);
         
             $lastRechargeAmount = $lastRecharge ? $lastRecharge->amount : 0;
             $lastRechargeDate = $lastRecharge ? $lastRecharge->created_at->format('Y-m-d H:i:s') : 'No recharges found';
-        
+            
             $data['totalAmount'] = Wallet::where('user_id', $user_id)
             ->first();
             $data['lastRechargeAmount'] = $lastRecharge;
             $data['lastRechargeDate'] = $lastRecharge;
+
+             $transactions = WalletTransactions::where('user_id', auth()->id())
+        ->orderBy('id', 'DESC')
+        ->take(5)
+        ->get();
+
+            $data['transactions'] = $transactions;
 
             return view('front/user_profile',$data);
         }
