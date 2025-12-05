@@ -2001,7 +2001,7 @@ textarea.form-control {
 .whatis{
   width: 100%;
   text-align: center;
-  height: 20vh;
+  /* height: 20vh; */
   overflow-y: auto;
 }
 .counter_hotels button:hover {
@@ -3091,3 +3091,91 @@ i.fa-solid {
         }
         h2 { margin-top: 0; }
         .sub { color: #777; margin-bottom: 20px; }
+
+
+
+.kar_bayans{
+  width: 40px !important;
+}
+
+
+.mmt-dropdown-menu {
+    width: 320px;
+    padding: 15px 0;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+    list-style: none;
+}
+
+.mmt-item {
+    padding: 12px 18px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.mmt-item:last-child {
+    border-bottom: none;
+}
+
+.mmt-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.mmt-icon {
+    width: 28px;
+    height: 28px;
+    opacity: 0.8;
+}
+
+.mmt-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+    padding: 0;
+    text-decoration: none;
+}
+
+.mmt-title:hover {
+    color: #007bff;
+}
+
+.mmt-desc {
+    margin: 3px 0 0;
+    font-size: 12px;
+    color: #7b7b7b;
+    line-height: 1.3;
+}
+
+.mmt-wallet {
+    background: #00c853;
+    color: #fff;
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 10px;
+    margin-left: 6px;
+}
+
+.logout-item {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.mmt-logout-btn {
+    width: 90%;
+    background: #ff3b3b;
+    color: #fff;
+    padding: 8px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.mmt-logout-btn:hover {
+    background: #d92626;
+}
+.kya_kiya{
+  text-align: left;
+}
