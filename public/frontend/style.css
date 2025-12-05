@@ -3178,3 +3178,35 @@ i.fa-solid {
         }
         h2 { margin-top: 0; }
         .sub { color: #777; margin-bottom: 20px; }
+
+        .transaction-card {
+    background: #fff;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+    box-shadow: 9px 11px 14px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform .2s ease;
+}
+    .transaction-card:hover {
+        transform: translateY(-3px);
+    }
+    .t-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0;
+        color: #222;
+    }
+    .t-date {
+        font-size: 12px;
+        color: #777;
+        margin-top: 3px;
+    }
+    .t-amount {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .credit { color: #1cb01c; }
+    .debit { color: #e63946; }
