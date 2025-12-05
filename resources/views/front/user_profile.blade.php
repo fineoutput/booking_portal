@@ -83,8 +83,9 @@
   }
 
   .btn:hover {
-    background: #155db3;
-  }
+    background: #f9a825;
+    color: #fff;
+}
 
   .search{
   width: 20%;
@@ -1569,20 +1570,99 @@
         <div class="tab-pane fade suther" id="wallet">
             
 
-            <div class="container">
-  <h2>Wallet</h2>
-  <p class="sub">Manage your wallet balance and transactions.</p>
+            <div class="container-fluid wallet-container">
 
-  <div class="label">Balance:</div>
-  <div class="balance">₹{{ $totalAmount->balance ?? '0' }}</div>
+    <!-- Left Side - Wallet Balance -->
+    <div class="main-card">
+        <h2>Wallet</h2>
+        <p class="sub">Manage your wallet balance and transactions.</p>
 
-  <div class="last">
-    Last Transaction: <strong>₹{{ $lastRechargeAmount->amount ?? '0' }} </strong> on {{ $lastRechargeDate->created_at ?? '' }}
-  </div>
+        <!-- Total Balance Card -->
+        <div class="total-balance">
+            <h1>₹{{ $totalAmount->balance ?? '0' }}</h1>
+            <p>WALLET BALANCE</p>
+        </div>
 
-  <a href="{{route('transcation_history')}}" class="link">View All Transactions</a>
-<br>
-  <button class="btn btn-primary suther search" data-bs-toggle="modal" data-bs-target="#refundRechargeModal">Refund/Recharge</button>
+        <!-- My Cash -->
+        <div class="cash-row my-cash">
+            <div class="cash-info">
+                <div class="cash-icon">my</div>
+                <div class="cash-details">
+                    <h5>Last Transaction</h5>
+                    <p><span class="badge unrestricted">@if($lastRechargeDate->created_at ?? '')
+                    on {{ $lastRechargeDate->created_at }}
+                @endif</span></p>
+                </div>
+            </div>
+            <div class="text-end">
+                <div class="amount">₹{{ $lastRechargeAmount->amount ?? '0' }}</div>
+                <a href="#" class="how-link">Recieved</a>
+            </div>
+        </div>
+
+        <!-- Reward Bonus -->
+        {{-- <div class="cash-row bonus">
+            <div class="cash-info">
+                <div class="cash-icon">my</div>
+                <div class="cash-details">
+                    <h5>Reward Bonus</h5>
+                    <p><span class="badge restricted">USE WITH RESTRICTIONS</span></p>
+                </div>
+            </div>
+            <div class="text-end">
+                <div class="amount">₹0</div>
+                <a href="#" class="how-link">How to earn?</a>
+            </div>
+        </div> --}}
+
+        <!-- Last Transaction & Buttons -->
+        <div class="mt-4">
+            {{-- <p class="mb-2">
+                Last Transaction: <strong>₹{{ $lastRechargeAmount->amount ?? '0' }}</strong>
+                @if($lastRechargeDate->created_at ?? '')
+                    on {{ $lastRechargeDate->created_at }}
+                @endif
+            </p> --}}
+            <a href="{{ route('transcation_history') }}" class="link link-primary me-3">View All Transactions →</a>
+            <br><br>
+            <button class="btn btn-recharge" data-bs-toggle="modal" data-bs-target="#refundRechargeModal">
+                Refund / Recharge
+            </button>
+        </div>
+    </div>
+
+    <!-- Right Side - Recent Transactions -->
+    <div class="sidebar-card">
+        <h4 class="mb-4">Recent Transactions</h4>
+
+        <table id="transactionTable">
+    <thead>
+        <tr>
+            <th>Date</th>
+            {{-- <th>Details</th>
+            <th>Type</th> --}}
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @foreach ($transactions as $t)
+        <tr>
+            <td style="padding-right: 40px">{{ $t->created_at->format('Y-m-d') }}</td>
+
+            {{-- <td style="padding-right: 40px">{{ $t->note ?? 'N/A' }}</td>
+
+            <td style="padding: 10px; font-weight: bold; color: {{ $t->transaction_type == 'credit' ? 'green' : 'red' }}">
+                {{ strtoupper($t->transaction_type) }}
+            </td> --}}
+
+            <td style="padding-right: 40px">₹ {{ number_format($t->amount, 2) }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+    </div>
+
 </div>
         </div>
 
