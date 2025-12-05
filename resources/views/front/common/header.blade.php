@@ -181,7 +181,7 @@
         </div>
         <div class="col-12 col-md-3 d-flex justify-content-end press_header" style="align-items: center">
           @if(Auth::guard('agent')->check())
-          <div class="my_book">
+            <div class="my_book">
             
                 <a class="dropdown-item" href="{{ route('user_profile') }}?tab=bookings">My Bookings</a>
             
