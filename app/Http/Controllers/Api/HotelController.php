@@ -5654,14 +5654,14 @@ public function upgrade_request(Request $request)
             }
 
             return response()->json([
-                'status' => true,
+                'status' => 200,
                 'message' => 'Hotel preferences have been saved successfully!',
             ], 200);
 
         } catch (\Exception $e) {
 
             return response()->json([
-                'status' => false,
+                'status' => 201,
                 'message' => 'Something went wrong.',
                 'error' => $e->getMessage()
             ], 500);
@@ -5714,7 +5714,7 @@ public function upgrade_request(Request $request)
 
 
         return response()->json([
-            'status' => true,
+            'status' => 200,
             'message' => 'User profile loaded successfully.',
             'data' => [
                 'hotels' => $data['hotels'],
