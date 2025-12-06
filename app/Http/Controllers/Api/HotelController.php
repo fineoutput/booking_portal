@@ -51,6 +51,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HotelsRoom;
 use App\Models\TripGuidePrice;
+use App\Models\UpgradeRequest;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\WalletTransactions;
@@ -5542,6 +5543,67 @@ public function allbookings(Request $request)
         'status' => 200, 
     ]);
 }
+
+
+
+public function upgrade_request(Request $request)
+    {
+        try {
+
+            $token = $request->bearerToken();
+
+            if (!$token) {
+                return response()->json([
+                    'message' => 'Unauthenticated.',
+                    'data' => [],
+                    'status' => 401,
+                ]);
+            }
+
+            $decodedToken = base64_decode($token);
+            list($email, $password) = explode(',', $decodedToken);
+
+            $user = Agent::where('email', $email)->first();
+
+            if (!$user || $password != $user->password) {
+                return response()->json([
+                    'message' => 'Invalid credentials.',
+                    'data' => [],
+                    'status' => 401, 
+                ]);
+            }
+
+            $validated = $request->validate([
+                'booking_id' => 'required',
+                'upgrade_details' => 'required',
+                'notes' => 'required',
+            ]);
+
+            // Create Upgrade Request
+            $upgrade = UpgradeRequest::create([
+                'user_id' =>  $user->id,
+                'upgrade_details' => $request->upgrade_details,
+                'notes' => $request->notes,
+                'booking_id' => $request->booking_id,
+                'type' => 'package',
+                'status' => 0,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Upgrade Request sent successfully!',
+                'data' => $upgrade,
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong!',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
 
 public function updateStatus(Request $request)
