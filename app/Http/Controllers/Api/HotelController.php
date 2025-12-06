@@ -5606,6 +5606,67 @@ public function upgrade_request(Request $request)
             ], 500);
         }
     }
+
+
+    public function hotel_preference(Request $request)
+    {
+        try {
+
+            $validated = $request->validate([
+                'hotel_id' => 'required|array',
+                'hotel_id.*' => 'integer|exists:hotels,id',
+                'booking_id' => 'required|integer|exists:package_bookings,id',
+            ]);
+
+             $token = $request->bearerToken();
+
+            if (!$token) {
+                return response()->json([
+                    'message' => 'Unauthenticated.',
+                    'data' => [],
+                    'status' => 401,
+                ]);
+            }
+
+            $decodedToken = base64_decode($token);
+            list($email, $password) = explode(',', $decodedToken);
+
+            $user = Agent::where('email', $email)->first();
+
+            if (!$user || $password != $user->password) {
+                return response()->json([
+                    'message' => 'Invalid credentials.',
+                    'data' => [],
+                    'status' => 401, 
+                ]);
+            }
+
+            $hotelIds = $request->hotel_id;
+            $bookingId = $request->booking_id;
+            $userId = $user->id;
+
+            foreach ($hotelIds as $hotelId) {
+                HotelPrefrence::create([
+                    'user_id' => $userId,
+                    'hotel_id' => $hotelId,
+                    'booking_id' => $bookingId,
+                ]);
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Hotel preferences have been saved successfully!',
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
     
 
 

@@ -60,6 +60,7 @@ use App\Http\Controllers\Admin\PDFController;
     Route::post('/add-tourist', [HotelController::class, 'add_tourist']);
     Route::post('/tourist-list', [HotelController::class, 'tourist_list']);
     Route::post('/upgrade-request', [HotelController::class, 'upgrade_request']);
+    Route::post('/hotel-preference', [HotelController::class, 'hotel_preference']);;
     Route::get('/hotel-profile', [HotelController::class, 'profile_hotel']);
 
     Route::get('/user-wallet', [HotelController::class, 'get_user_transactions']);
