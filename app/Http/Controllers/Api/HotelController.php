@@ -41,6 +41,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use App\Mail\OtpMail;
 use App\Models\AdminCity;
 use App\Models\HomeSlider;
+use App\Models\HotelPrefrence;
 use App\Models\Languages;
 use App\Models\LocalVehiclePrice;
 use App\Models\LocationCost;
@@ -4099,7 +4100,8 @@ public function allbookings(Request $request)
             'title' => $package->package_name ?? null,
             'start_date' => $booking->packagetemp->start_date,
             'end_date' => $booking->packagetemp->end_date,
-              'final_price' => $booking->final_price ?? null,
+            'final_price' => $booking->final_price ?? null,
+            'package_id' => $booking->package_id ?? null,
             'dates' => date('d-m-Y', strtotime($booking->created_at)),
             'booking_name' => 'package',
             'status_label' => $this->getStatusLabel($booking->status),
@@ -5604,7 +5606,60 @@ public function upgrade_request(Request $request)
             ], 500);
         }
     }
+    
 
+
+    public function profile_hotel(Request $request)
+     {
+        $token = $request->bearerToken();
+
+            if (!$token) {
+                return response()->json([
+                    'message' => 'Unauthenticated.',
+                    'data' => [],
+                    'status' => 401,
+                ]);
+            }
+
+            $decodedToken = base64_decode($token);
+            list($email, $password) = explode(',', $decodedToken);
+
+            $user = Agent::where('email', $email)->first();
+
+            if (!$user || $password != $user->password) {
+                return response()->json([
+                    'message' => 'Invalid credentials.',
+                    'data' => [],
+                    'status' => 401, 
+                ]);
+            }
+        $user->load('cities', 'state');
+
+        /* ---------------- Selected Hotels ---------------- */
+        $data['selected_hotels'] = HotelPrefrence::where('user_id', $user->id)
+                ->pluck('hotel_id', 'booking_id')->toArray();
+
+            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $user->id)->orderBy('id','DESC')->get();
+            
+            $packageIds = $data['booking']->pluck('package_id')->map(function($id) {
+                return (int)$id;
+            })->toArray();
+            
+            $data['hotels'] = Hotels::where(function ($query) use ($packageIds) {
+                foreach ($packageIds as $id) {
+                    $query->orWhereRaw("FIND_IN_SET(?, package_id)", [$id]);
+                }
+            })->get();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User profile loaded successfully.',
+            'data' => [
+                'hotels' => $data['hotels'],
+            ]
+        ], 200);
+    }
 
 public function updateStatus(Request $request)
 {
