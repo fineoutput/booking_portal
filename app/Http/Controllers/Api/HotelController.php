@@ -5670,57 +5670,126 @@ public function upgrade_request(Request $request)
     
 
 
+ 
     public function profile_hotel(Request $request)
-     {
+    {
+        /* -------------------- Token Check -------------------- */
+
         $token = $request->bearerToken();
 
-            if (!$token) {
-                return response()->json([
-                    'message' => 'Unauthenticated.',
-                    'data' => [],
-                    'status' => 401,
-                ]);
-            }
+        if (!$token) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthenticated.',
+                'data' => []
+            ], 401);
+        }
 
-            $decodedToken = base64_decode($token);
-            list($email, $password) = explode(',', $decodedToken);
+        // Decode Base64 Token → "email,password"
+        $decodedToken = base64_decode($token);
+        list($email, $password) = explode(',', $decodedToken);
 
-            $user = Agent::where('email', $email)->first();
+        $user = Agent::where('email', $email)->first();
 
-            if (!$user || $password != $user->password) {
-                return response()->json([
-                    'message' => 'Invalid credentials.',
-                    'data' => [],
-                    'status' => 401, 
-                ]);
-            }
+        if (!$user || $password != $user->password) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid credentials.',
+                'data' => []
+            ], 401);
+        }
+
+        /* -------------------- User Relations -------------------- */
+
         $user->load('cities', 'state');
 
-        /* ---------------- Selected Hotels ---------------- */
-        $data['selected_hotels'] = HotelPrefrence::where('user_id', $user->id)
-                ->pluck('hotel_id', 'booking_id')->toArray();
+        /* -------------------- Selected Hotels -------------------- */
 
-            $data['booking'] = PackageBooking::with('tourists', 'hotels')->where('user_id', $user->id)->orderBy('id','DESC')->get();
-            
-            $packageIds = $data['booking']->pluck('package_id')->map(function($id) {
-                return (int)$id;
-            })->toArray();
-            
-            $data['hotels'] = Hotels::where(function ($query) use ($packageIds) {
-                foreach ($packageIds as $id) {
-                    $query->orWhereRaw("FIND_IN_SET(?, package_id)", [$id]);
-                }
-            })->get();
+        $selectedHotels = HotelPrefrence::where('user_id', $user->id)
+            ->pluck('hotel_id', 'booking_id')
+            ->toArray();
 
+        /* -------------------- User Bookings -------------------- */
+
+        $bookings = PackageBooking::with('tourists', 'hotels')
+            ->where('user_id', $user->id)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $packageIds = $bookings->pluck('package_id')
+            ->map(fn($id) => (int)$id)
+            ->toArray();
+
+        /* -------------------- Hotel Listings -------------------- */
+
+        $hotels = Hotels::where(function ($query) use ($packageIds) {
+            foreach ($packageIds as $id) {
+                $query->orWhereRaw("FIND_IN_SET(?, package_id)", [$id]);
+            }
+        })->get();
+
+        /* -------------------- Format Hotels -------------------- */
+
+        $formattedHotels = $hotels->map(function ($hotel) use ($selectedHotels) {
+
+            // Decode images JSON
+            $images = json_decode($hotel->images, true);
+
+            // First Image
+            $firstImage = ($images && count($images) > 0)
+                ? asset($images[0])
+                : null;
+
+            // Category to Stars
+            switch ($hotel->hotel_category) {
+                case 'Standard':
+                    $category_text = "Standard ⭐ (1 star)";
+                    break;
+                case 'Deluxe':
+                    $category_text = "Deluxe ⭐⭐⭐ (3 star)";
+                    break;
+                case 'Premium_3':
+                    $category_text = "Premium ⭐⭐⭐ (3 star)";
+                    break;
+                case 'Super deluxe':
+                    $category_text = "Deluxe ⭐⭐⭐⭐ (4 star)";
+                    break;
+                case 'Premium':
+                    $category_text = "Premium ⭐⭐⭐⭐ (4 star)";
+                    break;
+                case 'Luxury':
+                    $category_text = "Deluxe ⭐⭐⭐⭐⭐ (5 star)";
+                    break;
+                default:
+                    $category_text = $hotel->hotel_category;
+            }
+
+            return [
+                'id'            => $hotel->id,
+                'name'          => $hotel->name,
+                'image'         => $firstImage,
+                'package_id'    => $hotel->package_id,
+                'category'      => $hotel->hotel_category,
+                'category_text' => $category_text,
+                'location'      => $hotel->location,
+                'state_id'      => $hotel->state_id,
+                'city_id'       => $hotel->city_id,
+                'already_added' => in_array($hotel->id, $selectedHotels)
+            ];
+        });
+
+        /* -------------------- Final Response -------------------- */
 
         return response()->json([
-            'status' => 200,
-            'message' => 'User profile loaded successfully.',
+            'status' => true,
+            'message' => 'Hotels loaded successfully.',
             'data' => [
-                'hotels' => $data['hotels'],
+                'hotels' => $formattedHotels,
             ]
         ], 200);
     }
+
+
 
 public function updateStatus(Request $request)
 {
