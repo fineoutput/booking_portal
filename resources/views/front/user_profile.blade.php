@@ -157,7 +157,7 @@
                     <label class="fw-bold suther">City:</label>
                     <p class="suther">{{ optional($user->cities)->city_name ?? '' }}</p>
                 </div>
-                <div class="col-md-6 suther">
+                {{-- <div class="col-md-6 suther">
                     <label class="fw-bold suther">Aadhar Image Front:</label>
                     <p class="suther">
                         @if($user->aadhar_image)
@@ -186,7 +186,7 @@
                             N/A
                         @endif
                     </p>
-                </div>
+                </div> --}}
                 <div class="col-md-6 suther">
                     <label class="fw-bold suther">Logo:</label>
                     <p class="suther">

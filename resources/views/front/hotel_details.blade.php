@@ -615,7 +615,7 @@ $houseRuleIcons = [
                                                             </li>
                                                         @endif
 
-                                                        @if($loop->iteration == 4)
+                                                        @if($loop->iteration == 3)
                                                             @break
                                                         @endif
                                                     @endforeach
