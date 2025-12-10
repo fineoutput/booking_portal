@@ -85,6 +85,7 @@
     font-size: 25px;
   
 }
+}
   .app-buttons {
     display: flex;
     align-items: center;
