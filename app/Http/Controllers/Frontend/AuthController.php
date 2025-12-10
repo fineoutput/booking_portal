@@ -582,57 +582,43 @@ private function sendOtp($phone)
 {
     $otp = rand(1000, 9999);
 
-    $authKey = "1401583980000074503"; 
-    $senderId = "TRPDKH";
-    $route = 4;
-    $dltTemplateId = "693952d21a9eac422c6a57bf";
+    $authKey = "479417AKHG1Ubu69396566P1"; 
+    $templateId = "693952d21a9eac422c6a57bf";
 
-    // Format Mobile
+    // Format mobile
     $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
-    if (strlen($formattedPhone) === 10) {
-        $formattedPhone = '91' . $formattedPhone;
+    if (strlen($formattedPhone) == 10) {
+        $formattedPhone = "91" . $formattedPhone;
     }
 
-    // Msg text
-    $templateContent = "Your OTP for logging in to the Trip Dekho account is ##var## and is valid for the next 5 min. Do not share your OTP with anyone. - Tripdekho
-    www.tripsdekho.com";
-
-    $message = str_replace('##var##', $otp, $templateContent);
-
-    // Query Parameters
-    $queryParams = [
-        'authkey'    => $authKey,
-        'mobiles'    => $formattedPhone,
-        'message'    => urlencode($message),
-        'sender'     => $senderId,
-        'route'      => $route,
-        'DLT_TE_ID'  => $dltTemplateId,
-    ];
-
     try {
-        // Send using MSG91 HTTP API
-        $response = Http::get("http://api.msg91.com/api/sendhttp.php", $queryParams);
-        $body = trim($response->body());
 
-        Log::info("MSG91 Login OTP Response:", [
-            'phone' => $formattedPhone,
-            'otp'   => $otp,
-            'raw'   => $body
+        $response = Http::withHeaders([
+            'authkey' => $authKey,
+            'Content-Type' => 'application/json'
+        ])->post("https://api.msg91.com/api/v5/otp", [
+            "template_id" => $templateId,
+            "mobile"      => $formattedPhone,
+            "otp"         => $otp
         ]);
 
-        // SUCCESS = 24 Digital Hex Message ID
-        if (preg_match('/^[A-Za-z0-9]{20,}$/', $body)) {
-            return $otp; // OTP return — important
-        } else {
-            Log::error("OTP Send Failed: " . $body);
+        Log::info("OTP API Response", [
+            "phone" => $formattedPhone,
+            "otp" => $otp,
+            "raw" => $response->body()
+        ]);
+
+        if ($response->successful()) {
+            return $otp;
         }
 
     } catch (\Exception $e) {
-        Log::error("MSG91 Error: " . $e->getMessage());
+        Log::error("OTP Sending Error: ".$e->getMessage());
     }
 
-    return $otp; // fallback
+    return $otp;
 }
+
 
 
 
