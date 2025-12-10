@@ -579,7 +579,7 @@
 
                             {{-- NEW FINAL PRICE (JS will replace this dynamically) --}}
                             <span class="final-price">
-                                ₹ {{ number_format($value->display_price ?? 0, 2) }} per night
+                                ₹ {{ number_format($value->display_price ?? 0, 2) }} 
                             </span>
                         </div>
                     </div>
