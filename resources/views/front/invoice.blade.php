@@ -61,17 +61,71 @@
 
   <ul>
     <li>
-      {{ optional($booking->packagetemp)->child_no_bed_child_count ?? 0 }} No. of Child Without Bed
+      {{ optional($booking->packagetemp)->adults_count ?? 0 }} Adults
     </li>
+
+    <li>
+          {{ optional($booking->packagetemp)->children_5_11 ?? 0 }} Children (5-11 years)
+    </li>
+
+    <li>
+      {{ optional($booking->packagetemp)->children_1_5 ?? 0 }} Children (1-5 years)
+    </li>
+
+    <li>
+      {{ optional($booking->packagetemp)->number_of_rooms ?? 0 }} No. of Rooms
+    </li>
+
     <li>
       {{ optional($booking->packagetemp)->extra_bed ?? 0 }} No. of Extra Bed
     </li>
+
+    
+    <li>
+      {{ optional($booking->packagetemp)->child_no_bed_child_count ?? 0 }} No. of Child Without Bed
+    </li>
+
+    <li>
+      @php
+    $hotelLabels = [
+        'standard_cost'     => 'Standard Hotel',
+        'deluxe_cost'       => 'Deluxe Hotel',
+        'premium_3_cost'    => 'Premium (3 star)',
+        'super_deluxe_cost' => 'Super Deluxe Hotel',
+        'premium_cost'      => 'Premium (4 star)',
+        'luxury_cost'       => 'Deluxe (4 star) Hotel',
+        'premium_5_cost'    => 'Premium (5 star)',
+        'hostels'           => 'Hostels',
+    ];
+
+    // Hotel preference value (null-safe)
+    $hotelPref = optional($booking->packagetemp)->hotel_preference;
+    @endphp
+
+    {{ $hotelLabels[$hotelPref ?? ''] ?? 'NO DATA' }} Preference
+    </li>
+
+
     <li>
       {{ optional($booking->packagetemp)->room_category ?? 0 }} Room Category
     </li>
-<li>
-      {{ optional($booking->packagetemp)->adults_count ?? 0 }} Adults
-</li>
+
+    <li>
+      @php
+    $labels = [
+        'breakfast'        => 'Breakfast',
+              'breakfast_dinner' => 'Breakfast + Dinner/Lunch',
+              'all_meals'        => 'All Meals',
+              'no_meal'          => 'No Meal',
+          ];
+
+          $meal = optional($booking->packagetemp)->meal;
+      @endphp
+
+      {{ $labels[$meal ?? ''] ?? 'No Meal' }}
+
+      </li>
+
 <li>
       @php
     $vehicleLabels = [
@@ -92,54 +146,13 @@
 
 {{ $vehicleLabels[$vehiclePref ?? ''] ?? 'NO DATA' }} Vehicle
 </li>
-<li>
-      {{ optional($booking->packagetemp)->vehicle_count ?? 0 }} No. of Vehicle 
-</li>
+
 <li>
       {{ optional($booking->packagetemp)->pickup_location ?? 0 }} Pickup Location
 </li>
-<li>
-      {{ optional($booking->packagetemp)->children_1_5 ?? 0 }} Children (1-5 years)
-</li>
-<li>
-      {{ optional($booking->packagetemp)->children_5_11 ?? 0 }} Children (5-11 years)
-</li>
-<li>
-      {{ optional($booking->packagetemp)->number_of_rooms ?? 0 }} No. of Rooms
-</li>
-<li>
-      @php
-    $hotelLabels = [
-        'standard_cost'     => 'Standard Hotel',
-        'deluxe_cost'       => 'Deluxe Hotel',
-        'premium_3_cost'    => 'Premium (3 star)',
-        'super_deluxe_cost' => 'Super Deluxe Hotel',
-        'premium_cost'      => 'Premium (4 star)',
-        'luxury_cost'       => 'Deluxe (4 star) Hotel',
-        'premium_5_cost'    => 'Premium (5 star)',
-        'hostels'           => 'Hostels',
-    ];
 
-    // Hotel preference value (null-safe)
-    $hotelPref = optional($booking->packagetemp)->hotel_preference;
-@endphp
-
-{{ $hotelLabels[$hotelPref ?? ''] ?? 'NO DATA' }} Preference
-</li>
 <li>
-      @php
-    $labels = [
-        'breakfast'        => 'Breakfast',
-        'breakfast_dinner' => 'Breakfast + Dinner/Lunch',
-        'all_meals'        => 'All Meals',
-        'no_meal'          => 'No Meal',
-    ];
-
-    $meal = optional($booking->packagetemp)->meal;
-@endphp
-
-{{ $labels[$meal ?? ''] ?? 'No Meal' }}
-
+      {{ optional($booking->packagetemp)->vehicle_count ?? 0 }} No. of Vehicle 
 </li>
 
   </ul>
@@ -184,6 +197,28 @@
       <p><strong>No Hotels Available</strong></p>
   @endif
 
+  <p>Tourist Details</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="bold">Name</th>
+        <th class="bold">Age</th>
+        <th class="bold">Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+          @foreach($Customer as $cust)
+          <tr>
+              <td>{{ $cust->name ?? 'N/A' }}</td>
+              <td>{{ $cust->age ?? 'N/A' }}</td>
+              <td>{{ $cust->phone ?? 'N/A' }}</td>
+               </tr>
+          @endforeach
+     
+    </tbody>
+  </table>
 </div>
 
 </body>
