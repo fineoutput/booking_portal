@@ -583,7 +583,7 @@ private function sendOtp($phone)
     $otp = rand(1000, 9999);
 
     $authKey = "1401583980000074503"; 
-    $senderId = "TRPDKO";
+    $senderId = "TRPDKH";
     $route = 4;
     $dltTemplateId = "693952d21a9eac422c6a57bf";
 
