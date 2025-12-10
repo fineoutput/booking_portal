@@ -15,6 +15,7 @@ class Agent extends Authenticatable
     protected $fillable = [
         'name',
         'business_name',
+        'address',
         'auth',
         'state_id',
         'city_id',

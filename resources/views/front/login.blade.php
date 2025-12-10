@@ -206,6 +206,12 @@
                                         <input type="text" class="form-control" id="businessName" name="business_name" placeholder="Enter your business name" required>
                                     </div>
                                         </div>
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                        <label for="address" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address" required>
+                                    </div>
+                                        </div>
                                     </div>
                                     
                                     
