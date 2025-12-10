@@ -637,7 +637,7 @@ $houseRuleIcons = [
                                             <p class="dis_price" id=""
                                                 style="color: #000;font-size: 28px; font-weight: 900;line-height: 22px;">
                                                 ₹ @if ($hotel_room_1 && $hotel_room_1->price)
-                                                {{ $hotel_room_1->price->night_cost }} Per Night
+                                                {{ $hotel_room_1->price->night_cost }}
                                                 @else
                                                 Price not available
                                                 @endif
