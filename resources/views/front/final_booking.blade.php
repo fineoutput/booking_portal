@@ -71,7 +71,7 @@
     }
 
     .room-info ul {
-      list-style-type: disc;
+      list-style-type: circle;
       padding-left: 20px;
       margin: 5px 0;
     }
@@ -111,7 +111,33 @@
         <h2>{{$hotel->name ?? ''}}</h2>
         {{-- <div class="star-rating">★★★☆☆</div> --}}
         <div class="address">{{$hotel->location ?? ''}} {{$hotel->state->state_name ?? ''}}, {{$hotel->cities->city_name ?? ''}}</div>
-      </div>
+        <div class="room-info">
+      <h3>{{$hotel_room_1->title ?? ''}}</h3>
+      {{-- <p>2 Adults</p> --}}
+      <ul>
+         @foreach(explode(',', $hotel_room_1->meal_plan) as $amenity)
+                                    @if(trim($amenity) !== '')
+                                    
+                                     @if($amenity == 'meal_plan_only_room')
+                                      <li> Meal Plan (Only Room)</li>
+                                  @elseif($amenity == 'meal_plan_breakfast')
+                                     <li> Meal Plan (Breakfast)</li>
+                                  @elseif($amenity == 'meal_plan_all_meals')
+                                     <li> Meal Plan (All Meals)</li>
+                                  @elseif($amenity == 'meal_plan_breakfast_lunch_dinner')
+                                      <li> Meal Plan (Breakfast + Lunch/Dinner)</li>
+                                  @else
+                                      No Meals Selected
+                                  @endif
+
+                                        {{-- <li>✔ {{ trim($amenity) }}</li> --}}
+                                    @endif
+                                @endforeach
+                                </ul>
+                              
+                                
+                              </div>
+    </div>
       @php
     $images = json_decode($hotel_room_1->images ?? '[]', true);
 @endphp
@@ -300,35 +326,9 @@
        
   </form> 
   
-    <div class="room-info">
-      <h3>{{$hotel_room_1->title ?? ''}}</h3>
-      {{-- <p>2 Adults</p> --}}
-      <ul>
-         @foreach(explode(',', $hotel_room_1->meal_plan) as $amenity)
-                                    @if(trim($amenity) !== '')
-                                    
-                                     @if($amenity == 'meal_plan_only_room')
-                                      <li> Meal Plan (Only Room)</li>
-                                  @elseif($amenity == 'meal_plan_breakfast')
-                                     <li> Meal Plan (Breakfast)</li>
-                                  @elseif($amenity == 'meal_plan_all_meals')
-                                     <li> Meal Plan (All Meals)</li>
-                                  @elseif($amenity == 'meal_plan_breakfast_lunch_dinner')
-                                      <li> Meal Plan (Breakfast + Lunch/Dinner)</li>
-                                  @else
-                                      No Meals Selected
-                                  @endif
+    
 
-                                        {{-- <li>✔ {{ trim($amenity) }}</li> --}}
-                                    @endif
-                                @endforeach
-                                </ul>
-                                <p><strong>Non-Refundable</strong><br>Refund is not applicable for this booking</p>
-                                
-                                
-                              </div>
-
-                              <div class="important-info">
+                              {{--<div class="important-info">
                                 <h4>Important information</h4>
                                 <ul>
                                    @foreach(explode(',', $hotel_room_1->nearby) as $amenity)
@@ -336,12 +336,12 @@
                                         <li>{{ trim($amenity) }}</li>
                                     @endif
                                 @endforeach
-                                  {{-- <li>Local ids not allowed</li>
+                                   <li>Local ids not allowed</li>
                                   <li>Primary Guest should be at least 18 years of age.</li>
-                                  <li>Passport, Aadhaar, Driving License and Govt. ID are accepted as ID proof(s)</li> --}}
+                                  <li>Passport, Aadhaar, Driving License and Govt. ID are accepted as ID proof(s)</li> 
                                 </ul>
                                 <span class="view-more" onclick="toggleInfo(this)">View More</span>
-                              </div>
+                              </div>--}}
                             </div>
                               </div>
                           </section>
