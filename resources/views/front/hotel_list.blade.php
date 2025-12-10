@@ -478,11 +478,6 @@
               </div>
             </div>
 
-
-
-
-
-
             <!-- Submit -->
             <div class="d-flex justify-content-center ">
               <button class="mt-2 _btn" type="submit">Apply Filter</button>
@@ -490,11 +485,6 @@
             </div>
 
           </form>
-
-
-
-
-
         </div>
         </div>
       </div>
@@ -502,7 +492,7 @@
       <div class="col-lg-9 col-sm-12 col-md-12">
         <div class="row">
 
-          @if($hotels)
+          {{-- @if($hotels)
           @foreach ($hotels as $key => $value)
           <div class="col-lg-4 mb-3">
             @php
@@ -519,30 +509,19 @@
                   @php
                   $hotelPrice = $hotel_prices[$value->id] ?? null;
                   @endphp
-                  {{-- @if($hotelPrice)
-                  ₹{{ number_format($hotelPrice->night_cost ?? 0, 2) }} onwards
-                  @else
-                  Price Not Available
-                  @endif --}}
+                
                 </div>
 
                 <div class="gradient-overlayashEs"></div>
                 <div class="contentashEs">
 
                   <h3>{{ \Illuminate\Support\Str::limit($value->name ?? '', 30) }}</h3>
-
-                  {{-- <div class="itineraryashEs">
-                    <span>{{ $value->cities->city_name ?? '' }}</span>
-                    <span>⭐️⭐️⭐️⭐️⭐️ (2 reviews)</span>
-                  </div> --}}
-
                   <div class="detailsashEs">
                     <div class="durationashEs">
                      
                    <span>📍 {{ $value->cities->city_name ?? '' }}</span>
                     </div>
                     <div class="locationashEs">
-                      {{-- <h3>{{$value->room_name ?? ''}}</h3> --}}
                       <span>₹ {{ number_format($value->display_price ?? 0, 2) }} per night</span>
                     </div>
                   </div>
@@ -561,12 +540,109 @@
           <div class="col-lg-6">
             <h1>No Package Found</h1>
           </div>
-          @endif
+          @endif --}}
+
+@if($hotels)
+    @foreach ($hotels as $key => $value)
+    <div class="col-lg-4 mb-3">
+
+        @php
+        $images = json_decode($value->images);
+        $imagePath = ($images && is_array($images) && count($images) > 0)
+            ? asset(reset($images))
+            : asset('frontend/images/hotel_main.avif');
+        @endphp
+
+        <a style="color: #fff" 
+           href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
+
+            <div class="cardashEs hotel-card"
+                data-price="{{ $value->display_price ?? 0 }}"
+                style="background: url('{{ $imagePath }}') no-repeat center / cover; position: relative;">
+
+                <div class="price-tagashEs"></div>
+
+                <div class="gradient-overlayashEs"></div>
+
+                <div class="contentashEs">
+
+                    <h3>{{ \Illuminate\Support\Str::limit($value->name ?? '', 30) }}</h3>
+
+                    <div class="detailsashEs">
+                        <div class="durationashEs">
+                            <span>📍 {{ $value->cities->city_name ?? '' }}</span>
+                        </div>
+
+                        <div class="locationashEs">
+                            {{-- OLD PRICE --}}
+                            {{-- <span>₹ {{ number_format($value->display_price ?? 0, 2) }} per night</span> --}}
+
+                            {{-- NEW FINAL PRICE (JS will replace this dynamically) --}}
+                            <span class="final-price">
+                                ₹ {{ number_format($value->display_price ?? 0, 2) }} per night
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="options_btns d-flex justify-content-center mt-2">
+                        <a class="_btn" 
+                           href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
+                           Book Now
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </a>
+    </div>
+    @endforeach
+@else
+    <div class="col-lg-6">
+        <h1>No Package Found</h1>
+    </div>
+@endif
+
 
         </div>
       </div>
     </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let formData = localStorage.getItem("hotelFormData");
+    if (!formData) return;
+
+    formData = JSON.parse(formData);
+
+    let startDate = new Date(formData.start_date);
+    let endDate = new Date(formData.end_date);
+
+    let nightCount = (endDate - startDate) / (1000 * 60 * 60 * 24);
+    if (nightCount <= 0) nightCount = 1;
+
+    let infants = parseInt(formData.infants ?? 1);
+    if (infants <= 0) infants = 1;
+
+    document.querySelectorAll(".hotel-card").forEach(card => {
+
+        let basePrice = parseFloat(card.dataset.price);
+        if (isNaN(basePrice)) basePrice = 0;
+
+        let finalPrice = basePrice * nightCount * infants;
+
+        let finalPriceElement = card.querySelector(".final-price");
+
+        if (finalPriceElement) {
+            finalPriceElement.innerText = 
+                "₹ " + finalPrice.toFixed(2) + " total";
+        }
+
+    });
+});
+</script>
+
 
 
 <script>
