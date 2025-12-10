@@ -594,7 +594,7 @@ private function sendOtp($phone)
     }
 
     // Msg text
-    $templateContent = "Login Message- Your OTP for logging in to the Trip Dekho account is ##var## and is valid for the next 5 min. Do not share your OTP with anyone. - Tripdekho
+    $templateContent = "Your OTP for logging in to the Trip Dekho account is ##var## and is valid for the next 5 min. Do not share your OTP with anyone. - Tripdekho
     www.tripsdekho.com";
 
     $message = str_replace('##var##', $otp, $templateContent);
