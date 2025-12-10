@@ -2816,6 +2816,7 @@ public function calculatePrice(Request $request, $id)
             $packagebooking->agent_margin = $request->agent_margin;
             $packagebooking->final_price = $request->final_price;
             $packagebooking->salesman_name = $request->salesman_name;
+            $packagebooking->guest_name = $request->guest_name;
             $packagebooking->salesman_mobile = $request->salesman_mobile;
             $packagebooking->status = 0;
             $packagebooking->save();

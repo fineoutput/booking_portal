@@ -30,6 +30,10 @@
                 <label for="salesmanName" class="form-label">Salesman Name</label>
                 <input type="text" id="salesmanName" name="salesman_name" class="form-control" placeholder="Enter salesman name" required>
             </div>
+            <div class="mb-3">
+                <label for="guest_name" class="form-label">Guest Name</label>
+                <input type="text" id="guest_name" name="guest_name" class="form-control" placeholder="Enter Guest name" required>
+            </div>
         
             <div class="mb-3">
                 <label for="salesmanMobile" class="form-label">Salesman Mobile No.</label>

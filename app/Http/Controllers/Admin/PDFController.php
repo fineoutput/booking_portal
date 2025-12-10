@@ -102,9 +102,7 @@ public function downloadWithLogo($user_id, $booking_id, $pdf_name)
         $data['user'] = Agent::find($user_id);
         $data['booking'] = PackageBooking::with('tourists', 'hotels', 'package', 'packagetemp')
                         ->where('user_id', $user_id)
-                        ->find($booking_id);
-
-        $data['Customer'] = Tourist::where('booking_id', $booking_id)->get();              
+                        ->find($booking_id);            
 
         if (!$data['booking']) {
             return abort(404, 'Booking not found.');

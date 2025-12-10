@@ -45,7 +45,7 @@
   </div>
 
   <!-- Main Content -->
-  <p>Hi Sir/Madam,</p>
+  <p>Hi {{ $booking->guest_name ?? 'Sir/Madam' }},</p>
 
   <p>Greetings from <strong>{{ $user->business_name ?? 'Our Company' }}</strong>.</p>
 
@@ -197,28 +197,6 @@
       <p><strong>No Hotels Available</strong></p>
   @endif
 
-  <p>Tourist Details</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th class="bold">Name</th>
-        <th class="bold">Age</th>
-        <th class="bold">Phone</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-          @foreach($Customer as $cust)
-          <tr>
-              <td>{{ $cust->name ?? 'N/A' }}</td>
-              <td>{{ $cust->age ?? 'N/A' }}</td>
-              <td>{{ $cust->phone ?? 'N/A' }}</td>
-               </tr>
-          @endforeach
-     
-    </tbody>
-  </table>
 </div>
 
 </body>

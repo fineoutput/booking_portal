@@ -20,6 +20,7 @@ class PackageBooking extends Model
         'final_price',
         'salesman_name',
         'salesman_mobile',
+        'guest_name',
 
         'end_date',
         'start_date',
