@@ -21,9 +21,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; 
 use Razorpay\Api\Api;
-
-
-
+use Illuminate\Support\Facades\Http;
 
 
 class AuthController extends Controller
@@ -375,27 +373,92 @@ public function razorpayCallbackApi(Request $request)
 
     
 
-    private function sendOtp($phone = null, $email = null)
+    // private function sendOtp($phone = null, $email = null)
+    // {
+    //     // $otp = rand(1000, 9999); 
+    //     $otp = 123456; 
+    //     $sourceName = $phone ?? $email; 
+    //     $existingOtp = UserOtp::where('source_name', $sourceName);
+    //     if ($existingOtp) {
+    //         $existingOtp->update(['otp' => 0]);
+    //     }
+    //     $data = [
+    //         'otp' => $otp,
+    //         'expires_at' => now()->addMinutes(10), // Set expiry time for OTP (e.g., 10 minutes)
+    //         'source_name' => $sourceName,
+    //         'type' => $phone ? 'phone' : 'email',
+    //     ];
+    //     UserOtp::create($data);
+    //     if ($phone) {
+    //         // $this->sendOtpToPhone($phone, $otp);
+    //     } elseif ($email) {
+    //         // $this->sendOtpToEmail($email, $otp);
+    //     }
+    // }
+
+
+     private function sendOtp($phone)
     {
-        // $otp = rand(1000, 9999); 
-        $otp = 123456; 
-        $sourceName = $phone ?? $email; 
-        $existingOtp = UserOtp::where('source_name', $sourceName);
-        if ($existingOtp) {
-            $existingOtp->update(['otp' => 0]);
+        $otp = rand(1000, 9999);
+        $existingOtp = UserOtp::orderBy('id','DESC')->where('source_name', $phone)->first();
+            if ($existingOtp) {
+                $existingOtp->update(['otp' => 0]);
+            }
+
+            $otpEntry = UserOtp::create([
+                'source_name' => $phone,
+                'otp' => $otp,
+                'type' => 'phone',
+                'expires_at' => Carbon::now()->addMinutes(5),
+            ]);
+
+        $authKey = "479417AKHG1Ubu69396566P1";
+        $templateId = "693952d21a9eac422c6a57bf";  // MSG91 Flow Template ID
+
+        // Format phone
+        $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
+        if (strlen($formattedPhone) == 10) {
+            $formattedPhone = "91" . $formattedPhone;
         }
-        $data = [
-            'otp' => $otp,
-            'expires_at' => now()->addMinutes(10), // Set expiry time for OTP (e.g., 10 minutes)
-            'source_name' => $sourceName,
-            'type' => $phone ? 'phone' : 'email',
+
+        // Prepare MSG91 Flow API payload
+        $payload = [
+            "template_id" => $templateId,
+            "short_url" => "0",
+            "realTimeResponse" => "1",
+            "recipients" => [
+                [
+                    "mobiles" => $formattedPhone,
+                    "var" => $otp   // ##var## → VAR1
+                ]
+            ]
         ];
-        UserOtp::create($data);
-        if ($phone) {
-            // $this->sendOtpToPhone($phone, $otp);
-        } elseif ($email) {
-            // $this->sendOtpToEmail($email, $otp);
+
+        try {
+
+            // Send SMS using MSG91 FLOW API
+            $response = Http::withHeaders([
+                "accept" => "application/json",
+                "authkey" => $authKey,
+                "content-type" => "application/json"
+            ])->post("https://control.msg91.com/api/v5/flow/", $payload);
+
+            Log::info("MSG91 OTP Response", [
+                "phone" => $formattedPhone,
+                "otp"   => $otp,
+                "payload" => $payload,
+                "response" => $response->json()
+            ]);
+
+            if ($response->successful()) {
+                return $otp;
+            }
+
+        } catch (\Exception $e) {
+            Log::error("OTP Sending Error: " . $e->getMessage());
         }
+
+        return $otp;
     }
     
     private function sendOtpToEmail($email, $otp)
