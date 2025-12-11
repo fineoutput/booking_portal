@@ -3270,6 +3270,7 @@ public function confirm(Request $request)
 
     $packagebooking = new PackageBooking();
     $packagebooking->package_temp_id = $request->package_id;
+    $packagebooking->guest_name = $request->guest_name;
     $packagebooking->user_id = $packagetempbooking->user_id;
     $packagebooking->package_id = $packagetempbooking->package_id;
     $packagebooking->fetched_price = $packagetempbooking->total_cost;

@@ -583,26 +583,38 @@ private function sendOtp($phone)
     $otp = rand(1000, 9999);
 
     $authKey = "479417AKHG1Ubu69396566P1"; 
-    $templateId = "693952d21a9eac422c6a57bf";
+    $templateId = "1401583980000074503";
+    $senderId = "TRPDKH";
 
-    // Format mobile
+    // Format number
     $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
     if (strlen($formattedPhone) == 10) {
         $formattedPhone = "91" . $formattedPhone;
     }
 
+    // SMS template text
+    $message = "Your OTP for logging in to the Trip Dekho account is $otp and is valid for the next 5 min. Do not share your OTP with anyone. - Tripdekho www.tripsdekho.com";
+
     try {
 
+        // Send SMS using MSG91 SEND SMS API
         $response = Http::withHeaders([
-            'authkey' => $authKey,
-            'Content-Type' => 'application/json'
-        ])->post("https://api.msg91.com/api/v5/otp", [
-            "template_id" => $templateId,
-            "mobile"      => $formattedPhone,
-            "otp"         => $otp
+            "authkey" => $authKey,
+            "Content-Type" => "application/json"
+        ])->post("https://api.msg91.com/api/v2/sendsms", [
+            "sender" => $senderId,
+            "route"  => "4",
+            "country" => "91",
+            "sms" => [
+                [
+                    "message" => $message,
+                    "to"      => [$formattedPhone]
+                ]
+            ],
+            "DLT_TE_ID" => $templateId
         ]);
 
-        Log::info("OTP API Response", [
+        Log::info("SMS API Response", [
             "phone" => $formattedPhone,
             "otp" => $otp,
             "raw" => $response->body()
@@ -613,12 +625,11 @@ private function sendOtp($phone)
         }
 
     } catch (\Exception $e) {
-        Log::error("OTP Sending Error: ".$e->getMessage());
+        Log::error("SMS Sending Error: ".$e->getMessage());
     }
 
     return $otp;
 }
-
 
 
 
