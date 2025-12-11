@@ -578,58 +578,125 @@ public function agentLoginWithMobile(Request $request)
 }
 
 
-private function sendOtp($phone)
-{
-    $otp = rand(1000, 9999);
+// private function sendOtp($phone)
+// {
+//     $otp = rand(1000, 9999);
 
-    $authKey = "479417AKHG1Ubu69396566P1"; 
-    $templateId = "1401583980000074503";
-    $senderId = "TRPDKH";
+//     $authKey = "479417AKHG1Ubu69396566P1"; 
+//     $templateId = "1401583980000074503";
+//     $senderId = "TRPDKH";
 
-    // Format number
-    $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
-    if (strlen($formattedPhone) == 10) {
-        $formattedPhone = "91" . $formattedPhone;
-    }
+//     // Format number
+//     $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
+//     if (strlen($formattedPhone) == 10) {
+//         $formattedPhone = "91" . $formattedPhone;
+//     }
 
-    // SMS template text
-    $message = "Your OTP for logging in to the Trip Dekho account is $otp and is valid for the next 5 min. Do not share your OTP with anyone. - Tripdekho www.tripsdekho.com";
+//     // SMS template text
+//     $message = "Your OTP for logging in to the Trip Dekho account is $otp and is valid for the next 5 min. Do not share your OTP with anyone. - Tripdekho www.tripsdekho.com";
 
-    try {
+//     try {
 
-        // Send SMS using MSG91 SEND SMS API
-        $response = Http::withHeaders([
-            "authkey" => $authKey,
-            "Content-Type" => "application/json"
-        ])->post("https://api.msg91.com/api/v2/sendsms", [
-            "sender" => $senderId,
-            "route"  => "4",
-            "country" => "91",
-            "sms" => [
-                [
-                    "message" => $message,
-                    "to"      => [$formattedPhone]
-                ]
-            ],
-            "DLT_TE_ID" => $templateId
-        ]);
+//         // Send SMS using MSG91 SEND SMS API
+//         $response = Http::withHeaders([
+//             "authkey" => $authKey,
+//             "Content-Type" => "application/json"
+//         ])->post("https://api.msg91.com/api/v2/sendsms", [
+//             "sender" => $senderId,
+//             "route"  => "4",
+//             "country" => "91",
+//             "sms" => [
+//                 [
+//                     "message" => $message,
+//                     "to"      => [$formattedPhone]
+//                 ]
+//             ],
+//             "DLT_TE_ID" => $templateId
+//         ]);
 
-        Log::info("SMS API Response", [
-            "phone" => $formattedPhone,
-            "otp" => $otp,
-            "raw" => $response->body()
-        ]);
+//         Log::info("SMS API Response", [
+//             "phone" => $formattedPhone,
+//             "otp" => $otp,
+//             "raw" => $response->body()
+//         ]);
 
-        if ($response->successful()) {
-            return $otp;
+//         if ($response->successful()) {
+//             return $otp;
+//         }
+
+//     } catch (\Exception $e) {
+//         Log::error("SMS Sending Error: ".$e->getMessage());
+//     }
+
+//     return $otp;
+// }
+
+
+
+  private function sendOtp($phone)
+    {
+        $otp = rand(1000, 9999);
+        $existingOtp = UserOtp::orderBy('id','DESC')->where('source_name', $phone)->first();
+            if ($existingOtp) {
+                $existingOtp->update(['otp' => 0]);
+            }
+
+            $otpEntry = UserOtp::create([
+                'source_name' => $phone,
+                'otp' => $otp,
+                'type' => 'phone',
+                'expires_at' => Carbon::now()->addMinutes(5),
+            ]);
+
+        $authKey = "479417AKHG1Ubu69396566P1";
+        $templateId = "693952d21a9eac422c6a57bf";  // MSG91 Flow Template ID
+
+        // Format phone
+        $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
+        if (strlen($formattedPhone) == 10) {
+            $formattedPhone = "91" . $formattedPhone;
         }
 
-    } catch (\Exception $e) {
-        Log::error("SMS Sending Error: ".$e->getMessage());
+        // Prepare MSG91 Flow API payload
+        $payload = [
+            "template_id" => $templateId,
+            "short_url" => "0",
+            "realTimeResponse" => "1",
+            "recipients" => [
+                [
+                    "mobiles" => $formattedPhone,
+                    "var" => $otp   // ##var## → VAR1
+                ]
+            ]
+        ];
+
+        try {
+
+            // Send SMS using MSG91 FLOW API
+            $response = Http::withHeaders([
+                "accept" => "application/json",
+                "authkey" => $authKey,
+                "content-type" => "application/json"
+            ])->post("https://control.msg91.com/api/v5/flow/", $payload);
+
+            Log::info("MSG91 OTP Response", [
+                "phone" => $formattedPhone,
+                "otp"   => $otp,
+                "payload" => $payload,
+                "response" => $response->json()
+            ]);
+
+            if ($response->successful()) {
+                return $otp;
+            }
+
+        } catch (\Exception $e) {
+            Log::error("OTP Sending Error: " . $e->getMessage());
+        }
+
+        return $otp;
     }
 
-    return $otp;
-}
 
 
 
