@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Wallet;
 use Illuminate\Support\ServiceProvider;
 use App\Models\WalletTransactions;
 use Illuminate\Support\Facades\View;
@@ -17,7 +18,15 @@ class ViewServiceProvider extends ServiceProvider
                 ->latest('created_at')
                 ->first();
 
-            $view->with('lastRecharge', $lastRecharge);
+                
+            $wallet = Wallet::where('user_id', $user_id)
+                ->select('balance')
+                ->first() ?? null;
+
+            $view->with([
+            'lastRecharge' => $lastRecharge,
+            'wallet' => $wallet
+        ]);
         });
     }
 }

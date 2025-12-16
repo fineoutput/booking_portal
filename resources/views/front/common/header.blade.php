@@ -188,8 +188,8 @@
             <div class='kya_kiya'>
                 <a href="{{ route('user_profile') }}?tab=wallet" class="mmt-title dropdown-item">
                     My Wallet 
-                    @if(isset($lastRecharge))
-                    <span class="mmt-wallet">₹{{ $lastRecharge->amount ?? '0' }}</span>
+                    @if(isset($wallet))
+                    <span class="mmt-wallet">₹{{ $wallet->balance ?? '0' }}</span>
                     @endif
                 </a>
                 <p class="mmt-desc">Use your wallet money to avail even greater discounts</p>
