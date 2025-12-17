@@ -213,16 +213,16 @@
                 <li class="nav-item suther">
                     <a class="nav-link suther" style="color: #000;" href="#hotelBookings" data-bs-toggle="tab">Hotel Bookings</a>
                 </li>
-                <li class="nav-item suther">
+                {{-- <li class="nav-item suther">
                     <a class="nav-link suther" style="color: #000;" href="#safariBookings" data-bs-toggle="tab">Safari Bookings</a>
-                </li>
+                </li> --}}
                 <li class="nav-item suther">
                     <a class="nav-link suther" style="color: #000;" href="#taxibooking" data-bs-toggle="tab">Taxi Bookings</a>
                 </li>
                 
-                <li class="nav-item suther">
+                {{-- <li class="nav-item suther">
                     <a class="nav-link suther" style="color: #000;" href="#guidebooking" data-bs-toggle="tab">Guide Bookings</a>
-                </li>
+                </li> --}}
             </ul>
 
             <!-- Sub-tab Content -->

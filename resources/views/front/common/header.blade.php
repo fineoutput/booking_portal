@@ -307,14 +307,14 @@
           <img style="width: 50px; height: 50px;" src="https://edge.ixigo.com/st/vimaan/_next/static/media/hotel.4b63222d.svg" alt="">
             
           Hotels</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('wildlife') }}">
+        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('wildlife') }}">
           <img style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/128/4793/4793758.png" alt="">
             
-          Safari</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('guide') }}">
+          Safari</a></li> --}}
+        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('guide') }}">
           <img style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/128/2268/2268568.png" alt="">
             
-          Guide</a></li>
+          Guide</a></li> --}}
       </ul>
       
 
