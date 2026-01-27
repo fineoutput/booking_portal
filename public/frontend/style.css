@@ -1418,7 +1418,7 @@ textarea.form-control {
   font-size: 3.5rem;
   color: rgb(255, 255, 255);
   font-weight: 100;
-  padding: 20px;
+  /* padding: 20px; */
 }
 .kWdvAD {
   font-size: 1rem;

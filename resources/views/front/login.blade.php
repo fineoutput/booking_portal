@@ -50,25 +50,129 @@
         max-height: 75vh;
         overflow-y: auto;
     }
+
+    /* LEFT CONTENT SECTION */
+.content {
+  padding: 60px;
+  color: #ffffff;
+  /* background: linear-gradient(160deg, #1b3c4f, #274e63); */
+  position: relative;
+}
+
+/* Top Badge */
+.content .badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Main Heading */
+.content h1 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+
+/* Paragraph Text */
+.content p {
+  font-size: 16px;
+  line-height: 1.7;
+  opacity: 0.95;
+  margin-bottom: 18px;
+}
+
+/* Feature List Container */
+.content .features {
+  margin-top: 30px;
+}
+
+/* Single Feature Row */
+.content .feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+/* Feature Icon */
+.content .feature i {
+  font-size: 20px;
+  color: #ffd369;
+  margin-top: 4px;
+}
+
+/* Feature Text */
+.content .feature p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Highlight Offer Box */
+.content .highlight {
+  margin-top: 30px;
+  background: rgba(255, 211, 105, 0.15);
+  border-left: 4px solid #ffd369;
+  padding: 14px 16px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .content {
+    padding: 40px 30px;
+  }
+
+  .content h1 {
+    font-size: 30px;
+  }
+}
+
 </style>
 
 <section class="login_regg fgRbqL">
     <div class="container d-flex justify-content-center align-items-center">
         <div class="row">
             <div class="col-lg-6">
-                <div class="adding_head cnppKe">
-                    <h3>Your Gateway</h3>
-                    <span>To Profitable Travel Partnerships</span>
-                </div>
-                <div class="gate_para">
-                    <p class="kWdvAD"><b>Trip Dekho</b> is a PAN-India B2B Destination Management Company with *10+ years of industry expertise* , Our mission isn't just to provide tours,  it’s to build your brand’s reputation through flawless execution and *10% lower rates in the industry.</p>
-                    
-                    <p class="kWdvAD">From Kashmir to Kerala, Ladakh to the Northeast, we handle everything to make your Business easy!</p>
-                    
-                    <p class="kWdvAD">Your Vision, Our Expertise. A Decade of Trust.</p>
+                <div class="content">
+      <span class="badge">🚀 Your Gateway to Profitable Travel Partnerships</span>
 
-                    <p class="kWdvAD">Partner with us today and get an additional 10% off on your first booking</p>
-                </div>
+      <h1>Grow Your Travel Business with Confidence</h1>
+
+      <p>
+        <strong>Trip Dekho</strong> is a PAN-India B2B Destination Management Company with
+        <strong>10+ years of industry expertise</strong>.
+        We don’t just provide tours — we build your brand through flawless execution
+        and <strong>10% lower industry rates</strong>.
+      </p>
+
+      <div class="features">
+        <div class="feature">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <p>Nationwide coverage from <strong>Kashmir to Kerala</strong>, Ladakh to the Northeast</p>
+        </div>
+
+        <div class="feature">
+          <i class="fa-solid fa-gears"></i>
+          <p>End-to-end planning, operations & execution handled by experts</p>
+        </div>
+
+        <div class="feature">
+          <i class="fa-solid fa-handshake"></i>
+          <p>A decade of trust, reliability & profitable partnerships</p>
+        </div>
+      </div>
+
+      <div class="highlight">
+        🎁 <strong>Exclusive Partner Offer:</strong> Get an additional <strong>10% OFF</strong> on your first booking
+      </div>
+    </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-container" style="position: relative;">
