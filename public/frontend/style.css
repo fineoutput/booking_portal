@@ -1405,11 +1405,23 @@ textarea.form-control {
     border: none;
 }
 .fgRbqL {
+    position: relative;
     width: 100%;
-    display: flex;
-    background-image: linear-gradient(248deg, rgb(203 53 2) 100%, rgba(30, 36, 95, 0.88) 1%);
     height: 65.5rem;
+    display: flex;
     border-radius: 0px 0px 50% 50% / 60px;
+    overflow: hidden;
+}
+
+.fgRbqL::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('https://img.freepik.com/free-photo/top-view-camera-with-hat-compass_23-2148315771.jpg?t=st=1769519195~exp=1769522795~hmac=f63adac8827fd310f4deb013b0b0fe236c8c1b1d004887458dda3ba3b5658a9d&w=1480');
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: scaleX(-1);
+    z-index: -1;
 }
 .cnppKe span {
   font-weight: 900;

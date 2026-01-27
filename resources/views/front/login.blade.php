@@ -62,7 +62,7 @@
 /* Top Badge */
 .content .badge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgb(211 83 40);
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 14px;
@@ -72,7 +72,7 @@
 
 /* Main Heading */
 .content h1 {
-  font-size: 36px;
+  font-size: 33px;
   font-weight: 700;
   line-height: 1.3;
   margin-bottom: 20px;
@@ -133,12 +133,57 @@
     font-size: 30px;
   }
 }
+.glass-card {
+  /* width: 240px;
+  height: 360px; */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 20px 10px rgba(255, 255, 255, 1);
+  position: relative;
+  overflow: hidden;
+}
 
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
 </style>
 
 <section class="login_regg fgRbqL">
     <div class="container d-flex justify-content-center align-items-center">
-        <div class="row">
+        <div class="row glass-card">
             <div class="col-lg-6">
                 <div class="content">
       <span class="badge">🚀 Your Gateway to Profitable Travel Partnerships</span>
