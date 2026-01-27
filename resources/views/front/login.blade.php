@@ -58,10 +58,16 @@
             <div class="col-lg-6">
                 <div class="adding_head cnppKe">
                     <h3>Your Gateway</h3>
-                    <span>To Seamless Travel Adventures</span>
+                    <span>To Profitable Travel Partnerships</span>
                 </div>
                 <div class="gate_para">
-                    <p class="kWdvAD">Welcome to <b>Trip Dekho</b>, your all-in-one platform designed to simplify travel planning. With user-friendly features, unbeatable deals, and personalized services, we make booking your next adventure effortless and enjoyable.</p>
+                    <p class="kWdvAD"><b>Trip Dekho</b> is a PAN-India B2B Destination Management Company with *10+ years of industry expertise* , Our mission isn't just to provide tours,  it’s to build your brand’s reputation through flawless execution and *10% lower rates in the industry.</p>
+                    
+                    <p class="kWdvAD">From Kashmir to Kerala, Ladakh to the Northeast, we handle everything to make your Business easy!</p>
+                    
+                    <p class="kWdvAD">Your Vision, Our Expertise. A Decade of Trust.</p>
+
+                    <p class="kWdvAD">Partner with us today and get an additional 10% off on your first booking</p>
                 </div>
             </div>
             <div class="col-lg-6">
