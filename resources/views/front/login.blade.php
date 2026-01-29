@@ -54,7 +54,7 @@
     /* LEFT CONTENT SECTION */
 .content {
   padding: 60px;
-  color: #ffffff;
+  color: #000;
   /* background: linear-gradient(160deg, #1b3c4f, #274e63); */
   position: relative;
 }
