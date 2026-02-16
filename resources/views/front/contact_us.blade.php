@@ -5,13 +5,13 @@
     
 
 
-    .card{
-      background:var(--card);
-      padding:32px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      box-shadow:0 6px 18px rgba(0,0,0,0.04);
-    }
+    .card {
+    background: var(--card);
+    padding: 32px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 24%);
+  }
 
     h1{
       margin:0;
