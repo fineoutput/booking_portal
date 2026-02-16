@@ -179,11 +179,108 @@
     rgba(255, 255, 255, 0.3)
   );
 }
+
+  /* SECTION WRAPPER */
+.property-section{
+    max-width:1200px;
+    margin:60px auto;
+    padding:0 20px;
+}
+
+/* HEADING */
+.property-section h1{
+    font-size:36px;
+    margin-bottom:8px;
+    color:#222;
+}
+
+.property-section p{
+    font-size:18px;
+    color:#555;
+    margin-bottom:40px;
+}
+
+/* CARD ROW */
+.property-row{
+    display:flex;
+    gap:30px;
+    justify-content:space-between;
+    flex-wrap:wrap;
+}
+
+/* CARD */
+.property-card{
+    width:200px;
+    background:#f3f3f3;
+    border-radius:18px;
+    overflow:hidden;
+    transition:0.3s ease;
+    cursor:pointer;
+}
+
+.property-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* IMAGE */
+.property-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-top-left-radius:18px;
+    border-top-right-radius:18px;
+}
+
+/* LABEL */
+.property-label{
+    padding:18px 0;
+    text-align:center;
+    font-weight:600;
+    letter-spacing:1px;
+    font-size:16px;
+    background:#eaeaea;
+}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+    .property-row{
+        justify-content:center;
+    }
+}
+
+@media(max-width:768px){
+    .property-card{
+        width:45%;
+    }
+}
+
+@media(max-width:480px){
+    .property-card{
+        width:100%;
+    }
+}
+.center-logo{
+    display:flex;
+    justify-content:center;   /* horizontal center */
+    align-items:center;       /* vertical center */
+    /* width: 200px; */
+    widows: 100%;
+}
+.center-logo img{
+    width: 150px;
+    height: auto;
+}
 </style>
+
+
 
 <section class="login_regg fgRbqL">
     <div class="container d-flex justify-content-center align-items-center">
         <div class="row glass-card">
+            <div class="center-logo">
+    <img src="{{asset('frontend/images/black.png')}}" alt="">
+</div>
             <div class="col-lg-6">
                 <div class="content">
       <span class="badge">🚀 Your Gateway to Profitable Travel Partnerships</span>
@@ -483,7 +580,39 @@
     </div>
 </section>
 
+<section class="property-section">
+    <h1>Everything Your Customer Needs!</h1>
+    <p>Helping you find a perfect stay for everyone.</p>
 
+    <div class="property-row">
+
+        <div class="property-card">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945" alt="">
+            <div class="property-label">HOTELS</div>
+        </div>
+
+        <div class="property-card">
+            <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511" alt="">
+            <div class="property-label">HOMESTAYS</div>
+        </div>
+
+        <div class="property-card">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" alt="">
+            <div class="property-label">RESORTS</div>
+        </div>
+
+        <div class="property-card">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="">
+            <div class="property-label">VILLAS</div>
+        </div>
+
+        <div class="property-card">
+            <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb" alt="">
+            <div class="property-label">APARTMENTS</div>
+        </div>
+
+    </div>
+</section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
