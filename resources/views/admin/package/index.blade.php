@@ -69,7 +69,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach ($package as $key => $pkg)
+                      @foreach ($packages as $key => $pkg)
                       <tr>
                           <td>{{ $key + 1 }}</td>
                           <td>{{ $pkg->package_name ?? '' }}</td>
