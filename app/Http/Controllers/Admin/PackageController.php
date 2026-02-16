@@ -81,10 +81,36 @@ class PackageController extends Controller
         return view('admin.package.viewremark', compact('agentCalls'));
     }
 
-    function index() {
-        $data['package'] = Package::orderBy('id','DESC')->get();
-        return view('admin/package/index',$data);
+public function index()
+{
+    // Pagination lagao (performance ke liye important)
+    $packages = Package::orderBy('id','DESC')->paginate(10);
+
+    $allStateIds = [];
+    $allCityIds = [];
+
+    foreach ($packages as $pkg) {
+
+        if (!empty($pkg->state_id)) {
+            $allStateIds = array_merge($allStateIds, explode(',', $pkg->state_id));
+        }
+
+        if (!empty($pkg->city_id)) {
+            $allCityIds = array_merge($allCityIds, explode(',', $pkg->city_id));
+        }
     }
+
+    $states = \App\Models\State::whereIn('id', $allStateIds)
+                ->get()
+                ->keyBy('id');
+
+    $cities = \App\Models\City::whereIn('id', $allCityIds)
+                ->get()
+                ->keyBy('id');
+
+    return view('admin.package.index', compact('packages','states','cities'));
+}
+
 
     function pandingindex() {
         $user = Auth::user();

@@ -77,36 +77,36 @@
                           <td>{{ $pkg->night_count ?? '0' }}</td>
                           <td>{{ $pkg->pickup_location ?? '0' }}</td>
 
-                          <td class="states" style="width: 404px !important;">
-                            @if($pkg->state_id && $pkg->city_id)
-                                @php
-                                    $stateIds = explode(',', $pkg->state_id); // List of state IDs
-                                    $cityIds = explode(',', $pkg->city_id);  // List of city IDs
-                                    $stateCityPairs = [];
-                                @endphp
-                        
-                                @foreach($stateIds as $index => $stateId)
-                                    @php
-                                        $state = \App\Models\State::find($stateId);
-                                        $city = \App\Models\City::find($cityIds[$index] ?? null); // Get the city for the current index
-                                        
-                                        // If the state is found, get the state name and code (abbreviation)
-                                        $stateName = $state ? $state->state_name : 'State Not Found';
-                                        $stateCode = $state ? $state->state_code : ''; // Assuming there's a 'state_code' field
-                                        
-                                        // If the city is found, get the city name
-                                        $cityName = $city ? $city->city_name : 'City Not Found';
-                                        
-                                        // Add the state = city pair
-                                        $stateCityPairs[] = $stateName . ' [' . $stateCode . '] = ' . $cityName;
-                                    @endphp
-                                @endforeach
-                        
-                                {{ implode('<br>', $stateCityPairs) }} <!-- Display each pair on a new line -->
-                            @else
-                                {{ '' }}
-                            @endif
-                        </td>
+<td class="states" style="width:404px !important;">
+
+@if($pkg->state_id && $pkg->city_id)
+
+    @php
+        $stateIds = explode(',', $pkg->state_id);
+        $cityIds = explode(',', $pkg->city_id);
+        $stateCityPairs = [];
+    @endphp
+
+    @foreach($stateIds as $index => $stateId)
+
+        @php
+            $state = $states[$stateId] ?? null;
+            $city = $cities[$cityIds[$index] ?? null] ?? null;
+
+            $stateName = $state->state_name ?? 'State Not Found';
+            $stateCode = $state->state_code ?? '';
+            $cityName = $city->city_name ?? 'City Not Found';
+
+            $stateCityPairs[] = $stateName . ' [' . $stateCode . '] = ' . $cityName;
+        @endphp
+
+    @endforeach
+
+    {!! implode('<br>', $stateCityPairs) !!}
+
+@endif
+
+</td>
 
 
                           <td>
