@@ -286,7 +286,7 @@ $(document).ready(function() {
         $('#city-checkboxes').empty();
 
         $.ajax({
-            url: '/booking_portal/public/admin/cities',
+            url: "{{ route('getCitiesByState') }}",
             method: 'GET',
             data: { state_ids: stateIds },
             success: function(response) {

@@ -153,7 +153,7 @@
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
                 $.ajax({
-                    url: '/booking_portal/public/admin/cities/' + stateId,
+                     url: "{{ route('package_price_cities', ':stateId') }}".replace(':stateId', stateId),
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;
