@@ -7,7 +7,7 @@
   <style>
     body { font-family: Arial, sans-serif; margin: 30px; font-size: 14px; color: #000; line-height: 1.6; }
     .header, .footer { text-align: center; }
-    .invoice-box { border: 1px solid #000; padding: 20px; }
+    /* .invoice-box { border: 1px solid #000; padding: 20px; } */
     .company-logo { float: right; width: 100px; max-height: 80px; object-fit: contain; }
     .clearfix::after { content: ""; display: table; clear: both; }
     .bold { font-weight: bold; }
@@ -18,22 +18,34 @@
 
 <div class="invoice-box">
   <!-- Header -->
-  <div class="clearfix">
-    <div style="float: left;">
-      <p><br/>
-      <strong>{{ $user->business_name ?? 'N/A' }}</strong><br/>
-    {{ optional($user->cities)->city_name ? optional($user->cities)->city_name : '' }},
-    {{ optional($user->state)->state_name ? optional($user->state)->state_name : '' }}
-<br/>
-      GSTIN: {{ $user->GST_number ?? 'N/A' }}<br/>
-      E-mail: <a href="mailto:{{ $user->email ?? '' }}">{{ $user->email ?? '' }}</a>
-      </p>
-    </div>
+ <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <!-- LEFT SIDE TEXT -->
+        <td width="70%" style="vertical-align: middle;">
+            <p style="margin:0; line-height: 18px;">
+                <strong>{{ $user->business_name ?? 'N/A' }}</strong><br/>
+                {{ optional($user->cities)->city_name ?? '' }},
+                {{ optional($user->state)->state_name ?? '' }}<br/>
+                GSTIN: {{ $user->GST_number ?? 'N/A' }}<br/>
+                E-mail:
+                <a href="mailto:{{ $user->email ?? '' }}">
+                    {{ $user->email ?? '' }}
+                </a>
+            </p>
+        </td>
 
-    @if(!empty($user->logo) && file_exists(public_path($user->logo)))
-      <img src="{{ public_path($user->logo) }}" class="company-logo" alt="Company Logo"/>
-    @endif
-  </div>
+        <!-- RIGHT SIDE IMAGE -->
+        <td width="30%" style="text-align: right; vertical-align: middle;">
+            @if(!empty($user->logo) && file_exists(public_path($user->logo)))
+                <img
+                    src="{{ public_path($user->logo) }}"
+                    style="max-height:90px; max-width:220px;"
+                    alt="Company Logo">
+            @endif
+        </td>
+    </tr>
+</table>
+
 
   <hr/>
 

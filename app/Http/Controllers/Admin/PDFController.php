@@ -20,77 +20,6 @@ class PDFController extends Controller
     // latest
 
 
-//     public function downloadWithLogo($user_id, $booking_id, $pdf_name)
-// {
-//     ini_set('memory_limit', '4096M'); // or -1 for unlimited
-//     set_time_limit(600);
-//        Log::info('downloadWithLogo:', [
-//             'user_id' => $user_id,
-//             'booking_id' => $booking_id,
-//             'pdf_name' => $pdf_name
-//         ]);
-
-//     try {
-//         $data['user'] = Agent::where('id', $user_id)->first();
-//         $data['booking'] = PackageBooking::with('tourists', 'hotels', 'package', 'packagetemp')
-//                             ->where('user_id', $user_id)
-//                             ->where('id', $booking_id)
-//                             ->first();
-
-//         if (!$data['booking']) {
-//             return abort(404, 'Booking not found.');
-//         }
-
-//         $packageIds = [$data['booking']->package_id]; 
-//         $data['hotels'] = Hotels::where(function ($query) use ($packageIds) {
-//             foreach ($packageIds as $id) {
-//                 $query->orWhereRaw("FIND_IN_SET(?, package_id)", [$id]);
-//             }
-//         })->get();
-
-//         $invoiceHtml = view('front.invoice', $data)->render();
-//         $tempPdf = PDF::loadHTML($invoiceHtml);
-//         $tempPdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
-//         $tempPdf->save($tempPdfPath);
-
-//         $pdf = new \setasign\Fpdi\Fpdi();
-//         $invoicePageCount = $pdf->setSourceFile($tempPdfPath);
-//         for ($i = 1; $i <= $invoicePageCount; $i++) {
-//             $template = $pdf->importPage($i);
-//             $size = $pdf->getTemplateSize($template);
-//             $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-//             $pdf->useTemplate($template);
-//         }
-//         unlink($tempPdfPath);
-
-//         $additionalPdfPath = public_path('packages/pdf/' . urldecode($pdf_name));
-//         if (file_exists($additionalPdfPath)) {
-//             try {
-//                 $additionalPageCount = $pdf->setSourceFile($additionalPdfPath);
-//                 for ($i = 1; $i <= $additionalPageCount; $i++) {
-//                     $template = $pdf->importPage($i);
-//                     $size = $pdf->getTemplateSize($template);
-//                     $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-//                     $pdf->useTemplate($template);
-//                 }
-//             } catch (\Exception $e) {
-//                 \Log::error("FPDI cannot import compressed PDF: " . $e->getMessage());
-//             }
-//         }
-
-//         return response()->stream(function () use ($pdf) {
-//             $pdf->Output('D', 'customized_with_invoice.pdf');
-//         }, 200, [
-//             'Content-Type' => 'application/pdf',
-//             'Content-Disposition' => 'attachment; filename="customized_with_invoice.pdf"'
-//         ]);
-
-//     } catch (\Exception $e) {
-//         \Log::error('PDF generation failed: ' . $e->getMessage());
-//         return abort(500, 'Something went wrong generating the PDF.');
-//     }
-// }
-
 
 public function downloadWithLogo($user_id, $booking_id, $pdf_name)
 {
@@ -193,94 +122,130 @@ public function downloadWithLogo($user_id, $booking_id, $pdf_name)
 //     set_time_limit(600);
 
 //     try {
-//         // Fetch booking + invoice data
+
+//         // -----------------------------
+//         // 1️⃣ FETCH BOOKING DATA
+//         // -----------------------------
 //         $data['user'] = Agent::find($user_id);
-//         $data['booking'] = PackageBooking::with('tourists', 'hotels', 'package', 'packagetemp')
-//                         ->where('user_id', $user_id)
-//                         ->find($booking_id);
+
+//         $data['booking'] = PackageBooking::with(
+//             'tourists',
+//             'hotels',
+//             'package',
+//             'packagetemp'
+//         )
+//         ->where('user_id', $user_id)
+//         ->find($booking_id);
 
 //         if (!$data['booking']) {
-//             return abort(404, 'Booking not found.');
+//             abort(404, 'Booking not found.');
 //         }
 
-//         // Render invoice HTML → PDF
+//         // -----------------------------
+//         // 2️⃣ GENERATE INVOICE PDF
+//         // -----------------------------
 //         $invoiceHtml = view('front.invoice', $data)->render();
+
 //         $invoicePdf = PDF::loadHTML($invoiceHtml);
-//         $invoicePdfPath = tempnam(sys_get_temp_dir(), 'invoice') . '.pdf';
+//         $invoicePdfPath = tempnam(sys_get_temp_dir(), 'invoice_') . '.pdf';
 //         $invoicePdf->save($invoicePdfPath);
 
-//         // Start merging
+//         // -----------------------------
+//         // 3️⃣ FPDI INIT
+//         // -----------------------------
 //         $pdf = new \setasign\Fpdi\Fpdi();
-//         $invCount = $pdf->setSourceFile($invoicePdfPath);
 
-//         for ($i = 1; $i <= $invCount; $i++) {
-//             $template = $pdf->importPage($i);
-//             $size = $pdf->getTemplateSize($template);
-//             $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-//             $pdf->useTemplate($template);
-//         }
+//         // Full HD size (1920x1080 @72DPI)
+//         $pageWidth  = 677; // mm
+//         $pageHeight = 381; // mm
 
-//         unlink($invoicePdfPath);
-
-//         // ==========================================
-//         //   ATTACHED FILE HANDLING (PDF / DOCX)
-//         // ==========================================
+//         // -----------------------------
+//         // 4️⃣ ATTACHED FILE HANDLING
+//         // -----------------------------
 //         $filePath = public_path('packages/pdf/' . urldecode($pdf_name));
+//         $attachPdfPath = null;
 
 //         if (file_exists($filePath)) {
 
 //             $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
-//             // CASE 1: PDF → Direct merge
+//             // CASE: PDF
 //             if ($ext === 'pdf') {
 //                 $attachPdfPath = $filePath;
 //             }
 
-//             // CASE 2: DOC / DOCX → Convert to PDF
+//             // CASE: DOC / DOCX
 //             elseif (in_array($ext, ['doc', 'docx'])) {
 
 //                 $phpWord = \PhpOffice\PhpWord\IOFactory::load($filePath);
 
-//                 // Convert Word → HTML
+//                 // Word → HTML
 //                 $htmlPath = sys_get_temp_dir() . '/' . uniqid('word_') . '.html';
-//                 \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML')->save($htmlPath);
+//                 \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML')
+//                     ->save($htmlPath);
 
-//                 // Convert HTML → PDF
+//                 // HTML → PDF
 //                 $convertedPdfPath = sys_get_temp_dir() . '/' . uniqid('word_pdf_') . '.pdf';
-//                 $domPdf = PDF::loadHTML(file_get_contents($htmlPath));
-//                 $domPdf->save($convertedPdfPath);
+//                 PDF::loadHTML(file_get_contents($htmlPath))
+//                     ->save($convertedPdfPath);
 
 //                 $attachPdfPath = $convertedPdfPath;
 //             }
 
-//             // Merge final PDF
-//             if (!empty($attachPdfPath) && file_exists($attachPdfPath)) {
+//             // -----------------------------
+//             // 5️⃣ MERGE ATTACHED PDF FIRST
+//             // -----------------------------
+//             if ($attachPdfPath && file_exists($attachPdfPath)) {
 
 //                 $pageCount = $pdf->setSourceFile($attachPdfPath);
 
 //                 for ($i = 1; $i <= $pageCount; $i++) {
+
 //                     $template = $pdf->importPage($i);
-//                     $size = $pdf->getTemplateSize($template);
-//                     $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-//                     $pdf->useTemplate($template);
+
+//                     $pdf->AddPage('L', [$pageWidth, $pageHeight]);
+//                     $pdf->useTemplate($template, 0, 0, $pageWidth, $pageHeight);
 //                 }
 //             }
 //         }
 
+//         // -----------------------------
+//         // 6️⃣ MERGE INVOICE PDF (FULL HD)
+//         // -----------------------------
+//         $invCount = $pdf->setSourceFile($invoicePdfPath);
+
+//         for ($i = 1; $i <= $invCount; $i++) {
+
+//             $template = $pdf->importPage($i);
+
+//             $pdf->AddPage('L', [$pageWidth, $pageHeight]);
+//             $pdf->useTemplate($template, 0, 0, $pageWidth, $pageHeight);
+//         }
+
+//         // -----------------------------
+//         // 7️⃣ CLEANUP TEMP FILES
+//         // -----------------------------
+//         if (file_exists($invoicePdfPath)) {
+//             unlink($invoicePdfPath);
+//         }
+
+//         // -----------------------------
+//         // 8️⃣ DOWNLOAD RESPONSE
+//         // -----------------------------
 //         return response()->stream(function () use ($pdf) {
-//             $pdf->Output('D', 'customized_with_invoice.pdf');
+//             $pdf->Output('D', 'customized_with_invoice_1920x1080.pdf');
 //         }, 200, [
 //             'Content-Type' => 'application/pdf',
-//             'Content-Disposition' => 'attachment; filename="customized_with_invoice.pdf"'
+//             'Content-Disposition' => 'attachment; filename="customized_with_invoice_1920x1080.pdf"'
 //         ]);
 
 //     } catch (\Exception $e) {
+
 //         \Log::error('PDF generation failed: ' . $e->getMessage());
-//         return abort(500, 'Error generating PDF.');
+
+//         abort(500, 'Error generating PDF.');
 //     }
 // }
-
-
 
 
 }
