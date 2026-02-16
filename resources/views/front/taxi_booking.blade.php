@@ -612,47 +612,63 @@
 <div class="aboutSEct">
   <div class="container">
     <div class="container my-5">
-  <div class="row text-center">
-    <div class="col-12">
-      <h2>Main features</h2>
-      <h1 class="display-4">Our Benefits</h1>
+      <div class="row text-center">
+        <div class="col-12">
+          <h2>Choose us and get</h2>
+        </div>
+      </div>
+      <div class="row justify-content-around mt-4">
+        <div class="col-md-6 mb-4">
+          <div class="d-flex align-items-start">
+            <span class="badge bg-success rounded-circle p-3 me-3">1</span>
+            <div>
+              <h4>Wide Range of Vehicle Options</h4>
+              <p class="text-muted">We offer Modern vehicles or post-2021 AC vehicles (Sedans, SUVs, Tempo-Traveller, Buses, Mini Coaches).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <div class="d-flex align-items-start">
+            <span class="badge bg-success rounded-circle p-3 me-3">2</span>
+            <div>
+              <h4>Premium Fleet</h4>
+              <p class="text-muted">All vehicles are clean, regularly serviced, kept in excellent running condition, comfortable seating for long journeys and adequate luggage space.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <div class="d-flex align-items-start">
+            <span class="badge bg-success rounded-circle p-3 me-3">3</span>
+            <div>
+              <h4>All-Inclusive Pricing</h4>
+              <p class="text-muted">Fuel, tolls, parking, State Taxes and driver allowances are included in the price.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <div class="d-flex align-items-start">
+            <span class="badge bg-success rounded-circle p-3 me-3">4</span>
+            <div>
+              <h4>Verified Vendors & Professional Drivers</h4>
+              <p class="text-muted">All transport partners are verified and quality-approved, with strong service ratings across India.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mb-0">
+          <div class="d-flex align-items-start">
+            <span class="badge bg-success rounded-circle p-3 me-3">5</span>
+            <div>
+              <h4>Agent First</h4>
+              <p class="text-muted">Advance cab details with vehicle number, vehicle photo, driver name,<br> and contact details are shared one day before the trip on the registered<br> WhatsApp number.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="row justify-content-around">
-    <div class="col-md-5">
-      <div class="d-flex align-items-center mb-4">
-        <span class="badge bg-success rounded-circle p-3">1</span>
-        <div class="ms-3">
-          <h4>Lowest rate in the market</h4>
-          <p class="text-muted">Tour Dekhho Taxi offers a lowest price for outstation trip, Airport Pickup, Airport Drop trips (one way trip and round trip) across Karnataka, Tamil Nadu, Andhra Pradesh, Telangana, Kerala and Pondicherry.</p>
-        </div>
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="badge bg-success rounded-circle p-3">2</span>
-        <div class="ms-3">
-          <h4>One way trip Outstation</h4>
-          <p class="text-muted">No Check-post and Driver allowance for One way trip</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-5">
-      <div class="d-flex align-items-center mb-4">
-        <span class="badge bg-success rounded-circle p-3">3</span>
-        <div class="ms-3">
-          <h4>Two way trip Outstation</h4>
-          <p class="text-muted">No Check-post / Interstate Charges on Two way Outstation cab booking</p>
-        </div>
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="badge bg-success rounded-circle p-3">4</span>
-        <div class="ms-3">
-          <h4>Bangalore Airport</h4>
-          <p class="text-muted">No extra Toll charges (Toll-free trip for Airport Pickup & Drop)</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
   </div>
 </div>
 
