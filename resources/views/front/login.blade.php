@@ -271,6 +271,127 @@
     width: 150px;
     height: auto;
 }
+
+
+/* SECTION WRAPPER */
+.adv-section{
+    position:relative;
+    padding:80px 10%;
+    overflow:hidden;
+}
+
+/* Decorative Gradient Blob */
+.adv-section::before{
+    content:"";
+    position:absolute;
+    right:-200px;
+    top:-100px;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle, #dcd6ff 0%, #f5f6fa 70%);
+    border-radius:50%;
+    z-index:0;
+}
+
+/* GRID LAYOUT */
+.adv-container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:60px;
+    position:relative;
+    z-index:2;
+}
+
+/* LEFT SIDE */
+.adv-left{
+    flex:1;
+}
+
+.adv-left h2{
+    font-size:38px;
+    margin-bottom:10px;
+    color:#222;
+}
+
+.adv-left p{
+    font-size:18px;
+    margin-bottom:40px;
+    color:#666;
+}
+
+/* FEATURE CARDS */
+.feature{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:18px 20px;
+    margin-bottom:20px;
+    background:rgba(255,255,255,0.6);
+    backdrop-filter:blur(10px);
+    border-radius:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+    transition:0.3s ease;
+}
+
+.feature:hover{
+    transform:translateX(10px);
+    box-shadow:0 12px 25px rgba(0,0,0,0.1);
+}
+
+.feature-icon{
+    width:45px;
+    height:45px;
+    background:linear-gradient(135deg,#6c63ff,#8f88ff);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-size:20px;
+}
+
+.feature-text{
+    font-size:16px;
+    color:#333;
+    font-weight:500;
+}
+
+/* RIGHT SIDE */
+.adv-right{
+    flex:1;
+    position:relative;
+    display:flex;
+    justify-content:center;
+}
+
+.device{
+    /* width:320px; */
+    border-radius:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+    /* transform:rotate(-3deg); */
+    transition:0.4s;
+}
+
+.device:hover{
+    transform:rotate(0deg) scale(1.03);
+}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+    .adv-container{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .feature{
+        justify-content:center;
+    }
+
+    .device{
+        margin-top:40px;
+    }
+}
 </style>
 
 
@@ -613,6 +734,50 @@
 
     </div>
 </section>
+
+<section class="adv-section">
+    <div class="adv-container">
+
+        <!-- LEFT -->
+        <div class="adv-left">
+            <h2>Why Choose Our Partner Platform?</h2>
+            <p>A smarter, faster and feature-rich ecosystem built for modern travel agents.</p>
+
+            <div class="feature">
+                <div class="feature-icon">💳</div>
+                <div class="feature-text">Instant access to bookings & transaction history</div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">✈️</div>
+                <div class="feature-text">Easy post-booking changes & rescheduling</div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🛡️</div>
+                <div class="feature-text">Verified safe & premium stay options</div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">📲</div>
+                <div class="feature-text">Share deals instantly via WhatsApp</div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🖨️</div>
+                <div class="feature-text">Custom branded booking confirmations</div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="adv-right">
+            <img class="device" src="{{asset('frontend/images/sds.png')}}" alt="Device Mockup">
+        </div>
+
+    </div>
+</section>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
