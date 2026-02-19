@@ -68,6 +68,7 @@
                                             <label class="form-label" style="margin-left: 10px" for="power">Select Meal Multipal</label>
                                             <div id="output"></div>
                                             <select data-placeholder="" name="meal_plan[]" multiple class="chosen-select">
+                                                <option value="All">All</option>
                                                 <option value="meal_plan_only_room">Meal Plan (Only Room)</option>
                                                 <option value="meal_plan_breakfast">Meal Plan (Breakfast)</option>
                                                 <option value="meal_plan_all_meals">Meal Plan (All meals)</option>
@@ -126,6 +127,7 @@
                                             <label class="form-label" style="margin-left: 10px" for="power">Hotel Amenities</label>
                                             <div id="output"></div>
                                             <select data-placeholder="" name="hotel_amenities[]" multiple class="chosen-select">
+                                                <option value="All">All</option>
                                                 <option value="Room Service"> Room Service</option>
                                                 <option value="Balcony/Terrace">Balcony/Terrace</option>
                                                 <option value="Barbeque">Barbeque</option>
@@ -151,6 +153,7 @@
                                             <label class="form-label" style="margin-left: 10px" for="power">Room Amenities</label>
                                             <div id="output"></div>
                                             <select data-placeholder="" name="room_amenities[]" multiple class="chosen-select">
+                                                <option value="All">All</option>
                                                 <option value="Fireplace">Fireplace</option>
                                                 <option value="Interconnected Room">Interconnected Room</option>
                                                 <option value="Bathtub">Bathtub</option>
@@ -173,6 +176,7 @@
                                             <label class="form-label" style="margin-left: 10px" for="power">House Rules</label>
                                             <div id="output"></div>
                                             <select data-placeholder="" name="house_rules[]" multiple class="chosen-select">
+                                                <option value="All">All</option>
                                                 <option value="Smoking Allowed">Smoking Allowed</option>
                                                 <option value="Unmarried Couples Allowed">Unmarried Couples Allowed</option>
                                                 <option value="Pets Allowed">Pets Allowed</option>
