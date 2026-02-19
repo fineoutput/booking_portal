@@ -422,8 +422,10 @@
 
         function loadCities(stateId, selectedCity = null) {
             if (stateId) {
-                $.ajax({
-                     url: "{{ route('package_price_cities', ':stateId') }}".replace(':stateId', stateId),
+                let cityRoute = "{{ url('/cities') }}";
+
+        $.ajax({
+            url: cityRoute + '/' + stateId,
                     method: 'GET',
                     success: function(response) {
                         let cities = response.cities;
