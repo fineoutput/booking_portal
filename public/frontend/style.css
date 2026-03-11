@@ -117,6 +117,9 @@ img{
     .dropdown-menu{
       width: 100% !important;
     }
+    .prepare{
+      padding: 0;
+    }
     .logo{
         display: flex;
         justify-content: center;

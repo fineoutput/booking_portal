@@ -28,7 +28,7 @@
         {{-- <p>1234567890</p> --}}
       </div>
       <div class="col-md-4 col-lg-4 col-sm-12">
-        <ul class="pt-2" style="list-style: none">
+        <ul class="pt-2 prepare" style="list-style: none">
           <h4 class="font-weight-bold" style="font-weight: bold">Contact Us</h4>
           <li class="py-1">
             <strong>Phone:</strong> 9782324798
@@ -48,7 +48,7 @@
       </div>
       
       <div class="col-md-2 col-lg-2 col-sm-12">
-        <ul class="pt-2" style="
+        <ul class="pt-2 prepare" style="
         list-style: none;">
         <h4 class="font-weight-bold" style="font-weight: bold">Policies</h4>
           <li class="py-1"><a style="
@@ -69,7 +69,7 @@
         </ul>
       </div>
       <div class="col-md-2 col-lg-2 col-sm-12">
-        <ul class="pt-2" style="
+        <ul class="pt-2 prepare" style="
         list-style: none;">
         <h4 class="font-weight-bold" style="font-weight: bold">Categories</h4>
           <li class="py-1">Login</li>
