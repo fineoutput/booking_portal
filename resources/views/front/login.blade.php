@@ -402,7 +402,7 @@
             <div class="center-logo">
     <img src="{{asset('frontend/images/black.png')}}" alt="">
 </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 d-none d-lg-block">
                 <div class="content">
       <span class="badge">🚀 Your Gateway to Profitable Travel Partnerships</span>
 
