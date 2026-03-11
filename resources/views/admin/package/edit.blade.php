@@ -332,6 +332,32 @@ ul#city-checkboxes {
      const selectedCities = @json($selectedCityIds);
     console.log('Selected Cities:', selectedCities);
 
+
+    function updateSelectedDisplay() {
+    let selectedStates = $('#state').val() || [];
+    let selectedCityNames = $('input[name="city_id[]"]:checked').map(function() {
+        return $(this).next('label').text();
+    }).get();
+
+    // Output div (already working)
+    $('#output').html(`
+
+        <p><strong>Selected Cities:</strong> ${selectedCityNames.length > 0 ? selectedCityNames.join(', ') : 'None'}</p>
+    `);
+
+    // 👇 YEH ADD KIYA GAYA HAI (Button text update ke liye)
+    if (selectedCityNames.length > 0) {
+        if (selectedCityNames.length > 3) {
+            $('#cityDropdown').text(selectedCityNames.length + ' Cities Selected');
+        } else {
+            $('#cityDropdown').text(selectedCityNames.join(', '));
+        }
+    } else {
+        $('#cityDropdown').text('Select Cities');
+    }
+}
+
+
     function loadCities(stateIds) {
         $('#city-checkboxes').empty();
 
@@ -355,8 +381,9 @@ ul#city-checkboxes {
                         html += `<li class="dropdown-header">State ${stateId}</li>`;
 
                         cities.forEach(city => {
-                            const cityIdStr = String(city.id);
-                            const isChecked = selectedCities.includes(cityIdStr) ? 'checked' : '';
+                           const isChecked = selectedCities.includes(city.id) || 
+                  selectedCities.includes(String(city.id)) 
+                  ? 'checked' : '';
 
                             html += `
                                 <li class="px-3">
@@ -371,6 +398,7 @@ ul#city-checkboxes {
                     });
 
                     $('#city-checkboxes').html(html);
+                    updateSelectedDisplay();
                 } else {
                     $('#city-checkboxes').html('<li class="dropdown-item text-muted">No cities found</li>');
                 }
@@ -394,19 +422,8 @@ ul#city-checkboxes {
             loadCities(stateIds);
         });
 
-        function updateSelectedDisplay() {
-            let selectedStates = $('#state').val() || [];
-            let selectedCityNames = $('input[name="city_id[]"]:checked').map(function() {
-                return $(this).next('label').text();
-            }).get();
 
-            $('#output').html(`
-                <p><strong>Selected States:</strong> ${selectedStates.length > 0 ? selectedStates.join(', ') : 'None'}</p>
-                <p><strong>Selected Cities:</strong> ${selectedCityNames.length > 0 ? selectedCityNames.join(', ') : 'None'}</p>
-            `);
-        }
-
-        updateSelectedDisplay();
+        // updateSelectedDisplay();
         $('#state').on('changed.bs.select', updateSelectedDisplay);
         $('#city-checkboxes').on('change', 'input[name="city_id[]"]', updateSelectedDisplay);
     });

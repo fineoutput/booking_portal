@@ -564,24 +564,62 @@ $houseRuleIcons = [
                         </div>
 
                         <div class="icnons_tem_head">
-                            <ul class="htlAmenities" style="list-style: none; padding: 0;">
-                                                @if($hotel_room_1 && $hotel_room_1->hotel_amenities)
-                                                    @foreach(explode(',', $hotel_room_1->hotel_amenities) as $amenity)
-                                                        @php
-                                                            $cleanAmenity = strtolower(trim($amenity));
-                                                            $icon = $amenityIcons[$cleanAmenity] ?? '<i class="fa fa-check"></i>'; // default icon
-                                                        @endphp
+                           <ul class="htlAmenities" style="list-style: none; padding: 0;">
 
-                                                        @if($cleanAmenity !== '')
-                                                            <li class="htlAmenities__item">
-                                                                <span style="color: #8f8f8f; margin-right:6px;">{!! $icon !!}</span>
-                                                                <span style="color: #1a7971;">{{ ucfirst($cleanAmenity) }}</span>
-                                                            </li>
-                                                        @endif
+    @php
+        $allAmenities = [
+            "Room Service",
+            "Balcony/Terrace",
+            "Barbeque",
+            "Cafe",
+            "EV Charging Station",
+            "Restaurant",
+            "Bar",
+            "Parking",
+            "Caretaker",
+            "Bonfire",
+            "Kitchenette",
+            "Elevator/Lift",
+            "Indoor Games",
+            "Living Room"
+        ];
+    @endphp
 
-                                                    @endforeach
-                                                @endif
-                                            </ul>
+    @if($hotel_room_1 && $hotel_room_1->hotel_amenities)
+
+        @if(strtolower(trim($hotel_room_1->hotel_amenities)) == 'all')
+            @foreach($allAmenities as $amenity)
+                @php
+                    $cleanAmenity = strtolower(trim($amenity));
+                    $icon = $amenityIcons[$cleanAmenity] ?? '<i class="fa fa-check"></i>'; // default icon
+                @endphp
+
+                <li class="htlAmenities__item">
+                    <span style="color: #8f8f8f; margin-right:6px;">{!! $icon !!}</span>
+                    <span style="color: #1a7971;">{{ $amenity }}</span>
+                </li>
+            @endforeach
+
+        @else
+            @foreach(explode(',', $hotel_room_1->hotel_amenities) as $amenity)
+                @php
+                    $cleanAmenity = strtolower(trim($amenity));
+                    $icon = $amenityIcons[$cleanAmenity] ?? '<i class="fa fa-check"></i>'; // default icon
+                @endphp
+
+                @if($cleanAmenity !== '')
+                    <li class="htlAmenities__item">
+                        <span style="color: #8f8f8f; margin-right:6px;">{!! $icon !!}</span>
+                        <span style="color: #1a7971;">{{ ucfirst($cleanAmenity) }}</span>
+                    </li>
+                @endif
+            @endforeach
+        @endif
+
+    @endif
+
+</ul>
+
                         </div>
                     </div>
                 </div>
@@ -1057,18 +1095,52 @@ $houseRuleIcons = [
                     <!-- Nearby, Rules, Locality - same -->
                      @if (!empty($value->room_amenities) && trim($value->room_amenities) !== '')
                         <div class="samrt">
-                            <p><b>Room facilities</b></p>
-                            <ul class="offers">
-                                @foreach (explode(',', $value->room_amenities) as $amenity)
-                                    @php 
-                                        $key = strtolower(trim($amenity));
-                                        $icon = $amenityIcons[$key] ?? '<i class="fa-solid fa-circle-check"></i>';
-                                    @endphp
+    <p><b>Room facilities</b></p>
+    <ul class="offers">
 
-                                    <li>{!! $icon !!} {{ trim($amenity) }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+        @php
+            $allAmenitiesList = [
+                "Fireplace",
+                "Interconnected Room",
+                "Bathtub",
+                "Kitchenette",
+                "Smoking Room",
+                "Private Pool",
+                "Balcony",
+                "Cook & Butler Service",
+                "Heater",
+                "Jacuzzi",
+                "Living Area"
+            ];
+        @endphp
+
+        @if(strtolower(trim($value->room_amenities)) == 'all')
+
+            @foreach($allAmenitiesList as $amenity)
+                @php 
+                    $key = strtolower(trim($amenity));
+                    $icon = $amenityIcons[$key] ?? '<i class="fa-solid fa-circle-check"></i>';
+                @endphp
+
+                <li>{!! $icon !!} {{ $amenity }}</li>
+            @endforeach
+
+        @else
+
+            @foreach (explode(',', $value->room_amenities) as $amenity)
+                @php 
+                    $key = strtolower(trim($amenity));
+                    $icon = $amenityIcons[$key] ?? '<i class="fa-solid fa-circle-check"></i>';
+                @endphp
+
+                <li>{!! $icon !!} {{ trim($amenity) }}</li>
+            @endforeach
+
+        @endif
+
+    </ul>
+</div>
+
                     @endif
                     {{-- <label for=""><b>Nearby within Walking Distance</b></label>
                     <ul class="rmTypeList vertical appendTop10">
@@ -1082,27 +1154,57 @@ $houseRuleIcons = [
                         @endforeach
                     </ul> --}}
                     <label for=""><b>Rules</b></label>
-                    <ul class="rmTypeList vertical appendTop10">
+                    
+<ul class="rmTypeList vertical appendTop10">
 
-                        @foreach (explode(',', $value->house_rules) as $amenity)
-                            @if (trim($amenity) !== '')
-                                @php 
-                                    $key = strtolower(trim($amenity));
-                                    $icon = $houseRuleIcons[$key] ?? '<i class="fa-solid fa-circle-check"></i>';
-                                @endphp
+    @php
+        $allHouseRules = [
+            "Smoking Allowed",
+            "Unmarried Couples Allowed",
+            "Pets Allowed",
+            "Alcohol Allowed",
+            "Non Veg Allowed"
+        ];
+    @endphp
 
-                                <li class="rmTypeList__item">
-                                    <span class="rmTypeList__item--icon appendRight10">
-                                        {!! $icon !!}
-                                    </span>
-                                    <span class="makeFlex column column-text">
-                                        <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
-                                    </span>
-                                </li>
-                            @endif
-                        @endforeach
+    @if(strtolower(trim($value->house_rules)) == 'all')
+        @foreach($allHouseRules as $rule)
+            @php 
+                $key = strtolower(trim($rule));
+                $icon = $houseRuleIcons[$key] ?? '<i class="fa-solid fa-circle-check"></i>';
+            @endphp
 
-                    </ul>
+            <li class="rmTypeList__item">
+                <span class="rmTypeList__item--icon appendRight10">
+                    {!! $icon !!}
+                </span>
+                <span class="makeFlex column column-text">
+                    <span class="rmTypeList__item--text">{{ $rule }}</span>
+                </span>
+            </li>
+        @endforeach
+    @else
+        @foreach (explode(',', $value->house_rules) as $amenity)
+            @if (trim($amenity) !== '')
+                @php 
+                    $key = strtolower(trim($amenity));
+                    $icon = $houseRuleIcons[$key] ?? '<i class="fa-solid fa-circle-check"></i>';
+                @endphp
+
+                <li class="rmTypeList__item">
+                    <span class="rmTypeList__item--icon appendRight10">
+                        {!! $icon !!}
+                    </span>
+                    <span class="makeFlex column column-text">
+                        <span class="rmTypeList__item--text">{{ trim($amenity) }}</span>
+                    </span>
+                </li>
+            @endif
+        @endforeach
+    @endif
+
+</ul>
+
                     
                 </div>
                 <a href="#" class="more-link" id="open-modal-details-{{ $value->id }}">More Details</a>

@@ -67,9 +67,10 @@ ul#city-checkboxes {
                                 @csrf
                                 <div class="form-group row">
                                     <div class="col-sm-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" type="text" value="" id="package_name" name="package_name" placeholder="Enter name" required>
+                                        <div class="form-group">
                                             <label for="package_name">Enter Package Name &nbsp;<span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" type="text" value="" id="package_name" name="package_name" placeholder="Enter name" required>
+                                            
                                         </div>
                                         @error('package_name')
                                         <div style="color:red">{{$message}}</div>
@@ -88,9 +89,10 @@ ul#city-checkboxes {
                                     
                                     <div class="form-group row">
                                     <div class="col-sm-6 mb-2">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" type="text" value="" id="night_count" name="night_count" placeholder="Enter name" required>
+                                        <div class="form-group">
                                             <label for="night_count">Night Count &nbsp;<span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" type="text" value="" id="night_count" name="night_count" placeholder="Enter name" required>
+                                            
                                         </div>
                                         @error('night_count')
                                         <div style="color:red">{{$message}}</div>
@@ -98,9 +100,10 @@ ul#city-checkboxes {
                                     </div>
 
                                     <div class="col-sm-6 mb-2">
-                                        <div class="form-floating">
+                                        <div class="form-group">
+                                              <label for="pickup_location">Pickup Location &nbsp;<span style="color:red;">*</span></label>
                                             <input type="text" class="form-control" type="text" value="" id="pickup_location" name="pickup_location" placeholder="Enter name" required>
-                                            <label for="pickup_location">Pickup Location &nbsp;<span style="color:red;">*</span></label>
+                                          
                                         </div>
                                         @error('pickup_location')
                                         <div style="color:red">{{$message}}</div>
@@ -131,7 +134,6 @@ ul#city-checkboxes {
                                                 Select Cities
                                             </button>
                                             <ul class="dropdown-menu w-100" id="city-checkboxes" aria-labelledby="cityDropdown" style="max-height: 300px; overflow-y: auto;">
-                                                <!-- Checkboxes will be dynamically inserted here -->
                                             </ul>
                                         </div>
 
@@ -249,22 +251,163 @@ ul#city-checkboxes {
     $(".chosen-select").chosen();
 </script>
 
-<script>
 
-function getSelectedValues() {
-    console.log('hii');
-    $('select[name="state_id"]').on('change', function(){    
-    alert($(this).val());    
+<script>
+$(document).ready(function() {
+
+    // ================================
+    // Update Button Text Function
+    // ================================
+    function updateSelectedCitiesText() {
+        let selectedCities = [];
+
+        $('input[name="city_id[]"]:checked').each(function () {
+            selectedCities.push($(this).closest('.form-check').find('label').text().trim());
+        });
+
+        if (selectedCities.length > 0) {
+            if (selectedCities.length > 3) {
+                $('#cityDropdown').text(selectedCities.length + ' Cities Selected');
+            } else {
+                $('#cityDropdown').text(selectedCities.join(', '));
+            }
+        } else {
+            $('#cityDropdown').text('Select Cities');
+        }
+    }
+
+    // ================================
+    // Load Cities via AJAX
+    // ================================
+    function loadCities(stateIds) {
+
+        if (!stateIds || stateIds.length === 0) {
+            $('#city-checkboxes')
+                .empty()
+                .append('<li class="dropdown-item text-muted">Select a state first</li>');
+            updateSelectedCitiesText();
+            return;
+        }
+
+        $('#city-checkboxes').empty();
+
+        $.ajax({
+            url: "{{ route('getCitiesByState') }}",
+            method: "GET",
+            data: { state_ids: stateIds },
+            success: function(response) {
+
+                let cities = response.cities;
+
+                if (cities && typeof cities === "object") {
+
+                    Object.keys(cities).forEach(function(stateId) {
+
+                        let cityGroup = cities[stateId];
+
+                        // Optional Heading
+                        $('#city-checkboxes').append(
+                            '<li><h6 class="dropdown-header">State ' + stateId + '</h6></li>'
+                        );
+
+                        cityGroup.forEach(function(city) {
+
+                            let checkboxHTML = `
+                                <li>
+                                    <div class="form-check px-3">
+                                        <input class="form-check-input city-checkbox"
+                                               type="checkbox"
+                                               name="city_id[]"
+                                               value="${city.id}"
+                                               id="city_${city.id}">
+                                        <label class="form-check-label"
+                                               for="city_${city.id}">
+                                               ${city.city_name}
+                                        </label>
+                                    </div>
+                                </li>
+                            `;
+
+                            $('#city-checkboxes').append(checkboxHTML);
+                        });
+
+                        $('#city-checkboxes').append('<li><hr class="dropdown-divider"></li>');
+                    });
+                }
+
+                updateSelectedCitiesText();
+            },
+            error: function() {
+                alert("Error fetching cities");
+            }
+        });
+    }
+
+    // ================================
+    // State Change Event
+    // ================================
+    $('#state').on('change', function() {
+        let stateIds = $(this).val();
+        loadCities(stateIds);
+    });
+
+    // ================================
+    // City Checkbox Change Event
+    // ================================
+    $(document).on('change', 'input[name="city_id[]"]', function() {
+        updateSelectedCitiesText();
+    });
+
+    // ================================
+    // On Page Load (if state pre-selected)
+    // ================================
+    let selectedStates = $('#state').val();
+    if (selectedStates && selectedStates.length > 0) {
+        loadCities(selectedStates);
+    }
+
+    // ================================
+    // Initialize Selectpicker (Bootstrap)
+    // ================================
+    $('#state').selectpicker();
 });
-       var state = document.getElementById('output').innerHTML = location.search;
-        // var state = $(".chosen-select").chosen();
-        // alert(location.search);
-        // $('.chosen-select').change(function() {
-        //     alert(state);
-        // });
-}
+</script>
+
+{{-- <script>
+
+    function getSelectedValues() {
+        console.log('hii');
+        $('select[name="state_id"]').on('change', function(){    
+        alert($(this).val());    
+    });
+        var state = document.getElementById('output').innerHTML = location.search;
+            // var state = $(".chosen-select").chosen();
+            // alert(location.search);
+            // $('.chosen-select').change(function() {
+            //     alert(state);
+            // });
+    }
 
 $(document).ready(function() {
+
+
+ function updateSelectedCitiesText() {
+        let selectedCities = [];
+
+        $('input[name="city_id[]"]:checked').each(function () {
+            selectedCities.push($(this).closest('.form-check').find('label').text().trim());
+        });
+
+        if (selectedCities.length > 0) {
+            if (selectedCities.length > 3) {
+                $('#cityDropdown').text(selectedCities.length + ' Cities Selected');
+            } else {
+                $('#cityDropdown').text(selectedCities.join(', '));
+            }
+        } else {
+            $('#cityDropdown').text('Select Cities');
+        }
+    }
 
     // Get the selected state values when the page loads
     let selectedStates = $('#state').val();
@@ -338,7 +481,7 @@ $(document).ready(function() {
     });
 });
 
-</script>
+</script> --}}
 
 
 <script>

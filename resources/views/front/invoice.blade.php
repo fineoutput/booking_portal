@@ -200,9 +200,9 @@
   <p><strong>Total Price (INR):</strong> {{ number_format($total_price, 2) }} /- (exc. GST)</p>
 
   <!-- Hotels List -->
-  @if(!empty($hotels) && $hotels->count())
+  @if(!empty($booking->hotels) && $booking->hotels->count())
       <p><strong>Hotels Available:</strong></p>
-      @foreach($hotels as $hotel)
+      @foreach($booking->hotels as $hotel)
           <p>{{ $hotel->name ?? 'Unnamed Hotel' }}</p>
       @endforeach
   @else

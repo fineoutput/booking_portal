@@ -27,9 +27,9 @@ class HomeSliderController extends Controller
             $validated = $request->validate([
                 'type' => 'required',
                 'type_2' => 'required',
-                'image' => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
-                'Appimage' => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
-                'video' => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200', 
+                'image' => 'required',
+                'Appimage' => 'required',
+                'video' => 'nullable', 
             ]);
 
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
