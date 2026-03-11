@@ -50,6 +50,7 @@
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th data-priority="1">TP No.</th>
                         <th data-priority="1">Package Name</th>
                         {{-- <th data-priority="1">Services Charge</th> --}}
                         <th data-priority="1">Night Count</th>
@@ -72,6 +73,7 @@
                       @foreach ($packages as $key => $pkg)
                       <tr>
                           <td>{{ $key + 1 }}</td>
+                          <td>{{ $pkg->series_name ?? '' }}</td>
                           <td>{{ $pkg->package_name ?? '' }}</td>
                           {{-- <td>{{ $pkg->service_charge ?? '' }}</td> --}}
                           <td>{{ $pkg->night_count ?? '0' }}</td>

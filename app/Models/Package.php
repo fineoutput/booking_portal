@@ -12,6 +12,7 @@ class Package extends Model
     protected $table = 'package';
     protected $fillable = [
         'package_name',
+        'series_name',
         'state_id',
         'pdf',
         'city_id',

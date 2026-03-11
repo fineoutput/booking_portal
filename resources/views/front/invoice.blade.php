@@ -73,29 +73,33 @@
 
   <ul>
     <li>
-      {{ optional($booking->packagetemp)->adults_count ?? 0 }} Adults
+       Adults - {{ optional($booking->packagetemp)->adults_count ?? 0 }} 
     </li>
 
     <li>
-          {{ optional($booking->packagetemp)->children_5_11 ?? 0 }} Children (5-11 years)
+      Children (5-11 years) - {{ optional($booking->packagetemp)->children_5_11 ?? 0 }} 
     </li>
 
     <li>
-      {{ optional($booking->packagetemp)->children_1_5 ?? 0 }} Children (1-5 years)
+      Children (1-5 years) - {{ optional($booking->packagetemp)->children_1_5 ?? 0 }}
     </li>
 
     <li>
-      {{ optional($booking->packagetemp)->number_of_rooms ?? 0 }} No. of Rooms
+      No. of Rooms - {{ optional($booking->packagetemp)->number_of_rooms ?? 0 }} 
     </li>
 
     <li>
-      {{ optional($booking->packagetemp)->extra_bed ?? 0 }} No. of Extra Bed
+      No. of Extra Bed - {{ optional($booking->packagetemp)->extra_bed ?? 0 }} 
     </li>
 
     
     <li>
-      {{ optional($booking->packagetemp)->child_no_bed_child_count ?? 0 }} No. of Child Without Bed
+      No. of Child Without Bed - {{ optional($booking->packagetemp)->child_no_bed_child_count ?? 0 }}
     </li>
+
+    <li>
+      No. of Vehicle - {{ optional($booking->packagetemp)->vehicle_count ?? 0 }} 
+</li>
 
     <li>
       @php
@@ -163,15 +167,15 @@
       {{ optional($booking->packagetemp)->pickup_location ?? 0 }} Pickup Location
 </li>
 
-<li>
-      {{ optional($booking->packagetemp)->vehicle_count ?? 0 }} No. of Vehicle 
-</li>
+
 
   </ul>
 
   <p>
-      Travel Insurance = {{ optional($booking->packagetemp)->travelinsurance ?? 0 }} /
-      Special Remarks :- {{ optional($booking->packagetemp)->specialremarks ?? 0 }} 
+      Travel Insurance = {{ optional($booking->packagetemp)->travelinsurance == 'on' ? 'Yes' : 'No' }}
+  </p>
+  <p>
+     Special Remarks :- {{ optional($booking->packagetemp)->specialremarks ?? 'NO DATA' }} 
   </p>
 
   <!-- Price Details -->
@@ -199,12 +203,14 @@
 
   <p><strong>Total Price (INR):</strong> {{ number_format($total_price, 2) }} /- (exc. GST)</p>
 
-  <!-- Hotels List -->
+  <hr>
   @if(!empty($booking->hotels) && $booking->hotels->count())
       <p><strong>Hotels Available:</strong></p>
-      @foreach($booking->hotels as $hotel)
-          <p>{{ $hotel->name ?? 'Unnamed Hotel' }}</p>
-      @endforeach
+      <ol>
+        @foreach($booking->hotels as $hotel)
+            <li>{{ $hotel->name ?? 'Unnamed Hotel' }},{{ $hotel->cities->city_name ?? 'No City' }}</li>
+        @endforeach
+      </ol>
   @else
       <p><strong>No Hotels Available</strong></p>
   @endif

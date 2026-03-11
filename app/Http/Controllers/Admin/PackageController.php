@@ -415,7 +415,18 @@ public function index()
             $pdfPath = null;
         }
 // return $request->city_id;
+        $lastPackage = Package::orderBy('id', 'desc')->first();
+
+        if ($lastPackage && $lastPackage->series_name) {
+            $lastNumber = (int) str_replace('TP', '', $lastPackage->series_name);
+            $nextNumber = $lastNumber + 1;
+        } else {
+            $nextNumber = 1;
+        }
+
+        $seriesName = 'TP' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
         $package = new Package();
+        $package->series_name = $seriesName;
         $package->package_name = $request->package_name;
         // $package->service_charge = $request->service_charge;
         $package->state_id = implode(',', $request->state_id);
