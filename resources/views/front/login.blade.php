@@ -6,14 +6,14 @@
         display: none;
     }
     .form-container {
-        max-width: 400px;
-        margin: auto;
-        margin-top: 50px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-    }
+    max-width: 400px;
+    margin: auto;
+    /* margin-top: 50px; */
+    box-shadow: 0 4px 8px rgb(0 0 0 / 47%);
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
 .navbar {
     display: none;
 }
