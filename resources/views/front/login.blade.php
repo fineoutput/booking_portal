@@ -438,6 +438,10 @@
     </div>
             </div>
             <div class="col-lg-6">
+                <div class="pol-booth">
+                <div class="pol-1">
+
+                
                 <div class="form-container" style="position: relative;">
                     <div class="heasdds d-flex justify-content-center">
                     <h2 class="text-center mb-4" id="loginFormTitle">Login</h2>
@@ -696,6 +700,12 @@
                         </div>
                     </div>
                 </div>
+                </div>
+
+                <div class="pol-2">
+                <img src="https://static.tripjack.com/img/pre-login/images/Globe-Banner.svg" alt="">
+                </div> 
+                </div>                   
             </div>
         </div>
     </div>
