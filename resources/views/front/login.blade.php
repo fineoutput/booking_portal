@@ -8,7 +8,7 @@
     .form-container {
     max-width: 400px;
     margin: auto;
-    /* margin-top: 50px; */
+    margin-top: 10px;
     box-shadow: 0 4px 8px rgb(0 0 0 / 47%);
     padding: 20px;
     background-color: #fff;
