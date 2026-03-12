@@ -703,7 +703,7 @@
                 </div>
 
                 <div class="pol-2">
-                <img src="https://static.tripjack.com/img/pre-login/images/Globe-Banner.svg" alt="">
+                <img src="frontend/images/22.png" alt="">
                 </div> 
                 </div>                   
             </div>

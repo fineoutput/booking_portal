@@ -66,6 +66,93 @@
   }
 }
 
+/* ===== Header & Navbar Responsive Tweaks ===== */
+
+/* Top header bar */
+.header {
+  padding: 10px 0;
+}
+
+.header .logo img {
+  max-width: 220px;
+  height: auto;
+}
+
+@media (max-width: 991.98px) {
+  .header .logo {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .header .logo img {
+    max-width: 180px;
+  }
+
+  .press_header {
+    justify-content: center !important;
+    margin-top: 8px;
+  }
+
+  .sign-in .dotts {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .header {
+    padding: 8px 12px;
+  }
+
+  .header .logo img {
+    max-width: 150px;
+  }
+}
+
+/* Navbar container & brand */
+.navbar.nave_color {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.navbar .navbar-brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+@media (max-width: 991.98px) {
+  .navbar .container {
+    justify-content: space-between !important;
+  }
+
+  .navbar .navbar-nav {
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .navbar .nav-link {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Mega menu responsiveness */
+.mega-menu-content {
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 991.98px) {
+  .mega-menu-content {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  .mega-menu-backdrop {
+    display: none !important;
+  }
+}
+
   </style>
 </head>
 <body>
