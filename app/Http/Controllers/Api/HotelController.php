@@ -854,6 +854,11 @@ public function package(Request $request)
 {
     $token = $request->bearerToken();
 
+       Log::info('Bearer Token:', [
+        'authorization_header' => $request->header('Authorization'),
+        'bearer_token' => $token
+    ]);
+
     if (!$token) {
         return response()->json([
             'message' => 'Unauthenticated.',
@@ -965,7 +970,7 @@ public function package(Request $request)
                 }, is_array($videos = json_decode($package->video, true)) ? $videos : []),
                 'pdf' => url('') . '/' . $package->pdf,
                 'text_description' => html_entity_decode(strip_tags($package->text_description)),
-'text_description_2' => html_entity_decode(strip_tags($package->text_description_2)),
+ 'text_description_2' => html_entity_decode(strip_tags($package->text_description_2)),
                 'prices' => $prices,
             ];
         });
