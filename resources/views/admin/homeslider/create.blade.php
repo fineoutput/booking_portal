@@ -68,7 +68,7 @@
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <select class="form-control" name="type" id="type" required>
+                                        <select class="form-control" name="type_2" id="type_2" required>
                                             <option value="">Select Type 2</option>
                                             <option value="taxi">Taxi</option>
                                             <option value="guide">Guide</option>
@@ -76,7 +76,7 @@
                                             <option value="safari">Safari</option>
                                             <option value="hotel">Hotel</option>
                                         </select>
-                                        @error('type')
+                                        @error('type_2')
                                         <div style="color:red">{{$message}}</div>
                                         @enderror
                                     </div>
