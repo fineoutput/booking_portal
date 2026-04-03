@@ -342,7 +342,8 @@ public function index()
 
     }
 
-    function create(Request $request) {
+    function create(Request $request)
+     {
         if($request->method()=='POST'){
             // return $request->state_id;
                // Validate the incoming request
@@ -414,7 +415,7 @@ public function index()
         } else {
             $pdfPath = null;
         }
-// return $request->city_id;
+       // return $request->city_id;
         $lastPackage = Package::orderBy('id', 'desc')->first();
 
         if ($lastPackage && $lastPackage->series_name) {
@@ -424,10 +425,31 @@ public function index()
             $nextNumber = 1;
         }
 
+        if ($request->hasFile('display_image')) {
+            $destinationPath = public_path('packages/display_image');
+
+            // Create folder if not exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+
+            // Generate unique filename
+            $filename = time() . '_' . $request->file('display_image')->getClientOriginalName();
+
+            // Move file
+            $request->file('display_image')->move($destinationPath, $filename);
+
+            // Save path
+            $displayImagePath = 'packages/display_image/' . $filename;
+        } else {
+            $displayImagePath = null;
+        }
+
         $seriesName = 'TP' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
         $package = new Package();
         $package->series_name = $seriesName;
         $package->package_name = $request->package_name;
+        $package->display_image = $displayImagePath;
         // $package->service_charge = $request->service_charge;
         $package->state_id = implode(',', $request->state_id);
         $package->city_id = implode(',', $request->city_id);
@@ -570,6 +592,28 @@ public function index()
     $package->pickup_location = $request->pickup_location;
 
 
+    if ($request->hasFile('display_image')) {
+
+        if ($package->display_image) {
+            $oldImagePath = public_path($package->display_image);
+            if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+
+        $destinationPath = public_path('packages/display_image');
+
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);
+        }
+
+        $filename = time() . '_' . $request->file('display_image')->getClientOriginalName();
+
+        $request->file('display_image')->move($destinationPath, $filename);
+
+        $package->display_image = 'packages/display_image/' . $filename;
+    }
+
     if ($request->hasFile('image')) {
         $existingImages = json_decode($package->image, true) ?? [];
         $newImages = [];
@@ -643,6 +687,8 @@ public function index()
         $existingVideos = json_decode($package->video, true) ?? [];
         $package->video = json_encode(array_merge($existingVideos, $videoPaths));
     }
+
+    
 
     if ($request->hasFile('pdf')) {
         if ($package->pdf) {

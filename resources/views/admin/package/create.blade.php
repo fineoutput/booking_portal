@@ -168,7 +168,14 @@ ul#city-checkboxes {
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Upload PDF</label>
                                              <input  type="file" name="pdf" id="pdf" class="form-control" required>
-                                            @error('video')
+                                            @error('pdf')
+                                            <div style="color:red">{{$message}}</div>
+                                            @enderror
+                                        </div> 
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Upload Display Image</label>
+                                             <input  type="file" name="display_image" id="display_image" class="form-control" required>
+                                            @error('display_image')
                                             <div style="color:red">{{$message}}</div>
                                             @enderror
                                         </div> 

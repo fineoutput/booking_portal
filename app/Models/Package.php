@@ -13,6 +13,7 @@ class Package extends Model
     protected $fillable = [
         'package_name',
         'series_name',
+        'display_image',
         'state_id',
         'pdf',
         'city_id',

@@ -197,6 +197,18 @@ ul#city-checkboxes {
                                     <div style="color:red">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                               <div class="col-sm-6"><br>
+                                <label class="form-label" style="margin-left: 10px" for="display_image">Upload Display Image</label>
+                                 <input type="file" name="display_image" id="display_image" class="form-control">
+                                @if($package->display_image)
+                                    <img width="100" height="100" src="{{asset($package->display_image)}}" alt="">
+                                @endif
+                               
+                                @error('display_image')
+                                    <div style="color:red">{{ $message }}</div>
+                                @enderror
+                            </div>
                                 
                                 <div class="col-md-12">
                                     <div class="form-group">

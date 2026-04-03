@@ -57,6 +57,7 @@
                         <th data-priority="1">Pickup Location</th>
                         <th data-priority="3">State Citys</th>
                         {{-- <th data-priority="1">City</th> --}}
+                        <th data-priority="1">Display Image</th>
                         <th data-priority="1">PDF File</th>
                         <th data-priority="3">Images</th>
                         <th data-priority="3">Videos</th>
@@ -111,6 +112,13 @@
 </td>
 
 
+                          <td>
+                              @if ($pkg->display_image)
+                                <img width="100" height="100" src="{{asset($pkg->display_image)}}" alt="">
+                              @else
+                                  No PDF available
+                              @endif
+                          </td>
                           <td>
                               @if ($pkg->pdf)
                                   <!-- Display PDF Inline -->
