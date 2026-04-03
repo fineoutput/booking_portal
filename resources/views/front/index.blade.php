@@ -446,7 +446,7 @@
                         <div class="responsive-image-wrapper" style="height: 100%">
                             <img src="{{asset($value->image)}}" alt="Europe Banner" class="responsive-image">
                         </div>
-                        <div class="travel_upper">
+                        {{-- <div class="travel_upper">
                             <div class="travel_upper_txt">
                                 <p class="abb">Kashmir to Kanyakumari</p>
                                 <h2>Best Family Packages</h2>
@@ -458,7 +458,7 @@
                             <div class="world_upper_txt_btns travel_btn">
                                 <a class="_btn" href="">Book Now</a>
                             </div>
-                        </div>
+                        </div> --}}
                     </li>
                     @endforeach
                     <!-- Slide 2 -->
