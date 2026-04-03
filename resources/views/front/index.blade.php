@@ -238,12 +238,11 @@
                                     // Assuming 'image' contains a JSON array of images
                                     $images = json_decode($value->image, true); // Decode the JSON to an array (true for associative array)
                                 @endphp
-                                    @if($images && is_array($images) && count($images) > 0)
-                                    <!-- Display the first image on top (use reset() to get the first image if keys are non-zero-based) -->
-                                    <img src="{{ asset(reset($images)) }}" alt="First Image">
-                                @else
-                                    <p>No image available.</p>
-                                @endif
+                                    @if($value->display_image)
+                                     <img src="{{ asset($value->display_image) }}" alt="First Image">
+                                    @else
+                                        <p>No image available.</p>
+                                    @endif
                                 </div>
                                 <div class="inner_gallery_loc_txt">
                                     <div class="type_gallery">
@@ -321,8 +320,8 @@
                                   $images = json_decode($value->image); 
                               @endphp
                               
-                              @if($images && is_array($images) && count($images) > 0)
-                                  <img src="{{ asset(reset($images)) }}" alt="First Image">
+                              @if($value->display_image)
+                                  <img src="{{ asset($value->display_image) }}" alt="First Image">
                               @else
                                   <p>No images available.</p>
                               @endif
@@ -331,10 +330,10 @@
                                 <div class="inner_gallery_loc_txt">
                                     <div class="type_gallery">
                                          <p>
-  <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
-    <b style="color: #000">{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
-  </a>
-</p>
+                                          <a href="{{ route('detail', ['id' => base64_encode($value->id)]) }}">
+                                            <b style="color: #000">{{ \Illuminate\Support\Str::limit($value->package_name ?? '', 30) }}</b>
+                                          </a>
+                                        </p>
                                     </div>
                                     {{-- <div class="gall_place">
                                         <h4>{{ $value->cities->city_name ?? '' }}</h4>
@@ -592,7 +591,7 @@
               <div class="aus">
                 <div class="boxAus">
                   <div class="AusMaze">
-                    <img src="{{ $add }}" alt="{{ $value->package_name }}">
+                    <img src="{{ asset($value->display_image) }}" alt="{{ $value->package_name }}">
                   </div>
                   <div class=" BetSide">
                     <div class="ulHaq p-2">

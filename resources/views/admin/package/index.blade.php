@@ -116,7 +116,7 @@
                               @if ($pkg->display_image)
                                 <img width="100" height="100" src="{{asset($pkg->display_image)}}" alt="">
                               @else
-                                  No PDF available
+                                  No Image available
                               @endif
                           </td>
                           <td>

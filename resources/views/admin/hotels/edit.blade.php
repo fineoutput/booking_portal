@@ -362,6 +362,20 @@
                                                         </div>
                                         </div>
                                     </div>
+
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Display Image</label>
+                                            <input class="form-control" style="margin-left: 10px" type="file" id="display_image" name="display_image" multiple>
+                                        </div>
+                                        <div class="">
+                                            @if($hotel->display_image)
+                                                <img width="100px" height="100px" src="{{asset($hotel->display_image)}}" alt="">
+                                            @endif
+                                        </div>
+                                       
+                                    </div>
                                     
 
                                     <input type="hidden" name="deleted_images" id="deleted_images" value="">

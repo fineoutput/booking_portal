@@ -193,7 +193,7 @@ Route::get('/cities', [PackageController::class, 'getCitiesByState'])->name('get
    Route::delete('/package-price/{id}', [PackagePriceController::class, 'destroy'])->name('package_price.destroy');
    Route::get('package-price/{id}/edit', [PackagePriceController::class, 'edit'])->name('package_price.edit');
    Route::put('package-price/{id}', [PackagePriceController::class, 'update'])->name('package_price.update');
-   Route::get('/cities/{stateId}', [PackagePriceController::class, 'getCitiesByState'])->name('package_price_cities');
+   Route::get('/cities-package/{stateId}', [PackagePriceController::class, 'getCitiesByState'])->name('package_price_cities');
 
 
   Route::match(['get', 'post'], '/vehicle/cost/create/{id}', [VehicleCostController::class, 'create'])->name('vehicle_cost');

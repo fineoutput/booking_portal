@@ -13,6 +13,7 @@ class Hotels extends Model
     protected $fillable = [
         'name',
         'images',
+        'display_image',
         'state_id',
         'city_id',
         'location',

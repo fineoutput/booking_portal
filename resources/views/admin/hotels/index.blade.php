@@ -56,6 +56,7 @@
                         <th data-priority="1">Hotel Category</th>
                         <th data-priority="3">Package</th>
                         <th data-priority="3">Meal Plan</th>
+                        <th data-priority="3">Display Image</th>
                         {{-- <th data-priority="3">Nearby</th>
                         <th data-priority="3">Locality</th>
                         <th data-priority="3">Chains</th>
@@ -161,6 +162,15 @@
                               No Meals Selected
                           @endif
                       </td>
+
+                      
+                          <td>
+                              @if ($hotel->display_image)
+                                <img width="100" height="100" src="{{asset($hotel->display_image)}}" alt="">
+                              @else
+                                  No Image available
+                              @endif
+                          </td>
 
                       <td>
                         @if (!empty($hotel->images) && json_decode($hotel->images))

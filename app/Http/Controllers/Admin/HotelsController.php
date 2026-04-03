@@ -62,9 +62,26 @@ class HotelsController extends Controller
 
                 $video_path = 'uploads/videos/' . $videoName;
             }
+
+            if ($request->hasFile('display_image')) {
+                $destinationPath = public_path('hotels/display_image');
+
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+
+                $filename = time() . '_' . $request->file('display_image')->getClientOriginalName();
+
+                $request->file('display_image')->move($destinationPath, $filename);
+
+                $displayImagePath = 'hotels/display_image/' . $filename;
+            } else {
+                $displayImagePath = null;
+            }
     
             $hotel = new Hotels();
             $hotel->name = $request->name;
+            $hotel->display_image = $displayImagePath;
             $hotel->images = $imagePaths ? json_encode($imagePaths) : null; 
             $hotel->video = $video_path;
             $hotel->location = $request->location;
@@ -193,6 +210,28 @@ public function update(Request $request, $id)
             $imagePaths[] = 'hotels/images/' . $filename;
         }
     }
+
+        if ($request->hasFile('display_image')) {
+
+            if ($hotel->display_image) {
+                $oldImagePath = public_path($hotel->display_image);
+                if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            $destinationPath = public_path('hotels/display_image');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+
+            $filename = time() . '_' . $request->file('display_image')->getClientOriginalName();
+
+            $request->file('display_image')->move($destinationPath, $filename);
+
+            $hotel->display_image = 'hotels/display_image/' . $filename;
+        }
 
       if ($request->hasFile('video')) {
             if (!empty($hotel->video) && file_exists(public_path($hotel->video))) {

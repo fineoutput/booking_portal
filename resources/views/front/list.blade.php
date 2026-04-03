@@ -210,7 +210,7 @@
  
               @endif
         <a style="color: #fff" href="{{route('detail',['id' => base64_encode($value->id)])}}">
-         <div class="cardashEs" style="background: url('{{ $add ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
+         <div class="cardashEs" style="background: url('{{ asset($value->display_image) ?? asset('frontend/images/hotel_main.avif') }}') no-repeat center / cover;">
                  
             @if($value->prices)
         <div class="price-tagashEs">₹{{ number_format($value->prices->display_cost, 2) }} onwards</div>

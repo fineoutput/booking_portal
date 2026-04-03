@@ -265,6 +265,13 @@
                                         </div>
                                        
                                     </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6"><br>
+                                            <label class="form-label" style="margin-left: 10px" for="power">Select Display Image</label>
+                                            <input class="form-control" style="margin-left: 10px" type="file" id="display_image" name="display_image" multiple>
+                                        </div>
+                                       
+                                    </div>
                                     <div class="col-sm-12 mt-3">
                                             <label class="form-label" for="power">Text Description &nbsp;<span style="color:red;">*</span></label>
                                             <textarea class="form-control" name="text_description" id="text_description" required>{{ old('text_description') }}</textarea>
