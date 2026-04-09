@@ -58,9 +58,9 @@
                         <th data-priority="3">State Citys</th>
                         {{-- <th data-priority="1">City</th> --}}
                         <th data-priority="1">Display Image</th>
-                        <th data-priority="1">PDF File</th>
+                        {{-- <th data-priority="1">PDF File</th>
                         <th data-priority="3">Images</th>
-                        <th data-priority="3">Videos</th>
+                        <th data-priority="3">Videos</th> --}}
                         <th data-priority="6">Title Description</th>
                         <th data-priority="6">Text Description</th>
                         <th data-priority="6">Text Description 2</th>
@@ -119,7 +119,7 @@
                                   No Image available
                               @endif
                           </td>
-                          <td>
+                          {{-- <td>
                               @if ($pkg->pdf)
                                   <!-- Display PDF Inline -->
                                   <embed src="{{ asset('storage/' . $pkg->pdf) }}" type="application/pdf" width="100%" height="100px" />
@@ -133,8 +133,8 @@
                                   No PDF available
                               @endif
                           </td>
-                  
-                          <!-- Display Images -->
+                   --}}
+                          {{-- <!-- Display Images -->
                           <td>
                               @foreach (json_decode($pkg->image) as $image)
                                   <img src="{{ asset($image) }}" alt="Image" style="width: 100px; height: auto; margin: 5px;">
@@ -154,7 +154,7 @@
                               No Video Available
                               @endif
                           </td>
-                  
+                   --}}
                           <td>{!! \Str::words($pkg->title_description, 20) !!}</td>
                           <td>{!! \Str::words($pkg->text_description, 20) !!}</td>
                           <td>{!! \Str::words($pkg->text_description_2, 20) !!}</td>
