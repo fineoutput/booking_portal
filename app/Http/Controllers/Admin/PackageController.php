@@ -84,7 +84,7 @@ class PackageController extends Controller
 public function index()
 {
     // Pagination lagao (performance ke liye important)
-    $packages = Package::orderBy('id','DESC')->paginate(10);
+    $packages = Package::orderBy('id','DESC')->get();
 
     $allStateIds = [];
     $allCityIds = [];
@@ -534,11 +534,13 @@ public function index()
     public function destroy($id)
     {
         $package = Package::findOrFail($id);
+        // return $package;
 
         $this->deleteFiles($package->image); 
         $this->deleteFiles($package->video); 
 
         $package->delete();
+
         return redirect()->route('package')->with('success', 'Package deleted successfully.');
     }
 
