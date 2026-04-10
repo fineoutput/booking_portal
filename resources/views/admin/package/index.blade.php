@@ -182,8 +182,8 @@
                                   data-route="{{ route('holidaypackage', ['id' => '__pkg_id__']) }}"
                                   data-input-name="holidaypackagevalue"
                                   value="1" 
-                                  {{ $pkg->hotelpackage ? 'checked' : '' }}>
-                              <input type="hidden" name="holidaypackagevalue" id="holidaypackagevalue_{{ $pkg->id }}" value="{{ $pkg->hotelpackage ? '1' : '0' }}">
+                                  {{ $pkg->holidaypackage ? 'checked' : '' }}>
+                              <input type="hidden" name="holidaypackagevalue" id="holidaypackagevalue_{{ $pkg->id }}" value="{{ $pkg->holidaypackage ? '1' : '0' }}">
                           </td>
 
                           <!-- Travel Package Checkbox -->
