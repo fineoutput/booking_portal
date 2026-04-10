@@ -636,14 +636,47 @@ public function index()
         $package->image = json_encode(array_merge($existingImages, $newImages));  
     }
 
-    if ($request->has('deleted_images')) {
-        $deletedImages = explode(',', $request->deleted_images); 
-        $this->deleteFiles($deletedImages);  
-   
-        $existingImages = json_decode($package->image, true);
-        $updatedImages = array_diff($existingImages, $deletedImages); 
-        $package->image = json_encode($updatedImages);
+
+if ($request->has('deleted_images')) {
+
+    $deletedImagesRaw = $request->deleted_images;
+
+    // STEP 1: force split by comma BUT handle filename commas
+    $deletedImages = preg_split('/,(?=packages\/images)/', $deletedImagesRaw);
+
+    // STEP 2: clean
+    $deletedImages = array_map(function ($img) {
+        return ltrim(trim($img), '/');
+    }, $deletedImages);
+
+    // DEBUG (optional)
+    \Log::info($deletedImages);
+
+    // STEP 3: DELETE FILES
+    foreach ($deletedImages as $img) {
+
+        $fullPath = public_path($img);
+
+        if (file_exists($fullPath)) {
+            unlink($fullPath);
+        } else {
+            \Log::info("Not found: " . $fullPath);
+        }
     }
+
+    // STEP 4: UPDATE DB
+    $existingImages = json_decode($package->image, true) ?? [];
+
+    $updatedImages = array_values(array_filter($existingImages, function ($img) use ($deletedImages) {
+        return !in_array($img, $deletedImages);
+    }));
+
+    $package->image = json_encode($updatedImages);
+}
+
+
+
+
     
    
     if ($request->has('deleted_videos')) {
@@ -723,24 +756,37 @@ public function index()
 
 protected function deleteFiles($files)
 {
-    
     $basePath = public_path();
 
+    // Agar JSON string hai to decode karo
+    if (is_string($files)) {
+        $decoded = json_decode($files, true);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $files = $decoded;
+        }
+    }
+
+    // Agar single string hai (non-json)
+    if (is_string($files)) {
+        $files = [$files];
+    }
+
+    // Ab sure hai ki array hi hoga
     if (is_array($files)) {
- 
+
         foreach ($files as $file) {
-            $filePath = $basePath . '/' . $file; 
+
+            // Agar associative array hai ({"2":"path"})
+            if (is_array($file)) {
+                continue;
+            }
+
+            $filePath = $basePath . '/' . $file;
 
             if (file_exists($filePath) && !is_dir($filePath)) {
-                unlink($filePath);  
+                unlink($filePath);
             }
-        }
-    } elseif ($files) {
-
-        $filePath = $basePath . '/' . $files; 
-
-        if (file_exists($filePath) && !is_dir($filePath)) {
-            unlink($filePath);  
         }
     }
 }
