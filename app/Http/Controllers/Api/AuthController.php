@@ -400,7 +400,7 @@ public function razorpayCallbackApi(Request $request)
      private function sendOtp($phone)
     {
         if($phone == 9999999999){
-         $otp = 123456;
+         $otp = 1234;
         }else{
             $otp = rand(1000, 9999);
         }
