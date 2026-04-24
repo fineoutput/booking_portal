@@ -7,6 +7,7 @@
   <title>Tours Dekho</title>
   <!-- Bootstrap CSS -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="google-site-verification" content="KKyYNGQg2azoQjol0DnJtMVkuQws_4dx6fDmSN8dOFA" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css">
