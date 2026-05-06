@@ -1746,6 +1746,7 @@ public function hotelsbooking()
 
     // Hotels list
     $data['hotel'] = Hotels::where('show_front', 1)->get();
+    $data['hotel_city'] = Hotels::get();
     $roomsWithPrice = [];
 
     foreach ($data['hotel'] as $hotel) {
@@ -1813,7 +1814,7 @@ public function hotelsbooking()
         ->keyBy('hotel_id');
 
     // Cities
-    $cityIds = $data['hotel']->pluck('city_id')->unique();
+    $cityIds = $data['hotel_city']->pluck('city_id')->unique();
     $data['cities'] = City::whereIn('id', $cityIds)->get();
 
     return view('front/hotelsbooking', $data);
@@ -1858,7 +1859,7 @@ public function hotelsbooking()
 
     $allHotels = $hotelsQuery->get();
     $slider = Slider::where('type', 'hotel')->latest()->get();
-    $cities = City::whereIn('id', Hotels::where('show_front', 1)->pluck('city_id'))->get();
+    $cities = City::whereIn('id', Hotels::pluck('city_id'))->get();
 
     if ($allHotels->isEmpty()) {
         return view('front.hotel_list', [
@@ -1957,7 +1958,7 @@ public function hotelsbooking()
         ->values();
 
     // Common data
-    $cities = City::whereIn('id', Hotels::where('show_front', 1)->pluck('city_id'))->get();
+    $cities = City::whereIn('id', Hotels::pluck('city_id'))->get();
     $slider = Slider::where('type', 'hotel')->latest()->get();
 
     return view('front.hotel_list', [
