@@ -1852,7 +1852,7 @@ public function hotelsbooking()
     }
 
     // Step 1: Base hotels query
-    $hotelsQuery = Hotels::where('show_front', 1);
+    $hotelsQuery = Hotels::query();
 
     if ($city_id) $hotelsQuery->where('city_id', $city_id);
     if ($stars)   $hotelsQuery->whereIn('hotel_category', (array)$stars);
