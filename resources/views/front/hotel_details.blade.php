@@ -1375,7 +1375,7 @@ $houseRuleIcons = [
                             @if ($value->price)
                             <p 
                              data-room-id="{{ $value->id }}"
-                           data-base-price-mrp="{{ $value->price->mrp }}"
+                           data-base-price-mrp="{{ $value->price->mrp + $value->price->meal_plan_breakfast_cost}}"
                             style="margin: 0;" class="hotel-mrp-meal" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
                             @endif
                         </div>
@@ -1442,7 +1442,7 @@ $houseRuleIcons = [
                             @if ($value->price)
                             <p 
                              data-room-id="{{ $value->id }}"
-                           data-base-price-mrp="{{ $value->price->mrp }}"
+                           data-base-price-mrp="{{ $value->price->mrp + $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
                             style="margin: 0;" class="hotel-mrp-meal" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
                             @endif
                         </div>
@@ -1508,7 +1508,7 @@ $houseRuleIcons = [
                             @if ($value->price)
                             <p 
                              data-room-id="{{ $value->id }}"
-                           data-base-price-mrp="{{ $value->price->mrp }}"
+                           data-base-price-mrp="{{ $value->price->mrp + $value->price->meal_plan_all_meals_cost }}"
                             style="margin: 0;" class="hotel-mrp-meal" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
                             @endif
                         </div>
@@ -1883,6 +1883,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const basePriceMeal  = parseFloat(el.dataset.basePriceMeal) || 0;
         if (basePriceMRP > 0) {
             let total = basePriceMRP * nights + basePriceMeal;
+            console.log(total,'gdsifhiusdhifhisdhihfisd');
 
             if (hotelPriceMap[roomId]) {
             total += hotelPriceMap[roomId];
