@@ -411,6 +411,22 @@
                 <label>
                   <input type="checkbox" name="hotel_amenities[]" value="Caretaker" {{ in_array('Caretaker', $hotel_amenities) ? 'checked' : '' }}> Caretaker</label>
                   <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Swimming Pool" {{ in_array('Swimming Pool', $hotel_amenities) ? 'checked' : '' }}> Swimming Pool</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="High Speed Wi-Fi" {{ in_array('High Speed Wi-Fi', $hotel_amenities) ? 'checked' : '' }}> High Speed Wi-Fi</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Power Backup" {{ in_array('Power Backup', $hotel_amenities) ? 'checked' : '' }}> Power Backup</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Laundry Service" {{ in_array('Laundry Service', $hotel_amenities) ? 'checked' : '' }}> Laundry Service</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="hotel_amenities[]" value="Banquet" {{ in_array('Banquet', $hotel_amenities) ? 'checked' : '' }}> Banquet</label>
+                  <br>
+
               </div>
             </div>
 
@@ -450,6 +466,21 @@
                   <br>
                 <label>
                   <input type="checkbox" name="room_amenities[]" value="Living Area" {{ in_array('Living Area', $room_amenities) ? 'checked' : '' }}> Living Area</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Electric Kettle" {{ in_array('Electric Kettle', $room_amenities) ? 'checked' : '' }}> Electric Kettle</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Working Table" {{ in_array('Working Table', $room_amenities) ? 'checked' : '' }}> Working Table</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Air Conditioner" {{ in_array('Air Conditioner', $room_amenities) ? 'checked' : '' }}> Air Conditioner</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Toiletries" {{ in_array('Toiletries', $room_amenities) ? 'checked' : '' }}> Toiletries</label>
+                  <br>
+                <label>
+                  <input type="checkbox" name="room_amenities[]" value="Hair Dryer" {{ in_array('Hair Dryer', $room_amenities) ? 'checked' : '' }}> Hair Dryer</label>
                   <br>
               </div>
             </div>

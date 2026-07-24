@@ -208,12 +208,16 @@
                                                 <option value="Elevator/Lift">Elevator/Lift</option>
                                                 <option value="Indoor Games">Indoor Games</option>
                                                 <option value="Living Room">Living Room</option>
+                                                <option value="Swimming Pool">Swimming Pool</option>
+                                                <option value="High Speed Wi-Fi">High Speed Wi-Fi</option>
+                                                <option value="Power Backup">Power Backup</option>
+                                                <option value="Laundry Service">Laundry Service</option>
+                                                <option value="Banquet">Banquet</option>
                                             </select>
                                             @error('hotel_amenities')
                                                 <div style="color:red;">{{ $message }}</div>
                                             @enderror
                                         </div>
-
 
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">Room Amenities</label>
@@ -230,12 +234,16 @@
                                                 <option value="Heater">Heater</option>
                                                 <option value="Jacuzzi">Jacuzzi</option>
                                                 <option value="Living Area">Living Area</option>
+                                                <option value="Electric Kettle">Electric Kettle</option>
+                                                <option value="Working Table">Working Table</option>
+                                                <option value="Air Conditioner">Air Conditioner</option>
+                                                <option value="Toiletries">Toiletries</option>
+                                                <option value="Hair Dryer">Hair Dryer</option>
                                             </select>
                                             @error('room_amenities')
                                                 <div style="color:red;">{{ $message }}</div>
                                             @enderror
                                         </div>
-
 
                                         <div class="col-sm-6"><br>
                                             <label class="form-label" style="margin-left: 10px" for="power">House Rules</label>

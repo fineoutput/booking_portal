@@ -258,7 +258,7 @@
     <label class="form-label" style="margin-left: 10px">Hotel Amenities</label>
     <div id="output"></div>
     <select data-placeholder="" name="hotel_amenities[]" multiple class="chosen-select">
-        @foreach (['Room Service','Balcony/Terrace','Barbeque','Cafe','EV Charging Station','Restaurant','Bar','Parking','Caretaker','Bonfire','Kitchenette','Elevator/Lift','Indoor Games','Living Room'] as $amenity)
+        @foreach (['Room Service','Balcony/Terrace','Barbeque','Cafe','EV Charging Station','Restaurant','Bar','Parking','Caretaker','Bonfire','Kitchenette','Elevator/Lift','Indoor Games','Living Room','High Speed Wi-Fi','Power Backup','Laundry Service','Banquet','Swimming Pool'] as $amenity)
             <option value="{{ $amenity }}"
                 {{ in_array($amenity, explode(',', (is_array(old('hotel_amenities', $hotel->hotel_amenities ?? '')) ? implode(',', old('hotel_amenities', $hotel->hotel_amenities ?? '')) : (string) old('hotel_amenities', $hotel->hotel_amenities ?? '')))) ? 'selected' : '' }}>
                 {{ $amenity }}
@@ -274,7 +274,7 @@
     <label class="form-label" style="margin-left: 10px">Room Amenities</label>
     <div id="output"></div>
     <select data-placeholder="" name="room_amenities[]" multiple class="chosen-select">
-        @foreach (['Fireplace','Interconnected Room','Bathtub','Kitchenette','Smoking Room','Private Pool','Balcony','Cook & Butler Service','Heater','Jacuzzi','Living Area'] as $room)
+        @foreach (['Fireplace','Interconnected Room','Bathtub','Kitchenette','Smoking Room','Private Pool','Balcony','Cook & Butler Service','Heater','Jacuzzi','Living Area','Electric Kettle','Working Table','Air Conditioner','Toiletries','Hair Dryer'] as $room)
             <option value="{{ $room }}"
                 {{ in_array($room, explode(',', (is_array(old('room_amenities', $hotel->room_amenities ?? '')) ? implode(',', old('room_amenities', $hotel->room_amenities ?? '')) : (string) old('room_amenities', $hotel->room_amenities ?? '')))) ? 'selected' : '' }}>
                 {{ $room }}
