@@ -150,8 +150,26 @@ ul#city-checkboxes {
                                     
                                     <div class="form-group row">
                                         <div class="col-sm-6"><br>
-                                            <label class="form-label" style="margin-left: 10px" for="power">Select Multipal Image</label>
-                                            <input required class="form-control" style="margin-left: 10px" type="file" name="image[]" multiple>
+                                            <label class="form-label" style="margin-left: 10px" for="image">
+    Select Multiple Images
+    <span id="image-counter" class="badge badge-info ml-2">0 selected</span>
+</label>
+
+<input
+    class="form-control"
+    style="margin-left: 10px"
+    type="file"
+    id="image"
+    name="image[]"
+    multiple
+    accept="image/*"
+>
+
+                                            <div id="image-preview-container"
+     class="d-flex flex-wrap mt-3"
+     style="margin-left:10px; gap:10px;">
+</div>
+
                                         </div>
                                         @error('image')
                                         <div style="color:red">{{$message}}</div>
@@ -230,6 +248,102 @@ ul#city-checkboxes {
     </div> <!-- container-fluid -->
 </div> <!-- content -->
 
+
+<script>
+let selectedFiles = [];
+const input = document.getElementById('image');
+const previewContainer = document.getElementById('image-preview-container');
+const counter = document.getElementById('image-counter');
+
+input.addEventListener('change', function (e) {
+
+    Array.from(e.target.files).forEach(file => {
+
+        // Duplicate check
+        const exists = selectedFiles.some(f =>
+            f.name === file.name &&
+            f.size === file.size &&
+            f.lastModified === file.lastModified
+        );
+
+        if (!exists) {
+            selectedFiles.push(file);
+        }
+
+    });
+
+    updateInputFiles();
+    renderPreview();
+
+    // Reset input so same file can be selected again if removed
+    input.value = '';
+});
+
+function updateInputFiles() {
+
+    const dt = new DataTransfer();
+
+    selectedFiles.forEach(file => dt.items.add(file));
+
+    input.files = dt.files;
+
+    counter.innerHTML = selectedFiles.length + " selected";
+}
+
+function renderPreview() {
+
+    previewContainer.innerHTML = '';
+
+    selectedFiles.forEach((file, index) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            const div = document.createElement('div');
+
+            div.style.position = 'relative';
+            div.style.width = '130px';
+            div.style.border = '1px solid #ddd';
+            div.style.borderRadius = '8px';
+            div.style.padding = '5px';
+            div.style.background = '#fff';
+
+            div.innerHTML = `
+                <img src="${e.target.result}"
+                     style="width:100%;height:100px;object-fit:cover;border-radius:5px;">
+
+                <button type="button"
+                    class="btn btn-danger btn-sm"
+                    style="position:absolute;top:4px;right:4px;padding:2px 6px;line-height:1;"
+                    onclick="removeImage(${index})">
+                    ×
+                </button>
+
+                <small style="display:block;margin-top:5px;word-break:break-word;font-size:11px;">
+                    ${file.name}
+                </small>
+            `;
+
+            previewContainer.appendChild(div);
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+function removeImage(index) {
+
+    selectedFiles.splice(index, 1);
+
+    updateInputFiles();
+
+    renderPreview();
+}
+</script>
 
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 
