@@ -534,7 +534,7 @@
 
             <a style="color: #fff" href="{{ route('hotel_details', ['id' => base64_encode($value->id)]) }}">
               <div class="cardashEs"
-                style="background: url('{{ $imagePath }}') no-repeat center / cover; position: relative;">
+                style="background: url('{{ $value->display_image }}') no-repeat center / cover; position: relative;">
 
                 <div class="price-tagashEs">
                   @php
@@ -589,7 +589,7 @@
 
             <div class="cardashEs hotel-card"
                 data-price="{{ $value->display_price ?? 0 }}"
-                style="background: url('{{ $imagePath }}') no-repeat center / cover; position: relative;">
+                style="background: url('{{ $value->display_image }}') no-repeat center / cover; position: relative;">
 
                 <div class="price-tagashEs"></div>
 
