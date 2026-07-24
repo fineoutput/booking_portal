@@ -310,6 +310,7 @@
                                 <!-- Image Selection (for Editing) -->
                                 <div class="form-group row">
                                     {{-- <div class="col-sm-4">
+                                        
                                         <label class="form-label" style="margin-left: 10px" for="images">Image</label>
                                         <input class="form-control" style="margin-left: 10px" type="file" id="images" name="images[]" multiple>
                                         <small class="form-text text-muted">Leave blank to keep existing image.</small>
@@ -325,7 +326,7 @@
                                         @endif
                                     </div> --}}
 
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="images">Select Multiple Images</label>
                                             <input type="file" name="images[]" class="form-control" multiple>
@@ -342,7 +343,60 @@
                                                 </div>
                                             @endif
                                         </div>
-                                    </div>
+                                    </div> -->
+
+                                    <div class="col-md-6">
+    <div class="form-group">
+
+        <label class="form-label" for="images">
+            Select Multiple Images
+            <span id="image-counter" class="badge badge-info ml-2">0 selected</span>
+        </label>
+
+        <input
+            type="file"
+            id="images"
+            name="images[]"
+            class="form-control"
+            multiple
+            accept="image/*"
+        >
+
+        <small class="form-text text-muted">
+            Leave blank to keep existing images.
+        </small>
+
+        <!-- New Selected Images Preview -->
+        <div id="image-preview-container" class="d-flex flex-wrap mt-3" style="gap:10px;"></div>
+
+        <hr>
+
+        <!-- Existing Images -->
+        @if($hotel->images)
+            <div class="d-flex flex-wrap" style="gap:10px;">
+                @foreach(json_decode($hotel->images) as $key => $image)
+                    <div class="image-item text-center">
+                        <img src="{{ asset($image) }}"
+                             width="120"
+                             height="120"
+                             style="object-fit:cover;border-radius:8px;">
+
+                        <br>
+
+                        <a href="javascript:void(0)"
+                           class="btn btn-danger btn-sm mt-2 remove-image"
+                           data-image="{{ $image }}"
+                           data-key="{{ $key }}">
+                            Remove
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+    </div>
+</div>
+                                 
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -529,5 +583,94 @@
         height: 300
     });
 </script>
+
+<script>
+    let selectedFiles = [];
+
+const input = document.getElementById('images');
+const preview = document.getElementById('image-preview-container');
+const counter = document.getElementById('image-counter');
+
+input.addEventListener('change', function () {
+
+    Array.from(this.files).forEach(file => {
+
+        const exists = selectedFiles.some(f =>
+            f.name === file.name &&
+            f.size === file.size &&
+            f.lastModified === file.lastModified
+        );
+
+        if (!exists) {
+            selectedFiles.push(file);
+        }
+
+    });
+
+    syncInput();
+    renderPreview();
+});
+
+function syncInput() {
+
+    const dt = new DataTransfer();
+
+    selectedFiles.forEach(file => dt.items.add(file));
+
+    input.files = dt.files;
+
+    counter.innerHTML = selectedFiles.length + " selected";
+}
+
+function renderPreview() {
+
+    preview.innerHTML = '';
+
+    selectedFiles.forEach((file, index) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            preview.innerHTML += `
+                <div style="width:120px;position:relative;border:1px solid #ddd;padding:5px;border-radius:8px;">
+
+                    <img src="${e.target.result}"
+                         style="width:100%;height:100px;object-fit:cover;border-radius:5px;">
+
+                    <button
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        style="position:absolute;top:5px;right:5px;padding:2px 7px;"
+                        onclick="removeSelectedImage(${index})">
+                        ×
+                    </button>
+
+                    <small style="font-size:11px;word-break:break-all;">
+                        ${file.name}
+                    </small>
+
+                </div>
+            `;
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+function removeSelectedImage(index) {
+
+    selectedFiles.splice(index,1);
+
+    syncInput();
+
+    renderPreview();
+
+}
+</script>
+
 
 @endsection

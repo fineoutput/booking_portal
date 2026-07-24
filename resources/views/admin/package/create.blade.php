@@ -274,9 +274,6 @@ input.addEventListener('change', function (e) {
 
     updateInputFiles();
     renderPreview();
-
-    // Reset input so same file can be selected again if removed
-    input.value = '';
 });
 
 function updateInputFiles() {

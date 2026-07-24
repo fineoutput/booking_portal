@@ -143,7 +143,7 @@ ul#city-checkboxes {
                                 </div>
                             </div>
 
-                               <div class="col-md-6">
+                               <!-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="image">Select Multipal Images</label>
                                     <input type="file" name="image[]" class="form-control" multiple>
@@ -159,7 +159,60 @@ ul#city-checkboxes {
                                         </div>
                                     @endif
                                 </div>
-                               </div>
+                               </div> -->
+
+                               <div class="col-md-6">
+    <div class="form-group">
+
+        <label for="image">
+            Select Multiple Images
+            <span id="image-counter" class="badge badge-info ml-2">0 selected</span>
+        </label>
+
+        <input
+            type="file"
+            id="image"
+            name="image[]"
+            class="form-control"
+            multiple
+            accept="image/*"
+        >
+
+        <small class="form-text text-muted">
+            Leave blank to keep existing images.
+        </small>
+
+        <!-- Preview of Newly Selected Images -->
+        <div id="image-preview-container" class="d-flex flex-wrap mt-3" style="gap:10px;"></div>
+
+        <hr>
+
+        <!-- Existing Images -->
+        @if($package->image)
+            <div class="d-flex flex-wrap" style="gap:10px;">
+                @foreach(json_decode($package->image) as $key => $image)
+                    <div class="image-item text-center">
+                        <img src="{{ asset($image) }}"
+                             alt="Package Image"
+                             width="120"
+                             height="120"
+                             style="object-fit:cover;border-radius:8px;">
+
+                        <br>
+
+                        <a href="javascript:void(0)"
+                           class="btn btn-danger btn-sm mt-2 remove-image"
+                           data-image="{{ $image }}"
+                           data-key="{{ $key }}">
+                            Remove
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+    </div>
+</div>
                             
                                <div class="col-md-6">
                                 <div class="form-group">
@@ -514,4 +567,90 @@ ul#city-checkboxes {
     });
 </script>
 
+<script>
+let selectedFiles = [];
+
+const input = document.getElementById('image');
+const preview = document.getElementById('image-preview-container');
+const counter = document.getElementById('image-counter');
+
+input.addEventListener('change', function () {
+
+    Array.from(this.files).forEach(file => {
+
+        const exists = selectedFiles.some(f =>
+            f.name === file.name &&
+            f.size === file.size &&
+            f.lastModified === file.lastModified
+        );
+
+        if (!exists) {
+            selectedFiles.push(file);
+        }
+
+    });
+
+    syncFiles();
+    renderPreview();
+});
+
+function syncFiles() {
+
+    const dt = new DataTransfer();
+
+    selectedFiles.forEach(file => dt.items.add(file));
+
+    input.files = dt.files;
+
+    counter.innerHTML = selectedFiles.length + " selected";
+}
+
+function renderPreview() {
+
+    preview.innerHTML = '';
+
+    selectedFiles.forEach((file, index) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+
+            preview.innerHTML += `
+                <div style="position:relative;width:120px;border:1px solid #ddd;padding:5px;border-radius:8px;">
+
+                    <img src="${e.target.result}"
+                         style="width:100%;height:100px;object-fit:cover;border-radius:5px;">
+
+                    <button type="button"
+                        class="btn btn-danger btn-sm"
+                        style="position:absolute;top:5px;right:5px;padding:2px 7px;"
+                        onclick="removeSelectedImage(${index})">
+                        ×
+                    </button>
+
+                    <small style="font-size:11px;word-break:break-all;">
+                        ${file.name}
+                    </small>
+
+                </div>
+            `;
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+function removeSelectedImage(index){
+
+    selectedFiles.splice(index,1);
+
+    syncFiles();
+
+    renderPreview();
+
+}
+</script>
 @endsection
