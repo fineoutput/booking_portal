@@ -559,7 +559,7 @@ $houseRuleIcons = [
                     <div class="hotel_yosef">
                         <div class="name_wick">
                             <div class="amin">
-                                <h2 class="htlAmenities__title">Aminities</h2>    
+                                <h2 class="htlAmenities__title">Amenities</h2>    
                             </div>    
                         </div>
 
@@ -1394,6 +1394,7 @@ $houseRuleIcons = [
                     </div>
                     @endif
                     @endif
+                    @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
                     <div class="center2">
                         <div class="triangle">
                             <p><b>Room with(Breakfast + lunch/dinner)</b></p>
@@ -1435,7 +1436,7 @@ $houseRuleIcons = [
                                 </div>
                             </div>
                         </div>
-                        @if(!empty($value->price->meal_plan_breakfast_lunch_dinner_cost) && $value->price->meal_plan_breakfast_lunch_dinner_cost > 0)
+                        
                     <div class="right2 room-right">
                         <div class="price">
                             <div class="old-price">
@@ -1443,7 +1444,7 @@ $houseRuleIcons = [
                             <p 
                              data-room-id="{{ $value->id }}"
                            data-base-price-mrp="{{ $value->price->mrp + $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
-                            style="margin: 0;" class="hotel-mrp-meal" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp }}</p>
+                            style="margin: 0;" class="hotel-mrp-meal" id="mrp-{{ $value->id }}">₹{{ $value->price->mrp ?? 0 }}</p>
                             @endif
                         </div>
                             <p class="dynamic-price"
@@ -1451,15 +1452,16 @@ $houseRuleIcons = [
                                data-room-id="{{ $value->id }}"
                                data-base-price-meal="{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}"
                                data-label="breakfast_dinner">
-                               ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost }}
+                               ₹{{ $value->price->meal_plan_breakfast_lunch_dinner_cost ?? 0 }}
                             </p>
                             <button class="select-btn">
                                 <a href="{{ route('final_booking', $value->id) }}" class="text-light">SELECT ROOM</a>
                             </button>
                         </div>
                     </div>
-                    @endif
-                    </div>
+                </div>
+                @endif
+                @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
                     <div class="center2">
                         <div class="triangle">
                             <p><b>Room with(All meals)</b></p>
@@ -1501,7 +1503,7 @@ $houseRuleIcons = [
                                 </div>
                             </div>
                         </div>
-                         @if(!empty($value->price->meal_plan_all_meals_cost) && $value->price->meal_plan_all_meals_cost > 0)
+                         
                     <div class="right2 room-right">
                         <div class="price">
                             <div class="old-price">
@@ -1524,8 +1526,8 @@ $houseRuleIcons = [
                             </button>
                         </div>
                     </div>
-                    @endif
-                    </div>
+                </div>
+                @endif
                 </div>
             </div>
 

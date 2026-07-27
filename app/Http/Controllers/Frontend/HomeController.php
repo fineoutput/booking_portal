@@ -2190,7 +2190,7 @@ public function hotelsbooking()
         }
 
         $data['hotels'] = Hotels::where('show_front',1)->get();
-        $cityIds = $data['hotels']->pluck('city_id')->unique();
+        $cityIds = $data['hotels']->pluck('city_id');
         $data['cities'] = City::whereIn('id', $cityIds)->get();
 
         return view('front.hotel_details', $data);
